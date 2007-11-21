@@ -66,3 +66,60 @@ void f_ch4_emit_cao(
 	(flux->soil).ch4emit_paddy_cao[grid->m] *= 16.0/12.0 * 1000000000.0 / 10000.0;
 	(flux->soil).ch4emit_paddy_cao[grid->m] *= grid->f_paddy;
 }
+
+/* aerobic CH4 emission */
+/*
+Keppler, F., Hamilton, J.T.G., Bra, M. and Rkmann, T., 2006. Methane emissions from 
+terrestrial plants under aerobic conditions. Nature 439, 187-191.
+*/
+/*
+Kirschbaum, M.U.F., Bruhn, D., Etheridge, D.M., Evans, J.R., Farquhar, G.D., Gifford, R.M., 
+Paul, K.I. and Winters, A.J., 2006. A comment on the quantitative significance of aerobic 
+methane releasse by plants. Functional Plant Biology 33, 521-530.
+*/
+void f_ch4_emit_veg(
+	struct Grid *grid, 
+	struct Loct *loct, 
+	struct Echar *echar, 
+	struct Mass *mass, 
+	struct Flux *flux
+){
+	double femit_sun, femit_shade;
+	double sunshine;
+	
+	femit_sun = 374.0;		/* ng gdw-1 h-1 */
+	femit_shade = 119.0;	/* ng gdw-1 h-1 */
+	
+	sunshine = grid->dlen[grid->m] * (1.0 - grid->tcdc_clm[grid->m]);
+	
+	/* MASS-based scaling up **/
+	/* C3, g m-2 month-1 */
+	if((echar->c3).season[grid->m]!=0){
+		(flux->c3).emit_ch4_kirschbaum_mass[grid->m] = ((mass->c3).mfol[grid->m]*dmTc*1000.0) * 
+			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -10.0);
+	}else{
+		(flux->c3).emit_ch4_kirschbaum_mass[grid->m] = 0.0;
+	}
+
+	/* C4, g m-2 month-1 */
+	if((echar->c4).season[grid->m]!=0){
+		(flux->c4).emit_ch4_kirschbaum_mass[grid->m] = ((mass->c4).mfol[grid->m]*dmTc*1000.0) * 
+			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -10.0);
+	}else{
+		(flux->c4).emit_ch4_kirschbaum_mass[grid->m] = 0.0;
+	}
+	
+	/* PHOTO-based scaling up **/
+	if(sunshine > 0.0){
+		(flux->c3).emit_ch4_kirschbaum_photo[grid->m] = 2.0 * (16.0/12.0) * 
+			((flux->c3).npp[grid->m]*1000.0) / 30000.0 * (1.0 + (24.0 - sunshine)/sunshine * 
+			femit_shade / femit_sun);
+		(flux->c4).emit_ch4_kirschbaum_photo[grid->m] = 2.0 * (16.0/12.0) * 
+			((flux->c4).npp[grid->m]*1000.0) / 30000.0 * (1.0 + (24.0 - sunshine)/sunshine * 
+			femit_shade / femit_sun);
+	}else{
+		(flux->c3).emit_ch4_kirschbaum_photo[grid->m] = 0.0;
+		(flux->c4).emit_ch4_kirschbaum_photo[grid->m] = 0.0;
+	}
+}
+

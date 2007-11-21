@@ -78,6 +78,11 @@ void plant_stand(
 	/** harvest **/
 	(flux->plant).hvst[f] = (flux->c3).hvst[f]*loct->C3ptn[f] + (flux->c4).hvst[f]*loct->C4ptn[f];
 
+	(flux->plant).emit_ch4_kirschbaum_mass[f] = (flux->c3).emit_ch4_kirschbaum_mass[f]*loct->C3ptn[f] 
+		+ (flux->c4).emit_ch4_kirschbaum_mass[f]*loct->C4ptn[f];
+	(flux->plant).emit_ch4_kirschbaum_photo[f] = (flux->c3).emit_ch4_kirschbaum_photo[f]*loct->C3ptn[f] 
+		+ (flux->c4).emit_ch4_kirschbaum_photo[f]*loct->C4ptn[f];
+
 	/** stable carbon isotope **/
 	/* litterfall */
 	(flux->c3).d13c_lL[f] = d13c_addition3(

@@ -115,7 +115,7 @@ void n_budget(
 						+ ((flux->soil).n_minerlz_lttr[grid->m] +(flux->soil).n_minerlz_hums[grid->m]
 							- (flux->soil).n_immbl[grid->m])
 						- (flux->plant).uptake_nh4[grid->m]
-						- (flux->soil).n_nitrif[grid->m];
+						- (flux->soil).n_nitrif[grid->m]
 						- (flux->soil).d_n2o_ntr_ngas[grid->m]*28.0/44.0
 						- (flux->soil).n_nh3vlt[grid->m];
 	if((mass->soil).n_nh4 < 0.0){

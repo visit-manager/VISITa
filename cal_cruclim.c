@@ -27,6 +27,7 @@ extern double h_ch4emit_cao_paddy[201], h_ch4emit_cao_wetland[201];
 extern double h_n2o_emit_ngas[201], h_n2_emit_ngas[201];
 extern double h_n2o_emit_casa[201], h_no_emit_casa[201], h_n2_emit_casa[201];
 extern double h_nh3_emit[201];
+extern double h_ch4_emit_mass[201], h_ch4_emit_photo[201];
 
 extern double h_voc_isopr_g97[201], h_voc_monotrp_g97[201], h_voc_methanl_g97[201];
 extern double h_voc_acetone_g97[201], h_voc_actaldhd_g97[201], h_voc_frmardhd_g97[201];
@@ -127,6 +128,8 @@ void cal_cruclim(
 						
 			/* VOC emission *****************/
 			f_voc_emit_guenther97(grid, loct, mass, flux);
+			/* Plant CH4 emission *****************/
+			f_ch4_emit_veg(grid, loct, echar, mass, flux);
 
 			/***** ecosystem mass balance *****/	
 			/* net ecosystem production */
@@ -214,7 +217,9 @@ void cal_cruclim(
 			h_n2_emit_casa[grid->climy - PIVOT_CLIMY +1] += (flux->soil).d_n2_casa[f] * grid->area;
 			h_no_emit_casa[grid->climy - PIVOT_CLIMY +1] += (flux->soil).d_no_casa[f] * grid->area;
 			h_nh3_emit[grid->climy - PIVOT_CLIMY +1] += (flux->soil).n_nh3vlt[f] * grid->area;
-			
+			h_ch4_emit_mass[grid->climy - PIVOT_CLIMY +1] += (flux->plant).emit_ch4_kirschbaum_mass[f]*10000.0*grid->area;
+			h_ch4_emit_photo[grid->climy - PIVOT_CLIMY +1] += (flux->plant).emit_ch4_kirschbaum_photo[f]*10000.0*grid->area;
+
 			/* VOC, g C month-1 */
 			h_voc_isopr_g97[grid->climy - PIVOT_CLIMY +1] += flux->voc_isopr_g97[f] * grid->area *10000.0/1000000.0; 
 			h_voc_monotrp_g97[grid->climy - PIVOT_CLIMY +1] += flux->voc_monotrp_g97[f] * grid->area *10000.0/1000000.0; 
@@ -294,17 +299,14 @@ void cal_cruclim(
 		fprintf(fp_carbon,"%.2lf ", tmp_ann);
 		fprintf(fp_carbon,"%.2lf ", pre_ann);
 		fprintf(fp_carbon,"%.2lf ", dswr_ann);
-		
 		fprintf(fp_carbon,"%.2lf ", aet_ann);
 		fprintf(fp_carbon,"%.2lf ", rof_ann);
-		
 		fprintf(fp_carbon,"%.2lf ", lai_max);
 		fprintf(fp_carbon,"%.2lf ", fol_ann);
 		fprintf(fp_carbon,"%.2lf ", stm_ann);
 		fprintf(fp_carbon,"%.2lf ", rot_ann);
 		fprintf(fp_carbon,"%.2lf ", ltr_ann);
 		fprintf(fp_carbon,"%.2lf ", msl_ann);
-		
 		fprintf(fp_carbon,"%.2lf ", gpp_ann);
 		fprintf(fp_carbon,"%.2lf ", ar_ann);
 		fprintf(fp_carbon,"%.2lf ", hr_ann);
@@ -314,20 +316,18 @@ void cal_cruclim(
 		/* nitrogen */
 		fprintf(fp_nitrogen,"%ld ", grid->climy);
 		for(f=0;f<12;f++){
-			fprintf(fp_nitrogen,"%.2lf ", (mass->plant).n_cnpy_m[f]);
-			fprintf(fp_nitrogen,"%.2lf ", (mass->plant).n_strg_m[f]);
-			fprintf(fp_nitrogen,"%.2lf ", (mass->soil).n_no3_m[f]);
-			fprintf(fp_nitrogen,"%.2lf ", (mass->soil).n_nh4_m[f]);
-			fprintf(fp_nitrogen,"%.2lf ", (mass->soil).n_mcrb_m[f]);
-			fprintf(fp_nitrogen,"%.2lf ", (mass->soil).n_lttr_m[f]);
-			fprintf(fp_nitrogen,"%.2lf ", (mass->soil).n_hums_m[f]);
-		
-			fprintf(fp_nitrogen,"%.2lf ", (flux->plant).n_biofix[f]);
-			fprintf(fp_nitrogen,"%.2lf ", (flux->plant).uptake_no3[f]);
-			fprintf(fp_nitrogen,"%.2lf ", (flux->plant).uptake_nh4[f]);
-
-			fprintf(fp_nitrogen,"%.2lf ", (flux->soil).n_leach[f]);
-			fprintf(fp_nitrogen,"%.2lf ", (flux->soil).n_nh3vlt[f]);
+			fprintf(fp_nitrogen,"%.3lf ", (mass->plant).n_cnpy_m[f]);
+			fprintf(fp_nitrogen,"%.3lf ", (mass->plant).n_strg_m[f]);
+			fprintf(fp_nitrogen,"%.3lf ", (mass->soil).n_no3_m[f]);
+			fprintf(fp_nitrogen,"%.3lf ", (mass->soil).n_nh4_m[f]);
+			fprintf(fp_nitrogen,"%.3lf ", (mass->soil).n_mcrb_m[f]);
+			fprintf(fp_nitrogen,"%.3lf ", (mass->soil).n_lttr_m[f]);
+			fprintf(fp_nitrogen,"%.3lf ", (mass->soil).n_hums_m[f]);
+			fprintf(fp_nitrogen,"%.3lf ", (flux->plant).n_biofix[f]);
+			fprintf(fp_nitrogen,"%.3lf ", (flux->plant).uptake_no3[f]);
+			fprintf(fp_nitrogen,"%.3lf ", (flux->plant).uptake_nh4[f]);
+			fprintf(fp_nitrogen,"%.3lf ", (flux->soil).n_leach[f]);
+			fprintf(fp_nitrogen,"%.3lf ", (flux->soil).n_nh3vlt[f]);
 		}
 		fprintf(fp_nitrogen,"\n");
 
@@ -343,11 +343,16 @@ void cal_cruclim(
 		fprintf(fp_ersn,"%lf ", flux->erod_soil);
 		fprintf(fp_ersn,"%lf ", flux->erod_orgmat);
 		fprintf(fp_ersn,"%lf ", flux->erod_carbon);
+		fprintf(fp_ersn,"%lf ", flux->erod_soil_crop);
+		fprintf(fp_ersn,"%lf ", flux->erod_orgmat_crop);
+		fprintf(fp_ersn,"%lf ", flux->erod_carbon_crop);
 		fprintf(fp_ersn,"%lf ", ltr_ann);
 		fprintf(fp_ersn,"%lf ", hrl_ann);
 		fprintf(fp_ersn,"%lf ", msl_ann);
 		fprintf(fp_ersn,"%lf ", hrm_ann);
-		
+		for(f=0;f<12;f++){
+			fprintf(fp_ersn,"%lf ", loct->ro2[f]);
+		}
 		fprintf(fp_ersn,"\n"); /**/
 		
 		/* GHG & trace gases */
@@ -365,6 +370,8 @@ void cal_cruclim(
 			fprintf(fp_ghg,"%.3lf ", (flux->soil).d_n2_casa[f]);
 			fprintf(fp_ghg,"%.3lf ", (flux->soil).d_no_casa[f]);
 			fprintf(fp_ghg,"%.3lf ", (flux->soil).n_nh3vlt[f]);
+			fprintf(fp_ghg,"%.3lf ", (flux->plant).emit_ch4_kirschbaum_mass[f]);
+			fprintf(fp_ghg,"%.3lf ", (flux->plant).emit_ch4_kirschbaum_photo[f]);
 		}
 		fprintf(fp_ghg,"\n");
 

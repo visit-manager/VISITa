@@ -18,6 +18,8 @@
 #include"structure.h"
 #include"prototype.h"
 
+#define FROWS 10
+
 /* structure *****************/
 struct Grid grid;
 struct Loct loct;
@@ -60,6 +62,7 @@ double h_ch4emit_cao_paddy[201], h_ch4emit_cao_wetland[201];
 double h_n2o_emit_ngas[201], h_n2_emit_ngas[201];
 double h_n2o_emit_casa[201], h_no_emit_casa[201], h_n2_emit_casa[201];
 double h_nh3_emit[201];
+double h_ch4_emit_mass[201], h_ch4_emit_photo[201];
 
 double h_voc_isopr_g97[201], h_voc_monotrp_g97[201], h_voc_methanl_g97[201];
 double h_voc_acetone_g97[201], h_voc_actaldhd_g97[201], h_voc_frmardhd_g97[201];
@@ -740,10 +743,7 @@ int main(
 	/***********/
 	strcpy(s_date, argv[2]);
 	strcat(s_date, "_");
-	
-	for(f=1;f<=18;f++){
-	}
-			
+				
 	printf("done\n");
 	
 	/******************************************************************************/
@@ -767,6 +767,7 @@ int main(
 		h_n2o_emit_ngas[f] = h_n2_emit_ngas[f] = 0.0;
 		h_n2o_emit_casa[f] = h_no_emit_casa[f] = h_n2_emit_casa[f] = 0.0;
 		h_nh3_emit[f] = 0.0;
+		h_ch4_emit_mass[f] = h_ch4_emit_photo[f] = 0.0;
 
 		h_voc_isopr_g97[f] = h_voc_monotrp_g97[f] = h_voc_methanl_g97[f] = 0.0;
 		h_voc_acetone_g97[f] = h_voc_actaldhd_g97[f] = h_voc_frmardhd_g97[f] = 0.0;
@@ -796,9 +797,9 @@ int main(
 	/* latitude roop */
 	printf("Start simulation...\n");
 	for(f=0;f<360;f++){
-		zone = f/20 + 1;
+		zone = f/FROWS + 1;
 		
-		if(f%20 == 0){
+		if(f%FROWS == 0){
 			/* carbon */
 			strcpy(filename, s_date);
 			strcat(filename, s_carbon);
@@ -918,13 +919,15 @@ int main(
 				cal_stable(&grid, &loct, &echar, &mass, &flux, 
 						fp_carbon, fp_nitrogen, fp_ersn, fp_ghg, fp_bioburn, fp_voc);
 				
-				/* printf("Lan use change: %.3lf<-%.3lf Emit: %.3lf\n", grid.f_crop_p, grid.f_crop, (flux.lu_conv+flux.lu_ten+flux.lu_hund)); */
+				/* printf("Lan use change: %.3lf<-%.3lf Emit: %.3lf\n", grid.f_crop_p, 
+					grid.f_crop, (flux.lu_conv+flux.lu_ten+flux.lu_hund)); */
 			
 				/** dynamic roop **/
 				/* 1901-2000 */
 				cal_cruclim(&grid, &loct, &echar, &mass, &flux, 
 						fp_carbon, fp_nitrogen, fp_ersn, fp_ghg, fp_bioburn, fp_voc); 
-				/* printf("Lan use change: %.3lf<-%.3lf Emit: %.3lf\n", grid.f_crop_p, grid.f_crop, (flux.lu_conv+flux.lu_ten+flux.lu_hund)); */
+				/* printf("Lan use change: %.3lf<-%.3lf Emit: %.3lf\n", grid.f_crop_p, 
+					grid.f_crop, (flux.lu_conv+flux.lu_ten+flux.lu_hund)); */
 			
 				/* 2001-2100 */
 				cal_gcmclim2(&grid, &loct, &echar, &mass, &flux, 
@@ -933,7 +936,8 @@ int main(
 				/** outputs **/
 				screenshow(&grid, &loct, &mass, &flux, &echar);
 
-				/* printf("Lan use change: %.3lf<-%.3lf Emit: %.3lf\n", grid.f_crop_p, grid.f_crop, (flux.lu_conv+flux.lu_ten+flux.lu_hund)); */
+				/* printf("Lan use change: %.3lf<-%.3lf Emit: %.3lf\n", grid.f_crop_p, 
+					grid.f_crop, (flux.lu_conv+flux.lu_ten+flux.lu_hund)); */
 				
 				/* printf("CUM LUC: %.1lf %.1lf %.1lf\n\n", h_luc[0], h_luc[100], h_luc[200]); */
 				
@@ -941,6 +945,7 @@ int main(
 			}
 		}
 		
+		/* global summary ******************************************/
 		strcpy(filename, s_date);
 		strcat(filename, s_case);
 		strcat(filename, "glsum.dat");
@@ -968,6 +973,8 @@ int main(
 			fprintf(fp_glsum,"%lf %lf %lf ", h_ch4ox1[h], h_ch4ox2[h], h_ch4ox3[h]);
 			fprintf(fp_glsum,"%lf %lf ", h_ch4emit_cao_paddy[h], h_ch4emit_cao_wetland[h]);
 			fprintf(fp_glsum,"%lf ", h_nh3_emit[h]);
+			fprintf(fp_glsum,"%lf ", h_ch4_emit_mass[h]);
+			fprintf(fp_glsum,"%lf ", h_ch4_emit_photo[h]);
 			
 			fprintf(fp_glsum,"%lf %lf %lf ", h_voc_isopr_g97[h], h_voc_monotrp_g97[h], h_voc_methanl_g97[h]);
 			fprintf(fp_glsum,"%lf %lf %lf ", h_voc_acetone_g97[h], h_voc_actaldhd_g97[h], h_voc_frmardhd_g97[h]);
@@ -989,7 +996,7 @@ int main(
 		}
 		fclose(fp_glsum);
 		
-		if(f%20 == 19){
+		if(f%FROWS == (FROWS-1)){
 			fclose(fp_carbon); 
 			fclose(fp_nitrogen); 
 			fclose(fp_ersn);

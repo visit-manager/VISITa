@@ -143,7 +143,13 @@ double par(
 		dd = (dd<=1.0)?dd:1.0;
 		hd = grid->gl_rad[grid->m]*dd; /** fraction of diffused radiation**/
 		
-		/* variable conversion factor after Dye et al. (2003) */
+		/* variable conversion factor after Dye et al. (2004) */
+		/*
+		Dye, D.G., 2004. Spectral composition and quantum-to-energy 
+		ratio of diffuse photosynthetically active radiation under 
+		diverse cloud conditions. Journal of Geophysical Research 
+		109, 10.1029/2003JD004251.
+		*/
 		if(D_PAR==1){
 			e2p_d = 4.5886*dd/(0.010773+dd);
 			e2p_d = (e2p_d>4.2)?e2p_d:4.2;

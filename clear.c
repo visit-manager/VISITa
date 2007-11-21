@@ -79,6 +79,10 @@ void clear(
 	flux->erod_soil = 0.0;
 	flux->erod_orgmat = 0.0;
 	flux->erod_carbon = 0.0;
+	
+	flux->erod_soil_crop = 0.0;
+	flux->erod_orgmat_crop = 0.0;
+	flux->erod_carbon_crop = 0.0;
 }
 
 /****** make plant fluxes vacant *******/
@@ -115,6 +119,9 @@ void plant_flux_zero(
 	flux->tpr[month] = 0.0; 	
 	
 	flux->hvst[month] = 0.0; 
+	
+	flux->emit_ch4_kirschbaum_mass[month] = 0.0;
+	flux->emit_ch4_kirschbaum_photo[month] = 0.0;
 }
 
 /****** make plant fluxes vacant *******/

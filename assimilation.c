@@ -63,24 +63,26 @@ void pc_sat(
 		
 	/** temperature effect ******************************************************/
 	if(grid->tmp_sfc[grid->m]<=veg->tmax && grid->tmp_sfc[grid->m]>=veg->tmin){
-		aa1=(grid->tmp_sfc[grid->m]-veg->tmax)*(grid->tmp_sfc[grid->m]-veg->tmin);
-		aa2=(grid->tmp_sfc[grid->m]-veg->topt)*(grid->tmp_sfc[grid->m]-veg->topt);
-		ftem=aa1/(aa1-aa2);
+		aa1 = (grid->tmp_sfc[grid->m]-veg->tmax)*(grid->tmp_sfc[grid->m]-veg->tmin);
+		aa2 = (grid->tmp_sfc[grid->m]-veg->topt)*(grid->tmp_sfc[grid->m]-veg->topt);
+		ftem = aa1/(aa1 - aa2);
 	}else{
-		ftem=0.0;
+		ftem = 0.0;
 	}
-	ftem=(ftem<=1.0)?ftem:1.0; ftem=(ftem>=0.0)?ftem:0.0;
+	ftem = (ftem<=1.0)?ftem:1.0; 
+	ftem = (ftem>=0.0)?ftem:0.0;
 	
 	veg->ft[grid->m] = ftem;
 	
 	/** CO2 effect ******************************************************/
 	/** stomatal limitation via intercellular CO2 concentration **/
 	if(veg->phototype==3){ /* C3 plants */
-		fstl = 0.05+0.95*(veg->ci[grid->m]-veg->cmpcd[grid->m])/(veg->kmci+veg->ci[grid->m]); 
+		fstl = 0.05+0.95*(veg->ci[grid->m] - veg->cmpcd[grid->m])/(veg->kmci + veg->ci[grid->m]); 
 	}else if(veg->phototype==4){ /* C4 plants */
-		fstl = 0.60+0.40*(veg->ci[grid->m]-veg->cmpcd[grid->m])/(veg->kmci+veg->ci[grid->m]); 
+		fstl = 0.60+0.40*(veg->ci[grid->m] - veg->cmpcd[grid->m])/(veg->kmci + veg->ci[grid->m]); 
 	}
-	fstl = (fstl<=1.0)?fstl:1.0; fstl=(fstl>=0.0)?fstl:0.0;
+	fstl = (fstl<=1.0)?fstl:1.0; 
+	fstl = (fstl>=0.0)?fstl:0.0;
 	
 	veg->fcd[grid->m] = fstl;
 

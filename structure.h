@@ -632,11 +632,13 @@ struct Pflx{
 	double	lc[12];			/* stem and branch litterfall */
 	double	lr[12];			/* root litterfall */
 	double	lL[12];			/* total litterfall */
-	
 	double	lf_c[12];			/* leaf shedding in C3/C4 altyeration in grassland */
 	
 	double	hvst[12];			/* harvest of crops */
-
+	
+	double	emit_ch4_kirschbaum_mass[12];
+	double	emit_ch4_kirschbaum_photo[12];
+	
 	/* stable carbon isotope composition */
 	double	d13c_gpp[12];			
 	double	d13c_spp[12];			
@@ -831,8 +833,13 @@ struct Flux{
 	double	efflux_p;			
 	double	d13c_efflux_p;			
 	
-	/* erosion */
+	/* erosion ******/
+	/* total */
 	double	erod_soil;
-	double erod_orgmat;
-	double erod_carbon;
+	double	erod_orgmat;
+	double	erod_carbon;
+	/* cropland */
+	double	erod_soil_crop;
+	double	erod_orgmat_crop;
+	double	erod_carbon_crop;
 };

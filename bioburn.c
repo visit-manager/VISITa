@@ -6,6 +6,7 @@
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
 /*  Modified August 8, 2007						*/
+/*  Modified November 3, 2007	by A.Ito			*/
 
 #include<stdio.h>
 #include<math.h>
@@ -23,7 +24,7 @@ void f_biomassburning(
 ){
 	short f;
 	double aa, bb, cc, ss, n_fireseason;
-	double fa_burnt;
+	double fuel, fa_burnt;
 	/* critical moisture */
 	double me_crit[16] = {0.0, 
 		0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3,
@@ -106,20 +107,26 @@ void f_biomassburning(
 	*/
 	n_fireseason = 0.0;
 	for(f=0;f<12;f++){		
-		/* volumetric upper soil (litter-fuel) water content */
-		aa = loct->msw30[f]/grid->field_cap1;
-		bb = aa/me_crit[grid->veg_sage];
-		cc = exp(-PI*bb*bb);
-		
-		if(cc<=0.0){
-			cc = 0.0;
-		}else if(cc >=1.0){
-			cc = 1.0;
+		fuel = ((mass->soil).ltr_m[f] + (mass->plant).mfol[f] + (mass->plant).mstm[f] 
+				+ (mass->plant).mrot[f]) / cTdm;
+		if(fuel >= 200.0){	/* fire threshold: 2007/11/03 */
+			/* volumetric upper soil (litter-fuel) water content */
+			aa = loct->msw30[f]/grid->field_cap1;
+			bb = aa/me_crit[grid->veg_sage];
+			cc = exp(-PI*bb*bb);
+			
+			if(cc<=0.0){
+				cc = 0.0;
+			}else if(cc >=1.0){
+				cc = 1.0;
+			}
+			
+			/* fire season length */
+			flux->day_fire[f] = (double)(grid->mm[f]) * cc;
+			n_fireseason += (double)(grid->mm[f]) * cc;
+		}else{
+			flux->day_fire[f] = 0.0;
 		}
-		
-		/* fire season length */
-		flux->day_fire[f] = (double)(grid->mm[f]) * cc;
-		n_fireseason += (double)(grid->mm[f]) * cc;
 	}
 	
 	/* annual fraction of fire season */

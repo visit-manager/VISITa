@@ -128,5 +128,17 @@ void f_erosion(
 	
 	flux->erod_orgmat = flux->erod_soil * grid->pcnt_orgmat/100.0;
 	flux->erod_carbon = flux->erod_orgmat/dmTc;
+
+	/* Cropland erosion */
+	flux->erod_soil_crop = grid->f_erosion_r * grid->f_erosion_k * grid->f_erosion_ls * 
+		0.5 * grid->f_erosion_p;  /* t/ha/yr */
+	if(flux->erod_soil_crop<0.0){
+		flux->erod_soil_crop = 0.0;
+	}else if(flux->erod_soil_crop > 130.0*5.0){
+		flux->erod_soil_crop = 130.0*5.0;
+	}
+	
+	flux->erod_orgmat_crop = flux->erod_soil_crop * grid->pcnt_orgmat/100.0;
+	flux->erod_carbon_crop = flux->erod_orgmat_crop/dmTc;
 }
 
