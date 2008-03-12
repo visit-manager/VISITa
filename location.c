@@ -18,8 +18,7 @@ extern long GCM, CO2S, GCM_R, GCM_C;
 
 /****** initialization of climatic conditions (Primary data) ******/
 void initC(
-	struct Grid *grid, 
-	struct Loct *loct
+	struct Grid *grid
 ){
 	short h;
 	double aaa, bbb;
@@ -111,9 +110,6 @@ void initC(
 			grid->prate_sfc[h]*=0.9;
 		}
 	}	
-	
-	/* average fertilizer-N input for each county, kg N ha-1 yr-1 */
-	n_fertilizer_in(grid, loct);
 }
 
 /******* location conditions derived from the primary data (Secondary data1) *******/
@@ -134,7 +130,7 @@ void initL(
 	grid->tmp_sfc_mn = 100.0;
 	grid->gp_atem = 0.0;
 	grid->prate_sfc_ann = 0.0;
-	nn=0;
+	nn = 0;
 	for(h=0;h<12;h++){
 		/* annual mean temperature */
 		grid->tmp_sfc_am += grid->tmp_sfc[h]/12.0; 
@@ -199,7 +195,7 @@ void initL(
 		(echar->soil).rh0 *= ftmp200b/ftmp200;
 	}
 	
-	/*** water condition - Sim-HYDRO***/
+	/*** water condition - Sim-HYDRO ***/
 	loct->sw30 = 0.5*grid->field_cap1;
 	loct->sww = 0.5*grid->field_cap2; 
 	loct->snwa = 0.0;
@@ -228,6 +224,9 @@ void initL(
 			break;
 		}
 	}
+	
+	/* average fertilizer-N input for each county, kg N ha-1 yr-1 */
+	n_fertilizer_in(grid, loct);
 }
 
 /*** dynamic estimation of environmnetal conditions (Secondary data2) ***/

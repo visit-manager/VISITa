@@ -26,9 +26,9 @@ void photo_13c_frac(
 	fai = 0.21;
 
 	if(plant->phototype==3){
-		plant->photo_13c_frac[grid->m] = aaa+(bbb-aaa)*plant->ci[grid->m]/loct->aCO2[grid->m];
+		plant->photo_13c_frac[grid->m] = aaa + (bbb-aaa)*plant->ci[grid->m]/loct->aCO2[grid->m];
 	}else if(plant->phototype==4){
-		plant->photo_13c_frac[grid->m] = aaa+(bb4+bb3*fai-aaa)*plant->ci[grid->m]/loct->aCO2[grid->m];
+		plant->photo_13c_frac[grid->m] = aaa + (bb4+bb3*fai-aaa)*plant->ci[grid->m]/loct->aCO2[grid->m];
 	}
 }
 
@@ -38,7 +38,7 @@ double deltaTratio(
 ){
 	double ratio;
 	
-	ratio = (1+delta/1000.0)*STCIR;
+	ratio = (1.0 + delta/1000.0)*STCIR;
 
 	return ratio;
 }
@@ -49,7 +49,7 @@ double ratioTdelta(
 ){
 	double delta;
 	
-	delta = (ratio/STCIR-1.0)*1000.0;
+	delta = (ratio/STCIR - 1.0)*1000.0;
 	
 	return delta;
 }
@@ -65,22 +65,22 @@ double d13c_addition(
 	double c12_a, c13_a, c12_b, c13_b, c12_pro, c13_pro;
 	double d13c_product;
 	
-	ratio_a=deltaTratio(d13c_a); 
-	ratio_b=deltaTratio(d13c_b); 
+	ratio_a = deltaTratio(d13c_a); 
+	ratio_b = deltaTratio(d13c_b); 
 	
-	c12_a=mass_a/(1.0+ratio_a); c13_a=mass_a-c12_a;
-	c12_b=mass_b/(1.0+ratio_b); c13_b=mass_b-c12_b;
+	c12_a = mass_a/(1.0+ratio_a); c13_a = mass_a-c12_a;
+	c12_b = mass_b/(1.0+ratio_b); c13_b = mass_b-c12_b;
 	
-	c12_pro=c12_a+c12_b;
-	c13_pro=c13_a+c13_b;
+	c12_pro = c12_a+c12_b;
+	c13_pro = c13_a+c13_b;
 	
 	if(c12_pro>0.0){
-		d13c_product=(c13_pro/c12_pro/STCIR-1.0)*1000.0;
+		d13c_product = (c13_pro/c12_pro/STCIR - 1.0)*1000.0;
 	}else{
-		d13c_product=d13c_a;
+		d13c_product = d13c_a;
 	}
 	
-	return(d13c_product);
+	return (d13c_product);
 }
 
 /******* addition of two isotopically different substances, a and b *******/

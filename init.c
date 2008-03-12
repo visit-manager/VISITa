@@ -22,7 +22,40 @@ extern double aco2_a1[553], aco2_a2[553], aco2_b1[553], aco2_b2[553];
 extern double ach4_a1[553], ach4_a2[553], ach4_b1[553], ach4_b2[553];
 extern double an2o_a1[553], an2o_a2[553], an2o_b1[553], an2o_b2[553];
 
-/**** initialize general parameters used in the simulation ****/
+extern double glandarea;
+extern double h_tmp[201], h_pre[201], h_dswr[201], h_aet[201], h_rof[201];
+extern double h_gpp[201], h_npp[201], h_nep[201], h_plant[201], h_soil[201];
+extern double h_sr[201], h_ersn_c[201], h_agrersn_c[201], h_doc[201];
+extern double h_agrarea[201], h_luc[201];
+
+extern double h_burnt_area[201];
+extern double h_bioburn_co2[201], h_bioburn_ch4[201], h_bioburn_co[201];
+extern double h_bioburn_nmhc[201], h_bioburn_oc[201], h_bioburn_bc[201];
+extern double h_bioburn_nox[201], h_bioburn_so2[201], h_bioburn_pm25[201];
+extern double h_bioburn_tpm[201], h_bioburn_tec[201];
+
+extern double h_ch4ox1[201], h_ch4ox2[201], h_ch4ox3[201];
+extern double h_ch4emit_cao_paddy[201], h_ch4emit_cao_wetland[201];
+extern double h_n2o_emit_ngas[201], h_n2_emit_ngas[201];
+extern double h_n2o_emit_casa[201], h_no_emit_casa[201], h_n2_emit_casa[201];
+extern double h_nh3_emit[201], h_n2_biofix[201];
+extern double h_ch4_emit_mass[201], h_ch4_emit_photo[201];
+
+extern double h_voc_isopr_g97[201], h_voc_monotrp_g97[201], h_voc_methanl_g97[201];
+extern double h_voc_acetone_g97[201], h_voc_actaldhd_g97[201], h_voc_frmardhd_g97[201];
+extern double h_voc_formacd_g97[201], h_voc_acetacd_g97[201], h_voc_co_g97[201];
+
+/* monthly results **********/
+extern double m_ch4ox1[12], m_ch4ox2[12], m_ch4ox3[12];
+extern double m_bioburn_co2[12], m_bioburn_ch4[12], m_bioburn_co[12];
+extern double m_bioburn_nmhc[12], m_bioburn_oc[12], m_bioburn_bc[12];
+
+/* vegetation (olson) results */
+extern double v_area[34];
+extern double v_gpp[34], v_npp[34], v_nep[34];
+extern double v_lai[34], v_fol[34], v_stm[34], v_rot[34], v_ltr[34], v_msl[34];
+
+/* initialize general parameters used in the simulation ******************/
 void initSim(
 	struct Grid *grid
 ){
@@ -30,6 +63,7 @@ void initSim(
 	double data;
 	FILE *fp_co2;
 	
+	/* grid ID, sequential number */
 	grid->nnn = 0;
 	
 	/* Number of days for each month */
@@ -46,6 +80,7 @@ void initSim(
 	grid->mm[10] = 30;
 	grid->mm[11] = 31;
 	
+	/* atm. CO2 scenario ****************************/
 	printf("reading CO2 data...");
 	if(CO2S==1){
 		if((fp_co2 = fopen("./data/SRES_A1.dat","rt"))==NULL){
@@ -83,6 +118,7 @@ void initSim(
 			exit(1);
 		}
 	}
+	
 	/* SRES Scenario CO2 */
 	for(f=0;f<111;f++){
 		fscanf(fp_co2,"%ld %lf", &year, &data);
@@ -91,6 +127,8 @@ void initSim(
 	
 	fclose(fp_co2);
 	
+	/* source: http://crga.atmos.uiuc.edu/research/post-sres.html
+		M.E.Schlesinger and S.Malyshev			*/
 	if((fp_co2 = fopen("./data/AtmGHG_timeseries.dat","rt"))==NULL){
 		printf("No AtmGHG_timeseries.dat\n");
 		exit(1);
@@ -114,11 +152,47 @@ void initSim(
 		fscanf(fp_co2,"%lf", &an2o_b2[f]);
 	}
 	fclose(fp_co2);
+	
+	/* global analysis ********************************/
+	glandarea = 0.0;
+	for(f=0;f<201;f++){
+		h_tmp[f] = h_pre[f] = h_dswr[f] = h_aet[f] = h_rof[f] = 0.0;
+		h_gpp[f] = h_npp[f] = h_nep[f] = h_plant[f] = h_soil[f] = 0.0;
+		h_sr[f] = h_ersn_c[f] = h_agrersn_c[f] = h_doc[f] = 0.0;
+		
+		h_agrarea[f] = h_luc[f] = 0.0;
+		h_burnt_area[f] = 0.0;
+		h_bioburn_co2[f] = h_bioburn_co[f] = h_bioburn_ch4[f] = 0.0;
+		h_bioburn_nmhc[f] = h_bioburn_oc[f] = h_bioburn_bc[f] = 0.0;
+		h_bioburn_nox[f] = h_bioburn_so2[f] = h_bioburn_pm25[f] = 0.0;
+		h_bioburn_tpm[f] = h_bioburn_tec[f] = 0.0;
+		
+		h_ch4ox1[f] = h_ch4ox2[f] = h_ch4ox3[f] = 0.0;
+		h_ch4emit_cao_paddy[f] = h_ch4emit_cao_wetland[f] = 0.0;
+		h_n2o_emit_ngas[f] = h_n2_emit_ngas[f] = 0.0;
+		h_n2o_emit_casa[f] = h_no_emit_casa[f] = h_n2_emit_casa[f] = 0.0;
+		h_nh3_emit[f] = h_n2_biofix[f] = 0.0;
+		h_ch4_emit_mass[f] = h_ch4_emit_photo[f] = 0.0;
+
+		h_voc_isopr_g97[f] = h_voc_monotrp_g97[f] = h_voc_methanl_g97[f] = 0.0;
+		h_voc_acetone_g97[f] = h_voc_actaldhd_g97[f] = h_voc_frmardhd_g97[f] = 0.0;
+		h_voc_formacd_g97[f] = h_voc_acetacd_g97[f] = h_voc_co_g97[f] = 0.0;
+	}
+	for(f=0;f<12;f++){
+		m_ch4ox1[f] = m_ch4ox2[f] = m_ch4ox3[f] = 0.0;
+		m_bioburn_co2[f] = m_bioburn_ch4[f] = m_bioburn_co[f] = 0.0;
+		m_bioburn_nmhc[f] = m_bioburn_oc[f] = m_bioburn_bc[f] = 0.0;
+	}
+	for(f=0;f<34;f++){
+		v_area[f] = 0.0;
+		v_gpp[f] = v_npp[f] = v_nep[f] = 0.0;
+		v_lai[f] = v_fol[f] = v_stm[f] = v_rot[f] = v_ltr[f] = v_msl[f] = 0.0;
+	}
 }
 
 /********* initialize grid conditions **************************************/
 void initG(
-	FILE *fp_s[26], 
+	FILE *fp_s[IFILEN], 
 	struct Grid *grid
 ){
 	/** initialize climate and soil parameters by using the prepared data files **/
@@ -188,6 +262,7 @@ void initG(
 	/* GCM grid *************************************/
 	grid->gcm_row = 0;
 	grid->gcm_col = 0;
+	/* AR3 */
 	if(GCM==1 || GCM==2 || GCM==3 || GCM==4 || GCM==5 || GCM==6){ /* CCSR/NIES */
 		grid->gcm_row = grid->row/11.25;	
 		grid->gcm_col = grid->col/11.25;
@@ -224,6 +299,7 @@ void initG(
 		grid->gcm_col = grid->col/5.625;
 	}
 	
+	/* AR4 */
 	if(GCM==1000 || GCM==1001){ /* MIROC-HIGH */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
@@ -328,6 +404,7 @@ void initG(
 	grid->veg_olson = aaa;
 	/* printf("done\n"); */
 	
+	/* sensitivity analysis for deforestation */
 	if(DEFOREST==1){
 		if(aaa>=1&&aaa<=12){
 			grid->veg_olson = 19;
@@ -433,7 +510,7 @@ void initG(
 		grid->hist_tmp_b[g] = grid->tmp_2m_a[g];
 	}
 	
-	/* substituted precipitation data */
+	/* substituted precipitation data (UEA/CRU) */
 	for(e=0;e<12;e++){
 		fscanf(fp_s[4],"%lf", &prate_sfc); 
 		grid->prec_sub_a[e] = prate_sfc*(double)(grid->mm[e]);
@@ -477,8 +554,19 @@ void initG(
 	
 	/* Cropland coverage by Ramankutty & Foley (1999) */
 	for(h=0;h<293;h++){
-		fscanf(fp_s[11],"%lf", &(grid->fcrop[h])); 
+		fscanf(fp_s[11],"%lf", &(grid->fcrop_sage[h])); 
 	}
+	
+	x = xx = y = yy = xy = 0.0;
+	for(h=0;h<10;h++){
+		x += (double)h;
+		xx += (double)h * (double)h;
+		y += grid->fcrop_sage[280+h];
+		yy += grid->fcrop_sage[280+h]*grid->fcrop_sage[280+h];
+		xy += (double)h*grid->fcrop_sage[280+h];
+	}
+
+	grid->f_crop_trend = (10.0*xy - x*y)/(10.0*xx - x*x);
 	
 	/* future land-use change scenario by IMAGE2 (Wang et al. 2006) */
 	/*
@@ -492,17 +580,12 @@ void initG(
 	for(h=0;h<111;h++){
 		fscanf(fp_s[23],"%lf", &(grid->fcrop4_image[h])); 
 	}
-	
-	x = xx = y = yy = xy = 0.0;
-	for(h=0;h<10;h++){
-		x += (double)h;
-		xx += (double)h * (double)h;
-		y += grid->fcrop[280+h];
-		yy += grid->fcrop[280+h]*grid->fcrop[280+h];
-		xy += (double)h*grid->fcrop[280+h];
+	for(h=0;h<111;h++){
+		fscanf(fp_s[45],"%lf", &(grid->fgrass3_image[h])); 
 	}
-
-	grid->f_crop_trend = (10.0*xy - x*y)/(10.0*xx - x*x);
+	for(h=0;h<111;h++){
+		fscanf(fp_s[45],"%lf", &(grid->fgrass4_image[h])); 
+	}
 	
 	fscanf(fp_s[12],"%ld", &(grid->soiltexture)); 
 	/* 0: ocean */
@@ -609,4 +692,27 @@ void initG(
 	/* N fertilization */
 	grid->nfert_nh4 = 0.0;
 	grid->nfert_no3 = 0.0;
+	
+	/* EOS-WEBSTER Land-use change data */
+	for(h=0;h<301;h++){
+		fscanf(fp_s[26],"%lf", &grid->fcrop_eossagehyde[h]);
+		fscanf(fp_s[27],"%lf", &grid->fpast_eossagehyde[h]);
+		fscanf(fp_s[28],"%lf", &grid->fprim_eossagehyde[h]);
+		fscanf(fp_s[29],"%lf", &grid->fsecd_eossagehyde[h]);
+		fscanf(fp_s[30],"%lf", &grid->ssma_eossagehyde[h]);
+		fscanf(fp_s[31],"%lf", &grid->ssmb_eossagehyde[h]);
+		fscanf(fp_s[32],"%lf", &grid->t_cp_eossagehyde[h]);
+		fscanf(fp_s[33],"%lf", &grid->t_cs_eossagehyde[h]);
+		fscanf(fp_s[34],"%lf", &grid->t_pc_eossagehyde[h]);
+		fscanf(fp_s[35],"%lf", &grid->t_ps_eossagehyde[h]);
+		fscanf(fp_s[36],"%lf", &grid->t_sc_eossagehyde[h]);
+		fscanf(fp_s[37],"%lf", &grid->t_sp_eossagehyde[h]);
+		fscanf(fp_s[38],"%lf", &grid->t_ss1_eossagehyde[h]);
+		fscanf(fp_s[39],"%lf", &grid->t_ss2_eossagehyde[h]);
+		fscanf(fp_s[40],"%lf", &grid->t_ss3_eossagehyde[h]);
+		fscanf(fp_s[41],"%lf", &grid->t_vc_eossagehyde[h]);
+		fscanf(fp_s[42],"%lf", &grid->t_vp_eossagehyde[h]);
+		fscanf(fp_s[43],"%lf", &grid->t_vs1_eossagehyde[h]);
+		fscanf(fp_s[44],"%lf", &grid->t_vs2_eossagehyde[h]);
+	}
 }

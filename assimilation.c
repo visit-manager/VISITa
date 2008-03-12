@@ -11,7 +11,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/********* formula of daily gross primary production ***********/
+/* formula of daily gross primary production *******************/
 double fgpp(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -35,7 +35,7 @@ double fgpp(
 	return (gpp);
 }
 
-/******** light-saturated photosynthetic rate ***********/
+/* light-saturated photosynthetic rate *************************/
 void pc_sat(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -111,7 +111,7 @@ void pc_sat(
 	/* printf("%ld %.2lf %.2lf %.2lf\n", veg->phototype, ftem, fstl, fnstl);*/
 }
 
-/***** annual NPP estimated with empirical models *****/
+/* annual NPP estimated with empirical models *************************/
 void npp_empirical(
 	struct Grid *grid, 
 	struct Loct *loct, 

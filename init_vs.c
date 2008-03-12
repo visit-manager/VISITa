@@ -28,11 +28,16 @@ void initVS(
 ){	
 	long f, g;
 	
-	/* input parameter */
-	parameterC3(grid, &(echar->c3));
-	parameterC4(grid, &(echar->c4));
-	parameterSoil(grid, &(echar->soil));
-	
+	if(echar->v_type == 1){
+		parameterC3(grid, &(echar->c3));
+		parameterC4(grid, &(echar->c4));
+		parameterSoil(grid, &(echar->soil));
+	}else if(echar->v_type == 2){
+		parameterC3_sage(grid, &(echar->c3));
+		parameterC4_sage(grid, &(echar->c4));
+		parameterSoil_sage(grid, &(echar->soil));
+	}
+
 	/******** Sensitivity Analysis *******/
 	if(SENS==1){
 		(echar->c3).gs_b1*=1.1;
@@ -69,15 +74,16 @@ void initVS(
 		(echar->soil).kmsh*=0.7;
 	}
 	
-	/* growing period *********/
+	/* growing period **********************/
 	for(g=0;g<2;g++){
 		for(f=0;f<12;f++){
-			grid->m=f;
+			grid->m = f;
 			growthperiod(grid, loct, &(echar->c3));
 			growthperiod(grid, loct, &(echar->c4));
 		}
 	}
 	
+	/* land-use change detritus **************/
 	for(g=0;g<10;g++){
 		flux->detr_ten[g] = 0.0;
 	}
@@ -86,17 +92,18 @@ void initVS(
 		flux->detr_hund[g] = 0.0;
 	}
 	
+	/* clear vegetation pools and fluxes */
 	vlzero(grid, &(mass->c3), &(flux->c3));
 	vlzero(grid, &(mass->c4), &(flux->c4));
 	vlzero(grid, &(mass->plant), &(flux->plant));
 	
-	/* input initial biomass*/
-	(mass->c3).fol = (mass->c3).stm = (mass->c3).rot = INT_C;
+	/* set initial biomass *****************************/
+	(mass->c3).fol = (mass->c3).fol_p = (mass->c3).stm = (mass->c3).rot = INT_C;
 	for(f=0;f<12;f++){
 		(mass->c3).mfol[f] = (mass->c3).mstm[f] = (mass->c3).mrot[f] = INT_C; 
 	}
 
-	(mass->c4).fol = (mass->c4).stm= (mass->c4).rot= INT_C;
+	(mass->c4).fol = (mass->c4).fol_p = (mass->c4).stm= (mass->c4).rot= INT_C;
 	for(f=0;f<12;f++){
 		(mass->c4).mfol[f] = (mass->c4).mstm[f] = (mass->c4).mrot[f] = INT_C; 
 	}
@@ -106,7 +113,7 @@ void initVS(
 		(mass->soil).ltr_m[f] = (mass->soil).msl_m[f] = INT_C;
 	}
 	
-	/* initial soil mineral nitrogen */
+	/* set initial soil mineral nitrogen */
 	/* g N ha-1 */
 	(mass->c3).n_cnpy = (mass->c3).fol/10.0 * 1000.0;
 	(mass->c3).n_strg = ((mass->c3).stm + (mass->c3).rot)/10.0 * 1000.0;

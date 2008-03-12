@@ -13,36 +13,55 @@
 
 /* UEA/CRU data  **********************************************/
 void read_cru_clim(
-	FILE *fp_c[40], 
+	FILE *fp_c[4], 
 	struct Grid *grid
 ){
-	long cru_flag, kk;
+	long kk[4];
 	long f, g, h;
 	double data;
 	
 	/*  printf("reading CRU data...");  */
 	
-	cru_flag = 0;
-	for(f=0;f<40;f++){
-		fscanf(fp_c[f],"%ld", &kk);
-		cru_flag += kk;
-		/*  printf("%ld ",kk);  */
-		
-		if(kk==1){
-			for(h=0;h<10;h++){
-				for(g=0;g<12;g++){
-					fscanf(fp_c[f],"%lf",&data);
-					
-					if(f>=0&&f<10){
-						grid->hist_cld[f*10+h][g] = data/100.0;
-					}else if(f>=10&&f<20){
-						grid->hist_pre[(f-10)*10+h][g] = data;
-					}else if(f>=20&&f<30){
-						grid->hist_tmp[(f-20)*10+h][g] = data;
-					}else if(f>=30&&f<40){
-						grid->hist_vap[(f-30)*10+h][g] = data;
-					}
-				}
+	fscanf(fp_c[0],"%ld", &kk[0]);
+	if(kk[0]==11){
+		for(h=0;h<102;h++){
+			for(g=0;g<12;g++){
+				fscanf(fp_c[0],"%lf",&data);
+				
+				grid->hist_cld[h][g] = data/100.0;
+			}
+		}
+	}
+	
+	fscanf(fp_c[1],"%ld", &kk[1]);
+	if(kk[1]==11){
+		for(h=0;h<102;h++){
+			for(g=0;g<12;g++){
+				fscanf(fp_c[1],"%lf",&data);
+				
+				grid->hist_pre[h][g] = data;
+			}
+		}
+	}
+	
+	fscanf(fp_c[2],"%ld", &kk[2]);
+	if(kk[2]==11){
+		for(h=0;h<102;h++){
+			for(g=0;g<12;g++){
+				fscanf(fp_c[2],"%lf",&data);
+				
+				grid->hist_tmp[h][g] = data;
+			}
+		}
+	}
+	
+	fscanf(fp_c[3],"%ld", &kk[3]);
+	if(kk[3]==11){
+		for(h=0;h<102;h++){
+			for(g=0;g<12;g++){
+				fscanf(fp_c[3],"%lf",&data);
+				
+				grid->hist_vap[h][g] = data;
 			}
 		}
 	}
@@ -50,7 +69,7 @@ void read_cru_clim(
 	/*  printf("********* %ld\n",cru_flag);  */
 	
 	/* if valid CRU climate data are all available **/
-	if(cru_flag==40){
+	if((kk[0]+kk[1]+kk[2]+kk[3])==44){
 		grid->cru_exist = 1;
 
 		/******* base climate (average 1971 - 2000) ******/

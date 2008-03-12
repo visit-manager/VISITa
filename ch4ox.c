@@ -28,12 +28,24 @@ void f_casa_mositure(
 	bb = -8.990332;  */
 	
 	switch(grid->soiltexture){
-		case 1:	aa = 0.002;	bb = -5.48;		break;
-		case 2:	aa = 0.002;	bb = -6.54;		break;
-		case 3:	aa = 0.013;	bb = -6.57;		break;
-		case 4:	aa = 0.006;	bb = -9.47;		break;
-		case 5:	aa = 0.004;	bb = -13.75;		break;
-		default:	aa = 0.013;	bb = -6.57;		break;
+		case 1:	/* coarse */
+			aa = 0.002;	bb = -5.48;		
+			break;
+		case 2:	/* medium coarse */
+			aa = 0.002;	bb = -6.54;		
+			break;
+		case 3:	/* medium */
+			aa = 0.013;	bb = -6.57;		
+			break;
+		case 4:	/* fine medium */
+			aa = 0.006;	bb = -9.47;		
+			break;
+		case 5:	/* fine */
+			aa = 0.004;	bb = -13.75;		
+			break;
+		default:	/* others: ocean, ice, organic */
+			aa = 0.013;	bb = -6.57;		
+			break;
 	}
 	
 	/*  fc = 0.349224;  */
@@ -139,7 +151,7 @@ void f_ch4oxy_ridgewell(
 	}
 	/* nitrogen factor */
 	/* Eq. (10) in Ridgewell et al. (1999) */
-	lcult = grid->f_crop;
+	lcult = grid->f_crop_con;
 	r_n = 1.0 - (0.75 * lcult);
 	
 	/* Eq. (8) in Ridgewell et al. (1999) */
@@ -202,7 +214,7 @@ void f_ch4oxy_casa(
 	
 	/* from CHEM96_Potter */
 	c_ch4 = 0.04;		
-	/*　fc = aa = grid->whc30/300.0;　*/
+	/*邵ｲﾂfc = aa = grid->whc30/300.0;邵ｲﾂ*/
 	fc = aa = grid->field_cap1/300.0;  
 	pc = grid->pore_cap1/300.0;
 	if(pc<fc){
@@ -414,7 +426,7 @@ void f_ch4oxy_delgrosso(
 		ch4ox_nat = max_ch4oxy * f_wfps * f_tsoil;
 	}
 
-	ch4ox_com = (1.0 - grid->f_crop)*ch4ox_nat + grid->f_crop*ch4ox_agr;
+	ch4ox_com = (1.0 - grid->f_crop_con)*ch4ox_nat + grid->f_crop_con*ch4ox_agr;
 
 	/* mg CH4 m-2 day-1 */
 	(flux->soil).ch4oxy_delgrosso[grid->m] = ch4ox_com * 1000.0/10000.0 * 16.0/12.0;
@@ -426,4 +438,17 @@ void f_ch4oxy_delgrosso(
 	/*  if((flux->soil).ch4oxy_delgrosso[grid->m]>1000.0 || (flux->soil).ch4oxy_delgrosso[grid->m]<0.0){
 		(flux->soil).ch4oxy_delgrosso[grid->m] = 0.0;
 	}  */
+}
+
+/* upland CH4 oxidation by Curry (2007) */
+/*
+	Curry, C. L. (2007). "Modeling the soil consumption of atmospheric methane 
+	at the global scale." Global Biogeochemical Cycles 21(GB4012): 10.1029/2006GB002818.
+*/
+void f_ch4oxy_curry(
+	struct Grid *grid, 
+	struct Loct *loct,  
+	struct Flux *flux
+){
+	(flux->soil).ch4oxy_curry[grid->m] = 0.0;
 }

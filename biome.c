@@ -1,4 +1,4 @@
-/*	VISIT: Vegetation Integrative SImulation Tool						*/
+/*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
 /* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
@@ -19,7 +19,6 @@ void biome_processes(
 	struct Mass *mass, 
 	struct Flux *flux
 ){
-
 	switch(grid->veg_olson){
 		case 0: /* WATER */
 			vlzero(grid, &(mass->c3), &(flux->c3)); /* no C3 plant */

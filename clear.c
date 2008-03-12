@@ -70,19 +70,18 @@ void clear(
 		
 		(echar->soil).albedo[f] = 0.0;
 	}
+	for(f=0;f<49;f++){
+		(echar->c3).fleaf_age[f] = (echar->c4).fleaf_age[f] = 0.0;
+	}
+	grid->f_crop_con = grid->f_crop_p = grid->f_crop_trend = 0.0;
+	grid->f_pasture_con = grid->f_pasture_p = grid->f_pasture_trend = 0.0;
+	grid->f_deforest = 0.0;
+	
 	grid->f_erosion_r = 0.0;
 	grid->f_erosion_ls = 0.0;
 	grid->f_erosion_k = 0.0;
 	grid->f_erosion_c = 0.0;
 	grid->f_erosion_p = 0.0;
-	
-	flux->erod_soil = 0.0;
-	flux->erod_orgmat = 0.0;
-	flux->erod_carbon = 0.0;
-	
-	flux->erod_soil_crop = 0.0;
-	flux->erod_orgmat_crop = 0.0;
-	flux->erod_carbon_crop = 0.0;
 }
 
 /****** make plant fluxes vacant *******/
@@ -174,6 +173,7 @@ void n_flux_zero(
 	(flux->soil).n_nitrif[month] = 0.0;
 	(flux->soil).n_immbl[month] = 0.0;
 	(flux->soil).n_mcrb_abdn[month] = 0.0;
+	(flux->soil).doc_boyer[month] = 0.0;
 }
 
 /****** make bare land without plant and soil ******/
@@ -189,6 +189,7 @@ void vanish(
 	(mass->plant).rot = (mass->c3).rot = (mass->c4).rot = 0.0;
 	(mass->soil).ltr = 0.0;
 	(mass->soil).msl = 0.0;
+	(mass->soil).doc = 0.0;
 	
 	for(k = 0;k<12;k++){
 		/* monthly mass values */
@@ -200,6 +201,7 @@ void vanish(
 		(mass->soil).ltr_m[k] = 0.0;
 		(mass->soil).msl_m[k] = 0.0;
 		(mass->soil).soil[k] = 0.0;
+		(mass->soil).doc_m[k] = 0.0;
 		
 		/* fluxes */
 		plant_flux_zero(k, &(flux->c3));
@@ -218,6 +220,18 @@ void vanish(
 	}
 	mass->lai_p = 0.0;
 	flux->efflux_p = 0.0;
+	
+	flux->lu_detr = 0.0;
+	flux->lu_conv = 0.0;
+	flux->lu_ten = 0.0;
+	flux->lu_hund = 0.0;
+	
+	flux->erod_soil = 0.0;
+	flux->erod_orgmat = 0.0;
+	flux->erod_carbon = 0.0;
+	flux->erod_soil_crop = 0.0;
+	flux->erod_orgmat_crop = 0.0;
+	flux->erod_carbon_crop = 0.0;
 }
 
 /******* make the biome type zero **********/
@@ -314,4 +328,3 @@ void init_d13c(
 		flux->d13c_ncb[f] = grid->d13C_bCO2[f]; 
 	}
 }
-

@@ -42,7 +42,9 @@ void soil_processes(
 		
 		mass->ltr = 0.0;
 		mass->msl = 0.0;
-		
+
+		flux->doc_boyer[grid->m] = 0.0;
+		mass->doc = 0.0;
 	}else{
 		/* soil respiration of litter layer */
 		flux->rl[grid->m] = nn*frl(grid, loct, schar, mass);
@@ -65,6 +67,8 @@ void soil_processes(
 		
 		mass->ltr = (mass->ltr>=0.0)?mass->ltr:0.0;
 		mass->msl = (mass->msl>=0.0)?mass->msl:0.0;
+		
+		f_doc_boyer(grid, loct, mass, flux);
 	}
 	/* total soil respiration */
 	flux->rS[grid->m] = flux->rl[grid->m] + flux->rh[grid->m];

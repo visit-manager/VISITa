@@ -31,7 +31,8 @@ double sl_hgt(
 ){
 	double aaa, bbb;
 	
-	aaa = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr)+cos(grid->lat*dTr)*cos(grid->sl_dec[grid->m]*dTr);
+	aaa = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr) 
+			+ cos(grid->lat*dTr)*cos(grid->sl_dec[grid->m]*dTr);
 	aaa = (aaa<=1.0)?aaa:1.0; 
 	aaa = (aaa>=-1.0)?aaa:-1.0;
 	bbb = asin(aaa)*rTd;
@@ -68,15 +69,15 @@ double top_rad(
 	
 	ge = 2.0*PI/365.0*doy[grid->m];
 	
-	aa=-0.399912*cos(ge)+0.070257*sin(ge);
-	bb=-0.006758*cos(2.0*ge)+0.000907*sin(2.0*ge);
-	cc=-0.002697*cos(3.0*ge)+0.00148*sin(3.0*ge);
-	dlt=(0.006918+aa+bb+cc);
+	aa = -0.399912*cos(ge) + 0.070257*sin(ge);
+	bb = -0.006758*cos(2.0*ge)+0.000907*sin(2.0*ge);
+	cc = -0.002697*cos(3.0*ge)+0.00148*sin(3.0*ge);
+	dlt = (0.006918 + aa + bb + cc);
 	
 	/** relative distance between the sun and the earth **/
-	dd=0.034221*cos(ge)+0.00128*sin(ge);
-	ee=0.000719*cos(2.0*ge)+0.000077*sin(2.0*ge);
-	dtc=1.00011+dd+ee;
+	dd = 0.034221*cos(ge) + 0.00128*sin(ge);
+	ee = 0.000719*cos(2.0*ge) + 0.000077*sin(2.0*ge);
+	dtc = 1.00011 + dd + ee;
 		 
 	/* solar constant = 4.921 MJ/m2 =1367 W/m2=1.96 cal/cm2/min
 		 = 6151.5 micro mol photons/ m2 / s */	
@@ -133,7 +134,7 @@ double par(
 	/* constant, after McCree (1971) */
 	e2p_b = 4.6; /* W/m2 to micro-mol photon /m2/s for diffused radiation*/
 	e2p_d = 4.2; /* W/m2 to micro-mol photon /m2/s for beam radiation*/
-				
+	
 	/* photosynthetically active radiation (par) in the global radiation, 
 	based on the empirical Tooming's equation */	
 	if(grid->top_rad[grid->m]!=0.0){
@@ -185,10 +186,10 @@ void net_rad(
 	double transmittance, ground;
 	
 	/* transmittance=0.1; */ /*2003-06-27*/
-	transmittance=0.12;
+	transmittance = 0.12;
 
 	/** longwave budget : modified 2002/12/25, based on Budyko (1971) **/
-	aaa=pow((grid->tmp_2m[grid->m]+ZAT), 4.0) * 5.6703 / 100000000.0;
+	aaa = pow((grid->tmp_2m[grid->m]+ZAT), 4.0) * 5.6703 / 100000000.0;
 	if(loct->vp[grid->m]>0.1&&loct->vp[grid->m]<40.0){
 		bbb = 0.39 - 0.058*sqrt( loct->vp[grid->m]*760.0/1013.0 );
 	}else if(loct->vp[grid->m]<=0.1){
@@ -226,8 +227,8 @@ void net_rad(
 	loct->gl_rad_g[grid->m] = grid->gl_rad[grid->m]*ddd1;
 	
 	/** net radiation of plant canopy **/
-	fff = loct->C3ptn[grid->m]*(echar->c3).albedo+loct->C4ptn[grid->m]*(echar->c4).albedo;
-	rad_net_p = (1.0-fff)*(1.0-ddd1)*grid->gl_rad[grid->m]-net_long*(1.0-ddd2);
+	fff = loct->C3ptn[grid->m]*(echar->c3).albedo + loct->C4ptn[grid->m]*(echar->c4).albedo;
+	rad_net_p = (1.0-fff)*(1.0-ddd1)*grid->gl_rad[grid->m] - net_long*(1.0-ddd2);
 	rad_net_p = (rad_net_p>=0.0)?rad_net_p:0.0;
 	loct->rad_net_p[grid->m] = rad_net_p;
 	
@@ -245,7 +246,7 @@ double albedo_soil(
 	double albedo;
 	
 	/* a function of snow accumulation */
-	albedo = schar->albedo0 + (0.7-schar->albedo0)/(1+exp(-0.05*(loct->snwa-70.0)));
+	albedo = schar->albedo0 + (0.7 - schar->albedo0)/(1.0 + exp(-0.05*(loct->snwa - 70.0)));
 	albedo = (albedo>0.05)?albedo:0.05; 
 	albedo = (albedo<0.75)?albedo:0.75;
 	

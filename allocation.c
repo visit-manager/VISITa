@@ -11,7 +11,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/*********** allocation of photosynthate **************/
+/* allocation of photosynthate ********************************************/
 void allocation(
 	struct Grid *grid, 
 	struct Pchar *pchar, 
@@ -84,7 +84,7 @@ void allocation(
 	pchar->malloc_r[grid->m] = alloc_r;
 }
 
-/**** plant-internal mass re-adjustment ****/
+/* plant-internal mass re-adjustment **********************************/
 void reallocation_survival(
 	struct Grid *grid, 
 	struct Pchar *pchar, 
@@ -96,9 +96,13 @@ void reallocation_survival(
 	
 	switch(grid->veg_olson){
 		case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: 
-		case 9: case 10: case 11: case 12: 
+		case 9: case 11: 
 			ral_cap_stf = 0.05;
 			ral_cap_rtf = 0.1;
+			break;
+		case 10: case 12: 
+			ral_cap_stf = 0.03;
+			ral_cap_rtf = 0.03;
 			break;
 		case 13: case 14: case 15: case 16: 
 		case 17: case 18: case 19: case 20: case 21: case 22: case 23: case 24: 
@@ -120,6 +124,8 @@ void reallocation_survival(
 		mass->fol += ral_stf+ral_rtf;
 		mass->stm -= ral_stf;
 		mass->rot -= ral_rtf;
+		
+		f_leaf_age(0, pchar, mass, ral_stf+ral_rtf);
 	}
 	
 	/* to fliage, improve production */
@@ -134,6 +140,8 @@ void reallocation_survival(
 		mass->fol += ral_stf+ral_rtf;
 		mass->stm -= ral_stf;
 		mass->rot -= ral_rtf;
+		
+		f_leaf_age(0, pchar, mass, ral_stf+ral_rtf);
 	}
 	
 	mass->lai[grid->m] = lai_mass(mass, pchar);

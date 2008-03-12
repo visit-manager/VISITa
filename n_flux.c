@@ -32,7 +32,6 @@ void n_budget(
 	
 	/* (flux->c3).n_realloc[grid->m] = (flux->c4).n_realloc[grid->m] = 0.0; */
 	
-
 	/* plant N *****************/
 	/* canopy */
 	(mass->c3).n_cnpy += (flux->c3).n_alloc_cnpy[grid->m] 

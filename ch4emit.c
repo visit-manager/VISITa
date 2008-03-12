@@ -54,9 +54,9 @@ void f_ch4_emit_cao(
 	
 	/* paddy field */
 	if(grid->tmp_sfc[grid->m] > 15.0){
-		wtable = 0.0;	
+		wtable = -5.0;	
 	}else{
-		wtable = -20.0;
+		wtable = -30.0;
 	}
 	f_wtable = 0.383 * exp(0.096 * wtable);
 	if(f_wtable<0.0){
@@ -87,6 +87,7 @@ void f_ch4_emit_veg(
 	double femit_sun, femit_shade;
 	double sunshine;
 	
+	/* base emission rate */
 	femit_sun = 374.0;		/* ng gdw-1 h-1 */
 	femit_shade = 119.0;	/* ng gdw-1 h-1 */
 	
@@ -95,16 +96,16 @@ void f_ch4_emit_veg(
 	/* MASS-based scaling up **/
 	/* C3, g m-2 month-1 */
 	if((echar->c3).season[grid->m]!=0){
-		(flux->c3).emit_ch4_kirschbaum_mass[grid->m] = ((mass->c3).mfol[grid->m]*dmTc*1000.0) * 
-			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -10.0);
+		(flux->c3).emit_ch4_kirschbaum_mass[grid->m] = ((mass->c3).mfol[grid->m]*dmTc*100.0) * 
+			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -9.0) * grid->mm[grid->m];
 	}else{
 		(flux->c3).emit_ch4_kirschbaum_mass[grid->m] = 0.0;
 	}
 
 	/* C4, g m-2 month-1 */
 	if((echar->c4).season[grid->m]!=0){
-		(flux->c4).emit_ch4_kirschbaum_mass[grid->m] = ((mass->c4).mfol[grid->m]*dmTc*1000.0) * 
-			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -10.0);
+		(flux->c4).emit_ch4_kirschbaum_mass[grid->m] = ((mass->c4).mfol[grid->m]*dmTc*100.0) * 
+			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -9.0) * grid->mm[grid->m];
 	}else{
 		(flux->c4).emit_ch4_kirschbaum_mass[grid->m] = 0.0;
 	}
@@ -123,3 +124,16 @@ void f_ch4_emit_veg(
 	}
 }
 
+/* wetland CH4 emission by Walter & Heimann */
+/*
+	Walter, B. P., M. Heimann, et al. (2001). "Modeling modern methane emissions 
+	from natural wetlands 1. Model description and results." 
+	Journal of Geophysical Research 106(D24): 34189-34206.
+*/
+void f_ch4_emit_walter(
+	struct Grid *grid, 
+	struct Loct *loct, 
+	struct Flux *flux
+){
+	
+}

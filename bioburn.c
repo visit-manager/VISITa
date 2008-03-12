@@ -1,8 +1,8 @@
-/*	VISIT: Vegetation Integrative SImulation Tool						*/
-/*  Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/*  Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
-/*  Carbon cycle, erosion, biomass burning, land-use change,			*/
-/*  CH4 emission and oxidation, N2O emission,,,,,						*/
+/*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
+/* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
+/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Carbon cycle, erosion, biomass burning, land-use change,				*/
+/* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
 /*  Modified August 8, 2007						*/
@@ -15,7 +15,7 @@
 
 #define NOTICE 0
 
-/* biomass burning ******************************************/
+/* biomass burning *****************************************************/
 void f_biomassburning(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -32,6 +32,12 @@ void f_biomassburning(
 	double f_burnt_litter[16] = {0.0, 
 		1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 		1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+	/* burnt fraction */
+	/*
+	Hoelzemann, J. J., M. G. Schultz, G. P. Brasseur, C. Granier, and M. Simon. 2004. 
+	Global Wildland Fire Emission Model (GWEM): Evaluating the use of global area 
+	burnt satellite data. Journal of Geophysical Research 109:10.1029/2003JD003666.
+	*/
 	double f_burnt_leaf[16] = {0.0, 
 		0.6, 0.6, 0.3, 0.3, 0.3, 0.2, 0.2, 0.25,
 		0.5, 0.5, 0.2, 0.2, 0.2, 0.5, 0.1};
@@ -102,13 +108,16 @@ void f_biomassburning(
 	*/
 
 	/* Estimation of burnt area
-	   using LPJ-type paramaterization 
-	   by Thonicke et al.
+	   using LPJ-type paramaterization by 
+	   Thonicke, K., S. Venevsky, S. Sitch, and W. Cramer. 2001. 
+	   The role of fire disturbance for global vegetation dynamics: 
+	   coupling fire into a Dynamic Global Vegetation Model. 
+	   Global Ecology and Biogeography 10:661-677.
 	*/
 	n_fireseason = 0.0;
 	for(f=0;f<12;f++){		
 		fuel = ((mass->soil).ltr_m[f] + (mass->plant).mfol[f] + (mass->plant).mstm[f] 
-				+ (mass->plant).mrot[f]) / cTdm;
+				+ (mass->plant).mrot[f]) / cTdm * 100.0; /* need 200 g dm/m2 */
 		if(fuel >= 200.0){	/* fire threshold: 2007/11/03 */
 			/* volumetric upper soil (litter-fuel) water content */
 			aa = loct->msw30[f]/grid->field_cap1;
@@ -165,7 +174,7 @@ void f_biomassburning(
 			aa = 0.0;
 		}
 		/* fractional area burnt */
-		flux->a_burnt[f] = flux->f_burnt*aa*(1.0 - grid->f_crop);
+		flux->a_burnt[f] = flux->f_burnt*aa*(1.0 - grid->f_crop_con);
 		
 		/* g/kg = kg/Mg, per ha */
 		/* CO2 emission */

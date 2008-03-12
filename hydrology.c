@@ -1,4 +1,4 @@
-/*	VISIT: Vegetation Integrative SImulation Tool						*/
+/*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
 /* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
@@ -12,7 +12,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/******************* water condition *******************/
+/* water condition *******************************************************/
 void waterbudget(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -40,7 +40,7 @@ void waterbudget(
 	loct->pm_incep[grid->m] = pm_interception(grid, loct); /* potential */
 	/* cap_incep=loct->lai[grid->m]*(double)(grid->mm[grid->m])*0.2; */
 	/* cap_incep=loct->lai[grid->m]*(double)(grid->mm[grid->m])*0.25; */
-	cap_incep = loct->lai[grid->m]*(double)(grid->mm[grid->m])*0.15; 
+	cap_incep = loct->lai[grid->m]*(double)(grid->mm[grid->m])*0.125; 
 	loct->pm_incep[grid->m] = (loct->pm_incep[grid->m]<cap_incep)?loct->pm_incep[grid->m]:cap_incep;
 	/* aa=0.75; */ /*2003-06-27*/
 	/* aa=0.80; */ /*2003-06-27*/
@@ -77,7 +77,7 @@ void waterbudget(
 	bb = dry_inx*dry_inx*dry_inx;
 	cc = aa+bb;
 	cc = (cc>=0.0)?cc:0.0;
-	loct->ro2[grid->m] = pow(cc, 0.33333) - dry_inx + loct->sww*0.001*(double)(grid->mm[grid->m]);
+	loct->ro2[grid->m] = pow(cc, 0.33333) - dry_inx + loct->sww*0.0012*(double)(grid->mm[grid->m]);
 	loct->ro2[grid->m] = (loct->ro2[grid->m]>=0.0)?loct->ro2[grid->m]:0.0;
 	
 	/** water balance 3 **/
@@ -87,17 +87,18 @@ void waterbudget(
 	loct->pm_evp[grid->m] = pm_evaporation(grid, loct); /* potential */
 	/* aa=0.90; */ /*2003-06-27*/
 	/* aa = 0.95; */ /*2003-11-25*/
-	aa = 0.90; /* 2007-09-05*/
+	aa = 0.83; /* 2007-09-05*/
 	bb = (loct->sw30)+loct->pm_evp[grid->m];
 	cc = (loct->sw30)*loct->pm_evp[grid->m];
 	loct->evpr[grid->m] = (bb-sqrt(bb*bb-4.0*aa*cc))/(2.0*aa); /* actual */
 	loct->evpr[grid->m] = (loct->evpr[grid->m]>0.0)?loct->evpr[grid->m]:0.0;
 	
-	loct->canopy_con[grid->m] = loct->C3ptn[grid->m]*(echar->c3).gc[grid->m]+loct->C4ptn[grid->m]*(echar->c4).gc[grid->m];
+	loct->canopy_con[grid->m] = loct->C3ptn[grid->m]*(echar->c3).gc[grid->m] 
+								+ loct->C4ptn[grid->m]*(echar->c4).gc[grid->m];
 	loct->pm_trn[grid->m] = pm_transpiration(grid, loct); /* potential */
 	/* aa=0.85; */ /*2003-06-27*/
 	/* aa = 0.87; */ /*2003-06-27*/
-	aa = 0.85;
+	aa = 0.83;
 	bb = (loct->sww)+loct->pm_trn[grid->m];
 	cc = (loct->sww)*loct->pm_trn[grid->m];
 	loct->trspr[grid->m] = (bb-sqrt(bb*bb-4.0*aa*cc))/(2.0*aa); /* actual */
@@ -110,10 +111,12 @@ void waterbudget(
 	/****** re translocation *******/
 	retran = (loct->sww*grid->field_cap1/grid->field_cap2 - loct->sw30)/(1.0+grid->field_cap1/grid->field_cap2);
 	if(retran > 0.0){
-		retran *= 0.5;
+		/* retran *= 0.4; */
+		
+		retran *= 0.35;  /* 080215 */
 	}
 	
-	/** water balance 5 **/		
+	/** water balance 5 **/
 	loct->sw30 += retran;
 	loct->sww -= retran; 
 	

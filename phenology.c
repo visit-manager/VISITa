@@ -1,4 +1,4 @@
-/*	VISIT: Vegetation Integrative SImulation Tool						*/
+/*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
 /* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
@@ -17,22 +17,21 @@ void growthperiod(
 	struct Loct *loct, 
 	struct Pchar *pchar
 ){
-	
 	/** cumulative temperature, degree days**/
 	if(grid->lat>=0.0){
 		if(grid->m==0){
 			pchar->gdd=0.0;
 			if(grid->y==0){
-				pchar->frag_dcd=1;
-				pchar->frag_emg=0;
+				pchar->frag_dcd = 1;
+				pchar->frag_emg = 0;
 			}
 		}
 	}else if(grid->lat<0.0){
 		if(grid->m==6){
 			pchar->gdd=0.0;
 			if(grid->y==0){
-				pchar->frag_dcd=0;
-				pchar->frag_emg=1;
+				pchar->frag_dcd = 0;
+				pchar->frag_emg = 1;
 			}
 		}
 	}
@@ -42,9 +41,9 @@ void growthperiod(
 	pchar->mgdd[grid->m]=pchar->gdd;
 	
 	/** growing period, days **/
-	if(grid->m==0) pchar->grw_pd=0.0;
-	if(grid->tmp_sfc[grid->m]>5.0){
-		pchar->grw_pd+=(double)grid->mm[grid->m];
+	if(grid->m==0) pchar->grw_pd = 0.0;
+	if(grid->tmp_sfc[grid->m] > 5.0){
+		pchar->grw_pd += (double)grid->mm[grid->m];
 	}	
 
 	/** phenology **/
@@ -76,7 +75,7 @@ void phenology_bareland(
 	struct Grid *grid, 
 	struct Pchar *pchar
 ){
-	pchar->season[grid->m]=0;
+	pchar->season[grid->m] = 0;
 }
 
 /******** evergreen biomes ********/
@@ -86,10 +85,10 @@ void phenology_evergreen(
 ){
 	if(grid->tmp_sfc[grid->m]>=5.0){ 
 		/* warmer months */
-		pchar->season[grid->m]=1;
+		pchar->season[grid->m] = 1;
 	}else{
 		/* cooler months */
-		pchar->season[grid->m]=0;
+		pchar->season[grid->m] = 0;
 	}
 }
 
@@ -103,58 +102,58 @@ void phenology_colddeciduous(
 	double crit_tem,crit_gdd;
 	
 	if(grid->veg_olson==4||grid->veg_olson==5){
-		crit_tem=5.0;
-		crit_gdd=300.0; /* 200->300, 2000/10/30*/
+		crit_tem = 5.0;
+		crit_gdd = 300.0; /* 200->300, 2000/10/30*/
 	}else if(grid->veg_olson==10||grid->veg_olson==12){
-		crit_tem=3.0;
-		crit_gdd=200.0; /* 120->200, 2000/10/30*/
+		crit_tem = 3.0;
+		crit_gdd = 200.0; /* 120->200, 2000/10/30*/
 	}
 	
 	if(grid->tmp_sfc[grid->m]<crit_tem){
 		/* dormancy */
-		pchar->season[grid->m]=0;
+		pchar->season[grid->m] = 0;
 		/* leaf-shedding */
 		if(pchar->frag_emg==1&&pchar->frag_dcd==0){
-			pchar->season[grid->m]=3;
-			pchar->frag_dcd=1;
-			pchar->frag_emg=0;
+			pchar->season[grid->m] = 3;
+			pchar->frag_dcd = 1;
+			pchar->frag_emg = 0;
 		}
 	}else if(grid->tmp_sfc[grid->m]>=crit_tem){
 		/* growing-period */
-		pchar->season[grid->m]=1;
+		pchar->season[grid->m] = 1;
 		/* leaf-emergence */
 		if(pchar->gdd>crit_gdd){
 			if(pchar->frag_emg==0){
-				pchar->season[grid->m]=2;
-				pchar->frag_emg=1;
-				pchar->frag_dcd=0;
+				pchar->season[grid->m] = 2;
+				pchar->frag_emg = 1;
+				pchar->frag_dcd = 0;
 			}
 		}
 	}
 }
 
-/*** deciduous biomes in lower latitudes ***/
+/*** arid deciduous biomes in lower latitudes ***/
 void phenology_ariddeciduous(
 	struct Grid *grid, 
 	struct Pchar *pchar
 ){
-	if(grid->prate_sfc[grid->m]<50.0){
+	if(grid->prate_sfc[grid->m] < 50.0){
 		/* dormancy */
-		pchar->season[grid->m]=0;
+		pchar->season[grid->m] = 0;
 		/* leaf-shedding */
-		if(pchar->frag_emg==1&&pchar->frag_dcd==0){
-			pchar->season[grid->m]=3;
-			pchar->frag_dcd=1;
-			pchar->frag_emg=0;
+		if(pchar->frag_emg==1 && pchar->frag_dcd==0){
+			pchar->season[grid->m] = 3;
+			pchar->frag_dcd = 1;
+			pchar->frag_emg = 0;
 		}
-	}else if(grid->prate_sfc[grid->m]>=50.0){
+	}else if(grid->prate_sfc[grid->m] >= 50.0){
 		/* growing-period */
-		pchar->season[grid->m]=1;
+		pchar->season[grid->m] = 1;
 		/* leaf-emergence */
-		if(pchar->frag_emg==0){
-			pchar->season[grid->m]=2;
-			pchar->frag_emg=1;
-			pchar->frag_dcd=0;
+		if(pchar->frag_emg == 0){
+			pchar->season[grid->m] = 2;
+			pchar->frag_emg = 1;
+			pchar->frag_dcd = 0;
 		}
 	}
 }
@@ -240,21 +239,21 @@ void phenology_agriculture(
 		/* seasonal single cropping */	
 		if(grid->tmp_sfc[grid->m]<crit_tem){
 			/* dormancy */
-			pchar->season[grid->m]=0;
+			pchar->season[grid->m] = 0;
 			/* leaf-shedding */
-			if(pchar->frag_emg==1&&pchar->frag_dcd==0){
-				pchar->season[grid->m]=3;
-				pchar->frag_dcd=1;
-				pchar->frag_emg=0;
+			if(pchar->frag_emg==1 && pchar->frag_dcd==0){
+				pchar->season[grid->m] = 3;
+				pchar->frag_dcd = 1;
+				pchar->frag_emg = 0;
 			}
-		}else if(grid->tmp_sfc[grid->m]>=crit_tem){
+		}else if(grid->tmp_sfc[grid->m] >= crit_tem){
 			/* growing-period */
-			pchar->season[grid->m]=1;
+			pchar->season[grid->m] = 1;
 			/* leaf-emergence */
 			if(pchar->frag_emg==0){
-				pchar->season[grid->m]=2;
-				pchar->frag_emg=1;
-				pchar->frag_dcd=0;
+				pchar->season[grid->m] = 2;
+				pchar->frag_emg = 1;
+				pchar->frag_dcd = 0;
 			}
 		}
 	}

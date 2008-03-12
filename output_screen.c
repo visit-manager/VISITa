@@ -41,33 +41,72 @@ void screenshow(
 	printf("SWW: ");
 	for(h=0;h<12;h++){		printf("%5.0lf ",loct->msww[h]);	}			printf("\n"); 
 	
-/*	printf("LA3: ");
+	printf("FL3: ");
+	for(h=0;h<12;h++){		printf("%5.2lf ",(mass->c3).mfol[h]);		}	printf("\n"); 
+	printf("LA3: ");
 	for(h=0;h<12;h++){		printf("%5.1lf ",(mass->c3).lai[h]);		}	printf("\n"); 
 	printf("LA4: ");
-	for(h=0;h<12;h++){		printf("%5.1lf ",(mass->c4).lai[h]);		}		printf("\n");  
-	printf("FVG: ");
+	for(h=0;h<12;h++){		printf("%5.1lf ",(mass->c4).lai[h]);		}	printf("\n");  
+/*	printf("FVG: ");
 	for(h=0;h<12;h++){		printf("%5.3lf ",loct->f_vegcov[h]);		}		printf("\n");  */
 	
-	printf("GPP: ");		ann=0.0;
-	for(h=0;h<12;h++){		printf("%5.1lf ",(flux->plant).gpp[h]);		ann+=(flux->plant).gpp[h];	}		printf(" %.1lf\n",ann); 
-	printf("NPP: ");		ann=0.0;
-	for(h=0;h<12;h++){		printf("%5.1lf ",(flux->plant).npp[h]);		ann+=(flux->plant).npp[h];	}		printf(" %.1lf\n",ann); 
+	printf("GS3: ");
+	for(h=0;h<12;h++){		printf("%5.1lf ",(echar->c3).gs[h]);		}	printf("\n"); 
+	printf("GS4: ");
+	for(h=0;h<12;h++){		printf("%5.1lf ",(echar->c4).gs[h]);		}	printf("\n"); 
+	printf("PS3: ");
+	for(h=0;h<12;h++){		printf("%5.1lf ",(echar->c3).psat[h]);		}	printf("\n"); 
+	printf("PS4: ");
+	for(h=0;h<12;h++){		printf("%5.1lf ",(echar->c4).psat[h]);		}	printf("\n"); 
+	
+	printf("GP3: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%5.1lf ",(flux->c3).gpp[h]);		ann+=(flux->c3).gpp[h];	}		printf(" %.1lf\n",ann); 
+	printf("NP3: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%5.1lf ",(flux->c3).npp[h]);		ann+=(flux->c3).npp[h];	}		printf(" %.1lf\n",ann); 
+	printf("GP4: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%5.1lf ",(flux->c4).gpp[h]);		ann+=(flux->c4).gpp[h];	}		printf(" %.1lf\n",ann); 
+	printf("NP4: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%5.1lf ",(flux->c4).npp[h]);		ann+=(flux->c4).npp[h];	}		printf(" %.1lf\n",ann); 
 	printf("NEP: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%5.1lf ",flux->nep[h]);		ann+=flux->nep[h];	}		printf(" %.1lf\n",ann); 
+	printf("DOC: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%5.2lf ",(mass->soil).doc_m[h]);		ann+=(mass->soil).doc_m[h];	}		printf(" %.2lf\n",ann); 
+	printf("DOC: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%5.2lf ",(flux->soil).doc_boyer[h]);		ann+=(flux->soil).doc_boyer[h];	}		printf(" %.2lf\n",ann); 
+
+	printf("LAD\n");
+	for(h=0;h<12;h++){		printf("%8.6lf ",(echar->c3).fleaf_age[h]);		}	printf("\n"); 
+	for(h=12;h<24;h++){		printf("%8.6lf ",(echar->c3).fleaf_age[h]);		}	printf("\n"); 
+	for(h=24;h<36;h++){		printf("%8.6lf ",(echar->c3).fleaf_age[h]);		}	printf("\n"); 
+	for(h=36;h<=48;h++){		printf("%8.6lf ",(echar->c3).fleaf_age[h]);		}	printf("\n"); 
+
+
+
 
 /*	printf("RSL: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%5.2lf ", (flux->soil).rS[h]);		ann+=(flux->soil).rS[h];	}		printf(" %.1lf\n",ann); */
 
-	printf("WFP: ");
+/*	printf("WFP: ");
 	for(h=0;h<12;h++){		printf("%5.2lf ",loct->wfps[h]);		}			printf("\n"); 
 	printf("M_M: ");
 	for(h=0;h<12;h++){		printf("%5.2lf ",loct->m_m[h]);		}			printf("\n"); 
 	printf("M_E: ");
 	for(h=0;h<12;h++){		printf("%5.2lf ",loct->m_e[h]);		}			printf("\n"); 
 	printf("I_W: ");
-	for(h=0;h<12;h++){		printf("%5.2lf ",loct->i_w[h]);		}			printf("\n"); 
+	for(h=0;h<12;h++){		printf("%5.2lf ",loct->i_w[h]);		}			printf("\n"); */
 	
-	printf("NCN: ");
+/*	printf("XX1: ");
+	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx1[h]);		}			printf("\n"); 
+	printf("XX2: ");
+	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx2[h]);		}			printf("\n"); 
+	printf("XX3: ");
+	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx3[h]);		}			printf("\n"); 
+	printf("XX4: ");
+	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx4[h]);		}			printf("\n"); 
+	printf("XX5: ");
+	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx5[h]);		}			printf("\n"); */
+
+/*	printf("NCN: ");
 	for(h=0;h<12;h++){		printf("%5.0lf ",(mass->plant).n_cnpy_m[h]/1000.0);		}			printf("\n"); 
 	printf("NST: ");
 	for(h=0;h<12;h++){		printf("%5.0lf ",(mass->plant).n_strg_m[h]/1000.0);		}			printf("\n"); 
@@ -84,14 +123,14 @@ void screenshow(
 	printf("LN3: ");
 	for(h=0;h<12;h++){		printf("%5.1lf ",(echar->c3).n_conc_larea_m[h]/1000.0);		}			printf("\n"); 
 	printf("LN4: ");
-	for(h=0;h<12;h++){		printf("%5.1lf ",(echar->c4).n_conc_larea_m[h]/1000.0);		}			printf("\n"); 
+	for(h=0;h<12;h++){		printf("%5.1lf ",(echar->c4).n_conc_larea_m[h]/1000.0);		}			printf("\n"); */
 
-	printf("DN3: ");		ann=0.0;
+/*	printf("DN3: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%5.0lf ",loct->depo_no3[h]);		ann+=loct->depo_no3[h];	}		printf(" %7.1lf\n",ann); 
 	printf("DN4: ");		ann=0.0;
-	for(h=0;h<12;h++){		printf("%5.0lf ",loct->depo_nh4[h]);		ann+=loct->depo_nh4[h];	}		printf(" %7.1lf\n",ann); 
+	for(h=0;h<12;h++){		printf("%5.0lf ",loct->depo_nh4[h]);		ann+=loct->depo_nh4[h];	}		printf(" %7.1lf\n",ann); */
 
-	printf("BFX: ");		ann=0.0;
+/*	printf("BFX: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%5.0lf ",(flux->plant).n_biofix[h]);		ann+=(flux->plant).n_biofix[h];	}		printf(" %7.1lf\n",ann); 
 	printf("UN3: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%5.0lf ",(flux->plant).uptake_no3[h]);		ann+=(flux->plant).uptake_no3[h];	}		printf(" %7.1lf\n",ann); 
@@ -122,9 +161,9 @@ void screenshow(
 	printf("MIM: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%5.0lf ",(flux->soil).n_immbl[h]);		ann+=(flux->soil).n_immbl[h];	}		printf(" %7.1lf\n",ann); 
 	printf("MAB: ");		ann=0.0;
-	for(h=0;h<12;h++){		printf("%5.0lf ",(flux->soil).n_mcrb_abdn[h]);		ann+=(flux->soil).n_mcrb_abdn[h];	}		printf(" %7.1lf\n",ann); 
+	for(h=0;h<12;h++){		printf("%5.0lf ",(flux->soil).n_mcrb_abdn[h]);		ann+=(flux->soil).n_mcrb_abdn[h];	}		printf(" %7.1lf\n",ann); */
 	
-	printf("N2ON: ");		ann=0.0;
+/*	printf("N2ON: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%5.0lf ",(flux->soil).d_n2o_ntr_ngas[h]);		ann+=(flux->soil).d_n2o_ntr_ngas[h];	}		printf(" %7.1lf\n",ann); 
 	printf("N2OD: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%5.0lf ",(flux->soil).d_n2o_dnt_ngas[h]);		ann+=(flux->soil).d_n2o_dnt_ngas[h];	}		printf(" %7.1lf\n",ann); 
@@ -135,7 +174,7 @@ void screenshow(
 	printf("N2C: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%5.0lf ",(flux->soil).d_n2_casa[h]);		ann+=(flux->soil).d_n2_casa[h];	}		printf(" %7.1lf\n",ann); 
 	printf("N2OC: ");		ann=0.0;
-	for(h=0;h<12;h++){		printf("%5.0lf ",(flux->soil).d_n2o_casa[h]);		ann+=(flux->soil).d_n2o_casa[h];	}		printf(" %7.1lf\n",ann); 
+	for(h=0;h<12;h++){		printf("%5.0lf ",(flux->soil).d_n2o_casa[h]);		ann+=(flux->soil).d_n2o_casa[h];	}		printf(" %7.1lf\n",ann); */
 
 /*	printf("MOR: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%5.1lf ",(flux->soil).ch4oxy_ridg[h]);		ann += (flux->soil).ch4oxy_ridg[h];		}		printf(" %.4lf\n",ann); 

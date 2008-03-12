@@ -1,4 +1,4 @@
-/*	VISIT: Vegetation Integrative SImulation Tool						*/
+/*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
 /* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
@@ -25,7 +25,8 @@ void ecophysiology(
 	/* give leaf area index (LAI), m2 m-2*/
 	mass->lai[grid->m] = lai_mass(mass, pchar);
 	
-	sinb = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr)+cos(grid->lat*dTr)*cos(grid->sl_dec[grid->m]*dTr)*1.0;
+	sinb = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr) 
+			+ cos(grid->lat*dTr)*cos(grid->sl_dec[grid->m]*dTr)*1.0;
 	sinb = (sinb<=1.0)?sinb:1.0; 
 	sinb = (sinb>=-1.0)?sinb:-1.0;
 	
@@ -156,7 +157,7 @@ void incel_cdc(
 	/* 1.56: conversion from H2O to CO2 conductance */
 	
 	ci = loct->aCO2[grid->m]-(plant->ptop/(gs_co2/1000.0));
-	/* 1000.0: conbert from mmol to �mol */
+	/* 1000.0: conbert from mmol to ÔΩµmol */
 	
 	ci = (ci>=0.0)?ci:0.0;
 	ci = (ci<=loct->aCO2[grid->m])?ci:loct->aCO2[grid->m];
@@ -172,16 +173,16 @@ void quantum_yield(
 	double eftem, efci;
 
 	/** plant_type: 3=C3, 4=C4, (5=CAM) **/
-	if(pchar->phototype==3){
+	if(pchar->phototype == 3){
 		/* temperature dependence */
-		eftem=(52.0-grid->tmp_sfc[grid->m])/(3.5+0.75*(52.0-grid->tmp_sfc[grid->m])); 
+		eftem = (52.0 - grid->tmp_sfc[grid->m])/(3.5 + 0.75*(52.0 - grid->tmp_sfc[grid->m])); 
 		/* CO2 dependence */
-		efci=pchar->ci[grid->m]/(90.0+0.6*pchar->ci[grid->m]); 
+		efci = pchar->ci[grid->m]/(90.0+0.6*pchar->ci[grid->m]); 
 		/* 3.5, 52.0, etc.: empirical parameters */
-	}else if(pchar->phototype==4){ 
+	}else if(pchar->phototype == 4){ 
 		/* insensitive QE of C4 species */
-		eftem=1.0;
-		efci=1.0;
+		eftem = 1.0;
+		efci = 1.0;
 	}
 	/* give quantum yield */
 	pchar->lue[grid->m] = pchar->lue0*eftem*efci;
@@ -204,7 +205,7 @@ void stom_cond(
 	cc=1.0; /* not defined yet */
 
 	if(pchar->psat[grid->m]>0.0){
-		pchar->gs[grid->m] = pchar->gs_b0+b1d*pchar->ptop/pchar->psat[grid->m]*cc;
+		pchar->gs[grid->m] = pchar->gs_b0 + b1d*pchar->ptop/pchar->psat[grid->m]*cc;
 	}else{
 		pchar->gs[grid->m] = pchar->gs_b0; 
 	}
@@ -221,14 +222,14 @@ double canopy_cond(
 	
 	/* NOTE: integrate leaf stomatal conductance with considering light attenuation in the canopy */
 	/* aaa=plant->gs_b0+plant->gs_b1/(loct->aCO2[grid->m]-plant->cmpcd[grid->m]); */
-	aaa = pchar->gs_b0+pchar->gs_b1/( 350.0 - 40.0 );
+	aaa = pchar->gs_b0 + pchar->gs_b1/(350.0 - 40.0);
 	lue_gs = pchar->lue[grid->m]*(aaa/pchar->pmax);
 	
 	if(mass->lai[grid->m]>0.0){
-		sss = 2.0*pchar->gs[grid->m]/pchar->eK[grid->m]; 
-		ttt = 1.0+sqrt(1.0+pchar->eK[grid->m]*lue_gs*grid->par[grid->m]/pchar->gs[grid->m]);
+		sss = 2.0*pchar->gs[grid->m] / pchar->eK[grid->m]; 
+		ttt = 1.0 + sqrt(1.0+pchar->eK[grid->m]*lue_gs*grid->par[grid->m]/pchar->gs[grid->m]);
 		vvv = -1.0*pchar->eK[grid->m]*mass->lai[grid->m];
-		uuu = 1.0+sqrt(1.0+pchar->eK[grid->m]*lue_gs*grid->par[grid->m]*exp(vvv)/pchar->gs[grid->m]);
+		uuu = 1.0 + sqrt(1.0+pchar->eK[grid->m]*lue_gs*grid->par[grid->m]*exp(vvv)/pchar->gs[grid->m]);
 		canopy_cond = sss*log(ttt/uuu);
 	}else{
 		/* no leaf, no conductance*/
@@ -252,18 +253,18 @@ void opt_lai(
 	
 	/* daily respiratory cost */
 	/* printf("%lf %lf\n", plant->qTc[grid->m], grid->tmp_sfc[grid->m]); */
-	eee=log(pchar->qTc[grid->m])/10.0*(grid->tmp_sfc[grid->m]-15.0);
-	arm=pchar->rmf*exp(eee)/1000.0*dmTc*10000.0/(pchar->sla);
-	arg=pchar->lf[grid->m]*dmTc*10000.0/(pchar->sla)*(1.0+pchar->rgf);
-	ar=arm+arg;
+	eee = log(pchar->qTc[grid->m])/10.0*(grid->tmp_sfc[grid->m]-15.0);
+	arm = pchar->rmf*exp(eee)/1000.0*dmTc*10000.0/(pchar->sla);
+	arg = pchar->lf[grid->m]*dmTc*10000.0/(pchar->sla)*(1.0+pchar->rgf);
+	ar = arm + arg;
 
-	cc4=(pchar->psat[grid->m]*grid->dlen[grid->m])/(pchar->psat[grid->m]*grid->dlen[grid->m]-ar*24.0);
-	ccc=pchar->psat[grid->m]*(cc4-1.0);
+	cc4 = (pchar->psat[grid->m]*grid->dlen[grid->m])/(pchar->psat[grid->m]*grid->dlen[grid->m]-ar*24.0);
+	ccc = pchar->psat[grid->m]*(cc4-1.0);
 	
 	if(ccc>0.0){
-		ddd=bbb/ccc;
-		ddd=(ddd>1.0)?ddd:1.0;
-		pchar->opt_lai[grid->m]=aaa*log(ddd);
+		ddd = bbb/ccc;
+		ddd = (ddd>1.0)?ddd:1.0;
+		pchar->opt_lai[grid->m] = aaa*log(ddd);
 	}else{
 		pchar->opt_lai[grid->m] = 0.0;
 	}
@@ -337,6 +338,57 @@ void f_n_leaf_conc(
 		pchar->n_conc_lmass = mass->n_cnpy / 14.0 *1000.0 / (mass->mfol[grid->m] * 1000000.0);
 	}else{
 		pchar->n_conc_lmass = 1.0;
+	}
+}
+
+/* leaf age *************************************************/
+void f_leaf_age(
+	short update, 
+	struct Pchar *pchar, 
+	struct Pmas *mass, 
+	double addshed
+){
+	long f;
+	double aaa, bbb;
+	
+	/* age update, once per month */
+	if(update == 1){
+		/* update leaf age */
+		pchar->fleaf_age[48] += pchar->fleaf_age[47];
+		for(f=47;f>=1;f--){
+			pchar->fleaf_age[f] = pchar->fleaf_age[f-1];
+		}
+		pchar->fleaf_age[0] = 0.0;
+	}
+	
+	if(addshed > 0.0){
+		/* new leaf */
+		
+		pchar->fleaf_age[0] += addshed;
+	}else{
+		/* senescent leaf */
+		
+		aaa = 0.0;
+		for(f=0;f<=48;f++){
+			aaa += pchar->fleaf_age[f];
+		}
+		
+		if(aaa > 0.0 && mass->fol > 0.0){
+			
+			bbb = fabs(addshed) / aaa;
+			
+			for(f=0;f<=48;f++){
+				pchar->fleaf_age[f] *= 1.0 - bbb;
+			}
+			
+			/* for(f=0;f<=48;f++){
+				pchar->fleaf_age[f] *= mass->fol / aaa;
+			} */
+		}else{
+			for(f=0;f<=48;f++){
+				pchar->fleaf_age[f] = 0.0;
+			}
+		}
 	}
 }
 

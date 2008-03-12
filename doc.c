@@ -1,0 +1,63 @@
+/*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
+/* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
+/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Carbon cycle, erosion, biomass burning, land-use change,				*/
+/* CH4 emission and oxidation, N2O emission,,,,,						*/
+/*	version 1.0.0	cerated in August 14, 2007							*/
+
+/* [history]
+	create: 2008 / 02 / 27 by Akihiko Ito
+*/
+
+/* header files */
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+#include<string.h>
+#include"structure.h"
+#include"prototype.h"
+
+/**** dissolved organic carbon (DOC) ****/
+/*
+Boyer, E.W., Hornberger, G.M., Bencala, K.E. and McKnight, D., 1996. 
+Overview of a simple model describing variation of dissolved organic 
+carbn in an upland catchment. Ecological Modelling, 86:183-188.
+*/
+void f_doc_boyer(
+	struct Grid *grid,  
+	struct Loct *loct,  
+	struct Smas *mass, 
+	struct Sflx *flux
+){
+	double aa, kk;
+	double stemp, doc_est;
+	
+	aa = 0.11;
+	kk = 0.002;
+	
+	stemp = (grid->tmp10_soil[grid->m] + grid->tmp200_soil[grid->m])/2.0;
+	
+	if(loct->sww > 0.0){
+		doc_est = mass->doc + aa*pow(10.0, 0.04*stemp)
+			 - (1.0 - exp(-kk*stemp))*mass->doc
+			 - loct->ro2[grid->m]/loct->sww*mass->doc;
+		if(doc_est <= 0.0){
+			doc_est = 0.0;
+		}
+		if(doc_est >= 100.0){
+			doc_est = 100.0;
+		}
+	}else{
+		doc_est = 0.0;
+		flux->doc_boyer[grid->m] = 0.0;
+	}
+	
+	/* DOC mass, mg/L */
+	mass->doc = doc_est;
+	mass->doc_m[grid->m] = mass->doc;
+	
+	/* runoff DOC, mg/L -> gC/ha/day */
+	flux->doc_boyer[grid->m] = mass->doc * loct->ro2[grid->m] * 10000.0 / 1000.0;
+	
+	flux->doc_boyer[grid->m] *= (double)(grid->mm[grid->m]);
+}

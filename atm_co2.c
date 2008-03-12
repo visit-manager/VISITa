@@ -13,7 +13,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/*****************  Atmospheric CO2  ********************/
+/* Atmospheric CO2 *********************************************/
 void cd_trend(
 	struct Grid *grid
 ){
@@ -21,11 +21,12 @@ void cd_trend(
 	double amplitude;
 	double time, aa0, aa1, aa2, aa3, aa4, aa5;
 	
-	/** from 1979  **/
+	/** time of CO2 level  **/
 	time = (double)(grid->CO2y);
 	
 	/** BASE **/
 	if(time<1990.0){
+		/* fitting curve from observational data */
 		aa0 = 1904299.0;
 		aa1 = -3322.4242*pow(time, 1.0);
 		aa2 = 1.6541596*pow(time, 2.0);
@@ -38,15 +39,16 @@ void cd_trend(
 		inc = (-52.11+0.026984*time)*((double)(grid->m)-5.5)/12.0;
 		inc = (inc>=0.0)?inc:0.0;
 	}else if(time>=1990.0&&time<=2100.0){
+		/* IPCC SRES scenarios */
 		base = sres_co2[grid->CO2y-1990];
 		
 		inc = 0.0;
 	}
 
-	/** LGRD **/
+	/** latitudinal gradient **/
 	lgrd = 1.6*(grid->lat/85.0);
 
-	/** SEASON **/
+	/** seasonal change **/
 	amplitude = exp(0.04*grid->lat);
 	if(grid->lat>=0.0){
 		season = amplitude/2.0*sin(((double)(grid->m)-0.0)/12.0*2.0*PI);
@@ -61,7 +63,7 @@ void cd_trend(
 	grid->d13C_bCO2[grid->m] = -6.0 + (-0.02 * (base-280.0)) + (0.05*season);
 }
 
-/*****************  Intra-canopy CO2-d13C  *********************/
+/* Intra-canopy CO2-d13C *************************************/
 void co2_in_canopy(
 	struct Grid *grid, 
 	struct Loct *loct, 
