@@ -176,6 +176,9 @@ void f_luc_emit(
 	
 	if(grid->phase==0){
 		/* spin-up: fluxes for 1801-1900 *******************************/
+		f_luc = grid->fcrop_sage[1900-1700] - grid->fcrop_sage[1900-1700-1];
+		flux->lu_conv = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_conv/(fe_conv+fe_ten+fe_hund);
+
 		for(f=1891;f<=1900;f++){
 			if(LANDUSE>=1 && LANDUSE<=5){
 				f_luc = grid->fcrop_sage[f-1700] - grid->fcrop_sage[f-1700-1];
@@ -186,11 +189,12 @@ void f_luc_emit(
 			
 			if(f_luc > 0.0){
 				fe_ten = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_ten/(fe_conv+fe_ten+fe_hund);
-				
 				flux->detr_ten[1900-f] = fe_ten*0.1;
 			}else{
+				fe_ten = 0.0;
 				flux->detr_ten[1900-f] = 0.0;
 			}
+			flux->lu_ten = fe_ten*0.1;
 		}
 		
 		for(f=1801;f<=1900;f++){
@@ -202,12 +206,13 @@ void f_luc_emit(
 			}
 
 			if(f_luc > 0.0){
-				fe_hund = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_hund/(fe_conv+fe_ten+fe_hund);
-				
+				fe_hund = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_hund/(fe_conv+fe_ten+fe_hund);				
 				flux->detr_hund[1900-f] = fe_hund*0.01;
 			}else{
+				fe_hund = 0.0;
 				flux->detr_hund[1900-f] = 0.0;
 			}
+			flux->lu_hund = fe_hund*0.01;
 		}
 	}else{
 		/* experiment: 1901 - 2000 - 2100 *****************************/

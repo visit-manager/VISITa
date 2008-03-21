@@ -36,7 +36,10 @@ void f_erosion(
 	double c_factor_paddy, c_factor_upcrop, f_paddy, f_upcrop;
 	
 	/* C and P factors for paddy field */
-	/* Soil Erosion and Conservation by R.P.C. Morgan */
+	/* Soil Erosion and Conservation by R.P.C. Morgan
+	Morgan, R.P.C., 2005. Soil Erosion and Conservation Third Edition. 
+	Blackwell, Oxford, JK, 304 p.
+	*/
 	c_factor_paddy = 0.15;		/* annual average 0.10 - 0.20 */
 	c_factor_upcrop = 0.50;
 	

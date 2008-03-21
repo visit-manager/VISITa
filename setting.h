@@ -24,7 +24,7 @@
 /***************************************************/
 /* 20th century */
 /* #define CRU_PD 100  */		/* 100: AD 1901 - 2000 */
-#define CRU_PD 102		/* 100: AD 1901 - 2002 */
+#define CRU_PD 100		/* 100: AD 1901 - 2002 */
 /* 21st century */
 #define GCM_PD 100		/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
@@ -82,11 +82,11 @@
 /* temperature */
 #define TM 0
 /* 0: as it is */
-/* 1: uniform warming by 1ÔΩ°C */
+/* 1: uniform warming by 1ﾃ釆ｩﾂｰC */
 /* 2: gradual rise */
 /* 3: descrete warming */
 /* 4: spike rise */
-/* 5: uniform cooling by 1ÔΩ°C */
+/* 5: uniform cooling by 1ﾃ釆ｩﾂｰC */
 /* 6: descrete cooling */
 
 /* precipitation */

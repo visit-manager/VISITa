@@ -179,14 +179,14 @@ double slope_vps(
 ){
 	double slope, aaa, bbb, ccc;
 	
-	if(grid->tmp_2m[grid->m]>0.0){ /* at water surface */
-		aaa = 6.1078*(2500.0-2.4*grid->tmp_2m[grid->m]);
-		bbb = 0.4615*(ZAT+grid->tmp_2m[grid->m])*(ZAT+grid->tmp_2m[grid->m]);
-		ccc = pow(10.0,(7.5*grid->tmp_2m[grid->m])/(237.3+grid->tmp_2m[grid->m]));
+	if(grid->tmp_2m[grid->m] > 0.0){ /* at water surface */
+		aaa = 6.1078*(2500.0 - 2.4*grid->tmp_2m[grid->m]);
+		bbb = 0.4615*(ZAT + grid->tmp_2m[grid->m])*(ZAT + grid->tmp_2m[grid->m]);
+		ccc = pow(10.0, (7.5*grid->tmp_2m[grid->m])/(237.3 + grid->tmp_2m[grid->m]));
 	}else if(grid->tmp_2m[grid->m]<=0.0){ /* at ice surface */
 		aaa = 6.1078*2834.0;
 		bbb = 0.4615*(ZAT+grid->tmp_2m[grid->m])*(ZAT+grid->tmp_2m[grid->m]);
-		ccc = pow(10.0,(9.5*grid->tmp_2m[grid->m])/(265.3+grid->tmp_2m[grid->m]));
+		ccc = pow(10.0, (9.5*grid->tmp_2m[grid->m])/(265.3+grid->tmp_2m[grid->m]));
 	}
 	slope = (aaa/bbb)*ccc;
 	
@@ -200,12 +200,12 @@ double r_aero(
 	double k_con;
 	double r_aero;
 	
-	k_con=0.41; /* Karman's constant */
+	k_con = 0.41; /* von Karman's constant */
 	
-	grid->wnd_10m[grid->m]=(grid->wnd_10m[grid->m]>=0.1)?grid->wnd_10m[grid->m]:0.1;
+	grid->wnd_10m[grid->m] = (grid->wnd_10m[grid->m]>=0.1)?grid->wnd_10m[grid->m]:0.1;
 	
-	r_aero=(log(10.0)*log(10.0))/(k_con*k_con*grid->wnd_10m[grid->m]);
-	r_aero=(r_aero>=0.0)?r_aero:0.0;
+	r_aero = (log(10.0)*log(10.0))/(k_con*k_con*grid->wnd_10m[grid->m]);
+	r_aero = (r_aero>=0.0)?r_aero:0.0;
 	
 	return(r_aero);
 }
@@ -219,10 +219,10 @@ double pm_evaporation(
 	double ggc, rc_g, evaporation;
 	double aaa,bbb;
 	
-	lht=695.0; /** latent heat of water, in W h kg-1 **/
-	spwt=loct->dnsa[grid->m]; /** density of air, in kg m-3 **/
-	cp=0.2813; /** specific heat of air, in W h kg-1 K-1 **/
-	psycon=0.667; /** psychlometer constant, in hPa K-1 **/
+	lht = 695.0; /** latent heat of water, in W h kg-1 **/
+	spwt = loct->dnsa[grid->m]; /** density of air, in kg m-3 **/
+	cp = 0.2813; /** specific heat of air, in W h kg-1 K-1 **/
+	psycon = 0.667; /** psychlometer constant, in hPa K-1 **/
 	eta = 0.0224*1.0/1000.0; /** unit conversion of conductance from mmol H2O m-2 s-1 to m s-1 **/
 	
 	/* ground resistance */
@@ -232,11 +232,11 @@ double pm_evaporation(
 	ggc = 500.0*(1.0-((grid->field_cap1+grid->field_cap2)-(loct->sw30+loct->sww))/(grid->field_cap1+grid->field_cap2))+10.0; /*2003-06-27*/
 	rc_g = 1.0/(ggc*eta);
 	
-	aaa=(loct->slope_vps[grid->m]*loct->rad_net_g[grid->m])+(cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);
-	bbb=loct->slope_vps[grid->m]+psycon*(1.0+rc_g/loct->r_aero[grid->m]);	
+	aaa = (loct->slope_vps[grid->m]*loct->rad_net_g[grid->m])+(cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);
+	bbb = loct->slope_vps[grid->m]+psycon*(1.0+rc_g/loct->r_aero[grid->m]);	
 	
-	evaporation=(double)(grid->mm[grid->m])*grid->dlen[grid->m]*aaa/bbb/lht;
-	evaporation=(evaporation>=0.0)?evaporation:0.0;
+	evaporation = (double)(grid->mm[grid->m])*grid->dlen[grid->m]*aaa/bbb/lht;
+	evaporation = (evaporation>=0.0)?evaporation:0.0;
 	
 	return(evaporation);
 }
@@ -251,25 +251,25 @@ double pm_transpiration(
 	double aaa,bbb;
 	double rn_transp;
 	
-	lht=695.0; /** latent heat of water, in W h kg-1 **/
-	spwt=loct->dnsa[grid->m]; /** density of air, in kg m-3 **/
-	cp=0.2813; /** specific heat of air, in W h kg-1 K-1 **/
-	psycon=0.667; /** psychlometer constant, in hPa K-1 **/
-	eta=0.0224*1.0/1000.0; /** unit conversion of conductance from mmol H2O m-2 s-1 to m s-1 **/
+	lht = 695.0; /** latent heat of water, in W h kg-1 **/
+	spwt = loct->dnsa[grid->m]; /** density of air, in kg m-3 **/
+	cp = 0.2813; /** specific heat of air, in W h kg-1 K-1 **/
+	psycon = 0.667; /** psychlometer constant, in hPa K-1 **/
+	eta = 0.0224*1.0/1000.0; /** unit conversion of conductance from mmol H2O m-2 s-1 to m s-1 **/
 	
-	rn_transp=loct->rad_net_p[grid->m]-loct->incep[grid->m]/(double)(grid->mm[grid->m])/24.0*lht;
+	rn_transp = loct->rad_net_p[grid->m]-loct->incep[grid->m]/(double)(grid->mm[grid->m])/24.0*lht;
 
-	if(loct->canopy_con[grid->m]>0.0&&rn_transp>0.0){
+	if(loct->canopy_con[grid->m] > 0.0 && rn_transp > 0.0){
 		/** canopy resistance **/
-		rc_p=1.0/(loct->canopy_con[grid->m]*eta);
+		rc_p = 1.0/(loct->canopy_con[grid->m]*eta);
 		
-		aaa=(loct->slope_vps[grid->m]*rn_transp)+(cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);
-		bbb=loct->slope_vps[grid->m]+psycon*(1.0+rc_p/loct->r_aero[grid->m]);	
-		transpiration=(double)(grid->mm[grid->m])*grid->dlen[grid->m]*aaa/bbb/lht;
+		aaa = (loct->slope_vps[grid->m]*rn_transp)+(cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);
+		bbb = loct->slope_vps[grid->m]+psycon*(1.0+rc_p/loct->r_aero[grid->m]);	
+		transpiration = (double)(grid->mm[grid->m])*grid->dlen[grid->m]*aaa/bbb/lht;
 	}else{
-		transpiration=0.0;
+		transpiration = 0.0;
 	}
-	transpiration=(transpiration>=0.0)?transpiration:0.0;
+	transpiration = (transpiration>=0.0)?transpiration:0.0;
 	
 	return(transpiration);
 }
@@ -283,19 +283,20 @@ double pm_interception(
 	double rc_p, interception;
 	double aaa,bbb;
 	
-	lht=695.0; /** latent heat of water, in W h kg-1 **/
-	spwt=loct->dnsa[grid->m]; /** density of air, in kg m-3 **/
-	cp=0.2813; /** specific heat of air, in W h kg-1 K-1 **/
-	psycon=0.667; /** psychlometer constant, in hPa K-1 **/
-	eta=0.0224*1.0/1000.0; /** unit conversion of conductance from mmol H2O m-2 s-1 to m s-1 **/
+	lht = 695.0; /** latent heat of water, in W h kg-1 **/
+	spwt = loct->dnsa[grid->m]; /** density of air, in kg m-3 **/
+	cp = 0.2813; /** specific heat of air, in W h kg-1 K-1 **/
+	psycon = 0.667; /** psychlometer constant, in hPa K-1 **/
+	eta = 0.0224*1.0/1000.0; /** unit conversion of conductance from mmol H2O m-2 s-1 to m s-1 **/
 	
 	/** no vegetation resistance **/
-	rc_p=0.0;
+	rc_p = 0.0;
 	
-	aaa=(loct->slope_vps[grid->m]*loct->rad_net_p[grid->m])+(cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);
-	bbb=loct->slope_vps[grid->m]+psycon*(1.0+rc_p/loct->r_aero[grid->m]);	
-	interception=(double)(grid->mm[grid->m])*grid->dlen[grid->m]*aaa/bbb/lht;
-	interception=(interception>=0.0)?interception:0.0;
+	aaa = (loct->slope_vps[grid->m]*loct->rad_net_p[grid->m])
+		+ (cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);
+	bbb = loct->slope_vps[grid->m]+psycon*(1.0+rc_p/loct->r_aero[grid->m]);	
+	interception = (double)(grid->mm[grid->m])*grid->dlen[grid->m]*aaa/bbb/lht;
+	interception = (interception>=0.0)?interception:0.0;
 	
 	return(interception);
 }

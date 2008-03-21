@@ -306,16 +306,16 @@ void spcfc_res_mass(
 	pchar->rmf = pchar->rmf0;
 	
 	/* specific respiration increasing in a power of 2/3 manner */
-	powstm = 1.0 - 0.33334*mass->stm/(50.0+mass->stm);
-	powrot = 1.0 - 0.33334*mass->rot/(50.0+mass->rot);
+	powstm = 1.0 - 0.33334*mass->stm/(50.0 + mass->stm);
+	powrot = 1.0 - 0.33334*mass->rot/(50.0 + mass->rot);
 	
 	stm_sap = pow(mass->stm, powstm); /* sapwood mass in stem */
-	stm_hrt = mass->stm-stm_sap; /* heartwood mass in stem */
+	stm_hrt = mass->stm - stm_sap; /* heartwood mass in stem */
 	rot_sap = pow(mass->rot, powrot); /* sapwood mass in root */
-	rot_hrt = mass->rot-rot_sap; /* heartwood mass in root */
+	rot_hrt = mass->rot - rot_sap; /* heartwood mass in root */
 	
-	pchar->rmc = (pchar->rmc_s*stm_sap+pchar->rmc_h*stm_hrt)/(mass->stm+0.00001);
-	pchar->rmr = (pchar->rmr_s*rot_sap+pchar->rmr_h*rot_hrt)/(mass->rot+0.00001);
+	pchar->rmc = (pchar->rmc_s*stm_sap + pchar->rmc_h*stm_hrt)/(mass->stm + 0.00001);
+	pchar->rmr = (pchar->rmr_s*rot_sap + pchar->rmr_h*rot_hrt)/(mass->rot + 0.00001);
 }
 
 /* leaf N concentration ****************************/

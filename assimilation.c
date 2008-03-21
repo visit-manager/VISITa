@@ -22,6 +22,10 @@ double fgpp(
 	double cc1, cc2, cc3, bb;
 	
 	/* give daily GPP based on the Monsi-Saeki theory, or Kuroiwa's equation */
+	/*
+	Kuroiwa, S., 1966. Dry matter production of plants. Ecology and Evolution. 
+	Iwanami Shoten, Tokyo, pp. 71-100.
+	*/
 	if(veg->psat[grid->m] > 0.0){
 		cc1 = 2.0*veg->psat[grid->m]*grid->dlen[grid->m]*lTs/veg->eK[grid->m]; 
 		bb = veg->eK[grid->m]*veg->lue[grid->m]*grid->par[grid->m]/veg->psat[grid->m];
@@ -136,19 +140,32 @@ void npp_empirical(
 		loct->pet_prty_ann += loct->pet_prty[f];
 	}
 	
+	/*
+	Lieth, H., 1975. Modeling the primary productivity of the world. 
+	In: H. Lieth and R.H. Whittaker (Editor), Primary productivity of the biosphere. 
+	Springer-Verlag, pp. 237-263.
+	*/
 	/*** MIAMI model ***/
 	npp_tem = cTdm*30.0/(1.0+exp(1.315-0.119*grid->tmp_sfc_am));
 	npp_pre = cTdm*30.0*(1.0-exp(-0.000664*grid->prate_sfc_ann));
 	flux->npp_miami = (npp_tem<npp_pre)?npp_tem:npp_pre;
-	
-	/*** SCHUUR NPP model ***/
-	npp_tem = 17.6243/(1.0+exp(1.3496-grid->tmp_sfc_am*0.071514));
-	npp_pre = 0.005212*pow(grid->prate_sfc_ann, 1.12363)/exp(0.000459532*grid->prate_sfc_ann);
-	flux->npp_schuur = (npp_tem<npp_pre)?npp_tem:npp_pre;
-
 	/*** MONTREAL model ***/
 	flux->npp_montreal = cTdm*30.0*(1.0-exp(-0.0009695*(aet_ann-20.0)));
 	
+	/*** SCHUUR NPP model ***/
+	/*
+	Schuur, E.A.G., 2003. Productivity and global climate revisited; 
+	the sensitivity of tropical forest growth to precipitation. 
+	Ecology, 84:1165-1170.
+	*/
+	npp_tem = 17.6243/(1.0+exp(1.3496-grid->tmp_sfc_am*0.071514));
+	npp_pre = 0.005212*pow(grid->prate_sfc_ann, 1.12363)/exp(0.000459532*grid->prate_sfc_ann);
+	flux->npp_schuur = (npp_tem<npp_pre)?npp_tem:npp_pre;
+	
 	/*** ROSENZWEIG model ***/
+	/*
+	Rosenzweig, M., 1968. Net primary productivity of terrestrial environments: 
+	predictions from climatological data. American Naturalist, 102:67-74.
+	*/
 	flux->npp_rosenzweig = cTdm*0.219*pow(aet_ann,1.66);
 }

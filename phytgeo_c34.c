@@ -36,18 +36,18 @@ void c34composition(
 						loct->C4ptn[f] = tmp_factor*pre_factor;
 						loct->C3ptn[f] = 1.0-loct->C4ptn[f];
 					}else if((tmp_factor*pre_factor)>0.96){
-						loct->C4ptn[f]=0.96;
-						loct->C3ptn[f]=0.04;
+						loct->C4ptn[f] = 0.96;
+						loct->C3ptn[f] = 0.04;
 					}
 				}
 				break;
 			case 30: case 31: case 32:
-				loct->C4ptn[f]=0.2;
-				loct->C3ptn[f]=0.8;
+				loct->C4ptn[f] = 0.2;
+				loct->C3ptn[f] = 0.8;
 				break;
 			default:
-				loct->C4ptn[f]=0.0;
-				loct->C3ptn[f]=1.0;
+				loct->C4ptn[f] = 0.0;
+				loct->C3ptn[f] = 1.0;
 		}
 	}
 }

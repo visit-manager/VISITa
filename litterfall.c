@@ -19,7 +19,7 @@ void mortality(
 	double bbb;
 	
 	/* larger at warm, and smaller at cool */
-	bbb = 1.0+(grid->tmp_sfc[grid->m]-grid->tmp_sfc_am)/100.0;
+	bbb = 1.0 + (grid->tmp_sfc[grid->m] - grid->tmp_sfc_am)/100.0;
 	
 	pchar->lf[grid->m] = pchar->lf0*bbb; /* leaf */
 	pchar->lc[grid->m] = pchar->lc0*bbb; /* stem */

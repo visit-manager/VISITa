@@ -12,6 +12,10 @@
 #include"prototype.h"
 
 /* UEA/CRU data  **********************************************/
+/*
+New, M., Lister, D., Hulme, M. and Makin, I., 2002. A high-resolution data set of 
+surface climate over global land areas. Climate Research, 21:1-25.
+*/
 void read_cru_clim(
 	FILE *fp_c[4], 
 	struct Grid *grid
@@ -22,6 +26,7 @@ void read_cru_clim(
 	
 	/*  printf("reading CRU data...");  */
 	
+	/* read CRU TS2.1 Cloud data */
 	fscanf(fp_c[0],"%ld", &kk[0]);
 	if(kk[0]==11){
 		for(h=0;h<102;h++){
@@ -33,6 +38,7 @@ void read_cru_clim(
 		}
 	}
 	
+	/* read CRU TS2.1 Precipitation data */
 	fscanf(fp_c[1],"%ld", &kk[1]);
 	if(kk[1]==11){
 		for(h=0;h<102;h++){
@@ -44,6 +50,7 @@ void read_cru_clim(
 		}
 	}
 	
+	/* read CRU TS2.1 Temperature data */
 	fscanf(fp_c[2],"%ld", &kk[2]);
 	if(kk[2]==11){
 		for(h=0;h<102;h++){
@@ -55,6 +62,7 @@ void read_cru_clim(
 		}
 	}
 	
+	/* read CRU TS2.1 Vapor-pressure data */
 	fscanf(fp_c[3],"%ld", &kk[3]);
 	if(kk[3]==11){
 		for(h=0;h<102;h++){
@@ -70,6 +78,7 @@ void read_cru_clim(
 	
 	/* if valid CRU climate data are all available **/
 	if((kk[0]+kk[1]+kk[2]+kk[3])==44){
+		/* data available */
 		grid->cru_exist = 1;
 
 		/******* base climate (average 1971 - 2000) ******/
@@ -90,6 +99,7 @@ void read_cru_clim(
 			}
 		}
 	}else{
+		/* unavailable CRU TS2.1 data, for example on ocean */
 		grid->cru_exist = 0;
 	}
 	

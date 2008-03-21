@@ -842,16 +842,16 @@ void read_gcm_clim(
 	if(GCM!=0){
 		for(f=0;f<131;f++){   /*  1970-2100 */
 			for(g=0;g<12;g++){
-				fscanf(fp_t,"%ld %ld",&yr, &mon);
-				fscanf(fp_p,"%ld %ld",&yr, &mon);
-				fscanf(fp_h,"%ld %ld",&yr, &mon);
-				fscanf(fp_r,"%ld %ld",&yr, &mon);
+				fscanf(fp_t,"%ld %ld", &yr, &mon);
+				fscanf(fp_p,"%ld %ld", &yr, &mon);
+				fscanf(fp_h,"%ld %ld", &yr, &mon);
+				fscanf(fp_r,"%ld %ld", &yr, &mon);
 				for(h=0;h<GCM_R;h++){
 					for(i=0;i<GCM_C;i++){
-						fscanf(fp_t,"%f",&(grid->proj_tmp2m[f][g][h][i]));
-						fscanf(fp_p,"%f",&(grid->proj_prec[f][g][h][i]));
-						fscanf(fp_h,"%f",&(grid->proj_shum[f][g][h][i]));
-						fscanf(fp_r,"%f",&(grid->proj_rad[f][g][h][i]));
+						fscanf(fp_t,"%f", &(grid->proj_tmp2m[f][g][h][i]));
+						fscanf(fp_p,"%f", &(grid->proj_prec[f][g][h][i]));
+						fscanf(fp_h,"%f", &(grid->proj_shum[f][g][h][i]));
+						fscanf(fp_r,"%f", &(grid->proj_rad[f][g][h][i]));
 						
 						grid->proj_tmp2m[f][g][h][i] -= ZAT;
 						grid->proj_prec[f][g][h][i] *= (float)(grid->mm[g]);

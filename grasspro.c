@@ -27,21 +27,21 @@ void grass_process(
 		
 	switch(pchar->season[grid->m]){
 		case 0: /* dormancy */
-			noleafperiod(grid,loct,pchar,mass,flux); 
+			noleafperiod(grid, loct, pchar, mass, flux); 
 			break;
 		case 1: /* vegetative growth */
-			greenperiod(grid,loct,pchar,mass,flux); 
+			greenperiod(grid, loct, pchar, mass, flux); 
 			reallocation_survival(grid, pchar, mass);
 			break;
 		case 2: /* leaf emergence */
-			leafemergence(grid,loct,pchar,mass,flux); 
+			leafemergence(grid, loct, pchar, mass, flux); 
 			reallocation_survival(grid, pchar, mass);
 			break;
 		case 3: /* leaf shedding */
-			leaffall(grid,loct,pchar,mass,flux); 
+			leaffall(grid, loct, pchar, mass, flux); 
 			break;
 	}
 
-	afterdeal(grid,pchar,mass,flux);
+	afterdeal(grid, pchar, mass, flux);
 }
 

@@ -12,6 +12,12 @@
 /* Revised 2008 / 02 / 15 by A.Ito				*/
 /* Revised 2008 / 03 / 10 by A.Ito				*/
 
+/* a previous version, Sim-CYCLE was described in
+Ito, A. and Oikawa, T., 2002. A simulation model of the carbon cycle in land 
+ecosystems (Sim-CYCLE): A description based on dry-matter production theory 
+and plot-scale validation. Ecological Modelling, 151:147-179.
+*/
+
 /* VISIT a: global model	*/
 
 #include<stdio.h>
@@ -213,7 +219,7 @@ int main(
 				init_d13c(&grid, &flux, &echar, &mass);
 				init_d13c(&grid, &flux_nat, &echar_nat, &mass_nat);
 				
-				/** stabilization roop **/
+				/** spin-up: stabilization roop **/
 				cal_stable(&grid, &loct, &echar, &mass, &flux, fp_o);
 				
 				/** outputs **/
@@ -223,13 +229,13 @@ int main(
 					grid.f_crop, (flux.lu_conv+flux.lu_ten+flux.lu_hund)); */
 			
 				/** dynamic roop **/
-				/* 1901-2000 */
+				/* past: 1901-2000 */
 				cal_cruclim(&grid, &loct, &echar, &mass, &flux, fp_o);  /* */
 				/* printf("Lan use change: %.3lf<-%.3lf Emit: %.3lf\n", grid.f_crop_p, 
 					grid.f_crop, (flux.lu_conv+flux.lu_ten+flux.lu_hund)); */
 			
-				/* 2001-2100 */
-				/* cal_gcmclim2(&grid, &loct, &echar, &mass, &flux, fp_o); */
+				/* future: 2001-2100 */
+				cal_gcmclim2(&grid, &loct, &echar, &mass, &flux, fp_o);  /* */
 				
 				/* printf("Lan use change: %.3lf<-%.3lf Emit: %.3lf\n", grid.f_crop_p, 
 					grid.f_crop, (flux.lu_conv+flux.lu_ten+flux.lu_hund)); */
