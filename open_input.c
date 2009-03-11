@@ -18,7 +18,7 @@
 
 extern long GCM, CO2S, GCM_R, GCM_C; /* */
 
-/*** open input files **************************************/
+/* open input files **************************************************/
 void open_input(
 	FILE *fp_s[IFILEN], 
 	FILE *fp_c[4]
@@ -254,7 +254,7 @@ void open_input(
 		fp_s[23]=fopen("./data/image_b1_fcrop.dat","rt");
 		fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt");
 	}else if(GCM==6 || GCM==12 || GCM==16 || GCM==17 || GCM==18 || GCM==24 || GCM==32 || 
-			GCM==44 || GCM==52 || GCM==63){
+			GCM==44 || GCM==52 || GCM==63 || GCM==106){
 		CO2S = 6;
 		fp_s[23]=fopen("./data/image_b1_fcrop.dat","rt");
 		fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt");
@@ -301,5 +301,15 @@ void open_input(
 			exit(1);
 		}
 		fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt");
+	}
+	
+	if( (fp_s[46]=fopen("./data/sage_crops.dat","rt"))==NULL ){  
+		printf("No sage_crops.dat\n");  
+		exit(1); 
+	}
+
+	if( (fp_s[47]=fopen("./data/reg_raddif_hd.dat","rt"))==NULL ){  
+		printf("No diffuse rad model data\n");  
+		exit(1); 
 	}
 }

@@ -15,16 +15,24 @@
 #define lTs (3600.0*12.0/100000000.0) /* from micro-mol m-2 s-1 to Mg C ha-1 day-1*/
 #define ZAT 273.15 /* zero degree centigrade in absolute temperature */
 #define STCIR (0.0111/0.9889) /* standard stable carbon isotope ratio */
+#define UGC 8.314 /* universal gas constant */
 
 /***************************************************/
 /* total vegetation number */
 #define VEG_NUM_OLSON 34		/* Olson veg (modified) */
 #define VEG_NUM_SAGE 16		/* SAGE veg (modified) */
+#define VEG_NUM_CROP 3		/* crop types */
+
+/* 0:off 1:on */
+#define CALC_OLSON 1
+#define CALC_SAGE 0
+#define CALC_CROP 0
 
 /***************************************************/
 /* 20th century */
-/* #define CRU_PD 100  */		/* 100: AD 1901 - 2000 */
-#define CRU_PD 100		/* 100: AD 1901 - 2002 */
+#define CRU_PD 100  /* */		/* 100: AD 1901 - 2000 */
+/* #define CRU_PD 102	*/	/* 102: AD 1901 - 2002 */
+/* #define CRU_PD 108	*/	/* 102: AD 1901 - 2008 */
 /* 21st century */
 #define GCM_PD 100		/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
@@ -46,12 +54,12 @@
 
 /***************************************************/
 /* coupling erosion carbon loss */
-#define ERSN_CC 1
+#define ERSN_CC 0
 /* 0: uncoupled */
 /* 1: coupled */
 
 /* land use setting */
-#define LANDUSE 5
+#define LANDUSE 6
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -69,6 +77,20 @@
 #define VEGCOVER 0
 /* 0: conventional */
 /* 1: lai based */
+
+/***************************************************/
+/* PAR conversion */
+#define D_PAR 1
+/* 0: constant conversion factor */
+/* 1: variable conversion factor after Dye et al. (2003) */
+
+/* light attenuation coefficient */
+#define EFF_K 1
+
+/* SRB-based diffuse radiation estimation */
+#define DIF_SRB 1
+/* 0: off */
+/* 1: on */
 
 /***************************************************/
 /* carbon-nitrogen coupling */
@@ -158,8 +180,9 @@
 #define CC_P 1
 /* humidity */
 #define CC_H 1
-/* solar radiation */
-#define CC_R 1
+
+/* constant future CO2 level */
+#define CC_CD 1
 
 /* deforestation ***************************/
 #define DEFOREST 0
@@ -167,14 +190,6 @@
 /* 1: entire deforestation, replaced by 19 */
 /* 2: entire deforestation, replaced by 13 */
 /* 3: entire deforestation, replaced by 31 */
-
-/***************************************************/
-/* PAR conversion */
-#define D_PAR 1
-/* 0: constant conversion factor */
-/* 1: variable conversion factor after Dye et al. (2003) */
-/* light attenuation coefficient */
-#define EFF_K 1
 
 /*******************************************
 /* 0: no GCM */

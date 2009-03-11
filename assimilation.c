@@ -81,9 +81,9 @@ void pc_sat(
 	/** CO2 effect ******************************************************/
 	/** stomatal limitation via intercellular CO2 concentration **/
 	if(veg->phototype==3){ /* C3 plants */
-		fstl = 0.05+0.95*(veg->ci[grid->m] - veg->cmpcd[grid->m])/(veg->kmci + veg->ci[grid->m]); 
+		fstl = 0.05 + 0.95*(veg->ci[grid->m] - veg->cmpcd[grid->m])/(veg->kmci + veg->ci[grid->m]); 
 	}else if(veg->phototype==4){ /* C4 plants */
-		fstl = 0.60+0.40*(veg->ci[grid->m] - veg->cmpcd[grid->m])/(veg->kmci + veg->ci[grid->m]); 
+		fstl = 0.60 + 0.40*(veg->ci[grid->m] - veg->cmpcd[grid->m])/(veg->kmci + veg->ci[grid->m]); 
 	}
 	fstl = (fstl<=1.0)?fstl:1.0; 
 	fstl = (fstl>=0.0)?fstl:0.0;
@@ -93,9 +93,9 @@ void pc_sat(
 	/** soil water effect ******************************************************/
 	/** non-stomatal limitation **/
 	if(veg->phototype==3){ /* C3 plants */
-		fnstl = 0.95*loct->sww / (loct->sww + grid->field_cap2*veg->km_nstl)+0.05;
+		fnstl = 0.95*loct->sww / (loct->sww + grid->field_cap2*veg->km_nstl) + 0.05;
 	}else if(veg->phototype==4){ /* C4 plants */
-		fnstl = 0.86*loct->sww / (loct->sww + grid->field_cap2*veg->km_nstl)+0.14;
+		fnstl = 0.86*loct->sww / (loct->sww + grid->field_cap2*veg->km_nstl) + 0.14;
 	}
 	fnstl = (fnstl<=1.0)?fnstl:1.0; fnstl=(fnstl>=0.0)?fnstl:0.0;
 		
@@ -113,59 +113,4 @@ void pc_sat(
 	veg->psat[grid->m] = veg->pmax*ftem*fstl*fnstl; 
 	
 	/* printf("%ld %.2lf %.2lf %.2lf\n", veg->phototype, ftem, fstl, fnstl);*/
-}
-
-/* annual NPP estimated with empirical models *************************/
-void npp_empirical(
-	struct Grid *grid, 
-	struct Loct *loct, 
-	struct Flux *flux
-){
-	long f;
-	double lhvp, aet_ann, rn_ann, npp_tem, npp_pre;
-	
-	aet_ann = rn_ann = loct->pet_prty_ann = 0.0;
-	for(f=0;f<12;f++){
-		aet_ann += loct->evpr[f]+loct->incep[f]+loct->trspr[f]; /* annual AET */
-		
-		loct->rad_net[f] = loct->rad_net_short[f] - loct->rad_net_long[f];
-
-		/* annual mean net radiation, W m-2 */
-		rn_ann += loct->rad_net[f]*(double)grid->mm[f]/365.0;
-		
-		/*** PRIESTRIE-TAYLOR PET model, mm ***/
-		lhvp = 1000000.0* (2.501 - 0.012/5.0*grid->tmp_2m[f]);
-		loct->pet_prty[f] = 1.26 * 0.667/(loct->slope_vps[f] + 0.667) * 
-				loct->rad_net[f]/lhvp*24.0*3600.0*(double)grid->mm[f];
-		loct->pet_prty_ann += loct->pet_prty[f];
-	}
-	
-	/*
-	Lieth, H., 1975. Modeling the primary productivity of the world. 
-	In: H. Lieth and R.H. Whittaker (Editor), Primary productivity of the biosphere. 
-	Springer-Verlag, pp. 237-263.
-	*/
-	/*** MIAMI model ***/
-	npp_tem = cTdm*30.0/(1.0+exp(1.315-0.119*grid->tmp_sfc_am));
-	npp_pre = cTdm*30.0*(1.0-exp(-0.000664*grid->prate_sfc_ann));
-	flux->npp_miami = (npp_tem<npp_pre)?npp_tem:npp_pre;
-	/*** MONTREAL model ***/
-	flux->npp_montreal = cTdm*30.0*(1.0-exp(-0.0009695*(aet_ann-20.0)));
-	
-	/*** SCHUUR NPP model ***/
-	/*
-	Schuur, E.A.G., 2003. Productivity and global climate revisited; 
-	the sensitivity of tropical forest growth to precipitation. 
-	Ecology, 84:1165-1170.
-	*/
-	npp_tem = 17.6243/(1.0+exp(1.3496-grid->tmp_sfc_am*0.071514));
-	npp_pre = 0.005212*pow(grid->prate_sfc_ann, 1.12363)/exp(0.000459532*grid->prate_sfc_ann);
-	flux->npp_schuur = (npp_tem<npp_pre)?npp_tem:npp_pre;
-	
-	/*** ROSENZWEIG model ***/
-	/*
-	Rosenzweig, M., 1968. Net primary productivity of terrestrial environments: 
-	predictions from climatological data. American Naturalist, 102:67-74.
-	*/
-	flux->npp_rosenzweig = cTdm*0.219*pow(aet_ann,1.66);
 }

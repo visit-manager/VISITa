@@ -12,7 +12,9 @@
 #include"structure.h"
 #include"prototype.h"
 
-/************** crop processes, e.g. grains, root crops, and pcharetables **************/
+extern short DF97;
+
+/* crop processes, e.g. grains, root crops, and pcharetables **************/
 void agri_process(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -43,7 +45,7 @@ void agri_process(
 	afterdeal(grid, pchar, mass, flux);
 }
 
-/************** planting of new crops **************/
+/* planting of new crops ****************************************/
 void planting(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -52,8 +54,9 @@ void planting(
 	struct Pflx *flux
 ){
 	double nn, aaa, bbb, emerge;
+	extern double MDN[12];
 	
-	nn = (double)grid->mm[grid->m];
+	nn = MDN[grid->m];
 	
 	/* leaf emergence: perennial crops */
 	aaa = mass->stm*0.5;
@@ -101,6 +104,11 @@ void planting(
 	/* stable carbon isotope */
 	flux->d13c_gpp[grid->m] = loct->d13C_aCO2[grid->m]-pchar->photo_13c_frac[grid->m];
 	
+	/* GPP by de Pury & Farquhar scheme */
+	if(DF97==1){
+		f_df97_gpp(grid, loct, pchar, mass, flux);
+	}
+
 	/* maintenance respirations */
 	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
 	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
@@ -112,7 +120,11 @@ void planting(
 	flux->d13c_rrm[grid->m] = mass->d13c_rot;
 	
 	/* tentative primary production */	
-	flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+	if(DF97==1){
+		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->rpm[grid->m];
+	}else{
+		flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+	}
 	
 	/* translocation of photosynthate */
 	allocation(grid, pchar, mass, flux);
@@ -144,23 +156,26 @@ void planting(
 	
 	/* stable carbon isotope */
 	if((flux->tpf[grid->m]-flux->rfg[grid->m])>0.0){
-		mass->d13c_fol = d13c_addition(mass->d13c_fol, mass->fol, flux->d13c_tpf[grid->m], (flux->tpf[grid->m]-flux->rfg[grid->m]));
+		mass->d13c_fol = d13c_addition(mass->d13c_fol, mass->fol, 
+			flux->d13c_tpf[grid->m], (flux->tpf[grid->m]-flux->rfg[grid->m]));
 	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
 		mass->d13c_fol = mass->d13c_fol;
 	}
 	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
-		mass->d13c_stm = d13c_addition(mass->d13c_stm, mass->stm, flux->d13c_tpc[grid->m], (flux->tpc[grid->m]-flux->rcg[grid->m]));
+		mass->d13c_stm = d13c_addition(mass->d13c_stm, mass->stm, 
+			flux->d13c_tpc[grid->m], (flux->tpc[grid->m]-flux->rcg[grid->m]));
 	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
 		mass->d13c_stm = mass->d13c_stm;
 	}
 	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
-		mass->d13c_rot = d13c_addition(mass->d13c_rot, mass->rot, flux->d13c_tpr[grid->m], (flux->tpr[grid->m]-flux->rrg[grid->m]));
+		mass->d13c_rot = d13c_addition(mass->d13c_rot, mass->rot, 
+			flux->d13c_tpr[grid->m], (flux->tpr[grid->m]-flux->rrg[grid->m]));
 	}else if((flux->tpr[grid->m]-flux->rrg[grid->m])<0.0){
 		mass->d13c_rot = mass->d13c_rot;
 	}
 }
 
-/************** harvest grain, leaves, and fruits **************/
+/* harvest grain, leaves, and fruits ***************************/
 void harvesting(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -169,8 +184,9 @@ void harvesting(
 	struct Pflx *flux
 ){
 	double hvst_index, clear, nn;
+	extern double MDN[12];
 	
-	nn = (double)grid->mm[grid->m];
+	nn = MDN[grid->m];
 		
 	/** harvest of crops **/
 	hvst_index = -0.45; /* harvest index -> 45% of biomass */
@@ -205,6 +221,11 @@ void harvesting(
 	/* stable carbon isotope */
 	flux->d13c_gpp[grid->m] = loct->d13C_aCO2[grid->m]-pchar->photo_13c_frac[grid->m];
 	
+	/* GPP by de Pury & Farquhar scheme */
+	if(DF97==1){
+		f_df97_gpp(grid, loct, pchar, mass, flux);
+	}
+
 	/* maintenance respirations */
 	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
 	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
@@ -216,7 +237,11 @@ void harvesting(
 	flux->d13c_rrm[grid->m] = mass->d13c_rot;
 	
 	/* tentative primary production */	
-	flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+	if(DF97==1){
+		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->rpm[grid->m];
+	}else{
+		flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+	}
 	
 	/* translocation of photosynthate */
 	allocation(grid, pchar, mass, flux);
@@ -249,23 +274,26 @@ void harvesting(
 	
 	/* stable carbon isotope */
 	if((flux->tpf[grid->m]-flux->rfg[grid->m])>0.0){
-		mass->d13c_fol = d13c_addition(mass->d13c_fol, mass->fol, flux->d13c_tpf[grid->m], (flux->tpf[grid->m]-flux->rfg[grid->m]));
+		mass->d13c_fol = d13c_addition(mass->d13c_fol, mass->fol, 
+			flux->d13c_tpf[grid->m], (flux->tpf[grid->m]-flux->rfg[grid->m]));
 	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
 		mass->d13c_fol = mass->d13c_fol;
 	}
 	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
-		mass->d13c_stm = d13c_addition(mass->d13c_stm, mass->stm, flux->d13c_tpc[grid->m], (flux->tpc[grid->m]-flux->rcg[grid->m]));
+		mass->d13c_stm = d13c_addition(mass->d13c_stm, mass->stm, 
+			flux->d13c_tpc[grid->m], (flux->tpc[grid->m]-flux->rcg[grid->m]));
 	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
 		mass->d13c_stm = mass->d13c_stm;
 	}
 	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
-		mass->d13c_rot = d13c_addition(mass->d13c_rot, mass->rot, flux->d13c_tpr[grid->m], (flux->tpr[grid->m]-flux->rrg[grid->m]));
+		mass->d13c_rot = d13c_addition(mass->d13c_rot, mass->rot, 
+			flux->d13c_tpr[grid->m], (flux->tpr[grid->m]-flux->rrg[grid->m]));
 	}else if((flux->tpr[grid->m]-flux->rrg[grid->m])<0.0){
 		mass->d13c_rot = mass->d13c_rot;
 	}
 }
 
-/************** interval period, fallowing lands **************/
+/* interval period, fallowing lands ********************************************/
 void interval(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -274,8 +302,9 @@ void interval(
 	struct Pflx *flux
 ){
 	double nn;
+	extern double MDN[12];
 
-	nn = (double)grid->mm[grid->m];
+	nn = MDN[grid->m];
 
 	/* litter */
 	flux->lf[grid->m] = nn*flf(grid, pchar, mass);
@@ -298,6 +327,11 @@ void interval(
 	/* stable carbon isotope */
 	flux->d13c_gpp[grid->m] = loct->d13C_aCO2[grid->m]-pchar->photo_13c_frac[grid->m];
 	
+	/* GPP by de Pury & Farquhar scheme */
+	if(DF97==1){
+		f_df97_gpp(grid, loct, pchar, mass, flux);
+	}
+
 	/* maintenance respirations */
 	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
 	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
@@ -309,7 +343,11 @@ void interval(
 	flux->d13c_rrm[grid->m] = mass->d13c_rot;
 	
 	/* tentative primary production */	
-	flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+	if(DF97==1){
+		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->rpm[grid->m];
+	}else{
+		flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+	}
 	
 	/* translocation of photosynthate */
 	allocation(grid, pchar, mass, flux);

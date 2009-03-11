@@ -17,7 +17,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/**** dissolved organic carbon (DOC) ****/
+/* dissolved organic carbon (DOC) *************************************/
 /*
 Boyer, E.W., Hornberger, G.M., Bencala, K.E. and McKnight, D., 1996. 
 Overview of a simple model describing variation of dissolved organic 

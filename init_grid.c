@@ -7,6 +7,8 @@
 
 /* Revised August 15, 2007 by A.Ito */
 /* Revised August 19, 2007 by A.Ito */
+/* Revised July 1, 2008 by A.Ito */
+/* Separated February 17, 2009 by A.Ito */
 
 /* initialize environmental characteristics of each grid */
 #include<stdio.h>
@@ -15,188 +17,15 @@
 #include"structure.h"
 #include"prototype.h"
 
+/* initial carbon pool size */
 #define INT_C 0.01
-
 extern long GCM, CO2S, GCM_R, GCM_C;
-extern double aco2_a1[553], aco2_a2[553], aco2_b1[553], aco2_b2[553];
-extern double ach4_a1[553], ach4_a2[553], ach4_b1[553], ach4_b2[553];
-extern double an2o_a1[553], an2o_a2[553], an2o_b1[553], an2o_b2[553];
 
-extern double glandarea;
-extern double h_tmp[201], h_pre[201], h_dswr[201], h_aet[201], h_rof[201];
-extern double h_gpp[201], h_npp[201], h_nep[201], h_plant[201], h_soil[201];
-extern double h_sr[201], h_ersn_c[201], h_agrersn_c[201], h_doc[201];
-extern double h_agrarea[201], h_luc[201];
-
-extern double h_burnt_area[201];
-extern double h_bioburn_co2[201], h_bioburn_ch4[201], h_bioburn_co[201];
-extern double h_bioburn_nmhc[201], h_bioburn_oc[201], h_bioburn_bc[201];
-extern double h_bioburn_nox[201], h_bioburn_so2[201], h_bioburn_pm25[201];
-extern double h_bioburn_tpm[201], h_bioburn_tec[201];
-
-extern double h_ch4ox1[201], h_ch4ox2[201], h_ch4ox3[201];
-extern double h_ch4emit_cao_paddy[201], h_ch4emit_cao_wetland[201];
-extern double h_n2o_emit_ngas[201], h_n2_emit_ngas[201];
-extern double h_n2o_emit_casa[201], h_no_emit_casa[201], h_n2_emit_casa[201];
-extern double h_nh3_emit[201], h_n2_biofix[201];
-extern double h_ch4_emit_mass[201], h_ch4_emit_photo[201];
-
-extern double h_voc_isopr_g97[201], h_voc_monotrp_g97[201], h_voc_methanl_g97[201];
-extern double h_voc_acetone_g97[201], h_voc_actaldhd_g97[201], h_voc_frmardhd_g97[201];
-extern double h_voc_formacd_g97[201], h_voc_acetacd_g97[201], h_voc_co_g97[201];
-
-/* monthly results **********/
-extern double m_ch4ox1[12], m_ch4ox2[12], m_ch4ox3[12];
-extern double m_bioburn_co2[12], m_bioburn_ch4[12], m_bioburn_co[12];
-extern double m_bioburn_nmhc[12], m_bioburn_oc[12], m_bioburn_bc[12];
-
-/* vegetation (olson) results */
-extern double v_area[34];
-extern double v_gpp[34], v_npp[34], v_nep[34];
-extern double v_lai[34], v_fol[34], v_stm[34], v_rot[34], v_ltr[34], v_msl[34];
-
-/* initialize general parameters used in the simulation ******************/
-void initSim(
-	struct Grid *grid
-){
-	long f, year;
-	double data;
-	FILE *fp_co2;
-	
-	/* grid ID, sequential number */
-	grid->nnn = 0;
-	
-	/* Number of days for each month */
-	grid->mm[0] = 31;
-	grid->mm[1] = 28;
-	grid->mm[2] = 31;
-	grid->mm[3] = 30;
-	grid->mm[4] = 31;
-	grid->mm[5] = 30;
-	grid->mm[6] = 31;
-	grid->mm[7] = 31;
-	grid->mm[8] = 30;
-	grid->mm[9] = 31;
-	grid->mm[10] = 30;
-	grid->mm[11] = 31;
-	
-	/* atm. CO2 scenario ****************************/
-	printf("reading CO2 data...");
-	if(CO2S==1){
-		if((fp_co2 = fopen("./data/SRES_A1.dat","rt"))==NULL){
-			printf("No SRES_A1.dat\n");
-			exit(1);
-		}
-	}else if(CO2S==2){
-		if((fp_co2 = fopen("./data/SRES_A1FI.dat","rt"))==NULL){
-			printf("No SRES_A1FI.dat\n");
-			exit(1);
-		}
-	}else if(CO2S==3){
-		if((fp_co2 = fopen("./data/SRES_A1T.dat","rt"))==NULL){
-			printf("No SRES_A1T.dat\n");
-			exit(1);
-		}
-	}else if(CO2S==4){
-		if((fp_co2 = fopen("./data/SRES_A2.dat","rt"))==NULL){
-			printf("No SRES_A2.dat\n");
-			exit(1);
-		}
-	}else if(CO2S==5){
-		if((fp_co2 = fopen("./data/SRES_B1.dat","rt"))==NULL){
-			printf("No SRES_B1.dat\n");
-			exit(1);
-		}
-	}else if(CO2S==6){
-		if((fp_co2 = fopen("./data/SRES_B2.dat","rt"))==NULL){
-			printf("No SRES_B2.dat\n");
-			exit(1);
-		}
-	}else{
-		if((fp_co2 = fopen("./data/SRES_A1.dat","rt"))==NULL){
-			printf("No SRES_A1.dat\n");
-			exit(1);
-		}
-	}
-	
-	/* SRES Scenario CO2 */
-	for(f=0;f<111;f++){
-		fscanf(fp_co2,"%ld %lf", &year, &data);
-		sres_co2[f] = data;
-	}
-	
-	fclose(fp_co2);
-	
-	/* source: http://crga.atmos.uiuc.edu/research/post-sres.html
-		M.E.Schlesinger and S.Malyshev			*/
-	if((fp_co2 = fopen("./data/AtmGHG_timeseries.dat","rt"))==NULL){
-		printf("No AtmGHG_timeseries.dat\n");
-		exit(1);
-	}
-	for(f=0;f<553;f++){
-		fscanf(fp_co2,"%ld", &year);
-		/* CO2, ppmv */
-		fscanf(fp_co2,"%lf", &aco2_a1[f]);
-		fscanf(fp_co2,"%lf", &aco2_a2[f]);
-		fscanf(fp_co2,"%lf", &aco2_b1[f]);
-		fscanf(fp_co2,"%lf", &aco2_b2[f]);
-		/* CH4, ppbv */
-		fscanf(fp_co2,"%lf", &ach4_a1[f]);
-		fscanf(fp_co2,"%lf", &ach4_a2[f]);
-		fscanf(fp_co2,"%lf", &ach4_b1[f]);
-		fscanf(fp_co2,"%lf", &ach4_b2[f]);
-		/* N2O, ppbv */
-		fscanf(fp_co2,"%lf", &an2o_a1[f]);
-		fscanf(fp_co2,"%lf", &an2o_a2[f]);
-		fscanf(fp_co2,"%lf", &an2o_b1[f]);
-		fscanf(fp_co2,"%lf", &an2o_b2[f]);
-	}
-	fclose(fp_co2);
-	
-	/* global analysis ********************************/
-	glandarea = 0.0;
-	for(f=0;f<201;f++){
-		h_tmp[f] = h_pre[f] = h_dswr[f] = h_aet[f] = h_rof[f] = 0.0;
-		h_gpp[f] = h_npp[f] = h_nep[f] = h_plant[f] = h_soil[f] = 0.0;
-		h_sr[f] = h_ersn_c[f] = h_agrersn_c[f] = h_doc[f] = 0.0;
-		
-		h_agrarea[f] = h_luc[f] = 0.0;
-		h_burnt_area[f] = 0.0;
-		h_bioburn_co2[f] = h_bioburn_co[f] = h_bioburn_ch4[f] = 0.0;
-		h_bioburn_nmhc[f] = h_bioburn_oc[f] = h_bioburn_bc[f] = 0.0;
-		h_bioburn_nox[f] = h_bioburn_so2[f] = h_bioburn_pm25[f] = 0.0;
-		h_bioburn_tpm[f] = h_bioburn_tec[f] = 0.0;
-		
-		h_ch4ox1[f] = h_ch4ox2[f] = h_ch4ox3[f] = 0.0;
-		h_ch4emit_cao_paddy[f] = h_ch4emit_cao_wetland[f] = 0.0;
-		h_n2o_emit_ngas[f] = h_n2_emit_ngas[f] = 0.0;
-		h_n2o_emit_casa[f] = h_no_emit_casa[f] = h_n2_emit_casa[f] = 0.0;
-		h_nh3_emit[f] = h_n2_biofix[f] = 0.0;
-		h_ch4_emit_mass[f] = h_ch4_emit_photo[f] = 0.0;
-
-		h_voc_isopr_g97[f] = h_voc_monotrp_g97[f] = h_voc_methanl_g97[f] = 0.0;
-		h_voc_acetone_g97[f] = h_voc_actaldhd_g97[f] = h_voc_frmardhd_g97[f] = 0.0;
-		h_voc_formacd_g97[f] = h_voc_acetacd_g97[f] = h_voc_co_g97[f] = 0.0;
-	}
-	for(f=0;f<12;f++){
-		m_ch4ox1[f] = m_ch4ox2[f] = m_ch4ox3[f] = 0.0;
-		m_bioburn_co2[f] = m_bioburn_ch4[f] = m_bioburn_co[f] = 0.0;
-		m_bioburn_nmhc[f] = m_bioburn_oc[f] = m_bioburn_bc[f] = 0.0;
-	}
-	for(f=0;f<34;f++){
-		v_area[f] = 0.0;
-		v_gpp[f] = v_npp[f] = v_nep[f] = 0.0;
-		v_lai[f] = v_fol[f] = v_stm[f] = v_rot[f] = v_ltr[f] = v_msl[f] = 0.0;
-	}
-}
-
-/********* initialize grid conditions **************************************/
-void initG(
+/* initialize grid conditions **********************************************/
+void init_grid(
 	FILE *fp_s[IFILEN], 
 	struct Grid *grid
 ){
-	/** initialize climate and soil parameters by using the prepared data files **/
-	
 	long e, h, g, country, region, aaa;
 	double tmp_sfc, tmp_2m,tmp10_soil, tmp200_soil, dswrf_toa, dswrf_sfc, tcdc_clm;
 	double prate_sfc, spfh_2m, soilw10, soilw200, ugrd_10m, vgrd_10m;
@@ -255,9 +84,18 @@ void initG(
 		6.722120259, 6.742288787, 7.267506174, 5.759382756};
 	double bulkdens, field_cap;
 	double x, xx, y, yy, xy;
+	extern double MDN[12];
 	
+	/* grid latitude and longitude ******************/
 	grid->lat = 89.75-0.5*(double)grid->row;
 	grid->lon = -179.75+0.5*(double)grid->col;
+	
+	grid->ncep_lat = (long)((89.75-grid->lat)/(180.0/94.0));
+	if(grid->lon>0.0){
+		grid->ncep_lon = (long)(grid->lon/(360.0/192.0));
+	}else{
+		grid->ncep_lon = (long)(96.0 + (grid->lon+180.0)/(360.0/192.0));
+	}
 	
 	/* GCM grid *************************************/
 	grid->gcm_row = 0;
@@ -393,16 +231,53 @@ void initG(
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}
 
-	/** input geography in the grid **/	
+	/* input geography in the grid *************/	
 	fscanf(fp_s[0],"%ld %ld", &country, &region); 
-	grid->country = country; /* country code */
-	grid->region = region; /* region code */
+	grid->country = country;	/* country code */
+	grid->region = region;		/* region code */
 	
-	/* printf("reading Veg data..."); */
-	/** input vegetation area **/
+	/** Olson's vegetation area *********************/
+	/* Olson, J. S., J. A. Watts, et al. (1983). 
+	Carbon in live vegetation of major world ecosystems, 
+	Oak Ridge National Laboratory.  */
 	fscanf(fp_s[1],"%ld", &aaa); 
 	grid->veg_olson = aaa;
-	/* printf("done\n"); */
+	/*
+	0	water
+	1	tropical & subtropical evergreen forest
+	2	tropical montane forest
+	3	tropical & subtropical dry forest
+	4	mid-latitude mixed forest
+	5	mid-latitude broad-leaved forest
+	6	semiarid wood or low forest
+	7	coniferous evergreen forest
+	8	southern taiga
+	9	main evergreen taiga
+	10	main deciduous taiga
+	11	northern evergreen taiga
+	12	northern deciduous taiga
+	13	second growth woods
+	14	second growth field
+	15	succulent & thorn wood
+	16	tropical savanna, woodland
+	17	mediterranean-type dry wood
+	18	heath & moorland
+	19	warm or hot shrub & grassland
+	20	tibetan meadow & siberian highland
+	21	tundra
+	22	wooded tundra
+	23	warm or hot wetlands
+	24	cool bog & mire
+	25	shore & hinterland
+	26	cool semi-desert scrub
+	27	non-polar desert
+	28	non-polar sand desert
+	29	paddyland
+	30	cool cropland
+	31	warm cropland
+	32	irrigated
+	33	antarctica
+	*/
 	
 	/* sensitivity analysis for deforestation */
 	if(DEFOREST==1){
@@ -419,7 +294,6 @@ void initG(
 		}
 	}
 	
-	/* printf("reading Soil data..."); */
 	/** input soil properties *******************************/
 	fscanf(fp_s[3],"%lf", &geo_prop); 
 		geo_prop = (geo_prop>0.0)?geo_prop:0.0;
@@ -441,62 +315,61 @@ void initG(
 		geo_prop = (geo_prop>0.003)?geo_prop:0.003;
 		grid->hyd_cond = geo_prop; /* k_s */
 	fscanf(fp_s[3],"%lf",&geo_prop); /* b */
-	/* printf("done\n"); */
 	
-	/* printf("reading Base climate data..."); */
-	/************ input monthly climate ************/	
+	/* input monthly climate ***********************/	
 	/* long-term average, from NCEP/NCAR reanalysis */
-	for(e=0;e<12;e++){
+	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp_sfc); 
 		grid->tmp_sfc_a[e] = tmp_sfc-ZAT;
 	}	
-	for(e=0;e<12;e++){
+	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp_2m); 
 		grid->tmp_2m_a[e] = tmp_2m-ZAT;
 	}	
-	for(e=0;e<12;e++){
+	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp10_soil); 
 		grid->tmp10_soil_a[e] = tmp10_soil-ZAT;
 	}	
-	for(e=0;e<12;e++){
+	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp200_soil); 
 		grid->tmp200_soil_a[e] = tmp200_soil-ZAT;
 	}	
-	for(e=0;e<12;e++){
+	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &dswrf_toa); 
 	}	
-	for(e=0;e<12;e++){
+	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &dswrf_sfc); 
 	}	
-	for(e=0;e<12;e++){
+	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tcdc_clm); 
 		grid->tcdc_clm_a[e] = tcdc_clm/100.0;
 	}	
-	for(e=0;e<12;e++){
+	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &prate_sfc); 
-		grid->prate_sfc_a[e] = prate_sfc*(double)(grid->mm[e]);
+		grid->prate_sfc_a[e] = prate_sfc * MDN[e];
 	}	
-	for(e=0;e<12;e++){
+	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &spfh_2m); 
 		grid->spfh_2m_a[e] = spfh_2m;
 	}	
-	for(e=0;e<12;e++){
+	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &soilw10); 
 	}	
-	for(e=0;e<12;e++){
+	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &soilw200); 
 	}	
-	for(e=0;e<12;e++){
+	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &ugrd_10m); 
 		grid->ugrd_10m_a[e] = ugrd_10m;
 	}	
-	for(e=0;e<12;e++){
+	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &vgrd_10m); 
 		grid->vgrd_10m_a[e] = vgrd_10m;
 	}
-	/* printf("done\n"); */
 	
-	/* init CRU memory */
+	/* set CRU TS2.1 ************************/
+	/* New, M., D. Lister, et al. (2002). "A high-resolution data set of 
+	surface climate over global land areas." Climate Research 21: 1-25. */
 	for(h=0;h<CRU_PD;h++){
 		for(g=0;g<12;g++){
 			grid->hist_cld[h][g] = grid->tcdc_clm_a[g];
@@ -513,7 +386,7 @@ void initG(
 	/* substituted precipitation data (UEA/CRU) */
 	for(e=0;e<12;e++){
 		fscanf(fp_s[4],"%lf", &prate_sfc); 
-		grid->prec_sub_a[e] = prate_sfc*(double)(grid->mm[e]);
+		grid->prec_sub_a[e] = prate_sfc * MDN[e];
 	}
 	
 	/* river-basin ID */
@@ -597,7 +470,10 @@ void initG(
 	/* 6: ice */
 	/* 7: organic */
 	
+	/* soil bulk density */
 	fscanf(fp_s[13],"%lf", &bulkdens); 
+	
+	/* soil field capacity */
 	fscanf(fp_s[14],"%lf", &field_cap); 
 	
 	fscanf(fp_s[15],"%lf", &(grid->fc_150)); 
@@ -639,6 +515,8 @@ void initG(
 	}
 	
 	/* soil physical properties by Saxton (1986) ************/
+	/* Saxton, K. E., et al. (1986), Estimating generalized soil-water characteristics 
+	from texture, Soil Science Society of America Journal, 50, 1031-1036. */
 	grid->a_sw = exp(-4.396 -0.0715*grid->pc_clay -4.488*0.0001*grid->pc_clay*grid->pc_clay 
 					- 4.285*0.00001*grid->pc_sand*grid->pc_sand*grid->pc_clay)*100;
 	grid->b_sw = -3.14 -0.00222*grid->pc_clay*grid->pc_clay 
@@ -658,7 +536,7 @@ void initG(
 	
 	/* wetland fraction: data by Global Lakes and Wetlands Database */
 	fscanf(fp_s[21],"%lf %lf", &total, &wetland); 
-	wetland *= 1.0/1000000.0;
+	wetland *= 1.0/10000.0;
 	grid->f_wetland = wetland/grid->area;
 	if(grid->f_wetland > 1.0){
 		grid->f_wetland = 1.0;
@@ -682,7 +560,8 @@ void initG(
 	if(grid->total_n_1m < 0.0){
 		grid->total_n_1m = 0.0;
 	}
-
+	
+	/* N deposition */
 	fscanf(fp_s[25],"%lf", &lat); 
 	fscanf(fp_s[25],"%lf", &lon); 
 	fscanf(fp_s[25],"%lf", &grid->ndepo[0]); 
@@ -715,4 +594,25 @@ void initG(
 		fscanf(fp_s[43],"%lf", &grid->t_vs1_eossagehyde[h]);
 		fscanf(fp_s[44],"%lf", &grid->t_vs2_eossagehyde[h]);
 	}
+	
+	/* crop type **********/	
+	fscanf(fp_s[46],"%lf", &grid->fcrop);
+	fscanf(fp_s[46],"%lf", &grid->frice);
+	fscanf(fp_s[46],"%lf", &grid->fwheat);
+	fscanf(fp_s[46],"%lf", &grid->fmaize);
+	
+	grid->veg_crop = 1;
+	/* 0: no crop */
+	/* 1: C3 crops (non-rice) */
+	/* 2: paddy */
+	/* 3: C4 crops, e.g. maize */
+	
+	/* diffuse radiation estimation using SRB data ************/
+	fscanf(fp_s[47],"%lf", &grid->srb_dif_aa);
+	fscanf(fp_s[47],"%lf", &grid->srb_dif_bb);
+	fscanf(fp_s[47],"%lf", &grid->srb_dif_rr);
+	fscanf(fp_s[47],"%lf", &grid->srb_dif_min_x);
+	fscanf(fp_s[47],"%lf", &grid->srb_dif_max_x);
+	fscanf(fp_s[47],"%lf", &grid->srb_dif_min_y);
+	fscanf(fp_s[47],"%lf", &grid->srb_dif_max_y);
 }

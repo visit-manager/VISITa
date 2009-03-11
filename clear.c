@@ -11,7 +11,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/*************** clear all variables and parameters *****************/
+/* clear all variables and parameters *******************************/
 void clear(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -22,7 +22,7 @@ void clear(
 	long f;
 	
 	grid->y = grid->m = 0;
-	grid->time = grid->time_hyd = 0;
+	loct->time = loct->time_hyd = 0;
 	
 	vanish(mass, flux);
 	
@@ -30,7 +30,7 @@ void clear(
 	(echar->c3).gdd = (echar->c4).gdd = 0.0;
 	
 	grid->proj_prec_co = 0.0;	/* carry-over of negative precipitation change */
-	for(f = 0;f<12;f++){
+	for(f = 0;f<ASTEP;f++){
 		grid->dlen[f] = grid->par[f] = 0.0;
 		grid->par_bp[f] = grid->par_dp[f] = grid->par_be[f] = grid->par_de[f] = 0.0;
 		grid->sl_dec[f] = grid->sl_hgt[f] = 0.0;
@@ -84,7 +84,7 @@ void clear(
 	grid->f_erosion_p = 0.0;
 }
 
-/****** make plant fluxes vacant *******/
+/* make plant fluxes vacant ***************************/
 void plant_flux_zero(
 	long month, 
 	struct Pflx *flux
@@ -95,6 +95,8 @@ void plant_flux_zero(
 	flux->spp[month] = 0.0; 
 	flux->npp[month] = 0.0; 
 	
+	flux->gpp_df97[month] = 0.0; 
+
 	flux->rfm[month] = 0.0; 
 	flux->rcm[month] = 0.0; 
 	flux->rrm[month] = 0.0; 
@@ -123,7 +125,7 @@ void plant_flux_zero(
 	flux->emit_ch4_kirschbaum_photo[month] = 0.0;
 }
 
-/****** make plant fluxes vacant *******/
+/* make plant fluxes vacant ********************************/
 void n_flux_zero(
 	long month, 
 	struct Flux *flux
@@ -174,9 +176,16 @@ void n_flux_zero(
 	(flux->soil).n_immbl[month] = 0.0;
 	(flux->soil).n_mcrb_abdn[month] = 0.0;
 	(flux->soil).doc_boyer[month] = 0.0;
+	
+	(flux->soil).ch4prod_wetland_cao[month] = 0.0;
+	(flux->soil).ch4oxy_wetland_cao[month] = 0.0;
+	(flux->soil).ch4flux_wetland_cao[month] = 0.0;
+	(flux->soil).ch4prod_paddy_cao[month] = 0.0;
+	(flux->soil).ch4oxy_paddy_cao[month] = 0.0;
+	(flux->soil).ch4flux_paddy_cao[month] = 0.0;
 }
 
-/****** make bare land without plant and soil ******/
+/* make bare land without plant and soil *******************************/
 void vanish(
 	struct Mass *mass, 
 	struct Flux *flux
@@ -191,7 +200,7 @@ void vanish(
 	(mass->soil).msl = 0.0;
 	(mass->soil).doc = 0.0;
 	
-	for(k = 0;k<12;k++){
+	for(k = 0;k<ASTEP;k++){
 		/* monthly mass values */
 		(mass->c3).mfol[k] = (mass->c4).mfol[k] = (mass->plant).mfol[k] = 0.0;
 		(mass->c3).lai[k] = (mass->c4).lai[k] = (mass->plant).lai[k] = 0.0;
@@ -226,6 +235,11 @@ void vanish(
 	flux->lu_ten = 0.0;
 	flux->lu_hund = 0.0;
 	
+	flux->npp_miami = 0.0;
+	flux->npp_montreal = 0.0;
+	flux->npp_schuur = 0.0;
+	flux->npp_nceas = 0.0;
+	
 	flux->erod_soil = 0.0;
 	flux->erod_orgmat = 0.0;
 	flux->erod_carbon = 0.0;
@@ -234,7 +248,7 @@ void vanish(
 	flux->erod_carbon_crop = 0.0;
 }
 
-/******* make the biome type zero **********/
+/* make the biome type zero **********************************/
 void vlzero(
 	struct Grid *grid, 
 	struct Pmas *mass, 
@@ -253,7 +267,7 @@ void vlzero(
 	plant_flux_zero(grid->m, flux);
 }
 
-/******* initialize d13C variables ******/
+/* initialize d13C variables ************************************/
 void init_d13c(
 	struct Grid *grid, 
 	struct Flux *flux, 
@@ -262,7 +276,7 @@ void init_d13c(
 ){
 	long f;
 	
-	for(f = 0;f<12;f++){
+	for(f = 0;f<ASTEP;f++){
 		/* mass */
 		(mass->c3).d13c_fol = (mass->c4).d13c_fol = (mass->plant).d13c_fol = grid->d13C_bCO2[f]; 	
 		(mass->c3).d13c_stm = (mass->c4).d13c_stm = (mass->plant).d13c_stm = grid->d13C_bCO2[f]; 	

@@ -38,9 +38,13 @@ void cd_trend(
 		/** INC **/
 		inc = (-52.11+0.026984*time)*((double)(grid->m)-5.5)/12.0;
 		inc = (inc>=0.0)?inc:0.0;
-	}else if(time>=1990.0&&time<=2100.0){
+	}else if(time>=1990.0 && time<=2100.0){
 		/* IPCC SRES scenarios */
-		base = sres_co2[grid->CO2y-1990];
+		if(CC_CD==0 && time>=2001.0){
+			base = sres_co2[11];
+		}else{
+			base = sres_co2[grid->CO2y-1990];
+		}
 		
 		inc = 0.0;
 	}
@@ -52,7 +56,7 @@ void cd_trend(
 	amplitude = exp(0.04*grid->lat);
 	if(grid->lat>=0.0){
 		season = amplitude/2.0*sin(((double)(grid->m)-0.0)/12.0*2.0*PI);
-	}else if(grid->lat<0.0){
+	}else{   /*  if(grid->lat<0.0) */
 		season = amplitude/2.0*sin(((double)(grid->m)+6.0)/12.0*2.0*PI);
 	}
 	

@@ -5,14 +5,16 @@
 /*  CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
-/* biome dependent plant carbon exchange processes----evergreen and deciduous forest*/
+/* biome dependent plant carbon exchange processes----evergreen and deciduous forest */
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
 #include"structure.h"
 #include"prototype.h"
 
-/*********** forest processes ***********/
+extern short DF97;
+
+/* forest processes *****************************************/
 void forest_process(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -42,7 +44,7 @@ void forest_process(
 	afterdeal(grid, pchar, mass, flux);
 }
 
-/*********** green period, while plants grow up actively ***********/
+/* green period, while plants grow up actively *********************/
 void greenperiod(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -51,8 +53,9 @@ void greenperiod(
 	struct Pflx *flux
 ){						
 	double nn;
+	extern double MDN[ASTEP];
 		
-	nn = (double)grid->mm[grid->m];
+	nn = MDN[grid->m];
 
 	/* litter */
 	flux->lf[grid->m] = nn*flf(grid, pchar, mass);
@@ -76,6 +79,11 @@ void greenperiod(
 	/* stable carbon isotope */
 	flux->d13c_gpp[grid->m] = loct->d13C_aCO2[grid->m]-pchar->photo_13c_frac[grid->m];
 	
+	/* GPP by de Pury & Farquhar scheme */
+	if(DF97==1){
+		f_df97_gpp(grid, loct, pchar, mass, flux);
+	}
+	
 	/* maintenance respirations */
 	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
 	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
@@ -87,7 +95,11 @@ void greenperiod(
 	flux->d13c_rrm[grid->m] = mass->d13c_rot;
 	
 	/* tentative primary production */	
-	flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+	if(DF97==1){
+		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->rpm[grid->m];
+	}else{
+		flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+	}
 	
 	/* translocation of photosynthate */
 	allocation(grid, pchar, mass, flux);
@@ -119,23 +131,26 @@ void greenperiod(
 	
 	/* stable carbon isotope */
 	if((flux->tpf[grid->m]-flux->rfg[grid->m])>0.0){
-		mass->d13c_fol = d13c_addition(mass->d13c_fol, mass->fol, flux->d13c_tpf[grid->m], (flux->tpf[grid->m]-flux->rfg[grid->m]));
+		mass->d13c_fol = d13c_addition(mass->d13c_fol, mass->fol, 
+		flux->d13c_tpf[grid->m], (flux->tpf[grid->m]-flux->rfg[grid->m]));
 	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
 		mass->d13c_fol = mass->d13c_fol;
 	}
 	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
-		mass->d13c_stm = d13c_addition(mass->d13c_stm, mass->stm, flux->d13c_tpc[grid->m], (flux->tpc[grid->m]-flux->rcg[grid->m]));
+		mass->d13c_stm = d13c_addition(mass->d13c_stm, mass->stm, 
+		flux->d13c_tpc[grid->m], (flux->tpc[grid->m]-flux->rcg[grid->m]));
 	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
 		mass->d13c_stm = mass->d13c_stm;
 	}
 	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
-		mass->d13c_rot = d13c_addition(mass->d13c_rot, mass->rot, flux->d13c_tpr[grid->m], (flux->tpr[grid->m]-flux->rrg[grid->m]));
+		mass->d13c_rot = d13c_addition(mass->d13c_rot, mass->rot, 
+		flux->d13c_tpr[grid->m], (flux->tpr[grid->m]-flux->rrg[grid->m]));
 	}else if((flux->tpr[grid->m]-flux->rrg[grid->m])<0.0){
 		mass->d13c_rot = mass->d13c_rot;
 	}
 }
 
-/*********** leaf shedding ***********/
+/* leaf shedding *****************************************/
 void leaffall(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -144,8 +159,9 @@ void leaffall(
 	struct Pflx *flux
 ){
 	double nn;
+	extern double MDN[12];
 		
-	nn = (double)grid->mm[grid->m];
+	nn = MDN[grid->m];
 
 	/* litter */
 	flux->lf[grid->m] = pchar->dcd*mass->fol; /* leaf-shedding */
@@ -169,6 +185,11 @@ void leaffall(
 	/* stable carbon isotope */
 	flux->d13c_gpp[grid->m] = loct->d13C_aCO2[grid->m]-pchar->photo_13c_frac[grid->m];
 	
+	/* GPP by de Pury & Farquhar scheme */
+	if(DF97==1){
+		f_df97_gpp(grid, loct, pchar, mass, flux);
+	}
+
 	/* maintenance respirations */
 	flux->rfm[grid->m]=nn*frfm(grid, pchar, mass);
 	flux->rcm[grid->m]=nn*frcm(grid, pchar, mass);
@@ -180,7 +201,11 @@ void leaffall(
 	flux->d13c_rrm[grid->m]=mass->d13c_rot;
 	
 	/* tentative primary production */	
-	flux->epp[grid->m] = flux->gpp[grid->m] - flux->rpm[grid->m];
+	if(DF97==1){
+		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->rpm[grid->m];
+	}else{
+		flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+	}
 	
 	/* translocation of photosynthate */
 	allocation(grid, pchar, mass, flux);
@@ -231,7 +256,7 @@ void leaffall(
 	}
 }
 
-/*********** new leaf emergence ***********/
+/* new leaf emergence *****************************************/
 void leafemergence(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -240,8 +265,9 @@ void leafemergence(
 	struct Pflx *flux
 ){
 	double nn, aaa, bbb, emerge;
+	extern double MDN[12];
 		
-	nn = (double)grid->mm[grid->m];
+	nn = MDN[grid->m];
 
 	/* leaf emergence */
 	bbb = (pchar->opt_lai[grid->m]>2.0)?pchar->opt_lai[grid->m]:2.0;
@@ -253,7 +279,7 @@ void leafemergence(
 			emerge = (emerge>aaa*0.1)?aaa*0.1:emerge;
 			break;
 		case 10: case 12:
-			emerge = (emerge>aaa*0.07)?aaa*0.07:emerge;
+			emerge = (emerge>aaa*0.06)?aaa*0.06:emerge;
 			break;
 		case 14: case 15: case 16: case 17: case 18: case 19: case 27: case 28:
 		case 29: case 30: case 31: case 32:
@@ -293,6 +319,11 @@ void leafemergence(
 	/* stable carbon isotope */
 	flux->d13c_gpp[grid->m] = loct->d13C_aCO2[grid->m]-pchar->photo_13c_frac[grid->m];
 	
+	/* GPP by de Pury & Farquhar scheme */
+	if(DF97==1){
+		f_df97_gpp(grid, loct, pchar, mass, flux);
+	}
+
 	/* maintenance respirations */
 	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
 	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
@@ -304,7 +335,11 @@ void leafemergence(
 	flux->d13c_rrm[grid->m] = mass->d13c_rot;
 	
 	/* tentative primary production */	
-	flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+	if(DF97==1){
+		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->rpm[grid->m];
+	}else{
+		flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+	}
 	
 	/* translocation of photosynthate */
 	allocation(grid, pchar, mass, flux);
@@ -355,7 +390,7 @@ void leafemergence(
 	}
 }
 
-/*********** dormancy period ***********/
+/* dormancy period ***************************************************/
 void noleafperiod(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -364,8 +399,9 @@ void noleafperiod(
 	struct Pflx *flux
 ){
 	double nn;
+	extern double MDN[ASTEP];
 		
-	nn = (double)grid->mm[grid->m];
+	nn = MDN[grid->m];
 
 	/* litter */
 	flux->lf[grid->m] = nn*flf(grid, pchar, mass);
@@ -389,6 +425,11 @@ void noleafperiod(
 	/* stable carbon isotope */
 	flux->d13c_gpp[grid->m] = loct->d13C_aCO2[grid->m]-pchar->photo_13c_frac[grid->m];
 	
+	/* GPP by de Pury & Farquhar scheme */
+	if(DF97==1){
+		f_df97_gpp(grid, loct, pchar, mass, flux);
+	}
+
 	/* maintenance respirations */
 	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
 	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
@@ -400,7 +441,11 @@ void noleafperiod(
 	flux->d13c_rrm[grid->m] = mass->d13c_rot;
 	
 	/* tentative primary production */	
-	flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+	if(DF97==1){
+		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->rpm[grid->m];
+	}else{
+		flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+	}
 	
 	/* translocation of photosynthate */
 	allocation(grid, pchar, mass, flux);

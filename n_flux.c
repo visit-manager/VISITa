@@ -13,7 +13,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/* N budget ******************************************/
+/* N budget **************************************************/
 void n_budget(
 	struct Grid *grid, 
 	struct Loct *loct,
@@ -32,7 +32,7 @@ void n_budget(
 	
 	/* (flux->c3).n_realloc[grid->m] = (flux->c4).n_realloc[grid->m] = 0.0; */
 	
-	/* plant N *****************/
+	/* plant N ****************************************/
 	/* canopy */
 	(mass->c3).n_cnpy += (flux->c3).n_alloc_cnpy[grid->m] 
 						+ (flux->c3).n_realloc[grid->m] 
@@ -71,7 +71,7 @@ void n_budget(
 	}
 	(mass->c4).n_strg_m[grid->m] = (mass->c4).n_strg;
 	
-	/* soil N *****************/
+	/* soil N *************************************************/
 	/* microbe */
 	(mass->soil).n_mcrb += (flux->soil).n_immbl[grid->m]
 						- (flux->soil).n_mcrb_abdn[grid->m];
@@ -163,6 +163,7 @@ void f_nh3_volatilization(
 ){
 	double f_ph, f_tmp, f_sw;
 	double swp, nh4_soil;
+	extern double MDN[12];
 	
 	/* g N ha-1 */
 	/*  nh4_soil = grid->total_n_1m * 0.3 * 0.01*10000.0 *0.5;  */
@@ -197,7 +198,7 @@ void f_nh3_volatilization(
 	/* Thornley (1998) Eq.(5.4i) */
 	/* g NH3 ha-1 month-1 */
 	flux->n_nh3vlt[grid->m] = nh4_soil * 0.02 * f_ph * f_tmp * f_sw 
-			* (double)(grid->mm[grid->m]) * 17.0/14.0;
+			* MDN[grid->m] * 17.0/14.0;
 }
 
 /* N deposition ********************************************************/
@@ -213,6 +214,7 @@ void f_n_deposit(
 	long f;
 	double pre_ann, ndepo_dry, ndepo_wet, aa;
 	double f_no3, f_nh4;
+	extern double MDN[12];
 	
 	f_no3 = 0.75;
 	f_nh4 = 1.0 - f_no3;
@@ -223,21 +225,22 @@ void f_n_deposit(
 	}
 
 	if(grid->climy<=1850){
-		ndepo_dry = 0.5 * grid->ndepo[0] * (double)(grid->mm[grid->m])/365.0;
+		ndepo_dry = 0.5 * grid->ndepo[0] * MDN[grid->m]/365.0;
 		ndepo_wet = 0.5 * grid->ndepo[0] * (grid->prate_sfc_a[grid->m] + 1.0)/pre_ann;
 	}else if(grid->climy>1850 && grid->climy<=1993){
 		aa = grid->ndepo[0] + (grid->ndepo[1] - grid->ndepo[0])*(double)(grid->climy-1850)/143.0;
 	
-		ndepo_dry = 0.5 * aa * (double)(grid->mm[grid->m])/365.0;
+		ndepo_dry = 0.5 * aa * MDN[grid->m]/365.0;
 		ndepo_wet = 0.5 * aa * (grid->prate_sfc_a[grid->m] + 1.0)/pre_ann;
 	}else if(grid->climy>1993 && grid->climy<=2050){
 		aa = grid->ndepo[1] + (grid->ndepo[2] - grid->ndepo[1])*(double)(grid->climy-1993)/57.0;
 	
-		ndepo_dry = 0.5 * aa * (double)(grid->mm[grid->m])/365.0;
+		ndepo_dry = 0.5 * aa * MDN[grid->m]/365.0;
 		ndepo_wet = 0.5 * aa * (grid->prate_sfc_a[grid->m] + 1.0)/pre_ann;
-	}else if(grid->climy>2050){
-		ndepo_dry = grid->ndepo[2] * 0.5 * (double)(grid->mm[grid->m])/365.0;
-		ndepo_wet = grid->ndepo[2] * 0.5 * (grid->prate_sfc_a[f] + 1.0)/pre_ann;
+	}else{ /*  if(grid->climy>2050) */
+		ndepo_dry = grid->ndepo[2] * 0.5 * MDN[grid->m]/365.0;
+		ndepo_wet = grid->ndepo[2] * 0.5 * (grid->prate_sfc_a[grid->m] + 1.0)/pre_ann;
+		/* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
 	}
 	
 	if(ndepo_dry<0.0){
@@ -352,7 +355,7 @@ void f_n_uptake(
 	(flux->plant).uptake_nh4[grid->m] = (flux->c3).uptake_nh4[grid->m] + (flux->c4).uptake_nh4[grid->m];
 }
 
-/* N abandoned as litter ******************/
+/* N abandoned as litter *********************************/
 void f_n_abandon_salvage(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -376,7 +379,7 @@ void f_n_abandon_salvage(
 	}
 }
 
-/* allocation of uptake N ******************************/
+/* allocation of uptake N **********************************/
 void f_n_alloc(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -414,7 +417,7 @@ void f_n_alloc(
 		}else{
 			flux->n_alloc_cnpy[grid->m] = n_obtain;
 		}
-	}else if(n_opt <= n_leaf_conc){
+	}else{  /*  if(n_opt <= n_leaf_conc) */
 		n_demand2 = 1.0 * (amax - a_nlmt);
 		
 		if(n_obtain > n_demand2){
@@ -469,7 +472,7 @@ void f_n_realloc(
 			}else{
 				flux->n_realloc[grid->m] = n_stock;
 			}
-		}else if(n_opt <= n_leaf_conc){
+		}else{  /* if(n_opt <= n_leaf_conc) */
 			n_demand2 = 1.0 * (amax - a_nlmt);
 			
 			if(n_stock > n_demand2){
@@ -483,7 +486,7 @@ void f_n_realloc(
 	}
 }
 
-/* N immobilization by microbes ******************/
+/* N immobilization by microbes *****************************/
 void f_n_immoblz(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -491,11 +494,13 @@ void f_n_immoblz(
 	struct Smas *mass, 
 	struct Sflx *flux
 ){
+	extern double MDN[12];
+
 	flux->n_immbl[grid->m] = 0.5 * flux->n_minerlz_hums[grid->m] + 
-		(0.002 * mass->n_no3 + 0.001 * mass->n_nh4) * (double)(grid->mm[grid->m]);
+		(0.002 * mass->n_no3 + 0.001 * mass->n_nh4) * MDN[grid->m];
 }
 
-/* N abandoned from microbes ******************/
+/* N abandoned from microbes ******************************/
 void f_n_mcrb_abdn(
 	struct Grid *grid, 
 	struct Loct *loct, 

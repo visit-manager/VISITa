@@ -12,7 +12,7 @@
 
 #define NOTICE 0
 
-/* CH4 emission model by Cao **********************************/
+/* CH4 emission model by Cao **********************************************/
 /*
 Cao, M., Marshall, S. and Gregson, K., 1996. Global carbon exchange and 
 methane emissions from natural wetlands: Application of a process-based model. 
@@ -23,9 +23,9 @@ void f_ch4_emit_cao(
 	struct Loct *loct, 
 	struct Flux *flux
 ){
-	double wtable;
+	double wtable;	/* water table, cm */
 	double f_temp, f_wtable;
-	double hr_decomp;
+	double hr_decomp, gpp_factor;
 	
 	/* soil decomposition rate. Mg C ha-1 month-1 */
 	hr_decomp = (flux->soil).rS[grid->m];
@@ -34,6 +34,7 @@ void f_ch4_emit_cao(
 	}
 	
 	/* temperature (deg C) coefficient */
+	/* eq.7 */
 	f_temp = exp(grid->tmp10_soil[grid->m] * 0.0693) / 7.996;
 	if(f_temp<0.0){
 		f_temp = 0.0;
@@ -42,32 +43,71 @@ void f_ch4_emit_cao(
 	/* CH4 emission, mg CH4 m-2 month-1 */
 
 	/* water table (cm relative to surface) coefficient */
-	/* wetland */
-	wtable = -10.0;
-	f_wtable = 0.383 * exp(0.096 * wtable);
+	/* wetland *********************************/
+	wtable = 5.0;
+	/* eq.6 */
+	f_wtable = 0.383 * (0.5*exp(0.096 * wtable) + 0.5*exp(0.096 * -5.0));
 	if(f_wtable<0.0){
 		f_wtable = 0.0;
 	}
-	(flux->soil).ch4emit_wetland_cao[grid->m] = hr_decomp * f_temp * f_wtable;
-	(flux->soil).ch4emit_wetland_cao[grid->m] *= 16.0/12.0 * 1000000000.0 / 10000.0;
-	(flux->soil).ch4emit_wetland_cao[grid->m] *= grid->f_wetland;
+	/* Mg C ha-1 month-1 */
+	(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * f_wtable;
+	/* mg CH4 m-2 month-1 */
+	(flux->soil).ch4prod_wetland_cao[grid->m] *= 16.0/12.0 * 1000000000.0 / 10000.0;
+	(flux->soil).ch4prod_wetland_cao[grid->m] *= grid->f_wetland;
 	
-	/* paddy field */
-	if(grid->tmp_sfc[grid->m] > 15.0){
-		wtable = -5.0;	
+	/* CH4 oxidation */
+	if((flux->soil).ch4prod_wetland_cao[grid->m]>0.0 && loct->gppmax>0.0){
+		gpp_factor = (flux->plant).gpp[grid->m]/loct->gppmax;
+		gpp_factor = (gpp_factor>0.0)?gpp_factor:0.0;
+		gpp_factor = (gpp_factor<1.0)?gpp_factor:1.0;
+		
+		(flux->soil).ch4oxy_wetland_cao[grid->m] = (flux->soil).ch4prod_wetland_cao[grid->m] 
+			* (0.60 + 0.30*gpp_factor);
 	}else{
-		wtable = -30.0;
+		(flux->soil).ch4oxy_wetland_cao[grid->m] = 0.0;
 	}
+	
+	/* net flux */
+	(flux->soil).ch4flux_wetland_cao[grid->m] = (flux->soil).ch4prod_wetland_cao[grid->m] 
+			- (flux->soil).ch4oxy_wetland_cao[grid->m];
+	
+	/* paddy field *********************************/
+	if(grid->tmp_2m[grid->m] > 15.0 && grid->prate_sfc[grid->m] > 50.0){
+		wtable = 0.0;
+	}else{
+		wtable = -20.0;
+	}
+	/* eq.6 */
 	f_wtable = 0.383 * exp(0.096 * wtable);
 	if(f_wtable<0.0){
 		f_wtable = 0.0;
 	}
-	(flux->soil).ch4emit_paddy_cao[grid->m] = hr_decomp * f_temp * f_wtable;
-	(flux->soil).ch4emit_paddy_cao[grid->m] *= 16.0/12.0 * 1000000000.0 / 10000.0;
-	(flux->soil).ch4emit_paddy_cao[grid->m] *= grid->f_paddy;
+	/* Mg C ha-1 month-1 */
+	/* assuming low decomposition at paddy field: 0.4, 2008/06/11 */
+	(flux->soil).ch4prod_paddy_cao[grid->m] = 0.4*hr_decomp * f_temp * f_wtable;  
+	/* mg CH4 m-2 month-1 */
+	(flux->soil).ch4prod_paddy_cao[grid->m] *= 16.0/12.0 * 1000000000.0 / 10000.0;
+	(flux->soil).ch4prod_paddy_cao[grid->m] *= grid->f_paddy;
+	
+	/* CH4 oxidation */
+	if((flux->soil).ch4prod_paddy_cao[grid->m]>0.0 && loct->gppmax>0.0){
+		gpp_factor = (flux->plant).gpp[grid->m]/loct->gppmax;
+		gpp_factor = (gpp_factor>0.0)?gpp_factor:0.0;
+		gpp_factor = (gpp_factor<1.0)?gpp_factor:1.0;
+
+		(flux->soil).ch4oxy_paddy_cao[grid->m] = (flux->soil).ch4prod_paddy_cao[grid->m] 
+			* (0.60 + 0.30*gpp_factor);
+	}else{
+		(flux->soil).ch4oxy_paddy_cao[grid->m] = 0.0;
+	}
+	
+	/* net flux */
+	(flux->soil).ch4flux_paddy_cao[grid->m] = (flux->soil).ch4prod_paddy_cao[grid->m] 
+			- (flux->soil).ch4oxy_paddy_cao[grid->m];
 }
 
-/* aerobic CH4 emission */
+/* aerobic CH4 emission ************************************************/
 /*
 Keppler, F., Hamilton, J.T.G., Bra, M. and Rkmann, T., 2006. Methane emissions from 
 terrestrial plants under aerobic conditions. Nature 439, 187-191.
@@ -86,6 +126,7 @@ void f_ch4_emit_veg(
 ){
 	double femit_sun, femit_shade;
 	double sunshine;
+	extern double MDN[ASTEP];
 	
 	/* base emission rate */
 	femit_sun = 374.0;		/* ng gdw-1 h-1 */
@@ -97,7 +138,7 @@ void f_ch4_emit_veg(
 	/* C3, g m-2 month-1 */
 	if((echar->c3).season[grid->m]!=0){
 		(flux->c3).emit_ch4_kirschbaum_mass[grid->m] = ((mass->c3).mfol[grid->m]*dmTc*100.0) * 
-			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -9.0) * grid->mm[grid->m];
+			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -9.0) * MDN[grid->m];
 	}else{
 		(flux->c3).emit_ch4_kirschbaum_mass[grid->m] = 0.0;
 	}
@@ -105,7 +146,7 @@ void f_ch4_emit_veg(
 	/* C4, g m-2 month-1 */
 	if((echar->c4).season[grid->m]!=0){
 		(flux->c4).emit_ch4_kirschbaum_mass[grid->m] = ((mass->c4).mfol[grid->m]*dmTc*100.0) * 
-			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -9.0) * grid->mm[grid->m];
+			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -9.0) * MDN[grid->m];
 	}else{
 		(flux->c4).emit_ch4_kirschbaum_mass[grid->m] = 0.0;
 	}

@@ -11,32 +11,39 @@
 #include"structure.h"
 #include"prototype.h"
 
-extern double m_ch4ox1[12], m_ch4ox2[12], m_ch4ox3[12];
-extern double m_bioburn_co2[12], m_bioburn_ch4[12], m_bioburn_co[12];
-extern double m_bioburn_nmhc[12], m_bioburn_oc[12], m_bioburn_bc[12];
+extern double m_ch4ox1[ASTEP], m_ch4ox2[ASTEP], m_ch4ox3[ASTEP];
+extern double m_bioburn_co2[ASTEP], m_bioburn_ch4[ASTEP], m_bioburn_co[ASTEP];
+extern double m_bioburn_nmhc[ASTEP], m_bioburn_oc[ASTEP], m_bioburn_bc[ASTEP];
+extern double m_gpp[ASTEP], m_npp[ASTEP], m_nep[ASTEP];
 
-extern double v_gpp[34], v_npp[34], v_nep[34];
-extern double v_lai[34], v_fol[34], v_stm[34], v_rot[34], v_ltr[34], v_msl[34];
+extern double vo_area[34];
+extern double vo_gpp[34], vo_npp[34], vo_nep[34];
+extern double vo_lai[34], vo_fol[34], vo_stm[34], vo_rot[34], vo_ltr[34], vo_msl[34];
+extern double vs_area[16];
+extern double vs_gpp[16], vs_npp[16], vs_nep[16];
+extern double vs_lai[16], vs_fol[16], vs_stm[16], vs_rot[16], vs_ltr[16], vs_msl[16];
+extern short DF97;
 
-/* 1901-2000 ***********************************************************************/
+/* 1901-2000 (2002 / 2008) *****************************************************/
 void cal_cruclim(
 	struct Grid *grid, 
 	struct Loct *loct, 
 	struct Echar *echar, 
 	struct Mass *mass, 
 	struct Flux *flux, 
-	FILE *fp_o[6]
+	FILE *fp_o[OFILES]
 ){
 	long f, g;
+	extern double MDN[ASTEP];
 	
 	grid->phase = 1; /* history */
 	
 	(echar->soil).rl = (echar->soil).rl0;
 	(echar->soil).rh = (echar->soil).rh0;
 	
-	/* roop to dynamic stage ***********************************************/
+	/* LOOP to dynamic stage ***********************************************/
 	for(g=0; g<CRU_PD; g++){
-		/* AD1901 - 2000 */
+		/* AD1901 - 2002 / 2008 */
 		
 		/* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
@@ -51,7 +58,7 @@ void cal_cruclim(
 		grid->CO2y = PIVOT_CO2Y + g; 
 		
 		/* monthly roop ****************************************************/
-		for(f=0;f<12;f++){
+		for(f=0;f<ASTEP;f++){
 			grid->m = f;
 			
 			/* initialize N fluxes ************/
@@ -84,6 +91,12 @@ void cal_cruclim(
 			/***** soil processes *****/
 			soil_processes(grid, loct, &(echar->soil), &(mass->soil), &(flux->soil));
 
+			/* fertilizaer input */
+			if((echar->soil).v_type == 3){
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.5;
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.5;
+			}
+
 			/* CH4 oxydation (uplands) **************/
 			f_ch4oxy_ridgewell(grid, loct, flux);
 			f_ch4oxy_casa(grid, loct, flux);
@@ -112,6 +125,7 @@ void cal_cruclim(
 			n_budget(grid, loct, mass, flux);
 			
 			if(g>=90 && g<=99){
+				/* mean seasonal change *******/
 				m_ch4ox1[f] += (flux->soil).ch4oxy_ridg[f] * grid->area *10000.0/1000.0 / 10.0;
 				m_ch4ox2[f] += (flux->soil).ch4oxy_casa[f] * grid->area *10000.0/1000.0 / 10.0;
 				m_ch4ox3[f] += (flux->soil).ch4oxy_delgrosso[f] * grid->area *10000.0/1000.0 / 10.0;
@@ -122,15 +136,40 @@ void cal_cruclim(
 				m_bioburn_oc[f] += (flux->bb_oc_litter[f]+flux->bb_oc_leaf[f]+flux->bb_oc_wood[f]+flux->bb_oc_root[f]) * grid->area / 10.0;
 				m_bioburn_bc[f] += (flux->bb_bc_litter[f]+flux->bb_bc_leaf[f]+flux->bb_bc_wood[f]+flux->bb_bc_root[f]) * grid->area / 10.0;
 				
-				v_gpp[grid->veg_olson] += (flux->plant).gpp[f]/10.0 * grid->area;
-				v_npp[grid->veg_olson] += (flux->plant).npp[f]/10.0 * grid->area;
-				v_nep[grid->veg_olson] += flux->nep[f]/10.0 * grid->area;
-				v_lai[grid->veg_olson] += (mass->plant).lai[f]*(double)(grid->mm[f])/365.0/10.0 * grid->area;
-				v_fol[grid->veg_olson] += (mass->plant).mfol[f]*(double)(grid->mm[f])/365.0/10.0 * grid->area;
-				v_stm[grid->veg_olson] += (mass->plant).mstm[f]*(double)(grid->mm[f])/365.0/10.0 * grid->area;
-				v_rot[grid->veg_olson] += (mass->plant).mrot[f]*(double)(grid->mm[f])/365.0/10.0 * grid->area;
-				v_ltr[grid->veg_olson] += (mass->soil).ltr_m[f]*(double)(grid->mm[f])/365.0/10.0 * grid->area;
-				v_msl[grid->veg_olson] += (mass->soil).msl_m[f]*(double)(grid->mm[f])/365.0/10.0 * grid->area;
+				m_gpp[f] += (flux->plant).gpp[f]/10.0 * grid->area;
+				m_npp[f] += (flux->plant).npp[f]/10.0 * grid->area;
+				m_nep[f] += flux->nep[f]/10.0 * grid->area;
+				
+				if(DF97==1){
+					vo_gpp[grid->veg_olson] += (flux->plant).gpp_df97[f]/10.0 * grid->area;
+				}else{
+					vo_gpp[grid->veg_olson] += (flux->plant).gpp[f]/10.0 * grid->area;
+				}
+				
+				/* mean biome budget *******/
+				vo_npp[grid->veg_olson] += (flux->plant).npp[f]/10.0 * grid->area;
+				vo_nep[grid->veg_olson] += flux->nep[f]/10.0 * grid->area;
+				vo_lai[grid->veg_olson] += (mass->plant).lai[f]*MDN[f]/365.0/10.0 * grid->area;
+				vo_fol[grid->veg_olson] += (mass->plant).mfol[f]*MDN[f]/365.0/10.0 * grid->area;
+				vo_stm[grid->veg_olson] += (mass->plant).mstm[f]*MDN[f]/365.0/10.0 * grid->area;
+				vo_rot[grid->veg_olson] += (mass->plant).mrot[f]*MDN[f]/365.0/10.0 * grid->area;
+				vo_ltr[grid->veg_olson] += (mass->soil).ltr_m[f]*MDN[f]/365.0/10.0 * grid->area;
+				vo_msl[grid->veg_olson] += (mass->soil).msl_m[f]*MDN[f]/365.0/10.0 * grid->area;
+				
+				if(DF97==1){
+					vs_gpp[grid->veg_sage] += (flux->plant).gpp_df97[f]/10.0 * grid->area;
+				}else{
+					vs_gpp[grid->veg_sage] += (flux->plant).gpp[f]/10.0 * grid->area;
+				}
+				
+				vs_npp[grid->veg_sage] += (flux->plant).npp[f]/10.0 * grid->area;
+				vs_nep[grid->veg_sage] += flux->nep[f]/10.0 * grid->area;
+				vs_lai[grid->veg_sage] += (mass->plant).lai[f]*MDN[f]/365.0/10.0 * grid->area;
+				vs_fol[grid->veg_sage] += (mass->plant).mfol[f]*MDN[f]/365.0/10.0 * grid->area;
+				vs_stm[grid->veg_sage] += (mass->plant).mstm[f]*MDN[f]/365.0/10.0 * grid->area;
+				vs_rot[grid->veg_sage] += (mass->plant).mrot[f]*MDN[f]/365.0/10.0 * grid->area;
+				vs_ltr[grid->veg_sage] += (mass->soil).ltr_m[f]*MDN[f]/365.0/10.0 * grid->area;
+				vs_msl[grid->veg_sage] += (mass->soil).msl_m[f]*MDN[f]/365.0/10.0 * grid->area;
 			}
 		}
 		/* empirical NPP models */
@@ -143,7 +182,7 @@ void cal_cruclim(
 		f_erosion(grid, loct, echar, mass, flux);
 		
 		if(ERSN_CC==1){
-			(mass->soil).ltr -= flux->erod_carbon;
+			(mass->soil).ltr -= flux->erod_carbon*0.25;
 			if((mass->soil).ltr<0.0){
 				(mass->soil).ltr = 0.0;
 			}

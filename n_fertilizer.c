@@ -16,6 +16,7 @@ void n_fertilizer_in(
 	struct Loct *loct
 ){
 	double fert_input;
+	extern double MDN[12];
 	
 	/* National average: from FAOSTAT, 2002-2003 */
 	/* kg N ha-1 yr-1 */
@@ -245,5 +246,5 @@ void n_fertilizer_in(
 		default:	fert_input = 57.65;				
 	}
 	
-	loct->n_frtlz_in = fert_input;
+	loct->n_frtlz_in = fert_input* MDN[grid->m] / 365.0;
 }

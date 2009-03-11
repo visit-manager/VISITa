@@ -12,7 +12,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/*** annual process of grassland ecosystems, where C3 and C4 plants coexist ***/
+/* annual process of grassland ecosystems, where C3 and C4 plants coexist ***/
 void grass_process(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -23,7 +23,7 @@ void grass_process(
 	beforedeal(grid, flux);
 	
 	/*** mass change by phenological C3/C4 alternation ***/
-/*	phenol_tran_c34(grid, loct, pchar, mass, flux); */
+	/*	phenol_tran_c34(grid, loct, pchar, mass, flux); */
 		
 	switch(pchar->season[grid->m]){
 		case 0: /* dormancy */

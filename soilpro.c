@@ -12,7 +12,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/***************** yearly prcesses in belowground *******************/
+/* yearly prcesses in belowground ***********************************/
 void soil_processes(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -21,8 +21,9 @@ void soil_processes(
 	struct Sflx *flux
 ){
 	double nn;
+	extern double MDN[ASTEP];
 	
-	nn = (double)grid->mm[grid->m];
+	nn = MDN[grid->m];
 	
 	/** clear **/
 	schar->ft_l[grid->m] = 0.0;
@@ -101,7 +102,7 @@ void soil_processes(
 	f_n_mcrb_abdn(grid, loct, schar, mass, flux);
 }
 
-/*************** soil respiration of litter layer *****************/
+/* soil respiration of litter layer *******************************/
 double frl(
 	struct Grid *grid, 
 	struct Loct *loct,
@@ -110,7 +111,8 @@ double frl(
 ){
 	double rlto, to, rl, ftl, fwl, fal, fsm;
 	
-	rlto = schar->rl/1000.0; to=15.0; /* specific rate at 15 deg C */
+	rlto = schar->rl/1000.0; 
+	to = 15.0; /* specific rate at 15 deg C */
 	/* temperature effect, exponential */
 	/* ftl=exp(log(soil->qTl)/10.0*(grid->tmp10_soil[grid->m]-to)); */
 	if(grid->tmp10_soil[grid->m]>-20.0){
@@ -137,14 +139,16 @@ double frl(
 	schar->ft_l[grid->m] = ftl;
 
 	/* soil moisture effect, saturating */
-	fwl=0.8*loct->sw30/(schar->kml*grid->field_cap1+loct->sw30)+0.2;
+	fwl = 0.8*loct->sw30/(schar->kml*grid->field_cap1 + loct->sw30) + 0.2;
 	/* soil apparence effect */
-	fal=0.4*loct->soil_appr30*(1.0*schar->kmsl)/(schar->kmsl+loct->soil_appr30)+0.6;
+	/* 2009/02/22 by A.Ito */
+	/* fal = 0.4*loct->soil_appr30*(1.0*schar->kmsl)/(schar->kmsl+loct->soil_appr30)+0.6; */
+	fal = 0.4*loct->soil_appr30/(schar->kmsl + loct->soil_appr30) + 0.6;
 	
 	fsm=(fwl>fal)?fal:fwl;
 	
 	/* acclimation */
-	if(BACC==2&&grid->phase>=1){
+	if(BACC==2 && grid->phase>=1){
 		fsm = schar->fm0_l[grid->m];
 	}
 	
@@ -155,13 +159,13 @@ double frl(
 	rl=mass->ltr*rlto*ftl*fsm; 
 	
 	/* in case of too much emission, in order to avoid negative mass value */ 
-	if((mass->ltr-rl*(1.0+schar->me))<0.0){
-		rl=mass->ltr/(1.0+schar->me);
+	if((mass->ltr - rl*(1.0 + schar->me))<0.0){
+		rl = mass->ltr/(1.0 + schar->me);
 	}
 	return(rl);	
 }
 
-/************** soil respiration of mineral soil layer ****************/
+/* soil respiration of mineral soil layer *****************************/
 double frh(
 	struct Grid *grid, 
 	struct Loct *loct,
@@ -170,10 +174,11 @@ double frh(
 ){
 	double rhto, to, rh, fth, fwh, fah, fsm;	
 	
-	rhto = schar->rh/1000.0; to=15.0; /* specific rate at 15 deg C*/
+	rhto = schar->rh/1000.0; 
+	to = 15.0; /* specific rate at 15 deg C*/
 	/* temperature effect, exponential */
 	/* fth=exp(log(soil->qTh)/10.0*(grid->tmp200_soil[grid->m]-to)); */
-	if(grid->tmp200_soil[grid->m]>-20.0){
+	if(grid->tmp200_soil[grid->m] > -20.0){
 		if(T_D==0){
 			fth = 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[grid->m]+46.02))); /* control */
 		}else if(T_D==1){
@@ -190,21 +195,23 @@ double frh(
 	} 
 
 	/* acclimation */
-	if(BACC==1&&grid->phase>=1){
+	if(BACC==1 && grid->phase>=1){
 		fth = schar->ft0_h[grid->m];
 	}
 	
 	schar->ft_h[grid->m] = fth;
 
 	/* soil moisture effect, saturating */
-	fwh = 0.8*loct->sww/(schar->kmh*grid->field_cap2+loct->sww)+0.2;
+	fwh = 0.8*loct->sww/(schar->kmh*grid->field_cap2 + loct->sww) + 0.2;
 	/* soil apparence effect */
-	fah = 0.4*loct->soil_apprw*(1.0*schar->kmsh)/(schar->kmsh+loct->soil_apprw)+0.6;
-	
+	/* 2009/02/22 by A.Ito */
+	/* fah = 0.4*loct->soil_apprw*(1.0*schar->kmsh)/(schar->kmsh + loct->soil_apprw) + 0.6;  */
+	fah = 0.4*loct->soil_apprw/(schar->kmsh + loct->soil_apprw) + 0.6;
+
 	fsm = (fwh>fah)?fah:fwh;
 	
 	/* acclimation */
-	if(BACC==2&&grid->phase>=1){
+	if(BACC==2 && grid->phase>=1){
 		fsm = schar->fm0_h[grid->m];
 	}
 	
@@ -213,14 +220,14 @@ double frh(
 	rh = mass->msl*rhto*fth*fsm; 
 	
 	/* in case of too much emission, in order to avoid negative mass value */ 
-	if((mass->msl-rh)<0.0){
+	if((mass->msl - rh)<0.0){
 		rh = mass->msl;
 	}
 	
 	return(rh);
 }
 
-/************* humus formation from litter to mineral soil ****************/
+/* humus formation from litter to mineral soil ****************************/
 double fsf(
 	struct Grid *grid, 
 	struct Schar *schar, 

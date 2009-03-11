@@ -39,6 +39,7 @@ void f_n2o_emit_ngas(
 	double no3_soil;		
 	double kmax = 3.8;		/* g N ha-1 day-1 */ /* assumed */
 	double nmax = 30.0;							/* assumed */
+	extern double MDN[12];
 	
 	nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0);	
 	no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0);	
@@ -147,15 +148,15 @@ void f_n2o_emit_ngas(
 	
 	/* total ***************************************************/
 	/* g N20 ha-1 month-1 */
-	(flux->soil).d_n2o_ntr_ngas[grid->m] = day_n_n2o*44.0/28.0 * grid->mm[grid->m];
-	(flux->soil).d_n2o_dnt_ngas[grid->m] = day_d_n2o*44.0/28.0 * grid->mm[grid->m];
+	(flux->soil).d_n2o_ntr_ngas[grid->m] = day_n_n2o*44.0/28.0 * MDN[grid->m];
+	(flux->soil).d_n2o_dnt_ngas[grid->m] = day_d_n2o*44.0/28.0 * MDN[grid->m];
 	(flux->soil).d_n2o_ngas[grid->m] = (flux->soil).d_n2o_ntr_ngas[grid->m] + (flux->soil).d_n2o_dnt_ngas[grid->m];
 	
 	/* g N2 ha-1 month-1 */
-	(flux->soil).d_n2_ngas[grid->m] = day_d_n2 * grid->mm[grid->m];
+	(flux->soil).d_n2_ngas[grid->m] = day_d_n2 * MDN[grid->m];
 	
 	/* nitrification */
-	(flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.01 * grid->mm[grid->m];
+	(flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.01 * MDN[grid->m];
 }
 
 /* Daily step CASA nitrogen trace gas emission from soil ****************************/
@@ -215,7 +216,7 @@ void f_n2o_emit_casa(
 		d_no = 0.0;
 		d_n2o = (-0.02 * loct->i_w[grid->m] + 2.6) * d_n_min * f_emit;
 		d_n2 = (0.02 * loct->i_w[grid->m] - 1.6) * d_n_min * f_emit;
-	}else if(90.0 <= loct->i_w[grid->m]){
+	}else{  /*  if(90.0 <= loct->i_w[grid->m]) */
 		d_no = 0.0;
 		d_n2o = (-0.08 * loct->i_w[grid->m] + 8.0) * d_n_min * f_emit;
 		d_n2 = (0.08 * loct->i_w[grid->m] - 7.0) * d_n_min * f_emit;

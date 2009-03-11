@@ -96,7 +96,8 @@ void f_cult_luc(
 	/* annual deforestation */
 	if(grid->phase==0){
 		/* spin-up */
-		grid->f_deforest = grid->fcrop_sage[1901] - grid->fcrop_sage[1900];
+		grid->f_deforest = grid->fcrop_sage[1901 - 1700] - grid->fcrop_sage[1900 - 1700];
+		/* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
 	
 	}else{
 		if(LANDUSE>=1 && LANDUSE<=5){
@@ -249,6 +250,7 @@ void f_luc_emit(
 
 			flux->detr_hund[0] = fe_hund;
 			flux->lu_hund += 0.01 * fe_hund;
+																		
 		}else{
 			flux->lu_conv = 0.0;
 			flux->detr_ten[0] = 0.0;

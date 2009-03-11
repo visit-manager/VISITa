@@ -5,27 +5,30 @@
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
-/*********** functions of light environment ************/
+/* functions of light environment ******************************************/
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
 #include"structure.h"
 #include"prototype.h"
 
-/*** solar declination at the middle day (15th day) of month ***/
+extern short RAD_SENS;
+
+/* solar declination at the middle day (15th day) of month *********/
 double sl_dec(
 	struct Grid *grid
 ){
 	double sl_dec;
 	/* day of the year of the 15th day in each month*/
-	double doy[12] = {15.0, 46.0, 74.0, 105.0, 135.0, 166.0, 196.0, 227.0, 258.0, 288.0, 319.0, 349.0}; 
+	double doy[ASTEP] = {15.0, 46.0, 74.0, 105.0, 135.0, 166.0, 
+				196.0, 227.0, 258.0, 288.0, 319.0, 349.0}; 
 
 	sl_dec = 23.45*sin((doy[grid->m]-80.0)*360.0/370.0*dTr); /** **/
 	
 	return (sl_dec);	
 }
 
-/*********** solar hight at midday, in degree ************/
+/* solar hight at midday, in degree ********************************/
 double sl_hgt(
 	struct Grid *grid
 ){
@@ -40,14 +43,15 @@ double sl_hgt(
 	return (bbb);
 }
 
-/************ day length, or photoperiod of vegetation production *************/
+/* day length, or photoperiod of vegetation production *************/
 double dlen(
 	struct Grid *grid
 ){
 	double ho, sr, ss, dl, ha;
 	
 	/** hour-angle when the sun-angle equals to zero **/
-	ho = -sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr)/cos(grid->lat*dTr)/cos(grid->sl_dec[grid->m]*dTr); 
+	ho = -sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr)/
+			cos(grid->lat*dTr)/cos(grid->sl_dec[grid->m]*dTr); 
 	ho = (ho<=1.0)?ho:1.0; ho=(ho>=-1.0)?ho:-1.0;
 	ha = acos(ho);
 	
@@ -58,7 +62,7 @@ double dlen(
 	return (dl);
 }
 
-/*********** shortwave radiation at the atmosphere-top *************/
+/* shortwave radiation at the atmosphere-top ***********************/
 double top_rad(
 	struct Grid *grid
 ){
@@ -98,21 +102,22 @@ double top_rad(
 	}
 	
 	/* holizontally incident radiation at the top of the atmosphere */
-	hh=sin(dlt)*sin(grid->lat*dTr); 
-	ii=cos(dlt)*cos(grid->lat*dTr); 
-	ho=gg*dtc*(hh+ii); 
-	ho=(ho>=0.0)?ho:0.0;
+	hh = sin(dlt)*sin(grid->lat*dTr); 
+	ii = cos(dlt)*cos(grid->lat*dTr); 
+	ho = gg*dtc*(hh+ii); 
+	ho = (ho>=0.0)?ho:0.0;
 			
 	return(ho);
 }
 
-/********** global radiation at the ground surface ************/
+/* global radiation at the ground surface *********************/
 double gl_rad(
 	struct Grid *grid
 ){
 	double cloudiness, jj, hh;
 		
-	/* radiation at the ground, including cloud effect based on the empirical Equbal's equation */
+	/* radiation at the ground, including cloud effect based on
+	 the empirical Equbal's equation */
 	cloudiness = grid->tcdc_clm[grid->m];
 	/* jj=0.803-0.34*cloudiness-0.458*cloudiness*cloudiness; */ /* Black's */
 	jj = 0.8964-0.5392*cloudiness; /* new regression based on NCEP/NCAR data*/
@@ -124,25 +129,52 @@ double gl_rad(
 	return(hh);
 }
 
-/********* photosynthetically active radiation ***********/
+/* photosynthetically active radiation ***************************/
 double par(
 	struct Grid *grid
 ){
 	double kt, hd, dd, par;
 	double e2p_b, e2p_d;
 	
-	/* constant, after McCree (1971) */
+	/* constant, after McCree (1981) */
+	/* McCree, K. J. 1981. Photosynthetically active radiation. 
+	Pages 41-55 in O. L. Lange, P. S. Nobel, and C. B. Osmond, editors. 
+	Encyclopedia of Plant Physiology. Springer, Berlin. */
 	e2p_b = 4.6; /* W/m2 to micro-mol photon /m2/s for diffused radiation*/
 	e2p_d = 4.2; /* W/m2 to micro-mol photon /m2/s for beam radiation*/
 	
 	/* photosynthetically active radiation (par) in the global radiation, 
 	based on the empirical Tooming's equation */	
+	/* ref. Iqbal, M. 1983. An introduction to solar radiation. 
+	Academic Press, Toronto. */
 	if(grid->top_rad[grid->m]!=0.0){
+		/* surface / top ratio */
 		kt = grid->gl_rad[grid->m]/grid->top_rad[grid->m];
-		dd = 0.958-0.982*kt;
+		
+		/* new estimation of diffuse radiation: 2008/09/08 by A.Ito */
+		if(DIF_SRB==1){
+			if((grid->srb_dif_rr*grid->srb_dif_rr) > 0.25){
+				dd = grid->srb_dif_aa + grid->srb_dif_bb*kt;
+			}else{
+				/* global average */
+				dd = 1.306833 - 1.250070*kt;
+			}
+		}else{
+			dd = 0.958-0.982*kt;
+		}
+		
+		if(RAD_SENS==1){
+			dd *= 1.1;
+		}
+		if(RAD_SENS==2){
+			dd *= 0.9;
+		}
+		
 		dd = (dd>0.01)?dd:0.01;
 		dd = (dd<=1.0)?dd:1.0;
-		hd = grid->gl_rad[grid->m]*dd; /** fraction of diffused radiation**/
+		
+		/** diffused radiation**/
+		hd = grid->gl_rad[grid->m]*dd; 
 		
 		/* variable conversion factor after Dye et al. (2004) */
 		/*
@@ -158,14 +190,19 @@ double par(
 			e2p_b = 4.576 - 0.033144*dd;		/* 050409 */
 		}
 		
-		/* fraction of PAR */
+		/* fraction of PAR ******/
+		/* beam */
 		grid->par_be[grid->m] = 0.43*(grid->gl_rad[grid->m]-hd); 
+		/* diffuse */
 		grid->par_de[grid->m] = 0.57*hd; 
 		
 		/* conversion from W/m2 to micro-mol photon /m2/s */
+		/* beam */
 		grid->par_bp[grid->m] = grid->par_be[grid->m]*e2p_b; 
+		/* diffuse */
 		grid->par_dp[grid->m] = grid->par_de[grid->m]*e2p_d; 
 		
+		/* total */
 		par = 0.43*(grid->gl_rad[grid->m]-hd)*e2p_b + 0.57*hd*e2p_d;
 	}else{
 		par = 0.0;
@@ -174,7 +211,7 @@ double par(
 	return (par);
 }
 
-/************* net radiation of canopy and ground surface *******************/
+/* net radiation of canopy and ground surface *******************************/
 void net_rad(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -238,7 +275,7 @@ void net_rad(
 	loct->rad_net_g[grid->m] = rad_net_g;
 }
 
-/*********** albedo of soil surface **************/
+/* albedo of soil surface ********************************************/
 double albedo_soil(
 	struct Loct *loct, 
 	struct Schar *schar
@@ -247,6 +284,14 @@ double albedo_soil(
 	
 	/* a function of snow accumulation */
 	albedo = schar->albedo0 + (0.7 - schar->albedo0)/(1.0 + exp(-0.05*(loct->snwa - 70.0)));
+	
+	if(RAD_SENS==3){
+		albedo *= 1.1;
+	}
+	if(RAD_SENS==4){
+		albedo *= 0.9;
+	}
+	
 	albedo = (albedo>0.05)?albedo:0.05; 
 	albedo = (albedo<0.75)?albedo:0.75;
 	

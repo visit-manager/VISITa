@@ -11,19 +11,51 @@
 #include"structure.h"
 #include"prototype.h"
 
+extern short CC_R;
+
 /*******************************/
 void set_cru_clim(
 	struct Grid *grid
 ){
 	long h;
+	double tmp_var, pre_var, tcdc_var;
 	
-	for(h=0;h<12;h++){
-		grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
-		grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h];
-		grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-		grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
-		grid->tcdc_clm[h] = grid->hist_cld[grid->climy - PIVOT_CLIMY][h];
-		grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY][h];  
+	if(grid->climy<=2002){
+		for(h=0;h<ASTEP;h++){
+			grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
+			grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h];
+			grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
+			grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
+			grid->tcdc_clm[h] = grid->hist_cld[grid->climy - PIVOT_CLIMY][h];
+			grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY][h];  
+		}
+	}else{
+		/* 2003-2008: extrapolation using NCEP/NCAR data: 2009/01/05 by A.Ito */
+		for(h=0;h<ASTEP;h++){
+			/* temperature */
+			tmp_var = grid->ncep_tmp2m[grid->climy - 1948][h][grid->ncep_lat][grid->ncep_lon] - grid->ncep_tmp2m_b[h][grid->ncep_lat][grid->ncep_lon];
+			grid->tmp_sfc[h] = grid->tmp_sfc_a[h] + tmp_var;
+			grid->tmp_2m[h] = grid->tmp_2m_a[h] + tmp_var;
+			grid->tmp10_soil[h]=grid->tmp10_soil_a[h] + tmp_var;
+			grid->tmp200_soil[h]=grid->tmp200_soil_a[h] + tmp_var;
+			
+			/* precipitation */
+			pre_var = grid->ncep_prate[grid->climy - 1948][h][grid->ncep_lat][grid->ncep_lon] - grid->ncep_prate_b[h][grid->ncep_lat][grid->ncep_lon];
+			grid->prate_sfc[h] = grid->prate_sfc_a[h] + pre_var;
+			if(grid->prate_sfc[h]<0.0){
+				grid->prate_sfc[h] = 0.0;
+			}
+			
+			/* cloudiness */
+			tcdc_var = grid->ncep_tcdc[grid->climy - 1948][h][grid->ncep_lat][grid->ncep_lon] - grid->ncep_tcdc_b[h][grid->ncep_lat][grid->ncep_lon];
+			grid->tcdc_clm[h] = grid->tcdc_clm_a[h] + tcdc_var;
+			if(grid->tcdc_clm[h]<0.0){
+				grid->tcdc_clm[h]=0.0;
+			}
+			if(grid->tcdc_clm[h]>1.0){
+				grid->tcdc_clm[h]=1.0;
+			}
+		}
 	}
 }
 
@@ -35,7 +67,7 @@ void set_gcm_clim(
 	double tmp_var, pre_var, shm_var, rad_var;
 	
 	/***************************************************/
-	for(h=0;h<12;h++){
+	for(h=0;h<ASTEP;h++){
 		grid->m = h;
 		/****** temperature ******/
 		if(CC_T==1){
@@ -62,7 +94,7 @@ void set_gcm_clim(
 		/****** precipitation ******/
 		if(CC_P==1){
 			pre_var = grid->proj_prec[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
-					grid->proj_prec_b[h][grid->gcm_row][grid->gcm_col];
+						grid->proj_prec_b[h][grid->gcm_row][grid->gcm_col];
 		}else{
 			pre_var = 0.0;
 		}
@@ -84,7 +116,7 @@ void set_gcm_clim(
 		/****** air humidity ******/
 		if(CC_H==1){
 			shm_var = grid->proj_shum[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
-					grid->proj_shum_b[h][grid->gcm_row][grid->gcm_col];
+						grid->proj_shum_b[h][grid->gcm_row][grid->gcm_col];
 		}else{
 			shm_var = 0.0;
 		}
@@ -100,7 +132,7 @@ void set_gcm_clim(
 		/*  3: SW change but mean PAR  */
 		if(CC_R==1||CC_R==2){
 			rad_var = grid->proj_rad[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
-					grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
+						grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
 		}else if(CC_R==0||CC_R==3){	
 			rad_var = 0.0;	/* mean SW & PAR */
 		}

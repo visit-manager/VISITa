@@ -30,7 +30,7 @@ void read_cru_clim(
 	fscanf(fp_c[0],"%ld", &kk[0]);
 	if(kk[0]==11){
 		for(h=0;h<102;h++){
-			for(g=0;g<12;g++){
+			for(g=0;g<ASTEP;g++){
 				fscanf(fp_c[0],"%lf",&data);
 				
 				grid->hist_cld[h][g] = data/100.0;
@@ -42,7 +42,7 @@ void read_cru_clim(
 	fscanf(fp_c[1],"%ld", &kk[1]);
 	if(kk[1]==11){
 		for(h=0;h<102;h++){
-			for(g=0;g<12;g++){
+			for(g=0;g<ASTEP;g++){
 				fscanf(fp_c[1],"%lf",&data);
 				
 				grid->hist_pre[h][g] = data;
@@ -54,7 +54,7 @@ void read_cru_clim(
 	fscanf(fp_c[2],"%ld", &kk[2]);
 	if(kk[2]==11){
 		for(h=0;h<102;h++){
-			for(g=0;g<12;g++){
+			for(g=0;g<ASTEP;g++){
 				fscanf(fp_c[2],"%lf",&data);
 				
 				grid->hist_tmp[h][g] = data;
@@ -66,7 +66,7 @@ void read_cru_clim(
 	fscanf(fp_c[3],"%ld", &kk[3]);
 	if(kk[3]==11){
 		for(h=0;h<102;h++){
-			for(g=0;g<12;g++){
+			for(g=0;g<ASTEP;g++){
 				fscanf(fp_c[3],"%lf",&data);
 				
 				grid->hist_vap[h][g] = data;
@@ -82,19 +82,15 @@ void read_cru_clim(
 		grid->cru_exist = 1;
 
 		/******* base climate (average 1971 - 2000) ******/
-		for(g=0;g<12;g++){
+		for(g=0;g<ASTEP;g++){
 			grid->hist_cld_b[g] = grid->hist_pre_b[g] = 0.0;
 			grid->hist_tmp_b[g] = grid->hist_vap_b[g] = 0.0;
 		}
 		for(f=0;f<30;f++){
-			for(g=0;g<12;g++){
+			for(g=0;g<ASTEP;g++){
 				grid->hist_cld_b[g] += grid->hist_cld[70+f][g]/30.0;
 				grid->hist_pre_b[g] += grid->hist_pre[70+f][g]/30.0;
 				grid->hist_vap_b[g] += grid->hist_vap[70+f][g]/30.0;
-			}
-		}
-		for(f=0;f<30;f++){
-			for(g=0;g<12;g++){
 				grid->hist_tmp_b[g] += grid->hist_tmp[70+f][g]/30.0;
 			}
 		}

@@ -6,6 +6,7 @@
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
 #include"setting.h"
+#define ASTEP 12	/* annual time-step, 12=monthly */
 
 /*****************************/
 /* declaration of structures */
@@ -18,25 +19,17 @@
 /* l: litter */
 /* h: humus */
 
-double sres_co2[111];			
+double sres_co2[111];
 
-/******* grid conditions, derived from data files *********************************/
+/* grid conditions, derived from data files ***************************************/
 struct Grid{ 
-	/* time ***********/
-	long 	mm[12];					/* number of days in each month */
-
-	long 	phase;					/* simulation phase: 0-spinup, 1-past, 2-future */
-	long 	y;						/* calculation time from the simulation onset, in year */
-	long 	m;						/* month of the year, from Jan. to Dec., 0 to 11 */
-	long 	time_hyd;				/* time to reach stabilization of water budget */
-	long 	time;					/* time to reach stabilization of carbon budget */
-	
 	/* location ***********/
 	long 	row;					/* grid order, row  in 0.5 degree grid */
 	long 	col;					/* grid order, column in 0.5 degree grid */
 	long 	gcm_row;				/* grid order, row in GCM's grid */
 	long 	gcm_col;				/* grid order, column in GCM's grid */
-
+	long	ncep_lat, ncep_lon;
+	
 	double 	lat;					/* latitude of the center of grid cell */
 	double 	lon;					/* longitude of the center of grid cell */
 
@@ -46,50 +39,59 @@ struct Grid{
 
 	long 	country;				/* country number */
 	long 	region;					/* continental region number */
-	long 	nnn;					/* cell numbers from the origin */
+	long 	n_olson;				/* cell numbers from the origin: olson map */
+	long 	n_sage;					/* cell numbers from the origin: SAGE map */
+	long 	n_crop;					/* cell numbers from the origin: SAGE map */
 	
-	/* Olson's actual biome number */
+	/* Olson's actual biome ID */
 	long 	veg_olson;			
-	/* SAGE's potential biome number */
+	/* SAGE's potential biome ID */
 	long 	veg_sage;	
+	/* dominant crop type ID */
+	long 	veg_crop;	
+	
+	/* time ***********/
+	long 	phase;					/* simulation phase: 0-spinup, 1-past, 2-future */
+	long 	y;						/* calculation time from the simulation onset, in year */
+	long 	m;						/* month of the year, from Jan. to Dec., 0 to 11 */
 	
 	/* atmospheric condition ***********/
 	long 	CO2y;					/* year for CO2 level estimation */
-	double 	bCO2[12];				/* background CO2 concentration, in ppmv */
-	double 	d13C_bCO2[12];			/* stable carbon isotope composition of background CO2, permille */
+	double 	bCO2[ASTEP];			/* background CO2 concentration, in ppmv */
+	double 	d13C_bCO2[ASTEP];		/* stable carbon isotope composition of background CO2, permille */
 
 	/* climate condition: *[] means the transitional value */
 	long 	climy;					/* year of climate data */
-	double 	tmp_sfc[12];			/* ground surface temperature, degree Celcius */
+	double 	tmp_sfc[ASTEP];			/* ground surface temperature, degree Celcius */
 	double 	tmp_sfc_am;				/* mean temperature, degree Celcius */
 	double 	tmp_sfc_mx;				/* maximum temperature, degree Celcius */
 	double 	tmp_sfc_mn;				/* minimum temperature, degree Celcius */
-	double 	tmp_2m[12];				/* 2m air temperature, degree Celcius */
+	double 	tmp_2m[ASTEP];			/* 2m air temperature, degree Celcius */
 	double 	gp_atem;				/* average temperature during the growing period, degree Celcius */
 	double 	gp_tem;					/* average temperature during the growing period, degree Celcius */
 	double 	gp_pre;					/* precipitation during the prowing period, mm */
-	double 	tmp10_soil[12];			/* soil temperature at 10 cm depth, degree Celcius */
-	double 	tmp200_soil[12];		/* soil temperature at 200 cm depth, degree Celcius */
-	double 	tcdc_clm[12];			/* total cloudiness, fraction */
-	double 	prate_sfc[12];			/* precipitation, mm mon-1 */
+	double 	tmp10_soil[ASTEP];		/* soil temperature at 10 cm depth, degree Celcius */
+	double 	tmp200_soil[ASTEP];		/* soil temperature at 200 cm depth, degree Celcius */
+	double 	tcdc_clm[ASTEP];		/* total cloudiness, fraction */
+	double 	prate_sfc[ASTEP];		/* precipitation, mm mon-1 */
 	double 	prate_sfc_ann;			/* precipitation, mm mon-1 */
-	double 	spfh_2m[12];			/* specific humidity, kg kg-1 */
-	double 	wnd_10m[12];			/* wind velocity, m s-1 */
+	double 	spfh_2m[ASTEP];			/* specific humidity, kg kg-1 */
+	double 	wnd_10m[ASTEP];			/* wind velocity, m s-1 */
 
 	/* climate condition: *_a[] means the average during 1965 to 1998 */	
-	double 	tmp_sfc_a[12];			/* ground surface temperature, degree Celcius */
-	double 	tmp_2m_a[12];			/* 2m air temperature, degree Celcius */
-	double 	tmp10_soil_a[12];		/* soil temperature at 10 cm depth, degree Celcius */
-	double 	tmp200_soil_a[12];		/* soil temperature at 200 cm depth, degree Celcius */
-	double 	tcdc_clm_a[12];			/* total cloudiness, fraction */
-	double 	prate_sfc_a[12];		/* precipitation, mm mon-1 */
-	double 	spfh_2m_a[12];			/* specific humidity, kg kg-1 */
-	double 	ugrd_10m_a[12];			/* zonal wind velocity, m s-1 */
-	double	vgrd_10m_a[12];			/* meridional wind velocity, m s-1 */
-	double 	rad_a[12];				/* solar radiation, W m-2 */
-	double 	par_a[12];				/* PAR, micro mol m-2 s-1 */
+	double 	tmp_sfc_a[ASTEP];		/* ground surface temperature, degree Celcius */
+	double 	tmp_2m_a[ASTEP];		/* 2m air temperature, degree Celcius */
+	double 	tmp10_soil_a[ASTEP];	/* soil temperature at 10 cm depth, degree Celcius */
+	double 	tmp200_soil_a[ASTEP];	/* soil temperature at 200 cm depth, degree Celcius */
+	double 	tcdc_clm_a[ASTEP];		/* total cloudiness, fraction */
+	double 	prate_sfc_a[ASTEP];		/* precipitation, mm mon-1 */
+	double 	spfh_2m_a[ASTEP];		/* specific humidity, kg kg-1 */
+	double 	ugrd_10m_a[ASTEP];		/* zonal wind velocity, m s-1 */
+	double	vgrd_10m_a[ASTEP];		/* meridional wind velocity, m s-1 */
+	double 	rad_a[ASTEP];			/* solar radiation, W m-2 */
+	double 	par_a[ASTEP];			/* PAR, micro mol m-2 s-1 */
 	
-	double 	prec_sub_a[12];			/* precipitation from substitute data (UEA/CRU), mm mon-1 */
+	double 	prec_sub_a[ASTEP];		/* precipitation from substitute data (UEA/CRU), mm mon-1 */
 
 	double 	topo;					/* topography, orology, and altitude, m above MSL */
 	/* double 	whc;				*/	/* soil water holding capacity */
@@ -97,49 +99,61 @@ struct Grid{
 	double 	sd;						/* soil rooting depth */
 	double 	hyd_cond;				/* hydraulic conductivity, */
 	
-	double	sl_dec[12];				/* solar declination, degree */
-	double	sl_hgt[12];				/* solar hight at midday, degree */
-	double	dlen[12];				/* monthly day length, hour */
-	double	top_rad[12];				/* downward solar radiation at the atmosphere-top, W m-2 */
-	double	gl_rad[12];				/* global radiation at the canopy-top, W m-2 */
-	double	par[12];				/* monthly photosynthetically active radiation, micro mol photon m-2 s-1 */
+	double	sl_dec[ASTEP];			/* solar declination, degree */
+	double	sl_hgt[ASTEP];			/* solar hight at midday, degree */
+	double	dlen[ASTEP];			/* monthly day length, hour */
+	double	top_rad[ASTEP];			/* downward solar radiation at the atmosphere-top, W m-2 */
+	double	gl_rad[ASTEP];			/* global radiation at the canopy-top, W m-2 */
+	double	par[ASTEP];				/* monthly photosynthetically active radiation, micro mol photon m-2 s-1 */
 
-	double	par_be[12];				/* PAR, beam, in energy W/m2 */
-	double	par_de[12];				/* PAR, diffuse, in energy W/m2 */
-	double	par_bp[12];				/* PAR, beam, in photon micro mol photon /m2 /s */
-	double	par_dp[12];				/* PAR, diffuse, in photon micro mol photon /m2 /s */
-
+	double	par_be[ASTEP];			/* PAR, beam, in energy W/m2 */
+	double	par_de[ASTEP];			/* PAR, diffuse, in energy W/m2 */
+	double	par_bp[ASTEP];			/* PAR, beam, in photon micro mol photon /m2 /s */
+	double	par_dp[ASTEP];			/* PAR, diffuse, in photon micro mol photon /m2 /s */
+	
 	/* GCM climate: year x month x row x column */
-	float	proj_tmp2m[131][12][160][320];			/* temperature */
-	float	proj_prec[131][12][160][320];			/* precipitation */
-	float	proj_shum[131][12][160][320];			/* specific humidity */
-	float	proj_rad[131][12][160][320];			/* surface downward solar radiation */
+	/* 160 x 320 */
+	float	proj_tmp2m[131][ASTEP][160][320];			/* temperature */
+	float	proj_prec[131][ASTEP][160][320];			/* precipitation */
+	float	proj_shum[131][ASTEP][160][320];			/* specific humidity */
+	float	proj_rad[131][ASTEP][160][320];			/* surface downward solar radiation */
 	/* 1970-1999 average: month x row x column */
-	float	proj_tmp2m_b[12][160][320];				/* temperature */
-	float	proj_prec_b[12][160][320];				/* precipitation */
-	float	proj_shum_b[12][160][320];				/* specific humidity */
-	float	proj_rad_b[12][160][320];				/* surface downward solar radiation */
-
+	float	proj_tmp2m_b[ASTEP][160][320];				/* temperature */
+	float	proj_prec_b[ASTEP][160][320];				/* precipitation */
+	float	proj_shum_b[ASTEP][160][320];				/* specific humidity */
+	float	proj_rad_b[ASTEP][160][320];				/* surface downward solar radiation */
+	
+	/* NCEP/NCAR 1948-2008 */
+	float	ncep_tmp2m[61][ASTEP][94][192];
+	float	ncep_prate[61][ASTEP][94][192];
+	float	ncep_tcdc[61][ASTEP][94][192];
+	float	ncep_vpres[61][ASTEP][94][192];
+	/* average */
+	float	ncep_tmp2m_b[ASTEP][94][192];
+	float	ncep_prate_b[ASTEP][94][192];
+	float	ncep_tcdc_b[ASTEP][94][192];
+	float	ncep_vpres_b[ASTEP][94][192];
+	
 	double	proj_prec_co;			/* carry-over of negative precipitation */
 
 	/* UEA/CRU TS2.0 data */
 	long	cru_exist;							/* flag of CRU TS2.1 data availability */
-	double	hist_tmp[CRU_PD+2][12];				/* temperature */
-	double	hist_pre[CRU_PD+2][12];				/* precipitation */
-	double	hist_cld[CRU_PD+2][12];				/* cloud cover */
-	double	hist_vap[CRU_PD+2][12];				/* vapor pressure */
+	double	hist_tmp[CRU_PD+2][ASTEP];				/* temperature */
+	double	hist_pre[CRU_PD+2][ASTEP];				/* precipitation */
+	double	hist_cld[CRU_PD+2][ASTEP];				/* cloud cover */
+	double	hist_vap[CRU_PD+2][ASTEP];				/* vapor pressure */
 	/* historical average */
-	double	hist_tmp_b[12];						/* temperature */
-	double	hist_pre_b[12];						/* precipitation */
-	double	hist_cld_b[12];						/* cloud cover */
-	double	hist_vap_b[12];						/* vapor pressure */
+	double	hist_tmp_b[ASTEP];						/* temperature */
+	double	hist_pre_b[ASTEP];						/* precipitation */
+	double	hist_cld_b[ASTEP];						/* cloud cover */
+	double	hist_vap_b[ASTEP];						/* vapor pressure */
 	
 	/* erosion */
-	long 	rvbasin;							/* ID of river basin */
-	double 	albedo_soil;						/* soil albedo */
-	double 	pcnt_orgmat;						/* percent organic matter */
-	double 	fls_slope;							/* slope factors LS for RUSLE erosion model */
-	double 	fk_edodibility;						/* soil erodibility for RUSLE erosion model */
+	long 	rvbasin;						/* ID of river basin */
+	double 	albedo_soil;					/* soil albedo */
+	double 	pcnt_orgmat;					/* percent organic matter */
+	double 	fls_slope;						/* slope factors LS for RUSLE erosion model */
+	double 	fk_edodibility;					/* soil erodibility for RUSLE erosion model */
 	
 	/* land-use change */
 	double 	fcrop_sage[293];				/* historical data, 1700-1992, Ramankutty & Foley */
@@ -148,6 +162,12 @@ struct Grid{
 	double 	fcrop4_image[111];				/* C4 crop */
 	double 	fgrass3_image[111];				/* C3 pasture grass */
 	double 	fgrass4_image[111];				/* C4 pasture grass */
+	
+	double	fcrop;
+	double	frice;
+	double	fwheat;
+	double	fmaize;
+	double	fothers;
 	
 	/* EOS-WEBSTER, 1700-2000, Hurtt et al. */
 	double	fcrop_eossagehyde[301];		/* cropland fraction */
@@ -212,128 +232,150 @@ struct Grid{
 	double 	ndepo[3];					/* N deposition by Galloway et al. (2004) */
 	double	nfert_nh4;					/* NH4+ fertilization input */
 	double	nfert_no3;					/* NO3- fertilization input */
+	
+	/* radiation conversion model using SRB data */
+	double	srb_dif_aa;					/* linear regression a */
+	double	srb_dif_bb;					/* linear regression b */
+	double	srb_dif_rr;					/* linear regression r */
+	double	srb_dif_min_x;
+	double	srb_dif_max_x;
+	double	srb_dif_min_y;
+	double	srb_dif_max_y;
 };			
 
-/******* grid conditions, derived from submodules *************************************/
+/* grid conditions, derived from submodules *******************************************/
 struct Loct{ 
-	double	aCO2[12];				 	/* ambient CO2 concentration, in ppmv */
-	double	d13C_aCO2[12];				/* stable carbon isotope composition of CO2, dimensionless */
+	long 	time_hyd;				/* time to reach stabilization of water budget */
+	long 	time;					/* time to reach stabilization of carbon budget */
+
+	double	aCO2[ASTEP];				 	/* ambient CO2 concentration, in ppmv */
+	double	d13C_aCO2[ASTEP];				/* stable carbon isotope composition of CO2, dimensionless */
 	double	cnpy_co2_recyc;				/* within-canopy CO2 recycling ratio */
 
-	double	C4ptn[12];					/* ground coverage of C3 plants, fraction */
-	double	C3ptn[12];					/* ground coverage of C4 plants, fraction */
-	long	gd[12], bbm;				/* vegetative growing period, days */
-	double	gdd[12];				 	/* cumulative growth degree days, degC days */
-
-	double	albedo_sfc[12];				/* land-surface albedo */
-	double	gl_rad_g[12];				/* global radiation under the canopy, W m-2 */
-	double	rad_net_p[12];				/* net radiation, canopy, W m-2 */
-	double	rad_net_g[12];				/* net radiation, soil surface, W m-2 */
-	double	rad_net_long[12];			/* net long-wave radiation, W m-2 */
-	double	rad_net_short[12];			/* net short-wave radiation, W m-2 */
-	double	rad_net[12];				/* net radiation, W m-2 */
+	double	C4ptn[ASTEP];					/* ground coverage of C3 plants, fraction */
+	double	C3ptn[ASTEP];					/* ground coverage of C4 plants, fraction */
+	long	gd[ASTEP], bbm;				/* vegetative growing period, days */
+	double	gdd[ASTEP];				 	/* cumulative growth degree days, degC days */
+	
+	double	albedo_sfc[ASTEP];				/* land-surface albedo */
+	double	gl_rad_g[ASTEP];				/* global radiation under the canopy, W m-2 */
+	double	rad_net_p[ASTEP];				/* net radiation, canopy, W m-2 */
+	double	rad_net_g[ASTEP];				/* net radiation, soil surface, W m-2 */
+	double	rad_net_long[ASTEP];			/* net long-wave radiation, W m-2 */
+	double	rad_net_short[ASTEP];			/* net short-wave radiation, W m-2 */
+	double	rad_net[ASTEP];				/* net radiation, W m-2 */
 	double	rdi;						/* radiative dryness index by Budyko */
 	
-	double	fapar_mono[12];				
+	double	fapar_mono[ASTEP];				
 
-	double	apar_bp[12];				/* absorbed PAR photon, beam, micro mol photon m-2 s-1 */
-	double	apar_dp[12];				/* absorbed PAR photon, diffuse, micro mol photon m-2 s-1 */
-	double	pet_prty[12];				/* Priestley-Taylor potential evapotranspiration, mm month-1 */
+	double	apar_bp[ASTEP];				/* absorbed PAR photon, beam, micro mol photon m-2 s-1 */
+	double	apar_dp[ASTEP];				/* absorbed PAR photon, diffuse, micro mol photon m-2 s-1 */
+	double	pet_prty[ASTEP];				/* Priestley-Taylor potential evapotranspiration, mm month-1 */
 	double	pet_prty_ann;				/* annual Priestley-Taylor potential evapotranspiration, mm yr-1 */
 	
-	double	prsr[12];				/* air pressure, hPa */
-	double	dnsa[12];				/* density of air, kg m-3 */
+	double	prsr[ASTEP];				/* air pressure, hPa */
+	double	dnsa[ASTEP];				/* density of air, kg m-3 */
 
-	double	vp[12];					/* vapour pressure, hPa */
-	double	vps[12];				/* saturation vapour pressure, hPa */
-	double	slope_vps[12];			/* slope of saturation vapour pressure related to tempertaure, hPa deg C-1 */
-	double	r_aero[12];				/* aerodynamic resistance, s m-1 */
-	double	vpd[12];				/* vapour pressure deficit, hPa */
+	double	vp[ASTEP];					/* vapour pressure, hPa */
+	double	vps[ASTEP];				/* saturation vapour pressure, hPa */
+	double	slope_vps[ASTEP];			/* slope of saturation vapour pressure related to tempertaure, hPa deg C-1 */
+	double	r_aero[ASTEP];				/* aerodynamic resistance, s m-1 */
+	double	vpd[ASTEP];				/* vapour pressure deficit, hPa */
 	
-	double	lai[12];				/* leaf area index, m2 m-2 */
-	double	canopy_con[12];			/* canopy conductance, mmol H2O m-2 s-1 */
-	double	f_vegcov[12];			/* fractional vegetation cover */
+	double	lai[ASTEP];				/* leaf area index, m2 m-2 */
+	double	canopy_con[ASTEP];			/* canopy conductance, mmol H2O m-2 s-1 */
+	double	f_vegcov[ASTEP];			/* fractional vegetation cover */
 	
 	/* water pools, mm (= kg/m2) */
 	double	snwa;					/* water equivalent snow depth, mm */
-	double	msnwa[12];				/* monthly */
+	double	msnwa[ASTEP];				/* monthly */
 	double	sw30;					/* soil water content of above 30cm soil, mm */
-	double	msw30[12];				/* monthly */
+	double	msw30[ASTEP];				/* monthly */
 	double	sww;					/* whole soil water content, mm */
-	double	msww[12];				/* monthly */
+	double	msww[ASTEP];				/* monthly */
 
 	/* water fluxes, mm / month */
-	double	pm_evp[12];				/* potential soil evaporation rate, mm */
-	double	pm_trn[12];				/* potential transpiration rate, mm */
-	double	pm_incep[12];			/* potential intercepted-water evaporation rate, mm */
-	double	incep[12];			
-	double	evpr[12];				/* actual evaporation rate, mm */
-	double	trspr[12];				/* actual transpiration rate, mm */
-	double	ro1[12];				/* runoff from upper soil water, mm */
-	double	ro2[12];				/* runoff from lower soil water, mm */
-	double	pntrt[12];				/* water penetration from upper to lower layer, mm */
-	double	thaw[12];				/* snow thaw water, mm */
-	double	vmc30[12];				/* volumatric moisture content of upper layer, fraction */
-	double	vmc[12];				/* volumatric moisture content of lower layer, fraction */
-	double	snp[12];				/* snow fraction of precipitation */
+	double	pm_evp[ASTEP];				/* potential soil evaporation rate, mm */
+	double	pm_trn[ASTEP];				/* potential transpiration rate, mm */
+	double	pm_incep[ASTEP];			/* potential intercepted-water evaporation rate, mm */
+	double	incep[ASTEP];			
+	double	evpr[ASTEP];				/* actual evaporation rate, mm */
+	double	trspr[ASTEP];				/* actual transpiration rate, mm */
+	double	ro1[ASTEP];				/* runoff from upper soil water, mm */
+	double	ro2[ASTEP];				/* runoff from lower soil water, mm */
+	double	pntrt[ASTEP];				/* water penetration from upper to lower layer, mm */
+	double	thaw[ASTEP];				/* snow thaw water, mm */
+	double	vmc30[ASTEP];				/* volumatric moisture content of upper layer, fraction */
+	double	vmc[ASTEP];				/* volumatric moisture content of lower layer, fraction */
+	double	snp[ASTEP];				/* snow fraction of precipitation */
 	double	soil_appr30;			/* soil aperture of upper layer, fraction */
 	double	soil_apprw;				/* soil aperture of lower layer, fraction */
 	
 	double	n_frtlz_in;				/* N-fertilization input */
-	double	depo_no3[12];			/* NO3- deposition */
-	double	depo_nh4[12];			/* NH4+ deposition */
+	double	depo_no3[ASTEP];			/* NO3- deposition */
+	double	depo_nh4[ASTEP];			/* NH4+ deposition */
 	
 	/* CASA moisture **********************************/
 	/* long	mday;			*/
-	double	m_m[12];				/* soil moisture index */
+	double	m_m[ASTEP];				/* soil moisture index */
 	double	m_m_pre;				/* precipitation */
-	double	m_rdr[12];				/* dryness */
-	double	m_vmc[12];				/* volumetric soil moisture */
-	double	m_pet[12];				/* potential evapotranspiration */
-	double	m_e[12];				/* soil water change */
-	double	m_sw[12];				/* soil wetness */
-	double	i_w[12];				/* moisture scalar */
+	double	m_rdr[ASTEP];				/* dryness */
+	double	m_vmc[ASTEP];				/* volumetric soil moisture */
+	double	m_pet[ASTEP];				/* potential evapotranspiration */
+	double	m_e[ASTEP];				/* soil water change */
+	double	m_sw[ASTEP];				/* soil wetness */
+	double	i_w[ASTEP];				/* moisture scalar */
 	/* double	d_tmp[31];			
 	double	d_sw[31];			
 	double	d_vmc[31];			*/
-	double	wfps[12];				/* water-filled pore space */
+	double	wfps[ASTEP];				/* water-filled pore space */
+	
+	/* maximum GPP for Cao CH4 scheme */
+	double	gppmax;
 	
 	/* monitoring variables for debugging */
-	double	xx1[12];
-	double	xx2[12];
-	double	xx3[12];
-	double	xx4[12];
-	double	xx5[12];
+	double	xx1[ASTEP];
+	double	xx2[ASTEP];
+	double	xx3[ASTEP];
+	double	xx4[ASTEP];
+	double	xx5[ASTEP];
 };			
 
-/******* vegetation characteristics *******/
+/* vegetation characteristics ****************************************************/
 struct Pchar{ 
+	short	v_type;				/* vegetation classification types */
+								/* 1: Olson actual vegetation */
+								/* 2: SAGE natural vegetation */
+								
+	/* optics */
 	double	albedo;					/* reflectivity, or albedo */
-	double	fapar[12];				/* fraction of absorbed PAR */
+	double	fapar[ASTEP];				/* fraction of absorbed PAR */
 
 	/* allocation *********/
-	double	opt_lai[12];			/* optimum leaf area index */
+	double	opt_lai[ASTEP];			/* optimum leaf area index */
 	double	alloc_ass;				/* allocation ration for assimilation organ, fraction */
 	double	alloc_abg;				/* allocation ration for aboveground non-assimilation organ, fraction */
-	double	malloc_f[12];			/* monthly allocation ratio to leaf */
-	double	malloc_c[12];			/* monthly allocation ratio to stem */
-	double	malloc_r[12];			/* monthly allocation ratio to root */
+	double	malloc_f[ASTEP];			/* monthly allocation ratio to leaf */
+	double	malloc_c[ASTEP];			/* monthly allocation ratio to stem */
+	double	malloc_r[ASTEP];			/* monthly allocation ratio to root */
 	
 	/* N parameters *******/
 	double	n_salvage;				/* N re-uptake ratio */
 	double	cn0_strg;				/* base C/N of storage nitrogen */
 	double	n_conc_larea;			/* leaf N concentration, mmol N m-2 leaf area */
-	double	n_conc_larea_m[12];		/* monthly */
+	double	n_conc_larea_m[ASTEP];		/* monthly */
 	double	n_conc_lmass;			/* leaf N concentration, mmol N g-1 leaf weight */
 	double	kn_nphoto;				/* canopy N gradient, exponential coefficient */
 	double	amax_nphoto;			/* max. photosynthesis rate, micro mol CO2 m-2 s-1 */
 	double	rd_n;					/* dark respiration, micro mol CO2 m-2 s-1 */
 	
+	double	n_leaf_df97;			/* leaf N concentration, mmol N m-2 */
+	
 	/* phenology *********/
 	double	gdd;					/* growing degree days */
-	double	mgdd[12];				/* monthly growing degree days */
+	double	mgdd[ASTEP];				/* monthly growing degree days */
 	double	grw_pd;					/* growing period */
-	long 	season[12];				/* phenological stage as a function of season */
+	long 	season[ASTEP];				/* phenological stage as a function of season */
 	 	/* 0: dormancy */
 	 	/* 1: vegetative growth */
 	 	/* 2: emergence of new leaf */
@@ -343,31 +385,35 @@ struct Pchar{
 	
 	double	fleaf_age[49];			/* leaf age distribution, 0(new) to 48-over(old) months */
 	
+	/* critical temperature condiction for bur burst and leaf shedding */
+	double	crit_temp;
+	double	crit_gdd;
+	
 	/* photosynthesis *******/
-	long	phototype;				/** photosynthetic metabolic pathway, 3=C3, 4=C4, 5=CAM **/
+	short	phototype;				/** photosynthetic metabolic pathway, 3=C3, 4=C4, 5=CAM **/
 	/*  veg->psat[grid->m] = veg->pmax*ftem*fstl*fnstl   */
-	double	psat[12];				/* light-saturated rate, micro mol CO2 m-2 s-1 */
+	double	psat[ASTEP];				/* light-saturated rate, micro mol CO2 m-2 s-1 */
 	double	pmax;					/* potential maximum rate, micro mol CO2 m-2 s-1 */
-	double	ft[12];					/* temperature coefficient */
-	double	fcd[12];				/* CO2 coefficient */
-	double	fsw[12];				/* soil water coefficient */
+	double	ft[ASTEP];					/* temperature coefficient */
+	double	fcd[ASTEP];				/* CO2 coefficient */
+	double	fsw[ASTEP];				/* soil water coefficient */
 	double	ptop;					/* canopy-top photosynthetic rate */
 	double	sla;					/* specific leaf area, cm2 g dm-1 */
 	double	eK0;					/* light attenuation coefficient, no dimension */
-	double	eK[12];					/* light attenuation coefficient, no dimension */
+	double	eK[ASTEP];					/* light attenuation coefficient, no dimension */
 	double	lue0;					/* control light dependence coefficient, mol CO2 mol photon-1 */
-	double	lue[12];				/* monthly quantum yield , mol CO2 mol photon-1 */ 
+	double	lue[ASTEP];				/* monthly quantum yield , mol CO2 mol photon-1 */ 
 	double	topt;					/* optimum temperature, deg C */
 	double	topt0;					/* optimum temperature (co2 dependent), deg C */
 	double	tmin;					/* minimum temperature, deg C */
 	double	tmax;					/* maximum temperature, deg C */
-	double	ci[12];					/* monthly intercellular CO2 concentration, ppmv */
+	double	ci[ASTEP];					/* monthly intercellular CO2 concentration, ppmv */
 	double	kmci;					/* dependence of photosynthesis on intercellular CO2 concentration, ppmv */
 	double	cmpcd0;					/* CO2 compensation point, ppmv */
-	double	cmpcd[12];				/* CO2 compensation point, ppmv */
+	double	cmpcd[ASTEP];				/* CO2 compensation point, ppmv */
 	/* parameters of conductance */
-	double	gs[12];					/* monthly stomatal conductance, mmol H2O m-2 s-1 */
-	double	gc[12];					/* monthly canopy conductance, mmol H2O m-2 s-1 */
+	double	gs[ASTEP];					/* monthly stomatal conductance, mmol H2O m-2 s-1 */
+	double	gc[ASTEP];					/* monthly canopy conductance, mmol H2O m-2 s-1 */
 	double	gs_b0;					/* Leuninig stomata model parameters */
 	double	gs_b1;					/* Leuninig stomata model parameters */
 	double	gs_b2;					/* Leuninig stomata model parameters */
@@ -390,9 +436,9 @@ struct Pchar{
 	double	rmc_h;					/* heart wood */
 	double	rmr_h;					/* coarse root */
 	/* temperature dependence Q10, dimensionless *******/
-	double	qTf[12];				/* leaf */
-	double	qTc[12];				/* stem */
-	double	qTr[12];				/* root */
+	double	qTf[ASTEP];				/* leaf */
+	double	qTc[ASTEP];				/* stem */
+	double	qTr[ASTEP];				/* root */
 	/* temperature dependence Q10 at 15 deg C *****/
 	double	qTf0;					/* leaf */
 	double	qTc0;					/* stem */
@@ -400,9 +446,9 @@ struct Pchar{
 	
 	/* litter fall ********/
 	/* specific litter fall rate, fraction */
-	double	lf[12];					/* leaf */
-	double	lc[12];					/* stem */
-	double	lr[12];					/* root */
+	double	lf[ASTEP];				/* leaf */
+	double	lc[ASTEP];				/* stem */
+	double	lr[ASTEP];				/* root */
 	/* base rate *********/
 	double	lf0;					/* leaf */
 	double	lc0;					/* stem */
@@ -411,17 +457,23 @@ struct Pchar{
 	double	dcd;				
 	
 	/* photosynthetgic 13C fractionation, permil *******/
-	double	photo_13c_frac[12];
+	double	photo_13c_frac[ASTEP];
 		
 	/* specific constants *********************************/
-	/* root stratification *******/
-	double	root_strat;			/* root profile parameter */
+	/* root stratification parameters by Zeng (2001) *******/
+	double	root_dist_a;			/* root profile parameter a, m-1 */
+	double	root_dist_b;			/* root profile parameter b, m-1 */
+	double	root_depth;
 };			
 
-/******* soil characteristics *******/
+/* soil characteristics *************************************************/
 struct Schar{ 
+	short	v_type;				/* vegetation classification types */
+								/* 1: Olson actual vegetation */
+								/* 2: SAGE natural vegetation */
+
 	double	albedo0;			/* reflectivity, or albedo */
-	double	albedo[12];			/* monthly */
+	double	albedo[ASTEP];		/* monthly */
 	/* specific respiration rate at 15degC, mg C g dm-1 day-1 */
 	double	rl;					/* litter */
 	double	rh;					/* humus */
@@ -436,94 +488,90 @@ struct Schar{
 	double	me;					/* mineral soil formation ratio to litter decomposition, fraction */
 	
 	/* environmental scalars, for acclimation sensitivity analysis */
-	double	ft_l[12];			/* temperature for litter */
-	double	ft_h[12];			/* temperature for humus */
-	double	fm_l[12];			/* moisture for litter */
-	double	fm_h[12];			/* moisture for humus */
+	double	ft_l[ASTEP];		/* temperature for litter */
+	double	ft_h[ASTEP];		/* temperature for humus */
+	double	fm_l[ASTEP];		/* moisture for litter */
+	double	fm_h[ASTEP];		/* moisture for humus */
 	/* with "0", average value for sensitivity analysis */
-	double	ft0_l[12];			
-	double	ft0_h[12];
-	double	fm0_l[12];
-	double	fm0_h[12];			
+	double	ft0_l[ASTEP];			
+	double	ft0_h[ASTEP];
+	double	fm0_l[ASTEP];
+	double	fm0_h[ASTEP];			
 };			
 
-/******* ecosystem characteristics *******/
+/* ecosystem characteristics *************************************/
 struct Echar{ 
-	short	v_type;				/* vegetation classification types */
-								/* 1: Olson actual vegetation */
-								/* 2: SAGE natural vegetation */
-
 	struct	Pchar c3;			/* for C3 plants */
 	struct	Pchar c4;			/* for C4 plants */
 	struct	Schar soil;			/* for soil organic matter */
 };			
 
-/* plant biomass *******************************/
+/* plant biomass *************************************************/
 struct Pmas{ 
-	double	lai[12];			/* monthly leaf area index(LAI), m2 m-2 */
+	double	lai[ASTEP];			/* monthly leaf area index(LAI), m2 m-2 */
 	/* carbon mass, Mg C ha-1 *****/ 
 	double	fol;				/* leaf */
-	double	mfol[12];			/* monthly */
+	double	mfol[ASTEP];		/* monthly */
 	double	stm;				/* stem and branch */
-	double	mstm[12];			/* monthly */
+	double	mstm[ASTEP];		/* monthly */
 	double	rot;				/* root */
-	double	mrot[12];			/* monthly */
+	double	mrot[ASTEP];		/* monthly */
 	
-	double	plant[12];			/* monthly plant mass */
+	double	plant[ASTEP];		/* monthly plant mass */
 	double	fol_p;				/* previous leaf carbon */
 	
 	/* stable carbon isotope composition, permille */
 	double	d13c_fol;			/* leaf */
-	double	d13c_mfol[12];		/* monthly */
+	double	d13c_mfol[ASTEP];	/* monthly */
 	double	d13c_stm;			/* stem */
-	double	d13c_mstm[12];		/* monthly */
+	double	d13c_mstm[ASTEP];	/* monthly */
 	double	d13c_rot;			/* root */
-	double	d13c_mrot[12];		/* monthly */
+	double	d13c_mrot[ASTEP];	/* monthly */
 	
-	double	d13c_plant[12];		/* total plant */
+	double	d13c_plant[ASTEP];		/* total plant */
 
 	/* plant N, g N ha-1 */
 	double	n_cnpy;				/* N in canopy */
-	double	n_cnpy_m[12];		/* monthly */	
+	double	n_cnpy_m[ASTEP];	/* monthly */	
 	double	n_strg;				/* N in storage pool */
-	double	n_strg_m[12];		/* monthly */
+	double	n_strg_m[ASTEP];	/* monthly */
 };			
 
-/* soil carbon storage *******************************/
+/* soil carbon storage *******************************************/
 struct Smas{ 
 	/* carbon mass, Mg C ha-1 */ 
 	double	ltr;				/* litter mass */
-	double	ltr_m[12];			/* monthly litter mass */
+	double	ltr_m[ASTEP];		/* monthly litter mass */
 	double	msl;				/* mineral soil and humus mass */
-	double	msl_m[12];			/* monthly mineral soil and humus mass */
-	double	soil[12];			/* monthly soil mass */
+	double	msl_m[ASTEP];		/* monthly mineral soil and humus mass */
+	double	soil[ASTEP];		/* monthly soil mass */
 	
 	double	doc;				/* dissolved organic carbon discharge */
-	double	doc_m[12];			/* monthly */
+	double	doc_m[ASTEP];		/* monthly */
 	
 	/* stable carbon isotope composition, permille */
 	double	d13c_ltr;			/* litter */
-	double	d13c_ltr_m[12];		/* monthly */
+	double	d13c_ltr_m[ASTEP];	/* monthly */
 	double	d13c_msl;			/* mineral soil */
-	double	d13c_msl_m[12];		/* monthly */
-	double	d13c_soil[12];		/* total soil */
+	double	d13c_msl_m[ASTEP];	/* monthly */
+	double	d13c_soil[ASTEP];	/* total soil */
 
 	/* soil inorganic N, g N ha-1 */
 	double	n_no3;				/* NO3- */
-	double	n_no3_m[12];		/* monthly */
+	double	n_no3_m[ASTEP];		/* monthly */
 	double	n_nh4;				/* NH4+ */
-	double	n_nh4_m[12];		/* monthly */
+	double	n_nh4_m[ASTEP];		/* monthly */
 	
 	/* soil organic N, g N ha-1 */
 	double	n_mcrb;				/* microbe */
-	double	n_mcrb_m[12];		/* monthly */
+	double	n_mcrb_m[ASTEP];	/* monthly */
 	double	n_lttr;				/* soil organic litter */
-	double	n_lttr_m[12];		/* monthly */
+	double	n_lttr_m[ASTEP];	/* monthly */
 	double	n_hums;				/* soil organic humus */
-	double	n_hums_m[12];		/* monthly */
+	double	n_hums_m[ASTEP];	/* monthly */
 };			
 
-/* ecosystem carbon storage *************************/
+/* ecosystem carbon storage *************************************/
 struct Mass{ 
 	struct	Pmas c3;			/* C3 plant mass */
 	struct	Pmas c4;			/* C4 plant mass */
@@ -531,137 +579,144 @@ struct Mass{
 	struct	Smas soil;			/* soil mass */
 
 	/* carbon mass */ 
-	double	total[12];			/* ecosystem total carbon storage, Mg C ha-1 */
+	double	total[ASTEP];		/* ecosystem total carbon storage, Mg C ha-1 */
 
 	double	lai_p;				/* previous LAI, m2 m-2 */
 	
 	/* stable carbon isotope composition */
-	double	d13c_total[12];		/* total d13C, permille */
+	double	d13c_total[ASTEP];		/* total d13C, permille */
 };			
 
-/* plant carbon fluxes, all monthly  *******************/
+/* plant carbon fluxes, all monthly  *******************************/
 struct Pflx{ 
 	/* carbon flux, in Mg C ha-1 mon-1 */ 
-	double	gpp[12];			/* gross primary production */
-	double	spp[12];			/* net primary production */
-	double	epp[12];			/* net primary production */
-	double	npp[12];			/* net primary production */
+	double	gpp[ASTEP];			/* gross primary production */
+	double	spp[ASTEP];			/* net primary production */
+	double	epp[ASTEP];			/* net primary production */
+	double	npp[ASTEP];			/* net primary production */
 	
-	double	tpf[12];			/* translocation of photosynthate to foliage */
-	double	tpc[12];			/* translocation of photosynthate to stem */
-	double	tpr[12];			/* translocation of photosynthate to root */
-	double	tpp[12];			/* translocation of photosynthate to root */
+	double	gpp_df97[ASTEP];	/* gross primary production by de Pury & Farquhar scheme */
+
+	double	tpf[ASTEP];			/* translocation of photosynthate to foliage */
+	double	tpc[ASTEP];			/* translocation of photosynthate to stem */
+	double	tpr[ASTEP];			/* translocation of photosynthate to root */
+	double	tpp[ASTEP];			/* translocation of photosynthate to root */
  	
-	double	rp[12];				/* plant respiration, =rpm+rpg */
-	double	rpg[12];			/* plant growth respiration */
-	double	rpm[12];			/* plant maintenance respiration */
-	double	rfg[12];			/* foliage growth respiration */
-	double	rfm[12];			/* foliage maintenance respiration */
-	double	rcg[12];			/* stem and branch growth respiration */
-	double	rcm[12];			/* stem and branch maintenance respiration */
-	double	rrg[12];			/* root growth respiration */
-	double	rrm[12];			/* root maintenance respiration */
+	double	rp[ASTEP];				/* plant respiration, =rpm+rpg */
+	double	rpg[ASTEP];			/* plant growth respiration */
+	double	rpm[ASTEP];			/* plant maintenance respiration */
+	double	rfg[ASTEP];			/* foliage growth respiration */
+	double	rfm[ASTEP];			/* foliage maintenance respiration */
+	double	rcg[ASTEP];			/* stem and branch growth respiration */
+	double	rcm[ASTEP];			/* stem and branch maintenance respiration */
+	double	rrg[ASTEP];			/* root growth respiration */
+	double	rrm[ASTEP];			/* root maintenance respiration */
 	
-	double	lf[12];				/* foliage litterfall */
-	double	lc[12];				/* stem and branch litterfall */
-	double	lr[12];				/* root litterfall */
-	double	lL[12];				/* total litterfall */
-	double	lf_c[12];			/* leaf shedding in C3/C4 altyeration in grassland */
+	double	lf[ASTEP];				/* foliage litterfall */
+	double	lc[ASTEP];				/* stem and branch litterfall */
+	double	lr[ASTEP];				/* root litterfall */
+	double	lL[ASTEP];				/* total litterfall */
+	double	lf_c[ASTEP];			/* leaf shedding in C3/C4 altyeration in grassland */
 	
-	double	hvst[12];			/* harvest of crops */
+	double	hvst[ASTEP];			/* harvest of crops */
 	
-	double	emit_ch4_kirschbaum_mass[12];		/* plant CH4 emission, mass-based */
-	double	emit_ch4_kirschbaum_photo[12];		/* plant CH4 emission, photosynthesis-based */
+	double	emit_ch4_kirschbaum_mass[ASTEP];		/* plant CH4 emission, mass-based */
+	double	emit_ch4_kirschbaum_photo[ASTEP];		/* plant CH4 emission, photosynthesis-based */
 	
 	/* stable carbon isotope composition, d13C, permille */
-	double	d13c_gpp[12];		/* GPP */
-	double	d13c_spp[12];		/* SPP */
-	double	d13c_epp[12];		/* EPP */
-	double	d13c_npp[12];		/* NPP */
+	double	d13c_gpp[ASTEP];		/* GPP */
+	double	d13c_spp[ASTEP];		/* SPP */
+	double	d13c_epp[ASTEP];		/* EPP */
+	double	d13c_npp[ASTEP];		/* NPP */
 	
-	double	d13c_tpf[12];			
-	double	d13c_tpc[12];			
-	double	d13c_tpr[12];			
-	double	d13c_tpp[12];			
+	double	d13c_tpf[ASTEP];			
+	double	d13c_tpc[ASTEP];			
+	double	d13c_tpr[ASTEP];			
+	double	d13c_tpp[ASTEP];			
  	
-	double	d13c_rp[12];			
-	double	d13c_rpg[12];			
-	double	d13c_rpm[12];			
-	double	d13c_rfg[12];			
-	double	d13c_rfm[12];			
-	double	d13c_rcg[12];			
-	double	d13c_rcm[12];
-	double	d13c_rrg[12];			
-	double	d13c_rrm[12];			
+	double	d13c_rp[ASTEP];			
+	double	d13c_rpg[ASTEP];			
+	double	d13c_rpm[ASTEP];			
+	double	d13c_rfg[ASTEP];			
+	double	d13c_rfm[ASTEP];			
+	double	d13c_rcg[ASTEP];			
+	double	d13c_rcm[ASTEP];
+	double	d13c_rrg[ASTEP];			
+	double	d13c_rrm[ASTEP];			
 	
-	double	d13c_lf[12];			
-	double	d13c_lc[12];			
-	double	d13c_lr[12];			
-	double	d13c_lL[12];
-	double	d13c_lf_c[12];			
+	double	d13c_lf[ASTEP];			
+	double	d13c_lc[ASTEP];			
+	double	d13c_lr[ASTEP];			
+	double	d13c_lL[ASTEP];
+	double	d13c_lf_c[ASTEP];			
 
-	double	d13c_hvst[12];			/* harvest */
+	double	d13c_hvst[ASTEP];			/* harvest */
 
 	/* nitrogen flux, g N ha-1 mon-1 */
-	double	n_biofix[12];			/* biological N2 fixation */
-	double	uptake_no3[12];			/* root NO3- uptake */
-	double	uptake_nh4[12];			/* root NH4+ uptake */
-	double	n_alloc_cnpy[12];		/* N allocation to canopy */
-	double	n_alloc_strg[12];		/* N allocation to storage */
-	double	n_salvage[12];			/* N salvage from shedding leaves */
-	double	n_realloc[12];			/* N reallocation from storage to leaves */
-	double	n_abdn_cnpy[12];		/* N abandonment from canopy */
-	double	n_abdn_strg[12];		/* N abandonment from storage */
+	double	n_biofix[ASTEP];		/* biological N2 fixation */
+	double	uptake_no3[ASTEP];		/* root NO3- uptake */
+	double	uptake_nh4[ASTEP];		/* root NH4+ uptake */
+	double	n_alloc_cnpy[ASTEP];	/* N allocation to canopy */
+	double	n_alloc_strg[ASTEP];	/* N allocation to storage */
+	double	n_salvage[ASTEP];		/* N salvage from shedding leaves */
+	double	n_realloc[ASTEP];		/* N reallocation from storage to leaves */
+	double	n_abdn_cnpy[ASTEP];		/* N abandonment from canopy */
+	double	n_abdn_strg[ASTEP];		/* N abandonment from storage */
 };			
 
-/******* soil carbon fluxes, all in Mg C ha-1 mon-1 *******/
+/* soil carbon fluxes  *********************************************/
 struct Sflx{	 
-	/* carbon flux */ 
-	double	lL[12];			/* litter input */
-	double	rl[12];			/* litter decomposition */
-	double	rh[12];			/* mineral soil and humus decomposition */
-	double	rS[12];			/* total decomposition */
-	double	sf[12];			/* humus formation */
+	/* carbon flux, in Mg C ha-1 mon-1 */ 
+	double	lL[ASTEP];			/* litter input */
+	double	rl[ASTEP];			/* litter decomposition */
+	double	rh[ASTEP];			/* mineral soil and humus decomposition */
+	double	rS[ASTEP];			/* total decomposition */
+	double	sf[ASTEP];			/* humus formation */
 	
 	/* dissolved organic carbon (DOC) discharge */
-	double	doc_boyer[12];
+	double	doc_boyer[ASTEP];
 
-	/* stable carbon isotope composition */
-	double	d13c_lL[12];			/* litter input */
-	double	d13c_rl[12];			/* litter decomposition */
-	double	d13c_rh[12];			/* humus decomposition */
-	double	d13c_rS[12];			/* heterotrophic respiration */
-	double	d13c_sf[12];			/* soil formation from litter to humus */
+	/* stable carbon isotope composition, permil */
+	double	d13c_lL[ASTEP];			/* litter input */
+	double	d13c_rl[ASTEP];			/* litter decomposition */
+	double	d13c_rh[ASTEP];			/* humus decomposition */
+	double	d13c_rS[ASTEP];			/* heterotrophic respiration */
+	double	d13c_sf[ASTEP];			/* soil formation from litter to humus */
 	
-	/* CH4 oxydation ********/
-	double	ch4oxy_ridg[12];				/* Ridgwell scheme */
-	double	ch4oxy_casa[12];				/* CASA-Potter scheme */
-	double	ch4oxy_delgrosso[12];			/* DayCnet-Del Grosso scheme */
-	double	ch4oxy_curry[12];				/* Curry scheme */
+	/* CH4 oxydation, in mg CH4 m-2 month-1  */
+	double	ch4oxy_ridg[ASTEP];				/* Ridgwell scheme */
+	double	ch4oxy_casa[ASTEP];				/* CASA-Potter scheme */
+	double	ch4oxy_delgrosso[ASTEP];		/* DayCnet-Del Grosso scheme */
+	double	ch4oxy_curry[ASTEP];			/* Curry scheme */
 	
-	/* CH4 emission **********/
-	double	ch4emit_wetland_cao[12];		/* CH4 emission, Cao scheme, from wetland */
-	double	ch4emit_paddy_cao[12];			/* CH4 emission, Cao scheme, from paddy field */
+	/* CH4 emission, mg CH4 m-2 month-1 */
+	double	ch4prod_wetland_cao[ASTEP];		/* CH4 production, Cao scheme, at wetland */
+	double	ch4oxy_wetland_cao[ASTEP];		/* CH4 oxidation, Cao scheme, at wetland */
+	double	ch4flux_wetland_cao[ASTEP];		/* CH4 net flux, Cao scheme, at wetland */
+	
+	double	ch4prod_paddy_cao[ASTEP];		/* CH4 production, Cao scheme, at paddy field */
+	double	ch4oxy_paddy_cao[ASTEP];		/* CH4 oxidation, Cao scheme, at paddy field */
+	double	ch4flux_paddy_cao[ASTEP];		/* CH4 net flux, Cao scheme, at paddy field */
 	
 	/* N flow, g N ha-1 mon-1 **/
-	double	n_abdn[12];						/* N abandonment as litter */
+	double	n_abdn[ASTEP];					/* N abandonment as litter */
 	
-	double	d_n2o_ntr_ngas[12];				/* N2O from nitrification by NGAS */
-	double	d_n2o_dnt_ngas[12];				/* N2O from denitrification by NGAS */
-	double	d_n2o_ngas[12];					/* total N2O by NGAS */
-	double	d_n2_ngas[12];					/* N2 by NGAS */
+	double	d_n2o_ntr_ngas[ASTEP];			/* N2O from nitrification by NGAS */
+	double	d_n2o_dnt_ngas[ASTEP];			/* N2O from denitrification by NGAS */
+	double	d_n2o_ngas[ASTEP];				/* total N2O by NGAS */
+	double	d_n2_ngas[ASTEP];				/* N2 by NGAS */
 	
-	double	d_no_casa[12];					/* NO by CASA */
-	double	d_n2_casa[12];					/* N2 by CASA */
-	double	d_n2o_casa[12];					/* N2O by CASA */
+	double	d_no_casa[ASTEP];				/* NO by CASA */
+	double	d_n2_casa[ASTEP];				/* N2 by CASA */
+	double	d_n2o_casa[ASTEP];				/* N2O by CASA */
 	
-	double	n_nh3vlt[12];					/* NH3 volatilization */
-	double	n_leach[12];					/* NO3- leaching */
-	double	n_minerlz_lttr[12];				/* litter N mineralization */
-	double	n_minerlz_hums[12];				/* humus N mineralization */
-	double	n_nitrif[12];					/* nitrification in NGAS */
-	double	n_immbl[12];					/* N immobilization */
-	double	n_mcrb_abdn[12];				/* microbial abandonment */
+	double	n_nh3vlt[ASTEP];				/* NH3 volatilization */
+	double	n_leach[ASTEP];					/* NO3- leaching */
+	double	n_minerlz_lttr[ASTEP];			/* litter N mineralization */
+	double	n_minerlz_hums[ASTEP];			/* humus N mineralization */
+	double	n_nitrif[ASTEP];				/* nitrification in NGAS */
+	double	n_immbl[ASTEP];					/* N immobilization */
+	double	n_mcrb_abdn[ASTEP];				/* microbial abandonment */
 };
 
 /******* ecosystem carbon fluxes *******/
@@ -670,19 +725,24 @@ struct Flux{
 	struct	Pflx c4;				/* C4 plant fluxes */
 	struct	Pflx plant;				/* total plant fluxes */
 	struct	Sflx soil;				/* soil fluxes */
-
-	double	npp_miami;				/* NPP estimated by Miami model, Mg C ha-1 yr-1*/
-	double	npp_montreal;			/* NPP estimated by Montreal model, Mg C ha-1 yr-1*/
-	double	npp_rosenzweig;			/* NPP estimated by Montreal model, Mg C ha-1 yr-1*/
-	double	npp_schuur;				/* NPP estimated by Montreal model, Mg C ha-1 yr-1*/
-
-	/* carbon flux */ 
-	double	nep[12];				/* net ecosystem production, Mg C ha-1 mon-1 */
-	double	ncb[12];				/* net carbon balance of grid, Mg C ha-1 mon-1 */
-	double	lL0[12];				/* total litter fall */
-	double	sresp[12];				/* soil respiration */
 	
-	/* land-use change */
+	/* empirical NPP estimation: Mg C ha-1 yr-1 */
+	double	npp_miami;				/* NPP estimated by Miami model  */
+	double	npp_montreal;			/* NPP estimated by Montreal model */
+	double	npp_rosenzweig;			/* NPP estimated by Rosenzweig model */
+	double	npp_schuur;				/* NPP estimated by Schuur model */
+	double	npp_madison_parwsi;		/* NPP estimated by Zaks's Madison model 1: PAR & WSI */
+	double	npp_madison_gddswsi;	/* NPP estimated by Zaks's Madison model 1: GDD & WSI */
+	double	npp_madison_tp;			/* NPP estimated by Zaks's Madison model 1: temp & prec */
+	double	npp_nceas;				/* NPP estimated by NCEAS */
+
+	/* carbon flux, in  Mg C ha-1 yr-1 */ 
+	double	nep[ASTEP];				/* net ecosystem production, Mg C ha-1 mon-1 */
+	double	ncb[ASTEP];				/* net carbon balance of grid, Mg C ha-1 mon-1 */
+	double	lL0[ASTEP];				/* total litter fall */
+	double	sresp[ASTEP];			/* soil respiration */
+	
+	/* land-use change,  Mg C ha-1 yr-1 */
 	double	lu_detr;				/* LUC emission from detritus */
 	double	lu_conv;				/* LUC emission from 1-year pool */
 	double	lu_ten;					/* LUC emission from 10-year pool */
@@ -693,78 +753,78 @@ struct Flux{
 	
 	/* biomass burning */
 	double	f_burnt;				/* burnt fraction */
-	double	day_fire[12];			/* days of fire */
-	double	a_burnt[12];			/* area burnt */
+	double	day_fire[ASTEP];		/* days of fire */
+	double	a_burnt[ASTEP];			/* area burnt */
 	/* CO2 (g species) */
-	double	bb_co2_litter[12];			/* from litter */
-	double	bb_co2_leaf[12];			/* from leaf */
-	double	bb_co2_wood[12];			/* from wood */
-	double	bb_co2_root[12];			/* from root */
+	double	bb_co2_litter[ASTEP];		/* from litter */
+	double	bb_co2_leaf[ASTEP];			/* from leaf */
+	double	bb_co2_wood[ASTEP];			/* from wood */
+	double	bb_co2_root[ASTEP];			/* from root */
 	/* CO (g species) */
-	double	bb_co_litter[12];			
-	double	bb_co_leaf[12];			
-	double	bb_co_wood[12];			
-	double	bb_co_root[12];			
+	double	bb_co_litter[ASTEP];			
+	double	bb_co_leaf[ASTEP];			
+	double	bb_co_wood[ASTEP];			
+	double	bb_co_root[ASTEP];			
 	/* CH4 (g species) */
-	double	bb_ch4_litter[12];			
-	double	bb_ch4_leaf[12];			
-	double	bb_ch4_wood[12];			
-	double	bb_ch4_root[12];			
+	double	bb_ch4_litter[ASTEP];			
+	double	bb_ch4_leaf[ASTEP];			
+	double	bb_ch4_wood[ASTEP];			
+	double	bb_ch4_root[ASTEP];			
 	/* NMHC (g species) */
-	double	bb_nmhc_litter[12];			
-	double	bb_nmhc_leaf[12];			
-	double	bb_nmhc_wood[12];			
-	double	bb_nmhc_root[12];			
+	double	bb_nmhc_litter[ASTEP];			
+	double	bb_nmhc_leaf[ASTEP];			
+	double	bb_nmhc_wood[ASTEP];			
+	double	bb_nmhc_root[ASTEP];			
 	/* OC (g species) */
-	double	bb_oc_litter[12];			
-	double	bb_oc_leaf[12];			
-	double	bb_oc_wood[12];			
-	double	bb_oc_root[12];			
+	double	bb_oc_litter[ASTEP];			
+	double	bb_oc_leaf[ASTEP];			
+	double	bb_oc_wood[ASTEP];			
+	double	bb_oc_root[ASTEP];			
 	/* BC (g species) */
-	double	bb_bc_litter[12];			
-	double	bb_bc_leaf[12];			
-	double	bb_bc_wood[12];			
-	double	bb_bc_root[12];			
+	double	bb_bc_litter[ASTEP];			
+	double	bb_bc_leaf[ASTEP];			
+	double	bb_bc_wood[ASTEP];			
+	double	bb_bc_root[ASTEP];			
 	/* NOx (g species) */
-	double	bb_nox_litter[12];			
-	double	bb_nox_leaf[12];			
-	double	bb_nox_wood[12];			
-	double	bb_nox_root[12];			
+	double	bb_nox_litter[ASTEP];			
+	double	bb_nox_leaf[ASTEP];			
+	double	bb_nox_wood[ASTEP];			
+	double	bb_nox_root[ASTEP];			
 	/* SO2 (g species) */
-	double	bb_so2_litter[12];			
-	double	bb_so2_leaf[12];			
-	double	bb_so2_wood[12];			
-	double	bb_so2_root[12];			
+	double	bb_so2_litter[ASTEP];			
+	double	bb_so2_leaf[ASTEP];			
+	double	bb_so2_wood[ASTEP];			
+	double	bb_so2_root[ASTEP];			
 	/* PM2.5 (g species) */
-	double	bb_pm25_litter[12];			
-	double	bb_pm25_leaf[12];			
-	double	bb_pm25_wood[12];			
-	double	bb_pm25_root[12];			
+	double	bb_pm25_litter[ASTEP];			
+	double	bb_pm25_leaf[ASTEP];			
+	double	bb_pm25_wood[ASTEP];			
+	double	bb_pm25_root[ASTEP];			
 	/* TPM (g species) */
-	double	bb_tpm_litter[12];			
-	double	bb_tpm_leaf[12];			
-	double	bb_tpm_wood[12];			
-	double	bb_tpm_root[12];			
+	double	bb_tpm_litter[ASTEP];			
+	double	bb_tpm_leaf[ASTEP];			
+	double	bb_tpm_wood[ASTEP];			
+	double	bb_tpm_root[ASTEP];			
 	/* TEC (g species) */
-	double	bb_tec_litter[12];			
-	double	bb_tec_leaf[12];			
-	double	bb_tec_wood[12];			
-	double	bb_tec_root[12];			
+	double	bb_tec_litter[ASTEP];			
+	double	bb_tec_leaf[ASTEP];			
+	double	bb_tec_wood[ASTEP];			
+	double	bb_tec_root[ASTEP];			
 	
-	/* VOC */
-	double	voc_isopr_g97[12];					/* isoprene */
-	double	voc_monotrp_g97[12];				/* monoterpene */
-	double	voc_methanl_g97[12];				/* methanol */
-	double	voc_acetone_g97[12];				/* acetone */
-	double	voc_actaldhd_g97[12];				/* acetoaldehyde */
-	double	voc_frmardhd_g97[12];				/* formaldehyde */
-	double	voc_formacd_g97[12];				/* formacid */
-	double	voc_acetacd_g97[12];				/* acetoacid */
-	double	voc_co_g97[12];						/* CO */
+	/* VOC, in micro g C m-2 month-1 */
+	double	voc_isopr_g97[ASTEP];				/* isoprene */
+	double	voc_monotrp_g97[ASTEP];				/* monoterpene */
+	double	voc_methanl_g97[ASTEP];				/* methanol */
+	double	voc_acetone_g97[ASTEP];				/* acetone */
+	double	voc_actaldhd_g97[ASTEP];			/* acetoaldehyde */
+	double	voc_frmardhd_g97[ASTEP];			/* formaldehyde */
+	double	voc_formacd_g97[ASTEP];				/* formacid */
+	double	voc_acetacd_g97[ASTEP];				/* acetoacid */
+	double	voc_co_g97[ASTEP];					/* CO */
 	
 	/* stable carbon isotope composition, d13C, permille */
-	double	d13c_nep[12];						/* NEP */
-	double	d13c_ncb[12];						/* NCB */
+	double	d13c_nep[ASTEP];					/* NEP */
+	double	d13c_ncb[ASTEP];					/* NCB */
 
 	double	efflux_p;							/* total CO2 efflux */
 	double	d13c_efflux_p;						/* d13C */

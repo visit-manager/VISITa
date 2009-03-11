@@ -8,12 +8,14 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+#include<string.h>
 #include"structure.h"
 #include"prototype.h"
 
 extern long GCM, GCM_R, GCM_C;
+extern short DF97;
 
-/************ aggregate C3 and C4 community ****************/
+/* aggregate C3 and C4 community *************************************************/
 void plant_stand(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -48,6 +50,8 @@ void plant_stand(
 	(flux->plant).epp[f] = (flux->c3).epp[f]*loct->C3ptn[f] + (flux->c4).epp[f]*loct->C4ptn[f];
 	(flux->plant).npp[f] = (flux->c3).npp[f]*loct->C3ptn[f] + (flux->c4).npp[f]*loct->C4ptn[f];
 	
+	(flux->plant).gpp_df97[f] = (flux->c3).gpp_df97[f]*loct->C3ptn[f] + (flux->c4).gpp_df97[f]*loct->C4ptn[f];
+
 	/** maintenance respiration **/
 	(flux->plant).rfm[f] = (flux->c3).rfm[f]*loct->C3ptn[f] + (flux->c4).rfm[f]*loct->C4ptn[f]; 
 	(flux->plant).rcm[f] = (flux->c3).rcm[f]*loct->C3ptn[f] + (flux->c4).rcm[f]*loct->C4ptn[f]; 
@@ -149,7 +153,7 @@ void plant_stand(
 	(flux->plant).n_salvage[f] = (flux->c3).n_salvage[f]*loct->C3ptn[f] + (flux->c4).n_salvage[f]*loct->C4ptn[f];
 }
 
-/******** dealings before calculating carbon budget **********/
+/* dealings before calculating carbon budget *******************************/
 void beforedeal(
 	struct Grid *grid, 
 	struct Pflx *flux
@@ -157,7 +161,7 @@ void beforedeal(
 	plant_flux_zero(grid->m, flux);
 }
 
-/******** dealings after calculating carbon budget **********/
+/* dealings after calculating carbon budget *******************************/
 void afterdeal(
 	struct Grid *grid, 
 	struct Pchar *pchar, 
@@ -170,9 +174,15 @@ void afterdeal(
 	/* total respiration */
 	flux->rpg[grid->m] = flux->rfg[grid->m] + flux->rcg[grid->m] + flux->rrg[grid->m];
 	flux->rp[grid->m] = flux->rpm[grid->m] + flux->rpg[grid->m];
-	flux->spp[grid->m] = flux->gpp[grid->m] - flux->rfm[grid->m]-flux->rfg[grid->m];
-	flux->npp[grid->m] = flux->gpp[grid->m] - flux->rpm[grid->m]-flux->rpg[grid->m];
-
+	
+	if(DF97==1){
+		flux->spp[grid->m] = flux->gpp_df97[grid->m] - flux->rfm[grid->m]-flux->rfg[grid->m];
+		flux->npp[grid->m] = flux->gpp_df97[grid->m] - flux->rpm[grid->m]-flux->rpg[grid->m];
+	}else{
+		flux->spp[grid->m] = flux->gpp[grid->m] - flux->rfm[grid->m]-flux->rfg[grid->m];
+		flux->npp[grid->m] = flux->gpp[grid->m] - flux->rpm[grid->m]-flux->rpg[grid->m];
+	}
+	
 	/* total litterfall */
 	flux->lL[grid->m] = flux->lf[grid->m] + flux->lc[grid->m] + flux->lr[grid->m] + flux->lf_c[grid->m];
 		
@@ -397,6 +407,9 @@ void set_rowcol_gcm(
 			 || GCM==1265 || GCM==1266 || GCM==1267){ /* NCAR PCM */
 		GCM_R = 64;
 		GCM_C = 128;
+	}else{
+		GCM_R = 1;
+		GCM_C = 1;
 	}
 }
 
@@ -414,9 +427,9 @@ void set_gcm_index(
 		case 1013:	strcpy(s_case,"MMA21_"); break;
 		case 1014:	strcpy(s_case,"MMA22_"); break;
 		case 1015:	strcpy(s_case,"MMA23_"); break;
-		case 1016:	strcpy(s_case,"MMA21_"); break;
-		case 1017:	strcpy(s_case,"MMA22_"); break;
-		case 1018:	strcpy(s_case,"MMA23_"); break;
+		case 1016:	strcpy(s_case,"MMB11_"); break;
+		case 1017:	strcpy(s_case,"MMB12_"); break;
+		case 1018:	strcpy(s_case,"MMB13_"); break;
 
 		case 1050:	strcpy(s_case,"BCA11_"); break;
 		case 1051:	strcpy(s_case,"BCA21_"); break;
@@ -552,6 +565,7 @@ void set_gcm_index(
 		case 1267:	strcpy(s_case,"GSRA24_"); break;
 		
 		default:
+			strcpy(s_case,"STCLIM_"); 
 			printf("NULL CASE !!!");
 		break;
 		/* fl1 */

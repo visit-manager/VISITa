@@ -6,6 +6,7 @@
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
 /*                  Revised August 14, 2007					*/
+/* Revised 2008 / 09 / 02 by A.Ito				*/
 
 #include<stdio.h>
 #include<math.h>
@@ -66,7 +67,8 @@ void f_voc_emit_guenther97(
 	short f;
 	double foliar_dens, leaf_temp, parday;
 	double f_ppfd, f_temp_isopr, f_temp_monotrp, f_phenology;
-	double aa, bb, cc, laiage[49], t_lai;
+	double aa, bb, cc, laiage[49], t_lai, total_closs;
+	extern double MDN[ASTEP];
 	
 	/* veg_sage:
 	0	Ocean
@@ -87,28 +89,31 @@ void f_voc_emit_guenther97(
 	15	Polar Desert/Rock/Ice
 	*/
 
-	/* foliar density, g d.m. C / m2   */
-	foliar_dens = ((mass->c3).fol*loct->C3ptn[grid->m] + (mass->c4).fol*loct->C4ptn[grid->m]) * 100.0 * dmTc;
+	/* foliar density, g d.m. C / m2   *********************/
+	foliar_dens = ((mass->c3).fol*loct->C3ptn[grid->m] 
+				+ (mass->c4).fol*loct->C4ptn[grid->m]) * 100.0 * dmTc;
 	
-	/* light factor */
+	/* light factor *********************/
 	parday = grid->par[grid->m];
 	f_ppfd = 0.0027 * 1.066 * parday / 
 		sqrt(1.0 + 0.0027 * 0.0027 * parday * parday) * 0.5;
 	
-	/* temperature factor */
+	/* temperature factor ***********/
 	leaf_temp = grid->tmp_sfc[grid->m] + ZAT;
+	/* isoprene */
 	aa = exp(95000.0*(leaf_temp - 303.15)/(8.314 * leaf_temp * 303.15));
 	bb = 0.961 + exp(230000.0*(leaf_temp - 314.0)/(8.314 * leaf_temp * 303.15));
 	f_temp_isopr = aa/bb;
-	
+	/* monoterpene */
 	f_temp_monotrp = exp(0.09*(leaf_temp - 303.15)); 
 	
-	/* other factor */
-	f_phenology = 0.75;
+	/* leaf aging factor ***********/
+	/* f_phenology = 0.75; */ /* conventional value */
 	
 	t_lai = 0.0;
 	for(f=0;f<=48;f++){
-		laiage[f] = (echar->c3).fleaf_age[f]*loct->C3ptn[grid->m] + (echar->c4).fleaf_age[f]*loct->C4ptn[grid->m];
+		laiage[f] = (echar->c3).fleaf_age[f]*loct->C3ptn[grid->m] 
+					+ (echar->c4).fleaf_age[f]*loct->C4ptn[grid->m];
 		t_lai += laiage[f];
 	}
 	for(f=0;f<=48;f++){
@@ -120,28 +125,33 @@ void f_voc_emit_guenther97(
 	}
 	
 	switch(grid->veg_sage){
+		/* evergreen */
 		case 1: case 3: case 4: case 6: case 8: case 9: case 10: 
 		case 11: case 12: case 13: case 14: case 15: 
 			
 			f_phenology = 0.05 * laiage[0];
 			f_phenology += 0.5 * (laiage[1] + laiage[2]);
-			for(f=3;f<=36;f++){
+			for(f=3;f<=24;f++){  /* changed f<=36 to f<=12 to f<=24: 2008/09/17 */
 				f_phenology += 1.1 * laiage[f];
 			}
-			for(f=37;f<=48;f++){
+			for(f=25;f<=48;f++){  /* changed f=37 to f<=13 to f<=25: 2008/09/17 */
 				f_phenology += 0.4 * laiage[f];
 			}
 			
 			break;
+		/* deciduous */
 		case 2: case 5: case 7: 
 
 			f_phenology = 0.05 * laiage[0];
 			f_phenology += 0.5 * laiage[1];
-			for(f=2;f<=8;f++){
+			for(f=2;f<=10;f++){  /* changed f<=8 to f<=6: 080613 */
 				f_phenology += 1.1 * laiage[f];
 			}
-			for(f=9;f<=48;f++){
+			for(f=11;f<=18;f++){  /* changed f=9 to f=7: 080613 */
 				f_phenology += 0.4 * laiage[f];
+			}
+			for(f=19;f<=48;f++){  /* changed f=9 to f=7: 080613 */
+				f_phenology += 0.1 * laiage[f];
 			}
 
 			break;
@@ -150,7 +160,8 @@ void f_voc_emit_guenther97(
 			break;
 	}
 	
-	cc = foliar_dens * (double)grid->mm[grid->m] * grid->dlen[grid->m];
+	/***********************************************************************/
+	cc = foliar_dens * MDN[grid->m] * grid->dlen[grid->m];
 	
 	/* VOC emission, micro g C m-2 month-1  */
 	flux->voc_isopr_g97[grid->m] = emit_potent_isopr[grid->veg_sage] * cc * f_ppfd * f_temp_isopr * f_phenology;
@@ -163,9 +174,18 @@ void f_voc_emit_guenther97(
 	flux->voc_acetacd_g97[grid->m] = emit_potent_acetacd[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
 	flux->voc_co_g97[grid->m] = emit_potent_co[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
 	
-	loct->xx1[grid->m] = foliar_dens;
-	loct->xx2[grid->m] = f_ppfd;
-	loct->xx3[grid->m] = f_temp_isopr;
-	loct->xx4[grid->m] = f_temp_monotrp;
-	loct->xx5[grid->m] = flux->voc_isopr_g97[grid->m];
+	/* carbon loss by BVOC emission: 2008/09/02 */
+/*	total_closs = flux->voc_isopr_g97[grid->m] + flux->voc_monotrp_g97[grid->m] + flux->voc_methanl_g97[grid->m] + 
+		flux->voc_acetone_g97[grid->m] + flux->voc_actaldhd_g97[grid->m] + flux->voc_frmardhd_g97[grid->m] + 
+		flux->voc_formacd_g97[grid->m] + flux->voc_acetacd_g97[grid->m] + flux->voc_co_g97[grid->m];
+	
+	(mass->c3).fol -= total_closs/100000000.0;
+	if((mass->c3).fol < 0.0){
+		(mass->c3).fol = 0.0;
+	}
+	
+	(mass->c4).fol -= total_closs/100000000.0;
+	if((mass->c4).fol < 0.0){
+		(mass->c4).fol = 0.0;
+	}  */
 }

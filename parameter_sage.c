@@ -12,7 +12,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/*******   Setting characteristics for C3 plants  *********/
+/* Setting characteristics for C3 plants ***************************/
 void  parameterC3_sage(
 	struct Grid *grid, 
 	struct Pchar *c3
@@ -110,9 +110,6 @@ void  parameterC3_sage(
 	double dcdv[VEG_NUM_SAGE]={
 					0.00, 0.00, 0.50, 0.40, 0.00, 0.00, 0.00, 0.00, 
 					0.00, 0.55, 0.00, 0.55, 0.00, 0.60, 0.60, 0.50};
-	double root_stratv[VEG_NUM_SAGE]={
-					0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 
-					0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95};
 	double n_salvagev[VEG_NUM_SAGE]={
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50};
@@ -128,6 +125,24 @@ void  parameterC3_sage(
 	double rd_nv[VEG_NUM_SAGE]={
 					0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 
 					0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05};
+	double crit_tempv[VEG_NUM_SAGE]={
+					5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 
+					5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0};
+	double crit_gddv[VEG_NUM_SAGE]={
+					300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 
+					300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 300.0};
+	double root_dist_av[VEG_NUM_SAGE]={
+					0.95, 7.344, 5.990, 7.344, 7.344, 5.990, 6.706, 7.066, 
+					4.453, 8.235, 10.74, 6.326, 6.326, 8.992, 4.372, 4.372};
+	double root_dist_bv[VEG_NUM_SAGE]={
+					0.95, 1.303, 1.955, 1.303, 1.303, 1.955, 2.175, 1.953, 
+					1.631, 1.627, 2.608, 1.567, 1.567, 8.992, 0.978, 0.978};
+	double root_depthv[VEG_NUM_SAGE]={
+					0.95, 3.0, 2.0, 3.0, 3.0, 2.0, 1.8, 2.0, 
+					2.4, 2.4, 1.5, 2.5, 2.5, 0.5, 4.0, 4.0};
+	double n_leafv[VEG_NUM_SAGE]={
+					0.0, 90.0, 90.0, 82.9, 44.1, 44.1, 44.1, 44.1, 
+					60.0, 116.5, 116.5, 116.5, 116.5, 116.5, 264.7, 4.0};
 	
 	c3->phototype = 3;
 	c3->albedo = albcv[grid->veg_sage];
@@ -164,15 +179,23 @@ void  parameterC3_sage(
 	c3->lc0 = lcv[grid->veg_sage];
 	c3->lr0 = lrv[grid->veg_sage];
 	c3->dcd = dcdv[grid->veg_sage];
-	c3->root_strat = root_stratv[grid->veg_sage];
 	c3->n_salvage = n_salvagev[grid->veg_sage];
 	c3->cn0_strg = cn0_strgv[grid->veg_sage];
 	c3->kn_nphoto = kn_nphotov[grid->veg_sage];
 	c3->amax_nphoto = amax_nphotov[grid->veg_sage];
 	c3->rd_n = rd_nv[grid->veg_sage];
+
+	c3->crit_temp = crit_tempv[grid->veg_sage];
+	c3->crit_gdd = crit_gddv[grid->veg_sage];
+
+	c3->root_dist_a = root_dist_av[grid->veg_sage];
+	c3->root_dist_b = root_dist_bv[grid->veg_sage];
+	c3->root_depth = root_depthv[grid->veg_sage];
+
+	c3->n_leaf_df97 = n_leafv[grid->veg_sage];
 }
 
-/*********   Setting  characteristics   for    C4   plants  ***********/
+/* Setting characteristics for C4 plants ***************************/
 void parameterC4_sage(
 	struct Grid *grid,
 	struct Pchar *c4
@@ -270,9 +293,6 @@ void parameterC4_sage(
 	double dcdv[VEG_NUM_SAGE]={
 					0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 					0.0, 0.0, 0.0, 0.0, 0.0, 0.85, 0.85, 0.85};
-	double root_stratv[VEG_NUM_SAGE]={
-					0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 
-					0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95};
 	double n_salvagev[VEG_NUM_SAGE]={
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50};
@@ -288,6 +308,24 @@ void parameterC4_sage(
 	double rd_nv[VEG_NUM_SAGE]={
 					0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 
 					0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05};
+	double crit_tempv[VEG_NUM_SAGE]={
+					5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 
+					5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0};
+	double crit_gddv[VEG_NUM_SAGE]={
+					300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 
+					300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 300.0};
+	double root_dist_av[VEG_NUM_SAGE]={
+					0.95, 7.344, 5.990, 7.344, 7.344, 5.990, 6.706, 7.066, 
+					4.453, 8.235, 10.74, 6.326, 6.326, 8.992, 4.372, 4.372};
+	double root_dist_bv[VEG_NUM_SAGE]={
+					0.95, 1.303, 1.955, 1.303, 1.303, 1.955, 2.175, 1.953, 
+					1.631, 1.627, 2.608, 1.567, 1.567, 8.992, 0.978, 0.978};
+	double root_depthv[VEG_NUM_SAGE]={
+					0.95, 3.0, 2.0, 3.0, 3.0, 2.0, 1.8, 2.0, 
+					2.4, 2.4, 1.5, 2.5, 2.5, 0.5, 4.0, 4.0};
+	double n_leafv[VEG_NUM_SAGE]={
+					0.0, 90.0, 90.0, 82.9, 44.1, 44.1, 44.1, 44.1, 
+					60.0, 116.5, 116.5, 116.5, 116.5, 116.5, 264.7, 4.0};
 
 	c4->phototype = 4;
 	c4->albedo = albcv[grid->veg_sage];
@@ -297,12 +335,12 @@ void parameterC4_sage(
 	c4->sla = slav[grid->veg_sage];
 	c4->eK0 = eK0v[grid->veg_sage];
 	c4->lue0 = luev[grid->veg_sage]; 
-	c4->pmax = pmaxv[grid->veg_sage]*1.0;
+	c4->pmax = pmaxv[grid->veg_sage];
 	c4->topt0 = topt0v[grid->veg_sage];  
 	c4->tmin = tminv[grid->veg_sage];  
 	c4->tmax = tmaxv[grid->veg_sage];
 	c4->gs_b0 = gs_b0v[grid->veg_sage];   
-	c4->gs_b1 = gs_b1v[grid->veg_sage]*0.29;   
+	c4->gs_b1 = gs_b1v[grid->veg_sage];   
 	c4->gs_b2 = gs_b2v[grid->veg_sage];   
 	c4->km_nstl = km_nstlv[grid->veg_sage];   
 	c4->kmci = kmciv[grid->veg_sage];  
@@ -324,15 +362,23 @@ void parameterC4_sage(
 	c4->lc0 = lcv[grid->veg_sage];  
 	c4->lr0 = lrv[grid->veg_sage];
 	c4->dcd = dcdv[grid->veg_sage];
-	c4->root_strat = root_stratv[grid->veg_sage];
 	c4->n_salvage = n_salvagev[grid->veg_sage];
 	c4->cn0_strg = cn0_strgv[grid->veg_sage];
 	c4->kn_nphoto = kn_nphotov[grid->veg_sage];
 	c4->amax_nphoto = amax_nphotov[grid->veg_sage];
 	c4->rd_n = rd_nv[grid->veg_sage];
+
+	c4->crit_temp = crit_tempv[grid->veg_sage];
+	c4->crit_gdd = crit_gddv[grid->veg_sage];
+
+	c4->root_dist_a = root_dist_av[grid->veg_sage];
+	c4->root_dist_b = root_dist_bv[grid->veg_sage];
+	c4->root_depth = root_depthv[grid->veg_sage];
+
+	c4->n_leaf_df97 = n_leafv[grid->veg_sage];
 }
 
-/********  setting  soil  parameters  *********/
+/* setting soil parameters ******************************/
 void  parameterSoil_sage(
 	struct Grid *grid, 
 	struct Schar *soil
@@ -369,8 +415,8 @@ void  parameterSoil_sage(
 					1.28, 1.28, 1.28, 1.23, 1.47, 1.47, 1.47, 1.47};
 	
 	soil->albedo0 = albgv[grid->veg_sage]; 	    				     
-	soil->rl0=soil->rl = rlv[grid->veg_sage]; 
-	soil->rh0=soil->rh = rhv[grid->veg_sage]*0.9;
+	soil->rl0 = soil->rl = rlv[grid->veg_sage]; 
+	soil->rh0 = soil->rh = rhv[grid->veg_sage];
 	soil->qTl = qTlv[grid->veg_sage];  
 	soil->qTh = qThv[grid->veg_sage];
 	soil->kml = kmlv[grid->veg_sage];  

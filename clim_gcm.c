@@ -18,6 +18,7 @@ void read_gcm_clim(
 ){
 	long f, g, h, i;
 	long yr, mon;
+	extern double MDN[12];
 	FILE *fp_t, *fp_p, *fp_h, *fp_r;
 	
 	if(GCM==1){
@@ -200,10 +201,10 @@ void read_gcm_clim(
 		if( (fp_h=fopen("./data/huss_MIROCM_20C-A1B_R3.dat","rt"))==NULL ){  printf("No huss_MIROCM_20C-A1B_R3.dat\n");  exit(1); }
 		if( (fp_r=fopen("./data/rsds_MIROCM_20C-A1B_R3.dat","rt"))==NULL ){  printf("No rsds_MIROCM_20C-A1B_R3.dat\n");  exit(1); }
 	}else if(GCM==1013){  /* MIROC-MED + A2  */
-		if( (fp_t=fopen("./data/tas_MIROCM_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_tas_A1B-2000-2099-R2.dat\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_MIROCM_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_pr_A1B-2000-2099-R2.dat\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_MIROCM_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_huss_A1B-2000-2099-R2.dat\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_MIROCM_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_rsds_A1B-2000-2099-R2.dat\n");  exit(1); }
+		if( (fp_t=fopen("./data/tas_MIROCM_20C-A2_R1.dat","rt"))==NULL ){  printf("No tas_MIROCM_20C-A2_R1.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_MIROCM_20C-A2_R1.dat","rt"))==NULL ){  printf("No pr_MIROCM_20C-A2_R1.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_MIROCM_20C-A2_R1.dat","rt"))==NULL ){  printf("No huss_MIROCM_20C-A2_R1.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_MIROCM_20C-A2_R1.dat","rt"))==NULL ){  printf("No rsds_MIROCM_20C-A2_R1.dat\n");  exit(1); }
 	}else if(GCM==1014){  /* MIROC-MED + A2  */
 		if( (fp_t=fopen("./data/tas_MIROCM_20C-A2_R2.dat","rt"))==NULL ){  printf("No ext_tas_A1B-2000-2099-R2.dat\n");  exit(1); }
 		if( (fp_p=fopen("./data/pr_MIROCM_20C-A2_R2.dat","rt"))==NULL ){  printf("No ext_pr_A1B-2000-2099-R2.dat\n");  exit(1); }
@@ -215,10 +216,10 @@ void read_gcm_clim(
 		if( (fp_h=fopen("./data/huss_MIROCM_20C-A2_R3.dat","rt"))==NULL ){  printf("No huss_MIROCM_20C-A2_R3.dat\n");  exit(1); }
 		if( (fp_r=fopen("./data/rsds_MIROCM_20C-A2_R3.dat","rt"))==NULL ){  printf("No rsds_MIROCM_20C-A2_R3.dat\n");  exit(1); }
 	}else if(GCM==1016){  /* MIROC-MED + B1  */
-		if( (fp_t=fopen("./data/tas_MIROCM_20C-B1_R1.dat","rt"))==NULL ){  printf("No ext_tas_A1B-2000-2099-R2.dat\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_MIROCM_20C-B1_R1.dat","rt"))==NULL ){  printf("No ext_pr_A1B-2000-2099-R2.dat\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_MIROCM_20C-B1_R1.dat","rt"))==NULL ){  printf("No ext_huss_A1B-2000-2099-R2.dat\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_MIROCM_20C-B1_R1.dat","rt"))==NULL ){  printf("No ext_rsds_A1B-2000-2099-R2.dat\n");  exit(1); }
+		if( (fp_t=fopen("./data/tas_MIROCM_20C-B1_R1.dat","rt"))==NULL ){  printf("No tas_MIROCM_20C-B1_R1.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_MIROCM_20C-B1_R1.dat","rt"))==NULL ){  printf("No pr_MIROCM_20C-B1_R1.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_MIROCM_20C-B1_R1.dat","rt"))==NULL ){  printf("No huss_MIROCM_20C-B1_R1.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_MIROCM_20C-B1_R1.dat","rt"))==NULL ){  printf("No rsds_MIROCM_20C-B1_R1.dat\n");  exit(1); }
 	}else if(GCM==1017){  /* MIROC-MED + B1  */
 		if( (fp_t=fopen("./data/tas_MIROCM_20C-B1_R2.dat","rt"))==NULL ){  printf("No ext_tas_A1B-2000-2099-R2.dat\n");  exit(1); }
 		if( (fp_p=fopen("./data/pr_MIROCM_20C-B1_R2.dat","rt"))==NULL ){  printf("No ext_pr_A1B-2000-2099-R2.dat\n");  exit(1); }
@@ -232,10 +233,10 @@ void read_gcm_clim(
 	}
 	
 	if(GCM==1050){  /* BCCR + A1B  */
-		if( (fp_t=fopen("./data/tas_BCCR_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_tas_BRA1B-2001-2100\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_BCCR_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_pr_BRA1B-2001-2100\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_BCCR_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_huss_BRA1B-2001-2100\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_BCCR_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_rsds_BRA1B-2001-2100\n");  exit(1); }
+		if( (fp_t=fopen("./data/tas_BCCR_20C-A1B_R1.dat","rt"))==NULL ){  printf("No tas_BCCR_20C-A1B_R1.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_BCCR_20C-A1B_R1.dat","rt"))==NULL ){  printf("No pr_BCCR_20C-A1B_R1.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_BCCR_20C-A1B_R1.dat","rt"))==NULL ){  printf("No huss_BCCR_20C-A1B_R1.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_BCCR_20C-A1B_R1.dat","rt"))==NULL ){  printf("No rsds_BCCR_20C-A1B_R1.dat\n");  exit(1); }
 	}else if(GCM==1051){  /* BCCR + A2  */
 		if( (fp_t=fopen("./data/tas_BCCR_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_tas_BRA1B-2001-2100\n");  exit(1); }
 		if( (fp_p=fopen("./data/pr_BCCR_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_pr_BRA1B-2001-2100\n");  exit(1); }
@@ -839,7 +840,7 @@ void read_gcm_clim(
 		if( (fp_r=fopen("./data/rsds_PCM_20C-A2_R4.dat","rt"))==NULL ){  printf("No ext_rsds_PCMA2-2001-2100.dat\n");  exit(1); }
 	}
 	
-	if(GCM!=0){
+	if(GCM!=0 && GCM!=106){
 		for(f=0;f<131;f++){   /*  1970-2100 */
 			for(g=0;g<12;g++){
 				fscanf(fp_t,"%ld %ld", &yr, &mon);
@@ -854,7 +855,7 @@ void read_gcm_clim(
 						fscanf(fp_r,"%f", &(grid->proj_rad[f][g][h][i]));
 						
 						grid->proj_tmp2m[f][g][h][i] -= ZAT;
-						grid->proj_prec[f][g][h][i] *= (float)(grid->mm[g]);
+						grid->proj_prec[f][g][h][i] *= (float)MDN[g];
 						
 						if(GCM>=1000){
 							grid->proj_prec[f][g][h][i] *= 3600.0*24.0;
@@ -863,7 +864,7 @@ void read_gcm_clim(
 				}
 			}
 		}
-	}else if(GCM==0){
+	}else{
 		for(f=0;f<131;f++){
 			for(g=0;g<12;g++){
 				for(h=0;h<GCM_R;h++){
@@ -899,10 +900,70 @@ void read_gcm_clim(
 		}
 	}
 	
-	if(GCM!=0){
+	if(GCM!=0 && GCM!=106){
 		fclose(fp_t);
 		fclose(fp_p);
 		fclose(fp_h);
 		fclose(fp_r);
 	}
+}
+
+void read_ncep_clim(
+	struct Grid  *grid
+){
+	long f, g, h, i;
+	long yr, mon;
+	extern double MDN[12];
+	FILE *fp_t, *fp_p, *fp_h, *fp_r;
+	
+	if( (fp_t=fopen("./data/air.2m.gauss.mon4808.dat","rt"))==NULL ){  printf("No air.2m.gauss.mon4808.dat\n");  exit(1); }
+	if( (fp_p=fopen("./data/prate.sfc.gauss.mon4808.dat","rt"))==NULL ){  printf("No prate.sfc.gauss.mon4808.dat\n");  exit(1); }
+	if( (fp_h=fopen("./data/vpres.sfc.gauss.mon4808.dat","rt"))==NULL ){  printf("No vpres.sfc.gauss.mon4808.dat\n");  exit(1); }
+	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4808.dat","rt"))==NULL ){  printf("No tcdc.eatm.gauss.mon4808.dat\n");  exit(1); }
+	
+	for(f=0;f<61;f++){   /*  1948-2008 */
+		for(g=0;g<12;g++){
+			fscanf(fp_t,"%ld %ld", &yr, &mon);
+			fscanf(fp_p,"%ld %ld", &yr, &mon);
+			fscanf(fp_h,"%ld %ld", &yr, &mon);
+			fscanf(fp_r,"%ld %ld", &yr, &mon);
+			for(h=0;h<94;h++){
+				for(i=0;i<192;i++){
+					fscanf(fp_t,"%f", &(grid->ncep_tmp2m[f][g][h][i]));
+					fscanf(fp_p,"%f", &(grid->ncep_prate[f][g][h][i]));
+					fscanf(fp_h,"%f", &(grid->ncep_vpres[f][g][h][i]));
+					fscanf(fp_r,"%f", &(grid->ncep_tcdc[f][g][h][i]));
+					
+					grid->ncep_tmp2m[f][g][h][i] -= ZAT;
+					grid->ncep_tcdc[f][g][h][i] *= 0.01;
+				}
+			}
+		}
+	}
+	
+	/* average 1970-1999 */
+	for(f=0;f<30;f++){
+		for(g=0;g<12;g++){
+			for(h=0;h<94;h++){
+				for(i=0;i<192;i++){
+					if(f==0){
+						grid->ncep_tmp2m_b[g][h][i] = 0.0;
+						grid->ncep_prate_b[g][h][i] = 0.0;
+						grid->ncep_vpres_b[g][h][i] = 0.0;
+						grid->ncep_tcdc_b[g][h][i] = 0.0;
+					}
+					
+					grid->ncep_tmp2m_b[g][h][i] += grid->ncep_tmp2m[f+22][g][h][i]/30.0;
+					grid->ncep_prate_b[g][h][i] += grid->ncep_prate[f+22][g][h][i]/30.0;
+					grid->ncep_vpres_b[g][h][i] += grid->ncep_vpres[f+22][g][h][i]/30.0;
+					grid->ncep_tcdc_b[g][h][i] += grid->ncep_tcdc[f+22][g][h][i]/30.0;
+				}
+			}
+		}
+	}
+	
+	fclose(fp_t);
+	fclose(fp_p);
+	fclose(fp_h);
+	fclose(fp_r);
 }

@@ -107,7 +107,7 @@ void ecophysiology(
 	opt_lai(grid,loct, pchar);
 }
 
-/************* leaf area index *****************/
+/* leaf area index *****************************/
 double lai_mass(
 	struct Pmas *mass, 
 	struct Pchar *pchar
@@ -127,7 +127,7 @@ double lai_mass(
 	return(lai_est);
 }
 
-/********** give irradiance attenuation coefficient *************/
+/* irradiance attenuation coefficient **********************/
 double irr_attn(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -144,14 +144,15 @@ double irr_attn(
 	return (bbb);
 }
 
-/********** intercellular CO2 concentration *************/
+/* intercellular CO2 concentration **********************/
 void incel_cdc(
 	struct Grid *grid, 
 	struct Loct *loct, 
 	struct Pchar *plant
 ){
 	double ci, gs_co2;
-	/* give intercellular CO2 concentration, as a function of ambient CO2 level and stomatal conductance */
+	/* give intercellular CO2 concentration, as a function of ambient 
+		CO2 level and stomatal conductance */
 	
 	gs_co2 = plant->gs[grid->m]/1.56; 
 	/* 1.56: conversion from H2O to CO2 conductance */
@@ -165,7 +166,7 @@ void incel_cdc(
 	plant->ci[grid->m] = ci; 
 }
 
-/*********** quantum yield C3 and C4 *************/
+/* quantum yield C3 and C4 *********************************/
 void quantum_yield(
 	struct Grid *grid, 
 	struct Pchar *pchar
@@ -188,7 +189,7 @@ void quantum_yield(
 	pchar->lue[grid->m] = pchar->lue0*eftem*efci;
 }
 
-/************ stomatal conductance **************/
+/* stomatal conductance ************************************/
 void stom_cond(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -211,7 +212,7 @@ void stom_cond(
 	}
 }
 
-/********** canopy conductance **************/
+/* canopy conductance ********************************/
 double canopy_cond(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -239,7 +240,7 @@ double canopy_cond(
 	return(canopy_cond);
 }
 
-/************* optimum LAI by Kuroiwa (1966) **************/
+/* optimum LAI by Kuroiwa (1966) **************************/
 void opt_lai(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -255,11 +256,11 @@ void opt_lai(
 	/* printf("%lf %lf\n", plant->qTc[grid->m], grid->tmp_sfc[grid->m]); */
 	eee = log(pchar->qTc[grid->m])/10.0*(grid->tmp_sfc[grid->m]-15.0);
 	arm = pchar->rmf*exp(eee)/1000.0*dmTc*10000.0/(pchar->sla);
-	arg = pchar->lf[grid->m]*dmTc*10000.0/(pchar->sla)*(1.0+pchar->rgf);
+	arg = pchar->lf[grid->m]*dmTc*10000.0/(pchar->sla)*(1.0 + pchar->rgf);
 	ar = arm + arg;
 
-	cc4 = (pchar->psat[grid->m]*grid->dlen[grid->m])/(pchar->psat[grid->m]*grid->dlen[grid->m]-ar*24.0);
-	ccc = pchar->psat[grid->m]*(cc4-1.0);
+	cc4 = (pchar->psat[grid->m]*grid->dlen[grid->m])/(pchar->psat[grid->m]*grid->dlen[grid->m] - ar*24.0);
+	ccc = pchar->psat[grid->m]*(cc4 - 1.0);
 	
 	if(ccc>0.0){
 		ddd = bbb/ccc;
@@ -295,7 +296,7 @@ void qten_ar(
 	}
 }
 
-/**** lowering specific respiration rate of massive biomass with heart wood tissue ****/
+/* lowering specific respiration rate of massive biomass with heart wood tissue *******/
 void spcfc_res_mass(
 	struct Pchar *pchar, 
 	struct Pmas *mass
@@ -318,7 +319,7 @@ void spcfc_res_mass(
 	pchar->rmr = (pchar->rmr_s*rot_sap + pchar->rmr_h*rot_hrt)/(mass->rot + 0.00001);
 }
 
-/* leaf N concentration ****************************/
+/* leaf N concentration ********************************************/
 void f_n_leaf_conc(
 	struct Grid *grid, 
 	struct Pchar *pchar, 
@@ -391,4 +392,3 @@ void f_leaf_age(
 		}
 	}
 }
-

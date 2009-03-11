@@ -23,7 +23,7 @@ void f_biomassburning(
 	struct Flux *flux
 ){
 	short f;
-	double aa, bb, cc, ss, n_fireseason;
+	double aa, aad,  bb, cc, ss, n_fireseason;
 	double fuel, fa_burnt;
 	/* critical moisture */
 	double me_crit[16] = {0.0, 
@@ -87,6 +87,10 @@ void f_biomassburning(
 	double burn_eff[16] = {0.0, 
 		0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
 		0.85, 0.85, 0.6, 0.6, 0.5, 0.85, 0.85};
+		
+	double closs_leaf, closs_wood, closs_root, closs_litter;
+	
+	extern double MDN[ASTEP];
 	
 	/* veg_sage:
 	0	Ocean
@@ -115,13 +119,20 @@ void f_biomassburning(
 	   Global Ecology and Biogeography 10:661-677.
 	*/
 	n_fireseason = 0.0;
-	for(f=0;f<12;f++){		
+	for(f=0;f<ASTEP;f++){	
+		/* fuel load */
 		fuel = ((mass->soil).ltr_m[f] + (mass->plant).mfol[f] + (mass->plant).mstm[f] 
 				+ (mass->plant).mrot[f]) / cTdm * 100.0; /* need 200 g dm/m2 */
+				
 		if(fuel >= 200.0){	/* fire threshold: 2007/11/03 */
 			/* volumetric upper soil (litter-fuel) water content */
 			aa = loct->msw30[f]/grid->field_cap1;
-			bb = aa/me_crit[grid->veg_sage];
+			
+			/* Eq.1 in Thonicke  */
+			aad = (0.4994 * (aa*100.0) + 1.02)/100.0;	
+			
+			bb = aad/me_crit[grid->veg_sage];
+			/* Eq.2 in Thonicke  */
 			cc = exp(-PI*bb*bb);
 			
 			if(cc<=0.0){
@@ -131,8 +142,8 @@ void f_biomassburning(
 			}
 			
 			/* fire season length */
-			flux->day_fire[f] = (double)(grid->mm[f]) * cc;
-			n_fireseason += (double)(grid->mm[f]) * cc;
+			flux->day_fire[f] = MDN[f] * cc;
+			n_fireseason += MDN[f] * cc;
 		}else{
 			flux->day_fire[f] = 0.0;
 		}
@@ -149,9 +160,10 @@ void f_biomassburning(
 		}
 		
 		aa = ss-1.0;
+		/* Eq.8 in Thonicke  */
 		bb = 0.45 * pow(aa, 3.0) + 2.83 * pow(aa, 2.0) + 2.96 * aa + 1.04;
 		
-		/* fractional area burnt */
+		/* fractional area burnt, Eq.6 */
 		fa_burnt = ss * exp(aa/bb);
 
 		if(fa_burnt<=0.0){
@@ -166,7 +178,7 @@ void f_biomassburning(
 	/******************************/
 	flux->f_burnt = fa_burnt;
 	
-	for(f=0;f<12;f++){
+	for(f=0;f<ASTEP;f++){
 		/* seasonal change: fire-day length */
 		if(n_fireseason>=0.05){
 			aa = flux->day_fire[f]/n_fireseason;
@@ -267,7 +279,7 @@ void f_biomassburning(
 		flux->bb_pm25_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
 			* f_burnt_root[grid->veg_sage] * ef_pm25[grid->veg_sage];
 
-		/* TPM emission */
+		/* TPM (total particulate matter) emission */
 		flux->bb_tpm_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
 			* f_burnt_litter[grid->veg_sage] * ef_tpm[grid->veg_sage];
 		flux->bb_tpm_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage] 
@@ -286,5 +298,50 @@ void f_biomassburning(
 			* f_burnt_wood[grid->veg_sage] * ef_tec[grid->veg_sage];
 		flux->bb_tec_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
 			* f_burnt_root[grid->veg_sage] * ef_tec[grid->veg_sage];
+		
+		/* carbon budget ****************************************/
+	/*	closs_leaf = flux->bb_co2_leaf[f]*12.0/44.0/1000.0 + flux->bb_co_leaf[f]*12.0/28.0/1000.0 
+			+ flux->bb_ch4_leaf[f]*12.0/16.0/1000.0 + flux->bb_bc_leaf[f]/1000.0;
+		closs_wood = flux->bb_co2_wood[f]*12.0/44.0/1000.0 + flux->bb_co_wood[f]*12.0/28.0/1000.0 
+			+ flux->bb_ch4_wood[f]*12.0/16.0/1000.0 + flux->bb_bc_wood[f]/1000.0;
+		closs_root = flux->bb_co2_root[f]*12.0/44.0/1000.0 + flux->bb_co_root[f]*12.0/28.0/1000.0 
+			+ flux->bb_ch4_leaf[f]*12.0/16.0/1000.0 + flux->bb_bc_leaf[f]/1000.0;
+		closs_litter = flux->bb_co2_litter[f]*12.0/44.0/1000.0 + flux->bb_co_litter[f]*12.0/28.0/1000.0 
+			+ flux->bb_ch4_litter[f]*12.0/16.0/1000.0 + flux->bb_bc_litter[f]/1000.0;
+		
+		(mass->c3).mfol[f] -= closs_leaf;
+		if((mass->c3).mfol[f] < 0.0){
+			(mass->c3).mfol[f] = 0.0;
+		}
+		(mass->c4).mfol[f] -= closs_leaf;
+		if((mass->c4).mfol[f] < 0.0){
+			(mass->c4).mfol[f] = 0.0;
+		}
+		(mass->plant).mfol[f] = (mass->c3).mfol[f]*loct->C3ptn[f] + (mass->c4).mfol[f]*loct->C4ptn[f];
+
+		(mass->c3).mstm[f] -= closs_wood;
+		if((mass->c3).mstm[f] < 0.0){
+			(mass->c3).mstm[f] = 0.0;
+		}
+		(mass->c4).mfol[f] -= closs_wood;
+		if((mass->c4).mstm[f] < 0.0){
+			(mass->c4).mstm[f] = 0.0;
+		}
+		(mass->plant).mstm[f] = (mass->c3).mstm[f]*loct->C3ptn[f] + (mass->c4).mstm[f]*loct->C4ptn[f];
+
+		(mass->c3).mrot[f] -= closs_root;
+		if((mass->c3).mrot[f] < 0.0){
+			(mass->c3).mrot[f] = 0.0;
+		}
+		(mass->c4).mrot[f] -= closs_root;
+		if((mass->c4).mrot[f] < 0.0){
+			(mass->c4).mrot[f] = 0.0;
+		}
+		(mass->plant).mrot[f] = (mass->c3).mrot[f]*loct->C3ptn[f] + (mass->c4).mrot[f]*loct->C4ptn[f];	
+		
+		(mass->soil).ltr_m[f] -= closs_litter;
+		if((mass->soil).ltr_m[f] < 0.0){
+			(mass->soil).ltr_m[f] = 0.0;
+		}  */
 	}
 }

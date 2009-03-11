@@ -12,7 +12,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/***** from foliage, maintenance respiration ****/
+/* from foliage, maintenance respiration ************************************/
 double frfm(
 	struct Grid *grid, 
 	struct Pchar *veg, 
@@ -25,7 +25,8 @@ double frfm(
 	if(CN_COUPLE >= 1){	
 		/* micro mol m-2 s-1 */
 		/* g g-1 */
-		rfmt0 = veg->n_conc_larea * veg->rd_n * 12.0 / 1000000.0 *24.0*3600.0 / (10000.0/veg->sla * dmTc * 2.0);
+		rfmt0 = veg->n_conc_larea * veg->rd_n * 12.0 / 
+				1000000.0 *24.0*3600.0 / (10000.0/veg->sla * dmTc * 2.0);
 	}else{
 		/* g g-1 day-1 */
 		rfmt0 = veg->rmf/1000.0; 
@@ -43,7 +44,7 @@ double frfm(
 	return (rfm);
 }
 
-/***** from foliage, growth and construction respiration ****/
+/* from foliage, growth and construction respiration ************/
 double frfg(
 	struct Grid *grid, 
 	struct Pchar *veg, 
@@ -57,7 +58,7 @@ double frfg(
 	return(rfg);
 }
 
-/**** from stem and branch, maintenance respiration ****/
+/* from stem and branch, maintenance respiration *******************/
 double frcm(
 	struct Grid *grid, 
 	struct Pchar *veg, 
@@ -79,7 +80,7 @@ double frcm(
 	return(rfm);
 }
 
-/***** from stem and branch, growth and construction respiration ****/
+/* from stem and branch, growth and construction respiration ********/
 double frcg(
 	struct Grid *grid, 
 	struct Pchar *veg, 
@@ -93,7 +94,7 @@ double frcg(
 	return(rcg);
 }
 
-/**** from root, maintenance respiration ****/
+/* from root, maintenance respiration ******************************/
 double frrm(
 	struct Grid *grid, 
 	struct Pchar *veg, 
@@ -115,7 +116,7 @@ double frrm(
 	return(rfm);
 }
 
-/***** from root, growth and construction respiration ****/
+/* from root, growth and construction respiration ************/
 double frrg(
 	struct Grid *grid, 
 	struct Pchar *veg, 

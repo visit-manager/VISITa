@@ -11,7 +11,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/***** photosynthetic carbon isotope descrimination *****/
+/* photosynthetic carbon isotope descrimination *************************/
 void photo_13c_frac(
 	struct Grid *grid, 
 	struct Loct *loct,
@@ -32,7 +32,7 @@ void photo_13c_frac(
 	}
 }
 
-/***** conversion from d13C to 12C/13C ratio *****/
+/* conversion from d13C to 12C/13C ratio ***************/
 double deltaTratio(
 	double delta
 ){
@@ -43,7 +43,7 @@ double deltaTratio(
 	return ratio;
 }
 
-/***** conversion from 12C/13C ratio to d13C *****/
+/* conversion from 12C/13C ratio to d13C ***************/
 double ratioTdelta(
 	double ratio
 ){
@@ -54,7 +54,7 @@ double ratioTdelta(
 	return delta;
 }
 
-/******* addition of two isotopically different substances, a and b *******/
+/* addition of two isotopically different substances, a and b ************/
 double d13c_addition(
 	double d13c_a, 
 	double mass_a, 
@@ -83,7 +83,7 @@ double d13c_addition(
 	return (d13c_product);
 }
 
-/******* addition of two isotopically different substances, a and b *******/
+/* addition of two isotopically different substances, a and b *************/
 double d13c_addition3(
 	double d13c_a, 
 	double mass_a, 
@@ -94,43 +94,46 @@ double d13c_addition3(
 ){
 	double d13c_ab, mass_ab, d13c_abc;
 
-	mass_ab=mass_a+mass_b;
-	d13c_ab=d13c_addition( d13c_a, mass_a, d13c_b, mass_b);
+	mass_ab = mass_a+mass_b;
+	d13c_ab = d13c_addition(d13c_a, mass_a,  d13c_b, mass_b);
 	
-	d13c_abc=d13c_addition( d13c_ab, mass_ab, d13c_c, mass_c);
+	d13c_abc = d13c_addition(d13c_ab, mass_ab,  d13c_c, mass_c);
 		
 	return(d13c_abc);
 }
 
-/****** d13c of efflux CO2 from terrestrial ecosystems *******/
+/* d13c of efflux CO2 from terrestrial ecosystems *****************/
 void d13c_efflux(
 	struct Grid *grid, 
 	struct Loct *loct, 
 	struct Flux *flux
 ){
-	
 	/* total ecosystem respiratory efflux of CO2 */
 	flux->efflux_p=(flux->plant).rp[grid->m]+(flux->soil).rS[grid->m];
 
-	(flux->c3).d13c_rpm[grid->m]=d13c_addition3((flux->c3).d13c_rfm[grid->m], (flux->c3).rfm[grid->m], 
+	(flux->c3).d13c_rpm[grid->m] = d13c_addition3((flux->c3).d13c_rfm[grid->m], (flux->c3).rfm[grid->m], 
 					(flux->c3).d13c_rcm[grid->m], (flux->c3).rcm[grid->m], (flux->c3).d13c_rrm[grid->m], (flux->c3).rrm[grid->m]);
-	(flux->c3).d13c_rpg[grid->m]=d13c_addition3((flux->c3).d13c_rfg[grid->m], (flux->c3).rfg[grid->m], 
+	(flux->c3).d13c_rpg[grid->m] = d13c_addition3((flux->c3).d13c_rfg[grid->m], (flux->c3).rfg[grid->m], 
 					(flux->c3).d13c_rcg[grid->m], (flux->c3).rcg[grid->m], (flux->c3).d13c_rrg[grid->m], (flux->c3).rrg[grid->m]);
-	(flux->c3).d13c_rp[grid->m]=d13c_addition((flux->c3).d13c_rpm[grid->m], (flux->c3).rpm[grid->m], (flux->c3).d13c_rpg[grid->m], (flux->c3).rpg[grid->m]);
+	(flux->c3).d13c_rp[grid->m] = d13c_addition((flux->c3).d13c_rpm[grid->m], 
+					(flux->c3).rpm[grid->m], (flux->c3).d13c_rpg[grid->m], (flux->c3).rpg[grid->m]);
 
-	(flux->c4).d13c_rpm[grid->m]=d13c_addition3((flux->c4).d13c_rfm[grid->m], (flux->c4).rfm[grid->m], 
+	(flux->c4).d13c_rpm[grid->m] = d13c_addition3((flux->c4).d13c_rfm[grid->m], (flux->c4).rfm[grid->m], 
 					(flux->c4).d13c_rcm[grid->m], (flux->c4).rcm[grid->m], (flux->c4).d13c_rrm[grid->m], (flux->c4).rrm[grid->m]);
-	(flux->c4).d13c_rpg[grid->m]=d13c_addition3((flux->c4).d13c_rfg[grid->m], (flux->c4).rfg[grid->m], 
+	(flux->c4).d13c_rpg[grid->m] = d13c_addition3((flux->c4).d13c_rfg[grid->m], (flux->c4).rfg[grid->m], 
 					(flux->c4).d13c_rcg[grid->m], (flux->c4).rcg[grid->m], (flux->c4).d13c_rrg[grid->m], (flux->c4).rrg[grid->m]);
-	(flux->c4).d13c_rp[grid->m]=d13c_addition((flux->c4).d13c_rpm[grid->m], (flux->c4).rpm[grid->m], (flux->c4).d13c_rpg[grid->m], (flux->c4).rpg[grid->m]);
+	(flux->c4).d13c_rp[grid->m] = d13c_addition((flux->c4).d13c_rpm[grid->m], 
+					(flux->c4).rpm[grid->m], (flux->c4).d13c_rpg[grid->m], (flux->c4).rpg[grid->m]);
 	
-	(flux->plant).d13c_rp[grid->m]=d13c_addition((flux->c3).d13c_rp[grid->m], loct->C3ptn[grid->m]*(flux->c3).rp[grid->m], 
+	(flux->plant).d13c_rp[grid->m] = d13c_addition((flux->c3).d13c_rp[grid->m], loct->C3ptn[grid->m]*(flux->c3).rp[grid->m], 
 					(flux->c4).d13c_rp[grid->m], loct->C4ptn[grid->m]*(flux->c4).rp[grid->m]);
 
-	(flux->soil).d13c_rS[grid->m]=d13c_addition((flux->soil).d13c_rl[grid->m], (flux->soil).rl[grid->m], (flux->soil).d13c_rh[grid->m], (flux->soil).rh[grid->m]);
+	(flux->soil).d13c_rS[grid->m] = d13c_addition((flux->soil).d13c_rl[grid->m], 
+		(flux->soil).rl[grid->m], (flux->soil).d13c_rh[grid->m], (flux->soil).rh[grid->m]);
 	
 	/* total ecosystem respiratory efflux of d13C - CO2 */
-	flux->d13c_efflux_p=d13c_addition((flux->plant).d13c_rp[grid->m], (flux->plant).rp[grid->m], (flux->soil).d13c_rS[grid->m], (flux->soil).rS[grid->m]);
+	flux->d13c_efflux_p = d13c_addition((flux->plant).d13c_rp[grid->m], (flux->plant).rp[grid->m], 
+		(flux->soil).d13c_rS[grid->m], (flux->soil).rS[grid->m]);
 }
 
 

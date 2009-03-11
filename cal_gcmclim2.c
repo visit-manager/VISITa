@@ -20,7 +20,7 @@ void cal_gcmclim2(
 	struct Echar *echar, 
 	struct Mass *mass, 
 	struct Flux *flux, 
-	FILE *fp_o[6]
+	FILE *fp_o[OFILES]
 ){
 	long f, g;
 	double rl_a;
@@ -31,7 +31,7 @@ void cal_gcmclim2(
 	/* set long-term average climate */
 	initC(grid); 
 	
-	/* roop to dynamic stage *****************************/
+	/* LOOP to dynamic stage ***************************************/
 	for(g=0;g<GCM_PD;g++){ /*** AD 2001-2100 ***/
 	
 		/* climate change ********************/
@@ -52,8 +52,8 @@ void cal_gcmclim2(
 			grid->CO2y = 2001 + g; 
 		}
 		
-		/* monthly roop */
-		for(f=0;f<12;f++){
+		/* monthly loop ************************/
+		for(f=0;f<ASTEP;f++){
 			grid->m = f;
 									
 			/* initialize N fluxes ************/
@@ -95,10 +95,22 @@ void cal_gcmclim2(
 			/***** soil processes *****/
 			soil_processes(grid, loct, &(echar->soil), &(mass->soil), &(flux->soil));
  
+			/* fertilizaer input for croplands */
+			if((echar->soil).v_type == 1 && (grid->veg_olson!=29 || grid->veg_olson!=30 || 
+					grid->veg_olson!=31 || grid->veg_olson!=32)){
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.5;
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.5;
+			}
+			if((echar->soil).v_type == 3){
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.5;
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.5;
+			}
+
 			/* CH4 oxydation **************/
 			f_ch4oxy_ridgewell(grid, loct, flux);
 			f_ch4oxy_casa(grid, loct, flux);
 			f_ch4oxy_delgrosso(grid, loct, flux);
+			f_ch4oxy_curry(grid, loct, flux);
 
 			/* CH4 emission (wetlands) */
 			f_ch4_emit_cao(grid, loct, flux);
@@ -107,7 +119,7 @@ void cal_gcmclim2(
 			f_n2o_emit_ngas(grid, loct, mass, flux);
 			f_n2o_emit_casa(grid, loct, mass, flux);
 			
-			/***** ecosystem mass balance *****/	
+			/* ecosystem mass balance *************/	
 			/* net ecosystem production */
 			flux->nep[f] = (flux->plant).npp[f]-(flux->soil).rS[f];
 			/* total ecosystem carbon storage */
@@ -120,8 +132,9 @@ void cal_gcmclim2(
 
 			/* nitrogen budget */
 			n_budget(grid, loct, mass, flux);
-			
 		}
+		/* end of monthly loop ************************/
+		
 		/* empirical NPP models */
 		npp_empirical(grid, loct, flux);
 				
@@ -132,7 +145,7 @@ void cal_gcmclim2(
 		f_erosion(grid, loct, echar, mass, flux);
 
 		if(ERSN_CC==1){
-			(mass->soil).ltr -= flux->erod_carbon;
+			(mass->soil).ltr -= flux->erod_carbon*0.25;
 			if((mass->soil).ltr<0.0){
 				(mass->soil).ltr = 0.0;
 			}

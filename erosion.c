@@ -15,7 +15,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/*****  erosion  ****/
+/* erosion ********************************************************/
 void f_erosion(
 	struct Grid *grid, 
 	struct Loct *loct,  
@@ -34,6 +34,7 @@ void f_erosion(
 				1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
 			};
 	double c_factor_paddy, c_factor_upcrop, f_paddy, f_upcrop;
+	extern double MDN[12];
 	
 	/* C and P factors for paddy field */
 	/* Soil Erosion and Conservation by R.P.C. Morgan
@@ -48,7 +49,7 @@ void f_erosion(
 		if(grid->f_crop_con >= grid->f_paddy){
 			f_paddy = grid->f_paddy;
 			f_upcrop = grid->f_crop_con - grid->f_paddy;
-		}else if(grid->f_paddy > grid->f_crop_con){
+		}else{  /*  if(grid->f_paddy > grid->f_crop_con) */
 			f_paddy = grid->f_crop_con;
 			f_upcrop = 0.0;
 		}
@@ -90,7 +91,7 @@ void f_erosion(
 	}else if(VEGCOVER==1){
 		fveg_a = 0.0;
 		for(f=0;f<12;f++){
-			fveg_a += loct->f_vegcov[f] * (double)(grid->mm[f])/365.0;
+			fveg_a += loct->f_vegcov[f] * MDN[f]/365.0;
 		}
 		
 		grid->f_erosion_c = (1.0 - grid->f_crop_con)*c_factor_v[grid->veg_sage]*(1.6 - fveg_a) + grid->f_crop_con*0.5;

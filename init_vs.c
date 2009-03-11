@@ -17,8 +17,8 @@
 
 #define INT_C 0.01
 
-/************************************************************************************/
-/**** Initialize vegetation conditions ****/
+/****************************************************************/
+/* Initialize vegetation conditions ****************/
 void initVS(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -28,19 +28,35 @@ void initVS(
 ){	
 	long f, g;
 	
-	if(echar->v_type == 1){
+	/* a priori parameters ***************************/
+	/* C3 */
+	if((echar->c3).v_type == 1){
 		parameterC3(grid, &(echar->c3));
-		parameterC4(grid, &(echar->c4));
-		parameterSoil(grid, &(echar->soil));
-	}else if(echar->v_type == 2){
+	}else if((echar->c3).v_type == 2){
 		parameterC3_sage(grid, &(echar->c3));
+	}else if((echar->c3).v_type == 3){
+		parameterCrop(grid, &(echar->c3));
+	}
+	/* C4 */
+	if((echar->c4).v_type == 1){
+		parameterC4(grid, &(echar->c4));
+	}else if((echar->c4).v_type == 2){
 		parameterC4_sage(grid, &(echar->c4));
+	}else if((echar->c4).v_type == 3){
+		parameterCrop(grid, &(echar->c4));
+	}
+	/* soil */
+	if((echar->soil).v_type == 1){
+		parameterSoil(grid, &(echar->soil));
+	}else if((echar->soil).v_type == 2){
 		parameterSoil_sage(grid, &(echar->soil));
+	}else if((echar->soil).v_type == 3){
+		parameterSoil_crop(grid, &(echar->soil));
 	}
 
-	/******** Sensitivity Analysis *******/
+	/* Sensitivity Analysis ***************************/
 	if(SENS==1){
-		(echar->c3).gs_b1*=1.1;
+		(echar->c3).gs_b1 *= 1.1;
 		(echar->c4).gs_b1*=1.1;
 	}else if(SENS==2){
 		(echar->c3).pmax*=1.1;
@@ -76,7 +92,7 @@ void initVS(
 	
 	/* growing period **********************/
 	for(g=0;g<2;g++){
-		for(f=0;f<12;f++){
+		for(f=0;f<ASTEP;f++){
 			grid->m = f;
 			growthperiod(grid, loct, &(echar->c3));
 			growthperiod(grid, loct, &(echar->c4));
@@ -98,23 +114,24 @@ void initVS(
 	vlzero(grid, &(mass->plant), &(flux->plant));
 	
 	/* set initial biomass *****************************/
+	/* Mg C / ha */
 	(mass->c3).fol = (mass->c3).fol_p = (mass->c3).stm = (mass->c3).rot = INT_C;
-	for(f=0;f<12;f++){
+	for(f=0;f<ASTEP;f++){
 		(mass->c3).mfol[f] = (mass->c3).mstm[f] = (mass->c3).mrot[f] = INT_C; 
 	}
 
 	(mass->c4).fol = (mass->c4).fol_p = (mass->c4).stm= (mass->c4).rot= INT_C;
-	for(f=0;f<12;f++){
+	for(f=0;f<ASTEP;f++){
 		(mass->c4).mfol[f] = (mass->c4).mstm[f] = (mass->c4).mrot[f] = INT_C; 
 	}
 
 	(mass->soil).ltr = (mass->soil).msl = INT_C;
-	for(f=0;f<12;f++){
+	for(f=0;f<ASTEP;f++){
 		(mass->soil).ltr_m[f] = (mass->soil).msl_m[f] = INT_C;
 	}
 	
 	/* set initial soil mineral nitrogen */
-	/* g N ha-1 */
+	/* kg N ha-1 */
 	(mass->c3).n_cnpy = (mass->c3).fol/10.0 * 1000.0;
 	(mass->c3).n_strg = ((mass->c3).stm + (mass->c3).rot)/10.0 * 1000.0;
 
@@ -128,7 +145,7 @@ void initVS(
 	(mass->soil).n_lttr = 10.0 * 1000.0;
 	(mass->soil).n_hums = 10.0 * 1000.0;
 	
-	for(f=0;f<12;f++){
+	for(f=0;f<ASTEP;f++){
 		(mass->c3).n_cnpy_m[f] = (mass->c3).mfol[f]/10.0 * 1000.0;
 		(mass->c3).n_strg_m[f] = ((mass->c3).mstm[f] + (mass->c3).mrot[f])/10.0 * 1000.0;
 

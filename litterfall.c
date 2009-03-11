@@ -11,7 +11,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/************ mortarity of plant organs **************/
+/* mortarity of plant organs ***********************************************/
 void mortality(
 	struct Grid *grid, 
 	struct Pchar *pchar
@@ -26,7 +26,7 @@ void mortality(
 	pchar->lr[grid->m] = pchar->lr0*bbb; /* root */
 }
 
-/*************** from foliage ********************/
+/* from foliage **************************************************************/
 double flf(
 	struct Grid *grid, 
 	struct Pchar *veg, 
@@ -40,7 +40,7 @@ double flf(
 	return(lf);
 }
 
-/************ from stem and branch ************/		
+/* from stem and branch ***************************************************/		
 double flc(
 	struct Grid *grid, 
 	struct Pchar *veg, 
@@ -54,7 +54,7 @@ double flc(
 	return(lc);
 }
 
-/*************** from root system ****************/
+/* from root system **********************************************************/
 double flr(
 	struct Grid *grid, 
 	struct Pchar *veg, 
