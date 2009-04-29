@@ -267,7 +267,7 @@ void open_input(
 		GCM==1170 ||GCM==1180 ||GCM==1190 ||GCM==1200 ||GCM==1201 ||GCM==1202 ||
 		GCM==1203 ||GCM==1204 ||GCM==1220 ||GCM==1221 ||GCM==1222 ||GCM==1223 ||
 		GCM==1224 ||GCM==1225 ||GCM==1226 ||GCM==1240 ||GCM==1250 ||GCM==1251 ||
-		GCM==1260 ||GCM==1261 ||GCM==1262 ||GCM==1263){ 
+		GCM==1260 ||GCM==1261 ||GCM==1262 ||GCM==1263 ||GCM==1270){ 
 		CO2S = 1;
 		
 		if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
@@ -280,7 +280,7 @@ void open_input(
 		GCM==1138 ||GCM==1139 ||GCM==1154 ||GCM==1155 ||GCM==1156 ||GCM==1171 ||GCM==1181 ||
 		GCM==1191 ||GCM==1205 ||GCM==1206 ||GCM==1207 ||GCM==1208 ||GCM==1209 ||GCM==1227 ||
 		GCM==1228 ||GCM==1229 ||GCM==1230 ||GCM==1231 ||GCM==1241 ||GCM==1252 ||GCM==1264 ||
-		GCM==1265 ||GCM==1266 ||GCM==1267){ 
+		GCM==1265 ||GCM==1266 ||GCM==1267 ||GCM==1271){ 
 		CO2S = 4;
 
 		if((fp_s[23]=fopen("./data/image_a2_fcrop.dat","rt"))==NULL){
@@ -293,7 +293,7 @@ void open_input(
 		GCM==1141 ||GCM==1142 ||GCM==1143 ||GCM==1144 ||GCM==1157 ||GCM==1158 ||GCM==1159 ||
 		GCM==1163 ||GCM==1164 ||GCM==1165 ||GCM==1182 ||GCM==1192 ||GCM==1210 ||GCM==1211 ||
 		GCM==1212 ||GCM==1213 ||GCM==1214 ||GCM==1232 ||GCM==1233 ||GCM==1234 ||GCM==1235 ||
-		GCM==1236 ||GCM==1237 ||GCM==1238 ||GCM==1239 ||GCM==1242 ||GCM==1253){ 
+		GCM==1236 ||GCM==1237 ||GCM==1238 ||GCM==1239 ||GCM==1242 ||GCM==1253 ||GCM==1272){ 
 		CO2S = 5;
 		
 		if((fp_s[23]=fopen("./data/image_b1_fcrop.dat","rt"))==NULL){

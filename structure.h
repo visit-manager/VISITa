@@ -124,15 +124,23 @@ struct Grid{
 	float	proj_rad_b[ASTEP][160][320];				/* surface downward solar radiation */
 	
 	/* NCEP/NCAR 1948-2008 */
-	float	ncep_tmp2m[61][ASTEP][94][192];
+	float	ncep_tmp2m[1][1][1][1];
+	float	ncep_prate[1][1][1][1];
+	float	ncep_tcdc[1][1][1][1];
+	float	ncep_vpres[1][1][1][1];
+/*	float	ncep_tmp2m[61][ASTEP][94][192];
 	float	ncep_prate[61][ASTEP][94][192];
 	float	ncep_tcdc[61][ASTEP][94][192];
-	float	ncep_vpres[61][ASTEP][94][192];
+	float	ncep_vpres[61][ASTEP][94][192];  */
 	/* average */
-	float	ncep_tmp2m_b[ASTEP][94][192];
+	float	ncep_tmp2m_b[1][1][1];
+	float	ncep_prate_b[1][1][1];
+	float	ncep_tcdc_b[1][1][1];
+	float	ncep_vpres_b[1][1][1];
+/*	float	ncep_tmp2m_b[ASTEP][94][192];
 	float	ncep_prate_b[ASTEP][94][192];
 	float	ncep_tcdc_b[ASTEP][94][192];
-	float	ncep_vpres_b[ASTEP][94][192];
+	float	ncep_vpres_b[ASTEP][94][192]; */
 	
 	double	proj_prec_co;			/* carry-over of negative precipitation */
 

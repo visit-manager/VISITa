@@ -344,7 +344,7 @@ void set_rowcol_gcm(
 	}else if(GCM==1050 || GCM==1051 ||GCM==1052){ /* BCCR */
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==1061 || GCM==1062 ||GCM==1063){ /* INM-CM3 */
+	}else if(GCM==1060 || GCM==1061 ||GCM==1062){ /* INM-CM3 : error-fixed 2009/04/26 A.Ito */
 		GCM_R = 45;
 		GCM_C = 72;
 	}else if(GCM==1070 || GCM==1071 || GCM==1072){ /* IPSL */
@@ -362,7 +362,7 @@ void set_rowcol_gcm(
 	}else if(GCM==1110 || GCM==1111 || GCM==1112){ /* CCCma-T63 */
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==1120 || GCM==1121 || GCM==1122){ /* CSIRO */
+	}else if(GCM==1120 || GCM==1121 || GCM==1122 || GCM==1270 || GCM==1271 || GCM==1272){ /* CSIRO */
 		GCM_R = 96;
 		GCM_C = 192;
 	}else if(GCM==1130 || GCM==1131 || GCM==1132 || GCM==1133 || GCM==1134
@@ -450,11 +450,11 @@ void set_gcm_index(
 		case 1090:	strcpy(s_case,"HCA11_"); break;
 		case 1091:	strcpy(s_case,"HCA21_"); break;
 		case 1092:	strcpy(s_case,"HCB11_"); break;
-
+			
 		case 1100:	strcpy(s_case,"GSAA11_"); break;
 		case 1101:	strcpy(s_case,"GSAA12_"); break;
-		case 1102:	strcpy(s_case,"GSAA21_"); break;
-		case 1103:	strcpy(s_case,"GSAB11_"); break;
+		case 1102:	strcpy(s_case,"GSAB11_"); break; /* corercted 2009/04/08 */
+		case 1103:	strcpy(s_case,"GSAB12_"); break; /* corercted 2009/04/08 */
 
 		case 1110:	strcpy(s_case,"CC6A11_"); break;
 		case 1111:	strcpy(s_case,"CC6A21_"); break;
@@ -554,16 +554,21 @@ void set_gcm_index(
 		case 1251:	strcpy(s_case,"GSRA12_"); break;
 		case 1252:	strcpy(s_case,"GSRA21_"); break;
 		case 1253:	strcpy(s_case,"GSRB11_"); break;
-
-		case 1260:	strcpy(s_case,"GSRA11_"); break;
-		case 1261:	strcpy(s_case,"GSRA12_"); break;
-		case 1262:	strcpy(s_case,"GSRA13_"); break;
-		case 1263:	strcpy(s_case,"GSRA14_"); break;
-		case 1264:	strcpy(s_case,"GSRA21_"); break;
-		case 1265:	strcpy(s_case,"GSRA22_"); break;
-		case 1266:	strcpy(s_case,"GSRA23_"); break;
-		case 1267:	strcpy(s_case,"GSRA24_"); break;
 		
+		/*  corrected 2009/04/07 by A.Ito  */
+		case 1260:	strcpy(s_case,"NPA11_"); break;
+		case 1261:	strcpy(s_case,"NPA12_"); break;
+		case 1262:	strcpy(s_case,"NPA13_"); break;
+		case 1263:	strcpy(s_case,"NPA14_"); break;
+		case 1264:	strcpy(s_case,"NPA21_"); break;
+		case 1265:	strcpy(s_case,"NPA22_"); break;
+		case 1266:	strcpy(s_case,"NPA23_"); break;
+		case 1267:	strcpy(s_case,"NPA24_"); break;
+
+		case 1270:	strcpy(s_case,"CS35A11_"); break;	/* added 2009/04/09 by A.Ito */
+		case 1271:	strcpy(s_case,"CS35A21_"); break;
+		case 1272:	strcpy(s_case,"CS35B11_"); break;
+
 		default:
 			strcpy(s_case,"STCLIM_"); 
 			printf("NULL CASE !!!");

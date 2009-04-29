@@ -244,7 +244,7 @@ void read_gcm_clim(
 		if( (fp_r=fopen("./data/rsds_BCCR_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_rsds_BRA1B-2001-2100\n");  exit(1); }
 	}else if(GCM==1052){  /* BCCR + A1B  */
 		if( (fp_t=fopen("./data/tas_BCCR_20C-B1_R1.dat","rt"))==NULL ){  printf("No ext_tas_BRA1B-2001-2100\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_BCCR_20C-B1R1.dat","rt"))==NULL ){  printf("No ext_pr_BRA1B-2001-2100\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_BCCR_20C-B1_R1.dat","rt"))==NULL ){  printf("No ext_pr_BRA1B-2001-2100\n");  exit(1); }
 		if( (fp_h=fopen("./data/huss_BCCR_20C-B1_R1.dat","rt"))==NULL ){  printf("No ext_huss_BRA1B-2001-2100\n");  exit(1); }
 		if( (fp_r=fopen("./data/rsds_BCCR_20C-B1_R1.dat","rt"))==NULL ){  printf("No ext_rsds_BRA1B-2001-2100\n");  exit(1); }
 	}
@@ -317,26 +317,26 @@ void read_gcm_clim(
 		if( (fp_r=fopen("./data/rsds_HADCM3_20C-B1_R1.dat","rt"))==NULL ){  printf("No ext_rsds_HCA1B-2000-2200\n");  exit(1); }
 	}
 	
-	else if(GCM==1100){  /*  GISS AOM + A1B  */
+	else if(GCM==1100){  /*  GISS AOM + A1B R1 */
 		if( (fp_t=fopen("./data/tas_GISSAOM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No tas_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
 		if( (fp_p=fopen("./data/pr_GISSAOM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No pr_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
 		if( (fp_h=fopen("./data/huss_GISSAOM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No huss_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
 		if( (fp_r=fopen("./data/rsds_GISSAOM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No rsds_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
-	}else if(GCM==1101){  /*  GISS AOM + A1B  */
-		if( (fp_t=fopen("./data/tas_GISSAOM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No tas_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_GISSAOM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No pr_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_GISSAOM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No huss_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_GISSAOM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No rsds_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
-	}else if(GCM==1102){  /*  GISS AOM + A2  */
-		if( (fp_t=fopen("./data/tas_GISSAOM_20C-A2_R1.dat","rt"))==NULL ){  printf("No tas_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_GISSAOM_20C-A2_R1.dat","rt"))==NULL ){  printf("No pr_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_GISSAOM_20C-A2_R1.dat","rt"))==NULL ){  printf("No huss_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_GISSAOM_20C-A2_R1.dat","rt"))==NULL ){  printf("No rsds_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
-	}else if(GCM==1103){  /*  GISS AOM + B1  */
-		if( (fp_t=fopen("./data/tas_GISSAOM_20C-B1_R1.dat","rt"))==NULL ){  printf("No tas_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_GISSAOM_20C-B1_R1.dat","rt"))==NULL ){  printf("No pr_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_GISSAOM_20C-B1_R1.dat","rt"))==NULL ){  printf("No huss_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_GISSAOM_20C-B1_R1.dat","rt"))==NULL ){  printf("No rsds_GISSAOM_20C-A1B_R1.dat\n");  exit(1); }
+	}else if(GCM==1101){  /*  GISS AOM + A1B R2 */
+		if( (fp_t=fopen("./data/tas_GISSAOM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No tas_GISSAOM_20C-A1B_R2.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_GISSAOM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No pr_GISSAOM_20C-A1B_R2.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_GISSAOM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No huss_GISSAOM_20C-A1B_R2.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_GISSAOM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No rsds_GISSAOM_20C-A1B_R2.dat\n");  exit(1); }
+	}else if(GCM==1102){  /*  GISS AOM + B1 R1 (corrected 2009/04/08) */
+		if( (fp_t=fopen("./data/tas_GISSAOM_20C-B1_R1.dat","rt"))==NULL ){  printf("No tas_GISSAOM_20C-B1_R1.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_GISSAOM_20C-B1_R1.dat","rt"))==NULL ){  printf("No pr_GISSAOM_20C-B1_R1.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_GISSAOM_20C-B1_R1.dat","rt"))==NULL ){  printf("No huss_GISSAOM_20C-B1_R1.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_GISSAOM_20C-B1_R1.dat","rt"))==NULL ){  printf("No rsds_GISSAOM_20C-B1_R1.dat\n");  exit(1); }
+	}else if(GCM==1103){  /*  GISS AOM + B1 R2 (corrected 2009/04/08) */
+		if( (fp_t=fopen("./data/tas_GISSAOM_20C-B1_R2.dat","rt"))==NULL ){  printf("No tas_GISSAOM_20C-B2_R1.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_GISSAOM_20C-B1_R2.dat","rt"))==NULL ){  printf("No pr_GISSAOM_20C-B2_R1.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_GISSAOM_20C-B1_R2.dat","rt"))==NULL ){  printf("No huss_GISSAOM_20C-B2_R1.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_GISSAOM_20C-B1_R2.dat","rt"))==NULL ){  printf("No rsds_GISSAOM_20C-B2_R1.dat\n");  exit(1); }
 	}
 	
 	if(GCM==1110){  /* CCCma-T63 + A1B  */
@@ -777,10 +777,11 @@ void read_gcm_clim(
 	}
 	
 	if(GCM==1250){  /*  GISSR + A1B  */
-		if( (fp_t=fopen("./data/tas_GISSR_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_tas_GISSRA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_GISSR_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_pr_GISSRA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_GISSR_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_huss_GISSRA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_GISSR_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_rsds_GISSRA1B-2001-2100.dat\n");  exit(1); }
+		/* changed (R1 -> R4) 2009/04/07 by A.Ito */
+		if( (fp_t=fopen("./data/tas_GISSR_20C-A1B_R4.dat","rt"))==NULL ){  printf("No tas_GISSR_20C-A1B_R4.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_GISSR_20C-A1B_R4.dat","rt"))==NULL ){  printf("No pr_GISSR_20C-A1B_R4.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_GISSR_20C-A1B_R4.dat","rt"))==NULL ){  printf("No huss_GISSR_20C-A1B_R4.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_GISSR_20C-A1B_R4.dat","rt"))==NULL ){  printf("No rsds_GISSR_20C-A1B_R4.dat\n");  exit(1); }
 	}else if(GCM==1251){  /*  GISSR + A1B  */
 		if( (fp_t=fopen("./data/tas_GISSR_20C-A1B_R2.dat","rt"))==NULL ){  printf("No ext_tas_GISSRA1B-2001-2100.dat\n");  exit(1); }
 		if( (fp_p=fopen("./data/pr_GISSR_20C-A1B_R2.dat","rt"))==NULL ){  printf("No ext_pr_GISSRA1B-2001-2100.dat\n");  exit(1); }
@@ -792,10 +793,11 @@ void read_gcm_clim(
 		if( (fp_h=fopen("./data/huss_GISSR_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_huss_GISSRA1B-2001-2100.dat\n");  exit(1); }
 		if( (fp_r=fopen("./data/rsds_GISSR_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_rsds_GISSRA1B-2001-2100.dat\n");  exit(1); }
 	}else if(GCM==1253){  /*  GISSR + B1  */
-		if( (fp_t=fopen("./data/tas_GISSR_20C-B1_R2.dat","rt"))==NULL ){  printf("No ext_tas_GISSRA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_GISSR_20C-B1_R2.dat","rt"))==NULL ){  printf("No ext_pr_GISSRA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_GISSR_20C-B1_R2.dat","rt"))==NULL ){  printf("No ext_huss_GISSRA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_GISSR_20C-B1_R2.dat","rt"))==NULL ){  printf("No ext_rsds_GISSRA1B-2001-2100.dat\n");  exit(1); }
+		/* changed (R2 -> R1) 2009/04/07 by A.Ito */
+		if( (fp_t=fopen("./data/tas_GISSR_20C-B1_R1.dat","rt"))==NULL ){  printf("No tas_GISSR_20C-B1_R1.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_GISSR_20C-B1_R1.dat","rt"))==NULL ){  printf("No pr_GISSR_20C-B1_R1.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_GISSR_20C-B1_R1.dat","rt"))==NULL ){  printf("No huss_GISSR_20C-B1_R1.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_GISSR_20C-B1_R1.dat","rt"))==NULL ){  printf("No rsds_GISSR_20C-B1_R1.dat\n");  exit(1); }
 	}
 	
 	if(GCM==1260){  /*  PCM + A1B  */
@@ -840,6 +842,23 @@ void read_gcm_clim(
 		if( (fp_r=fopen("./data/rsds_PCM_20C-A2_R4.dat","rt"))==NULL ){  printf("No ext_rsds_PCMA2-2001-2100.dat\n");  exit(1); }
 	}
 	
+	if(GCM==1270){  /*  CSIRO 3.5 + A1  */
+		if( (fp_t=fopen("./data/tas_CSIRO35_20C-A1_R1.dat","rt"))==NULL ){  printf("No tas_CSIRO35_20C-A1_R1.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_CSIRO35_20C-A1_R1.dat","rt"))==NULL ){  printf("No pr_CSIRO35_20C-A1_R1.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_CSIRO35_20C-A1_R1.dat","rt"))==NULL ){  printf("No huss_CSIRO35_20C-A1_R1.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_CSIRO35_20C-A1_R1.dat","rt"))==NULL ){  printf("No rsds_CSIRO35_20C-A1_R1.dat\n");  exit(1); }
+	}else if(GCM==1271){  /*  CSIRO 3.5 + A2  */
+		if( (fp_t=fopen("./data/tas_CSIRO35_20C-A2_R1.dat","rt"))==NULL ){  printf("No tas_CSIRO35_20C-A2_R1.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_CSIRO35_20C-A2_R1.dat","rt"))==NULL ){  printf("No pr_CSIRO35_20C-A2_R1.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_CSIRO35_20C-A2_R1.dat","rt"))==NULL ){  printf("No huss_CSIRO35_20C-A2_R1.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_CSIRO35_20C-A2_R1.dat","rt"))==NULL ){  printf("No rsds_CSIRO35_20C-A2_R1.dat\n");  exit(1); }
+	}else if(GCM==1272){  /*  CSIRO 3.5 + B1  */
+		if( (fp_t=fopen("./data/tas_CSIRO35_20C-B1_R1.dat","rt"))==NULL ){  printf("No tas_CSIRO35_20C-B1_R1.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_CSIRO35_20C-B1_R1.dat","rt"))==NULL ){  printf("No pr_CSIRO35_20C-B1_R1.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_CSIRO35_20C-B1_R1.dat","rt"))==NULL ){  printf("No huss_CSIRO35_20C-B1_R1.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_CSIRO35_20C-B1_R1.dat","rt"))==NULL ){  printf("No rsds_CSIRO35_20C-B1_R1.dat\n");  exit(1); }
+	}
+	
 	if(GCM!=0 && GCM!=106){
 		for(f=0;f<131;f++){   /*  1970-2100 */
 			for(g=0;g<12;g++){
@@ -853,6 +872,25 @@ void read_gcm_clim(
 						fscanf(fp_p,"%f", &(grid->proj_prec[f][g][h][i]));
 						fscanf(fp_h,"%f", &(grid->proj_shum[f][g][h][i]));
 						fscanf(fp_r,"%f", &(grid->proj_rad[f][g][h][i]));
+					}
+				}
+				for(h=0;h<GCM_R;h++){
+					for(i=0;i<GCM_C;i++){
+						if(grid->proj_tmp2m[f][g][h][i] > 1000.0 || grid->proj_tmp2m[f][g][h][i] < 200.0){
+							grid->proj_tmp2m[f][g][h][i] = (grid->proj_tmp2m[f][g][h][i-1] + grid->proj_tmp2m[f][g][h][i+1])/2.0;
+						}
+						
+						if(grid->proj_prec[f][g][h][i] > 10.0 || grid->proj_prec[f][g][h][i] < 0.0){
+							grid->proj_prec[f][g][h][i] = (grid->proj_prec[f][g][h][i-1] + grid->proj_prec[f][g][h][i+1])/2.0;
+						}
+						
+						if(grid->proj_shum[f][g][h][i] > 10.0 || grid->proj_shum[f][g][h][i] < 0.0){
+							grid->proj_shum[f][g][h][i] = (grid->proj_shum[f][g][h][i-1] + grid->proj_shum[f][g][h][i+1])/2.0;
+						}
+						
+						if(grid->proj_rad[f][g][h][i] > 1000.0 || grid->proj_rad[f][g][h][i] < 0.0){
+							grid->proj_rad[f][g][h][i] = (grid->proj_rad[f][g][h][i-1] + grid->proj_rad[f][g][h][i+1])/2.0;
+						}
 						
 						grid->proj_tmp2m[f][g][h][i] -= ZAT;
 						grid->proj_prec[f][g][h][i] *= (float)MDN[g];

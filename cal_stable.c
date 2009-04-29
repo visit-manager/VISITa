@@ -192,9 +192,9 @@ void cal_stable(
 	f_set_history_data(0, grid, loct, mass, flux);
 		
 	/** output initial stable state **/
-	publish_cbud(grid, loct, echar, mass, flux, fp_o[0]);
+	/* publish_cbud(grid, loct, echar, mass, flux, fp_o[0]); */
 	
 	/* output */
-	f_output_result(1900, grid, loct, echar, mass, flux, fp_o);
+	/* f_output_result(1900, grid, loct, echar, mass, flux, fp_o); */
 }
 

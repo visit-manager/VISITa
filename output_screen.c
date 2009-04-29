@@ -112,11 +112,11 @@ void screenshow(
 	printf("MTW: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%5.3lf ",(flux->soil).ch4flux_wetland_cao[h]);		ann+=(flux->soil).ch4flux_wetland_cao[h];	}		printf(" %.1lf\n",ann); */
 
-	printf("LAD\n");
+/*	printf("LAD\n");
 	for(h=0;h<12;h++){		printf("%8.6lf ",(echar->c3).fleaf_age[h]);		}	printf("\n"); 
 	for(h=12;h<24;h++){		printf("%8.6lf ",(echar->c3).fleaf_age[h]);		}	printf("\n"); 
 	for(h=24;h<36;h++){		printf("%8.6lf ",(echar->c3).fleaf_age[h]);		}	printf("\n"); 
-	for(h=36;h<=48;h++){		printf("%8.6lf ",(echar->c3).fleaf_age[h]);		}	printf("\n"); 
+	for(h=36;h<=48;h++){		printf("%8.6lf ",(echar->c3).fleaf_age[h]);		}	printf("\n"); */
 
 /*	printf("RSL: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%5.2lf ", (flux->soil).rS[h]);		ann+=(flux->soil).rS[h];	}		printf(" %.1lf\n",ann); */

@@ -101,6 +101,28 @@ double vs_lai[16], vs_fol[16], vs_stm[16], vs_rot[16], vs_ltr[16], vs_msl[16];
 
 double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0};
 
+/* 0: 1950s */
+/* 1: 1990s */
+/* 2: 2020s */
+/* 3: 2050s */
+/* 4: 2080s */
+float g_tmp[5][360][720];
+float g_prc[5][360][720];
+float g_swr[5][360][720];
+float g_gpp[5][360][720];
+float g_npp[5][360][720];
+float g_nep[5][360][720];
+float g_pmas[5][360][720];
+float g_smas[5][360][720];
+float g_ch4e[5][360][720];
+float g_ch4o[5][360][720];
+float g_n2oe[5][360][720];
+float g_bbco2[5][360][720];
+float g_ersn[5][360][720];
+float g_isopr[5][360][720];
+float g_sr[5][360][720];
+float g_luc[5][360][720];
+
 short RAD_SENS;
 /* 0: control */
 /* 1: +10 diffuse PAR fraction */
@@ -139,6 +161,7 @@ int main(
 	FILE *fp_s[IFILEN];
 	FILE *fp_c[4];
 	FILE *fp_o1[OFILES], *fp_o2[OFILES], *fp_o3[OFILES];
+	FILE *fp_binout;
 	
 	/* setting by arguments ******************/
 	if(argc<6){
@@ -185,6 +208,35 @@ int main(
 				
 	printf("done\n");
 	
+	strcpy(filename, argv[2]);
+	strcat(filename, "_");
+	strcat(filename, s_case);
+	strcat(filename,"-output.bin");
+	fp_binout = fopen(filename, "wb");
+	
+	for(f=0;f<5;f++){
+		for(g=0;g<360;g++){
+			for(h=0;h<720;h++){
+				g_tmp[f][g][h] = 0.0;
+				g_prc[f][g][h] = 0.0;
+				g_swr[f][g][h] = 0.0;
+				g_gpp[f][g][h] = 0.0;
+				g_npp[f][g][h] = 0.0;
+				g_nep[f][g][h] = 0.0;
+				g_pmas[f][g][h] = 0.0;
+				g_smas[f][g][h] = 0.0;
+				g_ch4e[f][g][h] = 0.0;
+				g_ch4o[f][g][h] = 0.0;
+				g_n2oe[f][g][h] = 0.0;
+				g_bbco2[f][g][h] = 0.0;
+				g_ersn[f][g][h] = 0.0;
+				g_isopr[f][g][h] = 0.0;
+				g_sr[f][g][h] = 0.0;
+				g_luc[f][g][h] = 0.0;
+			}
+		}
+	}
+	
 	/*******************************************************************/
 	printf("Initialize simulation...");
 	
@@ -208,7 +260,7 @@ int main(
 	/*** read GCM climate scenario ***/
 	printf("Reading GCM climate projection...");
 	read_gcm_clim(&grid); /* */
-	read_ncep_clim(&grid); /* */
+	/* read_ncep_clim(&grid); */
 	printf("done\n");
 	
 	/************************************************************************/
@@ -411,6 +463,23 @@ int main(
 	}
 	/* end of latitudinal loop *************************************/
 	
+	fwrite(g_tmp, sizeof(float), 5*360*720, fp_binout);  // 0-4
+	fwrite(g_prc, sizeof(float), 5*360*720, fp_binout);  // 5-9
+	fwrite(g_swr, sizeof(float), 5*360*720, fp_binout);  // 10-14
+	fwrite(g_gpp, sizeof(float), 5*360*720, fp_binout);  // 15-19
+	fwrite(g_npp, sizeof(float), 5*360*720, fp_binout);  // 20-24
+	fwrite(g_nep, sizeof(float), 5*360*720, fp_binout);  // 25-29
+	fwrite(g_pmas, sizeof(float), 5*360*720, fp_binout);  // 30-34
+	fwrite(g_smas, sizeof(float), 5*360*720, fp_binout);  // 35-39
+	fwrite(g_ch4e, sizeof(float), 5*360*720, fp_binout);  // 40-44
+	fwrite(g_ch4o, sizeof(float), 5*360*720, fp_binout);  // 45-49
+	fwrite(g_n2oe, sizeof(float), 5*360*720, fp_binout);  // 50-54
+	fwrite(g_bbco2, sizeof(float), 5*360*720, fp_binout);  // 55-59
+	fwrite(g_ersn, sizeof(float), 5*360*720, fp_binout);  // 60-64
+	fwrite(g_isopr, sizeof(float), 5*360*720, fp_binout);  // 65-69
+	fwrite(g_sr, sizeof(float), 5*360*720, fp_binout);  // 70-74
+	fwrite(g_luc, sizeof(float), 5*360*720, fp_binout);  // 75-79
+		
 	/* close files */
 	for(h=0;h<IFILEN;h++){
 		fclose(fp_s[h]); 
@@ -418,6 +487,8 @@ int main(
 	for(h=0;h<4;h++){
 		fclose(fp_c[h]); 
 	}
+	
+	fclose(fp_binout);
 	
 	printf("Simulation ended\n");
 	

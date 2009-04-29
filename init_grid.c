@@ -148,7 +148,7 @@ void init_grid(
 	}else if(GCM==1050 || GCM==1051 ||GCM==1052){ /* BCCR */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1061 || GCM==1062 ||GCM==1063){ /* INM-CM3 */
+	}else if(GCM==1060 || GCM==1061 ||GCM==1062){ /* INM-CM3 : error-fixed 2009/04/26 A.Ito */
 		if(grid->lat>=88.0){
 			grid->gcm_row = 0;
 		}else if(grid->lat<=-88.0){
@@ -178,7 +178,7 @@ void init_grid(
 	}else if(GCM==1110 || GCM==1111 || GCM==1112){ /* CCCma-T63 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1120 || GCM==1121 || GCM==1122){ /* CSIRO */
+	}else if(GCM==1120 || GCM==1121 || GCM==1122 || GCM==1270 || GCM==1271 || GCM==1272){ /* CSIRO 3.0 & 3.5 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}else if(GCM==1130 || GCM==1131 || GCM==1132 || GCM==1133 || GCM==1134

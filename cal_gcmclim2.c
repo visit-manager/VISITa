@@ -12,6 +12,25 @@
 #include"prototype.h"
 
 extern long GCM, CO2S, GCM_R, GCM_C;
+extern double MDN[12];
+extern short DF97;
+
+extern float g_tmp[5][360][720];
+extern float g_prc[5][360][720];
+extern float g_swr[5][360][720];
+extern float g_gpp[5][360][720];
+extern float g_npp[5][360][720];
+extern float g_nep[5][360][720];
+extern float g_pmas[5][360][720];
+extern float g_smas[5][360][720];
+extern float g_ch4e[5][360][720];
+extern float g_ch4o[5][360][720];
+extern float g_n2oe[5][360][720];
+extern float g_bbco2[5][360][720];
+extern float g_ersn[5][360][720];
+extern float g_isopr[5][360][720];
+extern float g_sr[5][360][720];
+extern float g_luc[5][360][720];
 
 /* time-series with GCM climate scenarios : 2001-2099 ************************/
 void cal_gcmclim2(
@@ -132,6 +151,73 @@ void cal_gcmclim2(
 
 			/* nitrogen budget */
 			n_budget(grid, loct, mass, flux);
+			
+			if(grid->climy>=2020 && grid->climy<2030){
+				g_tmp[2][grid->row][grid->col] += grid->tmp_2m[grid->m]* MDN[grid->m]/365.0 /10.0;
+				g_prc[2][grid->row][grid->col] += grid->prate_sfc[f] /10.0;
+				g_swr[2][grid->row][grid->col] += grid->gl_rad[grid->m]* MDN[grid->m]/365.0 /10.0;
+				if(DF97==1){
+					g_gpp[2][grid->row][grid->col] += (flux->plant).gpp_df97[grid->m] /10.0;
+				}else{
+					g_gpp[2][grid->row][grid->col] += (flux->plant).gpp[grid->m] /10.0;
+				}
+				g_npp[2][grid->row][grid->col] += (flux->plant).npp[grid->m] /10.0;
+				g_nep[2][grid->row][grid->col] += flux->nep[grid->m] /10.0;
+				g_pmas[2][grid->row][grid->col] += ((mass->plant).mfol[grid->m] + (mass->plant).mstm[grid->m] + 
+												   (mass->plant).mrot[grid->m]) * MDN[grid->m] /365.0 /10.0;
+				g_smas[2][grid->row][grid->col] += ((mass->soil).ltr_m[grid->m] + 
+												   (mass->soil).msl_m[grid->m])* MDN[grid->m]/365.0 /10.0;
+				g_ch4e[2][grid->row][grid->col] += ((flux->soil).ch4flux_paddy_cao[grid->m] + (flux->soil).ch4flux_wetland_cao[grid->m]) /10.0;
+				g_ch4o[2][grid->row][grid->col] += (flux->soil).ch4oxy_curry[grid->m] /10.0;
+				g_n2oe[2][grid->row][grid->col] += (flux->soil).d_n2o_ngas[grid->m] /10.0;
+				g_bbco2[2][grid->row][grid->col] += (flux->bb_co2_litter[grid->m]+flux->bb_co2_leaf[grid->m]+flux->bb_co2_wood[grid->m]+flux->bb_co2_root[grid->m]) /10.0;
+				g_isopr[2][grid->row][grid->col] += flux->voc_isopr_g97[grid->m] /10.0;
+				g_sr[2][grid->row][grid->col] += ((flux->plant).rrm[grid->m] + (flux->plant).rrg[grid->m] + (flux->soil).rS[grid->m]) /10.0;
+			}
+			if(grid->climy>=2050 && grid->climy<2060){
+				g_tmp[3][grid->row][grid->col] += grid->tmp_2m[grid->m]* MDN[grid->m]/365.0 /10.0;
+				g_prc[3][grid->row][grid->col] += grid->prate_sfc[f] /10.0;
+				g_swr[3][grid->row][grid->col] += grid->gl_rad[grid->m]* MDN[grid->m]/365.0 /10.0;
+				if(DF97==1){
+					g_gpp[3][grid->row][grid->col] += (flux->plant).gpp_df97[grid->m] /10.0;
+				}else{
+					g_gpp[3][grid->row][grid->col] += (flux->plant).gpp[grid->m] /10.0;
+				}
+				g_npp[3][grid->row][grid->col] += (flux->plant).npp[grid->m] /10.0;
+				g_nep[3][grid->row][grid->col] += flux->nep[grid->m] /10.0;
+				g_pmas[3][grid->row][grid->col] += ((mass->plant).mfol[grid->m] + (mass->plant).mstm[grid->m] + 
+													(mass->plant).mrot[grid->m]) * MDN[grid->m] /365.0 /10.0;
+				g_smas[3][grid->row][grid->col] += ((mass->soil).ltr_m[grid->m] + 
+													(mass->soil).msl_m[grid->m])* MDN[grid->m]/365.0 /10.0;
+				g_ch4e[3][grid->row][grid->col] += ((flux->soil).ch4flux_paddy_cao[grid->m] + (flux->soil).ch4flux_wetland_cao[grid->m]) /10.0;
+				g_ch4o[3][grid->row][grid->col] += (flux->soil).ch4oxy_curry[grid->m] /10.0;
+				g_n2oe[3][grid->row][grid->col] += (flux->soil).d_n2o_ngas[grid->m] /10.0;
+				g_bbco2[3][grid->row][grid->col] += (flux->bb_co2_litter[grid->m]+flux->bb_co2_leaf[grid->m]+flux->bb_co2_wood[grid->m]+flux->bb_co2_root[grid->m]) /10.0;
+				g_isopr[3][grid->row][grid->col] += flux->voc_isopr_g97[grid->m] /10.0;
+				g_sr[3][grid->row][grid->col] += ((flux->plant).rrm[grid->m] + (flux->plant).rrg[grid->m] + (flux->soil).rS[grid->m]) /10.0;
+			}
+			if(grid->climy>=2080 && grid->climy<2090){
+				g_tmp[4][grid->row][grid->col] += grid->tmp_2m[grid->m]* MDN[grid->m]/365.0 /10.0;
+				g_prc[4][grid->row][grid->col] += grid->prate_sfc[f] /10.0;
+				g_swr[4][grid->row][grid->col] += grid->gl_rad[grid->m]* MDN[grid->m]/365.0 /10.0;
+				if(DF97==1){
+					g_gpp[4][grid->row][grid->col] += (flux->plant).gpp_df97[grid->m] /10.0;
+				}else{
+					g_gpp[4][grid->row][grid->col] += (flux->plant).gpp[grid->m] /10.0;
+				}
+				g_npp[4][grid->row][grid->col] += (flux->plant).npp[grid->m] /10.0;
+				g_nep[4][grid->row][grid->col] += flux->nep[grid->m] /10.0;
+				g_pmas[4][grid->row][grid->col] += ((mass->plant).mfol[grid->m] + (mass->plant).mstm[grid->m] + 
+													(mass->plant).mrot[grid->m]) * MDN[grid->m] /365.0 /10.0;
+				g_smas[4][grid->row][grid->col] += ((mass->soil).ltr_m[grid->m] + 
+													(mass->soil).msl_m[grid->m])* MDN[grid->m]/365.0 /10.0;
+				g_ch4e[4][grid->row][grid->col] += ((flux->soil).ch4flux_paddy_cao[grid->m] + (flux->soil).ch4flux_wetland_cao[grid->m]) /10.0;
+				g_ch4o[4][grid->row][grid->col] += (flux->soil).ch4oxy_curry[grid->m] /10.0;
+				g_n2oe[4][grid->row][grid->col] += (flux->soil).d_n2o_ngas[grid->m] /10.0;
+				g_bbco2[4][grid->row][grid->col] += (flux->bb_co2_litter[grid->m]+flux->bb_co2_leaf[grid->m]+flux->bb_co2_wood[grid->m]+flux->bb_co2_root[grid->m]) /10.0;
+				g_isopr[4][grid->row][grid->col] += flux->voc_isopr_g97[grid->m] /10.0;
+				g_sr[4][grid->row][grid->col] += ((flux->plant).rrm[grid->m] + (flux->plant).rrg[grid->m] + (flux->soil).rS[grid->m]) /10.0;
+			}
 		}
 		/* end of monthly loop ************************/
 		
@@ -143,7 +229,7 @@ void cal_gcmclim2(
 
 		/* erosion */
 		f_erosion(grid, loct, echar, mass, flux);
-
+				
 		if(ERSN_CC==1){
 			(mass->soil).ltr -= flux->erod_carbon*0.25;
 			if((mass->soil).ltr<0.0){
@@ -158,10 +244,23 @@ void cal_gcmclim2(
 		f_set_history_data(grid->climy - PIVOT_CLIMY +1, grid, loct, mass, flux);
 		
 		/* output */
-		f_output_result(grid->climy, grid, loct, echar, mass, flux, fp_o);
+		/*  f_output_result(grid->climy, grid, loct, echar, mass, flux, fp_o);  */
 		
 		grid->f_crop_p = grid->f_crop_con;
 		grid->f_pasture_p = grid->f_pasture_con;
+
+		if(grid->climy>=2020 && grid->climy<2030){
+			g_ersn[2][grid->row][grid->col] += flux->erod_carbon /10.0;
+			g_luc[2][grid->row][grid->col] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) /10.0;
+		}
+		if(grid->climy>=2050 && grid->climy<2060){
+			g_ersn[3][grid->row][grid->col] += flux->erod_carbon /10.0;
+			g_luc[3][grid->row][grid->col] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) /10.0;
+		}
+		if(grid->climy>=2080 && grid->climy<2090){
+			g_ersn[4][grid->row][grid->col] += flux->erod_carbon /10.0;
+			g_luc[4][grid->row][grid->col] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) /10.0;
+		}
 	}
 	fprintf(fp_o[0],"\n");
 	fprintf(fp_o[1],"\n");
