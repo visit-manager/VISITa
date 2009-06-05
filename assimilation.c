@@ -11,7 +11,9 @@
 #include"structure.h"
 #include"prototype.h"
 
-/* formula of daily gross primary production *******************/
+extern short RAD_SENS;
+
+/* formula of daily gross primary production ****************************/
 double fgpp(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -39,7 +41,7 @@ double fgpp(
 	return (gpp);
 }
 
-/* light-saturated photosynthetic rate *************************/
+/* light-saturated photosynthetic rate ************************************/
 void pc_sat(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -47,6 +49,7 @@ void pc_sat(
 ){
 	double ftem, fstl, fnstl;
 	double aa1, aa2, aa3;
+	double f_acclim;
 	
 	/** optimum photosynthesis temperature **/
 	if(veg->phototype==3){ /* C3 plants with change */
@@ -78,7 +81,7 @@ void pc_sat(
 	
 	veg->ft[grid->m] = ftem;
 	
-	/** CO2 effect ******************************************************/
+	/** CO2 effect ***********************************************************/
 	/** stomatal limitation via intercellular CO2 concentration **/
 	if(veg->phototype==3){ /* C3 plants */
 		fstl = 0.05 + 0.95*(veg->ci[grid->m] - veg->cmpcd[grid->m])/(veg->kmci + veg->ci[grid->m]); 
@@ -101,16 +104,23 @@ void pc_sat(
 		
 	veg->fsw[grid->m] = fnstl;
 		
-	/* leaf N effect ***********************************************/
+	/* leaf N effect ***********************************************************/
 	if(CN_COUPLE >= 1){		
 		veg->pmax = veg->amax_nphoto * veg->n_conc_larea / (veg->kn_nphoto + veg->n_conc_larea);
 		if(veg->pmax < 0.0){
 			veg->pmax = 0.0;
 		}
 	}
+	
+	/* acclimation ************************************************ 2009/04/29 A.Ito */
+	if(loct->aCO2[grid->m]>400.0 && RAD_SENS==11){
+		f_acclim = (1.16 - (loct->aCO2[grid->m]-400.0)*0.00075)/1.16;
+	}else{
+		f_acclim = 1.0;
+	}
 
 	/** light-saturated photosynthesis rate **/
-	veg->psat[grid->m] = veg->pmax*ftem*fstl*fnstl; 
+	veg->psat[grid->m] = veg->pmax * ftem * fstl * fnstl * f_acclim; 
 	
 	/* printf("%ld %.2lf %.2lf %.2lf\n", veg->phototype, ftem, fstl, fnstl);*/
 }

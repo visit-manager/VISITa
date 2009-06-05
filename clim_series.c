@@ -70,25 +70,25 @@ void set_gcm_clim(
 	for(h=0;h<ASTEP;h++){
 		grid->m = h;
 		/****** temperature ******/
-		if(CC_T==1){
+		if(CC_T == 1){
 			tmp_var = grid->proj_tmp2m[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
 					grid->proj_tmp2m_b[h][grid->gcm_row][grid->gcm_col];
 		}else{
 			tmp_var = 0.0;
 		}
-		if(CC_T_A==1){
+		if(CC_T_A == 1){
 			grid->tmp_sfc[h] = grid->tmp_sfc_a[h] + tmp_var;
 			grid->tmp_2m[h] = grid->tmp_2m_a[h] + tmp_var;
 		}else{
 			grid->tmp_sfc[h] = grid->tmp_sfc_a[h];
 			grid->tmp_2m[h] = grid->tmp_2m_a[h];
 		}
-		if(CC_T_B==1){
-			grid->tmp10_soil[h]=grid->tmp10_soil_a[h] + tmp_var;
-			grid->tmp200_soil[h]=grid->tmp200_soil_a[h] + tmp_var;
+		if(CC_T_B == 1){
+			grid->tmp10_soil[h] = grid->tmp10_soil_a[h] + tmp_var;
+			grid->tmp200_soil[h] = grid->tmp200_soil_a[h] + tmp_var;
 		}else{
-			grid->tmp10_soil[h]=grid->tmp10_soil_a[h];
-			grid->tmp200_soil[h]=grid->tmp200_soil_a[h];
+			grid->tmp10_soil[h] = grid->tmp10_soil_a[h];
+			grid->tmp200_soil[h] = grid->tmp200_soil_a[h];
 		}
 		
 		/****** precipitation ******/

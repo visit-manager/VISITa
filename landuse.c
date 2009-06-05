@@ -5,7 +5,8 @@
 /*  CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
-/* revised:	18/02/2008 by Akihiko Ito */
+/* revised:	18/02/2008 by A.Ito */
+/* revised:	04/06/2009 by A.Ito based on E.Kato */
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -137,8 +138,16 @@ void f_luc_emit(
 	double fe_ten;		/* fraction of 10-year pool flux */
 	double fe_hund;		/* fraction of 100-year pool flux */
 	double fe_detr;		/* fraction of detritus flux */
+	double mass_detr, mass_conv, mass_ten, mass_hund;	/* added by A.Ito based on E.Kato (2009/03/30) */
 	
 	switch(grid->veg_sage){
+		/* detritus production by land-use change:
+		 McGuire, A. D., S. Sitch, J. S. Clein, R. Dargaville, G. Esser, J. Foley, M. Heimann, F. Joos, 
+		 J. Kaplan, D. W. Kicklighter, R. A. Meier, J. M. Melillo, B. I. Moore, L. J. Williams, and 
+		 U. Wittenberg, 2001: Carbon balance of the terrestrial biosphere in the twentieth century: analysis 
+		 of CO2, climate and land use effects with four process-based ecosystem models. 
+		 Global Biogeochemical Cycles, 15, 183-206.
+		*/
 		/* tropical forests */
 		case 1: case 2:  
 			fe_detr = 0.33;
@@ -181,6 +190,7 @@ void f_luc_emit(
 		flux->lu_conv = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_conv/(fe_conv+fe_ten+fe_hund);
 
 		for(f=1891;f<=1900;f++){
+			/* senstivity analysis */
 			if(LANDUSE>=1 && LANDUSE<=5){
 				f_luc = grid->fcrop_sage[f-1700] - grid->fcrop_sage[f-1700-1];
 			}else if(LANDUSE==6){
@@ -188,27 +198,30 @@ void f_luc_emit(
 						+ (grid->t_sc_eossagehyde[f - 1700] + grid->t_sp_eossagehyde[f - 1700])*0.5;
 			}
 			
+			/* modified by A.Ito based on E.Kato (2009/03/30) */
 			if(f_luc > 0.0){
-				fe_ten = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_ten/(fe_conv+fe_ten+fe_hund);
-				flux->detr_ten[1900-f] = fe_ten*0.1;
+				mass_ten = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_ten/(fe_conv+fe_ten+fe_hund);
+				flux->detr_ten[1900-f] = mass_ten;
 			}else{
 				fe_ten = 0.0;
 				flux->detr_ten[1900-f] = 0.0;
 			}
-			flux->lu_ten = fe_ten*0.1;
+			flux->lu_ten = mass_ten*0.1;
 		}
 		
 		for(f=1801;f<=1900;f++){
+			/* senstivity analysis */
 			if(LANDUSE>=1 && LANDUSE<=5){
 				f_luc = grid->fcrop_sage[f-1700] - grid->fcrop_sage[f-1700-1];
 			}else if(LANDUSE==6){
 				f_luc = (grid->t_vc_eossagehyde[f - 1700] + grid->t_vp_eossagehyde[f - 1700])
 						+ (grid->t_sc_eossagehyde[f - 1700] + grid->t_sp_eossagehyde[f - 1700])*0.5;
 			}
-
+			
+			/* modified by A.Ito based on E.Kato (2009/03/30) */
 			if(f_luc > 0.0){
-				fe_hund = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_hund/(fe_conv+fe_ten+fe_hund);				
-				flux->detr_hund[1900-f] = fe_hund*0.01;
+				mass_ten = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_hund/(fe_conv+fe_ten+fe_hund);				
+				flux->detr_hund[1900-f] = mass_ten;
 			}else{
 				fe_hund = 0.0;
 				flux->detr_hund[1900-f] = 0.0;
@@ -218,14 +231,20 @@ void f_luc_emit(
 	}else{
 		/* experiment: 1901 - 2000 - 2100 *****************************/
 		flux->lu_ten = 0.0;
+		/* corrected by A.Ito (2009/06/03) based on E.Kato (2008/11/21) */
 		for(f=1;f<10;f++){
 			flux->lu_ten += 0.1 * flux->detr_ten[f-1];
+		}
+		for(f=1;f<10;f++){
 			flux->detr_ten[f] = flux->detr_ten[f-1];
 		}
 		
 		flux->lu_hund = 0.0;
+		/* corrected by A.Ito (2009/06/03) based on E.Kato (2008/11/21) */
 		for(f=1;f<100;f++){
 			flux->lu_hund += 0.01 * flux->detr_hund[f-1];
+		}
+		for(f=1;f<100;f++){
 			flux->detr_hund[f] = flux->detr_hund[f-1];
 		}
 		
@@ -237,19 +256,20 @@ void f_luc_emit(
 		}
 		
 		if(f_luc > 0.0){ /* deforested */
-			fe_detr = f_luc * 0.2*(mass->plant).rot;
-			fe_conv = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_conv/(fe_conv+fe_ten+fe_hund);
-			fe_ten = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_ten/(fe_conv+fe_ten+fe_hund);
-			fe_hund = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_hund/(fe_conv+fe_ten+fe_hund);
+			/* modified by A.Ito based on E.Kato (2009/03/30) */
+			mass_detr = f_luc * 0.2*(mass->plant).rot;
+			mass_conv = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_conv/(fe_conv+fe_ten+fe_hund);
+			mass_ten = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_ten/(fe_conv+fe_ten+fe_hund);
+			mass_hund = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_hund/(fe_conv+fe_ten+fe_hund);
 			
-			flux->lu_detr = fe_detr;
-			flux->lu_conv = fe_conv;
+			flux->lu_detr = mass_detr;
+			flux->lu_conv = mass_conv;
 			
-			flux->detr_ten[0] = fe_ten;
-			flux->lu_ten += 0.1 * fe_ten;
+			flux->detr_ten[0] = mass_ten;
+			flux->lu_ten += 0.1 * mass_ten;
 
-			flux->detr_hund[0] = fe_hund;
-			flux->lu_hund += 0.01 * fe_hund;
+			flux->detr_hund[0] = mass_hund;
+			flux->lu_hund += 0.01 * mass_hund;
 																		
 		}else{
 			flux->lu_conv = 0.0;

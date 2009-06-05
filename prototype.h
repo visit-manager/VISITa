@@ -11,6 +11,13 @@
 #define IFILEN 48
 #define OFILES 7
 
+/* CLEARANCE *****************************************************/
+void clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 
+		   struct Mass *mass, struct Flux *flux);
+void plant_flux_zero(long month, struct Pflx *flux);
+void vanish(struct Mass *mass, struct Flux *flux);
+void vlzero(struct Grid *grid, struct Pmas *mass, struct Pflx *flux);
+
 /* INITIALIZATION *********************************************/
 void open_input(FILE *fp_s[IFILEN], FILE *fp_c[4]);
 void f_output_file_open(short vtype, short zone, char s_date[25], char s_case[25], 
@@ -42,13 +49,6 @@ void parameterC4_sage(struct Grid *grid, struct Pchar *C4);
 void parameterSoil_sage(struct Grid *grid, struct Schar *Soil);
 void parameterCrop(struct Grid *grid, struct Pchar *C3);
 void parameterSoil_crop(struct Grid *grid, struct Schar *Soil);
-
-/* CLEARANCE *****************************************************/
-void clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 
-	struct Mass *mass, struct Flux *flux);
-void plant_flux_zero(long month, struct Pflx *flux);
-void vanish(struct Mass *mass, struct Flux *flux);
-void vlzero(struct Grid *grid, struct Pmas *mass, struct Pflx *flux);
 
 /* EXPERIMENTAL STEPS *********************************************/
 void cal_stable(struct Grid *grid, struct Loct *loct, 
@@ -85,7 +85,7 @@ double pm_evaporation(struct Grid *grid, struct Loct *loct);
 double pm_transpiration(struct Grid *grid, struct Loct *loct);
 double pm_interception(struct Grid *grid, struct Loct *loct);
 
-/***** SCHEMES ***************************************************************/
+/* BIOLOGICAL SCHEMES *******************************************/
 void biome_processes(struct Grid *grid, struct Loct *loct, 
 		struct Echar *echar, struct Mass *mass, struct Flux *flux);
 void forest_process(struct Grid *grid, struct Loct* loct, struct Pflx *pflx,
@@ -97,12 +97,20 @@ void agri_process(struct Grid *grid, struct Loct *loct, struct Pflx *pflx,
 void soil_processes(struct Grid *grid, struct Loct *loct, struct Schar *schar, 
 		struct Smas *mass, struct Sflx *flux);
 
-/***** ECOPHYSIOLOGY *****/
+/* SUB-SCHEMES *************************/
+void set_rowcol_gcm(void);
+void set_gcm_index(char gcmindex[]);
+void beforedeal(struct Grid *grid, struct Pflx *flux);
+void afterdeal(struct Grid *grid, struct Pchar *pchar, struct Pmas *pmas, struct Pflx *flux);
+void plant_stand(struct Grid *grid,struct Loct *loct,struct Mass *mass, struct Flux *flux);
+double grid_area(double lat1, double lat2, double lon1, double lon2);
+
+/* ECOPHYSIOLOGY *****************************/
 void ecophysiology(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, struct Pmas *mass);
 void incel_cdc(struct Grid *grid, struct Loct *loct, struct Pchar *plant);
 void quantum_yield(struct Grid *grid, struct Pchar *plant);
 void opt_lai(struct Grid *grid,struct Loct *loct, struct Pchar *plant);
-double lai_mass(struct Pmas *mass, struct Pchar *pchar);
+double lai_mass(struct Grid *grid, struct Pmas *mass, struct Pchar *pchar);
 double irr_attn(struct Grid *grid, struct Loct *loct, struct Pchar *pchar);
 void qten_ar(struct Grid *grid, struct Pchar *plant);
 void spcfc_res_mass(struct Pchar *plant, struct Pmas *mass);
@@ -112,7 +120,7 @@ double canopy_cond(struct Grid *grid,struct Loct *loct, struct Pchar *plant, str
 void pc_sat(struct Grid *grid, struct Loct *loct, struct Pchar *pchar);
 void f_leaf_age(short update, struct Pchar *pchar, struct Pmas *mass, double addshed);
 
-/***** PHENOLOGICAL CYCLES *****/
+/* PHENOLOGICAL CYCLES *****************************************/
 void growthperiod(struct Grid *grid, struct Loct *loct, struct Pchar *pchar);
 void phenology(struct Grid *grid, struct Loct *loct, struct Pchar *pchar);
 void phenology_evergreen(struct Grid *grid, struct Pchar *pchar);
@@ -122,11 +130,11 @@ void phenology_bareland(struct Grid *grid, struct Pchar *pchar);
 void phenology_grass(struct Grid *grid, struct Loct *loct, struct Pchar *pchar);
 void phenology_agriculture(struct Grid *grid, struct Loct *loct, struct Pchar *pchar);
 
-/***** C FLUXES *********************************************************/
+/* C FLUXES *********************************************************************/
 /* photosynthesis */
 double fgpp(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, struct Pmas *mas);
-void f_df97_gpp(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, 
-		struct Pmas *pmas, struct Pflx *pflx);
+double f_df97_gpp(short mode, struct Grid *grid, struct Loct *loct, struct Pchar *pchar, 
+		struct Pmas *pmas);
 void leaf_ansolv(double vpd, double aco2, double lai, double ft_rd, double vcmax, 
 	double k_effc, double comp_co2, double j_et, double *assim, double *rdark,
 	double *stocon, double *inco2, double *debug1, double *debug2, double *debug3);
@@ -152,15 +160,7 @@ double fsf(struct Grid *grid, struct Schar *schar, struct Sflx *sflx);
 
 void npp_empirical(struct Grid *grid, struct Loct *loct, struct Flux *flux);
 
-/***** DEALINGS *****/
-void set_rowcol_gcm(void);
-void set_gcm_index(char gcmindex[]);
-void beforedeal(struct Grid *grid, struct Pflx *flux);
-void afterdeal(struct Grid *grid, struct Pchar *pchar, struct Pmas *pmas, struct Pflx *flux);
-void plant_stand(struct Grid *grid,struct Loct *loct,struct Mass *mass, struct Flux *flux);
-double grid_area(double lat1, double lat2, double lon1, double lon2);
-
-/***** CROP CYCLES *****/
+/* CROP CYCLES *****************************************************/
 void planting(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, 
 	struct Pmas *mass, struct Pflx *flux);
 void harvesting(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, 
@@ -168,7 +168,7 @@ void harvesting(struct Grid *grid, struct Loct *loct, struct Pchar *pchar,
 void interval(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, 
 	struct Pmas *mass, struct Pflx *flux);
 
-/***** CARBON DYNAMICS *****/
+/* CARBON DYNAMICS *****************************************************/
 void greenperiod(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, 
 	struct Pmas *mass, struct Pflx *flux);					
 void leaffall(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, 
@@ -178,7 +178,7 @@ void noleafperiod(struct Grid *grid, struct Loct *loct, struct Pchar *pchar,
 void leafemergence(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, 
 	struct Pmas *mass, struct Pflx *flux);
 
-/***** STABLE CARBON ISOTOPE *****/
+/* STABLE CARBON ISOTOPE *************************************************/
 void init_d13c(struct Grid *grid, struct Flux *flux, struct Echar *echar, struct Mass *mass);
 void photo_13c_frac(struct Grid *grid, struct Loct *loct, struct Pchar *pchar);
 double deltaTratio(double delta);
@@ -188,13 +188,15 @@ double d13c_addition3(double d13c_a, double mass_a, double d13c_b, double mass_b
 void co2_in_canopy(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);	
 void d13c_efflux(struct Grid *grid, struct Loct *loct, struct Flux *flux);
 
-/* ADDITIONAL PROCESSES ************/
+/* MINOR PROCESSES ****************************************************/
 void f_erosion(struct Grid *grid, struct Loct *loct, struct Echar *echar, struct Mass *mass, struct Flux *flux);
 void f_biomassburning(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_luc_emit(struct Grid *grid, struct Mass *mass, struct Flux *flux);
 void f_voc_emit_guenther97(struct Grid *grid, struct Loct *loct, struct Echar *echar, 
 	struct Mass *mass, struct Flux *flux);
+void f_doc_boyer(struct Grid *grid, struct Loct *loct, struct Smas *mass, struct Sflx *sflx);
 
+/* GHG PROCESSES ****************************************************/
 void f_casa_mositure(struct Grid *grid, struct Loct *loct);
 void f_ch4oxy_ridgewell(struct Grid *grid, struct Loct *loct, struct Flux *flux);
 void f_ch4oxy_casa(struct Grid *grid, struct Loct *loct, struct Flux *flux);
@@ -222,8 +224,6 @@ void f_n_mineralz(struct Grid *grid, struct Loct *loct, struct Smas *mass, struc
 void f_n_leaf_conc(struct Grid *grid, struct Pchar *pchar, struct Pmas *mass);
 void f_n_mcrb_abdn(struct Grid *grid, struct Loct *loct, struct Schar *schar, struct Smas *smas, struct Sflx *flux);
 void f_n_immoblz(struct Grid *grid, struct Loct *loct, struct Schar *schar, struct Smas *smas, struct Sflx *flux);
-
-void f_doc_boyer(struct Grid *grid, struct Loct *loct, struct Smas *mass, struct Sflx *sflx);
 
 /* OUTPUT *************************************/
 void f_set_history_data(long year, struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);

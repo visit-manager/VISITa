@@ -11,7 +11,9 @@
 #include"structure.h"
 #include"prototype.h"
 
-/******* ecophysiological vegetation processes *******/
+extern short DF97;
+
+/* ecophysiological vegetation processes *******************************/
 void ecophysiology(
 	struct Grid *grid, 
 	struct Loct *loct,
@@ -23,14 +25,14 @@ void ecophysiology(
 	double sinb, ke_b1, ke_b2, irr_b, rfl_b, apar, fapar, eff_k;
 	
 	/* give leaf area index (LAI), m2 m-2*/
-	mass->lai[grid->m] = lai_mass(mass, pchar);
+	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
 	
 	sinb = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr) 
 			+ cos(grid->lat*dTr)*cos(grid->sl_dec[grid->m]*dTr)*1.0;
 	sinb = (sinb<=1.0)?sinb:1.0; 
 	sinb = (sinb>=-1.0)?sinb:-1.0;
 	
-	if(sinb>0.0&&grid->par[grid->m]>0.0&&mass->lai[grid->m]>0.0){
+	if(sinb>0.0 && grid->par[grid->m]>0.0 && mass->lai[grid->m]>0.0){
 		ke_b1 = 0.5/sinb;
 		ke_b2 = 0.46/sinb;
 		irr_b = (1.0 - sqrt(1.0 - 0.15))/(1.0 + sqrt(1.0 - 0.15));
@@ -90,6 +92,7 @@ void ecophysiology(
 		/* give intercellular CO2 concentration, ppmv */
 		incel_cdc(grid, loct, pchar); 
 	}
+		
 	/** photosynthetic 13C discrimination **/
 	photo_13c_frac(grid, loct, pchar);
 	
@@ -102,13 +105,20 @@ void ecophysiology(
 
 	/** litterfall of plant respiration **/
 	mortality(grid, pchar);
+	
+	/* GPP by de Pury & Farquhar scheme */
+	if(DF97==1){
+		f_df97_gpp(2, grid, loct, pchar, mass);
+		f_df97_gpp(3, grid, loct, pchar, mass);
+	}
 
 	/** optimum leaf area index **/	
 	opt_lai(grid,loct, pchar);
 }
 
-/* leaf area index *****************************/
+/* leaf area index **********************************************/
 double lai_mass(
+	struct Grid *grid, 
 	struct Pmas *mass, 
 	struct Pchar *pchar
 ){
@@ -124,10 +134,14 @@ double lai_mass(
 	/* 100.0: cm2 g dm-1 to Mg ha-1 base */
 	/* 2.0: single-sided leaf area */	
 	
+	if(SENS == 7 && (grid->climy>=2001) ){
+		lai_est = mass->lai0[grid->m];
+	}
+	
 	return(lai_est);
 }
 
-/* irradiance attenuation coefficient **********************/
+/* irradiance attenuation coefficient ********************************/
 double irr_attn(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -144,7 +158,7 @@ double irr_attn(
 	return (bbb);
 }
 
-/* intercellular CO2 concentration **********************/
+/* intercellular CO2 concentration ********************************/
 void incel_cdc(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -166,7 +180,7 @@ void incel_cdc(
 	plant->ci[grid->m] = ci; 
 }
 
-/* quantum yield C3 and C4 *********************************/
+/* quantum yield C3 and C4 *******************************************/
 void quantum_yield(
 	struct Grid *grid, 
 	struct Pchar *pchar
@@ -189,7 +203,7 @@ void quantum_yield(
 	pchar->lue[grid->m] = pchar->lue0*eftem*efci;
 }
 
-/* stomatal conductance ************************************/
+/* stomatal conductance **********************************************/
 void stom_cond(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -198,7 +212,7 @@ void stom_cond(
 	double b1d, cc;
 	
 	/* stomatal conductance model by Ball, Woodraw, and Berry (1987) */
-	b1d = pchar->gs_b1/((loct->aCO2[grid->m]-pchar->cmpcd[grid->m])*(1.0+loct->vpd[grid->m]/pchar->gs_b2)); /* */
+	b1d = pchar->gs_b1/((loct->aCO2[grid->m] - pchar->cmpcd[grid->m])*(1.0+loct->vpd[grid->m]/pchar->gs_b2)); /* */
 	/* insensitive to CO2 */
 	/* b1d=plant->gs_b1/(( 350.0 - 40.0 )*(1.0+loct->vpd[grid->m]/plant->gs_b2)); */
 
@@ -212,7 +226,7 @@ void stom_cond(
 	}
 }
 
-/* canopy conductance ********************************/
+/* canopy conductance ******************************************/
 double canopy_cond(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -228,9 +242,9 @@ double canopy_cond(
 	
 	if(mass->lai[grid->m]>0.0){
 		sss = 2.0*pchar->gs[grid->m] / pchar->eK[grid->m]; 
-		ttt = 1.0 + sqrt(1.0+pchar->eK[grid->m]*lue_gs*grid->par[grid->m]/pchar->gs[grid->m]);
+		ttt = 1.0 + sqrt(1.0 + pchar->eK[grid->m]*lue_gs*grid->par[grid->m]/pchar->gs[grid->m]);
 		vvv = -1.0*pchar->eK[grid->m]*mass->lai[grid->m];
-		uuu = 1.0 + sqrt(1.0+pchar->eK[grid->m]*lue_gs*grid->par[grid->m]*exp(vvv)/pchar->gs[grid->m]);
+		uuu = 1.0 + sqrt(1.0 + pchar->eK[grid->m]*lue_gs*grid->par[grid->m]*exp(vvv)/pchar->gs[grid->m]);
 		canopy_cond = sss*log(ttt/uuu);
 	}else{
 		/* no leaf, no conductance*/
@@ -240,7 +254,7 @@ double canopy_cond(
 	return(canopy_cond);
 }
 
-/* optimum LAI by Kuroiwa (1966) **************************/
+/* optimum LAI by Kuroiwa (1966) ************************************/
 void opt_lai(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -248,21 +262,30 @@ void opt_lai(
 ){
 	double aaa, bbb, ccc, cc4, ddd, eee;
 	double arm, arg, ar;	
+	double psat, lue;
+	
+	if(DF97==1){
+		psat = pchar->psat_df[grid->m];
+		lue = pchar->lue_df[grid->m];
+	}else{
+		psat = pchar->psat[grid->m];
+		lue = pchar->lue[grid->m];
+	}
 	
 	aaa = 1.0/pchar->eK[grid->m];
-	bbb = pchar->eK[grid->m]*pchar->lue[grid->m]*grid->par[grid->m]; 
+	bbb = pchar->eK[grid->m]*lue*grid->par[grid->m]; 
 	
 	/* daily respiratory cost */
 	/* printf("%lf %lf\n", plant->qTc[grid->m], grid->tmp_sfc[grid->m]); */
-	eee = log(pchar->qTc[grid->m])/10.0*(grid->tmp_sfc[grid->m]-15.0);
+	eee = log(pchar->qTc[grid->m])/10.0*(grid->tmp_sfc[grid->m] - 15.0);
 	arm = pchar->rmf*exp(eee)/1000.0*dmTc*10000.0/(pchar->sla);
 	arg = pchar->lf[grid->m]*dmTc*10000.0/(pchar->sla)*(1.0 + pchar->rgf);
 	ar = arm + arg;
 
-	cc4 = (pchar->psat[grid->m]*grid->dlen[grid->m])/(pchar->psat[grid->m]*grid->dlen[grid->m] - ar*24.0);
-	ccc = pchar->psat[grid->m]*(cc4 - 1.0);
+	cc4 = (psat*grid->dlen[grid->m])/(psat*grid->dlen[grid->m] - ar*24.0);
+	ccc = psat*(cc4 - 1.0);
 	
-	if(ccc>0.0){
+	if(ccc > 0.0){
 		ddd = bbb/ccc;
 		ddd = (ddd>1.0)?ddd:1.0;
 		pchar->opt_lai[grid->m] = aaa*log(ddd);
@@ -271,7 +294,7 @@ void opt_lai(
 	}
 }
 
-/*********** Q10 of autotrophic respiration ****************/
+/* Q10 of autotrophic respiration **********************************************/
 void qten_ar(
 	struct Grid *grid, 
 	struct Pchar *pchar
@@ -342,7 +365,7 @@ void f_n_leaf_conc(
 	}
 }
 
-/* leaf age *************************************************/
+/* leaf age **************************************************************/
 void f_leaf_age(
 	short update, 
 	struct Pchar *pchar, 
@@ -379,7 +402,12 @@ void f_leaf_age(
 			bbb = fabs(addshed) / aaa;
 			
 			for(f=0;f<=48;f++){
-				pchar->fleaf_age[f] *= 1.0 - bbb;
+				/* modification by A.Ito (2009/06/03) based on E.Kato (2008/11/19) **/
+				if((1.0 - bbb) > 0.0){
+					pchar->fleaf_age[f] *= (1.0 - bbb);
+				}else{
+					pchar->fleaf_age[f] = 0.0;
+				}
 			}
 			
 			/* for(f=0;f<=48;f++){

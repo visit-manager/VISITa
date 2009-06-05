@@ -169,7 +169,7 @@ void afterdeal(
 	struct Pflx *flux
 ){	
 	/* LAI update */
-	mass->lai[grid->m] = lai_mass(mass, pchar);
+	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
 	
 	/* total respiration */
 	flux->rpg[grid->m] = flux->rfg[grid->m] + flux->rcg[grid->m] + flux->rrg[grid->m];

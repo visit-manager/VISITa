@@ -28,7 +28,14 @@ void allocation(
 		/* allocation ratios of EPP */
 		if(mass->lai[grid->m]>pchar->opt_lai[grid->m]){ 
 			/* if holding LAI is greater than the optimam one */
-			ccc = pchar->alloc_ass*1.0;
+			/**** avoid too high LAI under good condition: 2009/04/29 A.Ito ****/
+			aaa = mass->lai[grid->m] -  pchar->opt_lai[grid->m];
+			bbb = 1.0 - 0.5*aaa;
+			bbb = (bbb>0.0)?bbb:0.0;
+			
+			/* formar: bbb = 1.0; */
+			
+			ccc = pchar->alloc_ass*bbb;
 			alloc_f = ccc;
 			alloc_c = (1.0-ccc)*pchar->alloc_abg;
 			alloc_r = (1.0-ccc)*(1.0-pchar->alloc_abg);
@@ -175,7 +182,7 @@ void reallocation_survival(
 		f_leaf_age(0, pchar, mass, ral_stf+ral_rtf);
 	}
 	
-	mass->lai[grid->m] = lai_mass(mass, pchar);
+	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
 	
 	/* to stem and branch */
 	if(mass->stm <= 0.0){

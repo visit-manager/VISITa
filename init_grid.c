@@ -567,11 +567,7 @@ void init_grid(
 	fscanf(fp_s[25],"%lf", &grid->ndepo[0]); 
 	fscanf(fp_s[25],"%lf", &grid->ndepo[1]); 
 	fscanf(fp_s[25],"%lf", &grid->ndepo[2]); 
-	
-	/* N fertilization */
-	grid->nfert_nh4 = 0.0;
-	grid->nfert_no3 = 0.0;
-	
+		
 	/* EOS-WEBSTER Land-use change data */
 	for(h=0;h<301;h++){
 		fscanf(fp_s[26],"%lf", &grid->fcrop_eossagehyde[h]);

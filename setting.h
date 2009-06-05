@@ -168,6 +168,8 @@
 /* 5: +10% Albedo */
 /* 6: +10% WHC30/WHC */
 
+/* 7: constant LAI (1990s av) in 2001-2100 */
+
 /* climate change ************************/
 /* 0:off   1:on */
 /* temperature */

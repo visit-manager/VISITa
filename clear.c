@@ -204,6 +204,7 @@ void vanish(
 		/* monthly mass values */
 		(mass->c3).mfol[k] = (mass->c4).mfol[k] = (mass->plant).mfol[k] = 0.0;
 		(mass->c3).lai[k] = (mass->c4).lai[k] = (mass->plant).lai[k] = 0.0;
+		(mass->c3).lai0[k] = (mass->c4).lai0[k] = (mass->plant).lai0[k] = 0.0;
 		(mass->c3).mstm[k] = (mass->c4).mstm[k] = (mass->plant).mstm[k] = 0.0;
 		(mass->c3).mrot[k] = (mass->c4).mrot[k] = (mass->plant).mrot[k] = 0.0;
 		(mass->c3).plant[k] = (mass->c4).plant[k] = (mass->plant).plant[k] = 0.0;
@@ -258,8 +259,10 @@ void vlzero(
 	mass->fol = 0.0;
 	mass->stm = 0.0;
 	mass->rot = 0.0;
+	
+	mass->lai[grid->m] = mass->lai0[grid->m] = 0.0;
 
-	mass->mfol[grid->m] = mass->lai[grid->m] = 0.0;
+	mass->mfol[grid->m] = 0.0;
 	mass->mstm[grid->m] = 0.0;
 	mass->mrot[grid->m] = 0.0;
 	mass->plant[grid->m] = 0.0;

@@ -36,11 +36,12 @@ void cd_trend(
 		base = aa0+aa1+aa2+aa3+aa4+aa5;
 
 		/** INC **/
-		inc = (-52.11+0.026984*time)*((double)(grid->m)-5.5)/12.0;
+		inc = (-52.11 + 0.026984*time)*((double)(grid->m)-5.5)/12.0;
 		inc = (inc>=0.0)?inc:0.0;
 	}else if(time>=1990.0 && time<=2100.0){
 		/* IPCC SRES scenarios */
 		if(CC_CD==0 && time>=2001.0){
+			/* constant CO2 level */
 			base = sres_co2[11];
 		}else{
 			base = sres_co2[grid->CO2y-1990];
@@ -80,8 +81,8 @@ void co2_in_canopy(
 	/* CO2 concentration */
 	loct->aCO2[grid->m] = grid->bCO2[grid->m];
 	/* d13C - CO2 */
-	closure_factor = 1.5*0.75*mass->lai_p/(1.5+0.75*mass->lai_p);
-	source_factor = 2.0*0.5*flux->efflux_p/(2.0+0.5*flux->efflux_p);
+	closure_factor = 1.5*0.75*mass->lai_p/(1.5 + 0.75*mass->lai_p);
+	source_factor = 2.0*0.5*flux->efflux_p/(2.0 + 0.5*flux->efflux_p);
 	
 	loct->cnpy_co2_recyc = 0.2*closure_factor*source_factor;  /*  0.3  011017  */  /*  0.1  011020  */  /*  0.5  011022  */
 	

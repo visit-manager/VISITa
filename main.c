@@ -32,7 +32,7 @@ and plot-scale validation. Ecological Modelling, 151:147-179.
 
 #define FROWS 10
 
-/* structure ************************************************/
+/* structure *****************************************************/
 struct Grid grid;
 
 struct Loct loct;
@@ -121,7 +121,7 @@ float g_bbco2[5][360][720];
 float g_ersn[5][360][720];
 float g_isopr[5][360][720];
 float g_sr[5][360][720];
-float g_luc[5][360][720];
+float g_luc[5][360][720];  /* */
 
 short RAD_SENS;
 /* 0: control */
@@ -145,7 +145,7 @@ short CC_R;
 /* 0: off */
 /* 1: on  */
 
-/* main simulation roop ********************************************/
+/* main simulation roop *************************************************/
 int main(
 	int argc, 
 	char *argv[]

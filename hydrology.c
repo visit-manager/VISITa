@@ -153,7 +153,7 @@ void waterbudget(
 	loct->msw30[grid->m] = loct->sw30;
 }
 
-/******* air density *******/
+/* air density *********************************/
 double air_density(
 	struct Grid *grid, 
 	struct Loct *loct
@@ -168,7 +168,7 @@ double air_density(
 	return(air_density);
 }
 
-/******** saturation vapour pressure (in hPa) *********/
+/* saturation vapour pressure (in hPa) ****************/
 double vap_pre_sat(
 	struct Grid *grid
 ){
@@ -185,7 +185,7 @@ double vap_pre_sat(
 	return(vps);
 }
 
-/******* slope of the saturation vapour pressure curve *********/
+/* slope of the saturation vapour pressure curve ***************/
 double slope_vps(
 	struct Grid *grid
 ){
@@ -205,7 +205,7 @@ double slope_vps(
 	return(slope);
 }
 
-/******* Aerodynamic Resistance ********/
+/* Aerodynamic Resistance ********************************/
 double r_aero(
 	struct Grid *grid
 ){
@@ -222,7 +222,7 @@ double r_aero(
 	return(r_aero);
 }
 
-/******* Penman-Monteith Evaporation *********/
+/* Penman-Monteith Evaporation ***************************/
 double pm_evaporation(
 	struct Grid *grid, 
 	struct Loct *loct
@@ -254,7 +254,7 @@ double pm_evaporation(
 	return(evaporation);
 }
 
-/*** Penman-Monteith Transpiration ***/
+/* Penman-Monteith Transpiration *******************************/
 double pm_transpiration(
 	struct Grid *grid, 
 	struct Loct *loct
@@ -277,8 +277,8 @@ double pm_transpiration(
 		/** canopy resistance **/
 		rc_p = 1.0/(loct->canopy_con[grid->m]*eta);
 		
-		aaa = (loct->slope_vps[grid->m]*rn_transp)+(cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);
-		bbb = loct->slope_vps[grid->m]+psycon*(1.0+rc_p/loct->r_aero[grid->m]);	
+		aaa = (loct->slope_vps[grid->m]*rn_transp) + (cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);
+		bbb = loct->slope_vps[grid->m]+psycon*(1.0 + rc_p/loct->r_aero[grid->m]);	
 		transpiration = MDN[grid->m]*grid->dlen[grid->m]*aaa/bbb/lht;
 	}else{
 		transpiration = 0.0;
@@ -288,7 +288,7 @@ double pm_transpiration(
 	return(transpiration);
 }
 
-/****** Penman-Monteith Transpiration ******/
+/* Penman-Monteith Transpiration *******************************/
 double pm_interception(
 	struct Grid *grid, 
 	struct Loct *loct
@@ -309,7 +309,7 @@ double pm_interception(
 	
 	aaa = (loct->slope_vps[grid->m]*loct->rad_net_p[grid->m])
 		+ (cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);
-	bbb = loct->slope_vps[grid->m]+psycon*(1.0+rc_p/loct->r_aero[grid->m]);	
+	bbb = loct->slope_vps[grid->m] + psycon*(1.0 + rc_p/loct->r_aero[grid->m]);	
 	interception = MDN[grid->m]*grid->dlen[grid->m]*aaa/bbb/lht;
 	interception = (interception>=0.0)?interception:0.0;
 	

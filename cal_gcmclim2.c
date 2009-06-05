@@ -71,7 +71,7 @@ void cal_gcmclim2(
 			grid->CO2y = 2001 + g; 
 		}
 		
-		/* monthly loop ************************/
+		/* monthly loop *************************************/
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;
 									
@@ -114,11 +114,11 @@ void cal_gcmclim2(
 			/***** soil processes *****/
 			soil_processes(grid, loct, &(echar->soil), &(mass->soil), &(flux->soil));
  
-			/* fertilizaer input for croplands */
+			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
 			if((echar->soil).v_type == 1 && (grid->veg_olson!=29 || grid->veg_olson!=30 || 
 					grid->veg_olson!=31 || grid->veg_olson!=32)){
-				(mass->soil).n_no3 += loct->n_frtlz_in * 0.5;
-				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.5;
+				(mass->soil).n_no3 += loct->n_frtlz_in;
+				(mass->soil).n_nh4 += loct->n_frtlz_in;
 			}
 			if((echar->soil).v_type == 3){
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.5;
@@ -244,7 +244,7 @@ void cal_gcmclim2(
 		f_set_history_data(grid->climy - PIVOT_CLIMY +1, grid, loct, mass, flux);
 		
 		/* output */
-		/*  f_output_result(grid->climy, grid, loct, echar, mass, flux, fp_o);  */
+		f_output_result(grid->climy, grid, loct, echar, mass, flux, fp_o);  /*  */
 		
 		grid->f_crop_p = grid->f_crop_con;
 		grid->f_pasture_p = grid->f_pasture_con;

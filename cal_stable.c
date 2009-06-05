@@ -48,7 +48,7 @@ void cal_stable(
 	f_cult_luc(grid);
 	grid->f_crop_p = grid->fcrop_sage[199];
 	
-	/* LOOP to stable stage **************************************/
+	/* LOOP to stable stage ************************************************/
 	nn = 0; 
 	ann_nep = 10.0;
 	while(ann_nep>TER_CON){ /*** acnep>TER_CON nn<10 ***/
@@ -89,7 +89,12 @@ void cal_stable(
 			/* soil processes *************/
 			soil_processes(grid, loct, &(echar->soil), &(mass->soil), &(flux->soil));
 			
-			/* fertilizaer input */
+			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
+			if((echar->soil).v_type == 1 && (grid->veg_olson!=29 || grid->veg_olson!=30 || 
+											 grid->veg_olson!=31 || grid->veg_olson!=32)){
+				(mass->soil).n_no3 += loct->n_frtlz_in;
+				(mass->soil).n_nh4 += loct->n_frtlz_in;
+			}
 			if((echar->soil).v_type == 3){
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.5;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.5;
@@ -165,7 +170,7 @@ void cal_stable(
 			}
 		}
 		
-		/****** terminal conditions ********/
+		/* terminal conditions ****************************/
 		if(nn < 200){	
 			/* continued */
 			ann_nep = 10.0; 
@@ -183,7 +188,7 @@ void cal_stable(
 		loct->time = nn; /* simulation time of carbon budget */
 		nn++;
 	}
-	/* end of stabilization loop ********************************/
+	/* end of stabilization loop ***********************************************/
 	
 	/* land use change */
 	f_luc_emit(grid, mass, flux);
@@ -192,9 +197,9 @@ void cal_stable(
 	f_set_history_data(0, grid, loct, mass, flux);
 		
 	/** output initial stable state **/
-	/* publish_cbud(grid, loct, echar, mass, flux, fp_o[0]); */
+	publish_cbud(grid, loct, echar, mass, flux, fp_o[0]); /* */
 	
 	/* output */
-	/* f_output_result(1900, grid, loct, echar, mass, flux, fp_o); */
+	f_output_result(1900, grid, loct, echar, mass, flux, fp_o); /* */
 }
 

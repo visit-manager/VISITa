@@ -43,6 +43,11 @@ void screenshow(
 	printf("SWW: ");
 	for(h=0;h<12;h++){		printf("%6.0lf ",loct->msww[h]);	}			printf("\n"); 
 	
+	printf("PS3: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(echar->c3).psat_df[h]);		}	printf("\n"); 
+	printf("LE3: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(echar->c3).lue_df[h]);		}	printf("\n"); 
+
 	printf("LA3: ");
 	for(h=0;h<12;h++){		printf("%6.1lf ",(mass->c3).lai[h]);		}	printf("\n"); 
 	printf("GD3: ");		ann=0.0;

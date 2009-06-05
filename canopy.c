@@ -18,14 +18,14 @@ extern short RAD_SENS;
 #define GB 250.0
 
 /* formula of hourly gross primary production *******************/
-void f_df97_gpp(
+double f_df97_gpp(
+	short mode,
 	struct Grid *grid, 
 	struct Loct *loct, 
 	struct Pchar *pchar, 
-	struct Pmas *pmas, 
-	struct Pflx *pflx
+	struct Pmas *pmas
 ){
-	short h;
+	short h, start, end;
 	double aa, bb, cc, dd, jj, hangle, ge, dtc, co2_a, o2_i;
 	double f_cloud, lai_t, kt, hd, e2p_d, e2p_b;
 	double h_sinh[DSTEP], toprad[DSTEP], sfcrad[DSTEP];
@@ -41,6 +41,7 @@ void f_df97_gpp(
 	double assim_sd, rdark_sd, stocon_sd, inco2_sd;
 	double debug1, debug2, debug3, f_ds, f_ds1, f_ds2, root1, root2;
 	double monitor1[DSTEP], monitor2[DSTEP], monitor3[DSTEP], monitor4[DSTEP], monitor5[DSTEP];
+	double gpp_df;
 	extern double MDN[ASTEP];
 	
 	ge = 2.0*PI/365.0*doy[grid->m];
@@ -73,7 +74,13 @@ void f_df97_gpp(
 
 	spect = 0.15;
 	temp = grid->tmp_sfc[grid->m];
-	n_photocap = 1.16;
+	
+	/* prescribed down regulation */
+	if(loct->aCO2[grid->m]>400.0 && RAD_SENS==11){
+		n_photocap = 1.16 - (loct->aCO2[grid->m]-400.0)*0.00075;
+	}else{
+		n_photocap = 1.16;
+	}
 	
 	n_top = pchar->n_leaf_df97;
 	n_nonphoto = 25.0;
@@ -121,8 +128,23 @@ void f_df97_gpp(
 	f_ds = (f_ds<=1.0)?f_ds:1.0; 
 	f_ds = (f_ds>=0.0)?f_ds:0.0;
 	
-	for(h=0;h<DSTEP;h++){
-		hangle = -180.0+(double)h* (360.0/(double)DSTEP);
+	if(mode==1){
+		/* normal diurnal */
+		start = 0;
+		end = DSTEP;
+	}else if(mode==2){
+		/* low PAR */
+		start = 12;
+		end = 13;
+	}else if(mode==3){
+		/* high PAR */
+		start = 12;
+		end = 13;
+	}
+	
+	gpp_df = 0.0;
+	for(h=start;h<end;h++){
+		hangle = -180.0 + (double)h* (360.0/(double)DSTEP);
 		
 		/* solar angle */
 		h_sinh[h] = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr) 
@@ -137,7 +159,7 @@ void f_df97_gpp(
 		/* surface radiation, W m-2 */
 		sfcrad[h] = jj * toprad[h];
 		
-		if(sfcrad[h]>0.0){
+		if(sfcrad[h]>0.0 && lai_t>0.0){
 			kt = sfcrad[h] / toprad[h];
 			
 			/* new estimation of diffuse radiation: 2008/09/08 by A.Ito */
@@ -186,13 +208,24 @@ void f_df97_gpp(
 				lai_sn = lai_t;
 			}
 			/* Eq.21 of DF97 */
-			lai_sd =lai_t - lai_sn;
+			lai_sd = lai_t - lai_sn;
 			
 			irr_b = (1.0 - sqrt(1.0 - scttr))/(1.0 + sqrt(1.0 - scttr));
 			rfl_b = 1.0-exp(-2.0*irr_b*ke_b1 / (1.0 + ke_b1));
 			
 			appfd = (1.0 - rfl_b)*ppfd_b[h] * (1.0-exp(-ke_b2 * lai_t))+
 					(1.0 - rfl_d)*ppfd_d[h] * (1.0-exp(-ke_d * lai_t));
+			
+			if(mode==1){
+				/* normal diurnal */
+				;
+			}else if(mode==2){
+				/* low PAR */
+				appfd = 100.0;
+			}else if(mode==3){
+				/* high PAR */
+				appfd = 2000.0;
+			}
 			
 			/* absorbed PPFD by sunny leaves */
 			/* beam: Eq.20b of DF97 */
@@ -276,24 +309,41 @@ void f_df97_gpp(
 				&debug1, &debug2, &debug3);
 			
 			/* total CO2 assimilation */
-			pflx->gpp_df97[grid->m] += (assim_sn + assim_sd) * 3600.0 * 12.0 / 100000000.0;
+			if(mode==1){
+				gpp_df += (assim_sn + assim_sd) * 3600.0 * 12.0 / 100000000.0;
+			}else if(mode==2){
+				pchar->lue_df[grid->m] = (assim_sn + assim_sd) / 100.0;
+			}else if(mode==3){
+				pchar->psat_df[grid->m] = (assim_sn + assim_sd) / lai_t;
+			}
 			
 		/*	monitor1[h] += vcmax;
 			monitor2[h] += jmax;
 			monitor3[h] += lai_sd; */
 		}else{
-			pflx->gpp_df97[grid->m] += 0.0;
+			/* dark condition or no leaf period **/
+			if(mode==1){
+				gpp_df += 0.0;
+			}else if(mode==2){
+				pchar->lue_df[grid->m] = 0.05;
+			}else if(mode==3){
+				pchar->psat_df[grid->m] = 0.0;
+			}
 			monitor1[h] = monitor2[h] = monitor3[h] = monitor4[h] = monitor5[h] = 0.0;
 		}
 	}
 	
-	pflx->gpp_df97[grid->m] *= MDN[grid->m];
+	if(mode==1){
+		gpp_df *= MDN[grid->m];
+	}
 	
 	loct->xx1[grid->m] = monitor1[12];
 	loct->xx2[grid->m] = monitor2[12];
 	loct->xx3[grid->m] = monitor3[12];
 	loct->xx4[grid->m] = monitor4[12];
 	loct->xx5[grid->m] = monitor5[12];
+	
+	return gpp_df;
 }
 
 /**************************************************************************/

@@ -68,7 +68,7 @@ void greenperiod(
 
 	/* litter fall */
 	mass->fol -= flux->lf[grid->m];
-	mass->lai[grid->m] = lai_mass(mass, pchar);
+	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
 	mass->stm -= flux->lc[grid->m];
 	mass->rot -= flux->lr[grid->m];
 	
@@ -81,7 +81,7 @@ void greenperiod(
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
-		f_df97_gpp(grid, loct, pchar, mass, flux);
+		flux->gpp_df97[grid->m] = f_df97_gpp(1, grid, loct, pchar, mass);
 	}
 	
 	/* maintenance respirations */
@@ -174,7 +174,7 @@ void leaffall(
 
 	/* litter fall */
 	mass->fol -= flux->lf[grid->m];
-	mass->lai[grid->m] = lai_mass(mass, pchar);
+	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
 	mass->stm -= flux->lc[grid->m];
 	mass->rot -= flux->lr[grid->m];
 	
@@ -187,7 +187,7 @@ void leaffall(
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
-		f_df97_gpp(grid, loct, pchar, mass, flux);
+		flux->gpp_df97[grid->m] = f_df97_gpp(1, grid, loct, pchar, mass);
 	}
 
 	/* maintenance respirations */
@@ -310,7 +310,7 @@ void leafemergence(
 
 	/* litter fall */
 	mass->fol -= flux->lf[grid->m];
-	mass->lai[grid->m] = lai_mass(mass, pchar);
+	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
 	mass->stm -= flux->lc[grid->m];
 	mass->rot -= flux->lr[grid->m];
 
@@ -321,7 +321,7 @@ void leafemergence(
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
-		f_df97_gpp(grid, loct, pchar, mass, flux);
+		flux->gpp_df97[grid->m] = f_df97_gpp(1, grid, loct, pchar, mass);
 	}
 
 	/* maintenance respirations */
@@ -363,11 +363,11 @@ void leafemergence(
 	flux->d13c_rrg[grid->m] = flux->d13c_tpr[grid->m];
 	
 	/* partitioning of photosynthate */
-	mass->fol += (flux->tpf[grid->m]-flux->rfg[grid->m]);
-	mass->stm += (flux->tpc[grid->m]-flux->rcg[grid->m]);
-	mass->rot += (flux->tpr[grid->m]-flux->rrg[grid->m]);
+	mass->fol += (flux->tpf[grid->m] - flux->rfg[grid->m]);
+	mass->stm += (flux->tpc[grid->m] - flux->rcg[grid->m]);
+	mass->rot += (flux->tpr[grid->m] - flux->rrg[grid->m]);
 	
-	f_leaf_age(0, pchar, mass, (flux->tpf[grid->m]-flux->rfg[grid->m]));
+	f_leaf_age(0, pchar, mass, (flux->tpf[grid->m] - flux->rfg[grid->m]));
 	
 	/* stable carbon isotope */
 	if((flux->tpf[grid->m]-flux->rfg[grid->m])>0.0){
@@ -414,7 +414,7 @@ void noleafperiod(
 
 	/* litter fall */
 	mass->fol -= flux->lf[grid->m];
-	mass->lai[grid->m] = lai_mass(mass, pchar);
+	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
 	mass->stm -= flux->lc[grid->m];
 	mass->rot -= flux->lr[grid->m];
 	
@@ -423,11 +423,11 @@ void noleafperiod(
 	/* photosynthesis, gross primary production */
 	flux->gpp[grid->m] = nn*fgpp(grid, loct, pchar, mass);
 	/* stable carbon isotope */
-	flux->d13c_gpp[grid->m] = loct->d13C_aCO2[grid->m]-pchar->photo_13c_frac[grid->m];
+	flux->d13c_gpp[grid->m] = loct->d13C_aCO2[grid->m] - pchar->photo_13c_frac[grid->m];
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
-		f_df97_gpp(grid, loct, pchar, mass, flux);
+		flux->gpp_df97[grid->m] = f_df97_gpp(1, grid, loct, pchar, mass);
 	}
 
 	/* maintenance respirations */
@@ -442,9 +442,9 @@ void noleafperiod(
 	
 	/* tentative primary production */	
 	if(DF97==1){
-		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->rpm[grid->m];
+		flux->epp[grid->m] = flux->gpp_df97[grid->m] - flux->rpm[grid->m];
 	}else{
-		flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+		flux->epp[grid->m] = flux->gpp[grid->m] - flux->rpm[grid->m];
 	}
 	
 	/* translocation of photosynthate */
@@ -473,25 +473,25 @@ void noleafperiod(
 	mass->stm += (flux->tpc[grid->m] - flux->rcg[grid->m]);
 	mass->rot += (flux->tpr[grid->m] - flux->rrg[grid->m]);
 	
-	f_leaf_age(0, pchar, mass, (flux->tpf[grid->m]-flux->rfg[grid->m]));
+	f_leaf_age(0, pchar, mass, (flux->tpf[grid->m] - flux->rfg[grid->m]));
 	
 	/* stable carbon isotope */
-	if((flux->tpf[grid->m]-flux->rfg[grid->m])>0.0){
+	if((flux->tpf[grid->m] - flux->rfg[grid->m])>0.0){
 		mass->d13c_fol = d13c_addition(mass->d13c_fol, mass->fol, flux->d13c_tpf[grid->m], 
 					(flux->tpf[grid->m]-flux->rfg[grid->m]));
-	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
+	}else if((flux->tpf[grid->m] - flux->rfg[grid->m])<0.0){
 		mass->d13c_fol = mass->d13c_fol;
 	}
-	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
+	if((flux->tpc[grid->m] - flux->rcg[grid->m])>0.0){
 		mass->d13c_stm = d13c_addition(mass->d13c_stm, mass->stm, flux->d13c_tpc[grid->m], 
 					(flux->tpc[grid->m]-flux->rcg[grid->m]));
 	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
 		mass->d13c_stm = mass->d13c_stm;
 	}
-	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
+	if((flux->tpc[grid->m] - flux->rcg[grid->m])>0.0){
 		mass->d13c_rot = d13c_addition(mass->d13c_rot, mass->rot, flux->d13c_tpr[grid->m], 
 					(flux->tpr[grid->m]-flux->rrg[grid->m]));
-	}else if((flux->tpr[grid->m]-flux->rrg[grid->m])<0.0){
+	}else if((flux->tpr[grid->m] - flux->rrg[grid->m])<0.0){
 		mass->d13c_rot = mass->d13c_rot;
 	}
 }

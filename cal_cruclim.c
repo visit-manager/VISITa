@@ -58,7 +58,7 @@ void cal_cruclim(
 	(echar->soil).rl = (echar->soil).rl0;
 	(echar->soil).rh = (echar->soil).rh0;
 	
-	/* LOOP to dynamic stage ***********************************************/
+	/* LOOP to dynamic stage *******************************************************/
 	for(g=0; g<CRU_PD; g++){
 		/* AD1901 - 2002 / 2008 */
 		
@@ -74,7 +74,7 @@ void cal_cruclim(
 		/* CO2 year ********************/
 		grid->CO2y = PIVOT_CO2Y + g; 
 		
-		/* monthly roop ****************************************************/
+		/* seasonal (monthly) loop ********************************************/
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;
 			
@@ -88,7 +88,7 @@ void cal_cruclim(
 			/* environmental condition *******************/
 			dynmcL(grid, loct, mass, echar);
 			
-			/***** vegetation processes *****/
+			/* vegetation processes *********************/
 			biome_processes(grid, loct, echar, mass, flux);
 
 			/* VOC emission *****************/
@@ -105,10 +105,15 @@ void cal_cruclim(
 			(flux->soil).lL[f] = (flux->plant).lL[f];			
 			(flux->soil).d13c_lL[f] = (flux->plant).d13c_lL[f];
 			
-			/***** soil processes *****/
+			/* soil processes *****************/
 			soil_processes(grid, loct, &(echar->soil), &(mass->soil), &(flux->soil));
 
-			/* fertilizaer input */
+			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
+			if((echar->soil).v_type == 1 && (grid->veg_olson!=29 || grid->veg_olson!=30 || 
+											 grid->veg_olson!=31 || grid->veg_olson!=32)){
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.5;
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.5;
+			}
 			if((echar->soil).v_type == 3){
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.5;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.5;
@@ -127,7 +132,7 @@ void cal_cruclim(
 			f_n2o_emit_ngas(grid, loct, mass, flux);
 			f_n2o_emit_casa(grid, loct, mass, flux);
 						
-			/***** ecosystem mass balance *****/	
+			/* ecosystem mass balance *****************/	
 			/* net ecosystem production */
 			flux->nep[f] = (flux->plant).npp[f]-(flux->soil).rS[f];
 			/* total ecosystem carbon storage */
@@ -141,6 +146,14 @@ void cal_cruclim(
 			/* nitrogen budget */
 			n_budget(grid, loct, mass, flux);
 			
+			/* average LAI: 2009/05/06 by A.Ito */
+			if(grid->climy>=1990 && grid->climy<=1999){
+				(mass->c3).lai0[f] += (mass->c3).lai[f]/10.0;
+				(mass->c4).lai0[f] += (mass->c4).lai[f]/10.0;
+				(mass->plant).lai0[f] += (mass->plant).lai[f]/10.0;
+			}
+			
+			/* statistics */
 			if(g>=90 && g<=99){
 				/* mean seasonal change *******/
 				m_ch4ox1[f] += (flux->soil).ch4oxy_ridg[f] * grid->area *10000.0/1000.0 / 10.0;
@@ -257,7 +270,7 @@ void cal_cruclim(
 		f_set_history_data(grid->climy - PIVOT_CLIMY +1, grid, loct, mass, flux);
 		
 		/* output */
-		/* f_output_result(grid->climy, grid, loct, echar, mass, flux, fp_o); */
+		f_output_result(grid->climy, grid, loct, echar, mass, flux, fp_o); /* */
 		
 		grid->f_crop_p = grid->f_crop_con;
 		grid->f_pasture_p = grid->f_pasture_con;

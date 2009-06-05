@@ -98,7 +98,7 @@ void n_budget(
 	(mass->soil).n_hums_m[grid->m] = (mass->soil).n_hums;
 
 	/* nitrate */
-	(mass->soil).n_no3 += loct->depo_no3[grid->m] + grid->nfert_no3 
+	(mass->soil).n_no3 += loct->depo_no3[grid->m] 
 						+ (flux->soil).n_nitrif[grid->m]
 						- (flux->plant).uptake_no3[grid->m]
 						- (flux->soil).d_n2o_dnt_ngas[grid->m]*28.0/44.0
@@ -110,7 +110,7 @@ void n_budget(
 	(mass->soil).n_no3_m[grid->m] = (mass->soil).n_no3;
 
 	/* ammonium */
-	(mass->soil).n_nh4 += loct->depo_nh4[grid->m] + grid->nfert_nh4 
+	(mass->soil).n_nh4 += loct->depo_nh4[grid->m] 
 						+ ((flux->soil).n_minerlz_lttr[grid->m] +(flux->soil).n_minerlz_hums[grid->m]
 							- (flux->soil).n_immbl[grid->m])
 						- (flux->plant).uptake_nh4[grid->m]

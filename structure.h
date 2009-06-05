@@ -238,8 +238,6 @@ struct Grid{
 	
 	/* nitrogen deposition */
 	double 	ndepo[3];					/* N deposition by Galloway et al. (2004) */
-	double	nfert_nh4;					/* NH4+ fertilization input */
-	double	nfert_no3;					/* NO3- fertilization input */
 	
 	/* radiation conversion model using SRB data */
 	double	srb_dif_aa;					/* linear regression a */
@@ -427,6 +425,9 @@ struct Pchar{
 	double	gs_b2;					/* Leuninig stomata model parameters */
 	double	km_nstl;				/* maximum stomatal conductance */
 	
+	double	psat_df[ASTEP];
+	double	lue_df[ASTEP];
+	
 	/*** photosynthesis: de Pury and Farquhar (1997) ***/
 	
 	/*** respiration ***/
@@ -516,7 +517,10 @@ struct Echar{
 
 /* plant biomass *************************************************/
 struct Pmas{ 
-	double	lai[ASTEP];			/* monthly leaf area index(LAI), m2 m-2 */
+	/* leaf area index (LAI), m2 m-2  */
+	double	lai[ASTEP];			/* monthly value */
+	double	lai0[ASTEP];		/* 1990's average value for sensitivity analysis: 2009/05/06 by A.Ito */
+	
 	/* carbon mass, Mg C ha-1 *****/ 
 	double	fol;				/* leaf */
 	double	mfol[ASTEP];		/* monthly */
@@ -595,7 +599,7 @@ struct Mass{
 	double	d13c_total[ASTEP];		/* total d13C, permille */
 };			
 
-/* plant carbon fluxes, all monthly  *******************************/
+/* plant carbon fluxes, all monthly *******************************/
 struct Pflx{ 
 	/* carbon flux, in Mg C ha-1 mon-1 */ 
 	double	gpp[ASTEP];			/* gross primary production */

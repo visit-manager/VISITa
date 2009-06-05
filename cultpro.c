@@ -93,7 +93,7 @@ void planting(
 
 	/* litter fall */
 	mass->fol -= flux->lf[grid->m];
-	mass->lai[grid->m] = lai_mass(mass, pchar);
+	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
 	mass->stm -= flux->lc[grid->m];
 	mass->rot -= flux->lr[grid->m];
 	
@@ -106,7 +106,7 @@ void planting(
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
-		f_df97_gpp(grid, loct, pchar, mass, flux);
+		flux->gpp_df97[grid->m] = f_df97_gpp(1, grid, loct, pchar, mass);
 	}
 
 	/* maintenance respirations */
@@ -210,7 +210,7 @@ void harvesting(
 
 	/* litter fall */
 	mass->fol -= flux->lf[grid->m];
-	mass->lai[grid->m] = lai_mass(mass, pchar);
+	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
 	mass->stm -= flux->lc[grid->m];
 	mass->rot -= flux->lr[grid->m];
 	
@@ -223,7 +223,7 @@ void harvesting(
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
-		f_df97_gpp(grid, loct, pchar, mass, flux);
+		flux->gpp_df97[grid->m] = f_df97_gpp(1, grid, loct, pchar, mass);
 	}
 
 	/* maintenance respirations */
@@ -329,7 +329,7 @@ void interval(
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
-		f_df97_gpp(grid, loct, pchar, mass, flux);
+		flux->gpp_df97[grid->m] = f_df97_gpp(1, grid, loct, pchar, mass);
 	}
 
 	/* maintenance respirations */

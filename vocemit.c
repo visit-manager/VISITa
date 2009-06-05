@@ -26,7 +26,12 @@ void f_voc_emit_guenther97(
 	struct Flux *flux
 ){
 	/* biogenic emission factors, micro g C/gdm/hour   */
-	/* Latherie et al. (2006) */
+	/* 
+	Lathiére, J., D. A. Hauglustaine, A. D. Friend, N. de Noblet-Ducoudré, 
+	N. Viovy, and G. A. Folberth, 2006: Impact of climate variability and 
+	land use changes on global biogenic volatile organic compound emissions. 
+	Atmospheric Chemistry and Physics, 6, 2129-2146.
+	*/
 	double emit_potent_isopr[18] = {0.0,
 		24.0, 24.0, 16.0, 8.0, 45.0, 8.0, 8.0, 8.0, 
 		24.0, 16.0, 16.0, 24.0, 16.0, 24.0, 16.0, 
@@ -59,7 +64,11 @@ void f_voc_emit_guenther97(
 		0.002, 0.002, 0.003, 0.006, 0.002, 0.006, 0.006, 0.006, 
 		0.003, 0.002, 0.002, 0.003, 0.002, 0.003, 0.002, 
 		0.0005, 0.0005};
-	/* Tao and Jain (2005) **/
+	/* Tao, Z. and A. K. Jain, 2005: Modeling of global biogenic emissions of 
+	 key indirect greenhouse gases and their response to atmospheric CO2 increases
+	 and changes in land cover and climate. 
+	 Journal of Geophysical Research, 110, 10.1029/2005JD005874.
+	*/
 	double emit_potent_co[18] = {0.0,
 		0.3, 0.3, 0.3, 0.3, 0.3, 0.36, 0.3, 0.3, 
 		0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 
