@@ -186,9 +186,17 @@ void f_luc_emit(
 	
 	if(grid->phase==0){
 		/* spin-up: fluxes for 1801-1900 *******************************/
-		f_luc = grid->fcrop_sage[1900-1700] - grid->fcrop_sage[1900-1700-1];
+		/* modified by A.Ito (2009/06/05) */
+		if(LANDUSE>=1 && LANDUSE<=5){
+			f_luc = grid->fcrop_sage[1900-1700] - grid->fcrop_sage[1900-1700-1];
+		}else if(LANDUSE==6){
+			f_luc = (grid->t_vc_eossagehyde[1900 - 1700] + grid->t_vp_eossagehyde[1900 - 1700])
+				+ (grid->t_sc_eossagehyde[1900 - 1700] + grid->t_sp_eossagehyde[1900 - 1700])*0.5;
+		}
+		
+		flux->lu_detr = f_luc * 0.2*(mass->plant).rot;
 		flux->lu_conv = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_conv/(fe_conv+fe_ten+fe_hund);
-
+		
 		for(f=1891;f<=1900;f++){
 			/* senstivity analysis */
 			if(LANDUSE>=1 && LANDUSE<=5){
@@ -272,6 +280,7 @@ void f_luc_emit(
 			flux->lu_hund += 0.01 * mass_hund;
 																		
 		}else{
+			flux->lu_detr = 0.0;
 			flux->lu_conv = 0.0;
 			flux->detr_ten[0] = 0.0;
 			flux->detr_hund[0] = 0.0;

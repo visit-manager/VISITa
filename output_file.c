@@ -16,29 +16,32 @@
 #include"prototype.h"
 
 extern double glandarea;
-extern double h_tmp[201], h_pre[201], h_dswr[201], h_aet[201], h_rof[201];
-extern double h_gpp[201], h_npp[201], h_nep[201], h_plant[201], h_soil[201];
-extern double h_sr[201], h_ersn_c[201], h_agrersn_c[201], h_doc[201];
-extern double h_agrarea[201], h_luc[201];
-extern double h_luc_1[201], h_luc_2[201], h_luc_3[201];
-extern double h_gpp_df97[201];
+extern double h_tmp[HIST], h_pre[HIST], h_dswr[HIST], h_aet[HIST], h_rof[HIST];
+extern double h_gpp[HIST], h_npp[HIST], h_nep[HIST], h_plant[HIST], h_soil[HIST];
+extern double h_sr[HIST], h_ersn_c[HIST], h_agrersn_c[HIST], h_doc[HIST];
+extern double h_agrarea[HIST], h_luc[HIST];
+extern double h_luc_1[HIST], h_luc_2[HIST], h_luc_3[HIST];
+extern double h_gpp_df97[HIST];
 
-extern double h_burnt_area[201];
-extern double h_bioburn_co2[201], h_bioburn_ch4[201], h_bioburn_co[201];
-extern double h_bioburn_nmhc[201], h_bioburn_oc[201], h_bioburn_bc[201];
-extern double h_bioburn_nox[201], h_bioburn_so2[201], h_bioburn_pm25[201];
-extern double h_bioburn_tpm[201], h_bioburn_tec[201];
+extern double h_burnt_area[HIST];
+extern double h_bioburn_co2[HIST], h_bioburn_ch4[HIST], h_bioburn_co[HIST];
+extern double h_bioburn_nmhc[HIST], h_bioburn_oc[HIST], h_bioburn_bc[HIST];
+extern double h_bioburn_nox[HIST], h_bioburn_so2[HIST], h_bioburn_pm25[HIST];
+extern double h_bioburn_tpm[HIST], h_bioburn_tec[HIST];
 
-extern double h_ch4ox1[201], h_ch4ox2[201], h_ch4ox3[201], h_ch4ox4[201];
-extern double h_ch4emit_cao_paddy[201], h_ch4emit_cao_wetland[201];
-extern double h_n2o_emit_ngas[201], h_n2_emit_ngas[201];
-extern double h_n2o_emit_casa[201], h_no_emit_casa[201], h_n2_emit_casa[201];
-extern double h_nh3_emit[201], h_n2_biofix[201];
-extern double h_ch4_emit_mass[201], h_ch4_emit_photo[201];
+extern double h_ch4ox1[HIST], h_ch4ox2[HIST], h_ch4ox3[HIST], h_ch4ox4[HIST];
+extern double h_ch4emit_cao_paddy[HIST], h_ch4emit_cao_wetland[HIST];
+extern double h_n2o_emit_ngas[HIST], h_n2_emit_ngas[HIST];
+extern double h_n2o_emit_casa[HIST], h_no_emit_casa[HIST], h_n2_emit_casa[HIST];
+extern double h_nh3_emit[HIST], h_n2_biofix[HIST];
+extern double h_ch4_emit_mass[HIST], h_ch4_emit_photo[HIST];
+extern double h_n2o_n_emit_ngas[HIST], h_n2o_d_emit_ngas[HIST];
+extern double h_n2o_emit_ngas_agr[HIST], h_n2o_emit_casa_agr[HIST];
+extern double h_nh3_emit_agr[HIST];
 
-extern double h_voc_isopr_g97[201], h_voc_monotrp_g97[201], h_voc_methanl_g97[201];
-extern double h_voc_acetone_g97[201], h_voc_actaldhd_g97[201], h_voc_frmardhd_g97[201];
-extern double h_voc_formacd_g97[201], h_voc_acetacd_g97[201], h_voc_co_g97[201];
+extern double h_voc_isopr_g97[HIST], h_voc_monotrp_g97[HIST], h_voc_methanl_g97[HIST];
+extern double h_voc_acetone_g97[HIST], h_voc_actaldhd_g97[HIST], h_voc_frmardhd_g97[HIST];
+extern double h_voc_formacd_g97[HIST], h_voc_acetacd_g97[HIST], h_voc_co_g97[HIST];
 
 /* monthly results **********/
 extern double m_ch4ox1[ASTEP], m_ch4ox2[ASTEP], m_ch4ox3[ASTEP];
@@ -242,6 +245,16 @@ void f_set_history_data(
 		h_ch4_emit_mass[year] += (flux->plant).emit_ch4_kirschbaum_mass[f]*10000.0*grid->area;
 		h_ch4_emit_photo[year] += (flux->plant).emit_ch4_kirschbaum_photo[f]*10000.0*grid->area;
 		h_n2_biofix[year] += (flux->plant).n_biofix[f]*grid->area;
+		h_n2o_n_emit_ngas[year] += (flux->soil).d_n2o_ntr_ngas[f] * grid->area;
+		h_n2o_d_emit_ngas[year] += (flux->soil).d_n2o_dnt_ngas[f] * grid->area;
+		
+		if(CALC_OLSON == 1){ /* added by A.Ito (2009/06/16) */
+			if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32){
+				h_n2o_emit_ngas_agr[year] += (flux->soil).d_n2o_ngas[f] * grid->area;
+				h_n2o_emit_casa_agr[year] += (flux->soil).d_n2o_casa[f] * grid->area;
+				h_nh3_emit_agr[year] += (flux->soil).n_nh3vlt[f] * grid->area;
+			}
+		}
 		
 		/* biomass burninig */
 		h_burnt_area[year] += flux->a_burnt[f]*grid->area;
@@ -341,7 +354,7 @@ void f_output_result(
 	/* nitrogen */
 	fprintf(fp_o[1],"%ld ", year);
 	for(f=0;f<12;f++){
-		fprintf(fp_o[1],"%.3lf ", (mass->plant).n_cnpy_m[f]);
+		/* fprintf(fp_o[1],"%.3lf ", (mass->plant).n_cnpy_m[f]);
 		fprintf(fp_o[1],"%.3lf ", (mass->plant).n_strg_m[f]);
 		fprintf(fp_o[1],"%.3lf ", (mass->soil).n_no3_m[f]);
 		fprintf(fp_o[1],"%.3lf ", (mass->soil).n_nh4_m[f]);
@@ -352,13 +365,13 @@ void f_output_result(
 		fprintf(fp_o[1],"%.3lf ", (flux->plant).uptake_no3[f]);
 		fprintf(fp_o[1],"%.3lf ", (flux->plant).uptake_nh4[f]);
 		fprintf(fp_o[1],"%.3lf ", (flux->soil).n_leach[f]);
-		fprintf(fp_o[1],"%.3lf ", (flux->soil).n_nh3vlt[f]); /**/
+		fprintf(fp_o[1],"%.3lf ", (flux->soil).n_nh3vlt[f]); */
 	}
 	fprintf(fp_o[1],"\n");
 
 	/* erosion & DOC */
 	fprintf(fp_o[2],"%ld ", year);
-	fprintf(fp_o[2],"%lf ", pre_ann);
+	/* fprintf(fp_o[2],"%lf ", pre_ann);
 	fprintf(fp_o[2],"%lf ", grid->f_crop_con);
 	fprintf(fp_o[2],"%lf ", grid->f_erosion_r);
 	fprintf(fp_o[2],"%lf ", grid->f_erosion_ls);
@@ -378,13 +391,13 @@ void f_output_result(
 	for(f=0;f<12;f++){
 		fprintf(fp_o[2],"%lf ", loct->ro2[f]);
 		fprintf(fp_o[2],"%lf ", (flux->soil).doc_boyer[f]);
-	} /**/
+	} */
 	fprintf(fp_o[2],"\n");
 	
 	/* GHG & trace gases */
 	fprintf(fp_o[3],"%ld ", year);
 	for(f=0;f<12;f++){
-		fprintf(fp_o[3],"%.3lf ", loct->msww[f]);
+		/* fprintf(fp_o[3],"%.3lf ", loct->msww[f]);
 		fprintf(fp_o[3],"%.3lf ", loct->wfps[f]);
 		fprintf(fp_o[3],"%.3lf ", (flux->soil).ch4oxy_ridg[f]);
 		fprintf(fp_o[3],"%.3lf ", (flux->soil).ch4oxy_casa[f]);
@@ -399,14 +412,14 @@ void f_output_result(
 		fprintf(fp_o[3],"%.3lf ", (flux->soil).d_no_casa[f]);
 		fprintf(fp_o[3],"%.3lf ", (flux->soil).n_nh3vlt[f]);
 		fprintf(fp_o[3],"%.3lf ", (flux->plant).emit_ch4_kirschbaum_mass[f]);
-		fprintf(fp_o[3],"%.3lf ", (flux->plant).emit_ch4_kirschbaum_photo[f]); /**/
+		fprintf(fp_o[3],"%.3lf ", (flux->plant).emit_ch4_kirschbaum_photo[f]); */
 	}
 	fprintf(fp_o[3],"\n");
 
 	/* biomass burning */
 	fprintf(fp_o[4],"%ld ", year);
 	for(f=0;f<12;f++){
-		fprintf(fp_o[4],"%.3lf ", loct->msw30[f]);
+		/* fprintf(fp_o[4],"%.3lf ", loct->msw30[f]);
 		fprintf(fp_o[4],"%.3lf ", flux->day_fire[f]);
 		fprintf(fp_o[4],"%.3lf ", flux->a_burnt[f]);
 		fprintf(fp_o[4],"%.3lf ", flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+flux->bb_co2_wood[f]+flux->bb_co2_root[f]);
@@ -419,14 +432,14 @@ void f_output_result(
 		fprintf(fp_o[4],"%.3lf ", flux->bb_so2_litter[f]+flux->bb_so2_leaf[f]+flux->bb_so2_wood[f]+flux->bb_so2_root[f]);
 		fprintf(fp_o[4],"%.3lf ", flux->bb_pm25_litter[f]+flux->bb_pm25_leaf[f]+flux->bb_pm25_wood[f]+flux->bb_pm25_root[f]);
 		fprintf(fp_o[4],"%.3lf ", flux->bb_tpm_litter[f]+flux->bb_tpm_leaf[f]+flux->bb_tpm_wood[f]+flux->bb_tpm_root[f]);
-		fprintf(fp_o[4],"%.3lf ", flux->bb_tec_litter[f]+flux->bb_tec_leaf[f]+flux->bb_tec_wood[f]+flux->bb_tec_root[f]);  /**/
+		fprintf(fp_o[4],"%.3lf ", flux->bb_tec_litter[f]+flux->bb_tec_leaf[f]+flux->bb_tec_wood[f]+flux->bb_tec_root[f]);  */
 	}
 	fprintf(fp_o[4],"\n");
 
 	/* VOC */
 	fprintf(fp_o[5],"%ld ", year);
 	for(f=0;f<12;f++){
-		fprintf(fp_o[5],"%.3lf ", flux->voc_isopr_g97[f]);
+		/* fprintf(fp_o[5],"%.3lf ", flux->voc_isopr_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_monotrp_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_methanl_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_acetone_g97[f]);
@@ -434,7 +447,7 @@ void f_output_result(
 		fprintf(fp_o[5],"%.3lf ", flux->voc_frmardhd_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_formacd_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_acetacd_g97[f]);
-		fprintf(fp_o[5],"%.3lf ", flux->voc_co_g97[f]); /**/
+		fprintf(fp_o[5],"%.3lf ", flux->voc_co_g97[f]); */
 	}
 	fprintf(fp_o[5],"\n");
 	
@@ -455,7 +468,7 @@ void f_output_result(
 		fprintf(fp_o[6],"%.2lf ", loct->incep[f]);
 		fprintf(fp_o[6],"%.2lf ", loct->evpr[f]);
 		fprintf(fp_o[6],"%.2lf ", loct->trspr[f]);
-		fprintf(fp_o[6],"%.2lf ", loct->ro2[f]); 
+		fprintf(fp_o[6],"%.2lf ", loct->ro2[f]); /**/
 	}
 	fprintf(fp_o[6],"\n");
 }
@@ -476,7 +489,7 @@ void f_glosum_output(
 	
 	fp_glsum = fopen(filename,"wt");
 	fprintf(fp_glsum,"%.2lf %.2lf\n", go_landarea, gs_landarea);
-	for(h=0;h<201;h++){
+	for(h=0;h<HIST;h++){
 		fprintf(fp_glsum,"%ld ", h+1900);
 		fprintf(fp_glsum,"%lf ", h_tmp[h]);
 		fprintf(fp_glsum,"%lf ", h_pre[h]);
@@ -542,6 +555,12 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_luc_3[h]);
 
 		fprintf(fp_glsum,"%lf ", h_gpp_df97[h]);
+		fprintf(fp_glsum,"%lf ", h_n2o_n_emit_ngas[h]);
+		fprintf(fp_glsum,"%lf ", h_n2o_d_emit_ngas[h]);
+		
+		fprintf(fp_glsum,"%lf ", h_n2o_emit_ngas_agr[h]); /* added by A.Ito (2009/06/16) */
+		fprintf(fp_glsum,"%lf ", h_n2o_emit_casa_agr[h]);
+		fprintf(fp_glsum,"%lf ", h_nh3_emit_agr[h]);
 
 		fprintf(fp_glsum,"\n");
 	}
@@ -605,7 +624,7 @@ void f_output_file_open(
 	FILE *fp[6]
 ){
 	char num[4];
-	char svtype[5];
+	char svtype[8];
 	
 	switch(vtype){
 		case 1:

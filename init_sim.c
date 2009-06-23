@@ -26,29 +26,32 @@ extern double ach4_a1[553], ach4_a2[553], ach4_b1[553], ach4_b2[553];
 extern double an2o_a1[553], an2o_a2[553], an2o_b1[553], an2o_b2[553];
 
 extern double glandarea;
-extern double h_tmp[201], h_pre[201], h_dswr[201], h_aet[201], h_rof[201];
-extern double h_gpp[201], h_npp[201], h_nep[201], h_plant[201], h_soil[201];
-extern double h_sr[201], h_ersn_c[201], h_agrersn_c[201], h_doc[201];
-extern double h_agrarea[201], h_luc[201];
-extern double h_luc_1[201], h_luc_2[201], h_luc_3[201];
-extern double h_gpp_df97[201];
+extern double h_tmp[HIST], h_pre[HIST], h_dswr[HIST], h_aet[HIST], h_rof[HIST];
+extern double h_gpp[HIST], h_npp[HIST], h_nep[HIST], h_plant[HIST], h_soil[HIST];
+extern double h_sr[HIST], h_ersn_c[HIST], h_agrersn_c[HIST], h_doc[HIST];
+extern double h_agrarea[HIST], h_luc[HIST];
+extern double h_luc_1[HIST], h_luc_2[HIST], h_luc_3[HIST];
+extern double h_gpp_df97[HIST];
 
-extern double h_burnt_area[201];
-extern double h_bioburn_co2[201], h_bioburn_ch4[201], h_bioburn_co[201];
-extern double h_bioburn_nmhc[201], h_bioburn_oc[201], h_bioburn_bc[201];
-extern double h_bioburn_nox[201], h_bioburn_so2[201], h_bioburn_pm25[201];
-extern double h_bioburn_tpm[201], h_bioburn_tec[201];
+extern double h_burnt_area[HIST];
+extern double h_bioburn_co2[HIST], h_bioburn_ch4[HIST], h_bioburn_co[HIST];
+extern double h_bioburn_nmhc[HIST], h_bioburn_oc[HIST], h_bioburn_bc[HIST];
+extern double h_bioburn_nox[HIST], h_bioburn_so2[HIST], h_bioburn_pm25[HIST];
+extern double h_bioburn_tpm[HIST], h_bioburn_tec[HIST];
 
-extern double h_ch4ox1[201], h_ch4ox2[201], h_ch4ox3[201], h_ch4ox4[201];
-extern double h_ch4emit_cao_paddy[201], h_ch4emit_cao_wetland[201];
-extern double h_n2o_emit_ngas[201], h_n2_emit_ngas[201];
-extern double h_n2o_emit_casa[201], h_no_emit_casa[201], h_n2_emit_casa[201];
-extern double h_nh3_emit[201], h_n2_biofix[201];
-extern double h_ch4_emit_mass[201], h_ch4_emit_photo[201];
+extern double h_ch4ox1[HIST], h_ch4ox2[HIST], h_ch4ox3[HIST], h_ch4ox4[HIST];
+extern double h_ch4emit_cao_paddy[HIST], h_ch4emit_cao_wetland[HIST];
+extern double h_n2o_emit_ngas[HIST], h_n2_emit_ngas[HIST];
+extern double h_n2o_emit_casa[HIST], h_no_emit_casa[HIST], h_n2_emit_casa[HIST];
+extern double h_nh3_emit[HIST], h_n2_biofix[HIST];
+extern double h_ch4_emit_mass[HIST], h_ch4_emit_photo[HIST];
+extern double h_n2o_d_emit_ngas[HIST], h_n2o_n_emit_ngas[HIST];
+extern double h_n2o_emit_ngas_agr[HIST], h_n2o_emit_casa_agr[HIST];
+extern double h_nh3_emit_agr[HIST];
 
-extern double h_voc_isopr_g97[201], h_voc_monotrp_g97[201], h_voc_methanl_g97[201];
-extern double h_voc_acetone_g97[201], h_voc_actaldhd_g97[201], h_voc_frmardhd_g97[201];
-extern double h_voc_formacd_g97[201], h_voc_acetacd_g97[201], h_voc_co_g97[201];
+extern double h_voc_isopr_g97[HIST], h_voc_monotrp_g97[HIST], h_voc_methanl_g97[HIST];
+extern double h_voc_acetone_g97[HIST], h_voc_actaldhd_g97[HIST], h_voc_frmardhd_g97[HIST];
+extern double h_voc_formacd_g97[HIST], h_voc_acetacd_g97[HIST], h_voc_co_g97[HIST];
 
 /* monthly results **********/
 extern double m_ch4ox1[12], m_ch4ox2[12], m_ch4ox3[12];
@@ -153,7 +156,7 @@ void initSim(
 	
 	/* global analysis initialization ********************************/
 	go_landarea = gs_landarea = 0.0;
-	for(f=0;f<201;f++){
+	for(f=0;f<HIST;f++){
 		h_tmp[f] = h_pre[f] = h_dswr[f] = h_aet[f] = h_rof[f] = 0.0;
 		h_gpp[f] = h_npp[f] = h_nep[f] = h_plant[f] = h_soil[f] = 0.0;
 		h_sr[f] = h_ersn_c[f] = h_agrersn_c[f] = h_doc[f] = 0.0;
@@ -173,6 +176,9 @@ void initSim(
 		h_n2o_emit_casa[f] = h_no_emit_casa[f] = h_n2_emit_casa[f] = 0.0;
 		h_nh3_emit[f] = h_n2_biofix[f] = 0.0;
 		h_ch4_emit_mass[f] = h_ch4_emit_photo[f] = 0.0;
+		h_n2o_d_emit_ngas[f] = h_n2o_n_emit_ngas[f] = 0.0;
+		h_n2o_emit_ngas_agr[f] = h_n2o_emit_casa_agr[f] = 0.0;
+		h_nh3_emit_agr[f] = 0.0;
 
 		h_voc_isopr_g97[f] = h_voc_monotrp_g97[f] = h_voc_methanl_g97[f] = 0.0;
 		h_voc_acetone_g97[f] = h_voc_actaldhd_g97[f] = h_voc_frmardhd_g97[f] = 0.0;

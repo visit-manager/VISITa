@@ -6,7 +6,6 @@
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
 #include"setting.h"
-#define ASTEP 12	/* annual time-step, 12=monthly */
 
 /*****************************/
 /* declaration of structures */

@@ -38,9 +38,9 @@ void growthperiod(
 		}
 	}
 	if(grid->tmp_sfc[grid->m]>5.0){
-		pchar->gdd+=grid->tmp_sfc[grid->m]*MDN[grid->m];
+		pchar->gdd += grid->tmp_sfc[grid->m]*MDN[grid->m];
 	}	
-	pchar->mgdd[grid->m]=pchar->gdd;
+	pchar->mgdd[grid->m] = pchar->gdd;
 	
 	/** growing period, days **/
 	if(grid->m==0) pchar->grw_pd = 0.0;

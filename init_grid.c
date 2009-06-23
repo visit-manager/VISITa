@@ -281,15 +281,15 @@ void init_grid(
 	
 	/* sensitivity analysis for deforestation */
 	if(DEFOREST==1){
-		if(aaa>=1&&aaa<=12){
+		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 19;
 		}
 	}else if(DEFOREST==2){
-		if(aaa>=1&&aaa<=12){
+		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 13;
 		}
 	}else if(DEFOREST==3){
-		if(aaa>=1&&aaa<=12){
+		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 31;
 		}
 	}

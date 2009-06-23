@@ -37,12 +37,32 @@ void f_n2o_emit_ngas(
 	double day_d_n2, day_d_n2o;
 	double nh4_soil;		/* micro g g-1*/
 	double no3_soil;		
-	double kmax = 3.8;		/* g N ha-1 day-1 */ /* assumed */
-	double nmax = 30.0;							/* assumed */
+	double kmax;		/* g N ha-1 day-1 */ /* assumed */
+	double nmax;							/* assumed */
 	extern double MDN[12];
 	
-	nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0);	
-	no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0);	
+	/* added by A.Ito (2009/06/16) */
+	if(CALC_OLSON == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32)){ 
+		kmax = 28.6;
+		nmax = 30.0;
+		/* 2009/06/15 by A.Ito */
+		/* nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
+		 no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); */ /* low */
+		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0);	
+		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0);	 /* high */
+		
+	}else{
+		/* natural */
+		/* kmax = 3.8; */ 
+		kmax = 6.0;
+		nmax = 30.0;
+		/* 2009/06/15 by A.Ito */
+		/* nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
+		 no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); */ /* low */
+		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0);	
+		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0);	 /* high */
+		
+	}
 	
 	/*
 	nh4_soil = grid->total_n_1m * 0.3 * 0.01*1000000.0 /(grid->bulkdens*300.0*1000.0)*0.5;
@@ -140,7 +160,7 @@ void f_n2o_emit_ngas(
 		fr_co2 = 0.0;
 	}
 		
-	/* N2O emission@*/
+	/* N2O emission */
 	/* Eqs.(3+4) in Parton et al. (1996) */
 	day_d_n2o = dt / (1.0 + fr_wfps * ((fr_no3>fr_co2)?fr_co2:fr_no3));
 	/* Eqs.(3+5) in Parton et al. (1996) */
@@ -177,7 +197,9 @@ void f_n2o_emit_casa(
 	double f_emit;
 		
 	/* fraction of gas emission per mineralization */
-	f_emit = 0.01;
+	/* 2009/06/15 by A.Ito */
+	/* f_emit = 0.01; */ /* low */
+	f_emit = 0.02; /* control */
 	
 	d_no = d_n2o = 0.0;
 		

@@ -17,6 +17,11 @@
 #define STCIR (0.0111/0.9889) /* standard stable carbon isotope ratio */
 #define UGC 8.314 /* universal gas constant */
 
+/***********************/
+#define ASTEP 12	/* annual time-step, 12=monthly */
+
+#define HIST 501	/* simulation dulation */
+
 /***************************************************/
 /* total vegetation number */
 #define VEG_NUM_OLSON 34		/* Olson veg (modified) */

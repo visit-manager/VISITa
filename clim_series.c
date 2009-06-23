@@ -12,6 +12,7 @@
 #include"prototype.h"
 
 extern short CC_R;
+extern short TEMP_GC;
 
 /*******************************/
 void set_cru_clim(
@@ -69,13 +70,41 @@ void set_gcm_clim(
 	/***************************************************/
 	for(h=0;h<ASTEP;h++){
 		grid->m = h;
-		/****** temperature ******/
-		if(CC_T == 1){
-			tmp_var = grid->proj_tmp2m[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
-					grid->proj_tmp2m_b[h][grid->gcm_row][grid->gcm_col];
-		}else{
-			tmp_var = 0.0;
+		/* temperature ***************************************************/
+		/* gradual temperature change: added by A.Ito (2009/06/15) */
+		if(TEMP_GC == 1){
+			tmp_var = -1.0/100.0 * (double)(grid->climy-2000);
+		}else if(TEMP_GC == 2){
+			tmp_var = 1.0/100.0 * (double)(grid->climy-2000);
+		}else if(TEMP_GC == 3){
+			tmp_var = -2.0/100.0 * (double)(grid->climy-2000);
+		}else if(TEMP_GC == 4){
+			tmp_var = 2.0/100.0 * (double)(grid->climy-2000);
+		}else if(TEMP_GC == 5){
+			tmp_var = -3.0/100.0 * (double)(grid->climy-2000);
+		}else if(TEMP_GC == 6){
+			tmp_var = 3.0/100.0 * (double)(grid->climy-2000);
+		}else if(TEMP_GC == 7){
+			tmp_var = -4.0/100.0 * (double)(grid->climy-2000);
+		}else if(TEMP_GC == 8){
+			tmp_var = 4.0/100.0 * (double)(grid->climy-2000);
+		}else if(TEMP_GC == 9){
+			tmp_var = -5.0/100.0 * (double)(grid->climy-2000);
+		}else if(TEMP_GC == 10){
+			tmp_var = 5.0/100.0 * (double)(grid->climy-2000);
+		}else if(TEMP_GC == 11){
+			tmp_var = -6.0/100.0 * (double)(grid->climy-2000);
+		}else if(TEMP_GC == 12){
+			tmp_var = 6.0/100.0 * (double)(grid->climy-2000);
+		}else if(TEMP_GC ==0){
+			if(CC_T == 1){
+				tmp_var = grid->proj_tmp2m[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
+				grid->proj_tmp2m_b[h][grid->gcm_row][grid->gcm_col];
+			}else{
+				tmp_var = 0.0;
+			}
 		}
+		
 		if(CC_T_A == 1){
 			grid->tmp_sfc[h] = grid->tmp_sfc_a[h] + tmp_var;
 			grid->tmp_2m[h] = grid->tmp_2m_a[h] + tmp_var;
@@ -91,13 +120,18 @@ void set_gcm_clim(
 			grid->tmp200_soil[h] = grid->tmp200_soil_a[h];
 		}
 		
-		/****** precipitation ******/
-		if(CC_P==1){
-			pre_var = grid->proj_prec[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
-						grid->proj_prec_b[h][grid->gcm_row][grid->gcm_col];
-		}else{
+		/* precipitation ***************************************************/
+		if(TEMP_GC != 0){
 			pre_var = 0.0;
+		}else{
+			if(CC_P==1){
+				pre_var = grid->proj_prec[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
+				grid->proj_prec_b[h][grid->gcm_row][grid->gcm_col];
+			}else{
+				pre_var = 0.0;
+			}
 		}
+		
 		grid->prate_sfc[h] = grid->prate_sfc_a[h] + pre_var;
 		if(grid->prate_sfc[h]<=0.0){
 			/* carry over of negative precipitation */
@@ -113,29 +147,39 @@ void set_gcm_clim(
 			}
 		}						
 
-		/****** air humidity ******/
-		if(CC_H==1){
-			shm_var = grid->proj_shum[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
-						grid->proj_shum_b[h][grid->gcm_row][grid->gcm_col];
-		}else{
+		/* air humidity ******************************************************************/
+		if(TEMP_GC != 0){
 			shm_var = 0.0;
+		}else{
+			if(CC_H==1){
+				shm_var = grid->proj_shum[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
+				grid->proj_shum_b[h][grid->gcm_row][grid->gcm_col];
+			}else{
+				shm_var = 0.0;
+			}
 		}
+		
 		grid->spfh_2m[h] = grid->spfh_2m_a[h] + shm_var;
 		if(grid->spfh_2m[h]<0.0){
 			grid->spfh_2m[h] = 0.0;
 		}
 		
-		/****** surface shortwave radiation ******/
+		/* surface shortwave radiation ***************************************************/
 		/*  0: no change  */
 		/*  1: SW and PAR change  */
 		/*  2: PAR change but mean SW  */
 		/*  3: SW change but mean PAR  */
-		if(CC_R==1||CC_R==2){
-			rad_var = grid->proj_rad[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
-						grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
-		}else if(CC_R==0||CC_R==3){	
-			rad_var = 0.0;	/* mean SW & PAR */
+		if(TEMP_GC != 0){
+			rad_var = 0.0;
+		}else{
+			if(CC_R==1||CC_R==2){
+				rad_var = grid->proj_rad[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
+				grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
+			}else if(CC_R==0||CC_R==3){	
+				rad_var = 0.0;	/* mean SW & PAR */
+			}
 		}
+		
 		grid->gl_rad[h] = grid->rad_a[h] + rad_var;
 		if(grid->gl_rad[h]<0.0){
 			grid->gl_rad[h] = 0.0;

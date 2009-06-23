@@ -14,6 +14,7 @@
 extern long GCM, CO2S, GCM_R, GCM_C;
 extern double MDN[12];
 extern short DF97;
+extern short TEMP_GC;
 
 extern float g_tmp[5][360][720];
 extern float g_prc[5][360][720];
@@ -41,7 +42,7 @@ void cal_gcmclim2(
 	struct Flux *flux, 
 	FILE *fp_o[OFILES]
 ){
-	long f, g;
+	long f, g, simyr;
 	double rl_a;
 	
 	/* phase: prediction */
@@ -50,8 +51,16 @@ void cal_gcmclim2(
 	/* set long-term average climate */
 	initC(grid); 
 	
+	if(TEMP_GC==1 || TEMP_GC==2){
+		simyr = 400;
+	}else if(TEMP_GC==3 || TEMP_GC==4){
+		simyr = 200;
+	}else{
+		simyr = GCM_PD;
+	}
+	
 	/* LOOP to dynamic stage ***************************************/
-	for(g=0;g<GCM_PD;g++){ /*** AD 2001-2100 ***/
+	for(g=0;g<simyr;g++){ /*** AD 2001-2100 ***/
 	
 		/* climate change ********************/
 		grid->climy = 2001+ g;
@@ -60,7 +69,11 @@ void cal_gcmclim2(
 		}
 		
 		/* land-use change */
-		f_cult_luc(grid);
+		if(TEMP_GC != 0){
+			;
+		}else{
+			f_cult_luc(grid);
+		}
 		
 		/* CO2 change ********************/
 		if(CO2S==0){
@@ -70,7 +83,10 @@ void cal_gcmclim2(
 		}else{
 			grid->CO2y = 2001 + g; 
 		}
-		
+		if(TEMP_GC != 0){
+			grid->CO2y = 2001;
+		}
+				
 		/* monthly loop *************************************/
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;
@@ -80,19 +96,48 @@ void cal_gcmclim2(
 			
 			/* atmospheric CO2 */
 			cd_trend(grid);
+			
+			/* simplified atm. CO2 change: added by A.Ito (2009/06/18) */
+			if(TEMP_GC == 1){
+				grid->bCO2[f] = grid->bCO2[f] * exp((-1.0/100.0 * (double)(grid->climy-2000)) / 6.0);
+			}else if(TEMP_GC == 2){
+				grid->bCO2[f] = grid->bCO2[f] * exp((1.0/100.0 * (double)(grid->climy-2000)) / 6.0);
+			}else if(TEMP_GC == 3){
+				grid->bCO2[f] = grid->bCO2[f] * exp((-2.0/100.0 * (double)(grid->climy-2000)) / 6.0);
+			}else if(TEMP_GC == 4){
+				grid->bCO2[f] = grid->bCO2[f] * exp((2.0/100.0 * (double)(grid->climy-2000)) / 6.0);
+			}else if(TEMP_GC == 5){
+				grid->bCO2[f] = grid->bCO2[f] * exp((-3.0/100.0 * (double)(grid->climy-2000)) / 6.0);
+			}else if(TEMP_GC == 6){
+				grid->bCO2[f] = grid->bCO2[f] * exp((3.0/100.0 * (double)(grid->climy-2000)) / 6.0);
+			}else if(TEMP_GC == 7){
+				grid->bCO2[f] = grid->bCO2[f] * exp((-4.0/100.0 * (double)(grid->climy-2000)) / 6.0);
+			}else if(TEMP_GC == 8){
+				grid->bCO2[f] = grid->bCO2[f] * exp((4.0/100.0 * (double)(grid->climy-2000)) / 6.0);
+			}else if(TEMP_GC == 9){
+				grid->bCO2[f] = grid->bCO2[f] * exp((-5.0/100.0 * (double)(grid->climy-2000)) / 6.0);
+			}else if(TEMP_GC == 10){
+				grid->bCO2[f] = grid->bCO2[f] * exp((5.0/100.0 * (double)(grid->climy-2000)) / 6.0);
+			}else if(TEMP_GC == 11){
+				grid->bCO2[f] = grid->bCO2[f] * exp((-6.0/100.0 * (double)(grid->climy-2000)) / 6.0);
+			}else if(TEMP_GC == 12){
+				grid->bCO2[f] = grid->bCO2[f] * exp((6.0/100.0 * (double)(grid->climy-2000)) / 6.0);
+			}
+
 			co2_in_canopy(grid, loct, mass, flux);
 						
 			/* environmental condition *******************/
 			dynmcL(grid, loct, mass, echar);
 			
-			/***** vegetation processes *****/
+			/* vegetation processes ***********************/
 			biome_processes(grid, loct, echar, mass, flux);
 
 			/* VOC emission *****************/
 			f_voc_emit_guenther97(grid, loct, echar, mass, flux);
 			/* Plant CH4 emission *****************/
 			f_ch4_emit_veg(grid, loct, echar, mass, flux);
-
+			
+			/* aggregate plant mass and fluxes */
 			plant_stand(grid, loct, mass, flux);
 			
 			if(BACC==3){
@@ -111,18 +156,18 @@ void cal_gcmclim2(
 			(flux->soil).lL[f] = (flux->plant).lL[f];			
 			(flux->soil).d13c_lL[f] = (flux->plant).d13c_lL[f];
 			
-			/***** soil processes *****/
+			/* soil processes *****************************/
 			soil_processes(grid, loct, &(echar->soil), &(mass->soil), &(flux->soil));
  
 			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
 			if((echar->soil).v_type == 1 && (grid->veg_olson!=29 || grid->veg_olson!=30 || 
 					grid->veg_olson!=31 || grid->veg_olson!=32)){
-				(mass->soil).n_no3 += loct->n_frtlz_in;
-				(mass->soil).n_nh4 += loct->n_frtlz_in;
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.1 * 1000.0;
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.9 * 1000.0;
 			}
 			if((echar->soil).v_type == 3){
-				(mass->soil).n_no3 += loct->n_frtlz_in * 0.5;
-				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.5;
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.1 * 1000.0;
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.9 * 1000.0;
 			}
 
 			/* CH4 oxydation **************/

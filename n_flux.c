@@ -171,7 +171,9 @@ void f_nh3_volatilization(
 	nh4_soil = mass->n_nh4;
 	
 	/* pH: Lin et al. (2000) Eq.(16) */
-	f_ph = 5.8/30.0 * pow(10.0, grid->soil_ph - 10.0);
+	/* modified by A.Ito (2009/06/05) */
+	/* f_ph = pow(10.0, grid->soil_ph - 10.0) / pow(10.0, 7.0 - 10.0); */
+	f_ph = pow(10.0, grid->soil_ph - 10.0) / pow(10.0, 7.0 - 10.0);
 	if(f_ph<0.0){
 		f_ph = 0.0;
 	}
@@ -182,11 +184,12 @@ void f_nh3_volatilization(
 	if(f_tmp<0.0){
 		f_tmp = 0.0;
 	}
-			
+	
 	/* soil water: Thornley (1998) Eq.(6.7a) */
 	/* soil water potential Eq.(6.2g) */
-	if(loct->sw30 > 0.1){
-		swp = -10.0 * pow((grid->field_cap1/loct->sw30), 5.0);
+	if(loct->sw30 > 1.0){
+		/* modified by A.Ito (2009/06/05) */
+		swp = -10.0 * pow(1.0/(loct->sw30/grid->field_cap1), 5.0);
 		f_sw = exp((18.0 * swp)/(8314.0*(grid->tmp10_soil[grid->m] + ZAT)));
 	}else{
 		f_sw = 0.0;
@@ -197,7 +200,7 @@ void f_nh3_volatilization(
 	
 	/* Thornley (1998) Eq.(5.4i) */
 	/* g NH3 ha-1 month-1 */
-	flux->n_nh3vlt[grid->m] = nh4_soil * 0.02 * f_ph * f_tmp * f_sw 
+	flux->n_nh3vlt[grid->m] = nh4_soil * 0.02/30.0 * f_ph * f_tmp * pow(f_sw, 20.0) 
 			* MDN[grid->m] * 17.0/14.0;
 }
 

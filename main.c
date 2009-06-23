@@ -30,120 +30,10 @@ and plot-scale validation. Ecological Modelling, 151:147-179.
 #include"structure.h"
 #include"prototype.h"
 
+/* global variables */
+#include"global_var.h"
+
 #define FROWS 10
-
-/* structure *****************************************************/
-struct Grid grid;
-
-struct Loct loct;
-struct Echar echar;
-struct Mass mass;
-struct Flux flux;
-
-struct Loct loct_agr;
-struct Echar echar_agr;
-struct Mass mass_agr;
-struct Flux flux_agr;
-
-struct Loct loct_nat;
-struct Echar echar_nat;
-struct Mass mass_nat;
-struct Flux flux_nat;
-
-/* global variables ********************************************/
-/* GCM variables ************/
-long GCM, CO2S, GCM_R, GCM_C; /* */
-
-/* atm. GHG scenario */
-double aco2_a1[553], aco2_a2[553], aco2_b1[553], aco2_b2[553];
-double ach4_a1[553], ach4_a2[553], ach4_b1[553], ach4_b2[553];
-double an2o_a1[553], an2o_a2[553], an2o_b1[553], an2o_b2[553];
-
-/* historical results: 201 years, spinup+1901-2100 *************/
-double h_tmp[201], h_pre[201], h_dswr[201], h_aet[201], h_rof[201];
-double h_gpp[201], h_npp[201], h_nep[201], h_plant[201], h_soil[201];
-double h_sr[201], h_ersn_c[201], h_agrersn_c[201], h_doc[201];
-double h_agrarea[201], h_luc[201];
-double h_luc_1[201], h_luc_2[201], h_luc_3[201];
-double h_gpp_df97[201];
-
-double h_burnt_area[201];
-double h_bioburn_co2[201], h_bioburn_ch4[201], h_bioburn_co[201];
-double h_bioburn_nmhc[201], h_bioburn_oc[201], h_bioburn_bc[201];
-double h_bioburn_nox[201], h_bioburn_so2[201], h_bioburn_pm25[201];
-double h_bioburn_tpm[201], h_bioburn_tec[201];
-
-double h_ch4ox1[201], h_ch4ox2[201], h_ch4ox3[201], h_ch4ox4[201];
-double h_ch4emit_cao_paddy[201], h_ch4emit_cao_wetland[201];
-double h_n2o_emit_ngas[201], h_n2_emit_ngas[201];
-double h_n2o_emit_casa[201], h_no_emit_casa[201], h_n2_emit_casa[201];
-double h_nh3_emit[201], h_n2_biofix[201];
-double h_ch4_emit_mass[201], h_ch4_emit_photo[201];
-
-double h_voc_isopr_g97[201], h_voc_monotrp_g97[201], h_voc_methanl_g97[201];
-double h_voc_acetone_g97[201], h_voc_actaldhd_g97[201], h_voc_frmardhd_g97[201];
-double h_voc_formacd_g97[201], h_voc_acetacd_g97[201], h_voc_co_g97[201];
-
-/* monthly mean results **********/
-double m_ch4ox1[ASTEP], m_ch4ox2[ASTEP], m_ch4ox3[ASTEP];
-double m_bioburn_co2[ASTEP], m_bioburn_ch4[ASTEP], m_bioburn_co[ASTEP];
-double m_bioburn_nmhc[ASTEP], m_bioburn_oc[ASTEP], m_bioburn_bc[ASTEP];
-double m_gpp[ASTEP], m_npp[ASTEP], m_nep[ASTEP];
-
-/* vegetation (olson) mean results */
-double go_landarea, gs_landarea;
-double vo_area[34];
-double vo_gpp[34], vo_npp[34], vo_nep[34];
-double vo_lai[34], vo_fol[34], vo_stm[34], vo_rot[34], vo_ltr[34], vo_msl[34];
-double vs_area[16];
-double vs_gpp[16], vs_npp[16], vs_nep[16];
-double vs_lai[16], vs_fol[16], vs_stm[16], vs_rot[16], vs_ltr[16], vs_msl[16];
-
-double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0};
-
-/* 0: 1950s */
-/* 1: 1990s */
-/* 2: 2020s */
-/* 3: 2050s */
-/* 4: 2080s */
-float g_tmp[5][360][720];
-float g_prc[5][360][720];
-float g_swr[5][360][720];
-float g_gpp[5][360][720];
-float g_npp[5][360][720];
-float g_nep[5][360][720];
-float g_pmas[5][360][720];
-float g_smas[5][360][720];
-float g_ch4e[5][360][720];
-float g_ch4o[5][360][720];
-float g_n2oe[5][360][720];
-float g_bbco2[5][360][720];
-float g_ersn[5][360][720];
-float g_isopr[5][360][720];
-float g_sr[5][360][720];
-float g_luc[5][360][720];  /* */
-
-short RAD_SENS;
-/* 0: control */
-/* 1: +10 diffuse PAR fraction */
-/* 2: -10 diffuse PAR fraction */
-/* 3: +10 soil albedo */
-/* 4: -10 soil albedo */
-/* 5: +10 canopy scattering coefficient  */
-/* 6: -10 canopy scattering coefficient */
-/* 7: +10 diffuse attenuation coefficient */
-/* 8: -10 diffuse attenuation coefficient */
-/* 9: +10 direct attenuation coefficient */
-/* 10: -10 direct attenuation coefficient */
-
-short DF97;
-/* 0: off - Monsi-Saeki */
-/* 1: on De Pury-Farquhar */
-
-/* future solar radiation change */
-short CC_R;
-/* 0: off */
-/* 1: on  */
 
 /* main simulation roop *************************************************/
 int main(
@@ -190,7 +80,10 @@ int main(
 	
 	DF97 = (short)atol(argv[4]);
 	
-	CC_R = (short)atol(argv[5]);
+	/* CC_R = (short)atol(argv[5]); */
+	CC_R = 1;
+	
+	TEMP_GC = (short)atol(argv[5]);
 	
 	/************************************************************/
 	set_rowcol_gcm();	/* -> vegetdeal.c */
@@ -318,7 +211,7 @@ int main(
 			/* calculation for lands *******************************************/
 			/* Olson map */
 			if(CALC_OLSON == 1){
-				if(grid.veg_olson!=0 && grid.veg_olson!=33 && (g+0)%1==0){
+				if(grid.veg_olson!=0 && grid.veg_olson!=33 && (g+0)%10==0){
 					/* sequential number */
 					grid.n_olson++;
 					/* total area */

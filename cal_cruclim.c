@@ -111,12 +111,12 @@ void cal_cruclim(
 			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
 			if((echar->soil).v_type == 1 && (grid->veg_olson!=29 || grid->veg_olson!=30 || 
 											 grid->veg_olson!=31 || grid->veg_olson!=32)){
-				(mass->soil).n_no3 += loct->n_frtlz_in * 0.5;
-				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.5;
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.1 * 1000.0;
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.9 * 1000.0;
 			}
 			if((echar->soil).v_type == 3){
-				(mass->soil).n_no3 += loct->n_frtlz_in * 0.5;
-				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.5;
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.1 * 1000.0;
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.9 * 1000.0;
 			}
 
 			/* CH4 oxydation (uplands) **************/
