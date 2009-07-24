@@ -241,13 +241,13 @@ void net_rad(
 	/** soil surface albedo **/
 	(echar->soil).albedo[grid->m] = albedo_soil(loct, &(echar->soil));
 	
-	ee_c3 = loct->C3ptn[grid->m]*(echar->c3).eK[grid->m]*(mass->c3).lai[grid->m];
-	ee_c4 = loct->C4ptn[grid->m]*(echar->c4).eK[grid->m]*(mass->c4).lai[grid->m];
+	ee_c3 = loct->c3ptn[grid->m]*(echar->c3).eK[grid->m]*(mass->c3).lai[grid->m];
+	ee_c4 = loct->c4ptn[grid->m]*(echar->c4).eK[grid->m]*(mass->c4).lai[grid->m];
 	
 	eee = ee_c3+ee_c4;
 	ground = exp(-1.0*eee);
-	c3_canopy = (1.0-ground)*loct->C3ptn[grid->m];
-	c4_canopy = (1.0-ground)*loct->C4ptn[grid->m];
+	c3_canopy = (1.0-ground)*loct->c3ptn[grid->m];
+	c4_canopy = (1.0-ground)*loct->c4ptn[grid->m];
 	loct->albedo_sfc[grid->m] = (echar->soil).albedo[grid->m]*ground + 
 					(echar->c3).albedo*c3_canopy + (echar->c4).albedo*c4_canopy;
 	
@@ -257,14 +257,14 @@ void net_rad(
 	loct->rad_net_short[grid->m] = (1.0 - loct->albedo_sfc[grid->m])*grid->gl_rad[grid->m];
 	kmono_c3 = irr_attn(grid, loct, &(echar->c3));
 	kmono_c4 = irr_attn(grid, loct, &(echar->c4));
-	loct->fapar_mono[grid->m] = loct->C3ptn[grid->m]*(1.0-(echar->c3).albedo)*(1.0-exp(kmono_c3*(mass->c3).lai[grid->m])) 
-						+ loct->C4ptn[grid->m]*(1.0-(echar->c4).albedo)*(1.0-exp(kmono_c4*(mass->c4).lai[grid->m]));
+	loct->fapar_mono[grid->m] = loct->c3ptn[grid->m]*(1.0-(echar->c3).albedo)*(1.0-exp(-1.0*kmono_c3*(mass->c3).lai[grid->m])) 
+						+ loct->c4ptn[grid->m]*(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*kmono_c4*(mass->c4).lai[grid->m]));
 	
 	/** global radiation under the canopy or at the soil surface **/
 	loct->gl_rad_g[grid->m] = grid->gl_rad[grid->m]*ddd1;
 	
 	/** net radiation of plant canopy **/
-	fff = loct->C3ptn[grid->m]*(echar->c3).albedo + loct->C4ptn[grid->m]*(echar->c4).albedo;
+	fff = loct->c3ptn[grid->m]*(echar->c3).albedo + loct->c4ptn[grid->m]*(echar->c4).albedo;
 	rad_net_p = (1.0-fff)*(1.0-ddd1)*grid->gl_rad[grid->m] - net_long*(1.0-ddd2);
 	rad_net_p = (rad_net_p>=0.0)?rad_net_p:0.0;
 	loct->rad_net_p[grid->m] = rad_net_p;

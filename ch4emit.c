@@ -24,11 +24,11 @@ void f_ch4_emit_cao(
 	struct Flux *flux
 ){
 	double wtable;	/* water table, cm */
-	double f_temp, f_wtable;
+	double f_temp, f_wtable, f_wtable_lake;
 	double hr_decomp, gpp_factor;
 	
 	/* soil decomposition rate. Mg C ha-1 month-1 */
-	hr_decomp = (flux->soil).rS[grid->m];
+	hr_decomp = (flux->soil).hr[grid->m];
 	if(hr_decomp<0.0){
 		hr_decomp = 0.0;
 	}
@@ -44,17 +44,23 @@ void f_ch4_emit_cao(
 
 	/* water table (cm relative to surface) coefficient */
 	/* wetland *********************************/
-	wtable = 5.0;
 	/* eq.6 */
-	f_wtable = 0.383 * (0.5*exp(0.096 * wtable) + 0.5*exp(0.096 * -5.0));
+	/* wtable = 5.0; */
+	/* f_wtable = 0.383 * (0.5*exp(0.096 * wtable) + 0.5*exp(0.096 * -5.0)); OLD */
+	/* revised by A.Ito (2009/07/13) **/
+	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * 0.0) 
+						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -25.0));
 	if(f_wtable<0.0){
 		f_wtable = 0.0;
 	}
+	/* lake: added by A.Ito (2009/07/14) */
+	f_wtable_lake = 0.383 * exp(0.096 * 5.0);
+	
 	/* Mg C ha-1 month-1 */
-	(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * f_wtable;
+	(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * 
+					(f_wtable*grid->f_wetland + f_wtable_lake*0.2*grid->f_lake); /* 0.2: 090717 */
 	/* mg CH4 m-2 month-1 */
 	(flux->soil).ch4prod_wetland_cao[grid->m] *= 16.0/12.0 * 1000000000.0 / 10000.0;
-	(flux->soil).ch4prod_wetland_cao[grid->m] *= grid->f_wetland;
 	
 	/* CH4 oxidation */
 	if((flux->soil).ch4prod_wetland_cao[grid->m]>0.0 && loct->gppmax>0.0){
@@ -73,13 +79,16 @@ void f_ch4_emit_cao(
 			- (flux->soil).ch4oxy_wetland_cao[grid->m];
 	
 	/* paddy field *********************************/
-	if(grid->tmp_2m[grid->m] > 15.0 && grid->prate_sfc[grid->m] > 50.0){
+	/* eq.6 */
+	/* if(grid->tmp_2m[grid->m] > 15.0 && grid->prate_sfc[grid->m] > 50.0){
 		wtable = 0.0;
 	}else{
 		wtable = -20.0;
 	}
-	/* eq.6 */
-	f_wtable = 0.383 * exp(0.096 * wtable);
+	f_wtable = 0.383 * exp(0.096 * wtable); */
+	/* revised by A.Ito (2009/07/13) */
+	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * 3.0) 
+						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -50.0));	
 	if(f_wtable<0.0){
 		f_wtable = 0.0;
 	}

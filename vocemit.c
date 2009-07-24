@@ -99,8 +99,8 @@ void f_voc_emit_guenther97(
 	*/
 
 	/* foliar density, g d.m. C / m2   *********************/
-	foliar_dens = ((mass->c3).fol*loct->C3ptn[grid->m] 
-				+ (mass->c4).fol*loct->C4ptn[grid->m]) * 100.0 * dmTc;
+	foliar_dens = ((mass->c3).fol*loct->c3ptn[grid->m] 
+				+ (mass->c4).fol*loct->c4ptn[grid->m]) * 100.0 * dmTc;
 	
 	/* light factor *********************/
 	parday = grid->par[grid->m];
@@ -121,8 +121,8 @@ void f_voc_emit_guenther97(
 	
 	t_lai = 0.0;
 	for(f=0;f<=48;f++){
-		laiage[f] = (echar->c3).fleaf_age[f]*loct->C3ptn[grid->m] 
-					+ (echar->c4).fleaf_age[f]*loct->C4ptn[grid->m];
+		laiage[f] = (echar->c3).fleaf_age[f]*loct->c3ptn[grid->m] 
+					+ (echar->c4).fleaf_age[f]*loct->c4ptn[grid->m];
 		t_lai += laiage[f];
 	}
 	for(f=0;f<=48;f++){

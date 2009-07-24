@@ -11,7 +11,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/******** show result on the console window ********/
+/* show result on the console window *****************************/
 void screenshow(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -29,7 +29,7 @@ void screenshow(
 			grid->field_cap2, grid->bulkdens, grid->f_upland);
 	
 	printf("CO2: ");
-	for(h=0;h<12;h++){		printf("%6.0lf ",grid->bCO2[h]);		}		printf("\n"); 
+	for(h=0;h<12;h++){		printf("%6.0lf ",grid->bco2[h]);		}		printf("\n"); 
 	printf("T2M: ");
 	for(h=0;h<12;h++){		printf("%6.0lf ",grid->tmp_2m[h]);		}		printf("\n"); 
 	
@@ -48,6 +48,37 @@ void screenshow(
 	printf("LE3: ");
 	for(h=0;h<12;h++){		printf("%6.2lf ",(echar->c3).lue_df[h]);		}	printf("\n"); 
 
+	printf("13DC: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(echar->c3).photo_13c_frac[h]);		}	printf("\n"); 
+	printf("13DC: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(echar->c4).photo_13c_frac[h]);		}	printf("\n"); 
+
+	printf("14GP: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->plant).d14c_gpp[h]);		}	printf("\n"); 
+	printf("14SR: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",flux->d14c_sr[h]);		}	printf("\n"); 
+	printf("14ER: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",flux->d14c_er[h]);		}	printf("\n"); 
+
+	printf("14F3: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(mass->c3).d14c_mfol[h]);		}	printf("\n"); 
+	printf("14C3: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(mass->c3).d14c_mstm[h]);		}	printf("\n"); 
+	printf("14R3: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(mass->c3).d14c_mrot[h]);		}	printf("\n"); 
+	printf("14F4: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(mass->c4).d14c_mfol[h]);		}	printf("\n"); 
+	printf("14C4: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(mass->c4).d14c_mstm[h]);		}	printf("\n"); 
+	printf("14R4: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(mass->c4).d14c_mrot[h]);		}	printf("\n"); 
+	
+	printf("14LR: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(mass->soil).d14c_ltr_m[h]);		}	printf("\n"); 
+	printf("14MS: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(mass->soil).d14c_msl_m[h]);		}	printf("\n"); 
+
+	
 	printf("LA3: ");
 	for(h=0;h<12;h++){		printf("%6.1lf ",(mass->c3).lai[h]);		}	printf("\n"); 
 	printf("GD3: ");		ann=0.0;
@@ -278,9 +309,9 @@ void screenshow(
 		msl += (mass->soil).msl_m[h]/12.0;
 		
 		gpp += (flux->plant).gpp[h];
-		ar += (flux->plant).rp[h];
+		ar += (flux->plant).ar[h];
 		npp += (flux->plant).npp[h];
-		hr += (flux->soil).rS[h];
+		hr += (flux->soil).hr[h];
 		nep += flux->nep[h];
 	}
 	printf("GPP: %.2lf AR: %.2lf NPP: %.2lf HR: %.2lf NEP: %.4lf\n", gpp,ar,npp,hr,nep); 

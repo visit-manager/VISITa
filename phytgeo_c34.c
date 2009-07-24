@@ -28,28 +28,28 @@ void c34composition(
 			switch(grid->veg_olson){
 				case 14: case 15: case 16: case 17: case 18: case 19: case 27: case 28:
 					if(grid->tmp_sfc_am<-5.0){
-						loct->C4ptn[f]=0.0;
-						loct->C3ptn[f]=1.0;
+						loct->c4ptn[f]=0.0;
+						loct->c3ptn[f]=1.0;
 					}else if(grid->tmp_sfc_am>=-5.0){
 						tmp_factor = (grid->tmp_sfc_am+5.0)*0.032;
 						pre_factor = 1.0/(grid->prate_sfc_ann*0.00025+0.65);
 						
 						if((tmp_factor*pre_factor)<=0.96){
-							loct->C4ptn[f] = tmp_factor*pre_factor;
-							loct->C3ptn[f] = 1.0-loct->C4ptn[f];
+							loct->c4ptn[f] = tmp_factor*pre_factor;
+							loct->c3ptn[f] = 1.0-loct->c4ptn[f];
 						}else if((tmp_factor*pre_factor)>0.96){
-							loct->C4ptn[f] = 0.96;
-							loct->C3ptn[f] = 0.04;
+							loct->c4ptn[f] = 0.96;
+							loct->c3ptn[f] = 0.04;
 						}
 					}
 					break;
 				case 30: case 31: case 32:
-					loct->C4ptn[f] = 0.2;
-					loct->C3ptn[f] = 0.8;
+					loct->c4ptn[f] = 0.2;
+					loct->c3ptn[f] = 0.8;
 					break;
 				default:
-					loct->C4ptn[f] = 0.0;
-					loct->C3ptn[f] = 1.0;
+					loct->c4ptn[f] = 0.0;
+					loct->c3ptn[f] = 1.0;
 			}
 		}
 	}else if(v_type == 2){ /* SAGE */
@@ -58,34 +58,34 @@ void c34composition(
 			switch(grid->veg_sage){
 				case 9: case 10: case 14: 
 					if(grid->tmp_sfc_am<-5.0){
-						loct->C4ptn[f]=0.0;
-						loct->C3ptn[f]=1.0;
+						loct->c4ptn[f]=0.0;
+						loct->c3ptn[f]=1.0;
 					}else if(grid->tmp_sfc_am>=-5.0){
 						tmp_factor = (grid->tmp_sfc_am+5.0)*0.032;
 						pre_factor = 1.0/(grid->prate_sfc_ann*0.00025+0.65);
 						
 						if((tmp_factor*pre_factor)<=0.96){
-							loct->C4ptn[f] = tmp_factor*pre_factor;
-							loct->C3ptn[f] = 1.0-loct->C4ptn[f];
+							loct->c4ptn[f] = tmp_factor*pre_factor;
+							loct->c3ptn[f] = 1.0-loct->c4ptn[f];
 						}else if((tmp_factor*pre_factor)>0.96){
-							loct->C4ptn[f] = 0.96;
-							loct->C3ptn[f] = 0.04;
+							loct->c4ptn[f] = 0.96;
+							loct->c3ptn[f] = 0.04;
 						}
 					}
 					break;
 				default:
-					loct->C4ptn[f] = 0.0;
-					loct->C3ptn[f] = 1.0;
+					loct->c4ptn[f] = 0.0;
+					loct->c3ptn[f] = 1.0;
 			}
 		}
 	}else if(v_type==3){ /* crop */
 		for(f=0;f<ASTEP;f++){
 			if(grid->veg_crop==1 || grid->veg_crop==2){
-				loct->C4ptn[f] = 0.0;
-				loct->C3ptn[f] = 1.0;
+				loct->c4ptn[f] = 0.0;
+				loct->c3ptn[f] = 1.0;
 			}else if(grid->veg_crop==3){
-				loct->C4ptn[f] = 1.0;
-				loct->C3ptn[f] = 0.0;
+				loct->c4ptn[f] = 1.0;
+				loct->c3ptn[f] = 0.0;
 			}
 		}
 	}

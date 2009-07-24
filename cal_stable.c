@@ -67,7 +67,7 @@ void cal_stable(
 			n_flux_zero(f, flux);
 			
 			/* atmospheric CO2 ****************/
-			cd_trend(grid);
+			co2_trend(grid);
 			co2_in_canopy(grid, loct, mass, flux);
 			
 			/* environmental condition ***/
@@ -81,17 +81,21 @@ void cal_stable(
 			/* Plant CH4 emission *****************/
 			f_ch4_emit_veg(grid, loct, echar, mass, flux);
 
-			plant_stand(grid, loct, mass, flux);
+			f_plant_stand_budget(grid, loct, mass, flux);
 			
 			(flux->soil).lL[f] = (flux->plant).lL[f];			
 			(flux->soil).d13c_lL[f] = (flux->plant).d13c_lL[f];
+			(flux->soil).d14c_lL[f] = (flux->plant).d14c_lL[f];
 			
 			/* soil processes *************/
 			soil_processes(grid, loct, &(echar->soil), &(mass->soil), &(flux->soil));
+			flux->sr[f] = loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m]) + 
+						loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m]) + 
+						(flux->soil).hr[grid->m];
 			
 			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
-			if((echar->soil).v_type == 1 && (grid->veg_olson!=29 || grid->veg_olson!=30 || 
-											 grid->veg_olson!=31 || grid->veg_olson!=32)){
+			if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || 
+											 grid->veg_olson==31 || grid->veg_olson==32)){
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.1 * 1000.0;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.9 * 1000.0;
 			}
@@ -115,16 +119,17 @@ void cal_stable(
 			
 			/* ecosystem mass balance *****************/	
 			/* net ecosystem production */
-			flux->nep[f] = (flux->plant).npp[f] - (flux->soil).rS[f];
+			flux->nep[f] = (flux->plant).npp[f] - (flux->soil).hr[f];
+			flux->er[f] = (flux->plant).ar[f] + (flux->soil).hr[f];
 			/* total ecosystem carbon storage */
-			mass->total[f] = (mass->c3).plant[f]*loct->C3ptn[f] + 
-							(mass->c4).plant[f]*loct->C4ptn[f] + (mass->soil).soil[f];
+			mass->total[f] = (mass->c3).plant[f]*loct->c3ptn[f] + 
+							(mass->c4).plant[f]*loct->c4ptn[f] + (mass->soil).soil[f];
 			/** net carbon balance taking crop harvest into account **/
 			flux->ncb[f] = flux->nep[f] + (flux->plant).hvst[f];
 			
 			/* carbon isotope */
-			d13c_efflux(grid, loct, flux);
-
+			f_cisotope_efflux(grid, loct, mass, flux);
+			
 			/* nitrogen budget */
 			n_budget(grid, loct, mass, flux);
 						

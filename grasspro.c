@@ -20,7 +20,7 @@ void grass_process(
 	struct Pchar *pchar, 
 	struct Pmas *mass
 ){
-	beforedeal(grid, flux);
+	f_before_deal(grid, flux);
 	
 	/*** mass change by phenological C3/C4 alternation ***/
 	/*	phenol_tran_c34(grid, loct, pchar, mass, flux); */
@@ -42,6 +42,6 @@ void grass_process(
 			break;
 	}
 
-	afterdeal(grid, pchar, mass, flux);
+	f_after_deal(grid, pchar, mass, flux);
 }
 

@@ -46,21 +46,21 @@ void f_n2o_emit_ngas(
 		kmax = 28.6;
 		nmax = 30.0;
 		/* 2009/06/15 by A.Ito */
-		/* nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
-		 no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); */ /* low */
-		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0);	
-		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0);	 /* high */
+		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
+		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
+		/* nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0);	
+		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0); */	 /* high */
 		
 	}else{
 		/* natural */
 		/* kmax = 3.8; */ 
-		kmax = 6.0;
+		kmax = 3.8;
 		nmax = 30.0;
 		/* 2009/06/15 by A.Ito */
-		/* nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
-		 no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); */ /* low */
-		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0);	
-		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0);	 /* high */
+		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
+		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
+		/* nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0);	
+		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0); */	 /* high */
 		
 	}
 	
@@ -132,7 +132,7 @@ void f_n2o_emit_ngas(
 		fd_no3 = 0.0;
 	}
 	/* Fig.(3c) in Parton et al. (1996) */
-	fd_co2 = (24000.0 / (1.0 + 200.0 / exp(0.35 * flux->sresp[grid->m]*1000.0))) - 100.0;
+	fd_co2 = (24000.0 / (1.0 + 200.0 / exp(0.35 * (flux->soil).hr[grid->m]*1000.0/MDN[grid->m]))) - 100.0;
 	if(fd_co2 < 0.0){
 		fd_co2 = 0.0;
 	}
@@ -155,7 +155,7 @@ void f_n2o_emit_ngas(
 		fr_no3 = 0.0;
 	}
 	/* Fig.(5c) in Parton et al. (1996) */
-	fr_co2 = 13.0 + (30.78 * atan(PI * 0.07 * ((flux->soil).rS[grid->m]*1000.0 - 13.0))) / PI;
+	fr_co2 = 13.0 + (30.78 * atan(PI * 0.07 * ((flux->soil).hr[grid->m]*1000.0/MDN[grid->m] - 13.0))) / PI;
 	if(fr_co2 < 0.0){
 		fr_co2 = 0.0;
 	}
@@ -176,7 +176,8 @@ void f_n2o_emit_ngas(
 	(flux->soil).d_n2_ngas[grid->m] = day_d_n2 * MDN[grid->m];
 	
 	/* nitrification */
-	(flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.01 * MDN[grid->m];
+	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.01 * MDN[grid->m]; */ /* revised by A.Ito (2009/07/18) */
+	(flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.02 * MDN[grid->m]; /* 2009/07/23 */
 }
 
 /* Daily step CASA nitrogen trace gas emission from soil ****************************/

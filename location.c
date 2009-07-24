@@ -16,26 +16,27 @@
 
 extern long GCM, CO2S, GCM_R, GCM_C;
 
-/* initialization of climatic conditions (Primary data) *********************/
+/* initialization of climatic conditions (Primary data) ******************************/
 void initC(
 	struct Grid *grid
 ){
-	short h;
+	short f, h;
 	double aaa, bbb;
+	double tmp_var, a_tmp, shum, a_pres, alt, vap;
 	
 	/* in 1950 :311 ppmv*/
 	/* in 1990 : 352.7 ppmv*/
-	grid->CO2y = PIVOT_CO2Y; 
+	grid->co2y = PIVOT_CO2Y; 
 	if(CO2S==7){
-		grid->CO2y = 2081; /* in 2081 : 700 ppmv*/
+		grid->co2y = 2081; /* in 2081 : 700 ppmv*/
 	}
 	grid->climy = PIVOT_CLIMY;
 
 	for(h=0;h<ASTEP;h++){
 		grid->m = h;
 		
-		/* ambient CO2 condition */
-		cd_trend(grid);
+		/* ambient CO2 condition *******/
+		co2_trend(grid);
 
 		/* climatic conditions */
 		/* NCEP/NCAR data ***************************************/
@@ -110,6 +111,28 @@ void initC(
 			grid->prate_sfc[h]*=0.9;
 		}
 	}	
+	
+	if(grid->phase == 2 && grid->climy == (PIVOT_CLIMY+CRU_PD-1)){
+		for(h=0;h<ASTEP;h++){
+			grid->proj_vap_b[h] = 0.0;
+		}
+		
+		alt = (grid->topo>=0.0)?grid->topo:0.0; 
+		for(f=0;f<30;f++){
+			for(h=0;h<ASTEP;h++){
+				tmp_var = grid->proj_tmp2m[f][h][grid->gcm_row][grid->gcm_col] - 
+								grid->proj_tmp2m_b[h][grid->gcm_row][grid->gcm_col];
+				
+				a_tmp = grid->tmp_2m_a[h] + tmp_var;
+				a_pres = 1013.25*exp(-1.0*(28.964*0.001)*9.8*alt/(8.3144*(a_tmp+ZAT))); 
+				shum = grid->proj_shum[f][h][grid->gcm_row][grid->gcm_col];
+				
+				vap = a_pres * shum/(0.622 + 0.378*shum);
+				
+				grid->proj_vap_b[h] += vap/30.0;
+			}
+		}
+	}
 }
 
 /* location conditions derived from the primary data (Secondary data1) *******************/
@@ -198,7 +221,7 @@ void initL(
 		(echar->soil).rh0 *= ftmp200b/ftmp200;
 	}
 	
-	/*** water condition - Sim-HYDRO ***/
+	/* water condition - Sim-HYDRO *****************/
 	loct->sw30 = 0.5*grid->field_cap1;
 	loct->sww = 0.5*grid->field_cap2; 
 	loct->snwa = 0.0;
@@ -209,8 +232,8 @@ void initL(
 		d_smc_a = loct->sww;
 		for(h=0;h<ASTEP;h++){
 			grid->m = h;
-		/*	(mass->c3).lai[grid->m]=loct->C3ptn[grid->m];
-			(mass->c4).lai[grid->m]=loct->C4ptn[grid->m]; */
+		/*	(mass->c3).lai[grid->m]=loct->c3ptn[grid->m];
+			(mass->c4).lai[grid->m]=loct->c4ptn[grid->m]; */
 			
 			co2_in_canopy(grid, loct, mass, flux);
 			
@@ -243,7 +266,7 @@ void dynmcL(
 	double alt, k_c, vpres_var;
 	
 	/* solar constant sensitivity */
-	if(SC==3||SC==4){
+	if(SC==3 || SC==4){
 		grid->top_rad[grid->m] = top_rad(grid); 	
 		grid->gl_rad[grid->m] = gl_rad(grid); 	
 		grid->par[grid->m] = par(grid); 
@@ -253,7 +276,7 @@ void dynmcL(
 	}
 	
 	/* radiatin for cal_cruclim: 1901-2000 */
-	if(grid->cru_exist == 1&&grid->phase == 1){
+	if(grid->cru_exist == 1 && grid->phase == 1){
 		grid->gl_rad[grid->m] = gl_rad(grid); 
 		grid->par[grid->m] = par(grid); 
 	}
@@ -291,19 +314,29 @@ void dynmcL(
 	if(grid->cru_exist == 1){
 		/* vapour pressure, hPa */
 		if(grid->phase==0){
+			/* spin-up */
 			loct->vp[grid->m] = grid->hist_vap_b[grid->m];
 		}else if(grid->phase==1){
 			if(grid->climy<=2002){
+				/* UEA/CRU */
 				loct->vp[grid->m] = grid->hist_vap[grid->climy - PIVOT_CLIMY][grid->m];	
 			}else{
-				vpres_var = grid->ncep_vpres[grid->climy - 1948][grid->m][grid->ncep_lat][grid->ncep_lon] - grid->ncep_vpres_b[grid->m][grid->ncep_lat][grid->ncep_lon];
+				/* NCEP */
+				vpres_var = grid->ncep_vpres[grid->climy - 1948][grid->m][grid->ncep_lat][grid->ncep_lon] 
+							- grid->ncep_vpres_b[grid->m][grid->ncep_lat][grid->ncep_lon];
 				loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;
-				if(loct->vp[grid->m] < 0.0){
-					loct->vp[grid->m] = 0.0;
-				}
 			}
 		}else if(grid->phase==2){
-			loct->vp[grid->m] = loct->prsr[grid->m]*grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]); 
+			/* prediction using AOGCM */
+			/* loct->vp[grid->m] = loct->prsr[grid->m]*grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]);  */
+			
+			/* revided by A.Ito (2009/07/24) */
+			vpres_var = loct->prsr[grid->m]*grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]);
+			
+			loct->vp[grid->m] = grid->hist_vap_b[grid->m] + (vpres_var - grid->proj_vap_b[h]);
+		}
+		if(loct->vp[grid->m] < 0.0){
+			loct->vp[grid->m] = 0.0;
 		}
 		
 		if(loct->vp[grid->m]<=loct->vps[grid->m]){
@@ -331,8 +364,8 @@ void dynmcL(
 	net_rad(grid, loct, mass, echar);
 	
 	/** hydrological water budget **/
-	(mass->plant).lai[grid->m] = (mass->c3).lai[grid->m]*loct->C3ptn[grid->m]
-					+ (mass->c4).lai[grid->m]*loct->C4ptn[grid->m];
+	(mass->plant).lai[grid->m] = (mass->c3).lai[grid->m]*loct->c3ptn[grid->m]
+					+ (mass->c4).lai[grid->m]*loct->c4ptn[grid->m];
 	loct->lai[grid->m] = (mass->plant).lai[grid->m];
 	waterbudget(grid, loct, echar);
 	
@@ -349,8 +382,8 @@ void dynmcL(
 		k_c = 0.001;
 	}
 
-	loct->f_vegcov[grid->m] = 1.0 - loct->C3ptn[grid->m] * exp(-((echar->c3).eK0 + k_c)*(mass->c3).lai[grid->m]) 
-								- loct->C4ptn[grid->m] * exp(-((echar->c4).eK0+0.001)*(mass->c4).lai[grid->m]);
+	loct->f_vegcov[grid->m] = 1.0 - loct->c3ptn[grid->m] * exp(-((echar->c3).eK0 + k_c)*(mass->c3).lai[grid->m]) 
+								- loct->c4ptn[grid->m] * exp(-((echar->c4).eK0+0.001)*(mass->c4).lai[grid->m]);
 	if(loct->f_vegcov[grid->m]<0.0){
 		loct->f_vegcov[grid->m] = 0.0;
 	}
@@ -376,4 +409,14 @@ void dynmcL(
 	
 	/* nitrogen deposition ***********/
 	f_n_deposit(grid, loct);
+	
+	/* decay of 14C: added by A.Ito (2009/06/24) ************************/
+	(mass->c3).d14c_fol = f_decay_14c((mass->c3).d14c_fol);
+	(mass->c3).d14c_stm = f_decay_14c((mass->c3).d14c_stm);
+	(mass->c3).d14c_rot = f_decay_14c((mass->c3).d14c_rot);
+	(mass->c4).d14c_fol = f_decay_14c((mass->c4).d14c_fol);
+	(mass->c4).d14c_stm = f_decay_14c((mass->c4).d14c_stm);
+	(mass->c4).d14c_rot = f_decay_14c((mass->c4).d14c_rot);
+	(mass->soil).d14c_ltr = f_decay_14c((mass->soil).d14c_ltr);
+	(mass->soil).d14c_msl = f_decay_14c((mass->soil).d14c_msl);
 }

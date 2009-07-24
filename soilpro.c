@@ -72,18 +72,24 @@ void soil_processes(
 		f_doc_boyer(grid, loct, mass, flux);
 	}
 	/* total soil respiration */
-	flux->rS[grid->m] = flux->rl[grid->m] + flux->rh[grid->m];
-	flux->d13c_rS[grid->m] = d13c_addition(flux->d13c_rl[grid->m], flux->rl[grid->m], flux->d13c_rh[grid->m], flux->rh[grid->m]);
+	flux->hr[grid->m] = flux->rl[grid->m] + flux->rh[grid->m];
+	flux->d13c_hr[grid->m] = d13c_addition(flux->d13c_rl[grid->m], flux->rl[grid->m], flux->d13c_rh[grid->m], flux->rh[grid->m]);
 	
 	/* monthly values */
-	mass->ltr_m[grid->m]=mass->ltr;
-	mass->msl_m[grid->m]=mass->msl;
-	mass->soil[grid->m]=mass->ltr+mass->msl;
+	mass->ltr_m[grid->m] = mass->ltr;
+	mass->msl_m[grid->m] = mass->msl;
+	mass->soil[grid->m] = mass->ltr + mass->msl;
 	
 	/* stable carbon isotope */
-	mass->d13c_ltr_m[grid->m]=mass->d13c_ltr;
-	mass->d13c_msl_m[grid->m]=mass->d13c_msl;
+	mass->d13c_ltr_m[grid->m] = mass->d13c_ltr;
+	mass->d13c_msl_m[grid->m] = mass->d13c_msl;
 	mass->d13c_soil[grid->m] = d13c_addition(mass->ltr, mass->d13c_ltr, mass->msl, mass->d13c_msl);
+	
+	/* d14c: added by A.Ito (2009/07/12) *********/
+	mass->d14c_msl = (mass->d14c_ltr*flux->sf[grid->m] + mass->d14c_msl*mass->msl) / (flux->sf[grid->m] + mass->msl);
+	mass->d14c_ltr = (flux->d14c_lL[grid->m]*flux->lL[grid->m] + mass->d14c_ltr*mass->ltr) / (flux->lL[grid->m] + mass->ltr);
+	mass->d14c_msl_m[grid->m] = mass->d14c_msl;
+	mass->d14c_ltr_m[grid->m] = mass->d14c_ltr;
 	
 	/* nitrogen flows *********************************************/
 	/* mineralization of organic N */

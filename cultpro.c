@@ -23,7 +23,7 @@ void agri_process(
 	struct Pmas *mass
 ){
 	/* preparation */	
-	beforedeal(grid, flux);
+	f_before_deal(grid, flux);
 	
 	switch(pchar->season[grid->m]){
 		case 0: /* winter interval period */
@@ -42,7 +42,7 @@ void agri_process(
 	}
 	
 	/* settlement */
-	afterdeal(grid, pchar, mass, flux);
+	f_after_deal(grid, pchar, mass, flux);
 }
 
 /* planting of new crops ****************************************/
@@ -102,7 +102,7 @@ void planting(
 	/* photosynthesis, gross primary production */
 	flux->gpp[grid->m] = nn*fgpp(grid, loct, pchar, mass);
 	/* stable carbon isotope */
-	flux->d13c_gpp[grid->m] = loct->d13C_aCO2[grid->m]-pchar->photo_13c_frac[grid->m];
+	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m]-pchar->photo_13c_frac[grid->m];
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
@@ -113,7 +113,7 @@ void planting(
 	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
 	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
 	flux->rrm[grid->m] = nn*frrm(grid, pchar, mass);
-	flux->rpm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m]+flux->rrm[grid->m];
+	flux->arm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m]+flux->rrm[grid->m];
 	/* stable carbon isotope */
 	flux->d13c_rfm[grid->m] = mass->d13c_fol;
 	flux->d13c_rcm[grid->m] = mass->d13c_stm;
@@ -121,9 +121,9 @@ void planting(
 	
 	/* tentative primary production */	
 	if(DF97==1){
-		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->rpm[grid->m];
+		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->arm[grid->m];
 	}else{
-		flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+		flux->epp[grid->m] = flux->gpp[grid->m]-flux->arm[grid->m];
 	}
 	
 	/* translocation of photosynthate */
@@ -219,7 +219,7 @@ void harvesting(
 	/* photosynthesis, gross primary production */
 	flux->gpp[grid->m] = nn*fgpp(grid, loct, pchar, mass);
 	/* stable carbon isotope */
-	flux->d13c_gpp[grid->m] = loct->d13C_aCO2[grid->m]-pchar->photo_13c_frac[grid->m];
+	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m]-pchar->photo_13c_frac[grid->m];
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
@@ -230,7 +230,7 @@ void harvesting(
 	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
 	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
 	flux->rrm[grid->m] = nn*frrm(grid, pchar, mass);
-	flux->rpm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m]+flux->rrm[grid->m];
+	flux->arm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m]+flux->rrm[grid->m];
 	/* stable carbon isotope */
 	flux->d13c_rfm[grid->m] = mass->d13c_fol;
 	flux->d13c_rcm[grid->m] = mass->d13c_stm;
@@ -238,9 +238,9 @@ void harvesting(
 	
 	/* tentative primary production */	
 	if(DF97==1){
-		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->rpm[grid->m];
+		flux->epp[grid->m] = flux->gpp_df97[grid->m] - flux->arm[grid->m];
 	}else{
-		flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+		flux->epp[grid->m] = flux->gpp[grid->m] - flux->arm[grid->m];
 	}
 	
 	/* translocation of photosynthate */
@@ -325,7 +325,7 @@ void interval(
 	/* photosynthesis, gross primary production */
 	flux->gpp[grid->m] = nn*fgpp(grid, loct, pchar, mass);
 	/* stable carbon isotope */
-	flux->d13c_gpp[grid->m] = loct->d13C_aCO2[grid->m]-pchar->photo_13c_frac[grid->m];
+	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m]-pchar->photo_13c_frac[grid->m];
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
@@ -336,7 +336,7 @@ void interval(
 	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
 	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
 	flux->rrm[grid->m] = nn*frrm(grid, pchar, mass);
-	flux->rpm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m]+flux->rrm[grid->m];
+	flux->arm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m]+flux->rrm[grid->m];
 	/* stable carbon isotope */
 	flux->d13c_rfm[grid->m] = mass->d13c_fol;
 	flux->d13c_rcm[grid->m] = mass->d13c_stm;
@@ -344,9 +344,9 @@ void interval(
 	
 	/* tentative primary production */	
 	if(DF97==1){
-		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->rpm[grid->m];
+		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->arm[grid->m];
 	}else{
-		flux->epp[grid->m] = flux->gpp[grid->m]-flux->rpm[grid->m];
+		flux->epp[grid->m] = flux->gpp[grid->m]-flux->arm[grid->m];
 	}
 	
 	/* translocation of photosynthate */

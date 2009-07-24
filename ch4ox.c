@@ -135,13 +135,13 @@ void f_ch4oxy_ridgewell(
 	/*Atmospheric CH4 */
 	switch(GCM){
 		case 1000: case 1010: case 1070: case 1080: case 1090: case 1110:
-			co_ch4 = ach4_a1[grid->CO2y-1750]/1000.0;
+			co_ch4 = ach4_a1[grid->co2y-1750]/1000.0;
 			break;
 		case 1013: case 1071: case 1081: case 1091: case 1111:
-			co_ch4 = ach4_a2[grid->CO2y-1750]/1000.0;
+			co_ch4 = ach4_a2[grid->co2y-1750]/1000.0;
 			break;
 		case 1001: case 1016: case 1072: case 1082: case 1092: case 1112:
-			co_ch4 = ach4_b1[grid->CO2y-1750]/1000.0;
+			co_ch4 = ach4_b1[grid->co2y-1750]/1000.0;
 			break;
 	}
 	
@@ -236,13 +236,13 @@ void f_ch4oxy_casa(
 	/* c_ch4 = 0.04; */ /* default */
 	switch(GCM){
 		case 1000: case 1010: case 1070: case 1080: case 1090: case 1110:
-			c_ch4 = ach4_a1[grid->CO2y-1750]/1000.0/30.0;
+			c_ch4 = ach4_a1[grid->co2y-1750]/1000.0/30.0;
 			break;
 		case 1013: case 1071: case 1081: case 1091: case 1111:
-			c_ch4 = ach4_a2[grid->CO2y-1750]/1000.0/30.0;
+			c_ch4 = ach4_a2[grid->co2y-1750]/1000.0/30.0;
 			break;
 		case 1001: case 1016: case 1072: case 1082: case 1092: case 1112:
-			c_ch4 = ach4_b1[grid->CO2y-1750]/1000.0/30.0;
+			c_ch4 = ach4_b1[grid->co2y-1750]/1000.0/30.0;
 			break;
 	}
 	
@@ -510,13 +510,13 @@ void f_ch4oxy_curry(
 	/*Atmospheric CH4 */
 	switch(GCM){
 		case 1000: case 1010: case 1070: case 1080: case 1090: case 1110:
-			c_0 = ach4_a1[grid->CO2y-1750]/1000.0;
+			c_0 = ach4_a1[grid->co2y-1750]/1000.0;
 			break;
 		case 1013: case 1071: case 1081: case 1091: case 1111:
-			c_0 = ach4_a2[grid->CO2y-1750]/1000.0;
+			c_0 = ach4_a2[grid->co2y-1750]/1000.0;
 			break;
 		case 1001: case 1016: case 1072: case 1082: case 1092: case 1112:
-			c_0 = ach4_b1[grid->CO2y-1750]/1000.0;
+			c_0 = ach4_b1[grid->co2y-1750]/1000.0;
 			break;
 	}
 

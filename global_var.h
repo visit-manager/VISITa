@@ -64,6 +64,23 @@ double h_voc_isopr_g97[HIST], h_voc_monotrp_g97[HIST], h_voc_methanl_g97[HIST];
 double h_voc_acetone_g97[HIST], h_voc_actaldhd_g97[HIST], h_voc_frmardhd_g97[HIST];
 double h_voc_formacd_g97[HIST], h_voc_acetacd_g97[HIST], h_voc_co_g97[HIST];
 
+double ci_aco2[HIST], ci_aco2_d13c[HIST], ci_aco2_d14c[HIST];
+double ci_gpp[HIST], ci_gpp_d13c[HIST], ci_gpp_d14c[HIST];
+double ci_er[HIST], ci_er_d13c[HIST], ci_er_d14c[HIST];
+double ci_f[HIST], ci_f_d13c[HIST], ci_f_d14c[HIST];
+double ci_c[HIST], ci_c_d13c[HIST], ci_c_d14c[HIST];
+double ci_r[HIST], ci_r_d13c[HIST], ci_r_d14c[HIST];
+double ci_l[HIST], ci_l_d13c[HIST], ci_l_d14c[HIST];
+double ci_h[HIST], ci_h_d13c[HIST], ci_h_d14c[HIST];
+
+/* regional historical */
+double rh_area[NREG];
+double rh_temp[NREG][HIST], rh_prec[NREG][HIST], rh_dswrf[NREG][HIST];
+double rh_rns[NREG][HIST], rh_rnl[NREG][HIST];
+double rh_ipar[NREG][HIST], rh_apar[NREG][HIST];
+double rh_gpp[NREG][HIST], rh_npp[NREG][HIST], rh_nep[NREG][HIST];
+double rh_evpr[NREG][HIST], rh_trsp[NREG][HIST], rh_incp[NREG][HIST], rh_rnof[NREG][HIST];
+
 /* monthly mean results **********/
 double m_ch4ox1[ASTEP], m_ch4ox2[ASTEP], m_ch4ox3[ASTEP];
 double m_bioburn_co2[ASTEP], m_bioburn_ch4[ASTEP], m_bioburn_co[ASTEP];
@@ -101,7 +118,32 @@ float g_bbco2[5][360][720];
 float g_ersn[5][360][720];
 float g_isopr[5][360][720];
 float g_sr[5][360][720];
-float g_luc[5][360][720];  /* */
+float g_luc[5][360][720]; 
+
+float g_f13[5][360][720]; 
+float g_c13[5][360][720]; 
+float g_r13[5][360][720]; 
+float g_l13[5][360][720]; 
+float g_h13[5][360][720]; 
+
+float g_f14[5][360][720]; 
+float g_c14[5][360][720]; 
+float g_r14[5][360][720]; 
+float g_l14[5][360][720]; 
+float g_h14[5][360][720]; 
+
+float g_er[5][360][720]; 
+float g_gpp13[5][360][720]; 
+float g_er13[5][360][720]; 
+float g_gpp14[5][360][720]; 
+float g_er14[5][360][720]; 
+
+float g_snh4[5][360][720]; 
+float g_sno3[5][360][720]; 
+
+/* float gs_gpp_1[12][360][720], gs_gpp_2[12][360][720], gs_gpp_3[12][360][720];
+float gs_ipar_1[12][360][720], gs_ipar_2[12][360][720], gs_ipar_3[12][360][720];
+float gs_ipard_1[12][360][720], gs_ipard_2[12][360][720], gs_ipard_3[12][360][720]; */
 
 short RAD_SENS;
 /* 0: control */

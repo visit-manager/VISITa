@@ -14,7 +14,7 @@
 #include"prototype.h"
 
 /* Atmospheric CO2 *********************************************/
-void cd_trend(
+void co2_trend(
 	struct Grid *grid
 ){
 	double base, inc, lgrd, season;
@@ -22,7 +22,7 @@ void cd_trend(
 	double time, aa0, aa1, aa2, aa3, aa4, aa5;
 	
 	/** time of CO2 level  **/
-	time = (double)(grid->CO2y);
+	time = (double)(grid->co2y);
 	
 	/** BASE **/
 	if(time<1990.0){
@@ -44,7 +44,7 @@ void cd_trend(
 			/* constant CO2 level */
 			base = sres_co2[11];
 		}else{
-			base = sres_co2[grid->CO2y-1990];
+			base = sres_co2[grid->co2y-1990];
 		}
 		
 		inc = 0.0;
@@ -61,11 +61,20 @@ void cd_trend(
 		season = amplitude/2.0*sin(((double)(grid->m)+6.0)/12.0*2.0*PI);
 	}
 	
-	/*  grid->bCO2[grid->m]=base+lgrd+season;   */
-	grid->bCO2[grid->m] = base + lgrd + season;  /*   + 350.0  */
+	/*  grid->bco2[grid->m]=base+lgrd+season;   */
+	grid->bco2[grid->m] = base + lgrd + season;  /*   + 350.0  */
 		
-	/*  grid->d13C_bCO2[grid->m]=-7.0;  */
-	grid->d13C_bCO2[grid->m] = -6.0 + (-0.02 * (base-280.0)) + (0.05*season);
+	/*  grid->d13c_bco2[grid->m]=-7.0;  */
+	grid->d13c_bco2[grid->m] = -6.0 + (-0.02 * (base-280.0)) + (0.05*season);
+	
+	/* radiocarbon (d14C, D14C) of atmospheric CO2 *********************/
+	/* added 2009/06/23 by A.Ito */
+	/* fitting curves derived from data by U.S. ORNL CDIAC */
+	if(time < 1964.0){
+		grid->d14c_bco2[grid->m] = exp(0.6655532*(time - 1953.686));
+	}else{
+		grid->d14c_bco2[grid->m] = 1462.196 * exp(-0.06327057 * (time - 1954.282));
+	}
 }
 
 /* Intra-canopy CO2-d13C *************************************/
@@ -79,7 +88,7 @@ void co2_in_canopy(
 	double ambient_d13c;
 
 	/* CO2 concentration */
-	loct->aCO2[grid->m] = grid->bCO2[grid->m];
+	loct->aco2[grid->m] = grid->bco2[grid->m];
 	/* d13C - CO2 */
 	closure_factor = 1.5*0.75*mass->lai_p/(1.5 + 0.75*mass->lai_p);
 	source_factor = 2.0*0.5*flux->efflux_p/(2.0 + 0.5*flux->efflux_p);
@@ -87,11 +96,11 @@ void co2_in_canopy(
 	loct->cnpy_co2_recyc = 0.2*closure_factor*source_factor;  /*  0.3  011017  */  /*  0.1  011020  */  /*  0.5  011022  */
 	
 	if(loct->cnpy_co2_recyc>=0.0 && loct->cnpy_co2_recyc<=0.3){
-		ambient_d13c = d13c_addition(grid->d13C_bCO2[grid->m], 1.0-loct->cnpy_co2_recyc,  
+		ambient_d13c = d13c_addition(grid->d13c_bco2[grid->m], 1.0-loct->cnpy_co2_recyc,  
 							flux->d13c_efflux_p, loct->cnpy_co2_recyc);
-		loct->d13C_aCO2[grid->m] = ambient_d13c;
+		loct->d13c_aco2[grid->m] = ambient_d13c;
 	}else{
-		loct->d13C_aCO2[grid->m] = grid->d13C_bCO2[grid->m];
+		loct->d13c_aco2[grid->m] = grid->d13c_bco2[grid->m];
 	}
 }
 

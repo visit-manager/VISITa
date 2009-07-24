@@ -300,16 +300,16 @@ void f_n_leaching(
 
 	/* g N / ha */
 	/* kg H2O / m2 */
-	if((loct->sw30+grid->prate_sfc[grid->m]) > 0.1){
-		ntr_conc = 0.1*(mass->n_no3/10000.0) / (loct->sw30 + grid->prate_sfc[grid->m]);
+	if((loct->sw30 + grid->prate_sfc[grid->m]) > 0.1){
+		ntr_conc = 0.2*(mass->n_no3/10000.0) / (loct->sw30 + grid->prate_sfc[grid->m]);
 	}else{
 		ntr_conc = 0.0;
 	}
 	/* g N / kg H2O */
 	
 	aa = loct->ro2[grid->m] * ntr_conc;
-	if(aa > mass->n_no3 * 0.5){
-		aa = mass->n_no3 * 0.5;
+	if(aa > mass->n_no3 * 0.75){
+		aa = mass->n_no3 * 0.75;
 	}
 	
 	/* g NO3-N m-2 month-1 */

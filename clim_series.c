@@ -99,7 +99,7 @@ void set_gcm_clim(
 		}else if(TEMP_GC ==0){
 			if(CC_T == 1){
 				tmp_var = grid->proj_tmp2m[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
-				grid->proj_tmp2m_b[h][grid->gcm_row][grid->gcm_col];
+							grid->proj_tmp2m_b[h][grid->gcm_row][grid->gcm_col];
 			}else{
 				tmp_var = 0.0;
 			}
@@ -153,7 +153,7 @@ void set_gcm_clim(
 		}else{
 			if(CC_H==1){
 				shm_var = grid->proj_shum[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
-				grid->proj_shum_b[h][grid->gcm_row][grid->gcm_col];
+							grid->proj_shum_b[h][grid->gcm_row][grid->gcm_col];
 			}else{
 				shm_var = 0.0;
 			}

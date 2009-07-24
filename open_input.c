@@ -106,8 +106,13 @@ void open_input(
 		printf("No rastert_soilph1.dat\n");  
 		exit(1); 
 	}
-	if( (fp_s[21]=fopen("./data/wetland_glwd_05.dat","rt"))==NULL ){  
-		printf("No wetland_glwd_05.dat\n");  
+	/* if( (fp_s[21]=fopen("./data/wetland_glwd_05.dat","rt"))==NULL ){  
+	 printf("No wetland_glwd_05.dat\n");  
+	 exit(1); 
+	 } */
+	/* revised wetland data: by A.Ito (2009/07/14) */
+	if( (fp_s[21]=fopen("./data/wetland_glwd_31.dat","rt"))==NULL ){  
+		printf("No wetland_glwd_31.dat\n");  
 		exit(1); 
 	}
 	if( (fp_s[22]=fopen("./data/rice_sage_05.dat","rt"))==NULL ){  
@@ -310,6 +315,11 @@ void open_input(
 
 	if( (fp_s[47]=fopen("./data/reg_raddif_hd.dat","rt"))==NULL ){  
 		printf("No diffuse rad model data\n");  
+		exit(1); 
+	}
+	
+	if( (fp_s[48]=fopen("./data/ssmi_season.dat","rt"))==NULL ){  
+		printf("No SSMI inundation data\n");  
 		exit(1); 
 	}
 }

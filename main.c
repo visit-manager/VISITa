@@ -79,6 +79,8 @@ int main(
 	RAD_SENS = (short)atol(argv[3]);
 	
 	DF97 = (short)atol(argv[4]);
+	/* 0: Monsi-Saeki */
+	/* 1: de Pury-Farquhar */
 	
 	/* CC_R = (short)atol(argv[5]); */
 	CC_R = 1;
@@ -104,32 +106,9 @@ int main(
 	strcpy(filename, argv[2]);
 	strcat(filename, "_");
 	strcat(filename, s_case);
-	strcat(filename,"-output.bin");
+	strcat(filename,"output.bin");
 	fp_binout = fopen(filename, "wb");
-	
-	for(f=0;f<5;f++){
-		for(g=0;g<360;g++){
-			for(h=0;h<720;h++){
-				g_tmp[f][g][h] = 0.0;
-				g_prc[f][g][h] = 0.0;
-				g_swr[f][g][h] = 0.0;
-				g_gpp[f][g][h] = 0.0;
-				g_npp[f][g][h] = 0.0;
-				g_nep[f][g][h] = 0.0;
-				g_pmas[f][g][h] = 0.0;
-				g_smas[f][g][h] = 0.0;
-				g_ch4e[f][g][h] = 0.0;
-				g_ch4o[f][g][h] = 0.0;
-				g_n2oe[f][g][h] = 0.0;
-				g_bbco2[f][g][h] = 0.0;
-				g_ersn[f][g][h] = 0.0;
-				g_isopr[f][g][h] = 0.0;
-				g_sr[f][g][h] = 0.0;
-				g_luc[f][g][h] = 0.0;
-			}
-		}
-	}
-	
+		
 	/*******************************************************************/
 	printf("Initialize simulation...");
 	
@@ -211,27 +190,28 @@ int main(
 			/* calculation for lands *******************************************/
 			/* Olson map */
 			if(CALC_OLSON == 1){
-				if(grid.veg_olson!=0 && grid.veg_olson!=33 && (g+0)%10==0){
+				if(grid.veg_olson!=0 && grid.veg_olson!=33 && (g+0)%1==0){
 					/* sequential number */
 					grid.n_olson++;
 					/* total area */
 					go_landarea += grid.area;
 					vo_area[grid.veg_olson] += grid.area;
+					rh_area[grid.reg_g] += grid.area;
 
 					/* clear all parameters ******/
 					clear(&grid, &loct, &echar, &mass, &flux);
 
 					/* initialize vegatation and soil conditions ****/ 
-					initVS(&grid, &loct, &mass, &flux, &echar);				
+					initVS(&grid, &loct, &mass, &flux, &echar);		
 				
-					/* initialize climate conditions ****/
+					/* initialize climate & CO2 conditions ****/
 					initC(&grid);
 				
 					/* initialize location conditions ****/
 					initL(&grid, &loct, &mass, &flux, &echar);
-				
+					
 					/* initialize stable carbon isotope ****/
-					init_d13c(&grid, &flux, &echar, &mass);
+					f_init_c_isotpes(&grid, &flux, &echar, &mass);
 
 					/* spin-up: stabilization roop ***************************/
 					cal_stable(&grid, &loct, &echar, &mass, &flux, fp_o1);
@@ -276,7 +256,7 @@ int main(
 					initL(&grid, &loct_nat, &mass_nat, &flux_nat, &echar_nat);
 				
 					/* initialize stable carbon isotope ****/
-					init_d13c(&grid, &flux_nat, &echar_nat, &mass_nat);
+					f_init_c_isotpes(&grid, &flux_nat, &echar_nat, &mass_nat);
 
 					/* spin-up: stabilization roop ***************************/
 					cal_stable(&grid, &loct_nat, &echar_nat, &mass_nat, &flux_nat, fp_o2);
@@ -315,7 +295,7 @@ int main(
 					initL(&grid, &loct_agr, &mass_agr, &flux_agr, &echar_agr);
 				
 					/* initialize stable carbon isotope ****/
-					init_d13c(&grid, &flux_agr, &echar_agr, &mass_agr);
+					f_init_c_isotpes(&grid, &flux_agr, &echar_agr, &mass_agr);
 
 					/* spin-up: stabilization roop ***************************/
 					cal_stable(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o3);
@@ -372,7 +352,28 @@ int main(
 	fwrite(g_isopr, sizeof(float), 5*360*720, fp_binout);  // 65-69
 	fwrite(g_sr, sizeof(float), 5*360*720, fp_binout);  // 70-74
 	fwrite(g_luc, sizeof(float), 5*360*720, fp_binout);  // 75-79
-		
+
+	fwrite(g_f13, sizeof(float), 5*360*720, fp_binout);  // 80-84
+	fwrite(g_c13, sizeof(float), 5*360*720, fp_binout);  // 85-89
+	fwrite(g_r13, sizeof(float), 5*360*720, fp_binout);  // 90-94
+	fwrite(g_l13, sizeof(float), 5*360*720, fp_binout);  // 95-99
+	fwrite(g_h13, sizeof(float), 5*360*720, fp_binout);  // 100-104
+	fwrite(g_f14, sizeof(float), 5*360*720, fp_binout);  // 105-109
+	fwrite(g_c14, sizeof(float), 5*360*720, fp_binout);  // 110-114
+	fwrite(g_r14, sizeof(float), 5*360*720, fp_binout);  // 115-119
+	fwrite(g_l14, sizeof(float), 5*360*720, fp_binout);  // 120-124
+	fwrite(g_h14, sizeof(float), 5*360*720, fp_binout);  // 125-129
+
+	fwrite(g_er, sizeof(float), 5*360*720, fp_binout);		// 130-134
+	fwrite(g_gpp13, sizeof(float), 5*360*720, fp_binout);	// 135-139
+	fwrite(g_er13, sizeof(float), 5*360*720, fp_binout);	// 140-144
+	fwrite(g_gpp14, sizeof(float), 5*360*720, fp_binout);	// 145-149
+	fwrite(g_er14, sizeof(float), 5*360*720, fp_binout);	// 150-154
+
+	fwrite(g_snh4, sizeof(float), 5*360*720, fp_binout);	// 155-159
+	fwrite(g_sno3, sizeof(float), 5*360*720, fp_binout);	// 160-164
+	/**/
+ 
 	/* close files */
 	for(h=0;h<IFILEN;h++){
 		fclose(fp_s[h]); 

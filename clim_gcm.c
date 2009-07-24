@@ -658,10 +658,10 @@ void read_gcm_clim(
 	}
 	
 	if(GCM==1220){  /*  CCSM + A1B  */
-		if( (fp_t=fopen("./data/tas_CCSM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_tas_CCSMA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_CCSM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_pr_CCSMA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_CCSM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_huss_CCSMA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_CCSM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_rsds_CCSMA1B-2001-2100.dat\n");  exit(1); }
+		if( (fp_t=fopen("./data/tas_CCSM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No tas_CCSM_20C-A1B_R1.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_CCSM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No pr_CCSM_20C-A1B_R1.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_CCSM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No huss_CCSM_20C-A1B_R1.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_CCSM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No rsds_CCSM_20C-A1B_R1.dat\n");  exit(1); }
 	}else if(GCM==1221){  /*  CCSM + A1B  */
 		if( (fp_t=fopen("./data/tas_CCSM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No ext_tas_CCSMA1B-2001-2100.dat\n");  exit(1); }
 		if( (fp_p=fopen("./data/pr_CCSM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No ext_pr_CCSMA1B-2001-2100.dat\n");  exit(1); }
@@ -783,10 +783,10 @@ void read_gcm_clim(
 		if( (fp_h=fopen("./data/huss_GISSR_20C-A1B_R4.dat","rt"))==NULL ){  printf("No huss_GISSR_20C-A1B_R4.dat\n");  exit(1); }
 		if( (fp_r=fopen("./data/rsds_GISSR_20C-A1B_R4.dat","rt"))==NULL ){  printf("No rsds_GISSR_20C-A1B_R4.dat\n");  exit(1); }
 	}else if(GCM==1251){  /*  GISSR + A1B  */
-		if( (fp_t=fopen("./data/tas_GISSR_20C-A1B_R2.dat","rt"))==NULL ){  printf("No ext_tas_GISSRA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_GISSR_20C-A1B_R2.dat","rt"))==NULL ){  printf("No ext_pr_GISSRA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_GISSR_20C-A1B_R2.dat","rt"))==NULL ){  printf("No ext_huss_GISSRA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_GISSR_20C-A1B_R2.dat","rt"))==NULL ){  printf("No ext_rsds_GISSRA1B-2001-2100.dat\n");  exit(1); }
+		if( (fp_t=fopen("./data/tas_GISSR_20C-A1B_R2.dat","rt"))==NULL ){  printf("No tas_GISSR_20C-A1B_R2.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_GISSR_20C-A1B_R2.dat","rt"))==NULL ){  printf("No pr_GISSR_20C-A1B_R2.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_GISSR_20C-A1B_R2.dat","rt"))==NULL ){  printf("No huss_GISSR_20C-A1B_R2.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_GISSR_20C-A1B_R2.dat","rt"))==NULL ){  printf("No rsds_GISSR_20C-A1B_R2.dat\n");  exit(1); }
 	}else if(GCM==1252){  /*  GISSR + A2  */
 		if( (fp_t=fopen("./data/tas_GISSR_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_tas_GISSRA1B-2001-2100.dat\n");  exit(1); }
 		if( (fp_p=fopen("./data/pr_GISSR_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_pr_GISSRA1B-2001-2100.dat\n");  exit(1); }
@@ -836,10 +836,10 @@ void read_gcm_clim(
 		if( (fp_h=fopen("./data/huss_PCM_20C-A2_R3.dat","rt"))==NULL ){  printf("No ext_huss_PCMA2-2001-2100.dat\n");  exit(1); }
 		if( (fp_r=fopen("./data/rsds_PCM_20C-A2_R3.dat","rt"))==NULL ){  printf("No ext_rsds_PCMA2-2001-2100.dat\n");  exit(1); }
 	}else if(GCM==1267){  /*  PCM + A2  */
-		if( (fp_t=fopen("./data/tas_PCM_20C-A2_R4.dat","rt"))==NULL ){  printf("No ext_tas_PCMA2-2001-2100.dat\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_PCM_20C-A2_R4.dat","rt"))==NULL ){  printf("No ext_pr_PCMA2-2001-2100.dat\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_PCM_20C-A2_R4.dat","rt"))==NULL ){  printf("No ext_huss_PCMA2-2001-2100.dat\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_PCM_20C-A2_R4.dat","rt"))==NULL ){  printf("No ext_rsds_PCMA2-2001-2100.dat\n");  exit(1); }
+		if( (fp_t=fopen("./data/tas_PCM_20C-A2_R4.dat","rt"))==NULL ){  printf("No tas_PCM_20C-A2_R4.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_PCM_20C-A2_R4.dat","rt"))==NULL ){  printf("No pr_PCM_20C-A2_R4.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_PCM_20C-A2_R4.dat","rt"))==NULL ){  printf("No huss_PCM_20C-A2_R4.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_PCM_20C-A2_R4.dat","rt"))==NULL ){  printf("No rsds_PCM_20C-A2_R4.dat\n");  exit(1); }
 	}
 	
 	if(GCM==1270){  /*  CSIRO 3.5 + A1  */
@@ -946,6 +946,7 @@ void read_gcm_clim(
 	}
 }
 
+/*************************************************************************************************/
 void read_ncep_clim(
 	struct Grid  *grid
 ){

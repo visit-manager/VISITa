@@ -38,18 +38,18 @@ void ecophysiology(
 		irr_b = (1.0 - sqrt(1.0 - 0.15))/(1.0 + sqrt(1.0 - 0.15));
 		rfl_b = 1.0-exp(-2.0*irr_b*ke_b1)/(1.0 + ke_b1);
 		
-		loct->apar_bp[grid->m] = (1.0 - rfl_b)*grid->par_bp[grid->m]*(1.0 - exp(-ke_b2*mass->lai[grid->m]));
-		loct->apar_dp[grid->m] = (1.0 - 0.036)*grid->par_dp[grid->m]*(1.0 - exp(-0.719*mass->lai[grid->m]));
+		pchar->apar_bp[grid->m] = (1.0 - rfl_b)*grid->par_bp[grid->m]*(1.0 - exp(-ke_b2*mass->lai[grid->m]));
+		pchar->apar_dp[grid->m] = (1.0 - 0.036)*grid->par_dp[grid->m]*(1.0 - exp(-0.719*mass->lai[grid->m]));
 		
-		apar = loct->apar_bp[grid->m] + loct->apar_dp[grid->m];
+		apar = pchar->apar_bp[grid->m] + pchar->apar_dp[grid->m];
 		fapar = apar/grid->par[grid->m];
 				
 		eff_k = -1.0*log(1.0 - fapar)/mass->lai[grid->m];
 		eff_k = (eff_k>=0.46)?eff_k:0.1;
 		eff_k = (eff_k<=5.0)?eff_k:10.0;
 	}else{
-		loct->apar_bp[grid->m] = 0.0;
-		loct->apar_dp[grid->m] = 0.0;
+		pchar->apar_bp[grid->m] = 0.0;
+		pchar->apar_dp[grid->m] = 0.0;
 		fapar = 0.0;
 		eff_k = irr_attn(grid, loct, pchar);
 	}
@@ -67,7 +67,7 @@ void ecophysiology(
 	f_n_leaf_conc(grid, pchar, mass);
 	
 	/** initial ci **/
-	pchar->ci[grid->m] = loct->aCO2[grid->m]*0.7; 
+	pchar->ci[grid->m] = loct->aco2[grid->m]*0.7; 
 	
 	/* stabilization of single-leaf processes */
 	for(g=0;g<6;g++){			
@@ -171,11 +171,11 @@ void incel_cdc(
 	gs_co2 = plant->gs[grid->m]/1.56; 
 	/* 1.56: conversion from H2O to CO2 conductance */
 	
-	ci = loct->aCO2[grid->m]-(plant->ptop/(gs_co2/1000.0));
+	ci = loct->aco2[grid->m]-(plant->ptop/(gs_co2/1000.0));
 	/* 1000.0: conbert from mmol to ÔΩµmol */
 	
 	ci = (ci>=0.0)?ci:0.0;
-	ci = (ci<=loct->aCO2[grid->m])?ci:loct->aCO2[grid->m];
+	ci = (ci<=loct->aco2[grid->m])?ci:loct->aco2[grid->m];
 		
 	plant->ci[grid->m] = ci; 
 }
@@ -212,7 +212,7 @@ void stom_cond(
 	double b1d, cc;
 	
 	/* stomatal conductance model by Ball, Woodraw, and Berry (1987) */
-	b1d = pchar->gs_b1/((loct->aCO2[grid->m] - pchar->cmpcd[grid->m])*(1.0+loct->vpd[grid->m]/pchar->gs_b2)); /* */
+	b1d = pchar->gs_b1/((loct->aco2[grid->m] - pchar->cmpcd[grid->m])*(1.0+loct->vpd[grid->m]/pchar->gs_b2)); /* */
 	/* insensitive to CO2 */
 	/* b1d=plant->gs_b1/(( 350.0 - 40.0 )*(1.0+loct->vpd[grid->m]/plant->gs_b2)); */
 
@@ -236,7 +236,7 @@ double canopy_cond(
 	double aaa, sss, ttt, uuu, vvv, lue_gs, canopy_cond;
 	
 	/* NOTE: integrate leaf stomatal conductance with considering light attenuation in the canopy */
-	/* aaa=plant->gs_b0+plant->gs_b1/(loct->aCO2[grid->m]-plant->cmpcd[grid->m]); */
+	/* aaa=plant->gs_b0+plant->gs_b1/(loct->aco2[grid->m]-plant->cmpcd[grid->m]); */
 	aaa = pchar->gs_b0 + pchar->gs_b1/(350.0 - 40.0);
 	lue_gs = pchar->lue[grid->m]*(aaa/pchar->pmax);
 	

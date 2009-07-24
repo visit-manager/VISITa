@@ -317,7 +317,7 @@ void f_biomassburning(
 		if((mass->c4).mfol[f] < 0.0){
 			(mass->c4).mfol[f] = 0.0;
 		}
-		(mass->plant).mfol[f] = (mass->c3).mfol[f]*loct->C3ptn[f] + (mass->c4).mfol[f]*loct->C4ptn[f];
+		(mass->plant).mfol[f] = (mass->c3).mfol[f]*loct->c3ptn[f] + (mass->c4).mfol[f]*loct->c4ptn[f];
 
 		(mass->c3).mstm[f] -= closs_wood;
 		if((mass->c3).mstm[f] < 0.0){
@@ -327,7 +327,7 @@ void f_biomassburning(
 		if((mass->c4).mstm[f] < 0.0){
 			(mass->c4).mstm[f] = 0.0;
 		}
-		(mass->plant).mstm[f] = (mass->c3).mstm[f]*loct->C3ptn[f] + (mass->c4).mstm[f]*loct->C4ptn[f];
+		(mass->plant).mstm[f] = (mass->c3).mstm[f]*loct->c3ptn[f] + (mass->c4).mstm[f]*loct->c4ptn[f];
 
 		(mass->c3).mrot[f] -= closs_root;
 		if((mass->c3).mrot[f] < 0.0){
@@ -337,7 +337,7 @@ void f_biomassburning(
 		if((mass->c4).mrot[f] < 0.0){
 			(mass->c4).mrot[f] = 0.0;
 		}
-		(mass->plant).mrot[f] = (mass->c3).mrot[f]*loct->C3ptn[f] + (mass->c4).mrot[f]*loct->C4ptn[f];	
+		(mass->plant).mrot[f] = (mass->c3).mrot[f]*loct->c3ptn[f] + (mass->c4).mrot[f]*loct->c4ptn[f];	
 		
 		(mass->soil).ltr_m[f] -= closs_litter;
 		if((mass->soil).ltr_m[f] < 0.0){

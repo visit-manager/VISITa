@@ -8,8 +8,8 @@
 /*  Updated August 7, 2007								*/
 /*  Updated November 29, 2007							*/
 
-#define IFILEN 48
-#define OFILES 7
+#define IFILEN 49
+#define OFILES 8
 
 /* CLEARANCE *****************************************************/
 void clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 
@@ -29,7 +29,7 @@ void initL(struct Grid *grid, struct Loct *loct, struct Mass *mass,
 	struct Flux *flux, struct Echar *echar);
 void dynmcL(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Echar *echar);
 
-void cd_trend(struct Grid *grid);
+void co2_trend(struct Grid *grid);
 void read_gcm_clim(struct Grid *grid);
 void read_ncep_clim(struct Grid *grid);
 void set_gcm_clim(struct Grid *grid);
@@ -37,6 +37,7 @@ void set_cru_clim(struct Grid *grid);
 void read_cru_clim(FILE *fp_c[4], struct Grid *grid);
 void f_cult_luc(struct Grid *grid);
 long basin_id_trip(long original);
+long region_giorgi(double lat, double lon);
 
 /* MASS & PARAMETERS INITIALIZATION *****************************/
 void initVS(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux, 
@@ -100,9 +101,9 @@ void soil_processes(struct Grid *grid, struct Loct *loct, struct Schar *schar,
 /* SUB-SCHEMES *************************/
 void set_rowcol_gcm(void);
 void set_gcm_index(char gcmindex[]);
-void beforedeal(struct Grid *grid, struct Pflx *flux);
-void afterdeal(struct Grid *grid, struct Pchar *pchar, struct Pmas *pmas, struct Pflx *flux);
-void plant_stand(struct Grid *grid,struct Loct *loct,struct Mass *mass, struct Flux *flux);
+void f_before_deal(struct Grid *grid, struct Pflx *flux);
+void f_after_deal(struct Grid *grid, struct Pchar *pchar, struct Pmas *pmas, struct Pflx *flux);
+void f_plant_stand_budget(struct Grid *grid,struct Loct *loct,struct Mass *mass, struct Flux *flux);
 double grid_area(double lat1, double lat2, double lon1, double lon2);
 
 /* ECOPHYSIOLOGY *****************************/
@@ -179,14 +180,15 @@ void leafemergence(struct Grid *grid, struct Loct *loct, struct Pchar *pchar,
 	struct Pmas *mass, struct Pflx *flux);
 
 /* STABLE CARBON ISOTOPE *************************************************/
-void init_d13c(struct Grid *grid, struct Flux *flux, struct Echar *echar, struct Mass *mass);
+void f_init_c_isotpes(struct Grid *grid, struct Flux *flux, struct Echar *echar, struct Mass *mass);
 void photo_13c_frac(struct Grid *grid, struct Loct *loct, struct Pchar *pchar);
 double deltaTratio(double delta);
 double ratioTdelta(double ratio);
 double d13c_addition(double d13c_a, double mass_a, double d13c_b, double mass_b);
 double d13c_addition3(double d13c_a, double mass_a, double d13c_b, double mass_b, double d13c_c, double mass_c);
 void co2_in_canopy(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);	
-void d13c_efflux(struct Grid *grid, struct Loct *loct, struct Flux *flux);
+void f_cisotope_efflux(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
+double f_decay_14c(double init_val);
 
 /* MINOR PROCESSES ****************************************************/
 void f_erosion(struct Grid *grid, struct Loct *loct, struct Echar *echar, struct Mass *mass, struct Flux *flux);
@@ -228,7 +230,7 @@ void f_n_immoblz(struct Grid *grid, struct Loct *loct, struct Schar *schar, stru
 /* OUTPUT *************************************/
 void f_set_history_data(long year, struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_output_result(long year, struct Grid *grid, struct Loct *loct, struct Echar *echar, struct Mass *mass, 
-	struct Flux *flux, FILE *fp_o[6]);
+	struct Flux *flux, FILE *fp_o[OFILES]);
 void screenshow(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux, struct Echar *echar);
 void publish_cbud(struct Grid*grid, struct Loct *loct, struct Echar *echar, 
 	struct Mass *mass, struct Flux *flux, FILE *result);

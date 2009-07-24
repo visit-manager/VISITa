@@ -104,8 +104,8 @@ void waterbudget(
 	loct->evpr[grid->m] = (bb - sqrt(bb*bb-4.0*aa*cc))/(2.0*aa); /* actual */
 	loct->evpr[grid->m] = (loct->evpr[grid->m] > 0.0)?loct->evpr[grid->m]:0.0;
 	
-	loct->canopy_con[grid->m] = loct->C3ptn[grid->m]*(echar->c3).gc[grid->m] 
-								+ loct->C4ptn[grid->m]*(echar->c4).gc[grid->m];
+	loct->canopy_con[grid->m] = loct->c3ptn[grid->m]*(echar->c3).gc[grid->m] 
+								+ loct->c4ptn[grid->m]*(echar->c4).gc[grid->m];
 	loct->pm_trn[grid->m] = pm_transpiration(grid, loct); /* potential */
 	/* aa=0.85; */ /*2003-06-27*/
 	/* aa = 0.87; */ /*2003-06-27*/

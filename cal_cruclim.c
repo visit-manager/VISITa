@@ -40,6 +40,23 @@ extern float g_ersn[5][360][720];
 extern float g_isopr[5][360][720];
 extern float g_sr[5][360][720];
 extern float g_luc[5][360][720];
+extern float g_f13[5][360][720]; 
+extern float g_c13[5][360][720]; 
+extern float g_r13[5][360][720]; 
+extern float g_l13[5][360][720]; 
+extern float g_h13[5][360][720]; 
+extern float g_f14[5][360][720]; 
+extern float g_c14[5][360][720]; 
+extern float g_r14[5][360][720]; 
+extern float g_l14[5][360][720]; 
+extern float g_h14[5][360][720]; 
+extern float g_er[5][360][720]; 
+extern float g_gpp13[5][360][720]; 
+extern float g_er13[5][360][720]; 
+extern float g_gpp14[5][360][720]; 
+extern float g_er14[5][360][720]; 
+extern float g_snh4[5][360][720]; 
+extern float g_sno3[5][360][720]; 
 
 /* 1901-2000 (2002 / 2008) *****************************************************/
 void cal_cruclim(
@@ -72,7 +89,7 @@ void cal_cruclim(
 		f_cult_luc(grid);
 		
 		/* CO2 year ********************/
-		grid->CO2y = PIVOT_CO2Y + g; 
+		grid->co2y = PIVOT_CO2Y + g; 
 		
 		/* seasonal (monthly) loop ********************************************/
 		for(f=0;f<ASTEP;f++){
@@ -82,7 +99,7 @@ void cal_cruclim(
 			n_flux_zero(f, flux);
 			
 			/* CO2 condition */
-			cd_trend(grid);
+			co2_trend(grid);
 			co2_in_canopy(grid, loct, mass, flux);
 						
 			/* environmental condition *******************/
@@ -96,7 +113,7 @@ void cal_cruclim(
 			/* Plant CH4 emission *****************/
 			f_ch4_emit_veg(grid, loct, echar, mass, flux);
 
-			plant_stand(grid, loct,mass,flux);
+			f_plant_stand_budget(grid, loct,mass,flux);
 			
 			if(BACC==3){
 				(flux->plant).lL[f] = flux->lL0[f];
@@ -104,13 +121,17 @@ void cal_cruclim(
 
 			(flux->soil).lL[f] = (flux->plant).lL[f];			
 			(flux->soil).d13c_lL[f] = (flux->plant).d13c_lL[f];
+			(flux->soil).d14c_lL[f] = (flux->plant).d14c_lL[f];
 			
 			/* soil processes *****************/
 			soil_processes(grid, loct, &(echar->soil), &(mass->soil), &(flux->soil));
+			flux->sr[f] = loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m]) + 
+							loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m]) + 
+							(flux->soil).hr[grid->m];
 
 			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
-			if((echar->soil).v_type == 1 && (grid->veg_olson!=29 || grid->veg_olson!=30 || 
-											 grid->veg_olson!=31 || grid->veg_olson!=32)){
+			if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || 
+											 grid->veg_olson==31 || grid->veg_olson==32)){
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.1 * 1000.0;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.9 * 1000.0;
 			}
@@ -134,15 +155,16 @@ void cal_cruclim(
 						
 			/* ecosystem mass balance *****************/	
 			/* net ecosystem production */
-			flux->nep[f] = (flux->plant).npp[f]-(flux->soil).rS[f];
+			flux->nep[f] = (flux->plant).npp[f]-(flux->soil).hr[f];
+			flux->er[f] = (flux->plant).ar[f] + (flux->soil).hr[f];
 			/* total ecosystem carbon storage */
-			mass->total[f] = (mass->c3).plant[f]*loct->C3ptn[f]+(mass->c4).plant[f]*loct->C4ptn[f]+(mass->soil).soil[f];
+			mass->total[f] = (mass->c3).plant[f]*loct->c3ptn[f]+(mass->c4).plant[f]*loct->c4ptn[f]+(mass->soil).soil[f];
 			/** net carbon balance taking crop harvest into account **/
 			flux->ncb[f] = flux->nep[f]+(flux->plant).hvst[f];
 			
 			/* carbon isotope */
-			d13c_efflux(grid, loct, flux);
-
+			f_cisotope_efflux(grid, loct, mass, flux);
+			
 			/* nitrogen budget */
 			n_budget(grid, loct, mass, flux);
 			
@@ -203,6 +225,27 @@ void cal_cruclim(
 			}
 			
 			if(grid->climy>=1950 && grid->climy<1960){
+				if(DF97==1){
+					g_gpp13[0][grid->row][grid->col] = d13c_addition((flux->plant).d13c_gpp[grid->m], (flux->plant).gpp_df97[grid->m] /10.0, 
+																	 g_gpp13[0][grid->row][grid->col], g_gpp[0][grid->row][grid->col]);
+				}else{
+					g_gpp13[0][grid->row][grid->col] = d13c_addition((flux->plant).d13c_gpp[grid->m], (flux->plant).gpp[grid->m] /10.0, 
+																	 g_gpp13[0][grid->row][grid->col], g_gpp[0][grid->row][grid->col]);
+				}
+				g_er13[0][grid->row][grid->col] = d13c_addition(flux->d13c_er[grid->m], flux->er[grid->m] /10.0, 
+																g_er13[0][grid->row][grid->col], g_er[0][grid->row][grid->col]);
+				
+				if((flux->plant).gpp[grid->m]>0.0){
+					g_gpp14[0][grid->row][grid->col] += (g_gpp14[0][grid->row][grid->col] * g_gpp[0][grid->row][grid->col] + 
+														 (flux->plant).d14c_gpp[grid->m] * (flux->plant).gpp[grid->m] /10.0) / 
+														(g_gpp[0][grid->row][grid->col] + (flux->plant).gpp[grid->m] /10.0);
+				}
+				if(flux->er[grid->m]>0.0){
+					g_er14[0][grid->row][grid->col] += (g_er14[0][grid->row][grid->col] * g_er[0][grid->row][grid->col] + 
+														flux->d14c_er[grid->m] * flux->er[grid->m] /10.0) / 
+														(g_er[0][grid->row][grid->col] + flux->er[grid->m] /10.0);
+				}
+				
 				g_tmp[0][grid->row][grid->col] += grid->tmp_2m[grid->m]* MDN[grid->m]/365.0 /10.0;
 				g_prc[0][grid->row][grid->col] += grid->prate_sfc[f] /10.0;
 				g_swr[0][grid->row][grid->col] += grid->gl_rad[grid->m]* MDN[grid->m]/365.0 /10.0;
@@ -222,9 +265,45 @@ void cal_cruclim(
 				g_n2oe[0][grid->row][grid->col] += (flux->soil).d_n2o_ngas[grid->m] /10.0;
 				g_bbco2[0][grid->row][grid->col] += (flux->bb_co2_litter[grid->m]+flux->bb_co2_leaf[grid->m]+flux->bb_co2_wood[grid->m]+flux->bb_co2_root[grid->m]) /10.0;
 				g_isopr[0][grid->row][grid->col] += flux->voc_isopr_g97[grid->m] /10.0;
-				g_sr[0][grid->row][grid->col] += ((flux->plant).rrm[grid->m] + (flux->plant).rrg[grid->m] + (flux->soil).rS[grid->m]) /10.0;
+				g_sr[0][grid->row][grid->col] += ((flux->plant).rrm[grid->m] + (flux->plant).rrg[grid->m] + (flux->soil).hr[grid->m]) /10.0;
+				g_er[0][grid->row][grid->col] += flux->er[grid->m] / 10.0;
+				
+				g_f13[0][grid->row][grid->col] += (mass->plant).d13c_mfol[f]*MDN[grid->m]/365.0 /10.0; 
+				g_c13[0][grid->row][grid->col] += (mass->plant).d13c_mstm[f]*MDN[grid->m]/365.0 /10.0; 
+				g_r13[0][grid->row][grid->col] += (mass->plant).d13c_mrot[f]*MDN[grid->m]/365.0 /10.0; 
+				g_l13[0][grid->row][grid->col] += (mass->soil).d13c_ltr_m[f]*MDN[grid->m]/365.0 /10.0; 
+				g_h13[0][grid->row][grid->col] += (mass->soil).d13c_msl_m[f]*MDN[grid->m]/365.0 /10.0; 
+				g_f14[0][grid->row][grid->col] += (mass->plant).d14c_mfol[f]*MDN[grid->m]/365.0 /10.0; 
+				g_c14[0][grid->row][grid->col] += (mass->plant).d14c_mstm[f]*MDN[grid->m]/365.0 /10.0; 
+				g_r14[0][grid->row][grid->col] += (mass->plant).d14c_mrot[f]*MDN[grid->m]/365.0 /10.0; 
+				g_l14[0][grid->row][grid->col] += (mass->soil).d14c_ltr_m[f]*MDN[grid->m]/365.0 /10.0; 
+				g_h14[0][grid->row][grid->col] += (mass->soil).d14c_msl_m[f]*MDN[grid->m]/365.0 /10.0; 
+				
+				g_snh4[0][grid->row][grid->col] += (mass->soil).n_nh4*MDN[grid->m]/365.0 /10.0;
+				g_sno3[0][grid->row][grid->col] += (mass->soil).n_no3*MDN[grid->m]/365.0 /10.0;
 			}
 			if(grid->climy>=1990 && grid->climy<2000){
+				if(DF97==1){
+					g_gpp13[1][grid->row][grid->col] = d13c_addition((flux->plant).d13c_gpp[grid->m], (flux->plant).gpp_df97[grid->m] /10.0, 
+																	 g_gpp13[1][grid->row][grid->col], g_gpp[1][grid->row][grid->col]);
+				}else{
+					g_gpp13[1][grid->row][grid->col] = d13c_addition((flux->plant).d13c_gpp[grid->m], (flux->plant).gpp[grid->m] /10.0, 
+																	 g_gpp13[1][grid->row][grid->col], g_gpp[1][grid->row][grid->col]);
+				}
+				g_er13[1][grid->row][grid->col] = d13c_addition(flux->d13c_er[grid->m], flux->er[grid->m] /10.0, 
+																g_er13[1][grid->row][grid->col], g_er[1][grid->row][grid->col]);
+				
+				if((flux->plant).gpp[grid->m] > 0.0){
+					g_gpp14[1][grid->row][grid->col] += (g_gpp14[1][grid->row][grid->col] * g_gpp[1][grid->row][grid->col] + 
+														 (flux->plant).d14c_gpp[grid->m] * (flux->plant).gpp[grid->m] /10.0) / 
+														(g_gpp[1][grid->row][grid->col] + (flux->plant).gpp[grid->m] /10.0);
+				}
+				if(flux->er[grid->m]>0.0){
+					g_er14[1][grid->row][grid->col] += (g_er14[1][grid->row][grid->col] * g_er[1][grid->row][grid->col] + 
+														flux->d14c_er[grid->m] * flux->er[grid->m] /10.0) / 
+														(g_er[1][grid->row][grid->col] + flux->er[grid->m] /10.0);
+				}
+
 				g_tmp[1][grid->row][grid->col] += grid->tmp_2m[grid->m]* MDN[grid->m]/365.0 /10.0;
 				g_prc[1][grid->row][grid->col] += grid->prate_sfc[f] /10.0;
 				g_swr[1][grid->row][grid->col] += grid->gl_rad[grid->m]* MDN[grid->m]/365.0 /10.0;
@@ -244,7 +323,22 @@ void cal_cruclim(
 				g_n2oe[1][grid->row][grid->col] += (flux->soil).d_n2o_ngas[grid->m] /10.0;
 				g_bbco2[1][grid->row][grid->col] += (flux->bb_co2_litter[grid->m]+flux->bb_co2_leaf[grid->m]+flux->bb_co2_wood[grid->m]+flux->bb_co2_root[grid->m]) /10.0;
 				g_isopr[1][grid->row][grid->col] += flux->voc_isopr_g97[grid->m] /10.0;
-				g_sr[1][grid->row][grid->col] += ((flux->plant).rrm[grid->m] + (flux->plant).rrg[grid->m] + (flux->soil).rS[grid->m]) /10.0;
+				g_sr[1][grid->row][grid->col] += ((flux->plant).rrm[grid->m] + (flux->plant).rrg[grid->m] + (flux->soil).hr[grid->m]) /10.0;
+				g_er[1][grid->row][grid->col] += flux->er[grid->m] / 10.0;
+
+				g_f13[1][grid->row][grid->col] += (mass->plant).d13c_mfol[f]*MDN[grid->m]/365.0 /10.0; 
+				g_c13[1][grid->row][grid->col] += (mass->plant).d13c_mstm[f]*MDN[grid->m]/365.0 /10.0; 
+				g_r13[1][grid->row][grid->col] += (mass->plant).d13c_mrot[f]*MDN[grid->m]/365.0 /10.0; 
+				g_l13[1][grid->row][grid->col] += (mass->soil).d13c_ltr_m[f]*MDN[grid->m]/365.0 /10.0; 
+				g_h13[1][grid->row][grid->col] += (mass->soil).d13c_msl_m[f]*MDN[grid->m]/365.0 /10.0; 
+				g_f14[1][grid->row][grid->col] += (mass->plant).d14c_mfol[f]*MDN[grid->m]/365.0 /10.0; 
+				g_c14[1][grid->row][grid->col] += (mass->plant).d14c_mstm[f]*MDN[grid->m]/365.0 /10.0; 
+				g_r14[1][grid->row][grid->col] += (mass->plant).d14c_mrot[f]*MDN[grid->m]/365.0 /10.0; 
+				g_l14[1][grid->row][grid->col] += (mass->soil).d14c_ltr_m[f]*MDN[grid->m]/365.0 /10.0; 
+				g_h14[1][grid->row][grid->col] += (mass->soil).d14c_msl_m[f]*MDN[grid->m]/365.0 /10.0; 
+				
+				g_snh4[1][grid->row][grid->col] += (mass->soil).n_nh4*MDN[grid->m]/365.0 /10.0;
+				g_sno3[1][grid->row][grid->col] += (mass->soil).n_no3*MDN[grid->m]/365.0 /10.0;
 			}
 		}
 		/* empirical NPP models */

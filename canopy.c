@@ -76,8 +76,8 @@ double f_df97_gpp(
 	temp = grid->tmp_sfc[grid->m];
 	
 	/* prescribed down regulation */
-	if(loct->aCO2[grid->m]>400.0 && RAD_SENS==11){
-		n_photocap = 1.16 - (loct->aCO2[grid->m]-400.0)*0.00075;
+	if(loct->aco2[grid->m]>400.0 && RAD_SENS==11){
+		n_photocap = 1.16 - (loct->aco2[grid->m]-400.0)*0.00075;
 	}else{
 		n_photocap = 1.16;
 	}
@@ -86,7 +86,7 @@ double f_df97_gpp(
 	n_nonphoto = 25.0;
 		
 	/* canopy CO2 concentration */
-	co2_a = loct->aCO2[grid->m]/10.0;	/* ppmv -> Pa */
+	co2_a = loct->aco2[grid->m]/10.0;	/* ppmv -> Pa */
 	/* O2 concentration, 21% of atmospheric pressure, Pa */
 	o2_i = 0.21 * loct->prsr[grid->m]*100.0;
 	
@@ -337,11 +337,11 @@ double f_df97_gpp(
 		gpp_df *= MDN[grid->m];
 	}
 	
-	loct->xx1[grid->m] = monitor1[12];
+/*	loct->xx1[grid->m] = monitor1[12];
 	loct->xx2[grid->m] = monitor2[12];
 	loct->xx3[grid->m] = monitor3[12];
 	loct->xx4[grid->m] = monitor4[12];
-	loct->xx5[grid->m] = monitor5[12];
+	loct->xx5[grid->m] = monitor5[12];  */
 	
 	return gpp_df;
 }

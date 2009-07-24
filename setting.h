@@ -20,7 +20,7 @@
 /***********************/
 #define ASTEP 12	/* annual time-step, 12=monthly */
 
-#define HIST 501	/* simulation dulation */
+#define HIST 201	/* simulation dulation */
 
 /***************************************************/
 /* total vegetation number */
@@ -32,6 +32,8 @@
 #define CALC_OLSON 1
 #define CALC_SAGE 0
 #define CALC_CROP 0
+
+#define NREG 23
 
 /***************************************************/
 /* 20th century */

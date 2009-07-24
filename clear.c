@@ -100,12 +100,12 @@ void plant_flux_zero(
 	flux->rfm[month] = 0.0; 
 	flux->rcm[month] = 0.0; 
 	flux->rrm[month] = 0.0; 
-	flux->rpm[month] = 0.0; 
+	flux->arm[month] = 0.0; 
 	flux->rfg[month] = 0.0; 
 	flux->rcg[month] = 0.0; 
 	flux->rrg[month] = 0.0; 	
-	flux->rpg[month] = 0.0; 	
-	flux->rp[month] = 0.0; 
+	flux->arg[month] = 0.0; 	
+	flux->ar[month] = 0.0; 
 			
 	flux->lf[month] = 0.0; 
 	flux->lc[month] = 0.0; 
@@ -222,7 +222,7 @@ void vanish(
 		(flux->soil).rl[k] = 0.0;
 		(flux->soil).rh[k] = 0.0;
 		(flux->soil).sf[k] = 0.0;
-		(flux->soil).rS[k] = 0.0;
+		(flux->soil).hr[k] = 0.0;
 		
 		flux->nep[k] = 0.0;
 		flux->ncb[k] = 0.0;
@@ -270,8 +270,8 @@ void vlzero(
 	plant_flux_zero(grid->m, flux);
 }
 
-/* initialize d13C variables ************************************/
-void init_d13c(
+/* initialize carbon isotope variables ************************************/
+void f_init_c_isotpes(
 	struct Grid *grid, 
 	struct Flux *flux, 
 	struct Echar *echar, 
@@ -280,68 +280,85 @@ void init_d13c(
 	long f;
 	
 	for(f = 0;f<ASTEP;f++){
+		/* d13C **********************************************************************/
 		/* mass */
-		(mass->c3).d13c_fol = (mass->c4).d13c_fol = (mass->plant).d13c_fol = grid->d13C_bCO2[f]; 	
-		(mass->c3).d13c_stm = (mass->c4).d13c_stm = (mass->plant).d13c_stm = grid->d13C_bCO2[f]; 	
-		(mass->c3).d13c_rot = (mass->c4).d13c_rot = (mass->plant).d13c_rot = grid->d13C_bCO2[f]; 	
-		(mass->soil).d13c_ltr = grid->d13C_bCO2[f]; 	
-		(mass->soil).d13c_msl = grid->d13C_bCO2[f]; 	
+		(mass->c3).d13c_fol = (mass->c4).d13c_fol = (mass->plant).d13c_fol = grid->d13c_bco2[f]; 	
+		(mass->c3).d13c_stm = (mass->c4).d13c_stm = (mass->plant).d13c_stm = grid->d13c_bco2[f]; 	
+		(mass->c3).d13c_rot = (mass->c4).d13c_rot = (mass->plant).d13c_rot = grid->d13c_bco2[f]; 	
+		(mass->soil).d13c_ltr = grid->d13c_bco2[f]; 	
+		(mass->soil).d13c_msl = grid->d13c_bco2[f]; 	
 		
-		flux->d13c_efflux_p = grid->d13C_bCO2[f]; 
+		flux->d13c_efflux_p = grid->d13c_bco2[f]; 
 		
 		/* ecophysiology */
 		(echar->c3).photo_13c_frac[f] = 0.0;
 		(echar->c4).photo_13c_frac[f] = 0.0;
 		
 		/* mass */
-		(mass->c3).d13c_mfol[f] = (mass->c4).d13c_mfol[f] = (mass->plant).d13c_mfol[f] = grid->d13C_bCO2[f]; 	
-		(mass->c3).d13c_mstm[f] = (mass->c4).d13c_mstm[f] = (mass->plant).d13c_mstm[f] = grid->d13C_bCO2[f]; 	
-		(mass->c3).d13c_mrot[f] = (mass->c4).d13c_mrot[f] = (mass->plant).d13c_mrot[f] = grid->d13C_bCO2[f]; 	
-		(mass->c3).d13c_plant[f] = (mass->c4).d13c_plant[f] = (mass->plant).d13c_plant[f] = grid->d13C_bCO2[f]; 	
+		(mass->c3).d13c_mfol[f] = (mass->c4).d13c_mfol[f] = (mass->plant).d13c_mfol[f] = grid->d13c_bco2[f]; 	
+		(mass->c3).d13c_mstm[f] = (mass->c4).d13c_mstm[f] = (mass->plant).d13c_mstm[f] = grid->d13c_bco2[f]; 	
+		(mass->c3).d13c_mrot[f] = (mass->c4).d13c_mrot[f] = (mass->plant).d13c_mrot[f] = grid->d13c_bco2[f]; 	
+		(mass->c3).d13c_plant[f] = (mass->c4).d13c_plant[f] = (mass->plant).d13c_plant[f] = grid->d13c_bco2[f]; 	
 		
-		(mass->soil).d13c_ltr_m[f] = grid->d13C_bCO2[f]; 	
-		(mass->soil).d13c_msl_m[f] = grid->d13C_bCO2[f]; 	
-		(mass->soil).d13c_soil[f] = grid->d13C_bCO2[f]; 	
+		(mass->soil).d13c_ltr_m[f] = grid->d13c_bco2[f]; 	
+		(mass->soil).d13c_msl_m[f] = grid->d13c_bco2[f]; 	
+		(mass->soil).d13c_soil[f] = grid->d13c_bco2[f]; 	
 		
-		mass->d13c_total[f] = grid->d13C_bCO2[f];
+		mass->d13c_total[f] = grid->d13c_bco2[f];
 		
 		/* flux */
-		(flux->c3).d13c_gpp[f] = (flux->c4).d13c_gpp[f] = (flux->plant).d13c_gpp[f] = grid->d13C_bCO2[f];
-		(flux->c3).d13c_epp[f] = (flux->c4).d13c_epp[f] = (flux->plant).d13c_epp[f] = grid->d13C_bCO2[f];
-		(flux->c3).d13c_spp[f] = (flux->c4).d13c_spp[f] = (flux->plant).d13c_spp[f] = grid->d13C_bCO2[f];
-		(flux->c3).d13c_npp[f] = (flux->c4).d13c_npp[f] = (flux->plant).d13c_npp[f] = grid->d13C_bCO2[f];
+		(flux->c3).d13c_gpp[f] = (flux->c4).d13c_gpp[f] = (flux->plant).d13c_gpp[f] = grid->d13c_bco2[f];
+		(flux->c3).d13c_epp[f] = (flux->c4).d13c_epp[f] = (flux->plant).d13c_epp[f] = grid->d13c_bco2[f];
+		(flux->c3).d13c_spp[f] = (flux->c4).d13c_spp[f] = (flux->plant).d13c_spp[f] = grid->d13c_bco2[f];
+		(flux->c3).d13c_npp[f] = (flux->c4).d13c_npp[f] = (flux->plant).d13c_npp[f] = grid->d13c_bco2[f];
 		
-		(flux->c3).d13c_rfm[f] = (flux->c4).d13c_rfm[f] = (flux->plant).d13c_rfm[f] = grid->d13C_bCO2[f];
-		(flux->c3).d13c_rcm[f] = (flux->c4).d13c_rcm[f] = (flux->plant).d13c_rcm[f] = grid->d13C_bCO2[f];
-		(flux->c3).d13c_rrm[f] = (flux->c4).d13c_rrm[f] = (flux->plant).d13c_rrm[f] = grid->d13C_bCO2[f];
-		(flux->c3).d13c_rpm[f] = (flux->c4).d13c_rpm[f] = (flux->plant).d13c_rpm[f] = grid->d13C_bCO2[f];
-		(flux->c3).d13c_rfg[f] = (flux->c4).d13c_rfg[f] = (flux->plant).d13c_rfg[f] = grid->d13C_bCO2[f];
-		(flux->c3).d13c_rcg[f] = (flux->c4).d13c_rcg[f] = (flux->plant).d13c_rcg[f] = grid->d13C_bCO2[f];
-		(flux->c3).d13c_rrg[f] = (flux->c4).d13c_rrg[f] = (flux->plant).d13c_rrg[f] = grid->d13C_bCO2[f];
-		(flux->c3).d13c_rpg[f] = (flux->c4).d13c_rpg[f] = (flux->plant).d13c_rpg[f] = grid->d13C_bCO2[f]; 
-		(flux->c3).d13c_rp[f] = (flux->c4).d13c_rp[f] = (flux->plant).d13c_rp[f] = grid->d13C_bCO2[f]; 
+		(flux->c3).d13c_rfm[f] = (flux->c4).d13c_rfm[f] = (flux->plant).d13c_rfm[f] = grid->d13c_bco2[f];
+		(flux->c3).d13c_rcm[f] = (flux->c4).d13c_rcm[f] = (flux->plant).d13c_rcm[f] = grid->d13c_bco2[f];
+		(flux->c3).d13c_rrm[f] = (flux->c4).d13c_rrm[f] = (flux->plant).d13c_rrm[f] = grid->d13c_bco2[f];
+		(flux->c3).d13c_arm[f] = (flux->c4).d13c_arm[f] = (flux->plant).d13c_arm[f] = grid->d13c_bco2[f];
+		(flux->c3).d13c_rfg[f] = (flux->c4).d13c_rfg[f] = (flux->plant).d13c_rfg[f] = grid->d13c_bco2[f];
+		(flux->c3).d13c_rcg[f] = (flux->c4).d13c_rcg[f] = (flux->plant).d13c_rcg[f] = grid->d13c_bco2[f];
+		(flux->c3).d13c_rrg[f] = (flux->c4).d13c_rrg[f] = (flux->plant).d13c_rrg[f] = grid->d13c_bco2[f];
+		(flux->c3).d13c_arg[f] = (flux->c4).d13c_arg[f] = (flux->plant).d13c_arg[f] = grid->d13c_bco2[f]; 
+		(flux->c3).d13c_ar[f] = (flux->c4).d13c_ar[f] = (flux->plant).d13c_ar[f] = grid->d13c_bco2[f]; 
 				
-		(flux->c3).d13c_lf[f] = (flux->c4).d13c_lf[f] = (flux->plant).d13c_lf[f] = grid->d13C_bCO2[f]; 
-		(flux->c3).d13c_lc[f] = (flux->c4).d13c_lc[f] = (flux->plant).d13c_lc[f] = grid->d13C_bCO2[f]; 
-		(flux->c3).d13c_lr[f] = (flux->c4).d13c_lr[f] = (flux->plant).d13c_lr[f] = grid->d13C_bCO2[f]; 
-		(flux->c3).d13c_lL[f] = (flux->c4).d13c_lL[f] = (flux->plant).d13c_lL[f] = grid->d13C_bCO2[f]; 
+		(flux->c3).d13c_lf[f] = (flux->c4).d13c_lf[f] = (flux->plant).d13c_lf[f] = grid->d13c_bco2[f]; 
+		(flux->c3).d13c_lc[f] = (flux->c4).d13c_lc[f] = (flux->plant).d13c_lc[f] = grid->d13c_bco2[f]; 
+		(flux->c3).d13c_lr[f] = (flux->c4).d13c_lr[f] = (flux->plant).d13c_lr[f] = grid->d13c_bco2[f]; 
+		(flux->c3).d13c_lL[f] = (flux->c4).d13c_lL[f] = (flux->plant).d13c_lL[f] = grid->d13c_bco2[f]; 
 		
-		(flux->c3).d13c_lf_c[f] = (flux->c4).d13c_lf_c[f] = (flux->plant).d13c_lf_c[f] = grid->d13C_bCO2[f]; 
+		(flux->c3).d13c_lf_c[f] = (flux->c4).d13c_lf_c[f] = (flux->plant).d13c_lf_c[f] = grid->d13c_bco2[f]; 
 
-		(flux->c3).d13c_tpp[f] = (flux->c4).d13c_tpp[f] = (flux->plant).d13c_tpp[f] = grid->d13C_bCO2[f]; 
-		(flux->c3).d13c_tpf[f] = (flux->c4).d13c_tpf[f] = (flux->plant).d13c_tpf[f] = grid->d13C_bCO2[f]; 
-		(flux->c3).d13c_tpc[f] = (flux->c4).d13c_tpc[f] = (flux->plant).d13c_tpc[f] = grid->d13C_bCO2[f]; 
-		(flux->c3).d13c_tpr[f] = (flux->c4).d13c_tpr[f] = (flux->plant).d13c_tpr[f] = grid->d13C_bCO2[f]; 
+		(flux->c3).d13c_tpp[f] = (flux->c4).d13c_tpp[f] = (flux->plant).d13c_tpp[f] = grid->d13c_bco2[f]; 
+		(flux->c3).d13c_tpf[f] = (flux->c4).d13c_tpf[f] = (flux->plant).d13c_tpf[f] = grid->d13c_bco2[f]; 
+		(flux->c3).d13c_tpc[f] = (flux->c4).d13c_tpc[f] = (flux->plant).d13c_tpc[f] = grid->d13c_bco2[f]; 
+		(flux->c3).d13c_tpr[f] = (flux->c4).d13c_tpr[f] = (flux->plant).d13c_tpr[f] = grid->d13c_bco2[f]; 
 		
-		(flux->c3).d13c_hvst[f] = (flux->c4).d13c_hvst[f] = (flux->plant).d13c_hvst[f] = grid->d13C_bCO2[f]; 	
+		(flux->c3).d13c_hvst[f] = (flux->c4).d13c_hvst[f] = (flux->plant).d13c_hvst[f] = grid->d13c_bco2[f]; 	
 		
-		(flux->soil).d13c_lL[f] = grid->d13C_bCO2[f]; 
-		(flux->soil).d13c_rl[f] = grid->d13C_bCO2[f]; 
-		(flux->soil).d13c_rh[f] = grid->d13C_bCO2[f]; 
-		(flux->soil).d13c_rS[f] = grid->d13C_bCO2[f]; 
-		(flux->soil).d13c_sf[f] = grid->d13C_bCO2[f]; 
+		(flux->soil).d13c_lL[f] = grid->d13c_bco2[f]; 
+		(flux->soil).d13c_rl[f] = grid->d13c_bco2[f]; 
+		(flux->soil).d13c_rh[f] = grid->d13c_bco2[f]; 
+		(flux->soil).d13c_hr[f] = grid->d13c_bco2[f]; 
+		(flux->soil).d13c_sf[f] = grid->d13c_bco2[f]; 
 		
-		flux->d13c_nep[f] = grid->d13C_bCO2[f]; 
-		flux->d13c_ncb[f] = grid->d13C_bCO2[f]; 
+		flux->d13c_nep[f] = grid->d13c_bco2[f]; 
+		flux->d13c_ncb[f] = grid->d13c_bco2[f]; 
+		
+		/* D14C **********************************************************************/
+		(mass->c3).d14c_fol = (mass->c4).d14c_fol = (mass->plant).d14c_fol = 0.0; 	
+		(mass->c3).d14c_stm = (mass->c4).d14c_stm = (mass->plant).d14c_stm = 0.0; 	
+		(mass->c3).d14c_rot = (mass->c4).d14c_rot = (mass->plant).d14c_rot = 0.0; 	
+		(mass->soil).d14c_ltr = 0.0; 	
+		(mass->soil).d14c_msl = 0.0; 	
+		
+		(mass->c3).d14c_mfol[f] = (mass->c4).d14c_mfol[f] = (mass->plant).d14c_mfol[f] = 0.0; 	
+		(mass->c3).d14c_mstm[f] = (mass->c4).d14c_mstm[f] = (mass->plant).d14c_mstm[f] = 0.0; 	
+		(mass->c3).d14c_mrot[f] = (mass->c4).d14c_mrot[f] = (mass->plant).d14c_mrot[f] = 0.0; 	
+		(mass->soil).d14c_ltr_m[f] = 0.0; 
+		(mass->soil).d14c_msl_m[f] = 0.0; 
+		
+		flux->d14c_sr[f] = 0.0; 
+		flux->d14c_er[f] = 0.0; 
 	}
 }

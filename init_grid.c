@@ -30,7 +30,7 @@ void init_grid(
 	double tmp_sfc, tmp_2m,tmp10_soil, tmp200_soil, dswrf_toa, dswrf_sfc, tcdc_clm;
 	double prate_sfc, spfh_2m, soilw10, soilw200, ugrd_10m, vgrd_10m;
 	double geo_prop, crit_tension;
-	double lat, lon, total, wetland, paddy;
+	double lat, lon, total, wetland, lake, paddy;
 	double csiro_lat[56]={	
 		 87.5613, 84.4022, 81.2245, 78.0425, 74.8590, -71.6747, 68.4899, 65.3049,
 		 62.1197, 58.9343, 55.7489, 52.5634, 49.3779, 46.1924, 43.0068, 39.8211,
@@ -89,6 +89,9 @@ void init_grid(
 	/* grid latitude and longitude ******************/
 	grid->lat = 89.75-0.5*(double)grid->row;
 	grid->lon = -179.75+0.5*(double)grid->col;
+	
+	/* region ID by F.Giorgi: added by A.Ito (2009/07/12) */
+	grid->reg_g = region_giorgi(grid->lat, grid->lon);
 	
 	grid->ncep_lat = (long)((89.75-grid->lat)/(180.0/94.0));
 	if(grid->lon>0.0){
@@ -534,12 +537,16 @@ void init_grid(
 	}
 	grid->pore_cap1 *= 300.0;
 	
-	/* wetland fraction: data by Global Lakes and Wetlands Database */
-	fscanf(fp_s[21],"%lf %lf", &total, &wetland); 
-	wetland *= 1.0/10000.0;
+	/* wetland fraction: data by Global Lakes and Wetlands Database by WWF */
+	/* revised wetland data: by A.Ito (2009/07/14) */
+	fscanf(fp_s[21],"%lf %lf %lf %lf %lf", &lat, &lon, &total, &lake, &wetland); 
 	grid->f_wetland = wetland/grid->area;
 	if(grid->f_wetland > 1.0){
 		grid->f_wetland = 1.0;
+	}
+	grid->f_lake = lake/grid->area;
+	if(grid->f_lake > 1.0){
+		grid->f_lake = 1.0;
 	}
 	
 	/* paddy fraction: data by U.Wisconsin SAGE (Leff et al.) */
@@ -550,7 +557,7 @@ void init_grid(
 		grid->f_paddy = 0.0;
 	}
 	
-	grid->f_upland = 1.0 - grid->f_wetland - grid->f_paddy;
+	grid->f_upland = 1.0 - grid->f_wetland - grid->f_lake - grid->f_paddy;
 	if(grid->f_upland < 0.0){
 		grid->f_upland = 0.0;
 	}
@@ -568,7 +575,7 @@ void init_grid(
 	fscanf(fp_s[25],"%lf", &grid->ndepo[1]); 
 	fscanf(fp_s[25],"%lf", &grid->ndepo[2]); 
 		
-	/* EOS-WEBSTER Land-use change data */
+	/* EOS-WEBSTER Land-use change data *********************/
 	for(h=0;h<301;h++){
 		fscanf(fp_s[26],"%lf", &grid->fcrop_eossagehyde[h]);
 		fscanf(fp_s[27],"%lf", &grid->fpast_eossagehyde[h]);
@@ -591,7 +598,7 @@ void init_grid(
 		fscanf(fp_s[44],"%lf", &grid->t_vs2_eossagehyde[h]);
 	}
 	
-	/* crop type **********/	
+	/* crop type ******************************************/	
 	fscanf(fp_s[46],"%lf", &grid->fcrop);
 	fscanf(fp_s[46],"%lf", &grid->frice);
 	fscanf(fp_s[46],"%lf", &grid->fwheat);
@@ -611,4 +618,12 @@ void init_grid(
 	fscanf(fp_s[47],"%lf", &grid->srb_dif_max_x);
 	fscanf(fp_s[47],"%lf", &grid->srb_dif_min_y);
 	fscanf(fp_s[47],"%lf", &grid->srb_dif_max_y);
+	
+	/* inundation ********************************************/
+	fscanf(fp_s[48],"%lf", &lat);
+	fscanf(fp_s[48],"%lf", &lon);
+	for(h=0;h<12;h++){
+		fscanf(fp_s[48],"%ld", &aaa);
+		grid->inundation_ssmi[h] = (double)aaa/8.0;
+	}
 }
