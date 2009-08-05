@@ -691,20 +691,20 @@ void parameterSoil(
 					0.08, 0.07, 0.08, 0.07, 0.10, 0.10, 0.10, 0.10, 
 					0.10, 0.10, 0.10, 0.10, 0.08, 0.08, 0.10, 0.10, 
 					0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10};
-	double mev[VEG_NUM_OLSON]={1.50, 
-					1.38, 1.38, 1.38, 1.38, 1.38, 1.38, 1.38, 1.38, 
-					1.28, 1.28, 1.28, 1.23, 1.47, 1.47, 1.47, 1.47, 
-					1.47, 1.47, 1.47, 1.38, 1.28, 1.38, 1.47, 1.47, 
-					1.47, 1.47, 1.47, 1.47, 1.47, 1.47, 1.47, 1.47, 1.5};
+	double mev[VEG_NUM_OLSON]={0.75, 
+					0.69, 0.69, 0.69, 0.69, 0.69, 0.69, 0.69, 0.69, 
+					0.64, 0.64, 0.64, 0.62, 0.73, 0.73, 0.73, 0.73, 
+					0.73, 0.73, 0.73, 0.69, 0.64, 0.69, 0.73, 0.73, 
+					0.73, 0.73, 0.73, 0.73, 0.73, 0.73, 0.73, 0.73, 1.5};
 	
 	soil->albedo0 = albgv[grid->veg_olson]; 	 				 
 	
 	if(DF97==0){
-		soil->rl0=soil->rl = rlv[grid->veg_olson]*0.85;
-		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.75;
+		soil->rl0=soil->rl = rlv[grid->veg_olson]*0.85 * 1.5;
+		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.75 * 0.5;
 	}else if(DF97==1){
-		soil->rl0=soil->rl = rlv[grid->veg_olson]*0.70;
-		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.60;
+		soil->rl0=soil->rl = rlv[grid->veg_olson]*0.70 * 1.5;
+		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.60 * 0.5;
 	}
 	soil->qTl = qTlv[grid->veg_olson]; 
 	soil->qTh = qThv[grid->veg_olson];
