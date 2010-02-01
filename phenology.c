@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -199,8 +199,8 @@ void phenology_grass(
 			/* leaf-emergence */
 			if(pchar->frag_emg==0){
 				pchar->season[grid->m] = 2;
-				pchar->frag_emg=1;
-				pchar->frag_dcd=0;
+				pchar->frag_emg = 1;
+				pchar->frag_dcd = 0;
 			}
 		}
 	}else if(pchar->phototype==4){
@@ -208,10 +208,10 @@ void phenology_grass(
 			/* dormancy */
 			pchar->season[grid->m] = 0;
 			/* leaf-shedding */
-			if(pchar->frag_emg==1&&pchar->frag_dcd==0){
+			if(pchar->frag_emg==1 && pchar->frag_dcd==0){
 				pchar->season[grid->m] = 3;
-				pchar->frag_dcd=1;
-				pchar->frag_emg=0;
+				pchar->frag_dcd = 1;
+				pchar->frag_emg = 0;
 			}
 		}else{ /* if(loct->msww[grid->m]/grid->field_cap2>=0.1 && grid->tmp_sfc[grid->m]>=8.0) */
 			/* growing-period */
@@ -224,7 +224,7 @@ void phenology_grass(
 			}
 		}
 	}else{
-		printf("BAD phototype number !!: %ld\n", pchar->phototype==4);
+		printf("BAD phototype number !!: %d\n", pchar->phototype);
 		exit(1);
 	}
 }

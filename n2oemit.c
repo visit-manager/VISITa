@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /*  Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/*  Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /*  Carbon cycle, erosion, biomass burning, land-use change,			*/
 /*  CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -14,9 +14,7 @@
 
 #define NOTICE 0
 
-extern double an2o_a1[553], an2o_a2[553], an2o_b1[553], an2o_b2[553];
-
-/* formula of  DAILY N2O emission  **********************************/
+/* formula of DAILY N2O emission  ****************************************/
 /* NGAS by Parton et al. (1996)  */
 /*
 Parton WJ, Mosier AR, Ojima DS, Valentine DW, Schimel DS, 
@@ -61,7 +59,6 @@ void f_n2o_emit_ngas(
 		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
 		/* nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0);	
 		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0); */	 /* high */
-		
 	}
 	
 	/*

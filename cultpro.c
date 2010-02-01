@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -11,8 +11,6 @@
 #include<math.h>
 #include"structure.h"
 #include"prototype.h"
-
-extern short DF97;
 
 /* crop processes, e.g. grains, root crops, and pcharetables **************/
 void agri_process(
@@ -184,7 +182,7 @@ void harvesting(
 	struct Pflx *flux
 ){
 	double hvst_index, clear, nn;
-	extern double MDN[12];
+	extern double MDN[ASTEP];
 	
 	nn = MDN[grid->m];
 		
@@ -302,7 +300,7 @@ void interval(
 	struct Pflx *flux
 ){
 	double nn;
-	extern double MDN[12];
+	extern double MDN[ASTEP];
 
 	nn = MDN[grid->m];
 

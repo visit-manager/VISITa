@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -183,18 +183,20 @@ void f_voc_emit_guenther97(
 	flux->voc_acetacd_g97[grid->m] = emit_potent_acetacd[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
 	flux->voc_co_g97[grid->m] = emit_potent_co[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
 	
-	/* carbon loss by BVOC emission: 2008/09/02 */
-/*	total_closs = flux->voc_isopr_g97[grid->m] + flux->voc_monotrp_g97[grid->m] + flux->voc_methanl_g97[grid->m] + 
-		flux->voc_acetone_g97[grid->m] + flux->voc_actaldhd_g97[grid->m] + flux->voc_frmardhd_g97[grid->m] + 
-		flux->voc_formacd_g97[grid->m] + flux->voc_acetacd_g97[grid->m] + flux->voc_co_g97[grid->m];
-	
-	(mass->c3).fol -= total_closs/100000000.0;
-	if((mass->c3).fol < 0.0){
-		(mass->c3).fol = 0.0;
+	/* carbon loss by BVOC emission: 2008/10/09 */
+	if(NECB_BVOC==1){
+		total_closs = flux->voc_isopr_g97[grid->m] + flux->voc_monotrp_g97[grid->m] + flux->voc_methanl_g97[grid->m] + 
+			flux->voc_acetone_g97[grid->m] + flux->voc_actaldhd_g97[grid->m] + flux->voc_frmardhd_g97[grid->m] + 
+			flux->voc_formacd_g97[grid->m] + flux->voc_acetacd_g97[grid->m] + flux->voc_co_g97[grid->m];
+		
+		(mass->c3).fol -= total_closs/100000000.0;
+		if((mass->c3).fol < 0.0){
+			(mass->c3).fol = 0.0;
+		}
+		
+		(mass->c4).fol -= total_closs/100000000.0;
+		if((mass->c4).fol < 0.0){
+			(mass->c4).fol = 0.0;
+		}
 	}
-	
-	(mass->c4).fol -= total_closs/100000000.0;
-	if((mass->c4).fol < 0.0){
-		(mass->c4).fol = 0.0;
-	}  */
 }

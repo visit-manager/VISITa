@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -18,6 +18,11 @@ extern short RAD_SENS;
 #define GB 250.0
 
 /* formula of hourly gross primary production *******************/
+/*
+ De Pury, D. G. G., and G. D. Farquhar (1997), Simple scaling of photosynthesis from 
+ leaves to canopies without the errors of big-leaf models, 
+ Plant, Cell and Environment, 20, 537-557.
+*/
 double f_df97_gpp(
 	short mode,
 	struct Grid *grid, 
@@ -26,7 +31,7 @@ double f_df97_gpp(
 	struct Pmas *pmas
 ){
 	short h, start, end;
-	double aa, bb, cc, dd, jj, hangle, ge, dtc, co2_a, o2_i;
+	double aa, bb, cc, dd, jj, hangle, ge, dtc, co2_a, o2_i, apar_d, ipar_d;
 	double f_cloud, lai_t, kt, hd, e2p_d, e2p_b;
 	double h_sinh[DSTEP], toprad[DSTEP], sfcrad[DSTEP];
 	double par_b[DSTEP], par_d[DSTEP], ppfd_b[DSTEP], ppfd_d[DSTEP];
@@ -82,7 +87,9 @@ double f_df97_gpp(
 		n_photocap = 1.16;
 	}
 	
+	/* canopy-top N concentration */
 	n_top = pchar->n_leaf_df97;
+	/* non-photosynthetic N */
 	n_nonphoto = 25.0;
 		
 	/* canopy CO2 concentration */
@@ -143,6 +150,7 @@ double f_df97_gpp(
 	}
 	
 	gpp_df = 0.0;
+	apar_d = ipar_d = 0.0;
 	for(h=start;h<end;h++){
 		hangle = -180.0 + (double)h* (360.0/(double)DSTEP);
 		
@@ -226,6 +234,9 @@ double f_df97_gpp(
 				/* high PAR */
 				appfd = 2000.0;
 			}
+			
+			ipar_d += ppfd_b[h] + ppfd_d[h];
+			apar_d += appfd;
 			
 			/* absorbed PPFD by sunny leaves */
 			/* beam: Eq.20b of DF97 */
@@ -335,6 +346,12 @@ double f_df97_gpp(
 	
 	if(mode==1){
 		gpp_df *= MDN[grid->m];
+	}
+	
+	if(ipar_d>0.0){
+		loct->fapar_df[grid->m] = apar_d/ipar_d;
+	}else{
+		loct->fapar_df[grid->m] = 0.0;
 	}
 	
 /*	loct->xx1[grid->m] = monitor1[12];

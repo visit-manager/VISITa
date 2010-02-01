@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -117,6 +117,18 @@ void f_cisotope_efflux(
 	struct Flux *flux
 ){
 	double d13c_rr3, d13c_rr4, aaa;
+	double sr, er;
+	
+	sr = (loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m])+
+		  loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m])+
+		  (flux->soil).rl[grid->m] + (flux->soil).rh[grid->m]);
+	er = (loct->c3ptn[grid->m]*((flux->c3).rfm[grid->m]+(flux->c3).rfg[grid->m])+
+		  loct->c3ptn[grid->m]*((flux->c3).rcm[grid->m]+(flux->c3).rcg[grid->m])+
+		  loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m])+
+		  loct->c4ptn[grid->m]*((flux->c4).rfm[grid->m]+(flux->c4).rfg[grid->m])+
+		  loct->c4ptn[grid->m]*((flux->c4).rcm[grid->m]+(flux->c4).rcg[grid->m])+
+		  loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m])+
+		  (flux->soil).rl[grid->m] + (flux->soil).rh[grid->m]);
 	
 	(flux->plant).d13c_gpp[grid->m] = d13c_addition((flux->c3).d13c_gpp[grid->m], loct->c3ptn[grid->m]*(flux->c3).gpp[grid->m], 
 													(flux->c4).d13c_gpp[grid->m], loct->c4ptn[grid->m]*(flux->c4).gpp[grid->m]);
@@ -198,27 +210,25 @@ void f_cisotope_efflux(
 											d13c_rr4, loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m]), 
 											(flux->soil).d13c_hr[grid->m], (flux->soil).hr[grid->m]);
 	
-	flux->d14c_sr[grid->m] = ((mass->c3).d14c_rot*loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m])+
+	if(sr > 0.0){
+		flux->d14c_sr[grid->m] = ((mass->c3).d14c_rot*loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m])+
 						(mass->c4).d14c_rot*loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m])+
-						(mass->soil).d14c_ltr*(flux->soil).rl[grid->m] + (mass->soil).d14c_msl*(flux->soil).rh[grid->m]) / 
-						(loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m])+
-						loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m])+
-						(flux->soil).rl[grid->m] + (flux->soil).rh[grid->m]);
-
-	flux->d14c_er[grid->m] = ((mass->c3).d14c_fol*loct->c3ptn[grid->m]*((flux->c3).rfm[grid->m]+(flux->c3).rfg[grid->m])+
+						(mass->soil).d14c_ltr*(flux->soil).rl[grid->m] + (mass->soil).d14c_msl*(flux->soil).rh[grid->m]) / sr;
+	}else{
+		flux->d14c_sr[grid->m] = 0.0;
+	}
+	
+	if(er > 0.0){
+		flux->d14c_er[grid->m] = ((mass->c3).d14c_fol*loct->c3ptn[grid->m]*((flux->c3).rfm[grid->m]+(flux->c3).rfg[grid->m])+
 							  (mass->c3).d14c_stm*loct->c3ptn[grid->m]*((flux->c3).rcm[grid->m]+(flux->c3).rcg[grid->m])+
 							  (mass->c3).d14c_rot*loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m])+
 							  (mass->c4).d14c_fol*loct->c4ptn[grid->m]*((flux->c4).rfm[grid->m]+(flux->c4).rfg[grid->m])+
 							  (mass->c4).d14c_stm*loct->c4ptn[grid->m]*((flux->c4).rcm[grid->m]+(flux->c4).rcg[grid->m])+
 							  (mass->c4).d14c_rot*loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m])+
-							  (mass->soil).d14c_ltr*(flux->soil).rl[grid->m] + (mass->soil).d14c_msl*(flux->soil).rh[grid->m]) / 
-							(loct->c3ptn[grid->m]*((flux->c3).rfm[grid->m]+(flux->c3).rfg[grid->m])+
-							 loct->c3ptn[grid->m]*((flux->c3).rcm[grid->m]+(flux->c3).rcg[grid->m])+
-							 loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m])+
-							 loct->c4ptn[grid->m]*((flux->c4).rfm[grid->m]+(flux->c4).rfg[grid->m])+
-							 loct->c4ptn[grid->m]*((flux->c4).rcm[grid->m]+(flux->c4).rcg[grid->m])+
-							 loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m])+
-							 (flux->soil).rl[grid->m] + (flux->soil).rh[grid->m]);
+							  (mass->soil).d14c_ltr*(flux->soil).rl[grid->m] + (mass->soil).d14c_msl*(flux->soil).rh[grid->m]) / er;
+	}else{
+		flux->d14c_er[grid->m] = 0.0;
+	}
 }
 
 /* d14C decay: added by A.Ito (2009/06/27) **********************/

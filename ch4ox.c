@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /*  Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/*  Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /*  Carbon cycle, erosion, biomass burning, land-use change,			*/
 /*  CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -14,10 +14,12 @@
 
 #define NOTICE 0
 
-extern long GCM;
-extern double ach4_a1[553], ach4_a2[553], ach4_b1[553], ach4_b2[553];
-
 /* Daily CASA soil moisture submodel **********************************/
+/*
+ Potter, C. S., et al. (1993), Terrestrial ecosystem production: a process 
+ model based on global satellite and surface data, 
+ Global Biogeochemical Cycles, 7(4), 811-841.
+ */
 void f_casa_mositure(
 	struct Grid *grid, 
 	struct Loct *loct
@@ -133,15 +135,18 @@ void f_ch4oxy_ridgewell(
 	extern double MDN[ASTEP];
 	
 	/*Atmospheric CH4 */
-	switch(GCM){
-		case 1000: case 1010: case 1070: case 1080: case 1090: case 1110:
+	switch(CO2S){
+		case 1:
 			co_ch4 = ach4_a1[grid->co2y-1750]/1000.0;
 			break;
-		case 1013: case 1071: case 1081: case 1091: case 1111:
+		case 4:
 			co_ch4 = ach4_a2[grid->co2y-1750]/1000.0;
 			break;
-		case 1001: case 1016: case 1072: case 1082: case 1092: case 1112:
+		case 5:
 			co_ch4 = ach4_b1[grid->co2y-1750]/1000.0;
+			break;
+		default:
+			co_ch4 = ach4_a1[grid->co2y-1750]/1000.0;
 			break;
 	}
 	
@@ -196,7 +201,7 @@ void f_ch4oxy_ridgewell(
 	
 	/* mg CH4 m-2 day-1 */
 	(flux->soil).ch4oxy_ridg[grid->m] = d_j_ch4;
-	/* mg CH4 m-2 day-1 */
+	/* mg CH4 m-2 month-1 */
 	(flux->soil).ch4oxy_ridg[grid->m] *= MDN[grid->m];
 	
 	/* removal of wetlands and paddy fields */
@@ -508,15 +513,18 @@ void f_ch4oxy_curry(
 	extern double MDN[12];
 	
 	/*Atmospheric CH4 */
-	switch(GCM){
-		case 1000: case 1010: case 1070: case 1080: case 1090: case 1110:
+	switch(CO2S){
+		case 1:
 			c_0 = ach4_a1[grid->co2y-1750]/1000.0;
 			break;
-		case 1013: case 1071: case 1081: case 1091: case 1111:
+		case 4:
 			c_0 = ach4_a2[grid->co2y-1750]/1000.0;
 			break;
-		case 1001: case 1016: case 1072: case 1082: case 1092: case 1112:
+		case 5:
 			c_0 = ach4_b1[grid->co2y-1750]/1000.0;
+			break;
+		default:
+			c_0 = ach4_a1[grid->co2y-1750]/1000.0;
 			break;
 	}
 

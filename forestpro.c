@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /*  Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/*  Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /*  Carbon cycle, erosion, biomass burning, land-use change,			*/
 /*  CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -12,8 +12,6 @@
 #include"structure.h"
 #include"prototype.h"
 
-extern short DF97;
-
 /* forest processes *****************************************/
 void forest_process(
 	struct Grid *grid, 
@@ -22,6 +20,7 @@ void forest_process(
 	struct Pchar *pchar, 
 	struct Pmas *mass
 ){
+	/* preparation */
 	f_before_deal(grid, flux);
 
 	switch(pchar->season[grid->m]){
@@ -41,6 +40,7 @@ void forest_process(
 			break;
 	}
 	
+	/* post-processing */
 	f_after_deal(grid, pchar, mass, flux);
 }
 
@@ -178,6 +178,7 @@ void leaffall(
 	mass->stm -= flux->lc[grid->m];
 	mass->rot -= flux->lr[grid->m];
 	
+	/* leaf age */
 	f_leaf_age(1, pchar, mass, -flux->lf[grid->m]);
 
 	/* photosynthesis, gross primary production */

@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -11,9 +11,6 @@
 #include<string.h>
 #include"structure.h"
 #include"prototype.h"
-
-extern long GCM, GCM_R, GCM_C;
-extern short DF97;
 
 /* aggregate C3 and C4 community *************************************************/
 void f_plant_stand_budget(
@@ -212,8 +209,13 @@ void f_after_deal(
 	flux->d14c_gpp[grid->m] = in_d14c;
 	
 	/* litter */
-	flux->d14c_lL[grid->m] = (mass->d14c_fol*flux->lf[grid->m] + mass->d14c_stm*flux->lc[grid->m] + mass->d14c_rot*flux->lr[grid->m]) / 
-			(flux->lf[grid->m] + flux->lc[grid->m] + flux->lr[grid->m]);
+	if((flux->lf[grid->m] + flux->lc[grid->m] + flux->lr[grid->m]) > 0.0){
+		flux->d14c_lL[grid->m] = (mass->d14c_fol*flux->lf[grid->m] + mass->d14c_stm*flux->lc[grid->m] + mass->d14c_rot*flux->lr[grid->m]) / 
+				(flux->lf[grid->m] + flux->lc[grid->m] + flux->lr[grid->m]);
+	}else{
+		/* no litterfall */
+		flux->d14c_lL[grid->m] = 0.0;
+	}
 	
 	/* leaves */
 	if((flux->tpf[grid->m]-flux->rfg[grid->m])>0.0){
@@ -638,6 +640,11 @@ void set_gcm_index(
 }
 
 /* REGIONS by F.Giorgi **********/
+/*
+ Giorgi, F., and R. Francisco (2000), Uncertainties in regional climate change prediction: 
+ a regional analysis of ensemble simulations with the HADCM2 coupled AOGCM, 
+ Climate Dynamics, 16, 169-182.
+*/
 long region_giorgi(
 	double lat, 
 	double lon

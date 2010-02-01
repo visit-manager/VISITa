@@ -1,11 +1,11 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in November 29, 2007						*/
 
-/* prototype declaration */
+/* constants declaration */
 #define dTr 0.0174533 /* angle conversion, from degree to radian */
 #define rTd 57.29577951 /* angle conversion, from radian to degree */
 #define PI 3.141592653 /** pai **/
@@ -20,7 +20,7 @@
 /***********************/
 #define ASTEP 12	/* annual time-step, 12=monthly */
 
-#define HIST 201	/* simulation dulation */
+#define HIST 201	/* simulation dulation (years) */
 
 /***************************************************/
 /* total vegetation number */
@@ -33,16 +33,30 @@
 #define CALC_SAGE 0
 #define CALC_CROP 0
 
+/* number of regions */
 #define NREG 23
 
 /***************************************************/
 /* 20th century */
-#define CRU_PD 100  /* */		/* 100: AD 1901 - 2000 */
-/* #define CRU_PD 102	*/	/* 102: AD 1901 - 2002 */
-/* #define CRU_PD 108	*/	/* 102: AD 1901 - 2008 */
+#define HIST_PD 109  /* */		/* 100: AD 1901 - 2000 */
+/* #define HIST_PD 102	*/	/* 102: AD 1901 - 2002 */
+/* #define HIST_PD 108	*/	/* 102: AD 1901 - 2008 */
+/* #define HIST_PD 109	*/	/* 102: AD 1901 - 2009 */
+
 /* 21st century */
-#define GCM_PD 100		/* 100 : 2001-2100 */
+#define GCM_SIM 0
+#define GCM_PD 0		/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
+#define GCM_DL 131
+
+/* CRU data length: 2010/01/04 (A.Ito) */
+/* 102: TS2.1 */
+/* 106: TS3.0 */
+#define CRU_DL 106
+
+/* Simulation using NCEP/NACR reanalysis data */
+#define NCEP_SIM 1
+#define NCEP_DL 62
 
 /* start year of CO2 */
 #define PIVOT_CO2Y 1901
@@ -60,13 +74,22 @@
 #define PIVOT_GCMY 1970
 
 /***************************************************/
-/* coupling erosion carbon loss */
-#define ERSN_CC 0
+/* NECB: coupling carbon loss */
 /* 0: uncoupled */
 /* 1: coupled */
+/* erosion */
+#define NECB_ERSN 1
+/* biomass burning */
+#define NECB_BB 1
+/* bvoc */
+#define NECB_BVOC 1
+/* doc */
+#define NECB_DOC 1
+/* CH4 */
+#define NECB_CH4 1
 
 /* land use setting */
-#define LANDUSE 6
+#define LANDUSE 8
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -74,6 +97,8 @@
 /* 4: high future land-use change, coupling */
 /* 5: IMAGE2 land-use change since 1990 */
 /* 6: EOS-WEBSTER Hurtt land-use change, 1700-2000 */
+/* 7: Ramankutty land-use change, 1700-2007 */
+/* 8: Hurtt harmonized land-use change, 1700-2005 (added 2010/01/31) */
 
 /* setting of soil conservation */
 #define SOIL_CONSV 0
@@ -84,6 +109,11 @@
 #define VEGCOVER 0
 /* 0: conventional */
 /* 1: lai based */
+
+/* binary output */
+#define C13_GOUT 0
+#define C14_GOUT 0
+#define PHYS_GOUT 0
 
 /***************************************************/
 /* PAR conversion */
@@ -98,6 +128,13 @@
 #define DIF_SRB 1
 /* 0: off */
 /* 1: on */
+
+/* CH4 emission by Walter-Heimann scheme */
+#define CH4_WH 1
+#define SOIL_LAYER 20
+
+/* specific scheme on permaforst */
+#define PERFROST 0
 
 /***************************************************/
 /* carbon-nitrogen coupling */
@@ -191,16 +228,18 @@
 #define CC_H 1
 
 /* constant future CO2 level */
-#define CC_CD 1
+#define CC_CD 2
+/* 1: actual CO2 rise */
+/* 2: no CO2 rise */
 
-/* deforestation ***************************/
+/* deforestation *******************************/
 #define DEFOREST 0
 /* 0: as present */
 /* 1: entire deforestation, replaced by 19 */
 /* 2: entire deforestation, replaced by 13 */
 /* 3: entire deforestation, replaced by 31 */
 
-/*******************************************
+/***********************************************/
 /* 0: no GCM */
 
 /*** AR3 ***/

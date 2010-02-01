@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -14,7 +14,10 @@
 /* UEA/CRU data  **********************************************/
 /*
 New, M., Lister, D., Hulme, M. and Makin, I., 2002. A high-resolution data set of 
-surface climate over global land areas. Climate Research, 21:1-25.
+ surface climate over global land areas. Climate Research, 21:1-25.
+Mitchell, T. D., and P. D. Jones (2005), An improved method of constructing a database 
+ of monthly climate observations and associated high-resolution grids, 
+ International Journal of Climatology, 25, 693-712.
 */
 void read_cru_clim(
 	FILE *fp_c[4], 
@@ -22,14 +25,15 @@ void read_cru_clim(
 ){
 	long kk[4];
 	long f, g, h;
-	double data;
+	double data, alt;
 	
 	/*  printf("reading CRU data...");  */
+	/* read CRU TS3.0 Vapor-pressure data: 2010/01/04 (A.Ito) */
 	
-	/* read CRU TS2.1 Cloud data */
+	/* read CRU TS Cloud data */
 	fscanf(fp_c[0],"%ld", &kk[0]);
-	if(kk[0]==11){
-		for(h=0;h<102;h++){
+	if(kk[0]!=0){
+		for(h=0;h<CRU_DL;h++){
 			for(g=0;g<ASTEP;g++){
 				fscanf(fp_c[0],"%lf", &data);
 				
@@ -38,10 +42,10 @@ void read_cru_clim(
 		}
 	}
 	
-	/* read CRU TS2.1 Precipitation data */
+	/* read CRU TS Precipitation data */
 	fscanf(fp_c[1],"%ld", &kk[1]);
-	if(kk[1]==11){
-		for(h=0;h<102;h++){
+	if(kk[1]!=0){
+		for(h=0;h<CRU_DL;h++){
 			for(g=0;g<ASTEP;g++){
 				fscanf(fp_c[1],"%lf", &data);
 				
@@ -50,10 +54,10 @@ void read_cru_clim(
 		}
 	}
 	
-	/* read CRU TS2.1 Temperature data */
+	/* read CRU TS Temperature data */
 	fscanf(fp_c[2],"%ld", &kk[2]);
-	if(kk[2]==11){
-		for(h=0;h<102;h++){
+	if(kk[2]!=0){
+		for(h=0;h<CRU_DL;h++){
 			for(g=0;g<ASTEP;g++){
 				fscanf(fp_c[2],"%lf", &data);
 				
@@ -62,10 +66,10 @@ void read_cru_clim(
 		}
 	}
 	
-	/* read CRU TS2.1 Vapor-pressure data */
+	/* read CRU TS Vapor-pressure data */
 	fscanf(fp_c[3],"%ld", &kk[3]);
-	if(kk[3]==11){
-		for(h=0;h<102;h++){
+	if(kk[3]!=0){
+		for(h=0;h<CRU_DL;h++){
 			for(g=0;g<ASTEP;g++){
 				fscanf(fp_c[3],"%lf", &data);
 				
@@ -77,9 +81,10 @@ void read_cru_clim(
 	/*  printf("********* %ld\n",cru_flag);  */
 	
 	/* if valid CRU climate data are all available **/
-	if((kk[0]+kk[1]+kk[2]+kk[3])==44){
+	if((kk[0]+kk[1]+kk[2]+kk[3])==4){
 		/* data available */
 		grid->cru_exist = 1;
+		alt = (grid->topo>=0.0)?grid->topo:0.0; 
 
 		/* base climate (average 1971 - 2000) ******************/
 		for(g=0;g<ASTEP;g++){

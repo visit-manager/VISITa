@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -126,7 +126,7 @@ void plant_flux_zero(
 }
 
 /* make plant fluxes vacant ********************************/
-void n_flux_zero(
+void ghg_flux_zero(
 	long month, 
 	struct Flux *flux
 ){
@@ -183,6 +183,16 @@ void n_flux_zero(
 	(flux->soil).ch4prod_paddy_cao[month] = 0.0;
 	(flux->soil).ch4oxy_paddy_cao[month] = 0.0;
 	(flux->soil).ch4flux_paddy_cao[month] = 0.0;
+	
+	(flux->soil).ch4_wetland_wh_plant[month] = 0.0;
+	(flux->soil).ch4_wetland_wh_ebull[month] = 0.0;
+	(flux->soil).ch4_wetland_wh_diff[month] = 0.0;
+	(flux->soil).ch4_wetland_wh_release[month] = 0.0;
+
+	(flux->soil).ch4_paddy_wh_plant[month] = 0.0;
+	(flux->soil).ch4_paddy_wh_ebull[month] = 0.0;
+	(flux->soil).ch4_paddy_wh_diff[month] = 0.0;
+	(flux->soil).ch4_paddy_wh_release[month] = 0.0;
 }
 
 /* make bare land without plant and soil *******************************/
@@ -217,7 +227,7 @@ void vanish(
 		plant_flux_zero(k, &(flux->c3));
 		plant_flux_zero(k, &(flux->c4));
 		plant_flux_zero(k, &(flux->plant));		
-		n_flux_zero(k, flux);
+		ghg_flux_zero(k, flux);
 								
 		(flux->soil).rl[k] = 0.0;
 		(flux->soil).rh[k] = 0.0;
@@ -357,6 +367,11 @@ void f_init_c_isotpes(
 		(mass->c3).d14c_mrot[f] = (mass->c4).d14c_mrot[f] = (mass->plant).d14c_mrot[f] = 0.0; 	
 		(mass->soil).d14c_ltr_m[f] = 0.0; 
 		(mass->soil).d14c_msl_m[f] = 0.0; 
+		
+		(flux->c3).d14c_gpp[f] = (flux->c3).d14c_lL[f] = 0.0;
+		(flux->c4).d14c_gpp[f] = (flux->c4).d14c_lL[f] = 0.0;
+		(flux->plant).d14c_gpp[f] = (flux->plant).d14c_lL[f] = 0.0;
+		(flux->soil).d14c_lL[f] = 0.0;
 		
 		flux->d14c_sr[f] = 0.0; 
 		flux->d14c_er[f] = 0.0; 

@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -10,8 +10,6 @@
 #include<math.h>
 #include"structure.h"
 #include"prototype.h"
-
-extern short DF97;
 
 /* ecophysiological vegetation processes *******************************/
 void ecophysiology(
@@ -27,6 +25,7 @@ void ecophysiology(
 	/* give leaf area index (LAI), m2 m-2*/
 	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
 	
+	/* canopy radiation absorption */
 	sinb = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr) 
 			+ cos(grid->lat*dTr)*cos(grid->sl_dec[grid->m]*dTr)*1.0;
 	sinb = (sinb<=1.0)?sinb:1.0; 
@@ -55,7 +54,7 @@ void ecophysiology(
 	}
 	
 	/* give irradiance attenuation coefficient */
-	if(EFF_K==0){
+	if(EFF_K == 0){
 		pchar->eK[grid->m] = irr_attn(grid, loct, pchar);
 		pchar->fapar[grid->m] = (1.0 - pchar->albedo)*(1.0 - exp(-pchar->eK[grid->m]*mass->lai[grid->m]));
 	}else if(EFF_K==1){
@@ -66,7 +65,7 @@ void ecophysiology(
 	/* leaf N concentration */
 	f_n_leaf_conc(grid, pchar, mass);
 	
-	/** initial ci **/
+	/** initial ci: 70% of ambient level **/
 	pchar->ci[grid->m] = loct->aco2[grid->m]*0.7; 
 	
 	/* stabilization of single-leaf processes */
@@ -79,7 +78,7 @@ void ecophysiology(
 
 		/* canopy-top photosynthetic rate*/
 		aaa = pchar->psat[grid->m]*pchar->lue[grid->m]*grid->par[grid->m];
-		bbb = pchar->psat[grid->m]+pchar->lue[grid->m]*grid->par[grid->m];
+		bbb = pchar->psat[grid->m] + pchar->lue[grid->m]*grid->par[grid->m];
 		if(bbb>0.0){
 			pchar->ptop = aaa/bbb;
 		}else{
@@ -134,6 +133,7 @@ double lai_mass(
 	/* 100.0: cm2 g dm-1 to Mg ha-1 base */
 	/* 2.0: single-sided leaf area */	
 	
+	/* sensitivity analysis: prescribed LAI **/
 	if(SENS == 7 && (grid->climy>=2001) ){
 		lai_est = mass->lai0[grid->m];
 	}
@@ -172,7 +172,7 @@ void incel_cdc(
 	/* 1.56: conversion from H2O to CO2 conductance */
 	
 	ci = loct->aco2[grid->m]-(plant->ptop/(gs_co2/1000.0));
-	/* 1000.0: conbert from mmol to ÔΩµmol */
+	/* 1000.0: conbert from mmol to micro mol */
 	
 	ci = (ci>=0.0)?ci:0.0;
 	ci = (ci<=loct->aco2[grid->m])?ci:loct->aco2[grid->m];
@@ -212,12 +212,16 @@ void stom_cond(
 	double b1d, cc;
 	
 	/* stomatal conductance model by Ball, Woodraw, and Berry (1987) */
+	/*
+	 Leuning, R. (1995), A critical appraisal of a combined stomatal-photosynthesis 
+	 model for C3 plants, Plant, Cell and Environment, 18, 339-355.
+	*/
 	b1d = pchar->gs_b1/((loct->aco2[grid->m] - pchar->cmpcd[grid->m])*(1.0+loct->vpd[grid->m]/pchar->gs_b2)); /* */
 	/* insensitive to CO2 */
 	/* b1d=plant->gs_b1/(( 350.0 - 40.0 )*(1.0+loct->vpd[grid->m]/plant->gs_b2)); */
 
 	/** add soil water factor **/
-	cc=1.0; /* not defined yet */
+	cc = 1.0; /* not defined yet */
 
 	if(pchar->psat[grid->m]>0.0){
 		pchar->gs[grid->m] = pchar->gs_b0 + b1d*pchar->ptop/pchar->psat[grid->m]*cc;
@@ -366,6 +370,7 @@ void f_n_leaf_conc(
 }
 
 /* leaf age **************************************************************/
+/* used for BVOC emission */
 void f_leaf_age(
 	short update, 
 	struct Pchar *pchar, 

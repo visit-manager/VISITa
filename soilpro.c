@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -73,7 +73,8 @@ void soil_processes(
 	}
 	/* total soil respiration */
 	flux->hr[grid->m] = flux->rl[grid->m] + flux->rh[grid->m];
-	flux->d13c_hr[grid->m] = d13c_addition(flux->d13c_rl[grid->m], flux->rl[grid->m], flux->d13c_rh[grid->m], flux->rh[grid->m]);
+	flux->d13c_hr[grid->m] = d13c_addition(flux->d13c_rl[grid->m], flux->rl[grid->m], 
+										   flux->d13c_rh[grid->m], flux->rh[grid->m]);
 	
 	/* monthly values */
 	mass->ltr_m[grid->m] = mass->ltr;
@@ -86,8 +87,21 @@ void soil_processes(
 	mass->d13c_soil[grid->m] = d13c_addition(mass->ltr, mass->d13c_ltr, mass->msl, mass->d13c_msl);
 	
 	/* d14c: added by A.Ito (2009/07/12) *********/
-	mass->d14c_msl = (mass->d14c_ltr*flux->sf[grid->m] + mass->d14c_msl*mass->msl) / (flux->sf[grid->m] + mass->msl);
-	mass->d14c_ltr = (flux->d14c_lL[grid->m]*flux->lL[grid->m] + mass->d14c_ltr*mass->ltr) / (flux->lL[grid->m] + mass->ltr);
+	/* d14c: revised by A.Ito (2009/11/17) *********/
+	if((flux->sf[grid->m] + mass->msl) > 0.0){
+		mass->d14c_msl = (mass->d14c_ltr*flux->sf[grid->m] + mass->d14c_msl*mass->msl) / 
+						(flux->sf[grid->m] + mass->msl);	
+	}else{
+		mass->d14c_msl = grid->d14c_bco2[grid->m];
+	}
+	
+	if((flux->lL[grid->m] + mass->ltr) > 0.0){
+		mass->d14c_ltr = (flux->d14c_lL[grid->m]*flux->lL[grid->m] + mass->d14c_ltr*mass->ltr) / 
+						(flux->lL[grid->m] + mass->ltr);		
+	}else{
+		mass->d14c_ltr = grid->d14c_bco2[grid->m];
+	}
+	
 	mass->d14c_msl_m[grid->m] = mass->d14c_msl;
 	mass->d14c_ltr_m[grid->m] = mass->d14c_ltr;
 	
@@ -96,7 +110,7 @@ void soil_processes(
 	f_n_mineralz(grid, loct, mass, flux);
 	
 	/* NH3 volatilization */
-	f_nh3_volatilization(grid, loct, mass, flux);
+	f_nh3_volatilization(grid, loct, schar, mass, flux);
 	
 	/* NO3- leaching */
 	f_n_leaching(grid, loct, mass, flux);
@@ -123,15 +137,15 @@ double frl(
 	/* ftl=exp(log(soil->qTl)/10.0*(grid->tmp10_soil[grid->m]-to)); */
 	if(grid->tmp10_soil[grid->m]>-20.0){
 		if(T_D==0){
-			ftl = 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02))); /* control */
+			ftl = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02))); /* control */
 		}else if(T_D==1){
-			ftl = 0.05+0.95*exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02)));
+			ftl = 0.05 + 0.95*exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02)));
 		}else if(T_D==2){
-			ftl = 0.05+0.95*exp(308.56*0.7*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02)));
+			ftl = 0.05 + 0.95*exp(308.56*0.7*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02)));
 		}else if(T_D==3){
-			ftl = 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02*1.3)));
+			ftl = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02*1.3)));
 		}else if(T_D==4){
-			ftl = 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02*0.7)));
+			ftl = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02*0.7)));
 		}
 	}else{
 		ftl=0.05;
@@ -162,7 +176,7 @@ double frl(
 
 	/* printf("%lf %lf %lf\n",ftl,fwl,fsm); */
 
-	rl=mass->ltr*rlto*ftl*fsm; 
+	rl = mass->ltr*rlto*ftl*fsm; 
 	
 	/* in case of too much emission, in order to avoid negative mass value */ 
 	if((mass->ltr - rl*(1.0 + schar->me))<0.0){

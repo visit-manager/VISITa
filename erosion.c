@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -106,6 +106,7 @@ void f_erosion(
 	if(SOIL_CONSV==0){
 		/* Revised: 070802 */
 		switch(grid->country){
+			/* OECD countries */
 			case 840:	consv =	0.75;		break;	/* United States */
 			case 826:	consv =	0.75;		break;	/* United Kingdom */
 			case 276:	consv =	0.75;		break;	/* Germany */

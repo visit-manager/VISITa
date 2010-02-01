@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -93,7 +93,8 @@ void co2_in_canopy(
 	closure_factor = 1.5*0.75*mass->lai_p/(1.5 + 0.75*mass->lai_p);
 	source_factor = 2.0*0.5*flux->efflux_p/(2.0 + 0.5*flux->efflux_p);
 	
-	loct->cnpy_co2_recyc = 0.2*closure_factor*source_factor;  /*  0.3  011017  */  /*  0.1  011020  */  /*  0.5  011022  */
+	loct->cnpy_co2_recyc = 0.2*closure_factor*source_factor;  
+	/*  0.3  011017  */  /*  0.1  011020  */  /*  0.5  011022  */
 	
 	if(loct->cnpy_co2_recyc>=0.0 && loct->cnpy_co2_recyc<=0.3){
 		ambient_d13c = d13c_addition(grid->d13c_bco2[grid->m], 1.0-loct->cnpy_co2_recyc,  

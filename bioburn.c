@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -300,48 +300,50 @@ void f_biomassburning(
 			* f_burnt_root[grid->veg_sage] * ef_tec[grid->veg_sage];
 		
 		/* carbon budget ****************************************/
-	/*	closs_leaf = flux->bb_co2_leaf[f]*12.0/44.0/1000.0 + flux->bb_co_leaf[f]*12.0/28.0/1000.0 
-			+ flux->bb_ch4_leaf[f]*12.0/16.0/1000.0 + flux->bb_bc_leaf[f]/1000.0;
-		closs_wood = flux->bb_co2_wood[f]*12.0/44.0/1000.0 + flux->bb_co_wood[f]*12.0/28.0/1000.0 
-			+ flux->bb_ch4_wood[f]*12.0/16.0/1000.0 + flux->bb_bc_wood[f]/1000.0;
-		closs_root = flux->bb_co2_root[f]*12.0/44.0/1000.0 + flux->bb_co_root[f]*12.0/28.0/1000.0 
-			+ flux->bb_ch4_leaf[f]*12.0/16.0/1000.0 + flux->bb_bc_leaf[f]/1000.0;
-		closs_litter = flux->bb_co2_litter[f]*12.0/44.0/1000.0 + flux->bb_co_litter[f]*12.0/28.0/1000.0 
-			+ flux->bb_ch4_litter[f]*12.0/16.0/1000.0 + flux->bb_bc_litter[f]/1000.0;
-		
-		(mass->c3).mfol[f] -= closs_leaf;
-		if((mass->c3).mfol[f] < 0.0){
-			(mass->c3).mfol[f] = 0.0;
-		}
-		(mass->c4).mfol[f] -= closs_leaf;
-		if((mass->c4).mfol[f] < 0.0){
-			(mass->c4).mfol[f] = 0.0;
-		}
-		(mass->plant).mfol[f] = (mass->c3).mfol[f]*loct->c3ptn[f] + (mass->c4).mfol[f]*loct->c4ptn[f];
+		if(NECB_BB==1){
+			closs_leaf = flux->bb_co2_leaf[f]*12.0/44.0/1000.0 + flux->bb_co_leaf[f]*12.0/28.0/1000.0 
+				+ flux->bb_ch4_leaf[f]*12.0/16.0/1000.0 + flux->bb_bc_leaf[f]/1000.0;
+			closs_wood = flux->bb_co2_wood[f]*12.0/44.0/1000.0 + flux->bb_co_wood[f]*12.0/28.0/1000.0 
+				+ flux->bb_ch4_wood[f]*12.0/16.0/1000.0 + flux->bb_bc_wood[f]/1000.0;
+			closs_root = flux->bb_co2_root[f]*12.0/44.0/1000.0 + flux->bb_co_root[f]*12.0/28.0/1000.0 
+				+ flux->bb_ch4_leaf[f]*12.0/16.0/1000.0 + flux->bb_bc_leaf[f]/1000.0;
+			closs_litter = flux->bb_co2_litter[f]*12.0/44.0/1000.0 + flux->bb_co_litter[f]*12.0/28.0/1000.0 
+				+ flux->bb_ch4_litter[f]*12.0/16.0/1000.0 + flux->bb_bc_litter[f]/1000.0;
+			
+			(mass->c3).mfol[f] -= closs_leaf;
+			if((mass->c3).mfol[f] < 0.0){
+				(mass->c3).mfol[f] = 0.0;
+			}
+			(mass->c4).mfol[f] -= closs_leaf;
+			if((mass->c4).mfol[f] < 0.0){
+				(mass->c4).mfol[f] = 0.0;
+			}
+			(mass->plant).mfol[f] = (mass->c3).mfol[f]*loct->c3ptn[f] + (mass->c4).mfol[f]*loct->c4ptn[f];
 
-		(mass->c3).mstm[f] -= closs_wood;
-		if((mass->c3).mstm[f] < 0.0){
-			(mass->c3).mstm[f] = 0.0;
-		}
-		(mass->c4).mfol[f] -= closs_wood;
-		if((mass->c4).mstm[f] < 0.0){
-			(mass->c4).mstm[f] = 0.0;
-		}
-		(mass->plant).mstm[f] = (mass->c3).mstm[f]*loct->c3ptn[f] + (mass->c4).mstm[f]*loct->c4ptn[f];
+			(mass->c3).mstm[f] -= closs_wood;
+			if((mass->c3).mstm[f] < 0.0){
+				(mass->c3).mstm[f] = 0.0;
+			}
+			(mass->c4).mfol[f] -= closs_wood;
+			if((mass->c4).mstm[f] < 0.0){
+				(mass->c4).mstm[f] = 0.0;
+			}
+			(mass->plant).mstm[f] = (mass->c3).mstm[f]*loct->c3ptn[f] + (mass->c4).mstm[f]*loct->c4ptn[f];
 
-		(mass->c3).mrot[f] -= closs_root;
-		if((mass->c3).mrot[f] < 0.0){
-			(mass->c3).mrot[f] = 0.0;
+			(mass->c3).mrot[f] -= closs_root;
+			if((mass->c3).mrot[f] < 0.0){
+				(mass->c3).mrot[f] = 0.0;
+			}
+			(mass->c4).mrot[f] -= closs_root;
+			if((mass->c4).mrot[f] < 0.0){
+				(mass->c4).mrot[f] = 0.0;
+			}
+			(mass->plant).mrot[f] = (mass->c3).mrot[f]*loct->c3ptn[f] + (mass->c4).mrot[f]*loct->c4ptn[f];	
+			
+			(mass->soil).ltr_m[f] -= closs_litter;
+			if((mass->soil).ltr_m[f] < 0.0){
+				(mass->soil).ltr_m[f] = 0.0;
+			}
 		}
-		(mass->c4).mrot[f] -= closs_root;
-		if((mass->c4).mrot[f] < 0.0){
-			(mass->c4).mrot[f] = 0.0;
-		}
-		(mass->plant).mrot[f] = (mass->c3).mrot[f]*loct->c3ptn[f] + (mass->c4).mrot[f]*loct->c4ptn[f];	
-		
-		(mass->soil).ltr_m[f] -= closs_litter;
-		if((mass->soil).ltr_m[f] < 0.0){
-			(mass->soil).ltr_m[f] = 0.0;
-		}  */
 	}
 }

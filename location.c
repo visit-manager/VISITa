@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -14,15 +14,12 @@
 
 #define TERM_HYD 0.1
 
-extern long GCM, CO2S, GCM_R, GCM_C;
-
 /* initialization of climatic conditions (Primary data) ******************************/
 void initC(
 	struct Grid *grid
 ){
-	short f, h;
+	short h;
 	double aaa, bbb;
-	double tmp_var, a_tmp, shum, a_pres, alt, vap;
 	
 	/* in 1950 :311 ppmv*/
 	/* in 1990 : 352.7 ppmv*/
@@ -111,28 +108,6 @@ void initC(
 			grid->prate_sfc[h]*=0.9;
 		}
 	}	
-	
-	if(grid->phase == 2 && grid->climy == (PIVOT_CLIMY+CRU_PD-1)){
-		for(h=0;h<ASTEP;h++){
-			grid->proj_vap_b[h] = 0.0;
-		}
-		
-		alt = (grid->topo>=0.0)?grid->topo:0.0; 
-		for(f=0;f<30;f++){
-			for(h=0;h<ASTEP;h++){
-				tmp_var = grid->proj_tmp2m[f][h][grid->gcm_row][grid->gcm_col] - 
-								grid->proj_tmp2m_b[h][grid->gcm_row][grid->gcm_col];
-				
-				a_tmp = grid->tmp_2m_a[h] + tmp_var;
-				a_pres = 1013.25*exp(-1.0*(28.964*0.001)*9.8*alt/(8.3144*(a_tmp+ZAT))); 
-				shum = grid->proj_shum[f][h][grid->gcm_row][grid->gcm_col];
-				
-				vap = a_pres * shum/(0.622 + 0.378*shum);
-				
-				grid->proj_vap_b[h] += vap/30.0;
-			}
-		}
-	}
 }
 
 /* location conditions derived from the primary data (Secondary data1) *******************/
@@ -175,7 +150,7 @@ void initL(
 	}
 	grid->gp_tem = (nn>0)?tem_grow/(double)nn:0.0;
 
-	/*** portion of C3 and C4 plant ***/
+	/* portion of C3 and C4 plant ***************/
 	c34composition((echar->c3).v_type, grid, loct);
 	
 	/* sensitivity analysis */
@@ -252,7 +227,7 @@ void initL(
 	}
 	
 	/* average fertilizer-N input for each county, kg N ha-1 yr-1 */
-	n_fertilizer_in(grid, loct);
+	n_fertilizer_in(grid, loct);	
 }
 
 /* dynamic estimation of environmnetal conditions (Secondary data2) *********************/
@@ -286,15 +261,18 @@ void dynmcL(
 		grid->tmp_sfc_mx = -100.0;
 		grid->tmp_sfc_mn = 100.0;
 		grid->prate_sfc_ann = 0.0;
+		grid->tmp_soil_mean = 0.0;
 		for(h=0;h<ASTEP;h++){
 			/* annual mean temperature */
-			grid->tmp_sfc_am += grid->tmp_sfc[h]/12.0; 
+			grid->tmp_sfc_am += grid->tmp_sfc[h]*MDN[h]/365.0; 
 			/* annual maximum */
 			grid->tmp_sfc_mx = (grid->tmp_sfc[h]>grid->tmp_sfc_mx)?grid->tmp_sfc[h]:grid->tmp_sfc_mx; 
 			/* annual minimum */
 			grid->tmp_sfc_mn = (grid->tmp_sfc[h]<grid->tmp_sfc_mn)?grid->tmp_sfc[h]:grid->tmp_sfc_mn; 
 			/* annual total precipitation */
 			grid->prate_sfc_ann += grid->prate_sfc[h]; 
+			/* annual mean soil temperature */
+			grid->tmp_soil_mean += grid->tmp10_soil[h]*MDN[h]/365.0;
 		}
 	}
 	
@@ -311,6 +289,12 @@ void dynmcL(
 	 /* aerodynamic resistance */ 
 	loct->r_aero[grid->m] = r_aero(grid);	 
 
+	/* initial soil CH4 concentration */
+	for(h=0;h<=SOIL_LAYER;h++){
+		loct->prof_ch4[h] = ach4_a1[grid->co2y - 1750]/1000.0 
+			* loct->prsr[grid->m] / (8.3144*(grid->tmp10_soil[grid->m]+273.15));
+	}
+
 	if(grid->cru_exist == 1){
 		/* vapour pressure, hPa */
 		if(grid->phase==0){
@@ -318,22 +302,24 @@ void dynmcL(
 			loct->vp[grid->m] = grid->hist_vap_b[grid->m];
 		}else if(grid->phase==1){
 			if(grid->climy<=2002){
-				/* UEA/CRU */
+				/* based on UEA/CRU */
 				loct->vp[grid->m] = grid->hist_vap[grid->climy - PIVOT_CLIMY][grid->m];	
 			}else{
-				/* NCEP */
+				/* based on NCEP/NCAR */
 				vpres_var = grid->ncep_vpres[grid->climy - 1948][grid->m][grid->ncep_lat][grid->ncep_lon] 
-							- grid->ncep_vpres_b[grid->m][grid->ncep_lat][grid->ncep_lon];
+								- grid->ncep_vpres_b[grid->m][grid->ncep_lat][grid->ncep_lon];
+				
 				loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;
 			}
 		}else if(grid->phase==2){
 			/* prediction using AOGCM */
 			/* loct->vp[grid->m] = loct->prsr[grid->m]*grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]);  */
 			
-			/* revided by A.Ito (2009/07/24) */
-			vpres_var = loct->prsr[grid->m]*grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]);
+			/* revided by A.Ito (2009/08/17) */
+			vpres_var = grid->proj_hum[grid->climy-PIVOT_GCMY-1][grid->m][grid->gcm_row][grid->gcm_col] - 
+							grid->proj_hum_b[grid->m][grid->gcm_row][grid->gcm_col];
 			
-			loct->vp[grid->m] = grid->hist_vap_b[grid->m] + (vpres_var - grid->proj_vap_b[h]);
+			loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;
 		}
 		if(loct->vp[grid->m] < 0.0){
 			loct->vp[grid->m] = 0.0;
@@ -404,7 +390,7 @@ void dynmcL(
 	if(loct->wfps[grid->m]<0.05){
 		loct->wfps[grid->m] = 0.05;
 	}
-	
+	/* soil moisture index */
 	f_casa_mositure(grid, loct);
 	
 	/* nitrogen deposition ***********/

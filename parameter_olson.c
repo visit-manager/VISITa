@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -11,8 +11,6 @@
 #include<math.h>
 #include"structure.h"
 #include"prototype.h"
-
-extern short DF97;
 
 /* Setting characteristics for C3 plants ***************************************/
 void parameterC3(
@@ -658,9 +656,9 @@ void parameterSoil(
 					1.28, 1.37, 1.30, 1.30, 1.38, 1.36, 1.34, 1.35, 1.37};
 	double rhv[VEG_NUM_OLSON]={0.140, 
 					0.105, 0.110, 0.104, 0.110, 0.120, 0.100, 0.130, 0.155, 
-					0.140, 0.150, 0.140, 0.150, 0.090, 0.080, 0.070, 0.070, 
-					0.070, 0.090, 0.070, 0.080, 0.095, 0.130, 0.065, 0.065, 
-					0.080, 0.090, 0.100, 0.100, 0.090, 0.090, 0.090, 0.090, 0.100};
+					0.140, 0.150, 0.140, 0.150, 0.090, 0.075, 0.065, 0.065, 
+					0.065, 0.085, 0.065, 0.075, 0.095, 0.130, 0.065, 0.065, 
+					0.080, 0.090, 0.090, 0.090, 0.090, 0.090, 0.090, 0.090, 0.100};
 	double qTlv[VEG_NUM_OLSON]={2.0, 
 					2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0,
 					2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0,
@@ -701,10 +699,10 @@ void parameterSoil(
 	
 	if(DF97==0){
 		soil->rl0=soil->rl = rlv[grid->veg_olson]*0.85 * 1.5;
-		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.75 * 0.5;
+		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.70 * 0.8;
 	}else if(DF97==1){
 		soil->rl0=soil->rl = rlv[grid->veg_olson]*0.70 * 1.5;
-		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.60 * 0.5;
+		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.60 * 0.8;
 	}
 	soil->qTl = qTlv[grid->veg_olson]; 
 	soil->qTh = qThv[grid->veg_olson];

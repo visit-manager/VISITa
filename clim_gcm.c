@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -11,13 +11,13 @@
 #include"structure.h"
 #include"prototype.h"
 
-extern long GCM, CO2S, GCM_R, GCM_C;
-
+/* read AOGCM output ***********************************/
 void read_gcm_clim(
 	struct Grid  *grid
 ){
 	long f, g, h, i;
 	long yr, mon;
+	double atmp, apres, shum, alt;
 	extern double MDN[12];
 	FILE *fp_t, *fp_p, *fp_h, *fp_r;
 	
@@ -374,15 +374,15 @@ void read_gcm_clim(
 	}
 	
 	if(GCM==1130){  /*  MRI + A1B  */
-		if( (fp_t=fopen("./data/tas_MRI_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_tas_MRIA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_MRI_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_pr_MRIA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_MRI_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_huss_MRIA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_MRI_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_rsds_MRIA1B-2001-2100.dat\n");  exit(1); }
+		if( (fp_t=fopen("./data/tas_MRI_20C-A1B_R1.dat","rt"))==NULL ){  printf("No tas_MRI_20C-A1B_R1.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_MRI_20C-A1B_R1.dat","rt"))==NULL ){  printf("No pr_MRI_20C-A1B_R1.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_MRI_20C-A1B_R1.dat","rt"))==NULL ){  printf("No huss_MRI_20C-A1B_R1.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_MRI_20C-A1B_R1.dat","rt"))==NULL ){  printf("No rsds_MRI_20C-A1B_R1.dat\n");  exit(1); }
 	}else if(GCM==1131){  /*  MRI + A1B  */
-		if( (fp_t=fopen("./data/tas_MRI_20C-A1B_R2.dat","rt"))==NULL ){  printf("No ext_tas_MRIA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_MRI_20C-A1B_R2.dat","rt"))==NULL ){  printf("No ext_pr_MRIA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_MRI_20C-A1B_R2.dat","rt"))==NULL ){  printf("No ext_huss_MRIA1B-2001-2100.dat\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_MRI_20C-A1B_R2.dat","rt"))==NULL ){  printf("No ext_rsds_MRIA1B-2001-2100.dat\n");  exit(1); }
+		if( (fp_t=fopen("./data/tas_MRI_20C-A1B_R2.dat","rt"))==NULL ){  printf("No tas_MRI_20C-A1B_R2.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_MRI_20C-A1B_R2.dat","rt"))==NULL ){  printf("No pr_MRI_20C-A1B_R2.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_MRI_20C-A1B_R2.dat","rt"))==NULL ){  printf("No huss_MRI_20C-A1B_R2.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_MRI_20C-A1B_R2.dat","rt"))==NULL ){  printf("No rsds_MRI_20C-A1B_R2.dat\n");  exit(1); }
 	}else if(GCM==1132){  /*  MRI + A1B  */
 		if( (fp_t=fopen("./data/tas_MRI_20C-A1B_R3.dat","rt"))==NULL ){  printf("No ext_tas_MRIA1B-2001-2100.dat\n");  exit(1); }
 		if( (fp_p=fopen("./data/pr_MRI_20C-A1B_R3.dat","rt"))==NULL ){  printf("No ext_pr_MRIA1B-2001-2100.dat\n");  exit(1); }
@@ -859,9 +859,10 @@ void read_gcm_clim(
 		if( (fp_r=fopen("./data/rsds_CSIRO35_20C-B1_R1.dat","rt"))==NULL ){  printf("No rsds_CSIRO35_20C-B1_R1.dat\n");  exit(1); }
 	}
 	
-	if(GCM!=0 && GCM!=106){
-		for(f=0;f<131;f++){   /*  1970-2100 */
-			for(g=0;g<12;g++){
+	if(GCM!=0){
+		alt = (grid->topo>=0.0)?grid->topo:0.0; 
+		for(f=0;f<GCM_DL;f++){   /*  1970-2100 */
+			for(g=0;g<ASTEP;g++){
 				fscanf(fp_t,"%ld %ld", &yr, &mon);
 				fscanf(fp_p,"%ld %ld", &yr, &mon);
 				fscanf(fp_h,"%ld %ld", &yr, &mon);
@@ -870,7 +871,7 @@ void read_gcm_clim(
 					for(i=0;i<GCM_C;i++){
 						fscanf(fp_t,"%f", &(grid->proj_tmp2m[f][g][h][i]));
 						fscanf(fp_p,"%f", &(grid->proj_prec[f][g][h][i]));
-						fscanf(fp_h,"%f", &(grid->proj_shum[f][g][h][i]));
+						fscanf(fp_h,"%f", &(grid->proj_hum[f][g][h][i]));
 						fscanf(fp_r,"%f", &(grid->proj_rad[f][g][h][i]));
 					}
 				}
@@ -884,8 +885,8 @@ void read_gcm_clim(
 							grid->proj_prec[f][g][h][i] = (grid->proj_prec[f][g][h][i-1] + grid->proj_prec[f][g][h][i+1])/2.0;
 						}
 						
-						if(grid->proj_shum[f][g][h][i] > 10.0 || grid->proj_shum[f][g][h][i] < 0.0){
-							grid->proj_shum[f][g][h][i] = (grid->proj_shum[f][g][h][i-1] + grid->proj_shum[f][g][h][i+1])/2.0;
+						if(grid->proj_hum[f][g][h][i] > 10.0 || grid->proj_hum[f][g][h][i] < 0.0){
+							grid->proj_hum[f][g][h][i] = (grid->proj_hum[f][g][h][i-1] + grid->proj_hum[f][g][h][i+1])/2.0;
 						}
 						
 						if(grid->proj_rad[f][g][h][i] > 1000.0 || grid->proj_rad[f][g][h][i] < 0.0){
@@ -895,6 +896,13 @@ void read_gcm_clim(
 						grid->proj_tmp2m[f][g][h][i] -= ZAT;
 						grid->proj_prec[f][g][h][i] *= (float)MDN[g];
 						
+						/* specific humidity to vapor pressure */
+						/* revided by A.Ito (2009/08/17) */
+						atmp = grid->proj_tmp2m[f][g][h][i];
+						apres = 1013.25*exp(-1.0*(28.964*0.001)*9.8*alt/(8.3144*(atmp+ZAT))); 
+						shum = grid->proj_hum[f][g][h][i];
+						grid->proj_hum[f][g][h][i] = apres * grid->proj_hum[f][g][h][i]/(0.622 + 0.378*grid->proj_hum[f][g][h][i]);
+						
 						if(GCM>=1000){
 							grid->proj_prec[f][g][h][i] *= 3600.0*24.0;
 						}
@@ -903,13 +911,13 @@ void read_gcm_clim(
 			}
 		}
 	}else{
-		for(f=0;f<131;f++){
-			for(g=0;g<12;g++){
+		for(f=0;f<GCM_DL;f++){
+			for(g=0;g<ASTEP;g++){
 				for(h=0;h<GCM_R;h++){
 					for(i=0;i<GCM_C;i++){
 						grid->proj_tmp2m[f][g][h][i] = 0.0;
 						grid->proj_prec[f][g][h][i] = 0.0;
-						grid->proj_shum[f][g][h][i] = 0.0;
+						grid->proj_hum[f][g][h][i] = 0.0;
 						grid->proj_rad[f][g][h][i] = 0.0;
 					}
 				}
@@ -919,19 +927,19 @@ void read_gcm_clim(
 	
 	/*********************************/
 	for(f=0;f<30;f++){ /* 1970-1999 */
-		for(g=0;g<12;g++){
+		for(g=0;g<ASTEP;g++){
 			for(h=0;h<GCM_R;h++){
 				for(i=0;i<GCM_C;i++){
 					if(f==0){
 						grid->proj_tmp2m_b[g][h][i] = 0.0;
 						grid->proj_prec_b[g][h][i] = 0.0;
-						grid->proj_shum_b[g][h][i] = 0.0;
+						grid->proj_hum_b[g][h][i] = 0.0;
 						grid->proj_rad_b[g][h][i] = 0.0;
 					}
 				
 					grid->proj_tmp2m_b[g][h][i] += grid->proj_tmp2m[f][g][h][i]/30.0;
 					grid->proj_prec_b[g][h][i] += grid->proj_prec[f][g][h][i]/30.0;
-					grid->proj_shum_b[g][h][i] += grid->proj_shum[f][g][h][i]/30.0;
+					grid->proj_hum_b[g][h][i] += grid->proj_hum[f][g][h][i]/30.0;
 					grid->proj_rad_b[g][h][i] += grid->proj_rad[f][g][h][i]/30.0;
 				}
 			}
@@ -946,7 +954,7 @@ void read_gcm_clim(
 	}
 }
 
-/*************************************************************************************************/
+/**************************************************************************************/
 void read_ncep_clim(
 	struct Grid  *grid
 ){
@@ -955,13 +963,17 @@ void read_ncep_clim(
 	extern double MDN[12];
 	FILE *fp_t, *fp_p, *fp_h, *fp_r;
 	
-	if( (fp_t=fopen("./data/air.2m.gauss.mon4808.dat","rt"))==NULL ){  printf("No air.2m.gauss.mon4808.dat\n");  exit(1); }
-	if( (fp_p=fopen("./data/prate.sfc.gauss.mon4808.dat","rt"))==NULL ){  printf("No prate.sfc.gauss.mon4808.dat\n");  exit(1); }
-	if( (fp_h=fopen("./data/vpres.sfc.gauss.mon4808.dat","rt"))==NULL ){  printf("No vpres.sfc.gauss.mon4808.dat\n");  exit(1); }
-	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4808.dat","rt"))==NULL ){  printf("No tcdc.eatm.gauss.mon4808.dat\n");  exit(1); }
+	if( (fp_t=fopen("./data/air.2m.gauss.mon4809.dat","rt"))==NULL ){  
+		printf("No air.2m.gauss.mon4809.dat\n");  exit(1); }
+	if( (fp_p=fopen("./data/prate.sfc.gauss.mon4809.dat","rt"))==NULL ){  
+		printf("No prate.sfc.gauss.mon4809.dat\n");  exit(1); }
+	if( (fp_h=fopen("./data/vpres.sfc.gauss.mon4809.dat","rt"))==NULL ){  
+		printf("No vpres.sfc.gauss.mon4809.dat\n");  exit(1); }
+	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4809.dat","rt"))==NULL ){  
+		printf("No tcdc.eatm.gauss.mon4809.dat\n");  exit(1); }
 	
-	for(f=0;f<61;f++){   /*  1948-2008 */
-		for(g=0;g<12;g++){
+	for(f=0;f<NCEP_DL;f++){   /*  1948-2009 */
+		for(g=0;g<ASTEP;g++){
 			fscanf(fp_t,"%ld %ld", &yr, &mon);
 			fscanf(fp_p,"%ld %ld", &yr, &mon);
 			fscanf(fp_h,"%ld %ld", &yr, &mon);
@@ -982,7 +994,7 @@ void read_ncep_clim(
 	
 	/* average 1970-1999 */
 	for(f=0;f<30;f++){
-		for(g=0;g<12;g++){
+		for(g=0;g<ASTEP;g++){
 			for(h=0;h<94;h++){
 				for(i=0;i<192;i++){
 					if(f==0){

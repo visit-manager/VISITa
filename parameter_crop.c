@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -24,49 +24,49 @@ void parameterCrop(
 	struct Grid *grid, 
 	struct Pchar *crop
 ){
-	short phototypev[VEG_NUM_CROP]={3, 3, 4};
-	double albcv[VEG_NUM_CROP]={0.15, 0.14, 0.14};
-	double alloc_assv[VEG_NUM_CROP]={0.21, 0.21, 0.21};
-	double alloc_abgv[VEG_NUM_CROP]={0.52, 0.51, 0.52}; 
-	double slav[VEG_NUM_CROP]={170.0, 160.0, 150.0};
-	double eK0v[VEG_NUM_CROP]={0.50, 0.50, 0.50};
-	double luev[VEG_NUM_CROP]={0.05, 0.05, 0.05};
-	double pmaxv[VEG_NUM_CROP]={10.8, 10.6, 10.6};
-	double topt0v[VEG_NUM_CROP]={25.0, 25.0, 25.0};
-	double tminv[VEG_NUM_CROP]={11.0, 9.0, 11.0}; 
-	double tmaxv[VEG_NUM_CROP]={45.0, 45.0, 45.0};
-	double gs_b0v[VEG_NUM_CROP]={10.0, 10.0, 10.0};
-	double gs_b1v[VEG_NUM_CROP]={140000.0, 140000.0, 140000.0};
-	double gs_b2v[VEG_NUM_CROP]={4.5, 4.5, 4.8};
-	double km_nstlv[VEG_NUM_CROP]={0.34, 0.35, 0.34};
-	double kmciv[VEG_NUM_CROP]={33.0, 33.0, 33.0};
-	double cmpcdv[VEG_NUM_CROP]={50.0, 50.0, 50.0};
-	double rgfv[VEG_NUM_CROP]={ 0.50, 0.50, 0.50};
-	double rgcv[VEG_NUM_CROP]={0.14, 0.14, 0.14};
-	double rgrv[VEG_NUM_CROP]={0.22, 0.23, 0.23};
-	double rmf0v[VEG_NUM_CROP]={1.37, 1.38, 1.37}; 
-	double rmc_sv[VEG_NUM_CROP]={0.054, 0.054, 0.054};
-	double rmr_sv[VEG_NUM_CROP]={0.217, 0.227, 0.232};
-	double rmc_hv[VEG_NUM_CROP]={0.0026, 0.0028, 0.0029};
-	double rmr_hv[VEG_NUM_CROP]={0.0161, 0.0166, 0.0166};
-	double qTfv[VEG_NUM_CROP]={2.0, 2.0, 2.0};
-	double qTcv[VEG_NUM_CROP]={2.0, 2.0, 2.0};
-	double qTrv[VEG_NUM_CROP]={2.0, 2.0, 2.0};
-	double lfv[VEG_NUM_CROP]={0.00238, 0.00249, 0.00241};
-	double lcv[VEG_NUM_CROP]={0.000060, 0.000060, 0.000060};
-	double lrv[VEG_NUM_CROP]={0.00036, 0.00036, 0.00035};
-	double dcdv[VEG_NUM_CROP]={0.00, 0.00, 0.50};
-	double n_salvagev[VEG_NUM_CROP]={0.50, 0.50, 0.50};
-	double cn0_strgv[VEG_NUM_CROP]={20.0, 20.0, 20.0};
-	double kn_nphotov[VEG_NUM_CROP]={100.0, 100.0, 100.0};
-	double amax_nphotov[VEG_NUM_CROP]={30.0, 30.0, 30.0};
-	double rd_nv[VEG_NUM_CROP]={0.05, 0.05, 0.05};
-	double crit_tempv[VEG_NUM_CROP]={5.0, 5.0, 5.0};
-	double crit_gddv[VEG_NUM_CROP]={300.0, 300.0, 300.0};
-	double root_dist_av[VEG_NUM_CROP]={5.558, 5.558, 5.558};
-	double root_dist_bv[VEG_NUM_CROP]={2.614, 2.614, 2.614};
-	double root_depthv[VEG_NUM_CROP]={1.5, 1.5, 1.5};
-	double n_leafv[VEG_NUM_CROP]={120.0, 120.0, 120.0};
+	short phototypev[VEG_NUM_CROP] = {3, 3, 4};
+	double albcv[VEG_NUM_CROP] = {0.15, 0.14, 0.14};
+	double alloc_assv[VEG_NUM_CROP] = {0.21, 0.21, 0.21};
+	double alloc_abgv[VEG_NUM_CROP] = {0.52, 0.51, 0.52}; 
+	double slav[VEG_NUM_CROP] = {170.0, 160.0, 150.0};
+	double eK0v[VEG_NUM_CROP] = {0.50, 0.50, 0.50};
+	double luev[VEG_NUM_CROP] = {0.05, 0.05, 0.05};
+	double pmaxv[VEG_NUM_CROP] = {10.8, 10.6, 10.6};
+	double topt0v[VEG_NUM_CROP] = {25.0, 25.0, 25.0};
+	double tminv[VEG_NUM_CROP] = {11.0, 9.0, 11.0}; 
+	double tmaxv[VEG_NUM_CROP] = {45.0, 45.0, 45.0};
+	double gs_b0v[VEG_NUM_CROP] = {10.0, 10.0, 10.0};
+	double gs_b1v[VEG_NUM_CROP] = {140000.0, 140000.0, 140000.0};
+	double gs_b2v[VEG_NUM_CROP] = {4.5, 4.5, 4.8};
+	double km_nstlv[VEG_NUM_CROP] = {0.34, 0.35, 0.34};
+	double kmciv[VEG_NUM_CROP] = {33.0, 33.0, 33.0};
+	double cmpcdv[VEG_NUM_CROP] = {50.0, 50.0, 50.0};
+	double rgfv[VEG_NUM_CROP] = { 0.50, 0.50, 0.50};
+	double rgcv[VEG_NUM_CROP] = {0.14, 0.14, 0.14};
+	double rgrv[VEG_NUM_CROP] = {0.22, 0.23, 0.23};
+	double rmf0v[VEG_NUM_CROP] = {1.37, 1.38, 1.37}; 
+	double rmc_sv[VEG_NUM_CROP] = {0.054, 0.054, 0.054};
+	double rmr_sv[VEG_NUM_CROP] = {0.217, 0.227, 0.232};
+	double rmc_hv[VEG_NUM_CROP] = {0.0026, 0.0028, 0.0029};
+	double rmr_hv[VEG_NUM_CROP] = {0.0161, 0.0166, 0.0166};
+	double qTfv[VEG_NUM_CROP] = {2.0, 2.0, 2.0};
+	double qTcv[VEG_NUM_CROP] = {2.0, 2.0, 2.0};
+	double qTrv[VEG_NUM_CROP] = {2.0, 2.0, 2.0};
+	double lfv[VEG_NUM_CROP] = {0.00238, 0.00249, 0.00241};
+	double lcv[VEG_NUM_CROP] = {0.000060, 0.000060, 0.000060};
+	double lrv[VEG_NUM_CROP] = {0.00036, 0.00036, 0.00035};
+	double dcdv[VEG_NUM_CROP] = {0.00, 0.00, 0.50};
+	double n_salvagev[VEG_NUM_CROP] = {0.50, 0.50, 0.50};
+	double cn0_strgv[VEG_NUM_CROP] = {20.0, 20.0, 20.0};
+	double kn_nphotov[VEG_NUM_CROP] = {100.0, 100.0, 100.0};
+	double amax_nphotov[VEG_NUM_CROP] = {30.0, 30.0, 30.0};
+	double rd_nv[VEG_NUM_CROP] = {0.05, 0.05, 0.05};
+	double crit_tempv[VEG_NUM_CROP] = {5.0, 5.0, 5.0};
+	double crit_gddv[VEG_NUM_CROP] = {300.0, 300.0, 300.0};
+	double root_dist_av[VEG_NUM_CROP] = {5.558, 5.558, 5.558};
+	double root_dist_bv[VEG_NUM_CROP] = {2.614, 2.614, 2.614};
+	double root_depthv[VEG_NUM_CROP] = {1.5, 1.5, 1.5};
+	double n_leafv[VEG_NUM_CROP] = {120.0, 120.0, 120.0};
 	
 	crop->phototype = phototypev[grid->veg_crop];
 	crop->albedo = albcv[grid->veg_crop];

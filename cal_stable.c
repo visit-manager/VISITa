@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -22,7 +22,7 @@ void cal_stable(
 	struct Flux *flux, 
 	FILE *fp_o[OFILES]
 ){
-	long f, nn, term_time;
+	long f, g, nn, term_time;
 	double plantmass, ann_nep;
 	
 	/** maximum simulation times **/
@@ -30,8 +30,9 @@ void cal_stable(
 	
 	/* max. spin-up time, years *************/
 	if((echar->c3).v_type==1){
-		if(grid->veg_olson!=29 || grid->veg_olson!=30 || grid->veg_olson!=31 
-				|| grid->veg_olson!=32){
+		/* corrected: A.Ito and E.Kato (2009/08/16) */
+		if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 
+				|| grid->veg_olson==32){
 			term_time = 300;
 		}else{
 			term_time = 4000;
@@ -45,12 +46,23 @@ void cal_stable(
 	(echar->soil).rl = (echar->soil).rl0;
 	(echar->soil).rh = (echar->soil).rh0;
 	
+	/* land-use change ***********/
 	f_cult_luc(grid);
-	grid->f_crop_p = grid->fcrop_sage[199];
+	if(LANDUSE>=1 && LANDUSE<=5){
+		grid->f_crop_p = grid->fcrop_sage[199];
+		grid->f_pasture_p = 0.0;
+	}else if(LANDUSE==6 || LANDUSE==8){
+		grid->f_crop_p = grid->fcrop_unh_hmnzed[199];
+		grid->f_pasture_p = grid->fpast_unh_hmnzed[199];
+	}else if(LANDUSE==7){
+		grid->f_crop_p = grid->fcrop_rk[199];
+		grid->f_pasture_p = grid->fpast_rk[199];
+	}
 	
 	/* LOOP to stable stage ************************************************/
 	nn = 0; 
 	ann_nep = 10.0;
+	loct->npp_max = 0.0;
 	while(ann_nep>TER_CON){ /*** acnep>TER_CON nn<10 ***/
 		grid->y = nn;
 				
@@ -64,7 +76,7 @@ void cal_stable(
 			grid->m = f;
 			
 			/* initialize N fluxes ************/
-			n_flux_zero(f, flux);
+			ghg_flux_zero(f, flux);
 			
 			/* atmospheric CO2 ****************/
 			co2_trend(grid);
@@ -83,25 +95,43 @@ void cal_stable(
 
 			f_plant_stand_budget(grid, loct, mass, flux);
 			
+			/* GPP max for Cao's CH4 emission scheme */
+			if((flux->plant).gpp[f] > loct->gpp_max){
+				loct->gpp_max = (flux->plant).gpp[f];
+			}
+			
+			/* maximum monthly npp, used in Walter & Heimann scheme */
+			if((flux->plant).npp[f] > loct->npp_max){
+				loct->npp_max = (flux->plant).npp[f];
+			}
+			
 			(flux->soil).lL[f] = (flux->plant).lL[f];			
 			(flux->soil).d13c_lL[f] = (flux->plant).d13c_lL[f];
 			(flux->soil).d14c_lL[f] = (flux->plant).d14c_lL[f];
 			
 			/* soil processes *************/
 			soil_processes(grid, loct, &(echar->soil), &(mass->soil), &(flux->soil));
-			flux->sr[f] = loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m]) + 
-						loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m]) + 
-						(flux->soil).hr[grid->m];
+			flux->sr[f] = loct->c3ptn[f]*((flux->c3).rrm[f]+(flux->c3).rrg[f]) + 
+						loct->c4ptn[f]*((flux->c4).rrm[f]+(flux->c4).rrg[f]) + 
+						(flux->soil).hr[f];
+			
+			if(NECB_DOC==1){
+				(mass->soil).msl -= (flux->soil).doc_boyer[f]/1000000.0;
+				if((mass->soil).msl < 0.0){
+					(mass->soil).msl = 0.0;
+				}
+			}
 			
 			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
+			/* NH4:NO3 ratio is based on inventories */
 			if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || 
 											 grid->veg_olson==31 || grid->veg_olson==32)){
-				(mass->soil).n_no3 += loct->n_frtlz_in * 0.1 * 1000.0;
-				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.9 * 1000.0;
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0;
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0;
 			}
 			if((echar->soil).v_type == 3){
-				(mass->soil).n_no3 += loct->n_frtlz_in * 0.1 * 1000.0;
-				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.9 * 1000.0;
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0;
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0;
 			}
 			
 			/* CH4 oxydation **************/
@@ -109,7 +139,7 @@ void cal_stable(
 			f_ch4oxy_casa(grid, loct, flux);
 			f_ch4oxy_delgrosso(grid, loct, flux);
 			f_ch4oxy_curry(grid, loct, flux);
-
+			
 			/* CH4 emission (wetlands) */
 			f_ch4_emit_cao(grid, loct, flux);
 			
@@ -134,19 +164,20 @@ void cal_stable(
 			n_budget(grid, loct, mass, flux);
 						
 			/* annual average plant mass */
-			plantmass += (mass->plant).plant[f]/12.0;
+			plantmass += (mass->plant).plant[f] * MDN[f]/365.0;
 			
 			if((echar->c3).v_type==1){
-				if(grid->veg_olson!=29 && grid->veg_olson!=30 && grid->veg_olson!=31 
-						&& grid->veg_olson!=32){
-					ann_nep += flux->nep[f];
-				}else{
+				/* corrected: A.Ito and E.Kato (2009/08/16) */
+				if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson== 31 
+						|| grid->veg_olson==32){
 					ann_nep += flux->ncb[f];
+				}else{
+					ann_nep += flux->nep[f];
 				}
 			}else if((echar->c3).v_type==2){
-				ann_nep += flux->ncb[f];	
+				ann_nep += flux->nep[f];	
 			}else if((echar->c3).v_type==3){
-				ann_nep += flux->nep[f];
+				ann_nep += flux->ncb[f];
 			}
 			
 			/*** acclimation ***/
@@ -155,11 +186,6 @@ void cal_stable(
 			(echar->soil).fm0_l[f] = (echar->soil).fm_l[f];
 			(echar->soil).fm0_h[f] = (echar->soil).fm_h[f];
 			flux->lL0[f] = (flux->plant).lL[f];
-			
-			/* GPP max for Cao's CH4 emission scheme */
-			if((flux->plant).gpp[f] > loct->gppmax){
-				loct->gppmax = (flux->plant).gpp[f];
-			}
 		}
 		
 		/* biomass burning */
@@ -168,9 +194,9 @@ void cal_stable(
 		/* erosion */
 		f_erosion(grid, loct, echar, mass, flux);
 		
-		if(ERSN_CC==1){
-			(mass->soil).ltr -= flux->erod_carbon*0.25;
-			if((mass->soil).ltr<0.0){
+		if(NECB_ERSN==1){
+			(mass->soil).ltr -= flux->erod_carbon*0.20;
+			if((mass->soil).ltr < 0.0){
 				(mass->soil).ltr = 0.0;
 			}
 		}
@@ -195,9 +221,68 @@ void cal_stable(
 	}
 	/* end of stabilization loop ***********************************************/
 	
+	/* Walter & Heimann (paddy) */
+	if(CH4_WH==1 && grid->f_wetland>0.0){
+		for(g=0;g<4;g++){
+			for(f=0;f<ASTEP;f++){
+				grid->m = f;
+				f_ch4_emit_walter(1, grid, loct, flux);
+				f_ch4_emit_walter(2, grid, loct, flux);
+			}
+		}
+	}else{
+		for(f=0;f<ASTEP;f++){
+			(flux->soil).ch4_wetland_wh_plant[f] = 0.0;
+			(flux->soil).ch4_wetland_wh_ebull[f] = 0.0;
+			(flux->soil).ch4_wetland_wh_diff[f] = 0.0;
+			(flux->soil).ch4_wetland_wh_release[f] = 0.0;
+		}
+	}
+	if(CH4_WH==1 && grid->f_paddy>0.0){
+		for(g=0;g<4;g++){
+			for(f=0;f<ASTEP;f++){
+				grid->m = f;
+				f_ch4_emit_walter(3, grid, loct, flux);
+				f_ch4_emit_walter(4, grid, loct, flux);
+			}
+		}
+	}else{
+		for(f=0;f<ASTEP;f++){
+			loct->xx1[f] = 0.0;
+			loct->xx2[f] = 0.0;
+			loct->xx3[f] = 0.0;
+			loct->xx4[f] = 0.0;
+			loct->xx5[f] = 0.0;
+			(flux->soil).ch4_paddy_wh_plant[f] = 0.0;
+			(flux->soil).ch4_paddy_wh_ebull[f] = 0.0;
+			(flux->soil).ch4_paddy_wh_diff[f] = 0.0;
+			(flux->soil).ch4_paddy_wh_release[f] = 0.0;
+		}
+	}
+		
+	if(NECB_CH4==1){
+		for(f=0;f<ASTEP;f++){
+			(mass->soil).msl += grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
+					- grid->f_paddy * ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] + 
+						(flux->soil).ch4_paddy_wh_diff[f] + (flux->soil).ch4_paddy_wh_release[f]) * 0.00001
+					- grid->f_wetland * ((flux->soil).ch4_wetland_wh_plant[f] + (flux->soil).ch4_wetland_wh_ebull[f] + 
+						(flux->soil).ch4_wetland_wh_diff[f] + (flux->soil).ch4_wetland_wh_release[f]) * 0.00001;
+			
+			if((mass->soil).msl < 0.0){
+				(mass->soil).msl = 0.0;
+			}
+		}
+	}
+	
 	/* land use change */
 	f_luc_emit(grid, mass, flux);
 
+	/* net biome production (added by A.Ito: 2010/01/20) */
+	for(f=0;f<ASTEP;f++){
+		flux->nbp[f] = flux->nep[f] - flux->lu_ten/12.0 - flux->lu_hund/12.0 
+			- (flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+flux->bb_co2_wood[f]+flux->bb_co2_root[f])/1000.0*12.0/44.0;
+	}
+	
 	/* history data */
 	f_set_history_data(0, grid, loct, mass, flux);
 		

@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -242,7 +242,8 @@ double pm_evaporation(
 	/* ggc=1000.0*(1.0-(grid->whc-loct->sww)/grid->whc)+10.0; */ /*2003-06-27*/
 	/* ggc=1000.0*(1.0-((grid->whc30+grid->whc)-(loct->sw30+loct->sww))/(grid->whc30+grid->whc))+10.0; */
 	/* ggc=1000.0*(1.0-((grid->whc30+grid->whc)-(loct->sw30+loct->sww))/(grid->whc30+grid->whc))+100.0; */ /*2003-06-27*/
-	ggc = 500.0*(1.0-((grid->field_cap1+grid->field_cap2)-(loct->sw30+loct->sww))/(grid->field_cap1+grid->field_cap2))+10.0; /*2003-06-27*/
+	ggc = 500.0*(1.0-((grid->field_cap1+grid->field_cap2)-(loct->sw30+loct->sww))/
+				 (grid->field_cap1+grid->field_cap2))+10.0; /*2003-06-27*/
 	rc_g = 1.0/(ggc*eta);
 	
 	aaa = (loct->slope_vps[grid->m]*loct->rad_net_g[grid->m])+(cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);

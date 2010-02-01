@@ -1,9 +1,11 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
+
+/* corrected: A.Ito and E.Kato (2009/08/16) */
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -157,7 +159,7 @@ void biome_processes(
 				vlzero(grid, &(mass->c3), &(flux->c3));
 				break;
 		} 
-	}if((echar->c3).v_type==2){
+	}else if((echar->c3).v_type==2){
 		switch(grid->veg_sage){
 			case 0:
 				vlzero(grid, &(mass->c3), &(flux->c3));
@@ -222,7 +224,7 @@ void biome_processes(
 				vlzero(grid, &(mass->c3), &(flux->c3));
 				break;
 		}
-	}if((echar->c3).v_type==3){
+	}else if((echar->c3).v_type==3){
 		growthperiod(grid, loct, &(echar->c3));
 		agri_process(grid, loct, &(flux->c3), &(echar->c3), &(mass->c3));
 	}
@@ -345,7 +347,7 @@ void biome_processes(
 				vlzero(grid, &(mass->c4), &(flux->c4));
 				break;
 		} 
-	}if((echar->c4).v_type==2){
+	}else if((echar->c4).v_type==2){
 		switch(grid->veg_sage){
 			case 0:
 				vlzero(grid, &(mass->c4), &(flux->c4));
@@ -399,23 +401,23 @@ void biome_processes(
 				vlzero(grid, &(mass->c4), &(flux->c4));
 				break;
 		}	
-	}if((echar->c4).v_type==3){
+	}else if((echar->c4).v_type==3){
 		growthperiod(grid, loct, &(echar->c4));
 		agri_process(grid, loct, &(flux->c4), &(echar->c4), &(mass->c4));
 	}
 	
-	/* N *******************************************/
+	/* N dynamics *******************************************/
 	/* biological N2 fixation */
 	f_biolfix(grid, loct, flux);
 	
-	/* biological N2 fixation */
+	/* plant root N uptake */
 	f_n_uptake(grid, loct, mass, flux);
 	
-	/* allocation of N */
+	/* allocation of uptake N within biomass */
 	f_n_alloc(grid, loct, &(echar->c3), &(mass->c3), &(flux->c3));
 	f_n_alloc(grid, loct, &(echar->c4), &(mass->c4), &(flux->c4));
 	
-	/* re-allocation of N */
+	/* re-allocation of storage N */
 	f_n_realloc(grid, loct, &(echar->c3), &(mass->c3), &(flux->c3));
 	f_n_realloc(grid, loct, &(echar->c4), &(mass->c4), &(flux->c4));
 	

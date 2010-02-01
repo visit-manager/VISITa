@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /*  Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/*  Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /*  Carbon cycle, erosion, biomass burning, land-use change,			*/
 /*  CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -23,6 +23,10 @@ void f_cult_luc(
 		grid->f_crop_con = 0.0;
 		grid->f_pasture_con = 0.0;
 	}else if(LANDUSE>=1 && LANDUSE<=5){
+		/* SAGE land-use data:
+		 Ramankutty, N., and J. A. Foley (1999), Estimating historical changes in global 
+		 land cover: croplands from 1700 to 1992, Global Biogeochemical Cycles, 13(4), 997-1027.
+		 */
 		if(grid->climy<=1990){
 			/* SAGE, net land use, only cropland */
 			grid->f_crop_con = grid->fcrop_sage[grid->climy - 1700];
@@ -52,6 +56,7 @@ void f_cult_luc(
 					}
 					break;
 				case 5:
+					/* IMAGE-based scenario */
 					grid->f_crop_con = grid->fcrop_sage[290] + ((grid->fcrop3_image[grid->climy - 1990] 
 						+ grid->fcrop4_image[grid->climy - 1990]) 
 						- (grid->fcrop3_image[0]+grid->fcrop4_image[0]))/100.0;
@@ -67,20 +72,51 @@ void f_cult_luc(
 			three centuries of global gridded land-use transitions, wood-harvest activity, 
 			and resulting secondary lands. Global Change Biology 12:1-22. */
 		if(grid->climy<=1999){
-			grid->f_crop_con = grid->fcrop_eossagehyde[grid->climy - 1700];
-			grid->f_pasture_con = grid->fpast_eossagehyde[grid->climy - 1700];
+			grid->f_crop_con = grid->fcrop_unh_hmnzed[grid->climy - 1700];
+			grid->f_pasture_con = grid->fpast_unh_hmnzed[grid->climy - 1700];
 		}else if(grid->climy>=2000){
-			grid->f_crop_con = grid->fcrop_eossagehyde[299] + 
+			grid->f_crop_con = grid->fcrop_unh_hmnzed[299] + 
 				((grid->fcrop3_image[grid->climy - 1990] + grid->fcrop4_image[grid->climy - 1990]) 
 				- (grid->fcrop3_image[9]+grid->fcrop4_image[9]))/100.0;
-			grid->f_pasture_con = grid->fpast_eossagehyde[299] + 
+			grid->f_pasture_con = grid->fpast_unh_hmnzed[299] + 
 				((grid->fgrass3_image[grid->climy - 1990] + grid->fgrass4_image[grid->climy - 1990]) 
 				- (grid->fgrass3_image[9]+grid->fgrass4_image[9]))/100.0;
 		}
+	}else if(LANDUSE==7){
+		/* SAGE land-use data 1700-2007 (Revised: 2010/01/07):
+		 Ramankutty, N., and J. A. Foley (1999), Estimating historical changes in global 
+		 land cover: croplands from 1700 to 1992, Global Biogeochemical Cycles, 13(4), 997-1027.
+		*/
+		if(grid->climy<=2007){
+			grid->f_crop_con = grid->fcrop_rk[grid->climy - 1700];
+			grid->f_pasture_con = grid->fpast_rk[grid->climy - 1700];
+		}else if(grid->climy>=2008){
+			grid->f_crop_con = grid->fcrop_rk[307] + 
+					((grid->fcrop3_image[grid->climy - 1990] + grid->fcrop4_image[grid->climy - 1990]) 
+					- (grid->fcrop3_image[17] + grid->fcrop4_image[17]))/100.0;
+			grid->f_pasture_con = grid->fpast_rk[307] + 
+					((grid->fgrass3_image[grid->climy - 1990] + grid->fgrass4_image[grid->climy - 1990]) 
+					 - (grid->fgrass3_image[17] + grid->fgrass4_image[17]))/100.0;
+		}
+	}else if(LANDUSE==8){
+		/* Hurtt harmonized land-use change, 1700-2005 (added 2010/01/31) */
+		if(grid->climy<=2005){
+			grid->f_crop_con = grid->fcrop_unh_hmnzed[grid->climy - 1700];
+			grid->f_pasture_con = grid->fpast_unh_hmnzed[grid->climy - 1700];
+		}else if(grid->climy>=2006){
+			grid->f_crop_con = grid->fcrop_unh_hmnzed[305] + 
+				((grid->fcrop3_image[grid->climy - 1990] + grid->fcrop4_image[grid->climy - 1990]) 
+				 - (grid->fcrop3_image[15]+grid->fcrop4_image[15]))/100.0;
+			grid->f_pasture_con = grid->fpast_unh_hmnzed[305] + 
+				((grid->fgrass3_image[grid->climy - 1990] + grid->fgrass4_image[grid->climy - 1990]) 
+				 - (grid->fgrass3_image[15]+grid->fgrass4_image[15]))/100.0;
+		}
+	}else{
+		printf("Wrong land-use setting ID\n");
+		exit(1);
 	}
 	
 	/*********************************/
-	
 	if(grid->f_crop_con < 0.0){
 		grid->f_crop_con = 0.0;
 	}
@@ -103,24 +139,29 @@ void f_cult_luc(
 	}else{
 		if(LANDUSE>=1 && LANDUSE<=5){
 			grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
-		}else if(LANDUSE==6){
+		}else if(LANDUSE==6 || LANDUSE==8){
 			if(grid->climy<=1999){
-				grid->f_deforest = grid->t_vc_eossagehyde[grid->climy - 1700] 
-									+ grid->t_vp_eossagehyde[grid->climy - 1700]
-									+ grid->t_sc_eossagehyde[grid->climy - 1700] 
-									+ grid->t_sp_eossagehyde[grid->climy - 1700];
-				grid->f_deforest_v = grid->t_vc_eossagehyde[grid->climy - 1700] 
-									+ grid->t_vp_eossagehyde[grid->climy - 1700];
-				grid->f_deforest_s = grid->t_sc_eossagehyde[grid->climy - 1700] 
-									+ grid->t_sp_eossagehyde[grid->climy - 1700];
+				grid->f_deforest = grid->t_vc_unh_hmnzed[grid->climy - 1700] 
+									+ grid->t_vp_unh_hmnzed[grid->climy - 1700]
+									+ grid->t_sc_unh_hmnzed[grid->climy - 1700] 
+									+ grid->t_sp_unh_hmnzed[grid->climy - 1700];
+				grid->f_deforest_v = grid->t_vc_unh_hmnzed[grid->climy - 1700] 
+									+ grid->t_vp_unh_hmnzed[grid->climy - 1700];
+				grid->f_deforest_s = grid->t_sc_unh_hmnzed[grid->climy - 1700] 
+									+ grid->t_sp_unh_hmnzed[grid->climy - 1700];
 			}else{
 				grid->f_deforest = (grid->f_crop_con - grid->f_crop_p) 
 									+ (grid->f_pasture_con - grid->f_pasture_p);
 				grid->f_deforest_v = grid->f_deforest;
 				grid->f_deforest_s = 0.0;
 			}
+		}else if(LANDUSE==7){
+			grid->f_deforest = (grid->f_crop_con - grid->f_crop_p) 
+								+ (grid->f_pasture_con - grid->f_pasture_p);
 		}
 	}
+	
+	/* abandonment */
 	if(grid->f_deforest < 0.0){
 		grid->f_deforest = 0.0;
 	}
@@ -139,6 +180,7 @@ void f_luc_emit(
 	double fe_hund;		/* fraction of 100-year pool flux */
 	double fe_detr;		/* fraction of detritus flux */
 	double mass_detr, mass_conv, mass_ten, mass_hund;	/* added by A.Ito based on E.Kato (2009/03/30) */
+	double eff_mass;
 	
 	switch(grid->veg_sage){
 		/* detritus production by land-use change:
@@ -184,101 +226,131 @@ void f_luc_emit(
 			break;
 	}
 	
+	/* effectice biomass */
+	eff_mass = (mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot;
+	
 	if(grid->phase==0){
 		/* spin-up: fluxes for 1801-1900 *******************************/
-		/* modified by A.Ito (2009/06/05) */
+		/* modified by A.Ito (2009/06/05: 2010/01/07) */
 		if(LANDUSE>=1 && LANDUSE<=5){
 			f_luc = grid->fcrop_sage[1900-1700] - grid->fcrop_sage[1900-1700-1];
 		}else if(LANDUSE==6){
-			f_luc = (grid->t_vc_eossagehyde[1900 - 1700] + grid->t_vp_eossagehyde[1900 - 1700])
-				+ (grid->t_sc_eossagehyde[1900 - 1700] + grid->t_sp_eossagehyde[1900 - 1700])*0.5;
+			f_luc = (grid->t_vc_unh_hmnzed[1900 - 1700] + grid->t_vp_unh_hmnzed[1900 - 1700])
+				+ (grid->t_sc_unh_hmnzed[1900 - 1700] + grid->t_sp_unh_hmnzed[1900 - 1700])*0.5;
+		}else if(LANDUSE==7){
+			/* added 2010/01/07 (A.Ito) */
+			f_luc = (grid->fcrop_rk[1900-1700] - grid->fcrop_rk[1900-1700-1])
+					+(grid->fpast_rk[1900-1700] - grid->fpast_rk[1900-1700-1]);
 		}
 		
-		flux->lu_detr = f_luc * 0.2*(mass->plant).rot;
-		flux->lu_conv = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_conv/(fe_conv+fe_ten+fe_hund);
+		/* modified by A.Ito (2009/08/19) */
+		if(f_luc > 0.0){
+			flux->lu_detr = f_luc * 0.2*(mass->plant).rot;
+			flux->lu_conv = f_luc * eff_mass * fe_conv/(fe_conv + fe_ten + fe_hund);
+		}else{
+			flux->lu_detr = 0.0;
+			flux->lu_conv = 0.0;
+		}
 		
 		for(f=1891;f<=1900;f++){
 			/* senstivity analysis */
 			if(LANDUSE>=1 && LANDUSE<=5){
 				f_luc = grid->fcrop_sage[f-1700] - grid->fcrop_sage[f-1700-1];
-			}else if(LANDUSE==6){
-				f_luc = (grid->t_vc_eossagehyde[f - 1700] + grid->t_vp_eossagehyde[f - 1700])
-						+ (grid->t_sc_eossagehyde[f - 1700] + grid->t_sp_eossagehyde[f - 1700])*0.5;
+			}else if(LANDUSE==6 || LANDUSE==8){
+				f_luc = (grid->t_vc_unh_hmnzed[f - 1700] + grid->t_vp_unh_hmnzed[f - 1700])
+						+ (grid->t_sc_unh_hmnzed[f - 1700] + grid->t_sp_unh_hmnzed[f - 1700])*0.5;
+				/* 0.5: assumption by A.Ito for secondary forest stock */
+			}else if(LANDUSE==7){
+				/* added 2010/01/07 (A.Ito) */
+				f_luc = (grid->fcrop_rk[f-1700] - grid->fcrop_rk[f-1700-1])
+						+ (grid->fpast_rk[f-1700] - grid->fpast_rk[f-1700-1]);
 			}
 			
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
 			if(f_luc > 0.0){
-				mass_ten = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_ten/(fe_conv+fe_ten+fe_hund);
+				mass_ten = f_luc * eff_mass * fe_ten/(fe_conv + fe_ten + fe_hund);
 				flux->detr_ten[1900-f] = mass_ten;
 			}else{
 				fe_ten = 0.0;
 				flux->detr_ten[1900-f] = 0.0;
 			}
-			flux->lu_ten = mass_ten*0.1;
+			/* corrected: A.Ito and E.Kato (2009/08/16) */
+			flux->lu_ten += mass_ten*0.1;
 		}
 		
 		for(f=1801;f<=1900;f++){
 			/* senstivity analysis */
 			if(LANDUSE>=1 && LANDUSE<=5){
 				f_luc = grid->fcrop_sage[f-1700] - grid->fcrop_sage[f-1700-1];
-			}else if(LANDUSE==6){
-				f_luc = (grid->t_vc_eossagehyde[f - 1700] + grid->t_vp_eossagehyde[f - 1700])
-						+ (grid->t_sc_eossagehyde[f - 1700] + grid->t_sp_eossagehyde[f - 1700])*0.5;
+			}else if(LANDUSE==6 || LANDUSE==8){
+				f_luc = (grid->t_vc_unh_hmnzed[f - 1700] + grid->t_vp_unh_hmnzed[f - 1700])
+						+ (grid->t_sc_unh_hmnzed[f - 1700] + grid->t_sp_unh_hmnzed[f - 1700])*0.5;
+			}else if(LANDUSE==7){
+				/* added 2010/01/07 (A.Ito) */
+				f_luc = (grid->fcrop_rk[f-1700] - grid->fcrop_rk[f-1700-1])
+						+ (grid->fpast_rk[f-1700] - grid->fpast_rk[f-1700-1]);
 			}
 			
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
+			/* corrected: A.Ito and E.Kato (2009/08/16) */
 			if(f_luc > 0.0){
-				mass_ten = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_hund/(fe_conv+fe_ten+fe_hund);				
-				flux->detr_hund[1900-f] = mass_ten;
+				mass_hund = f_luc * eff_mass * fe_hund/(fe_conv + fe_ten + fe_hund);				
+				flux->detr_hund[1900-f] = mass_hund;
 			}else{
-				fe_hund = 0.0;
+				mass_hund = 0.0;
 				flux->detr_hund[1900-f] = 0.0;
 			}
-			flux->lu_hund = fe_hund*0.01;
+			flux->lu_hund += mass_hund*0.01;
 		}
 	}else{
 		/* experiment: 1901 - 2000 - 2100 *****************************/
-		flux->lu_ten = 0.0;
+		
+		/* emission from 10-year pool */
 		/* corrected by A.Ito (2009/06/03) based on E.Kato (2008/11/21) */
-		for(f=1;f<10;f++){
-			flux->lu_ten += 0.1 * flux->detr_ten[f-1];
-		}
-		for(f=1;f<10;f++){
+		/* corrected: A.Ito and E.Kato (2009/08/16) */
+		flux->lu_ten = 0.0;
+		flux->lu_ten += 0.1 * flux->detr_ten[0];
+		for(f=9;f>0;f--){
+			flux->lu_ten += 0.1 * flux->detr_ten[f];
 			flux->detr_ten[f] = flux->detr_ten[f-1];
 		}
 		
-		flux->lu_hund = 0.0;
+		/* emission from 100-year pool */
 		/* corrected by A.Ito (2009/06/03) based on E.Kato (2008/11/21) */
-		for(f=1;f<100;f++){
-			flux->lu_hund += 0.01 * flux->detr_hund[f-1];
-		}
-		for(f=1;f<100;f++){
+		/* corrected: A.Ito and E.Kato (2009/08/16) */
+		flux->lu_hund = 0.0;
+		flux->lu_hund += 0.01 * flux->detr_hund[0];
+		for(f=99;f>0;f--){
+			flux->lu_hund += 0.01 * flux->detr_hund[f];
 			flux->detr_hund[f] = flux->detr_hund[f-1];
 		}
 		
 		/* annual land use change */
 		if(LANDUSE>=1 && LANDUSE<=5){
-			f_luc = grid->f_deforest;			/*  grid->f_crop_con - grid->f_crop_p;  */
-		}else if(LANDUSE==6){
+			f_luc = grid->f_deforest;
+			/*  grid->f_crop_con - grid->f_crop_p;  */
+		}else if(LANDUSE==6 || LANDUSE==8){
+			/* assumption: biomass in secondary forest is half (0.5) of primary forest */
 			f_luc = grid->f_deforest_v + grid->f_deforest_s * 0.5;
+		}else if(LANDUSE==7){
+			/* added 2010/01/07 (A.Ito) */
+			f_luc = grid->f_deforest;
 		}
 		
 		if(f_luc > 0.0){ /* deforested */
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
 			mass_detr = f_luc * 0.2*(mass->plant).rot;
-			mass_conv = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_conv/(fe_conv+fe_ten+fe_hund);
-			mass_ten = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_ten/(fe_conv+fe_ten+fe_hund);
-			mass_hund = f_luc * ((mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot) * fe_hund/(fe_conv+fe_ten+fe_hund);
+			mass_conv = f_luc * eff_mass * fe_conv/(fe_conv + fe_ten + fe_hund);
+			mass_ten = f_luc * eff_mass * fe_ten/(fe_conv + fe_ten + fe_hund);
+			mass_hund = f_luc * eff_mass * fe_hund/(fe_conv + fe_ten + fe_hund);
 			
+			/* emission from 1-yr or instantaneous pool */
 			flux->lu_detr = mass_detr;
 			flux->lu_conv = mass_conv;
 			
+			/* corrected: A.Ito and E.Kato (2009/08/16) */
 			flux->detr_ten[0] = mass_ten;
-			flux->lu_ten += 0.1 * mass_ten;
-
 			flux->detr_hund[0] = mass_hund;
-			flux->lu_hund += 0.01 * mass_hund;
-																		
 		}else{
 			flux->lu_detr = 0.0;
 			flux->lu_conv = 0.0;

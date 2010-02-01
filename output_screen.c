@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -48,7 +48,7 @@ void screenshow(
 	printf("LE3: ");
 	for(h=0;h<12;h++){		printf("%6.2lf ",(echar->c3).lue_df[h]);		}	printf("\n"); 
 
-	printf("13DC: ");
+	/* printf("13DC: ");
 	for(h=0;h<12;h++){		printf("%6.2lf ",(echar->c3).photo_13c_frac[h]);		}	printf("\n"); 
 	printf("13DC: ");
 	for(h=0;h<12;h++){		printf("%6.2lf ",(echar->c4).photo_13c_frac[h]);		}	printf("\n"); 
@@ -76,7 +76,7 @@ void screenshow(
 	printf("14LR: ");
 	for(h=0;h<12;h++){		printf("%6.2lf ",(mass->soil).d14c_ltr_m[h]);		}	printf("\n"); 
 	printf("14MS: ");
-	for(h=0;h<12;h++){		printf("%6.2lf ",(mass->soil).d14c_msl_m[h]);		}	printf("\n"); 
+	for(h=0;h<12;h++){		printf("%6.2lf ",(mass->soil).d14c_msl_m[h]);		}	printf("\n");  */
 
 	
 	printf("LA3: ");
@@ -94,11 +94,20 @@ void screenshow(
 	printf("NEP: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",flux->nep[h]);		ann+=flux->nep[h];	}		printf(" %.1lf\n",ann); 
 	
-
-/*	printf("GP3: ");		ann=0.0;
-	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->c3).gpp[h]);		ann+=(flux->c3).gpp[h];	}		printf(" %.1lf\n",ann); 
-	printf("GP4: ");		ann=0.0;
-	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->c4).gpp[h]);		ann+=(flux->c4).gpp[h];	}		printf(" %.1lf\n",ann); 
+	printf("M1P: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4flux_paddy_cao[h]);		ann+=(flux->soil).ch4flux_paddy_cao[h];	}		printf(": %.1lf\n",ann); 
+	printf("M1W: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4flux_wetland_cao[h]);		ann+=(flux->soil).ch4flux_wetland_cao[h];	}		printf(": %.1lf\n",ann);
+	
+	printf("M2D: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4_paddy_wh_diff[h]);		ann+=(flux->soil).ch4_paddy_wh_diff[h];	}		printf(": %.1lf\n",ann);
+	printf("M2P: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4_paddy_wh_plant[h]);		ann+=(flux->soil).ch4_paddy_wh_plant[h];	}		printf(": %.1lf\n",ann);
+	printf("M2E: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4_paddy_wh_ebull[h]);		ann+=(flux->soil).ch4_paddy_wh_ebull[h];	}		printf(": %.1lf\n",ann);
+	printf("M2R: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4_paddy_wh_release[h]);		ann+=(flux->soil).ch4_paddy_wh_release[h];	}		printf(": %.1lf\n",ann);
+	
 	printf("XX1: ");
 	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx1[h]);		}			printf("\n"); 
 	printf("XX2: ");
@@ -109,6 +118,14 @@ void screenshow(
 	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx4[h]);		}			printf("\n"); 
 	printf("XX5: ");
 	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx5[h]);		}			printf("\n");
+	
+/*	printf("GP3: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->c3).gpp[h]);		ann+=(flux->c3).gpp[h];	}		printf(" %.1lf\n",ann); 
+	printf("GP4: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->c4).gpp[h]);		ann+=(flux->c4).gpp[h];	}		printf(" %.1lf\n",ann); 
+	
+	
+	
 
 	printf("DS3: ");
 	for(h=0;h<12;h++){		printf("%6.3lf ",(echar->c3).fsw[h]);		}	printf("\n"); 
@@ -143,10 +160,7 @@ void screenshow(
 	printf("DOC: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%5.2lf ",(flux->soil).doc_boyer[h]);		ann+=(flux->soil).doc_boyer[h];	}		printf(" %.2lf\n",ann); */
 
-/*	printf("MTP: ");		ann=0.0;
-	for(h=0;h<12;h++){		printf("%5.3lf ",(flux->soil).ch4flux_paddy_cao[h]);		ann+=(flux->soil).ch4flux_paddy_cao[h];	}		printf(" %.1lf\n",ann); 
-	printf("MTW: ");		ann=0.0;
-	for(h=0;h<12;h++){		printf("%5.3lf ",(flux->soil).ch4flux_wetland_cao[h]);		ann+=(flux->soil).ch4flux_wetland_cao[h];	}		printf(" %.1lf\n",ann); */
+/*	 */
 
 /*	printf("LAD\n");
 	for(h=0;h<12;h++){		printf("%8.6lf ",(echar->c3).fleaf_age[h]);		}	printf("\n"); 

@@ -1,11 +1,11 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
-/* biome dependent plant carbon exchange processes-----grassland with C3 and C4 plants*/
+/* biome dependent plant carbon exchange processes ----- grassland with C3 and C4 plants */
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
@@ -20,6 +20,7 @@ void grass_process(
 	struct Pchar *pchar, 
 	struct Pmas *mass
 ){
+	/* preparation */
 	f_before_deal(grid, flux);
 	
 	/*** mass change by phenological C3/C4 alternation ***/
@@ -41,7 +42,8 @@ void grass_process(
 			leaffall(grid, loct, pchar, mass, flux); 
 			break;
 	}
-
+	
+	/* post-processing */
 	f_after_deal(grid, pchar, mass, flux);
 }
 

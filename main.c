@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & EAIMG/ECRP/FRSGC					*/
+/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -14,6 +14,7 @@
 /* Revised 2008 / 07 / 01 by A.Ito				*/
 /* Revised 2008 / 09 / 24 by A.Ito	(based on E.Kato's comments)	*/
 /* Revised 2008 / 12 / 05 by A.Ito	radiation sensitivity analysis	*/
+/* Revised 2008 / 08 / 17 by A.Ito	(based on E.Kato's comments)	*/
 
 /* a previous version, Sim-CYCLE was described in
 Ito, A. and Oikawa, T., 2002. A simulation model of the carbon cycle in land 
@@ -27,13 +28,21 @@ and plot-scale validation. Ecological Modelling, 151:147-179.
 #include<stdlib.h>
 #include<math.h>
 #include<string.h>
-#include"structure.h"
-#include"prototype.h"
 
 /* global variables */
 #include"global_var.h"
+/* structure */
+#include"structure.h"
+/* prototypes */
+#include"prototype.h"
 
 #define FROWS 10
+
+/*  how to run the model?
+ 
+ <prompt> ./visita config_file_name
+ 
+*/
 
 /* main simulation roop *************************************************/
 int main(
@@ -41,81 +50,83 @@ int main(
 	char *argv[]
 ){
 	short zone;
-	long f, g, h;
+	long f, g, h, l_config;
 	/* global land area */
 	/* file name strings */
 	char filename[100];
 	char s_date[25];
 	char s_case[25];
+	char s_config[16];
 	/* file pointer */
 	FILE *fp_s[IFILEN];
 	FILE *fp_c[4];
 	FILE *fp_o1[OFILES], *fp_o2[OFILES], *fp_o3[OFILES];
 	FILE *fp_binout;
+	FILE *fp_config;
 	
-	/* setting by arguments ******************/
-	if(argc<6){
-		printf("No scenario specified !!!\n");
-		exit(1);
+	/* read configure (instead of arguments) by A.Ito (2009/09/01) ************/
+	if((fp_config = fopen(argv[1],"rt"))==NULL){
+	   printf("No configuration file !!!!!!!!!\n");
+	   exit(1);
 	}
-	/* argv[]: ARGUMEMTS ***********
-	  0: execution filename itself (e.g., visita)
-	  1: experiomental scenario ID number (see setting.h)
-	  2: file identifier (arbitrary phrase such as date, your name, etc.)
-	  3: code for sensitivity analysis
-	  4: photosynthesis model 0(Monsi-Saeki) or 1(DePury-Farquhar)
-	  5: future solar radiation change
-	*/
 	
-	/* climate scenario used: see setting.h */
-	GCM = atol(argv[1]);
-	if(GCM>=0 && GCM<=2000){
-		;
+	/* config: 1 experiomental scenario ID number (see setting.h) */
+	fscanf(fp_config,"%s %ld", s_config, &l_config);
+	printf("config  1: %s %ld\n", s_config, l_config);
+	GCM = l_config;
+	   if(GCM>=0 && GCM<=2000){
+	   ;
 	}else{
-		printf("Bad scenario ID specified !!!\n");
-		exit(1);
-	}
+	   printf("Bad scenario ID specified !!!\n");
+	   exit(1);
+	}   
+	set_gcm_index(s_case);	/* -> vegetdeal.c */
 	
-	RAD_SENS = (short)atol(argv[3]);
+	/* config: 2 file identifier (arbitrary phrase such as date, your name, etc.) */
+	fscanf(fp_config,"%s %s", s_config, s_date);
+	strcat(s_date, "_");
+	printf("config  2: %s %s\n", s_config, s_date);
+	   
+	/* config: 3 code for radiation sensitivity analysis */
+	fscanf(fp_config,"%s %ld", s_config, &l_config);   
+	printf("config  3: %s %ld\n", s_config, l_config);
+	RAD_SENS = l_config;
 	
-	DF97 = (short)atol(argv[4]);
+	/* config: 4 photosynthesis model 0(Monsi-Saeki) or 1(DePury-Farquhar) */
+	fscanf(fp_config,"%s %ld", s_config, &l_config);
+	printf("config  4: %s %ld\n", s_config, l_config);
+	DF97 = l_config;
 	/* 0: Monsi-Saeki */
 	/* 1: de Pury-Farquhar */
-	
-	/* CC_R = (short)atol(argv[5]); */
-	CC_R = 1;
-	
-	TEMP_GC = (short)atol(argv[5]);
-	
-	/************************************************************/
-	set_rowcol_gcm();	/* -> vegetdeal.c */
-	
-	printf("Open files...");
-	/* open source files *****************************************/
-	open_input(fp_s, fp_c);	/* -> open_input.c */
-	
-	/* open result file ******************************************/
-	set_gcm_index(s_case);	/* -> vegetdeal.c */
+	   
+	/* config: 5 future solar radiation change */
+	fscanf(fp_config,"%s %ld", s_config, &l_config);
+	printf("config  5: %s %ld\n", s_config, l_config);
+	CC_R = l_config;
+	/* 0: no radiation change */
+	/* 1: with radiation change */
+
+	/* config: 6 simple temperature change scenario */
+	fscanf(fp_config,"%s %ld", s_config, &l_config);
+	printf("config  6: %s %ld\n", s_config, l_config);
+	TEMP_GC = l_config;
 		
-	/***********/
-	strcpy(s_date, argv[2]);
-	strcat(s_date, "_");
-				
+	/* open source files **********************************************/
+	printf("Open input files...");
+	open_input(fp_s, fp_c);	/* -> open_input.c */
 	printf("done\n");
 	
-	strcpy(filename, argv[2]);
-	strcat(filename, "_");
+	/* open result file **********************************************/
+	printf("Create output binary file...");
+	strcpy(filename, s_date);
 	strcat(filename, s_case);
 	strcat(filename,"output.bin");
 	fp_binout = fopen(filename, "wb");
-		
-	/*******************************************************************/
-	printf("Initialize simulation...");
-	
-	/** initialize configuration **/
-	initSim(&grid);
 	printf("done\n");
 	
+	/*******************************************************************/
+	printf("Initialize simulation...");
+	/* initialize simulation configuration **/
 	/* vegetation type: olson */
 	(echar.c3).v_type = 1; 
 	(echar.c4).v_type = 1;
@@ -128,14 +139,22 @@ int main(
 	(echar_agr.c3).v_type = 3; 
 	(echar_agr.c4).v_type = 3;
 	(echar_agr.soil).v_type = 3;
-		
-	/*** read GCM climate scenario ***/
-	printf("Reading GCM climate projection...");
-	read_gcm_clim(&grid); /* */
-	/* read_ncep_clim(&grid); */
+
+	initSim(&grid);
 	printf("done\n");
 	
-	/************************************************************************/
+	/* read climate scenario 2010/01/04 (A.Ito) ***********/
+	if(NCEP_SIM == 1){
+		printf("Reading NCEP climate data...");
+		read_ncep_clim(&grid);
+	}
+	if(GCM_SIM==1){
+		printf("Reading GCM climate projection...");
+		read_gcm_clim(&grid);
+	}
+	printf("done\n");
+	
+	/*********************************************************************/
 	/* latitude loop: north to south **************/
 	printf("Start simulation...\n");
 	for(f=0;f<360;f++){
@@ -167,7 +186,7 @@ int main(
 			/* initialize grid condition: data setting */
 			init_grid(fp_s, &grid);
 			
-			/* read CRU TS2.1 climate data */
+			/* read CRU TS2.1/TS3.0 climate data */
 			read_cru_clim(fp_c, &grid);
 			
 			printf("%3ld %3ld: %7.2lf %7.2lf: %2ld %2ld %2ld: %1ld\n", 
@@ -177,13 +196,16 @@ int main(
 			/* head record */
 			for(h=0;h<OFILES;h++){
 				if(CALC_OLSON == 1){
-					fprintf(fp_o1[h],"%ld %ld %ld %ld\n", grid.row, grid.col, grid.veg_olson, grid.veg_sage); 
+					fprintf(fp_o1[h],"%ld %ld %ld %ld\n", 
+							grid.row, grid.col, grid.veg_olson, grid.veg_sage); 
 				}
 				if(CALC_SAGE == 1){
-					fprintf(fp_o2[h],"%ld %ld %ld %ld\n", grid.row, grid.col, grid.veg_olson, grid.veg_sage); 
+					fprintf(fp_o2[h],"%ld %ld %ld %ld\n", 
+							grid.row, grid.col, grid.veg_olson, grid.veg_sage); 
 				}
 				if(CALC_CROP == 1){
-					fprintf(fp_o3[h],"%ld %ld %ld %ld\n", grid.row, grid.col, grid.veg_olson, grid.veg_sage); 
+					fprintf(fp_o3[h],"%ld %ld %ld %ld\n", 
+							grid.row, grid.col, grid.veg_olson, grid.veg_sage); 
 				}
 			}
 			
@@ -220,13 +242,11 @@ int main(
 					screenshow(&grid, &loct, &mass, &flux, &echar); 
 					
 					/* experiment *******************************************/
-					/* past: 1901-2000 */
+					/* past: 1901-2000/2009 */
 					cal_cruclim(&grid, &loct, &echar, &mass, &flux, fp_o1);	
 
 					/* future: 2001-2100 */
-					if(CRU_PD==102 || CRU_PD==108){
-						;
-					}else{
+					if(GCM_SIM){
 						cal_gcmclim2(&grid, &loct, &echar, &mass, &flux, fp_o1);
 					}
 					
@@ -336,6 +356,7 @@ int main(
 	}
 	/* end of latitudinal loop *************************************/
 	
+	/* decadal average grid values */
 	fwrite(g_tmp, sizeof(float), 5*360*720, fp_binout);  // 0-4
 	fwrite(g_prc, sizeof(float), 5*360*720, fp_binout);  // 5-9
 	fwrite(g_swr, sizeof(float), 5*360*720, fp_binout);  // 10-14
@@ -344,36 +365,59 @@ int main(
 	fwrite(g_nep, sizeof(float), 5*360*720, fp_binout);  // 25-29
 	fwrite(g_pmas, sizeof(float), 5*360*720, fp_binout);  // 30-34
 	fwrite(g_smas, sizeof(float), 5*360*720, fp_binout);  // 35-39
-	fwrite(g_ch4e, sizeof(float), 5*360*720, fp_binout);  // 40-44
-	fwrite(g_ch4o, sizeof(float), 5*360*720, fp_binout);  // 45-49
+	fwrite(g_ch4e_cao, sizeof(float), 5*360*720, fp_binout);  // 40-44
+	fwrite(g_ch4o_curry, sizeof(float), 5*360*720, fp_binout);  // 45-49
 	fwrite(g_n2oe, sizeof(float), 5*360*720, fp_binout);  // 50-54
 	fwrite(g_bbco2, sizeof(float), 5*360*720, fp_binout);  // 55-59
 	fwrite(g_ersn, sizeof(float), 5*360*720, fp_binout);  // 60-64
 	fwrite(g_isopr, sizeof(float), 5*360*720, fp_binout);  // 65-69
 	fwrite(g_sr, sizeof(float), 5*360*720, fp_binout);  // 70-74
 	fwrite(g_luc, sizeof(float), 5*360*720, fp_binout);  // 75-79
+	fwrite(g_er, sizeof(float), 5*360*720, fp_binout);		// 80-84
+	fwrite(g_ch4ep_cao, sizeof(float), 5*360*720, fp_binout);	// 85-89
 
-	fwrite(g_f13, sizeof(float), 5*360*720, fp_binout);  // 80-84
-	fwrite(g_c13, sizeof(float), 5*360*720, fp_binout);  // 85-89
-	fwrite(g_r13, sizeof(float), 5*360*720, fp_binout);  // 90-94
-	fwrite(g_l13, sizeof(float), 5*360*720, fp_binout);  // 95-99
-	fwrite(g_h13, sizeof(float), 5*360*720, fp_binout);  // 100-104
-	fwrite(g_f14, sizeof(float), 5*360*720, fp_binout);  // 105-109
-	fwrite(g_c14, sizeof(float), 5*360*720, fp_binout);  // 110-114
-	fwrite(g_r14, sizeof(float), 5*360*720, fp_binout);  // 115-119
-	fwrite(g_l14, sizeof(float), 5*360*720, fp_binout);  // 120-124
-	fwrite(g_h14, sizeof(float), 5*360*720, fp_binout);  // 125-129
+#if C13_GOUT==1	
+	fwrite(g_gpp13, sizeof(float), 5*360*720, fp_binout);	// 90
+	fwrite(g_er13, sizeof(float), 5*360*720, fp_binout);	// 95
+	fwrite(g_f13, sizeof(float), 5*360*720, fp_binout);  // 100
+	fwrite(g_c13, sizeof(float), 5*360*720, fp_binout);  // 105
+	fwrite(g_r13, sizeof(float), 5*360*720, fp_binout);  // 110
+	fwrite(g_l13, sizeof(float), 5*360*720, fp_binout);  // 115
+	fwrite(g_h13, sizeof(float), 5*360*720, fp_binout);  // 120
+#endif
+	
+#if C14_GOUT==1	
+	fwrite(g_gpp14, sizeof(float), 5*360*720, fp_binout);	// 125
+	fwrite(g_er14, sizeof(float), 5*360*720, fp_binout);	// 130
+	fwrite(g_f14, sizeof(float), 5*360*720, fp_binout);  // 135
+	fwrite(g_c14, sizeof(float), 5*360*720, fp_binout);  // 140
+	fwrite(g_r14, sizeof(float), 5*360*720, fp_binout);  // 145
+	fwrite(g_l14, sizeof(float), 5*360*720, fp_binout);  // 150
+	fwrite(g_h14, sizeof(float), 5*360*720, fp_binout);  // 155
+#endif
 
-	fwrite(g_er, sizeof(float), 5*360*720, fp_binout);		// 130-134
-	fwrite(g_gpp13, sizeof(float), 5*360*720, fp_binout);	// 135-139
-	fwrite(g_er13, sizeof(float), 5*360*720, fp_binout);	// 140-144
-	fwrite(g_gpp14, sizeof(float), 5*360*720, fp_binout);	// 145-149
-	fwrite(g_er14, sizeof(float), 5*360*720, fp_binout);	// 150-154
-
-	fwrite(g_snh4, sizeof(float), 5*360*720, fp_binout);	// 155-159
-	fwrite(g_sno3, sizeof(float), 5*360*720, fp_binout);	// 160-164
-	/**/
- 
+#if PHYS_GOUT==1
+	fwrite(g_lai, sizeof(float), 5*360*720, fp_binout);	// 160
+	fwrite(g_parb, sizeof(float), 5*360*720, fp_binout);	// 165
+	fwrite(g_pard, sizeof(float), 5*360*720, fp_binout);	// 170
+	fwrite(g_apar, sizeof(float), 5*360*720, fp_binout);	// 175
+	fwrite(g_apar2, sizeof(float), 5*360*720, fp_binout);	// 180
+	fwrite(g_aet, sizeof(float), 5*360*720, fp_binout);	// 185
+	fwrite(g_rof, sizeof(float), 5*360*720, fp_binout);	// 190
+	fwrite(g_rns, sizeof(float), 5*360*720, fp_binout);	// 195
+	fwrite(g_rnl, sizeof(float), 5*360*720, fp_binout);	// 200
+	fwrite(g_sw1, sizeof(float), 5*360*720, fp_binout);	// 205
+	fwrite(g_sw2, sizeof(float), 5*360*720, fp_binout);	// 210
+	fwrite(g_snh4, sizeof(float), 5*360*720, fp_binout);	// 215
+	fwrite(g_sno3, sizeof(float), 5*360*720, fp_binout);	// 220
+#endif
+	
+#if CH4_WH==1	
+	fwrite(g_ch4ep_wh, sizeof(float), 5*360*720, fp_binout);	// 225
+	fwrite(g_ch4ew_wh, sizeof(float), 5*360*720, fp_binout);	// 230
+	fwrite(gm_ch4ep_wh, sizeof(float), 12*360*720, fp_binout);	// 235
+#endif
+	
 	/* close files */
 	for(h=0;h<IFILEN;h++){
 		fclose(fp_s[h]); 
