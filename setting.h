@@ -228,7 +228,7 @@
 #define CC_H 1
 
 /* constant future CO2 level */
-#define CC_CD 2
+#define CC_CD 1
 /* 1: actual CO2 rise */
 /* 2: no CO2 rise */
 
