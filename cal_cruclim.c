@@ -94,27 +94,35 @@ void cal_cruclim(
 
 			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
 			/* NH4:NO3 ratio is based on inventories */
-			if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || 
+			/* if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || 
 											 grid->veg_olson==31 || grid->veg_olson==32)){
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0;
+			} */
+			
+			/* */
+			if((echar->soil).v_type == 1){
+				(mass->soil).n_no3 += grid->f_crop_con * loct->n_frtlz_in * 0.2 * 1000.0;
+				(mass->soil).n_nh4 += grid->f_crop_con * loct->n_frtlz_in * 0.8 * 1000.0;
 			}
+			
 			if((echar->soil).v_type == 3){
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0;
 			}
 
-			/* CH4 oxydation (uplands) **************/
+			/* CH4 oxydation (uplands) ****************************/
 			f_ch4oxy_ridgewell(grid, loct, flux);
 			f_ch4oxy_casa(grid, loct, flux);
 			f_ch4oxy_delgrosso(grid, loct, flux);
 			f_ch4oxy_curry(grid, loct, flux);
 			
-			/* CH4 emission ***************/
+			/* CH4 emission **************************************/
 			/* Cao (paddy+wetlands) */
 			f_ch4_emit_cao(grid, loct, flux);
 			
 			/* Walter & Heimann (paddy) */
+			/* wetlands */
 			if(CH4_WH==1 && grid->f_wetland>0.0){
 				f_ch4_emit_walter(1, grid, loct, flux);
 				f_ch4_emit_walter(2, grid, loct, flux);
@@ -124,20 +132,17 @@ void cal_cruclim(
 				(flux->soil).ch4_wetland_wh_diff[f] = 0.0;
 				(flux->soil).ch4_wetland_wh_release[f] = 0.0;
 			}
+			/* paddy fields */
 			if(CH4_WH==1 && grid->f_paddy>0.0){
 				f_ch4_emit_walter(3, grid, loct, flux);
 				f_ch4_emit_walter(4, grid, loct, flux);
 			}else{
-				loct->xx1[f] = 0.0;
-				loct->xx2[f] = 0.0;
-				loct->xx3[f] = 0.0;
-				loct->xx4[f] = 0.0;
-				loct->xx5[f] = 0.0;
 				(flux->soil).ch4_paddy_wh_plant[f] = 0.0;
 				(flux->soil).ch4_paddy_wh_ebull[f] = 0.0;
 				(flux->soil).ch4_paddy_wh_diff[f] = 0.0;
 				(flux->soil).ch4_paddy_wh_release[f] = 0.0;
 			}
+			
 			/* coupling carbon budget by CH4 */
 			if(NECB_CH4==1){
 					(mass->soil).msl += grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
@@ -151,11 +156,11 @@ void cal_cruclim(
 				}
 			}
 			
-			/* N2O emission */
+			/* N2O emission ***************************************/
 			f_n2o_emit_ngas(grid, loct, mass, flux);
 			f_n2o_emit_casa(grid, loct, mass, flux);
 			
-			/* ecosystem mass balance *****************/	
+			/* ecosystem mass balance *****************************/	
 			/* net ecosystem production */
 			flux->nep[f] = (flux->plant).npp[f]-(flux->soil).hr[f];
 			flux->er[f] = (flux->plant).ar[f] + (flux->soil).hr[f];

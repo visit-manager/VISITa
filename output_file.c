@@ -655,7 +655,7 @@ void f_output_result(
 		fprintf(fp_o[1],"%.3lf ", (flux->plant).n_abdn_strg[f]);
 
 		fprintf(fp_o[1],"%.3lf ", (flux->soil).n_leach[f]);
-		fprintf(fp_o[1],"%.3lf ", (flux->soil).n_nh3vlt[f]); /* */
+		fprintf(fp_o[1],"%.3lf ", (flux->soil).n_nh3vlt[f]); 
 		fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2o_ngas[f]);
 		fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2_ngas[f]);
 		fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2o_casa[f]);
@@ -669,15 +669,29 @@ void f_output_result(
 		fprintf(fp_o[1],"%.3lf ", (flux->soil).n_minerlz_lttr[f]);
 		fprintf(fp_o[1],"%.3lf ", (flux->soil).n_minerlz_hums[f]);
 
-		fprintf(fp_o[1],"%.3lf ", loct->n_frtlz_in*1000.0);
+		fprintf(fp_o[1],"%.3lf ", grid->f_crop_con * loct->n_frtlz_in*1000.0);
 		fprintf(fp_o[1],"%.3lf ", loct->depo_no3[f]);
-		fprintf(fp_o[1],"%.3lf ", loct->depo_nh4[f]);
+		fprintf(fp_o[1],"%.3lf ", loct->depo_nh4[f]);  /* */
+		
+		/* monitor: 2010/03/24 by A.Ito */
+		fprintf(fp_o[1],"%.3lf ", loct->xx1[f]); 
+		fprintf(fp_o[1],"%.3lf ", loct->xx2[f]);
+		fprintf(fp_o[1],"%.3lf ", loct->xx3[f]);
+		fprintf(fp_o[1],"%.3lf ", loct->xx4[f]);
+		fprintf(fp_o[1],"%.3lf ", loct->xx5[f]);
+		fprintf(fp_o[1],"%.3lf ", loct->xx6[f]);
+		fprintf(fp_o[1],"%.3lf ", loct->xx7[f]);
+		
+		fprintf(fp_o[1],"%.3lf ", loct->wfps[f]);
+		fprintf(fp_o[1],"%.3lf ", loct->msw30[f]);
+		fprintf(fp_o[1],"%.3lf ", loct->msww[f]);
+		fprintf(fp_o[1],"%.3lf ", loct->m_vmc[f]);
 	}
 	fprintf(fp_o[1],"\n");
 
 	/* erosion & DOC */
 	fprintf(fp_o[2],"%ld ", year);
-	fprintf(fp_o[2],"%lf ", pre_ann);
+	/* fprintf(fp_o[2],"%lf ", pre_ann);
 	fprintf(fp_o[2],"%lf ", grid->f_crop_con);
 	fprintf(fp_o[2],"%lf ", grid->f_erosion_r);
 	fprintf(fp_o[2],"%lf ", grid->f_erosion_ls);
@@ -697,7 +711,7 @@ void f_output_result(
 	for(f=0;f<ASTEP;f++){
 		fprintf(fp_o[2],"%lf ", loct->ro2[f]);
 		fprintf(fp_o[2],"%lf ", (flux->soil).doc_boyer[f]);
-	} /* */
+	} */
 	fprintf(fp_o[2],"\n");
 	
 	/* GHG & trace gases */
@@ -738,7 +752,7 @@ void f_output_result(
 	/* biomass burning */
 	fprintf(fp_o[4],"%ld ", year);
 	for(f=0;f<ASTEP;f++){
-		fprintf(fp_o[4],"%.3lf ", loct->msw30[f]);
+		/* fprintf(fp_o[4],"%.3lf ", loct->msw30[f]);
 		fprintf(fp_o[4],"%.3lf ", flux->day_fire[f]);
 		fprintf(fp_o[4],"%.3lf ", flux->a_burnt[f]);
 		fprintf(fp_o[4],"%.3lf ", flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+flux->bb_co2_wood[f]+flux->bb_co2_root[f]);
@@ -751,14 +765,14 @@ void f_output_result(
 		fprintf(fp_o[4],"%.3lf ", flux->bb_so2_litter[f]+flux->bb_so2_leaf[f]+flux->bb_so2_wood[f]+flux->bb_so2_root[f]);
 		fprintf(fp_o[4],"%.3lf ", flux->bb_pm25_litter[f]+flux->bb_pm25_leaf[f]+flux->bb_pm25_wood[f]+flux->bb_pm25_root[f]);
 		fprintf(fp_o[4],"%.3lf ", flux->bb_tpm_litter[f]+flux->bb_tpm_leaf[f]+flux->bb_tpm_wood[f]+flux->bb_tpm_root[f]);
-		fprintf(fp_o[4],"%.3lf ", flux->bb_tec_litter[f]+flux->bb_tec_leaf[f]+flux->bb_tec_wood[f]+flux->bb_tec_root[f]);  /* */
+		fprintf(fp_o[4],"%.3lf ", flux->bb_tec_litter[f]+flux->bb_tec_leaf[f]+flux->bb_tec_wood[f]+flux->bb_tec_root[f]);  */
 	}
 	fprintf(fp_o[4],"\n");
 
 	/* VOC */
 	fprintf(fp_o[5],"%ld ", year);
 	for(f=0;f<ASTEP;f++){
-		fprintf(fp_o[5],"%.3lf ", flux->voc_isopr_g97[f]);
+		/* fprintf(fp_o[5],"%.3lf ", flux->voc_isopr_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_monotrp_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_methanl_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_acetone_g97[f]);
@@ -766,14 +780,14 @@ void f_output_result(
 		fprintf(fp_o[5],"%.3lf ", flux->voc_frmardhd_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_formacd_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_acetacd_g97[f]);
-		fprintf(fp_o[5],"%.3lf ", flux->voc_co_g97[f]); /* */
+		fprintf(fp_o[5],"%.3lf ", flux->voc_co_g97[f]); */
 	}
 	fprintf(fp_o[5],"\n");
 	
 	/* hydrometeorology */
 	fprintf(fp_o[6],"%ld ", year);
 	for(f=0;f<ASTEP;f++){
-		fprintf(fp_o[6],"%.3lf ", grid->tmp_2m[f]);
+		/* fprintf(fp_o[6],"%.3lf ", grid->tmp_2m[f]);
 		fprintf(fp_o[6],"%.2lf ", grid->prate_sfc[f]);
 		fprintf(fp_o[6],"%.2lf ", grid->gl_rad[f]);
 		fprintf(fp_o[6],"%.2lf ", grid->par[f]);
@@ -787,14 +801,14 @@ void f_output_result(
 		fprintf(fp_o[6],"%.2lf ", loct->incep[f]);
 		fprintf(fp_o[6],"%.2lf ", loct->evpr[f]);
 		fprintf(fp_o[6],"%.2lf ", loct->trspr[f]);
-		fprintf(fp_o[6],"%.2lf ", loct->ro2[f]); /* */
+		fprintf(fp_o[6],"%.2lf ", loct->ro2[f]); */
 	}
 	fprintf(fp_o[6],"\n");
 	
 	/* carbon isotopes: added by A.Ito (2009/07/14) */
 	fprintf(fp_o[7],"%ld ", year);
 	for(f=0;f<ASTEP;f++){
-		fprintf(fp_o[7],"%.4lf ", loct->c4ptn[f]);
+		/* fprintf(fp_o[7],"%.4lf ", loct->c4ptn[f]);
 		
 		fprintf(fp_o[7],"%.3lf ", grid->d13c_bco2[f]);
 		fprintf(fp_o[7],"%.3lf ", loct->d13c_aco2[f]);
@@ -827,7 +841,7 @@ void f_output_result(
 		fprintf(fp_o[7],"%.3lf ", (mass->c4).d14c_mstm[f]);
 		fprintf(fp_o[7],"%.3lf ", (mass->c4).d14c_mrot[f]);
 		fprintf(fp_o[7],"%.3lf ", (mass->soil).d14c_ltr_m[f]);
-		fprintf(fp_o[7],"%.3lf ", (mass->soil).d14c_msl_m[f]); /* */
+		fprintf(fp_o[7],"%.3lf ", (mass->soil).d14c_msl_m[f]); */
 	}
 	fprintf(fp_o[7],"\n");
 }

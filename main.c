@@ -15,6 +15,7 @@
 /* Revised 2008 / 09 / 24 by A.Ito	(based on E.Kato's comments)	*/
 /* Revised 2008 / 12 / 05 by A.Ito	radiation sensitivity analysis	*/
 /* Revised 2008 / 08 / 17 by A.Ito	(based on E.Kato's comments)	*/
+/* Revised 2010 / 03 / 21 by A.Ito	*/
 
 /* a previous version, Sim-CYCLE was described in
 Ito, A. and Oikawa, T., 2002. A simulation model of the carbon cycle in land 
@@ -198,6 +199,9 @@ int main(
 				if(CALC_OLSON == 1){
 					fprintf(fp_o1[h],"%ld %ld %ld %ld\n", 
 							grid.row, grid.col, grid.veg_olson, grid.veg_sage); 
+					
+					fprintf(fp_o1[h],"%lf %lf %lf\n", 
+							grid.field_cap1, grid.field_cap2, grid.bulkdens);
 				}
 				if(CALC_SAGE == 1){
 					fprintf(fp_o2[h],"%ld %ld %ld %ld\n", 

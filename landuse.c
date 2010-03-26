@@ -139,7 +139,7 @@ void f_cult_luc(
 	}else{
 		if(LANDUSE>=1 && LANDUSE<=5){
 			grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
-		}else if(LANDUSE==6){
+		}else if(LANDUSE==6 || LANDUSE==8){
 			if(grid->climy<=1999){
 				grid->f_deforest = grid->t_vc_unh_hmnzed[grid->climy - 1700] 
 									+ grid->t_vp_unh_hmnzed[grid->climy - 1700]
@@ -152,22 +152,6 @@ void f_cult_luc(
 			}else{
 				grid->f_deforest = (grid->f_crop_con - grid->f_crop_p) 
 									+ (grid->f_pasture_con - grid->f_pasture_p);
-				grid->f_deforest_v = grid->f_deforest;
-				grid->f_deforest_s = 0.0;
-			}
-		}else if(LANDUSE==8){
-			if(grid->climy<=2005){
-				grid->f_deforest = grid->t_vc_unh_hmnzed[grid->climy - 1700] 
-									+ grid->t_vp_unh_hmnzed[grid->climy - 1700]
-									+ grid->t_sc_unh_hmnzed[grid->climy - 1700] 
-									+ grid->t_sp_unh_hmnzed[grid->climy - 1700];
-				grid->f_deforest_v = grid->t_vc_unh_hmnzed[grid->climy - 1700] 
-									+ grid->t_vp_unh_hmnzed[grid->climy - 1700];
-				grid->f_deforest_s = grid->t_sc_unh_hmnzed[grid->climy - 1700] 
-									+ grid->t_sp_unh_hmnzed[grid->climy - 1700];
-			}else{
-				grid->f_deforest = (grid->f_crop_con - grid->f_crop_p) 
-				+ (grid->f_pasture_con - grid->f_pasture_p);
 				grid->f_deforest_v = grid->f_deforest;
 				grid->f_deforest_s = 0.0;
 			}
@@ -196,11 +180,7 @@ void f_luc_emit(
 	double fe_hund;		/* fraction of 100-year pool flux */
 	double fe_detr;		/* fraction of detritus flux */
 	double mass_detr, mass_conv, mass_ten, mass_hund;	/* added by A.Ito based on E.Kato (2009/03/30) */
-	double eff_mass, f_mass_secfor;
-	
-	/* mass fraction of secondary forest */
-	/* Nelson et al. (2000) Bioscience 50:419-431 */
-	f_mass_secfor = 0.1;
+	double eff_mass;
 	
 	switch(grid->veg_sage){
 		/* detritus production by land-use change:
@@ -254,9 +234,9 @@ void f_luc_emit(
 		/* modified by A.Ito (2009/06/05: 2010/01/07) */
 		if(LANDUSE>=1 && LANDUSE<=5){
 			f_luc = grid->fcrop_sage[1900-1700] - grid->fcrop_sage[1900-1700-1];
-		}else if(LANDUSE==6 || LANDUSE==8){ /* corrected by A.Ito (2010/02/03) */
+		}else if(LANDUSE==6){
 			f_luc = (grid->t_vc_unh_hmnzed[1900 - 1700] + grid->t_vp_unh_hmnzed[1900 - 1700])
-				+ (grid->t_sc_unh_hmnzed[1900 - 1700] + grid->t_sp_unh_hmnzed[1900 - 1700])*f_mass_secfor;
+				+ (grid->t_sc_unh_hmnzed[1900 - 1700] + grid->t_sp_unh_hmnzed[1900 - 1700])*0.5;
 		}else if(LANDUSE==7){
 			/* added 2010/01/07 (A.Ito) */
 			f_luc = (grid->fcrop_rk[1900-1700] - grid->fcrop_rk[1900-1700-1])
@@ -278,7 +258,7 @@ void f_luc_emit(
 				f_luc = grid->fcrop_sage[f-1700] - grid->fcrop_sage[f-1700-1];
 			}else if(LANDUSE==6 || LANDUSE==8){
 				f_luc = (grid->t_vc_unh_hmnzed[f - 1700] + grid->t_vp_unh_hmnzed[f - 1700])
-						+ (grid->t_sc_unh_hmnzed[f - 1700] + grid->t_sp_unh_hmnzed[f - 1700])*f_mass_secfor;
+						+ (grid->t_sc_unh_hmnzed[f - 1700] + grid->t_sp_unh_hmnzed[f - 1700])*0.5;
 				/* 0.5: assumption by A.Ito for secondary forest stock */
 			}else if(LANDUSE==7){
 				/* added 2010/01/07 (A.Ito) */
@@ -304,7 +284,7 @@ void f_luc_emit(
 				f_luc = grid->fcrop_sage[f-1700] - grid->fcrop_sage[f-1700-1];
 			}else if(LANDUSE==6 || LANDUSE==8){
 				f_luc = (grid->t_vc_unh_hmnzed[f - 1700] + grid->t_vp_unh_hmnzed[f - 1700])
-						+ (grid->t_sc_unh_hmnzed[f - 1700] + grid->t_sp_unh_hmnzed[f - 1700])*f_mass_secfor;
+						+ (grid->t_sc_unh_hmnzed[f - 1700] + grid->t_sp_unh_hmnzed[f - 1700])*0.5;
 			}else if(LANDUSE==7){
 				/* added 2010/01/07 (A.Ito) */
 				f_luc = (grid->fcrop_rk[f-1700] - grid->fcrop_rk[f-1700-1])
@@ -351,7 +331,7 @@ void f_luc_emit(
 			/*  grid->f_crop_con - grid->f_crop_p;  */
 		}else if(LANDUSE==6 || LANDUSE==8){
 			/* assumption: biomass in secondary forest is half (0.5) of primary forest */
-			f_luc = grid->f_deforest_v + grid->f_deforest_s * f_mass_secfor;
+			f_luc = grid->f_deforest_v + grid->f_deforest_s * 0.5;
 		}else if(LANDUSE==7){
 			/* added 2010/01/07 (A.Ito) */
 			f_luc = grid->f_deforest;

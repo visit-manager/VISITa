@@ -256,6 +256,16 @@ void dynmcL(
 		grid->par[grid->m] = par(grid); 
 	}
 	
+	for(h=0;h<ASTEP;h++){
+		loct->xx1[h] = 0.0;
+		loct->xx2[h] = 0.0;
+		loct->xx3[h] = 0.0;
+		loct->xx4[h] = 0.0;
+		loct->xx5[h] = 0.0;
+		loct->xx6[h] = 0.0;
+		loct->xx7[h] = 0.0;
+	}
+	
 	if(grid->m==0){
 		grid->tmp_sfc_am = 0.0;
 		grid->tmp_sfc_mx = -100.0;

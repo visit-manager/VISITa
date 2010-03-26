@@ -698,11 +698,11 @@ void parameterSoil(
 	soil->albedo0 = albgv[grid->veg_olson]; 	 				 
 	
 	if(DF97==0){
-		soil->rl0=soil->rl = rlv[grid->veg_olson]*0.85 * 1.5;
-		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.70 * 0.8;
+		soil->rl0=soil->rl = rlv[grid->veg_olson]*0.85 * 1.6;
+		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.70 * 0.80;
 	}else if(DF97==1){
 		soil->rl0=soil->rl = rlv[grid->veg_olson]*0.70 * 1.5;
-		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.60 * 0.8;
+		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.60 * 0.70;
 	}
 	soil->qTl = qTlv[grid->veg_olson]; 
 	soil->qTh = qThv[grid->veg_olson];
@@ -710,5 +710,5 @@ void parameterSoil(
 	soil->kmh = kmhv[grid->veg_olson];
 	soil->kmsl = kmslv[grid->veg_olson]; 
 	soil->kmsh = kmshv[grid->veg_olson];
-	soil->me = mev[grid->veg_olson];	
+	soil->me = mev[grid->veg_olson] * 0.9;	
 }

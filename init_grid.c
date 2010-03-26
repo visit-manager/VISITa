@@ -538,15 +538,15 @@ void init_grid(
 	
 	/* field capacity */
 	grid->field_cap1 = pow(crit_tension/grid->a_sw, 1.0/grid->b_sw);
+	grid->field_cap1 *= 300.0;
 	/* pore space capacity */
 	grid->pore_cap1 = 0.332 -7.251*0.0001*grid->pc_sand + 0.1276*log10(grid->pc_clay);
+	grid->pore_cap1 *= 300.0;
 	
-	grid->field_cap1 *= 300.0;
 	grid->field_cap2 = grid->fc_150 - grid->field_cap1;
-	if(grid->field_cap2<0.0){
+	if(grid->field_cap2 < 100.0){
 		grid->field_cap2 = 100.0;
 	}
-	grid->pore_cap1 *= 300.0;
 	
 	/* wetland fraction: data by Global Lakes and Wetlands Database by WWF *****/
 	/* revised wetland data: by A.Ito (2009/07/14) */

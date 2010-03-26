@@ -156,6 +156,14 @@ void f_n2o_emit_ngas(
 	if(fr_co2 < 0.0){
 		fr_co2 = 0.0;
 	}
+	
+	loct->xx1[grid->m] = fd_wfps;
+	loct->xx2[grid->m] = fd_no3;
+	loct->xx3[grid->m] = fd_co2;
+	loct->xx4[grid->m] = dt;
+	loct->xx5[grid->m] = fr_wfps;
+	loct->xx6[grid->m] = fr_no3;
+	loct->xx7[grid->m] = fr_co2;
 		
 	/* N2O emission */
 	/* Eqs.(3+4) in Parton et al. (1996) */

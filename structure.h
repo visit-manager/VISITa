@@ -118,7 +118,7 @@ struct Grid{
 	/* GCM climate: year x month x row x column */
 	/* 160 x 320   */
 #if GCM_SIM==1
-	float	proj_tmp2m[GCM_DL][ASTEP][160][320];			/* temperature */
+	float	proj_tmp2m[GCM_DL][ASTEP][160][320];		/* temperature */
 	float	proj_prec[GCM_DL][ASTEP][160][320];			/* precipitation */
 	float	proj_hum[GCM_DL][ASTEP][160][320];			/* specific humidity */
 	float	proj_rad[GCM_DL][ASTEP][160][320];			/* surface downward solar radiation */
@@ -133,10 +133,10 @@ struct Grid{
 	float	proj_hum[1][1][1][1];			/* specific humidity */
 	float	proj_rad[1][1][1][1];			/* surface downward solar radiation */
 	/* 1970-1999 average: month x row x column */
-	float	proj_tmp2m_b[1][1][1];				/* temperature */
-	float	proj_prec_b[1][1][1];				/* precipitation */
-	float	proj_hum_b[1][1][1];				/* specific humidity */
-	float	proj_rad_b[1][1][1];				/* surface downward solar radiation */
+	float	proj_tmp2m_b[1][1][1];			/* temperature */
+	float	proj_prec_b[1][1][1];			/* precipitation */
+	float	proj_hum_b[1][1][1];			/* specific humidity */
+	float	proj_rad_b[1][1][1];			/* surface downward solar radiation */
 #endif	
 	
 	/* NCEP/NCAR 1948-2008 */
@@ -166,15 +166,15 @@ struct Grid{
 
 	/* UEA/CRU TS2.1 data */
 	long	cru_exist;							/* flag of CRU TS2.1 data availability */
-	double	hist_tmp[CRU_DL][ASTEP];				/* temperature */
-	double	hist_pre[CRU_DL][ASTEP];				/* precipitation */
-	double	hist_cld[CRU_DL][ASTEP];				/* cloud cover */
-	double	hist_vap[CRU_DL][ASTEP];				/* vapor pressure */
+	double	hist_tmp[CRU_DL][ASTEP];			/* temperature */
+	double	hist_pre[CRU_DL][ASTEP];			/* precipitation */
+	double	hist_cld[CRU_DL][ASTEP];			/* cloud cover */
+	double	hist_vap[CRU_DL][ASTEP];			/* vapor pressure */
 	/* historical average */
-	double	hist_tmp_b[ASTEP];						/* temperature */
-	double	hist_pre_b[ASTEP];						/* precipitation */
-	double	hist_cld_b[ASTEP];						/* cloud cover */
-	double	hist_vap_b[ASTEP];						/* vapor pressure */
+	double	hist_tmp_b[ASTEP];					/* temperature */
+	double	hist_pre_b[ASTEP];					/* precipitation */
+	double	hist_cld_b[ASTEP];					/* cloud cover */
+	double	hist_vap_b[ASTEP];					/* vapor pressure */
 
 	/* erosion */
 	long 	rvbasin;						/* ID of river basin */
@@ -378,6 +378,8 @@ struct Loct{
 	double	xx3[ASTEP];
 	double	xx4[ASTEP];
 	double	xx5[ASTEP];
+	double	xx6[ASTEP];
+	double	xx7[ASTEP];
 };			
 
 /* vegetation characteristics ****************************************************/

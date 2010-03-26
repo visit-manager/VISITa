@@ -401,11 +401,11 @@ void f_ch4_emit_walter(
 		}
 	}
 	
-	loct->xx1[grid->m] = day_produc;
+	/* loct->xx1[grid->m] = day_produc;
 	loct->xx2[grid->m] = day_oxid;
 	loct->xx3[grid->m] = f_grow;
 	loct->xx4[grid->m] = loct->prof_ch4[5];
-	loct->xx5[grid->m] = loct->prof_ch4[15];
+	loct->xx5[grid->m] = loct->prof_ch4[15]; */
 	
 	/* flux: mg CH4 m-2 month-1 ************************/
 	if(smode==1){

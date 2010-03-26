@@ -130,7 +130,7 @@
 /* 1: on */
 
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 #define SOIL_LAYER 20
 
 /* specific scheme on permaforst */

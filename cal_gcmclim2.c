@@ -187,11 +187,6 @@ void cal_gcmclim2(
 				f_ch4_emit_walter(3, grid, loct, flux);
 				f_ch4_emit_walter(4, grid, loct, flux);
 			}else{
-				loct->xx1[f] = 0.0;
-				loct->xx2[f] = 0.0;
-				loct->xx3[f] = 0.0;
-				loct->xx4[f] = 0.0;
-				loct->xx5[f] = 0.0;
 				(flux->soil).ch4_paddy_wh_plant[f] = 0.0;
 				(flux->soil).ch4_paddy_wh_ebull[f] = 0.0;
 				(flux->soil).ch4_paddy_wh_diff[f] = 0.0;

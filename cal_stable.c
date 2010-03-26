@@ -248,11 +248,6 @@ void cal_stable(
 		}
 	}else{
 		for(f=0;f<ASTEP;f++){
-			loct->xx1[f] = 0.0;
-			loct->xx2[f] = 0.0;
-			loct->xx3[f] = 0.0;
-			loct->xx4[f] = 0.0;
-			loct->xx5[f] = 0.0;
 			(flux->soil).ch4_paddy_wh_plant[f] = 0.0;
 			(flux->soil).ch4_paddy_wh_ebull[f] = 0.0;
 			(flux->soil).ch4_paddy_wh_diff[f] = 0.0;
