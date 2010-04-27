@@ -38,15 +38,17 @@
 
 /***************************************************/
 /* 20th century */
-#define HIST_PD 109  /* */		/* 100: AD 1901 - 2000 */
+/* #define HIST_PD 100  */		/* 100: AD 1901 - 2000 */
 /* #define HIST_PD 102	*/	/* 102: AD 1901 - 2002 */
 /* #define HIST_PD 108	*/	/* 102: AD 1901 - 2008 */
-/* #define HIST_PD 109	*/	/* 102: AD 1901 - 2009 */
+#define HIST_PD 109	/* */	/* 102: AD 1901 - 2009 */
 
 /* 21st century */
 #define GCM_SIM 0
-#define GCM_PD 0		/* 100 : 2001-2100 */
+/* #define GCM_PD 100 */ /* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
+#define GCM_PD 0		/* 100 : 2001-2100 */
+/* GCM data length: 1970-2100 */
 #define GCM_DL 131
 
 /* CRU data length: 2010/01/04 (A.Ito) */
@@ -130,7 +132,7 @@
 /* 1: on */
 
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 #define SOIL_LAYER 20
 
 /* specific scheme on permaforst */

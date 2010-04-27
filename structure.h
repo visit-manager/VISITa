@@ -380,6 +380,7 @@ struct Loct{
 	double	xx5[ASTEP];
 	double	xx6[ASTEP];
 	double	xx7[ASTEP];
+	double	xx8[ASTEP];
 };			
 
 /* vegetation characteristics ****************************************************/

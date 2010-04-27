@@ -264,6 +264,7 @@ void dynmcL(
 		loct->xx5[h] = 0.0;
 		loct->xx6[h] = 0.0;
 		loct->xx7[h] = 0.0;
+		loct->xx8[h] = 0.0;
 	}
 	
 	if(grid->m==0){

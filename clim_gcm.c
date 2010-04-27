@@ -250,10 +250,10 @@ void read_gcm_clim(
 	}
 	
 	if(GCM==1060){  /* INM-CM3 + A1B  */
-		if( (fp_t=fopen("./data/tas_INM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_tas_INA1B-2001-2200\n");  exit(1); }
-		if( (fp_p=fopen("./data/pr_INM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_pr_INA1B-2001-2200\n");  exit(1); }
-		if( (fp_h=fopen("./data/huss_INM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_huss_INA1B-2001-2200\n");  exit(1); }
-		if( (fp_r=fopen("./data/rsds_INM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No ext_rsds_INA1B-2001-2200\n");  exit(1); }
+		if( (fp_t=fopen("./data/tas_INM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No tas_INM_20C-A1B_R1.dat\n");  exit(1); }
+		if( (fp_p=fopen("./data/pr_INM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No pr_INM_20C-A1B_R1.dat\n");  exit(1); }
+		if( (fp_h=fopen("./data/huss_INM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No huss_INM_20C-A1B_R1.dat\n");  exit(1); }
+		if( (fp_r=fopen("./data/rsds_INM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No rsds_INM_20C-A1B_R1.dat\n");  exit(1); }
 	}else if(GCM==1061){  /* INM-CM3 + A1B  */
 		if( (fp_t=fopen("./data/tas_INM_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_tas_INA1B-2001-2200\n");  exit(1); }
 		if( (fp_p=fopen("./data/pr_INM_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_pr_INA1B-2001-2200\n");  exit(1); }

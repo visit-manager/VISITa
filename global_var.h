@@ -44,6 +44,7 @@ double h_agrarea[HIST], h_luc[HIST];
 double h_luc_1[HIST], h_luc_2[HIST], h_luc_3[HIST];
 double h_gpp_df97[HIST];
 double h_gpp_c4[HIST];	/* added by A.Ito (2009/08/31) */
+double h_pot_prmfrst[HIST];
 
 double h_burnt_area[HIST];
 double h_bioburn_co2[HIST], h_bioburn_ch4[HIST], h_bioburn_co[HIST];
@@ -65,6 +66,7 @@ double h_ch4_emit_mass[HIST], h_ch4_emit_photo[HIST];
 double h_n2o_d_emit_ngas[HIST], h_n2o_n_emit_ngas[HIST];
 double h_n2o_emit_ngas_agr[HIST], h_n2o_emit_casa_agr[HIST];
 double h_nh3_emit_agr[HIST];
+double h_no3_leach[HIST];
 
 double h_voc_isopr_g97[HIST], h_voc_monotrp_g97[HIST], h_voc_methanl_g97[HIST];
 double h_voc_acetone_g97[HIST], h_voc_actaldhd_g97[HIST], h_voc_frmardhd_g97[HIST];

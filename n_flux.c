@@ -7,6 +7,7 @@
 
 /* revised 20 August 2007 */
 /* revised 29 August 2007 */
+/* revised 31 March 2010 by A.Ito */
 
 #include<stdio.h>
 #include<math.h>
@@ -111,7 +112,8 @@ void n_budget(
 
 	/* ammonium */
 	(mass->soil).n_nh4 += loct->depo_nh4[grid->m] 
-						+ ((flux->soil).n_minerlz_lttr[grid->m] +(flux->soil).n_minerlz_hums[grid->m]
+						+ ((flux->soil).n_minerlz_lttr[grid->m] 
+							+(flux->soil).n_minerlz_hums[grid->m]
 							- (flux->soil).n_immbl[grid->m])
 						- (flux->plant).uptake_nh4[grid->m]
 						- (flux->soil).n_nitrif[grid->m]
@@ -163,7 +165,7 @@ void f_nh3_volatilization(
 	struct Sflx *flux
 ){
 	double f_ph, f_tmp, f_sw;
-	double swp, nh4_soil, ph_soil;
+	double swp, nh4_soil, ph_soil, base_ph;
 	extern double MDN[12];
 	
 	/* g N ha-1 */
@@ -184,7 +186,10 @@ void f_nh3_volatilization(
 	}else{
 		ph_soil = grid->soil_ph;
 	}
-	f_ph = pow(10.0, ph_soil - 10.0) / pow(10.0, 7.0 - 10.0);
+	
+	/* base_ph = 6.5; */ /* 2010/03/28 (A.Ito) */
+	base_ph = 5.5; /* 2010/03/30 (A.Ito) */
+	f_ph = pow(10.0, ph_soil - 10.0) / pow(10.0, base_ph - 10.0);
 	if(f_ph<0.0){
 		f_ph = 0.0;
 	}
@@ -230,7 +235,8 @@ void f_n_deposit(
 	double f_no3, f_nh4;
 	extern double MDN[12];
 	
-	f_no3 = 0.75;
+	/* f_no3 = 0.75; */
+	f_no3 = 0.47; /* revised by CHASER data: 2010/03/28 (A.Ito) */
 	f_nh4 = 1.0 - f_no3;
 	
 	/* annual precipitation */
@@ -309,19 +315,26 @@ void f_n_leaching(
 	struct Sflx *flux
 ){
 	double ntr_conc, aa;
+	double fad_no3;
+	
+	/* adsorption of NO3- : 2010/03/28 by A.Ito */
+	/* fad_no3 = 0.7; */
+	/* fad_no3 = 0.3; */ /* 2010/03/29 by A.Ito */
+	fad_no3 = 0.1; /* 2010/04/06 by A.Ito */
 
 	/* g N / ha */
 	/* kg H2O / m2 */
 	if((loct->sw30 + grid->prate_sfc[grid->m]) > 0.1){
-		ntr_conc = 0.2*(mass->n_no3/10000.0) / (loct->sw30 + grid->prate_sfc[grid->m]);
+		ntr_conc = (1.0 - fad_no3)*(mass->n_no3/10000.0) / 
+					(loct->sw30 + grid->prate_sfc[grid->m]);
 	}else{
 		ntr_conc = 0.0;
 	}
 	/* g N / kg H2O */
 	
 	aa = loct->ro2[grid->m] * ntr_conc;
-	if(aa > mass->n_no3 * 0.90){
-		aa = mass->n_no3 * 0.90;
+	if(aa > mass->n_no3 * 0.95){
+		aa = mass->n_no3 * 0.95;
 	}
 	
 	/* g NO3-N m-2 month-1 */
@@ -366,8 +379,10 @@ void f_n_uptake(
 	(flux->c3).uptake_nh4[grid->m] = uptake_nh4 * 10000.0;
 	(flux->c4).uptake_nh4[grid->m] = uptake_nh4 * 10000.0;
 	
-	(flux->plant).uptake_no3[grid->m] = (flux->c3).uptake_no3[grid->m] + (flux->c4).uptake_no3[grid->m];
-	(flux->plant).uptake_nh4[grid->m] = (flux->c3).uptake_nh4[grid->m] + (flux->c4).uptake_nh4[grid->m];
+	(flux->plant).uptake_no3[grid->m] = (flux->c3).uptake_no3[grid->m] 
+				+ (flux->c4).uptake_no3[grid->m];
+	(flux->plant).uptake_nh4[grid->m] = (flux->c3).uptake_nh4[grid->m] 
+				+ (flux->c4).uptake_nh4[grid->m];
 }
 
 /* N abandoned as litter *********************************/
@@ -510,9 +525,17 @@ void f_n_immoblz(
 	struct Sflx *flux
 ){
 	extern double MDN[12];
+	double f_immbl_no3, f_immbl_nh4;
+	
+	/* f_immbl_no3 = 0.002;
+	f_immbl_nh4 = 0.001; */
 
-	flux->n_immbl[grid->m] = 0.5 * flux->n_minerlz_hums[grid->m] + 
-		(0.002 * mass->n_no3 + 0.001 * mass->n_nh4) * MDN[grid->m];
+	f_immbl_no3 = 0.005;
+	f_immbl_nh4 = 0.004;
+
+	flux->n_immbl[grid->m] = 0.2 * flux->n_minerlz_lttr[grid->m] + 
+		0.4 * flux->n_minerlz_hums[grid->m] + 
+		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m];
 }
 
 /* N abandoned from microbes ******************************/

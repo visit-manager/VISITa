@@ -116,6 +116,7 @@ void initSim(
 		h_gpp[f] = h_npp[f] = h_nep[f] = h_plant[f] = h_soil[f] = 0.0;
 		h_sr[f] = h_ersn_c[f] = h_agrersn_c[f] = h_doc[f] = 0.0;
 		h_gpp_df97[f] = h_gpp_c4[f] = 0.0;
+		h_pot_prmfrst[f] = 0.0;
 		
 		h_agrarea[f] = h_luc[f] = 0.0;
 		h_luc_1[f] = h_luc_2[f] = h_luc_3[f] = 0.0;
@@ -140,6 +141,7 @@ void initSim(
 		h_n2o_d_emit_ngas[f] = h_n2o_n_emit_ngas[f] = 0.0;
 		h_n2o_emit_ngas_agr[f] = h_n2o_emit_casa_agr[f] = 0.0;
 		h_nh3_emit_agr[f] = 0.0;
+		h_no3_leach[f] = 0.0;
 
 		h_voc_isopr_g97[f] = h_voc_monotrp_g97[f] = h_voc_methanl_g97[f] = 0.0;
 		h_voc_acetone_g97[f] = h_voc_actaldhd_g97[f] = h_voc_frmardhd_g97[f] = 0.0;
