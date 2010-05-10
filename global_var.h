@@ -22,11 +22,6 @@ struct Echar echar_agr;
 struct Mass mass_agr;
 struct Flux flux_agr;
 
-struct Loct loct_nat;
-struct Echar echar_nat;
-struct Mass mass_nat;
-struct Flux flux_nat;
-
 /* global variables ********************************************/
 /* GCM variables ************/
 long GCM, CO2S, GCM_R, GCM_C; /* */
@@ -67,6 +62,7 @@ double h_n2o_d_emit_ngas[HIST], h_n2o_n_emit_ngas[HIST];
 double h_n2o_emit_ngas_agr[HIST], h_n2o_emit_casa_agr[HIST];
 double h_nh3_emit_agr[HIST];
 double h_no3_leach[HIST];
+double h_n_fertin[HIST], h_n_depoin[HIST]; /* added by A.Ito (2010/05/02) */
 
 double h_voc_isopr_g97[HIST], h_voc_monotrp_g97[HIST], h_voc_methanl_g97[HIST];
 double h_voc_acetone_g97[HIST], h_voc_actaldhd_g97[HIST], h_voc_frmardhd_g97[HIST];

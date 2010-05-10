@@ -232,6 +232,9 @@ struct Grid{
 	double	fcrop_rk[308];				/* crop fraction by Ramankutty & Kimball (2010) */
 	double	fpast_rk[308];				/* pasture fraction by Ramankutty & Kimball (2010) */
 	
+	double	f_crop_base;				/* base cropland fraction in 2000 */
+	double	f_pasture_base;				/* base cropland fraction in 2000 */
+
 	/* RUSLE erosion model coefficients */
 	double 	f_erosion_r;				/* rain factor */
 	double 	f_erosion_ls;				/* slope factors */
@@ -279,6 +282,10 @@ struct Grid{
 
 /* grid conditions, derived from submodules *******************************************/
 struct Loct{ 
+	short	v_type;				/* vegetation classification types */
+								/* 1: Olson actual vegetation */
+								/* 2: SAGE natural vegetation */
+
 	long 	time_hyd;					/* time to reach stabilization of water budget */
 	long 	time;						/* time to reach stabilization of carbon budget */
 
@@ -555,6 +562,10 @@ struct Echar{
 
 /* plant biomass *******************************************************/
 struct Pmas{ 
+	short	v_type;				/* vegetation classification types */
+								/* 1: Olson actual vegetation */
+								/* 2: SAGE natural vegetation */
+
 	/* leaf area index (LAI), m2 m-2  */
 	double	lai[ASTEP];			/* monthly value */
 	double	lai0[ASTEP];		/* 1990's average value for sensitivity analysis: 2009/05/06 by A.Ito */
@@ -597,6 +608,10 @@ struct Pmas{
 
 /* soil carbon storage *************************************************/
 struct Smas{ 
+	short	v_type;				/* vegetation classification types */
+								/* 1: Olson actual vegetation */
+								/* 2: SAGE natural vegetation */
+
 	/* carbon mass, Mg C ha-1 */ 
 	double	ltr;				/* litter mass */
 	double	ltr_m[ASTEP];		/* monthly litter mass */
@@ -633,7 +648,7 @@ struct Smas{
 	double	n_lttr_m[ASTEP];	/* monthly */
 	double	n_hums;				/* soil organic humus */
 	double	n_hums_m[ASTEP];	/* monthly */
-};			
+};
 
 /* ecosystem carbon storage *************************************/
 struct Mass{ 
@@ -653,6 +668,10 @@ struct Mass{
 
 /* plant carbon fluxes, all monthly *******************************/
 struct Pflx{ 
+	short	v_type;				/* vegetation classification types */
+								/* 1: Olson actual vegetation */
+								/* 2: SAGE natural vegetation */
+
 	/* carbon flux, in Mg C ha-1 mon-1 */ 
 	double	gpp[ASTEP];			/* gross primary production */
 	double	spp[ASTEP];			/* net primary production */
@@ -733,6 +752,10 @@ struct Pflx{
 
 /* soil carbon fluxes  *******************************************************/
 struct Sflx{	 
+	short	v_type;				/* vegetation classification types */
+								/* 1: Olson actual vegetation */
+								/* 2: SAGE natural vegetation */
+
 	/* carbon flux, in Mg C ha-1 mon-1 */ 
 	double	lL[ASTEP];			/* litter input */
 	double	rl[ASTEP];			/* litter decomposition */
@@ -798,6 +821,8 @@ struct Sflx{
 	double	n_nitrif[ASTEP];				/* nitrification in NGAS */
 	double	n_immbl[ASTEP];					/* N immobilization */
 	double	n_mcrb_abdn[ASTEP];				/* microbial abandonment */
+	
+	double	n_fertin[ASTEP];				/* fertilizer input */
 };
 
 /* ecosystem carbon fluxes *************************************************/

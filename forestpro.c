@@ -150,7 +150,7 @@ void greenperiod(
 	}
 }
 
-/* leaf shedding *****************************************/
+/* leaf shedding ****************************************************/
 void leaffall(
 	struct Grid *grid, 
 	struct Loct *loct, 

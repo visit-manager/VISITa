@@ -30,29 +30,11 @@ void initVS(
 	
 	/* a priori parameters ***************************/
 	/* C3 */
-	if((echar->c3).v_type == 1){
-		parameterC3(grid, &(echar->c3));
-	}else if((echar->c3).v_type == 2){
-		parameterC3_sage(grid, &(echar->c3));
-	}else if((echar->c3).v_type == 3){
-		parameterCrop(grid, &(echar->c3));
-	}
+	parameterC3(grid, &(echar->c3));
 	/* C4 */
-	if((echar->c4).v_type == 1){
-		parameterC4(grid, &(echar->c4));
-	}else if((echar->c4).v_type == 2){
-		parameterC4_sage(grid, &(echar->c4));
-	}else if((echar->c4).v_type == 3){
-		parameterCrop(grid, &(echar->c4));
-	}
+	parameterC4(grid, &(echar->c4));
 	/* soil */
-	if((echar->soil).v_type == 1){
-		parameterSoil(grid, &(echar->soil));
-	}else if((echar->soil).v_type == 2){
-		parameterSoil_sage(grid, &(echar->soil));
-	}else if((echar->soil).v_type == 3){
-		parameterSoil_crop(grid, &(echar->soil));
-	}
+	parameterSoil(grid, &(echar->soil));
 
 	/* Sensitivity Analysis ***************************/
 	if(SENS==1){
@@ -145,18 +127,19 @@ void initVS(
 	(mass->soil).n_lttr = 10.0 * 1000.0;
 	(mass->soil).n_hums = 10.0 * 1000.0;
 	
+	
 	for(f=0;f<ASTEP;f++){
-		(mass->c3).n_cnpy_m[f] = (mass->c3).mfol[f]/10.0 * 1000.0;
-		(mass->c3).n_strg_m[f] = ((mass->c3).mstm[f] + (mass->c3).mrot[f])/10.0 * 1000.0;
+		(mass->c3).n_cnpy_m[f] = (mass->c3).n_cnpy;
+		(mass->c3).n_strg_m[f] = (mass->c3).n_strg;
 
-		(mass->c4).n_cnpy_m[f] = (mass->c4).mfol[f]/10.0 * 1000.0;
-		(mass->c4).n_strg_m[f] = ((mass->c4).mstm[f] + (mass->c4).mrot[f])/10.0 * 1000.0;
+		(mass->c4).n_cnpy_m[f] = (mass->c4).n_cnpy;
+		(mass->c4).n_strg_m[f] = (mass->c4).n_strg;
 
-		(mass->soil).n_no3_m[f] = 10.0 * 1000.0;
-		(mass->soil).n_nh4_m[f] = 10.0 * 1000.0;
+		(mass->soil).n_no3_m[f] = (mass->soil).n_no3;
+		(mass->soil).n_nh4_m[f] = (mass->soil).n_nh4;
 
-		(mass->soil).n_mcrb_m[f] = 10.0 * 1000.0;
-		(mass->soil).n_lttr_m[f] = 10.0 * 1000.0;
-		(mass->soil).n_hums_m[f] = 10.0 * 1000.0;
+		(mass->soil).n_mcrb_m[f] = (mass->soil).n_mcrb;
+		(mass->soil).n_lttr_m[f] = (mass->soil).n_lttr;
+		(mass->soil).n_hums_m[f] = (mass->soil).n_hums;
 	}
 }

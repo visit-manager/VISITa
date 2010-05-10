@@ -7,6 +7,7 @@
 
 /*  Updated August 7, 2007								*/
 /*  Updated November 29, 2007							*/
+/*  Updated by A.Ito (2010/05/02)						*/
 
 #include"setting.h"
 
@@ -50,6 +51,7 @@ extern double h_n2o_d_emit_ngas[HIST], h_n2o_n_emit_ngas[HIST];
 extern double h_n2o_emit_ngas_agr[HIST], h_n2o_emit_casa_agr[HIST];
 extern double h_nh3_emit_agr[HIST];
 extern double h_no3_leach[HIST];
+extern double h_n_fertin[HIST], h_n_depoin[HIST]; /* added by A.Ito (2010/05/02) */
 
 extern double h_voc_isopr_g97[HIST], h_voc_monotrp_g97[HIST], h_voc_methanl_g97[HIST];
 extern double h_voc_acetone_g97[HIST], h_voc_actaldhd_g97[HIST], h_voc_frmardhd_g97[HIST];
@@ -172,8 +174,8 @@ void vlzero(struct Grid *grid, struct Pmas *mass, struct Pflx *flux);
 void open_input(FILE *fp_s[IFILEN], FILE *fp_c[4]);
 void f_output_file_open(short vtype, short zone, char s_date[25], char s_case[25], 
 	char filename[100], FILE *fp[OFILES]);
-void initSim(struct Grid *grid);
-void init_grid(FILE *fp_r[IFILEN], struct Grid *grid); 
+void f_init_sim(struct Grid *grid);
+void f_init_grid(FILE *fp_r[IFILEN], struct Grid *grid); 
 void initC(struct Grid *grid);
 void initL(struct Grid *grid, struct Loct *loct, struct Mass *mass, 
 	struct Flux *flux, struct Echar *echar);
@@ -237,7 +239,7 @@ double pm_transpiration(struct Grid *grid, struct Loct *loct);
 double pm_interception(struct Grid *grid, struct Loct *loct);
 
 /* BIOLOGICAL SCHEMES *******************************************/
-void biome_processes(struct Grid *grid, struct Loct *loct, 
+void f_biome_processes(struct Grid *grid, struct Loct *loct, 
 		struct Echar *echar, struct Mass *mass, struct Flux *flux);
 void forest_process(struct Grid *grid, struct Loct* loct, struct Pflx *pflx,
 		struct Pchar *pchar, struct Pmas *mass);

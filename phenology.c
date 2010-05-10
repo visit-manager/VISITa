@@ -72,24 +72,6 @@ void growthperiod(
 				break;
 		}
 	}else if(pchar->v_type==2){
-		switch(grid->veg_sage){
-			case 0: case 15:
-				phenology_bareland(grid, pchar);
-				break;
-			case 1: case 3: case 4: case 6: case 11: case 12: case 13: 
-				phenology_evergreen(grid, pchar);
-				break;	
-			case 2: 	
-				phenology_ariddeciduous(grid, pchar);
-				break;
-			case 5: case 7: case 8: 
-				phenology_colddeciduous(grid, loct, pchar);
-				break;
-			case 9: case 10: case 14: 	
-				phenology_grass(grid, loct, pchar);
-				break;
-		}
-	}else if(pchar->v_type==3){
 		phenology_agriculture(grid, loct, pchar);
 	}
 }

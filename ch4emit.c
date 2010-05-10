@@ -226,7 +226,7 @@ void f_ch4_emit_walter(
 			df[f] = 0.00002 * 0.66 * poro;  
 		}
 	}
-	
+		
 	/* TIME */
 	cumtime = 600;
 	
@@ -382,6 +382,9 @@ void f_ch4_emit_walter(
 			
 			if(ww[f]<=0.0){
 				ww[f] = 0.0;
+			}
+			if(ww[f] > b_thresh*1.2){
+				ww[f] = b_thresh*1.2;
 			}
 		}
 		/* boundary condition at the bottom: no downward flux */

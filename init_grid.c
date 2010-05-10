@@ -21,7 +21,7 @@
 #define INT_C 0.01
 
 /* initialize grid conditions **********************************************/
-void init_grid(
+void f_init_grid(
 	FILE *fp_s[IFILEN], 
 	struct Grid *grid
 ){
@@ -438,6 +438,33 @@ void init_grid(
 	15	Polar Desert/Rock/Ice
 	*/
 	
+	/* Olson croplands replaced by SAGE natural vegetation */
+	/* 2010/04/27 by A.Ito */
+	if(REPL_OLSON_CROP == 1){
+		if(grid->veg_olson==29 ||grid->veg_olson==30 ||grid->veg_olson==31 
+		   ||grid->veg_olson==32){
+			
+			switch(grid->veg_sage){
+				case 1: grid->veg_olson = 1; break;
+				case 2: grid->veg_olson = 3; break;
+				case 3: grid->veg_olson = 5; break;
+				case 4: grid->veg_olson = 7; break;
+				case 5: grid->veg_olson = 4; break;
+				case 6: grid->veg_olson = 9; break;
+				case 7: grid->veg_olson = 10; break;
+				case 8: grid->veg_olson = 4; break;
+				case 9: grid->veg_olson = 16; break;
+				case 10: grid->veg_olson = 19; break;
+				case 11: grid->veg_olson = 19; break;
+				case 12: grid->veg_olson = 26; break;
+				case 13: grid->veg_olson = 21; break;
+				case 14: grid->veg_olson = 27; break;
+				case 15: grid->veg_olson = 21; break;
+				default: grid->veg_olson = 0; break;
+			}
+		}
+	}
+	
 	/* Cropland coverage by Ramankutty & Foley (1999) */
 	for(h=0;h<293;h++){
 		fscanf(fp_s[11],"%lf", &(grid->fcrop_sage[h])); 
@@ -666,6 +693,10 @@ void init_grid(
 		}
 	}
 	
+	/* base cropland and pasture area at 2000 */
+	grid->f_crop_base = grid->fcrop_unh_hmnzed[2000 - 1700];
+	grid->f_pasture_base = grid->fpast_unh_hmnzed[2000 - 1700];
+	
 	/* crop type ******************************************/	
 	fscanf(fp_s[46],"%lf", &grid->fcrop);
 	fscanf(fp_s[46],"%lf", &grid->frice);
@@ -677,6 +708,12 @@ void init_grid(
 	/* 1: C3 crops (non-rice) */
 	/* 2: paddy */
 	/* 3: C4 crops, e.g. maize */
+	if(grid->frice>grid->fwheat && grid->frice>grid->fmaize){
+		grid->veg_crop = 2;
+	}
+	if(grid->fmaize>grid->fwheat && grid->fmaize>grid->frice){
+		grid->veg_crop = 3;
+	}
 	
 	/* diffuse radiation estimation using SRB data ************/
 	/* intercept */

@@ -82,6 +82,10 @@ void clear(
 	grid->f_erosion_k = 0.0;
 	grid->f_erosion_c = 0.0;
 	grid->f_erosion_p = 0.0;
+	
+	for(f = 0;f<(SOIL_LAYER+2);f++){
+		loct->prof_ch4[f] = 0.0;
+	}
 }
 
 /* make plant fluxes vacant ***************************/
@@ -176,6 +180,7 @@ void ghg_flux_zero(
 	(flux->soil).n_immbl[month] = 0.0;
 	(flux->soil).n_mcrb_abdn[month] = 0.0;
 	(flux->soil).doc_boyer[month] = 0.0;
+	(flux->soil).n_fertin[month] = 0.0;
 	
 	(flux->soil).ch4prod_wetland_cao[month] = 0.0;
 	(flux->soil).ch4oxy_wetland_cao[month] = 0.0;

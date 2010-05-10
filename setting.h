@@ -30,8 +30,11 @@
 
 /* 0:off 1:on */
 #define CALC_OLSON 1
-#define CALC_SAGE 0
-#define CALC_CROP 0
+#define CALC_CROP 1
+
+/* Olson croplands replaced by SAGE natural vegetation */
+/* 0:off 1:on */
+#define REPL_OLSON_CROP 1
 
 /* number of regions */
 #define NREG 23

@@ -301,7 +301,7 @@ void dynmcL(
 	loct->r_aero[grid->m] = r_aero(grid);	 
 
 	/* initial soil CH4 concentration */
-	for(h=0;h<=SOIL_LAYER;h++){
+	for(h=0;h<=(SOIL_LAYER+1);h++){
 		loct->prof_ch4[h] = ach4_a1[grid->co2y - 1750]/1000.0 
 			* loct->prsr[grid->m] / (8.3144*(grid->tmp10_soil[grid->m]+273.15));
 	}

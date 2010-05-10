@@ -62,7 +62,7 @@ void cal_cruclim(
 			dynmcL(grid, loct, mass, echar);
 			
 			/* vegetation processes *********************/
-			biome_processes(grid, loct, echar, mass, flux);
+			f_biome_processes(grid, loct, echar, mass, flux);
 
 			/* VOC emission *****************/
 			f_voc_emit_guenther97(grid, loct, echar, mass, flux);
@@ -81,9 +81,9 @@ void cal_cruclim(
 			
 			/* soil processes *****************/
 			soil_processes(grid, loct, &(echar->soil), &(mass->soil), &(flux->soil));
-			flux->sr[f] = loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m]) + 
-							loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m]) + 
-							(flux->soil).hr[grid->m];
+			flux->sr[f] = loct->c3ptn[f]*((flux->c3).rrm[f]+(flux->c3).rrg[f]) + 
+							loct->c4ptn[f]*((flux->c4).rrm[f]+(flux->c4).rrg[f]) + 
+							(flux->soil).hr[f];
 			
 			if(NECB_DOC==1){
 				(mass->soil).msl -= (flux->soil).doc_boyer[f]/1000000.0;
@@ -94,21 +94,25 @@ void cal_cruclim(
 
 			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
 			/* NH4:NO3 ratio is based on inventories */
-			/* if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || 
+			if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || 
 											 grid->veg_olson==31 || grid->veg_olson==32)){
-				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0;
-				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0;
-			} */
+				(flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * (1.0 + ((double)grid->climy - 2000.0)*0.002);
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * (1.0 + ((double)grid->climy - 2000.0)*0.002);
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * (1.0 + ((double)grid->climy - 2000.0)*0.002);
+			}else{
+				(flux->soil).n_fertin[grid->m] = 0.0;
+			}
 			
-			/* */
+			/*
 			if((echar->soil).v_type == 1){
 				(mass->soil).n_no3 += grid->f_crop_con * loct->n_frtlz_in * 0.2 * 1000.0;
 				(mass->soil).n_nh4 += grid->f_crop_con * loct->n_frtlz_in * 0.8 * 1000.0;
-			}
+			} */
 			
-			if((echar->soil).v_type == 3){
-				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0;
-				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0;
+			if((echar->soil).v_type == 2){
+				(flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * (1.0 + ((double)grid->climy - 2000.0)*0.002);
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * (1.0 + ((double)grid->climy - 2000.0)*0.002);
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * (1.0 + ((double)grid->climy - 2000.0)*0.002);
 			}
 
 			/* CH4 oxydation (uplands) ****************************/
@@ -121,9 +125,9 @@ void cal_cruclim(
 			/* Cao (paddy+wetlands) */
 			f_ch4_emit_cao(grid, loct, flux);
 			
-			/* Walter & Heimann (paddy) */
+			/* Walter & Heimann */
 			/* wetlands */
-			if(CH4_WH==1 && grid->f_wetland>0.0){
+			if(CH4_WH==1 && grid->f_wetland>0.0 && loct->v_type == 1){
 				f_ch4_emit_walter(1, grid, loct, flux);
 				f_ch4_emit_walter(2, grid, loct, flux);
 			}else{
@@ -133,7 +137,7 @@ void cal_cruclim(
 				(flux->soil).ch4_wetland_wh_release[f] = 0.0;
 			}
 			/* paddy fields */
-			if(CH4_WH==1 && grid->f_paddy>0.0){
+			if(CH4_WH==1 && grid->f_paddy>0.0 && loct->v_type == 2){
 				f_ch4_emit_walter(3, grid, loct, flux);
 				f_ch4_emit_walter(4, grid, loct, flux);
 			}else{
@@ -264,7 +268,14 @@ void cal_cruclim(
 		}
 
 		/* land use change */
-		f_luc_emit(grid, mass, flux);
+		if(loct->v_type == 1){
+			f_luc_emit(grid, mass, flux);
+		}else{
+			flux->lu_detr = 0.0;
+			flux->lu_conv = 0.0;
+			flux->lu_ten = 0.0;
+			flux->lu_hund = 0.0;
+		}
 		
 		/* net biome production (added by A.Ito: 2010/01/20) */
 		for(f=0;f<ASTEP;f++){

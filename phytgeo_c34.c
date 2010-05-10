@@ -52,33 +52,7 @@ void c34composition(
 					loct->c3ptn[f] = 1.0;
 			}
 		}
-	}else if(v_type == 2){ /* SAGE */
-		for(f=0;f<ASTEP;f++){
-			/* empirical tharmal and moisture gradient, annual */
-			switch(grid->veg_sage){
-				case 9: case 10: case 14: 
-					if(grid->tmp_sfc_am<-5.0){
-						loct->c4ptn[f]=0.0;
-						loct->c3ptn[f]=1.0;
-					}else if(grid->tmp_sfc_am>=-5.0){
-						tmp_factor = (grid->tmp_sfc_am+5.0)*0.032;
-						pre_factor = 1.0/(grid->prate_sfc_ann*0.00025+0.65);
-						
-						if((tmp_factor*pre_factor)<=0.96){
-							loct->c4ptn[f] = tmp_factor*pre_factor;
-							loct->c3ptn[f] = 1.0-loct->c4ptn[f];
-						}else if((tmp_factor*pre_factor)>0.96){
-							loct->c4ptn[f] = 0.96;
-							loct->c3ptn[f] = 0.04;
-						}
-					}
-					break;
-				default:
-					loct->c4ptn[f] = 0.0;
-					loct->c3ptn[f] = 1.0;
-			}
-		}
-	}else if(v_type==3){ /* crop */
+	}else if(v_type==2){ /* crop */
 		for(f=0;f<ASTEP;f++){
 			if(grid->veg_crop==1 || grid->veg_crop==2){
 				loct->c4ptn[f] = 0.0;

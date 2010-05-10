@@ -38,8 +38,6 @@ void cal_stable(
 			term_time = 4000;
 		}
 	}else if((echar->c3).v_type==2){
-		term_time = 4000;	
-	}else if((echar->c3).v_type==3){
 		term_time = 300;
 	}
 	
@@ -86,7 +84,7 @@ void cal_stable(
 			dynmcL(grid, loct, mass, echar);
 			
 			/* vegetation processes *****/
-			biome_processes(grid, loct, echar, mass, flux);
+			f_biome_processes(grid, loct, echar, mass, flux);
 
 			/* VOC emission *****************/
 			f_voc_emit_guenther97(grid, loct, echar, mass, flux);
@@ -126,10 +124,14 @@ void cal_stable(
 			/* NH4:NO3 ratio is based on inventories */
 			if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || 
 											 grid->veg_olson==31 || grid->veg_olson==32)){
+				(flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0;
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0;
+			}else{
+				(flux->soil).n_fertin[grid->m] = 0.0;
 			}
-			if((echar->soil).v_type == 3){
+			if((echar->soil).v_type == 2){
+				(flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0;
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0;
 			}
@@ -175,8 +177,6 @@ void cal_stable(
 					ann_nep += flux->nep[f];
 				}
 			}else if((echar->c3).v_type==2){
-				ann_nep += flux->nep[f];	
-			}else if((echar->c3).v_type==3){
 				ann_nep += flux->ncb[f];
 			}
 			
@@ -222,11 +222,19 @@ void cal_stable(
 	/* end of stabilization loop ***********************************************/
 	
 	/* Walter & Heimann (paddy) */
-	if(CH4_WH==1 && grid->f_wetland>0.0){
+	if(CH4_WH==1 && grid->f_wetland>0.0 && loct->v_type == 1){
 		for(g=0;g<4;g++){
 			for(f=0;f<ASTEP;f++){
+				(flux->soil).ch4_wetland_wh_plant[f] = 0.0;
+				(flux->soil).ch4_wetland_wh_ebull[f] = 0.0;
+				(flux->soil).ch4_wetland_wh_diff[f] = 0.0;
+				(flux->soil).ch4_wetland_wh_release[f] = 0.0;
+			}
+			for(f=0;f<ASTEP;f++){
 				grid->m = f;
+				/* water-logged */
 				f_ch4_emit_walter(1, grid, loct, flux);
+				/* drainage */
 				f_ch4_emit_walter(2, grid, loct, flux);
 			}
 		}
@@ -238,8 +246,14 @@ void cal_stable(
 			(flux->soil).ch4_wetland_wh_release[f] = 0.0;
 		}
 	}
-	if(CH4_WH==1 && grid->f_paddy>0.0){
+	if(CH4_WH==1 && grid->f_paddy>0.0 && loct->v_type == 2){
 		for(g=0;g<4;g++){
+			for(f=0;f<ASTEP;f++){
+				(flux->soil).ch4_paddy_wh_plant[f] = 0.0;
+				(flux->soil).ch4_paddy_wh_ebull[f] = 0.0;
+				(flux->soil).ch4_paddy_wh_diff[f] = 0.0;
+				(flux->soil).ch4_paddy_wh_release[f] = 0.0;
+			}
 			for(f=0;f<ASTEP;f++){
 				grid->m = f;
 				f_ch4_emit_walter(3, grid, loct, flux);
@@ -270,12 +284,20 @@ void cal_stable(
 	}
 	
 	/* land use change */
-	f_luc_emit(grid, mass, flux);
+	if(loct->v_type == 1){
+		f_luc_emit(grid, mass, flux);
+	}else{
+		flux->lu_detr = 0.0;
+		flux->lu_conv = 0.0;
+		flux->lu_ten = 0.0;
+		flux->lu_hund = 0.0;
+	}
 
 	/* net biome production (added by A.Ito: 2010/01/20) */
 	for(f=0;f<ASTEP;f++){
 		flux->nbp[f] = flux->nep[f] - flux->lu_ten/12.0 - flux->lu_hund/12.0 
-			- (flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+flux->bb_co2_wood[f]+flux->bb_co2_root[f])/1000.0*12.0/44.0;
+			- (flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+flux->bb_co2_wood[f]
+			   +flux->bb_co2_root[f])/1000.0*12.0/44.0;
 	}
 	
 	/* history data */

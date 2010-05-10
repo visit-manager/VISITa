@@ -17,13 +17,13 @@
 
 /*******************************************************************************/
 void f_output_file_open(
-						short vtype, 
-						short zone,
-						char s_date[25], 
-						char s_case[25], 
-						char filename[100], 
-						FILE *fp[OFILES]
-						){
+	short vtype, 
+	short zone,
+	char s_date[25], 
+	char s_case[25], 
+	char filename[100], 
+	FILE *fp[OFILES]
+){
 	char num[4];
 	char svtype[8]; /* corrected: A.Ito and E.Kato (2009/08/16) */
 	
@@ -32,9 +32,6 @@ void f_output_file_open(
 			strcpy(svtype, "olson_");
 			break;
 		case 2:
-			strcpy(svtype, "sage_");
-			break;
-		case 3:
 			strcpy(svtype, "crop_");
 			break;
 		default:
@@ -288,101 +285,138 @@ void f_set_history_data(
 ){
 	long f;
 	extern double MDN[ASTEP];
+	double fweight, fweight_nat, fweight_wet, fweight_pad;
+	
+	/* 2010/04/27 by A.Ito */
+	/* natural */
+	if(loct->v_type == 1){
+		if(REPL_OLSON_CROP == 1){
+			fweight = 1.0 - grid->f_crop_con;
+			
+			fweight_nat = 1.0;
+			fweight_wet = 1.0;
+			fweight_pad = 0.0;
+		}else{
+			fweight = 1.0;
+			
+			fweight_nat = 1.0;
+			fweight_wet = 1.0;
+			fweight_pad = 1.0;
+		}
+	}
+	/* cropland */
+	if(loct->v_type == 2){
+		fweight = grid->f_crop_con;
+		
+		fweight_nat = 0.0;
+		fweight_wet = 0.0;
+		fweight_pad = 1.0;
+	}
 	
 	for(f=0;f<ASTEP;f++){
-		h_tmp[year] += grid->tmp_2m[f]* MDN[f]/365.0 * grid->area;
-		h_pre[year] += grid->prate_sfc[f] * grid->area;
-		h_dswr[year] += grid->gl_rad[f]* MDN[f]/365.0 * grid->area;
-		h_aet[year] += (loct->evpr[f] + loct->trspr[f] + loct->incep[f])*0.1 * grid->area;
-		h_rof[year] += loct->ro2[f] * grid->area;
+		/* climate */
+		h_tmp[year] += fweight * grid->tmp_2m[f]* MDN[f]/365.0 * grid->area;
+		h_pre[year] += fweight * grid->prate_sfc[f] * grid->area;
+		h_dswr[year] += fweight * grid->gl_rad[f]* MDN[f]/365.0 * grid->area;
+		h_aet[year] += fweight * (loct->evpr[f] + loct->trspr[f] + loct->incep[f])*0.1 * grid->area;
+		h_rof[year] += fweight * loct->ro2[f] * grid->area;
 		
 		/* potential permafrost area: added by A.Ito (2010/03/27) */
 		if(grid->tmp_sfc_am <= -2.0){
-			h_pot_prmfrst[year] += grid->area;
+			h_pot_prmfrst[year] += fweight * grid->area;
 		}
 		
 		if(DF97==1){
-			h_gpp[year] += (flux->plant).gpp_df97[f] * grid->area;
-			h_gpp_c4[year] += (flux->c4).gpp_df97[f] * grid->area*loct->c4ptn[f];
+			h_gpp[year] += fweight * (flux->plant).gpp_df97[f] * grid->area;
+			h_gpp_c4[year] += fweight * (flux->c4).gpp_df97[f] * grid->area*loct->c4ptn[f];
 		}else{
-			h_gpp[year] += (flux->plant).gpp[f] * grid->area;
-			h_gpp_c4[year] += (flux->c4).gpp[f] * grid->area*loct->c4ptn[f];
+			h_gpp[year] += fweight * (flux->plant).gpp[f] * grid->area;
+			h_gpp_c4[year] += fweight * (flux->c4).gpp[f] * grid->area*loct->c4ptn[f];
 		}
-		h_npp[year] += (flux->plant).npp[f] * grid->area;
-		h_nep[year] += flux->nep[f] * grid->area;
-		h_plant[year] += ((mass->plant).mfol[f] + (mass->plant).mstm[f] + 
-			(mass->plant).mrot[f]) * MDN[f] /365.0 * grid->area;
-		h_soil[year] += ((mass->soil).ltr_m[f] + 
-			(mass->soil).msl_m[f])* MDN[f]/365.0 * grid->area;
-		h_sr[year] += ((flux->plant).rrm[f] + (flux->plant).rrg[f] + (flux->soil).hr[f]) * grid->area;
-		h_doc[year] += (flux->soil).doc_boyer[f] * grid->area;
+		h_npp[year] += fweight * (flux->plant).npp[f] * grid->area;
+		h_nep[year] += fweight * flux->nep[f] * grid->area;
+		h_plant[year] += fweight * ((mass->plant).mfol[f] + (mass->plant).mstm[f] + 
+									(mass->plant).mrot[f]) * MDN[f] /365.0 * grid->area;
+		h_soil[year] += fweight * ((mass->soil).ltr_m[f] + 
+								   (mass->soil).msl_m[f])* MDN[f]/365.0 * grid->area;
+		h_sr[year] += fweight * ((flux->plant).rrm[f] + (flux->plant).rrg[f] + (flux->soil).hr[f]) * grid->area;
+		h_doc[year] += fweight * (flux->soil).doc_boyer[f] * grid->area;
 		
-		h_gpp_df97[year] += (flux->plant).gpp_df97[f] * grid->area;
+		h_gpp_df97[year] += fweight * (flux->plant).gpp_df97[f] * grid->area;
 
 		/* GHG */
-		h_ch4ox1[year] += (flux->soil).ch4oxy_ridg[f] * grid->area *10000.0/1000.0;
-		h_ch4ox2[year] += (flux->soil).ch4oxy_casa[f] * grid->area *10000.0/1000.0;
-		h_ch4ox3[year] += (flux->soil).ch4oxy_delgrosso[f] * grid->area *10000.0/1000.0;
-		h_ch4ox4[year] += (flux->soil).ch4oxy_curry[f] * grid->area *10000.0/1000.0;		
+		h_ch4ox1[year] += fweight * (flux->soil).ch4oxy_ridg[f] * grid->area *10000.0/1000.0;
+		h_ch4ox2[year] += fweight * (flux->soil).ch4oxy_casa[f] * grid->area *10000.0/1000.0;
+		h_ch4ox3[year] += fweight * (flux->soil).ch4oxy_delgrosso[f] * grid->area *10000.0/1000.0;
+		h_ch4ox4[year] += fweight * (flux->soil).ch4oxy_curry[f] * grid->area *10000.0/1000.0;		
 		
-		h_ch4emit_cao_paddy[year] += (flux->soil).ch4flux_paddy_cao[f] * grid->area *10000.0/1000.0;
-		h_ch4emit_cao_wetland[year] += (flux->soil).ch4flux_wetland_cao[f] * grid->area *10000.0/1000.0;
+		h_ch4emit_cao_paddy[year] += fweight_pad * (flux->soil).ch4flux_paddy_cao[f] * grid->area *10000.0/1000.0;
+		h_ch4emit_cao_wetland[year] += fweight_wet * (flux->soil).ch4flux_wetland_cao[f] * grid->area *10000.0/1000.0;
 
-		h_ch4emit_paddy_wh_diff[year] += (flux->soil).ch4_paddy_wh_diff[f] * grid->area *10000.0/1000.0;
-		h_ch4emit_paddy_wh_plant[year] += (flux->soil).ch4_paddy_wh_plant[f] * grid->area *10000.0/1000.0;
-		h_ch4emit_paddy_wh_ebbl[year] += (flux->soil).ch4_paddy_wh_ebull[f] * grid->area *10000.0/1000.0;
-		h_ch4emit_paddy_wh_release[year] += (flux->soil).ch4_paddy_wh_release[f] * grid->area *10000.0/1000.0;
+		h_ch4emit_paddy_wh_diff[year] += fweight_pad * (flux->soil).ch4_paddy_wh_diff[f] * grid->area *10000.0/1000.0;
+		h_ch4emit_paddy_wh_plant[year] += fweight_pad * (flux->soil).ch4_paddy_wh_plant[f] * grid->area *10000.0/1000.0;
+		h_ch4emit_paddy_wh_ebbl[year] += fweight_pad * (flux->soil).ch4_paddy_wh_ebull[f] * grid->area *10000.0/1000.0;
+		h_ch4emit_paddy_wh_release[year] += fweight_pad * (flux->soil).ch4_paddy_wh_release[f] * grid->area *10000.0/1000.0;
 
-		h_ch4emit_wetland_wh_diff[year] += (flux->soil).ch4_wetland_wh_diff[f] * grid->area *10000.0/1000.0;
-		h_ch4emit_wetland_wh_plant[year] += (flux->soil).ch4_wetland_wh_plant[f] * grid->area *10000.0/1000.0;
-		h_ch4emit_wetland_wh_ebbl[year] += (flux->soil).ch4_wetland_wh_ebull[f] * grid->area *10000.0/1000.0;
-		h_ch4emit_wetland_wh_release[year] += (flux->soil).ch4_wetland_wh_release[f] * grid->area *10000.0/1000.0;
+		h_ch4emit_wetland_wh_diff[year] += fweight_wet * (flux->soil).ch4_wetland_wh_diff[f] * grid->area *10000.0/1000.0;
+		h_ch4emit_wetland_wh_plant[year] += fweight_wet * (flux->soil).ch4_wetland_wh_plant[f] * grid->area *10000.0/1000.0;
+		h_ch4emit_wetland_wh_ebbl[year] += fweight_wet * (flux->soil).ch4_wetland_wh_ebull[f] * grid->area *10000.0/1000.0;
+		h_ch4emit_wetland_wh_release[year] += fweight_wet * (flux->soil).ch4_wetland_wh_release[f] * grid->area *10000.0/1000.0;
 		
-		h_n2o_emit_ngas[year] += (flux->soil).d_n2o_ngas[f] * grid->area;
-		h_n2_emit_ngas[year] += (flux->soil).d_n2_ngas[f] * grid->area;
-		h_n2o_emit_casa[year] += (flux->soil).d_n2o_casa[f] * grid->area;
-		h_n2_emit_casa[year] += (flux->soil).d_n2_casa[f] * grid->area;
-		h_no_emit_casa[year] += (flux->soil).d_no_casa[f] * grid->area;
-		h_nh3_emit[year] += (flux->soil).n_nh3vlt[f] * grid->area;		
-		h_ch4_emit_mass[year] += (flux->plant).emit_ch4_kirschbaum_mass[f]*10000.0*grid->area;
-		h_ch4_emit_photo[year] += (flux->plant).emit_ch4_kirschbaum_photo[f]*10000.0*grid->area;
-		h_n2_biofix[year] += (flux->plant).n_biofix[f]*grid->area;
-		h_n2o_n_emit_ngas[year] += (flux->soil).d_n2o_ntr_ngas[f] * grid->area;
-		h_n2o_d_emit_ngas[year] += (flux->soil).d_n2o_dnt_ngas[f] * grid->area;
-		h_no3_leach[year] += (flux->soil).n_leach[f] * grid->area;
+		h_n2o_emit_ngas[year] += fweight * (flux->soil).d_n2o_ngas[f] * grid->area;
+		h_n2_emit_ngas[year] += fweight * (flux->soil).d_n2_ngas[f] * grid->area;
+		h_n2o_emit_casa[year] += fweight * (flux->soil).d_n2o_casa[f] * grid->area;
+		h_n2_emit_casa[year] += fweight * (flux->soil).d_n2_casa[f] * grid->area;
+		h_no_emit_casa[year] += fweight * (flux->soil).d_no_casa[f] * grid->area;
+		h_nh3_emit[year] += fweight * (flux->soil).n_nh3vlt[f] * grid->area;		
+		h_ch4_emit_mass[year] += fweight * (flux->plant).emit_ch4_kirschbaum_mass[f] * 10000.0 * grid->area;
+		h_ch4_emit_photo[year] += fweight * (flux->plant).emit_ch4_kirschbaum_photo[f] * 10000.0 * grid->area;
+		h_n2_biofix[year] += fweight * (flux->plant).n_biofix[f] * grid->area;
+		h_n2o_n_emit_ngas[year] += fweight * (flux->soil).d_n2o_ntr_ngas[f] * grid->area;
+		h_n2o_d_emit_ngas[year] += fweight * (flux->soil).d_n2o_dnt_ngas[f] * grid->area;
+		h_no3_leach[year] += fweight * (flux->soil).n_leach[f] * grid->area;
 		
-		if(CALC_OLSON == 1){ /* added by A.Ito (2009/06/16) */
+		/* added by A.Ito (2010/05/02) */
+		h_n_fertin[year] += fweight * (flux->soil).n_fertin[f] * grid->area;
+		h_n_depoin[year] += fweight * (loct->depo_no3[f] + loct->depo_no3[f]) * grid->area;
+		
+		if(loct->v_type == 1){ /* added by A.Ito (2009/06/16) */
 			if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32){
 				h_n2o_emit_ngas_agr[year] += (flux->soil).d_n2o_ngas[f] * grid->area;
 				h_n2o_emit_casa_agr[year] += (flux->soil).d_n2o_casa[f] * grid->area;
 				h_nh3_emit_agr[year] += (flux->soil).n_nh3vlt[f] * grid->area;
 			}
 		}
+		if(loct->v_type == 2){
+			h_n2o_emit_ngas_agr[year] += fweight * (flux->soil).d_n2o_ngas[f] * grid->area;
+			h_n2o_emit_casa_agr[year] += fweight * (flux->soil).d_n2o_casa[f] * grid->area;
+			h_nh3_emit_agr[year] += fweight * (flux->soil).n_nh3vlt[f] * grid->area;
+		}
 		
 		/* biomass burninig *****************/
-		h_burnt_area[year] += flux->a_burnt[f]*grid->area;
-		h_bioburn_co2[year] += (flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+flux->bb_co2_wood[f]+flux->bb_co2_root[f]) * grid->area;
-		h_bioburn_co[year] += (flux->bb_co_litter[f]+flux->bb_co_leaf[f]+flux->bb_co_wood[f]+flux->bb_co_root[f]) * grid->area;
-		h_bioburn_ch4[year] += (flux->bb_ch4_litter[f]+flux->bb_ch4_leaf[f]+flux->bb_ch4_wood[f]+flux->bb_ch4_root[f]) * grid->area;
-		h_bioburn_nmhc[year] += (flux->bb_nmhc_litter[f]+flux->bb_nmhc_leaf[f]+flux->bb_nmhc_wood[f]+flux->bb_nmhc_root[f]) * grid->area;
-		h_bioburn_oc[year] += (flux->bb_oc_litter[f]+flux->bb_oc_leaf[f]+flux->bb_oc_wood[f]+flux->bb_oc_root[f]) * grid->area;
-		h_bioburn_bc[year] += (flux->bb_bc_litter[f]+flux->bb_bc_leaf[f]+flux->bb_bc_wood[f]+flux->bb_bc_root[f]) * grid->area;
-		h_bioburn_nox[year] += (flux->bb_nox_litter[f]+flux->bb_nox_leaf[f]+flux->bb_nox_wood[f]+flux->bb_nox_root[f]) * grid->area;
-		h_bioburn_so2[year] += (flux->bb_so2_litter[f]+flux->bb_so2_leaf[f]+flux->bb_so2_wood[f]+flux->bb_so2_root[f]) * grid->area;
-		h_bioburn_pm25[year] += (flux->bb_pm25_litter[f]+flux->bb_pm25_leaf[f]+flux->bb_pm25_wood[f]+flux->bb_pm25_root[f]) * grid->area;
-		h_bioburn_tpm[year] += (flux->bb_tpm_litter[f]+flux->bb_tpm_leaf[f]+flux->bb_tpm_wood[f]+flux->bb_tpm_root[f]) * grid->area;
-		h_bioburn_tec[year] += (flux->bb_tec_litter[f]+flux->bb_tec_leaf[f]+flux->bb_tec_wood[f]+flux->bb_tec_root[f]) * grid->area;
+		h_burnt_area[year] += fweight * flux->a_burnt[f]*grid->area;
+		h_bioburn_co2[year] += fweight * (flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+flux->bb_co2_wood[f]+flux->bb_co2_root[f]) * grid->area;
+		h_bioburn_co[year] += fweight * (flux->bb_co_litter[f]+flux->bb_co_leaf[f]+flux->bb_co_wood[f]+flux->bb_co_root[f]) * grid->area;
+		h_bioburn_ch4[year] += fweight * (flux->bb_ch4_litter[f]+flux->bb_ch4_leaf[f]+flux->bb_ch4_wood[f]+flux->bb_ch4_root[f]) * grid->area;
+		h_bioburn_nmhc[year] += fweight * (flux->bb_nmhc_litter[f]+flux->bb_nmhc_leaf[f]+flux->bb_nmhc_wood[f]+flux->bb_nmhc_root[f]) * grid->area;
+		h_bioburn_oc[year] += fweight * (flux->bb_oc_litter[f]+flux->bb_oc_leaf[f]+flux->bb_oc_wood[f]+flux->bb_oc_root[f]) * grid->area;
+		h_bioburn_bc[year] += fweight * (flux->bb_bc_litter[f]+flux->bb_bc_leaf[f]+flux->bb_bc_wood[f]+flux->bb_bc_root[f]) * grid->area;
+		h_bioburn_nox[year] += fweight * (flux->bb_nox_litter[f]+flux->bb_nox_leaf[f]+flux->bb_nox_wood[f]+flux->bb_nox_root[f]) * grid->area;
+		h_bioburn_so2[year] += fweight * (flux->bb_so2_litter[f]+flux->bb_so2_leaf[f]+flux->bb_so2_wood[f]+flux->bb_so2_root[f]) * grid->area;
+		h_bioburn_pm25[year] += fweight * (flux->bb_pm25_litter[f]+flux->bb_pm25_leaf[f]+flux->bb_pm25_wood[f]+flux->bb_pm25_root[f]) * grid->area;
+		h_bioburn_tpm[year] += fweight * (flux->bb_tpm_litter[f]+flux->bb_tpm_leaf[f]+flux->bb_tpm_wood[f]+flux->bb_tpm_root[f]) * grid->area;
+		h_bioburn_tec[year] += fweight * (flux->bb_tec_litter[f]+flux->bb_tec_leaf[f]+flux->bb_tec_wood[f]+flux->bb_tec_root[f]) * grid->area;
 
 		/* VOC, g C ha-1 month-1 **************/
-		h_voc_isopr_g97[year] += flux->voc_isopr_g97[f] * grid->area *10000.0/1000000.0;
-		h_voc_monotrp_g97[year] += flux->voc_monotrp_g97[f] * grid->area *10000.0/1000000.0;
-		h_voc_methanl_g97[year] += flux->voc_methanl_g97[f] * grid->area *10000.0/1000000.0;
-		h_voc_acetone_g97[year] += flux->voc_acetone_g97[f] * grid->area *10000.0/1000000.0;
-		h_voc_actaldhd_g97[year] += flux->voc_actaldhd_g97[f] * grid->area *10000.0/1000000.0;
-		h_voc_frmardhd_g97[year] += flux->voc_frmardhd_g97[f] * grid->area *10000.0/1000000.0;
-		h_voc_formacd_g97[year] += flux->voc_formacd_g97[f] * grid->area *10000.0/1000000.0;
-		h_voc_acetacd_g97[year] += flux->voc_acetacd_g97[f] * grid->area *10000.0/1000000.0;
-		h_voc_co_g97[year] += flux->voc_co_g97[f] * grid->area *10000.0/1000000.0;
+		h_voc_isopr_g97[year] += fweight * flux->voc_isopr_g97[f] * grid->area *10000.0/1000000.0;
+		h_voc_monotrp_g97[year] += fweight * flux->voc_monotrp_g97[f] * grid->area *10000.0/1000000.0;
+		h_voc_methanl_g97[year] += fweight * flux->voc_methanl_g97[f] * grid->area *10000.0/1000000.0;
+		h_voc_acetone_g97[year] += fweight * flux->voc_acetone_g97[f] * grid->area *10000.0/1000000.0;
+		h_voc_actaldhd_g97[year] += fweight * flux->voc_actaldhd_g97[f] * grid->area *10000.0/1000000.0;
+		h_voc_frmardhd_g97[year] += fweight * flux->voc_frmardhd_g97[f] * grid->area *10000.0/1000000.0;
+		h_voc_formacd_g97[year] += fweight * flux->voc_formacd_g97[f] * grid->area *10000.0/1000000.0;
+		h_voc_acetacd_g97[year] += fweight * flux->voc_acetacd_g97[f] * grid->area *10000.0/1000000.0;
+		h_voc_co_g97[year] += fweight * flux->voc_co_g97[f] * grid->area *10000.0/1000000.0;
 		
 		/* d13c & d14c : added by A.Ito (2009/07/15) ***************/
 		ci_aco2_d13c[year] = d13c_addition(loct->d13c_aco2[f],loct->aco2[f]*grid->area * MDN[f]/365.0, ci_aco2_d13c[year],ci_aco2[year]);
@@ -569,17 +603,17 @@ void f_set_history_data(
 	}
 	
 	/* erosion */
-	h_ersn_c[year] += flux->erod_carbon * grid->area;
-	h_agrersn_c[year] += flux->erod_carbon_crop * grid->area;
+	h_ersn_c[year] += fweight_nat * flux->erod_carbon * grid->area;
+	h_agrersn_c[year] += fweight_nat * flux->erod_carbon_crop * grid->area;
 
-	h_agrarea[year] += grid->area * grid->f_crop_con;
-	h_luc[year] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
+	h_agrarea[year] += fweight_nat * grid->area * grid->f_crop_con;
+	h_luc[year] += fweight_nat * (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
 	
-	h_luc_1[year] += flux->lu_conv * grid->area;
-	h_luc_2[year] += flux->lu_ten * grid->area;
-	h_luc_3[year] += flux->lu_hund * grid->area;
+	h_luc_1[year] += fweight_nat * flux->lu_conv * grid->area;
+	h_luc_2[year] += fweight_nat * flux->lu_ten * grid->area;
+	h_luc_3[year] += fweight_nat * flux->lu_hund * grid->area;
 	
-	rh_luc[grid->reg_g][year] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
+	rh_luc[grid->reg_g][year] += fweight_nat * (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
 }
 
 /*********************************************************************************/
@@ -957,6 +991,9 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_pot_prmfrst[h]); /* added by A.Ito (2010/03/27) */
 		fprintf(fp_glsum,"%lf ", h_no3_leach[h]); /* added by A.Ito (2010/03/29) */
 
+		fprintf(fp_glsum,"%lf ", h_n_fertin[h]); /* added by A.Ito (2010/05/02) */
+		fprintf(fp_glsum,"%lf ", h_n_depoin[h]); /* added by A.Ito (2010/05/02) */
+		
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
@@ -1399,6 +1436,33 @@ void f_grid_av(
 	struct Flux *flux
 ){
 	short period;
+	double fweight, fweight_nat, fweight_wet, fweight_pad;
+	
+	/* 2010/04/27 by A.Ito */
+	/* natural */
+	if(loct->v_type == 1){
+		if(REPL_OLSON_CROP == 1){
+			fweight = 1.0 - grid->f_crop_con;
+			
+			fweight_nat = 1.0;
+			fweight_wet = 1.0;
+			fweight_pad = 0.0;
+		}else{
+			fweight = 1.0;
+			
+			fweight_nat = 1.0;
+			fweight_wet = 1.0;
+			fweight_pad = 1.0;
+		}
+	}
+	/* cropland */
+	if(loct->v_type == 2){
+		fweight = grid->f_crop_con;
+		
+		fweight_nat = 0.0;
+		fweight_wet = 0.0;
+		fweight_pad = 1.0;
+	}
 	
 	/* decadal periods **********/
 	if(grid->climy>=1950 && grid->climy<1960){
@@ -1443,32 +1507,34 @@ void f_grid_av(
 		}
 #endif
 		
-		g_tmp[period][grid->row][grid->col] += grid->tmp_2m[grid->m]* MDN[grid->m]/365.0 /10.0;
-		g_prc[period][grid->row][grid->col] += grid->prate_sfc[grid->m] /10.0;
-		g_swr[period][grid->row][grid->col] += grid->gl_rad[grid->m]* MDN[grid->m]/365.0 /10.0;
+		g_tmp[period][grid->row][grid->col] += fweight * grid->tmp_2m[grid->m]* MDN[grid->m]/365.0 /10.0;
+		g_prc[period][grid->row][grid->col] += fweight * grid->prate_sfc[grid->m] /10.0;
+		g_swr[period][grid->row][grid->col] += fweight * grid->gl_rad[grid->m]* MDN[grid->m]/365.0 /10.0;
 		if(DF97==1){
-			g_gpp[period][grid->row][grid->col] += (flux->plant).gpp_df97[grid->m] /10.0;
+			g_gpp[period][grid->row][grid->col] += fweight * (flux->plant).gpp_df97[grid->m] /10.0;
 		}else{
-			g_gpp[period][grid->row][grid->col] += (flux->plant).gpp[grid->m] /10.0;
+			g_gpp[period][grid->row][grid->col] += fweight * (flux->plant).gpp[grid->m] /10.0;
 		}
-		g_npp[period][grid->row][grid->col] += (flux->plant).npp[grid->m] /10.0;
-		g_nep[period][grid->row][grid->col] += flux->nep[grid->m] /10.0;
-		g_pmas[period][grid->row][grid->col] += ((mass->plant).mfol[grid->m] + (mass->plant).mstm[grid->m] + 
+		g_npp[period][grid->row][grid->col] += fweight * (flux->plant).npp[grid->m] /10.0;
+		g_nep[period][grid->row][grid->col] += fweight * flux->nep[grid->m] /10.0;
+		g_pmas[period][grid->row][grid->col] += fweight * ((mass->plant).mfol[grid->m] + (mass->plant).mstm[grid->m] + 
 											(mass->plant).mrot[grid->m]) * MDN[grid->m] /365.0 /10.0;
-		g_smas[period][grid->row][grid->col] += ((mass->soil).ltr_m[grid->m] + 
+		g_smas[period][grid->row][grid->col] += fweight * ((mass->soil).ltr_m[grid->m] + 
 											(mass->soil).msl_m[grid->m])* MDN[grid->m]/365.0 /10.0;
 		
-		g_ch4e_cao[period][grid->row][grid->col] += ((flux->soil).ch4flux_paddy_cao[grid->m] + (flux->soil).ch4flux_wetland_cao[grid->m]) /10.0;
-		g_ch4ep_cao[period][grid->row][grid->col] += (flux->soil).ch4flux_paddy_cao[grid->m] /10.0;
-		g_ch4o_curry[period][grid->row][grid->col] += (flux->soil).ch4oxy_curry[grid->m] /10.0;
-		g_n2oe[period][grid->row][grid->col] += (flux->soil).d_n2o_ngas[grid->m] /10.0;
-		g_bbco2[period][grid->row][grid->col] += (flux->bb_co2_litter[grid->m]+flux->bb_co2_leaf[grid->m]+
+		g_ch4e_cao[period][grid->row][grid->col] += fweight * ((flux->soil).ch4flux_paddy_cao[grid->m] 
+															   + (flux->soil).ch4flux_wetland_cao[grid->m]) /10.0;
+		g_ch4ep_cao[period][grid->row][grid->col] += fweight * (flux->soil).ch4flux_paddy_cao[grid->m] /10.0;
+		g_ch4o_curry[period][grid->row][grid->col] += fweight * (flux->soil).ch4oxy_curry[grid->m] /10.0;
+		g_n2oe[period][grid->row][grid->col] += fweight * (flux->soil).d_n2o_ngas[grid->m] /10.0;
+		g_bbco2[period][grid->row][grid->col] += fweight * (flux->bb_co2_litter[grid->m]+flux->bb_co2_leaf[grid->m]+
 												  flux->bb_co2_wood[grid->m]+flux->bb_co2_root[grid->m]) /10.0;
-		g_isopr[period][grid->row][grid->col] += flux->voc_isopr_g97[grid->m] /10.0;
-		g_sr[period][grid->row][grid->col] += ((flux->plant).rrm[grid->m] + (flux->plant).rrg[grid->m] + (flux->soil).hr[grid->m]) /10.0;
-		g_er[period][grid->row][grid->col] += flux->er[grid->m] / 10.0;
-		g_snh4[period][grid->row][grid->col] += (mass->soil).n_nh4*MDN[grid->m]/365.0 /10.0;
-		g_sno3[period][grid->row][grid->col] += (mass->soil).n_no3*MDN[grid->m]/365.0 /10.0;
+		g_isopr[period][grid->row][grid->col] += fweight * flux->voc_isopr_g97[grid->m] /10.0;
+		g_sr[period][grid->row][grid->col] += fweight * ((flux->plant).rrm[grid->m] + (flux->plant).rrg[grid->m] 
+														 + (flux->soil).hr[grid->m]) /10.0;
+		g_er[period][grid->row][grid->col] += fweight * flux->er[grid->m] / 10.0;
+		g_snh4[period][grid->row][grid->col] += fweight * (mass->soil).n_nh4*MDN[grid->m]/365.0 /10.0;
+		g_sno3[period][grid->row][grid->col] += fweight * (mass->soil).n_no3*MDN[grid->m]/365.0 /10.0;
 
 #if PHYS_GOUT==1
 		g_lai[period][grid->row][grid->col] += (loct->c3ptn[grid->m]*(mass->c3).lai[grid->m]+
