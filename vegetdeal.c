@@ -292,7 +292,7 @@ double grid_area(
 }
 
 /******************************************************/
-long basin_id_trip(
+long f_basin_id_trip(
 	long original
 ){
 	long basin;

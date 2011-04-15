@@ -20,7 +20,7 @@
  model based on global satellite and surface data, 
  Global Biogeochemical Cycles, 7(4), 811-841.
  */
-void f_casa_mositure(
+void f_casa_moisture(
 	struct Grid *grid, 
 	struct Loct *loct
 ){

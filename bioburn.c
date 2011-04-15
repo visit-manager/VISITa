@@ -54,9 +54,14 @@ void f_biomassburning(
 	double ef_co[16] = {0.0, 
 		103.2, 103.2, 106.7, 106.7, 106.7, 106.7, 106.7, 106.7,
 		61.6, 61.6, 61.6, 61.6, 61.6, 61.6, 61.6};
-	double ef_ch4[16] = {0.0, 
+	/* double ef_ch4[16] = {0.0, 
 		6.80, 6.80, 4.70, 4.70, 4.70, 4.70, 4.70, 4.70,
-		2.20, 2.20, 2.20, 2.20, 2.20, 2.20, 2.20};
+		2.20, 2.20, 2.20, 2.20, 2.20, 2.20, 2.20}; */ /* original */
+
+	double ef_ch4[16] = {0.0, 
+		9.0, 9.0, 4.70, 4.70, 4.70, 4.70, 4.70, 4.70,
+		2.40, 2.40, 2.30, 2.30, 2.30, 2.30, 2.30};
+
 	double ef_nmhc[16] = {0.0, 
 		8.10, 8.10, 5.70, 5.70, 5.70, 5.70, 5.70, 5.70,
 		3.40, 3.40, 3.40, 3.40, 3.40, 3.40, 3.40};
@@ -120,10 +125,12 @@ void f_biomassburning(
 	*/
 	n_fireseason = 0.0;
 	for(f=0;f<ASTEP;f++){	
-		/* fuel load */
-		fuel = ((mass->soil).ltr_m[f] + (mass->plant).mfol[f] + (mass->plant).mstm[f] 
-				+ (mass->plant).mrot[f]) / cTdm * 100.0; /* need 200 g dm/m2 */
-				
+		/* fuel load: need 200 g dm/m2 */
+		/* fuel = ((mass->soil).ltr_m[f] + (mass->plant).mfol[f] + (mass->plant).mstm[f] 
+				+ (mass->plant).mrot[f]) * dmTc * 100.0; */ /* need 200 g dm/m2 */
+
+		fuel = ((mass->soil).ltr_m[f] + (mass->plant).mstm[f]) * dmTc * 100.0; /* A.Ito (2010/06/17) */
+
 		if(fuel >= 200.0){	/* fire threshold: 2007/11/03 */
 			/* volumetric upper soil (litter-fuel) water content */
 			aa = loct->msw30[f]/grid->field_cap1;
@@ -300,7 +307,7 @@ void f_biomassburning(
 			* f_burnt_root[grid->veg_sage] * ef_tec[grid->veg_sage];
 		
 		/* carbon budget ****************************************/
-		if(NECB_BB==1){
+		if(NECB_BB == 1){
 			closs_leaf = flux->bb_co2_leaf[f]*12.0/44.0/1000.0 + flux->bb_co_leaf[f]*12.0/28.0/1000.0 
 				+ flux->bb_ch4_leaf[f]*12.0/16.0/1000.0 + flux->bb_bc_leaf[f]/1000.0;
 			closs_wood = flux->bb_co2_wood[f]*12.0/44.0/1000.0 + flux->bb_co_wood[f]*12.0/28.0/1000.0 
@@ -310,40 +317,60 @@ void f_biomassburning(
 			closs_litter = flux->bb_co2_litter[f]*12.0/44.0/1000.0 + flux->bb_co_litter[f]*12.0/28.0/1000.0 
 				+ flux->bb_ch4_litter[f]*12.0/16.0/1000.0 + flux->bb_bc_litter[f]/1000.0;
 			
-			(mass->c3).mfol[f] -= closs_leaf;
-			if((mass->c3).mfol[f] < 0.0){
-				(mass->c3).mfol[f] = 0.0;
+			/***************/
+			(mass->c3).fol -= closs_leaf;
+			if((mass->c3).fol < INT_C){
+				(mass->c3).fol = INT_C;
 			}
-			(mass->c4).mfol[f] -= closs_leaf;
-			if((mass->c4).mfol[f] < 0.0){
-				(mass->c4).mfol[f] = 0.0;
+			(mass->c3).mfol[f] = (mass->c3).fol;
+			
+			(mass->c4).fol -= closs_leaf;
+			if((mass->c4).fol < INT_C){
+				(mass->c4).fol = INT_C;
 			}
+			(mass->c4).mfol[f] = (mass->c4).fol;
+			
+			(mass->plant).fol = (mass->c3).fol*loct->c3ptn[f] + (mass->c4).fol*loct->c4ptn[f];
 			(mass->plant).mfol[f] = (mass->c3).mfol[f]*loct->c3ptn[f] + (mass->c4).mfol[f]*loct->c4ptn[f];
-
-			(mass->c3).mstm[f] -= closs_wood;
-			if((mass->c3).mstm[f] < 0.0){
-				(mass->c3).mstm[f] = 0.0;
+			
+			/***************/
+			(mass->c3).stm -= closs_wood;
+			if((mass->c3).stm < INT_C){
+				(mass->c3).stm = INT_C;
 			}
-			(mass->c4).mfol[f] -= closs_wood;
-			if((mass->c4).mstm[f] < 0.0){
-				(mass->c4).mstm[f] = 0.0;
+			(mass->c3).mstm[f] = (mass->c3).stm;
+			
+			(mass->c4).stm -= closs_wood;
+			if((mass->c4).stm < INT_C){
+				(mass->c4).stm = INT_C;
 			}
+			(mass->c4).mstm[f] = (mass->c4).stm;
+			
+			(mass->plant).stm = (mass->c3).stm*loct->c3ptn[f] + (mass->c4).stm*loct->c4ptn[f];
 			(mass->plant).mstm[f] = (mass->c3).mstm[f]*loct->c3ptn[f] + (mass->c4).mstm[f]*loct->c4ptn[f];
 
-			(mass->c3).mrot[f] -= closs_root;
-			if((mass->c3).mrot[f] < 0.0){
-				(mass->c3).mrot[f] = 0.0;
+			/***************/
+			(mass->c3).rot -= closs_root;
+			if((mass->c3).rot < INT_C){
+				(mass->c3).rot = INT_C;
 			}
-			(mass->c4).mrot[f] -= closs_root;
-			if((mass->c4).mrot[f] < 0.0){
-				(mass->c4).mrot[f] = 0.0;
+			(mass->c3).mrot[f] = (mass->c3).rot;
+			
+			(mass->c4).rot -= closs_root;
+			if((mass->c4).rot < INT_C){
+				(mass->c4).rot = INT_C;
 			}
+			(mass->c4).mrot[f] = (mass->c4).rot;
+			
+			(mass->plant).rot = (mass->c3).rot*loct->c3ptn[f] + (mass->c4).rot*loct->c4ptn[f];
 			(mass->plant).mrot[f] = (mass->c3).mrot[f]*loct->c3ptn[f] + (mass->c4).mrot[f]*loct->c4ptn[f];	
 			
-			(mass->soil).ltr_m[f] -= closs_litter;
-			if((mass->soil).ltr_m[f] < 0.0){
-				(mass->soil).ltr_m[f] = 0.0;
+			/***************/
+			(mass->soil).ltr -= closs_litter;
+			if((mass->soil).ltr < INT_C){
+				(mass->soil).ltr = INT_C;
 			}
+			(mass->soil).ltr_m[f] = (mass->soil).ltr;
 		}
 	}
 }

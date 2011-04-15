@@ -15,7 +15,7 @@
 #define TERM_HYD 0.1
 
 /* initialization of climatic conditions (Primary data) ******************************/
-void initC(
+void f_init_clim(
 	struct Grid *grid
 ){
 	short h;
@@ -24,7 +24,7 @@ void initC(
 	/* in 1950 :311 ppmv*/
 	/* in 1990 : 352.7 ppmv*/
 	grid->co2y = PIVOT_CO2Y; 
-	if(CO2S==7){
+	if(CO2S == 7){
 		grid->co2y = 2081; /* in 2081 : 700 ppmv*/
 	}
 	grid->climy = PIVOT_CLIMY;
@@ -33,7 +33,7 @@ void initC(
 		grid->m = h;
 		
 		/* ambient CO2 condition *******/
-		co2_trend(grid);
+		f_co2_trend(grid);
 
 		/* climatic conditions */
 		/* NCEP/NCAR data ***************************************/
@@ -77,11 +77,11 @@ void initC(
 		}
 		
 		/* solar decrination and solar height */
-		grid->sl_dec[h] = sl_dec(grid);
-		grid->sl_hgt[h] = sl_hgt(grid);
+		grid->sl_dec[h] = f_solar_decl(grid);
+		grid->sl_hgt[h] = f_solar_hgt(grid);
 		
 		/* radiation fluxes and day-length */
-		grid->dlen[h] = dlen(grid);		
+		grid->dlen[h] = f_day_length(grid);		
 		grid->top_rad[h] = top_rad(grid); 	
 
 		grid->gl_rad[h] = gl_rad(grid); 	
@@ -98,20 +98,20 @@ void initC(
 			grid->tmp200_soil[h] += 1.0;
 		}else if(TM==5){
 			grid->tmp_sfc[h] -= 1.0;
-			grid->tmp_2m[h]-=1.0;
-			grid->tmp10_soil[h]-=1.0;
-			grid->tmp200_soil[h]-=1.0;
+			grid->tmp_2m[h] -= 1.0;
+			grid->tmp10_soil[h] -= 1.0;
+			grid->tmp200_soil[h] -= 1.0;
 		}
 		if(PR==1){
-			grid->prate_sfc[h]*=1.1;
+			grid->prate_sfc[h] *= 1.1;
 		}else if(PR==5){
-			grid->prate_sfc[h]*=0.9;
+			grid->prate_sfc[h] *= 0.9;
 		}
 	}	
 }
 
 /* location conditions derived from the primary data (Secondary data1) *******************/
-void initL(
+void f_init_loct(
 	struct Grid *grid, 
 	struct Loct *loct, 
 	struct Mass *mass, 
@@ -212,7 +212,7 @@ void initL(
 			
 			co2_in_canopy(grid, loct, mass, flux);
 			
-			dynmcL(grid, loct, mass, echar);
+			f_dyn_loct(grid, loct, mass, echar);
 		}
 		d_smc_a = fabs(loct->sww - d_smc_a);
 		loct->time_hyd = nn; /* simulation time of carbon budget */
@@ -231,7 +231,7 @@ void initL(
 }
 
 /* dynamic estimation of environmnetal conditions (Secondary data2) *********************/
-void dynmcL(
+void f_dyn_loct(
 	struct Grid *grid, 
 	struct Loct *loct, 
 	struct Mass *mass, 
@@ -267,7 +267,7 @@ void dynmcL(
 		loct->xx8[h] = 0.0;
 	}
 	
-	if(grid->m==0){
+	if(grid->m == 0){
 		grid->tmp_sfc_am = 0.0;
 		grid->tmp_sfc_mx = -100.0;
 		grid->tmp_sfc_mn = 100.0;
@@ -285,7 +285,12 @@ void dynmcL(
 			/* annual mean soil temperature */
 			grid->tmp_soil_mean += grid->tmp10_soil[h]*MDN[h]/365.0;
 		}
+		loct->cum_dprec = 0.0;
 	}
+	/* cumulative precipitation anomaly: 2010/07/23 by A.Ito */
+	/* if(grid->climy<2005){ */
+		loct->cum_dprec += (grid->prate_sfc[grid->m] - grid->hist_pre_b[grid->m]);
+	/* } */
 	
 	/** air conditions **/
 	/* altitude */
@@ -317,7 +322,7 @@ void dynmcL(
 				loct->vp[grid->m] = grid->hist_vap[grid->climy - PIVOT_CLIMY][grid->m];	
 			}else{
 				/* based on NCEP/NCAR */
-				vpres_var = grid->ncep_vpres[grid->climy - 1948][grid->m][grid->ncep_lat][grid->ncep_lon] 
+				vpres_var = grid->ncep_vpres[grid->climy - NCEP_BGY][grid->m][grid->ncep_lat][grid->ncep_lon] 
 								- grid->ncep_vpres_b[grid->m][grid->ncep_lat][grid->ncep_lon];
 				
 				loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;
@@ -353,18 +358,18 @@ void dynmcL(
 	
 	/** ecophysiology : ecophysiology.c **/
 	/* C3 */
-	ecophysiology(grid, loct, &(echar->c3), &(mass->c3));
+	f_ecophysiology(grid, loct, &(echar->c3), &(mass->c3));
 	/* C4 */
-	ecophysiology(grid, loct, &(echar->c4), &(mass->c4));
+	f_ecophysiology(grid, loct, &(echar->c4), &(mass->c4));
 	
 	/** net radiation **/
-	net_rad(grid, loct, mass, echar);
+	f_net_rad(grid, loct, mass, echar);
 	
 	/** hydrological water budget **/
 	(mass->plant).lai[grid->m] = (mass->c3).lai[grid->m]*loct->c3ptn[grid->m]
 					+ (mass->c4).lai[grid->m]*loct->c4ptn[grid->m];
 	loct->lai[grid->m] = (mass->plant).lai[grid->m];
-	waterbudget(grid, loct, echar);
+	f_waterbudget(grid, loct, echar);
 	
 	/* fractional vegetation cover */
 	/* light attenuation by non-photosynthetic organs */
@@ -402,7 +407,7 @@ void dynmcL(
 		loct->wfps[grid->m] = 0.05;
 	}
 	/* soil moisture index */
-	f_casa_mositure(grid, loct);
+	f_casa_moisture(grid, loct);
 	
 	/* nitrogen deposition ***********/
 	f_n_deposit(grid, loct);

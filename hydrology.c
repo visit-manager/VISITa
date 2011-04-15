@@ -13,7 +13,7 @@
 #include"prototype.h"
 
 /* water condition *******************************************************/
-void waterbudget(
+void f_waterbudget(
 	struct Grid *grid, 
 	struct Loct *loct, 
 	struct Echar *echar

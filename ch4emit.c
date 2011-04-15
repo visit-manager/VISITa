@@ -52,6 +52,11 @@ void f_ch4_emit_cao(
 	wtable = 0.0;
 	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * wtable) 
 						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -25.0));
+	/* if(ALT_FWET == 1){
+		f_wtable = 0.383 * (grid->f_wetland*exp(0.096 * wtable) 
+							+ (1.0-grid->f_wetland)*exp(0.096 * -25.0));
+	} */
+	
 	if(f_wtable<0.0){
 		f_wtable = 0.0;
 	}
@@ -61,6 +66,11 @@ void f_ch4_emit_cao(
 	/* Mg C ha-1 month-1 */
 	(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * 
 					(f_wtable*grid->f_wetland + f_wtable_lake*0.2*grid->f_lake); /* 0.2: 090717 */
+	if(ALT_FWET == 1){
+		(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * 
+			(f_wtable*grid->f_wetland + f_wtable_lake*0.2*grid->f_lake); 
+	}
+	
 	/* mg CH4 m-2 month-1 */
 	(flux->soil).ch4prod_wetland_cao[grid->m] *= 16.0/12.0 * 1000000000.0 / 10000.0;
 	
@@ -118,7 +128,7 @@ void f_ch4_emit_cao(
 			- (flux->soil).ch4oxy_paddy_cao[grid->m];
 }
 
-/* aerobic CH4 emission ************************************************/
+/* aerobic CH4 emission ***********************************************************/
 /*
 Keppler, F., Hamilton, J.T.G., Bra, M. and Rkmann, T., 2006. Methane emissions from 
 terrestrial plants under aerobic conditions. Nature 439, 187-191.
@@ -176,7 +186,7 @@ void f_ch4_emit_veg(
 	}
 }
 
-/* CH4 emission by Walter & Heimann: added by A.Ito (2009/08/05) ***********/
+/* CH4 emission by Walter & Heimann: added by A.Ito (2009/08/05) *****************/
 /*
 	Walter, B. P., M. Heimann, et al. (2001). "Modeling modern methane emissions 
 	from natural wetlands 1. Model description and results." 
@@ -191,12 +201,34 @@ void f_ch4_emit_walter(
 	long f, g, cumtime;
 	double ww[SOIL_LAYER+2];
 	double df[SOIL_LAYER+2], dpth[SOIL_LAYER+2], t_mean;
-	double ff[SOIL_LAYER+2], q_ebull[SOIL_LAYER+2], q_plant[SOIL_LAYER+2], q_prod[SOIL_LAYER+2], q_oxid[SOIL_LAYER+2];
+	double ff[SOIL_LAYER+2], q_ebull[SOIL_LAYER+2], q_plant[SOIL_LAYER+2];
+	double q_prod[SOIL_LAYER+2], q_oxid[SOIL_LAYER+2];
 	double sdepth, wtdepth, b_thresh, tmp[SOIL_LAYER+2], rdepth, poro;
 	double f_in, f_org[SOIL_LAYER+2], f_t[SOIL_LAYER+2], f_grow, t_gr, t_mat;
 	double t_veg, flux_ebull, flux_plant, release, f_sand, f_clay;
 	double hh, rr, kk, df_dry, fa_paddy, fa_wetland, day_produc, day_oxid;
-	double r0;
+	double r0, f_inundation;
+	double q10_ch4prod;
+	
+	/*
+	EX_CH4_1
+	 0: control
+	 1: increased innundation: low sensitivity
+	 2: increased innundation: high sensitivity
+	*/
+			
+	/*
+	 EX_CH4_2
+	 0: control
+	 1: decreased temperature dependence (Q10, CH4 production)
+	 2: increased temperature dependence (Q10, CH4 production)
+	 */
+	
+	/*
+	 EX_CH4_3
+	 0: control
+	 1: increased wetland area by lake
+	 */
 	
 	/************************************************************************/
 	sdepth = 1.0;		/* soil depth, m */
@@ -231,36 +263,62 @@ void f_ch4_emit_walter(
 	cumtime = 600;
 	
 	/* characteristics ***************************/
-	if(smode==1){
-		t_veg = 6.0;
-		/* water-logged wetlands */
+	if(smode==1){	/* water-logged wetlands */
+		t_veg = 6.0;	/* vegetation factor */
 		rdepth = 0.20;		/* rooting depth, m */
+		
+		/* water-table depth, m from surface */
 		loct->water_table_depth = 0.00;
-		wtdepth = loct->water_table_depth;	/* water-table depth, m from surface */
+		/* loct->water_table_depth = -0.02; */
+		if(EX_CH4_1 == 1){
+			loct->water_table_depth = 0.0 - loct->cum_dprec*0.0002;
+		}else if(EX_CH4_1 == 2){
+			loct->water_table_depth = 0.0 - loct->cum_dprec*0.001;
+		}
+		if(loct->water_table_depth > 0.0){
+			loct->water_table_depth = 0.0;
+		}
+		wtdepth = loct->water_table_depth;	
+		
 		/* tuning parameter (cf. Table 2) */
 		r0 = 0.4;  /* 1.0 => 0.7: 2009/08/20 */
-	}else if(smode==2){
-		t_veg = 4.0;
-		/* drainage wetlands */
+	}else if(smode==2){	/* drainage wetlands */
+		t_veg = 4.0;	/* vegetation factor */
 		rdepth = 0.15;		/* rooting depth, m */
+		
+		/* water-table depth, m from surface */
 		loct->water_table_depth = 0.25;
-		wtdepth = loct->water_table_depth;	/* water-table depth, m from surface */
+		/* loct->water_table_depth = 0.20; */
+		if(EX_CH4_1 == 1){
+			loct->water_table_depth = 0.25 - loct->cum_dprec*0.0002;
+		}else if(EX_CH4_1 == 2){
+			loct->water_table_depth = 0.25 - loct->cum_dprec*0.001;
+		}
+		if(loct->water_table_depth < 0.0){
+			loct->water_table_depth = 0.0;
+		}
+		wtdepth = loct->water_table_depth;	
+		
 		/* tuning parameter (cf. Table 2) */
 		r0 = 0.25;  /* 1.0 => 0.7: 2009/08/20 */
-	}else if(smode==3){
-		t_veg = 10.0;
-		/* water-logged paddy fields */
+	}else if(smode==3){	/* water-logged paddy fields */
+		t_veg = 10.0;	/* vegetation factor */
 		rdepth = 0.20;		/* rooting depth, m */ /* 0.3 => 0.2: 2009/08/20 */
+		
+		/* water-table depth, m from surface */
 		loct->water_table_depth = -0.03;
-		wtdepth = loct->water_table_depth;	/* water-table depth, m from surface */
+		wtdepth = loct->water_table_depth;	
+		
 		/* tuning parameter (cf. Table 2) */
 		r0 = 0.6;  /* 1.0 => 0.7: 2009/08/20 */
-	}else if(smode==4){
-		t_veg = 10.0;
-		/* drainage paddy fields */
+	}else if(smode==4){	/* drainage paddy fields */
+		t_veg = 10.0;	/* vegetation factor */
 		rdepth = 0.1;		/* rooting depth, m */
+		
+		/* water-table depth, m from surface */
 		loct->water_table_depth = 0.5;
-		wtdepth = loct->water_table_depth;	/* water-table depth, m from surface */
+		wtdepth = loct->water_table_depth;	
+		
 		/* tuning parameter (cf. Table 2) */
 		r0 = 0.4;  /* 1.0 => 0.7: 2009/08/20 */
  	}	
@@ -322,6 +380,15 @@ void f_ch4_emit_walter(
 	}else{
 		f_in = 0.0;
 	}
+	
+	/* sensitivity of Q10 of CH4 production: A.Ito (2010/08/02) */
+	/* q10_ch4prod = 6.0; */
+	q10_ch4prod = 4.0;
+	if(EX_CH4_2 == 1){
+		q10_ch4prod = 3.0;
+	}else if(EX_CH4_2 == 2){
+		q10_ch4prod = 9.0;
+	}
 		
 	release = 0.0;
 	for(g=1;g<=cumtime;g++){ 
@@ -344,7 +411,7 @@ void f_ch4_emit_walter(
 			/* ebullition at high CH4 concentration */
 			if( loct->prof_ch4[f] > b_thresh){
 				q_ebull[f] = -1.0 * (loct->prof_ch4[f] - b_thresh);
-				flux_ebull += -1000.0*hh * q_ebull[f];
+				flux_ebull += -1000.0 * hh * q_ebull[f];
 			}else{
 				q_ebull[f] = 0.0;
 			}
@@ -360,13 +427,13 @@ void f_ch4_emit_walter(
 			/* CH4 production and oxidation */
 			if(dpth[f]>=wtdepth){
 				/* below water table: eq.5 */
-				q_prod[f] = r0 * f_org[f] * f_in * f_t[f] * pow(6.0, (tmp[f]-t_mean)/10.0);
+				q_prod[f] = r0 * f_org[f] * f_in * f_t[f] * pow(q10_ch4prod, (tmp[f]-t_mean)/10.0);
 				day_produc += q_prod[f];
 				q_oxid[f] = 0.0;
 			}else{
 				/* above water table */
 				q_prod[f] = 0.0;
-				q_oxid[f] = -1.0*(20.0 * loct->prof_ch4[f])/(3.0 + loct->prof_ch4[f]) * pow(2.0, (tmp[f]-t_mean)/10.0);
+				q_oxid[f] = -1.0*(20.0 * loct->prof_ch4[f])/(3.0 + loct->prof_ch4[f]) * pow(2.0, (tmp[f] - t_mean)/10.0);
 				day_oxid += q_oxid[f];
 			}
 			
@@ -376,9 +443,11 @@ void f_ch4_emit_walter(
 		
 		/* diffusion equation solved by explicit method */
 		for(f=1;f<=(SOIL_LAYER-1);f++){
-			/* ww[f] = df[f]*rr*(loct->prof_ch4[f+1] + loct->prof_ch4[f-1]) + (1.0 - 2.0*df[f]*rr)*loct->prof_ch4[f] + kk*ff[f]; */
+			/* ww[f] = df[f]*rr*(loct->prof_ch4[f+1] + loct->prof_ch4[f-1]) 
+					+ (1.0 - 2.0*df[f]*rr)*loct->prof_ch4[f] + kk*ff[f]; */
 			
-			ww[f] = loct->prof_ch4[f] + rr*(df[f]*(loct->prof_ch4[f+1] - 2.0*loct->prof_ch4[f] + loct->prof_ch4[f-1]) + ff[f]);
+			ww[f] = loct->prof_ch4[f] + rr*(df[f]*(loct->prof_ch4[f+1] 
+						- 2.0*loct->prof_ch4[f] + loct->prof_ch4[f-1]) + ff[f]);
 			
 			if(ww[f]<=0.0){
 				ww[f] = 0.0;
@@ -410,30 +479,164 @@ void f_ch4_emit_walter(
 	loct->xx4[grid->m] = loct->prof_ch4[5];
 	loct->xx5[grid->m] = loct->prof_ch4[15]; */
 	
+	/* CH4 emission area fraction **************************************/
+	/* sensitivity experiments: 2010/07/02 by A.Ito */
+	if(EX_CH4_1 >= 1){
+		/* West Siberia */
+		switch(smode){
+			case 1: case 2:
+				/* f_inundation = grid->inundation_ssmi_av; */
+				
+				f_inundation = 0.333 * (grid->inundation_ssmi[4] + grid->inundation_ssmi[5] + 
+								grid->inundation_ssmi[6] + grid->inundation_ssmi[7])/4.0;
+				
+				/* f_inundation = grid->inundation_ssmi_max * 0.5; */
+				break;
+			case 3: case 4:
+				f_inundation = grid->inundation_ssmi[grid->m];
+				break;
+		}
+	}else{
+		/* global */
+		f_inundation = grid->inundation_ssmi[grid->m]; /* */
+		
+		/* when using NASA/GISS wetland data: 2011/03/31 by A.Ito */
+		if(ALT_FWET == 1 && (smode==1||smode==2)){
+			/* to avoid double-counting of inundation fraction */
+			f_inundation = 1.0;
+		}
+		
+		/* for West Siberia */
+		/* f_inundation = 0.333 * (grid->inundation_ssmi[4] + grid->inundation_ssmi[5] + 
+								grid->inundation_ssmi[6] + grid->inundation_ssmi[7])/4.0; */
+		/* f_inundation = grid->inundation_ssmi_av; */		
+	}
+	
+	if(EX_CH4_1==1){
+		/* experiment for Sasakawa-san: low sensitivity */
+		switch(smode){
+			case 1:
+				if(f_inundation<0.05){
+					f_inundation = 0.05;
+				}else{
+					f_inundation *= 1.0 + loct->cum_dprec*0.001;
+				}
+				
+				fa_wetland = f_inundation*grid->f_wetland;
+				
+				if(fa_wetland > 0.99){
+					fa_wetland = 0.99;
+				}
+				break;
+			case 2:
+				if(f_inundation<0.05){
+					f_inundation = 0.05;
+				}else{
+					f_inundation *= 1.0 + loct->cum_dprec*0.001;
+				}
+
+				fa_wetland = (1.0 - f_inundation)*grid->f_wetland;
+				
+				if(fa_wetland < 0.01){
+					fa_wetland = 0.01;
+				}
+				break;
+			case 3:
+				fa_paddy = f_inundation*grid->f_paddy; 
+				break;
+			case 4:
+				fa_paddy = (1.0 - f_inundation)*grid->f_paddy; 
+				break;
+		}
+	}else if(EX_CH4_1==2){
+		/* experiment for Sasakawa-san: high sensitivity */
+		switch(smode){
+			case 1:
+				if(f_inundation<0.05){
+					f_inundation = 0.05;
+				}else{
+					f_inundation *= 1.0 + loct->cum_dprec*0.003;
+				}
+				
+				fa_wetland = f_inundation*grid->f_wetland;
+				
+				if(fa_wetland > 0.99){
+					fa_wetland = 0.99;
+				}
+				break;
+			case 2:
+				if(f_inundation<0.05){
+					f_inundation = 0.05;
+				}else{
+					f_inundation *= 1.0 + loct->cum_dprec*0.003;
+				}
+				
+				fa_wetland = (1.0 - f_inundation)*grid->f_wetland;
+				
+				if(fa_wetland < 0.01){
+					fa_wetland = 0.01;
+				}
+				break;
+			case 3:
+				fa_paddy = f_inundation*grid->f_paddy; 
+				break;
+			case 4:
+				fa_paddy = (1.0 - f_inundation)*grid->f_paddy; 
+				break;
+		}
+	}else{
+		/* control */
+		switch(smode){
+			case 1:
+				fa_wetland = f_inundation*grid->f_wetland;
+				break;
+			case 2:
+				fa_wetland = (1.0 - f_inundation)*grid->f_wetland;
+				break;
+			case 3:
+				fa_paddy = f_inundation*grid->f_paddy; 
+				break;
+			case 4:
+				fa_paddy = (1.0 - f_inundation)*grid->f_paddy; 
+				break;
+		}
+	}
+	
+	/* sensitivity analysis for lake area: 2010/08/18 (A.Ito)  */
+	if(EX_CH4_3 == 1){
+		if(smode==1){
+			fa_wetland += 1.0*grid->f_lake;
+		}
+	}else{
+		if(smode==1){
+			fa_wetland += 0.2*grid->f_lake;
+		}
+	}
+	
 	/* flux: mg CH4 m-2 month-1 ************************/
 	if(smode==1){
-		fa_wetland = grid->inundation_ssmi[grid->m]*grid->f_wetland + 0.2*grid->f_lake;
+		loct->f_inund_wet_wh[grid->m] = fa_wetland;
+		
 		(flux->soil).ch4_wetland_wh_plant[grid->m] += fa_wetland * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
 		(flux->soil).ch4_wetland_wh_ebull[grid->m] += fa_wetland * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
 		(flux->soil).ch4_wetland_wh_diff[grid->m] += fa_wetland * df[1]/(dpth[1]-dpth[0])*
 					(loct->prof_ch4[1]-loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
 		(flux->soil).ch4_wetland_wh_release[grid->m] += fa_wetland * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
 	}if(smode==2){
-		fa_wetland = (1.0 - grid->inundation_ssmi[grid->m])*grid->f_wetland;
 		(flux->soil).ch4_wetland_wh_plant[grid->m] += fa_wetland * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
 		(flux->soil).ch4_wetland_wh_ebull[grid->m] += fa_wetland * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
 		(flux->soil).ch4_wetland_wh_diff[grid->m] += fa_wetland * df[1]/(dpth[1]-dpth[0])*
 					(loct->prof_ch4[1]-loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
 		(flux->soil).ch4_wetland_wh_release[grid->m] += fa_wetland * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
 	}else if(smode==3){
-		fa_paddy = grid->inundation_ssmi[grid->m]*grid->f_paddy; 
+		loct->f_inund_pad_wh[grid->m] = fa_paddy;
+		
 		(flux->soil).ch4_paddy_wh_plant[grid->m] += fa_paddy * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
 		(flux->soil).ch4_paddy_wh_ebull[grid->m] += fa_paddy * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
 		(flux->soil).ch4_paddy_wh_diff[grid->m] += fa_paddy * df[1]/(dpth[1]-dpth[0])*
 					(loct->prof_ch4[1]-loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
 		(flux->soil).ch4_paddy_wh_release[grid->m] += fa_paddy * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
 	}else if(smode==4){
-		fa_paddy = (1.0 - grid->inundation_ssmi[grid->m])*grid->f_paddy; 
 		(flux->soil).ch4_paddy_wh_plant[grid->m] += fa_paddy * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
 		(flux->soil).ch4_paddy_wh_ebull[grid->m] += fa_paddy * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
 		(flux->soil).ch4_paddy_wh_diff[grid->m] += fa_paddy * df[1]/(dpth[1]-dpth[0])*

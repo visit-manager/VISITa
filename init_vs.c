@@ -15,8 +15,6 @@
 #include"structure.h"
 #include"prototype.h"
 
-#define INT_C 0.01
-
 /****************************************************************/
 /* Initialize vegetation conditions ****************/
 void initVS(
@@ -39,20 +37,20 @@ void initVS(
 	/* Sensitivity Analysis ***************************/
 	if(SENS==1){
 		(echar->c3).gs_b1 *= 1.1;
-		(echar->c4).gs_b1*=1.1;
+		(echar->c4).gs_b1 *= 1.1;
 	}else if(SENS==2){
-		(echar->c3).pmax*=1.1;
-		(echar->c4).pmax*=1.1;
+		(echar->c3).pmax *= 1.1;
+		(echar->c4).pmax *= 1.1;
 	}else if(SENS==3){
-		(echar->c3).eK0*=1.1;
-		(echar->c4).eK0*=1.1;
+		(echar->c3).eK0 *= 1.1;
+		(echar->c4).eK0 *= 1.1;
 	}else if(SENS==4){
-		(echar->c3).lue0*=1.1;
-		(echar->c4).lue0*=1.1;
+		(echar->c3).lue0 *= 1.1;
+		(echar->c4).lue0 *= 1.1;
 	}else if(SENS==5){
-		(echar->c3).albedo*=1.1;
-		(echar->c4).albedo*=1.1;
-		(echar->soil).albedo0*=1.1;
+		(echar->c3).albedo *= 1.1;
+		(echar->c4).albedo *= 1.1;
+		(echar->soil).albedo0 *= 1.1;
 	}else if(SENS==6){
 		/* grid->whc30*=1.1;
 		grid->whc*=1.1; */
@@ -70,6 +68,49 @@ void initVS(
 	}else if(M_D==4){
 		(echar->soil).kmsl*=0.7;
 		(echar->soil).kmsh*=0.7;
+	}
+	
+	/* parameter perturbation: 2010/05/10 added by A.Ito */
+	if(PTB_SEED == -9999){
+		;
+	}else{
+		
+		/**/
+		(echar->c3).pmax *= 1.0 + 0.05*f_pert[0];
+		(echar->c4).pmax *= 1.0 + 0.05*f_pert[0];
+		/**/
+		(echar->c3).lue0 *= 1.0 + 0.05*f_pert[1];
+		(echar->c4).lue0 *= 1.0 + 0.05*f_pert[1];
+		/**/
+		(echar->c3).sla *= 1.0 + 0.05*f_pert[2];
+		(echar->c4).sla *= 1.0 + 0.05*f_pert[2];
+		/**/
+		(echar->c3).qTf0 *= 1.0 + 0.05*f_pert[3];
+		(echar->c4).qTf0 *= 1.0 + 0.05*f_pert[3];
+		(echar->c3).qTc0 *= 1.0 + 0.05*f_pert[3];
+		(echar->c4).qTc0 *= 1.0 + 0.05*f_pert[3];
+		(echar->c3).qTr0 *= 1.0 + 0.05*f_pert[3];
+		(echar->c4).qTr0 *= 1.0 + 0.05*f_pert[3];
+		/**/
+		(echar->c3).lf0 *= 1.0 + 0.05*f_pert[4];
+		(echar->c4).lf0 *= 1.0 + 0.05*f_pert[4];
+		/**/
+		(echar->c3).topt0 += 0.25*f_pert[5];
+		(echar->c4).topt0 += 0.25*f_pert[5];
+		/**/
+		(echar->c3).tmin += 0.25*f_pert[6];
+		(echar->c4).tmin += 0.25*f_pert[6];
+		/**/
+		(echar->c3).kmci *= 1.0 + 0.05*f_pert[7];
+		(echar->c4).kmci *= 1.0 + 0.05*f_pert[7];
+		/**/
+		(echar->c3).km_nstl *= 1.0 + 0.05*f_pert[8];
+		(echar->c4).km_nstl *= 1.0 + 0.05*f_pert[8];
+		
+		/**/
+		(echar->soil).rl0 *= 1.0 + 0.05*f_pert[9];
+		/**/
+		(echar->soil).rh0 *= 1.0 + 0.05*f_pert[10];
 	}
 	
 	/* growing period **********************/

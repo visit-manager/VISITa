@@ -142,19 +142,38 @@ void open_input(
 		printf("No rastert_soilph1.dat\n");  
 		exit(1); 
 	}
-	/* if( (fp_s[21]=fopen("./data/wetland_glwd_05.dat","rt"))==NULL ){  
-	 printf("No wetland_glwd_05.dat\n");  
-	 exit(1); 
-	 } */
-	/* revised wetland data: by A.Ito (2009/07/14) */
-	if( (fp_s[21]=fopen("./data/wetland_glwd_31.dat","rt"))==NULL ){  
-		printf("No wetland_glwd_31.dat\n");  
-		exit(1); 
+
+	if(ALT_FWET==1){
+		/* Alternative data (NASA/GISS): 2011/03/30 by A.Ito */
+		if( (fp_s[21]=fopen("./data/fwetland_giss.txt","rt"))==NULL ){  
+			printf("No fwetland_giss.txt\n");  
+			exit(1); 
+		}
+	}else{
+		/* if( (fp_s[21]=fopen("./data/wetland_glwd_05.dat","rt"))==NULL ){  
+		 printf("No wetland_glwd_05.dat\n");  
+		 exit(1); 
+		 } */
+		/* revised wetland data: by A.Ito (2009/07/14) */
+		if( (fp_s[21]=fopen("./data/wetland_glwd_31.dat","rt"))==NULL ){  
+			printf("No wetland_glwd_31.dat\n");  
+			exit(1); 
+		}
 	}
-	if( (fp_s[22]=fopen("./data/rice_sage_05.dat","rt"))==NULL ){  
-		printf("No rice_sage_05.dat\n");  
-		exit(1); 
+	
+	if(ALT_FWET==1){
+		/* Alternative data (SAGE): 2011/03/30 by A.Ito */
+		if( (fp_s[22]=fopen("./data/fpaddy_iis_sage.txt","rt"))==NULL ){  
+			printf("No major_crps_rice_0.50x0.50.asc\n");  
+			exit(1); 
+		}
+	}else{
+		if( (fp_s[22]=fopen("./data/rice_sage_05.dat","rt"))==NULL ){  
+			printf("No rice_sage_05.dat\n");  
+			exit(1); 
+		}
 	}
+	
 	if( (fp_s[24]=fopen("./data/soil_n_1m.dat","rt"))==NULL ){  
 		printf("No soil_n_1m.dat\n");  
 		exit(1); 
@@ -327,15 +346,38 @@ void open_input(
 	/* crop and pasture fractions: 1700-2007 */
 	/* Ramankutty & Kimball: added 2010/07/07 (A.Ito) */
 	if( (fp_s[50]=fopen("./data/glcrop_1700-2007_0.5.dat","rt"))==NULL ){  
-		printf("No glcrop_1700-2007_0.5.dat data\n");  
+		printf("No glcrop_1700-2007_0.5.dat\n");  
 		exit(1); 
 	}
 
 	if( (fp_s[51]=fopen("./data/glpast_1700-2007_0.5.dat","rt"))==NULL ){  
-		printf("No glpast_1700-2007_0.5.dat data\n");  
+		printf("No glpast_1700-2007_0.5.dat\n");  
 		exit(1); 
 	}
-
+	
+	/* wood harvest based on RCP-harmonized data: LUHa.v1 */
+	/* added by A.Ito (2010/10/15) */
+	if( (fp_s[53]=fopen("./data/luc_eos2_gvbh1_1700-2005.dat","rt"))==NULL ){  
+		printf("No luc_eos2_gvbh1_1700-2005.dat\n");  
+		exit(1); 
+	}
+	if( (fp_s[54]=fopen("./data/luc_eos2_gvbh2_1700-2005.dat","rt"))==NULL ){  
+		printf("No luc_eos2_gvbh2_1700-2005.dat\n");  
+		exit(1); 
+	}
+	if( (fp_s[55]=fopen("./data/luc_eos2_hsbh1_1700-2005.dat","rt"))==NULL ){  
+		printf("No luc_eos2_hsbh1_1700-2005.dat\n");  
+		exit(1); 
+	}
+	if( (fp_s[56]=fopen("./data/luc_eos2_hsbh2_1700-2005.dat","rt"))==NULL ){  
+		printf("No luc_eos2_hsbh2_1700-2005.dat\n");  
+		exit(1); 
+	}
+	if( (fp_s[57]=fopen("./data/luc_eos2_hsbh3_1700-2005.dat","rt"))==NULL ){  
+		printf("No luc_eos2_hsbh3_1700-2005.dat\n");  
+		exit(1); 
+	}
+	
 	/***************************************************/
 	/* 0: stable */
 	/* 1: gradual rise (SRES A1 or A1B) */
@@ -436,7 +478,12 @@ void open_input(
 	}
 	
 	if( (fp_s[49]=fopen("./data/permafrost_nsidc.dat","rt"))==NULL ){  
-		printf("No NSIDC permaforst data\n");  
+		printf("No permafrost data\n");  
+		exit(1); 
+	}
+	
+	if( (fp_s[52]=fopen("./data/chaser_ndepo_2001mon.txt","rt"))==NULL ){  
+		printf("No CHASER N deposition data\n");  
 		exit(1); 
 	}
 }

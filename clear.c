@@ -12,7 +12,7 @@
 #include"prototype.h"
 
 /* clear all variables and parameters *******************************/
-void clear(
+void f_clear(
 	struct Grid *grid, 
 	struct Loct *loct, 
 	struct Echar *echar, 
@@ -35,6 +35,7 @@ void clear(
 		grid->par_bp[f] = grid->par_dp[f] = grid->par_be[f] = grid->par_de[f] = 0.0;
 		grid->sl_dec[f] = grid->sl_hgt[f] = 0.0;
 		grid->top_rad[f] = grid->gl_rad[f] = 0.0;
+		
 		loct->gl_rad_g[f] = 0.0;
 		loct->rad_net_g[f] = loct->rad_net_p[f] = 0.0;
 		loct->rad_net_long[f] = loct->albedo_sfc[f] = 0.0;
@@ -240,6 +241,7 @@ void vanish(
 		(flux->soil).hr[k] = 0.0;
 		
 		flux->nep[k] = 0.0;
+		flux->nbp[k] = 0.0;
 		flux->ncb[k] = 0.0;
 		flux->lL0[k] = 0.0;
 	}
@@ -262,6 +264,7 @@ void vanish(
 	flux->erod_soil_crop = 0.0;
 	flux->erod_orgmat_crop = 0.0;
 	flux->erod_carbon_crop = 0.0;
+	flux->hvst_wood = 0.0; 
 }
 
 /* make the biome type zero **********************************/

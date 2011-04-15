@@ -11,12 +11,15 @@
 
 #include"setting.h"
 
-#define IFILEN 52
+#define IFILEN 58
 #define OFILES 8
 
 extern short DF97;
 extern double MDN[ASTEP];
 extern long GCM, CO2S, GCM_R, GCM_C;
+extern long PTB_SEED; /* added by A.Ito (2010/05/10) */
+extern long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
+extern double f_pert[20];
 extern double aco2_a1[553], aco2_a2[553], aco2_b1[553], aco2_b2[553];
 extern double ach4_a1[553], ach4_a2[553], ach4_b1[553], ach4_b2[553];
 extern double an2o_a1[553], an2o_a2[553], an2o_b1[553], an2o_b2[553];
@@ -25,10 +28,12 @@ extern double glandarea;
 extern double h_tmp[HIST], h_pre[HIST], h_dswr[HIST], h_aet[HIST], h_rof[HIST];
 extern double h_gpp[HIST], h_npp[HIST], h_nep[HIST], h_plant[HIST], h_soil[HIST];
 extern double h_sr[HIST], h_ersn_c[HIST], h_agrersn_c[HIST], h_doc[HIST];
-extern double h_agrarea[HIST], h_luc[HIST];
+extern double h_agrarea[HIST], h_paddyarea[HIST], h_luc[HIST];
 extern double h_luc_1[HIST], h_luc_2[HIST], h_luc_3[HIST];
 extern double h_gpp_df97[HIST], h_gpp_c4[HIST]; /* added by A.Ito (2009/08/31) */
 extern double h_pot_prmfrst[HIST];
+extern double h_trnsp[HIST], h_incepev[HIST], h_ssurfev[HIST];
+extern double h_nbp[HIST], h_hvst[HIST];
 
 extern double h_burnt_area[HIST];
 extern double h_bioburn_co2[HIST], h_bioburn_ch4[HIST], h_bioburn_co[HIST];
@@ -56,6 +61,7 @@ extern double h_n_fertin[HIST], h_n_depoin[HIST]; /* added by A.Ito (2010/05/02)
 extern double h_voc_isopr_g97[HIST], h_voc_monotrp_g97[HIST], h_voc_methanl_g97[HIST];
 extern double h_voc_acetone_g97[HIST], h_voc_actaldhd_g97[HIST], h_voc_frmardhd_g97[HIST];
 extern double h_voc_formacd_g97[HIST], h_voc_acetacd_g97[HIST], h_voc_co_g97[HIST];
+extern double h_hvst_wood[HIST];
 
 extern double ci_aco2[HIST], ci_aco2_d13c[HIST], ci_aco2_d14c[HIST];
 extern double ci_gpp[HIST], ci_gpp_d13c[HIST], ci_gpp_d14c[HIST];
@@ -65,6 +71,8 @@ extern double ci_c[HIST], ci_c_d13c[HIST], ci_c_d14c[HIST];
 extern double ci_r[HIST], ci_r_d13c[HIST], ci_r_d14c[HIST];
 extern double ci_l[HIST], ci_l_d13c[HIST], ci_l_d14c[HIST];
 extern double ci_h[HIST], ci_h_d13c[HIST], ci_h_d14c[HIST];
+
+extern double hm_temp[HIST][ASTEP], hm_prec[HIST][ASTEP], hm_ch4_wh[HIST][ASTEP], hm_inund[HIST][ASTEP];
 
 /* monthly results **********/
 extern double m_ch4ox1[12], m_ch4ox2[12], m_ch4ox3[12];
@@ -164,7 +172,7 @@ extern double rh_ch4ox_curry[NREG][HIST], rh_ch4emit_wh_wet[NREG][HIST], rh_ch4e
 extern double rh_n2o_emit_ngas[NREG][HIST], rh_n2o_emitagr_ngas[NREG][HIST];
 
 /* CLEARANCE *****************************************************/
-void clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 
+void f_clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 
 		   struct Mass *mass, struct Flux *flux);
 void plant_flux_zero(long month, struct Pflx *flux);
 void vanish(struct Mass *mass, struct Flux *flux);
@@ -176,19 +184,19 @@ void f_output_file_open(short vtype, short zone, char s_date[25], char s_case[25
 	char filename[100], FILE *fp[OFILES]);
 void f_init_sim(struct Grid *grid);
 void f_init_grid(FILE *fp_r[IFILEN], struct Grid *grid); 
-void initC(struct Grid *grid);
-void initL(struct Grid *grid, struct Loct *loct, struct Mass *mass, 
+void f_init_clim(struct Grid *grid);
+void f_init_loct(struct Grid *grid, struct Loct *loct, struct Mass *mass, 
 	struct Flux *flux, struct Echar *echar);
-void dynmcL(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Echar *echar);
+void f_dyn_loct(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Echar *echar);
 
-void co2_trend(struct Grid *grid);
+void f_co2_trend(struct Grid *grid);
 void read_gcm_clim(struct Grid *grid);
 void read_ncep_clim(struct Grid *grid);
 void set_gcm_clim(struct Grid *grid);
 void set_cru_clim(struct Grid *grid);
 void read_cru_clim(FILE *fp_c[4], struct Grid *grid);
 void f_cult_luc(struct Grid *grid);
-long basin_id_trip(long original);
+long f_basin_id_trip(long original);
 long region_giorgi(double lat, double lon);
 
 /* MASS & PARAMETERS INITIALIZATION *****************************/
@@ -212,13 +220,13 @@ void cal_gcmclim2(struct Grid *grid, struct Loct *loct,
 	struct Echar *echar, struct Mass *mass, struct Flux *flux, FILE *fp[OFILES]);
 
 /* RADIATION *****************************************/
-double sl_dec(struct Grid *grid);
-double sl_hgt(struct Grid *grid);
-double dlen(struct Grid *grid);
+double f_solar_decl(struct Grid *grid);
+double f_solar_hgt(struct Grid *grid);
+double f_day_length(struct Grid *grid);
 double top_rad(struct Grid *grid);
 double gl_rad(struct Grid *grid);
 double par(struct Grid *grid);
-void net_rad(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Echar *echar);
+void f_net_rad(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Echar *echar);
 double albedo_soil(struct Loct *loct, struct Schar *schar);
 
 /* PHYTOGEOGRAPHY ****************************************/
@@ -229,7 +237,7 @@ void phenol_tran_c34(struct Grid *grid, struct Loct *loct, struct Pchar *pchar,
 	struct Pmas *mass, struct Pflx *flux);
 
 /* HYDROLOGY *********************************************/
-void waterbudget(struct Grid *grid, struct Loct *loct, struct Echar *echar);
+void f_waterbudget(struct Grid *grid, struct Loct *loct, struct Echar *echar);
 double air_density(struct Grid *grid, struct Loct *loct);
 double vap_pre_sat(struct Grid *grid);
 double slope_vps(struct Grid *grid);
@@ -259,13 +267,13 @@ void f_plant_stand_budget(struct Grid *grid,struct Loct *loct,struct Mass *mass,
 double grid_area(double lat1, double lat2, double lon1, double lon2);
 
 /* ECOPHYSIOLOGY *****************************/
-void ecophysiology(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, struct Pmas *mass);
+void f_ecophysiology(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, struct Pmas *mass);
 void incel_cdc(struct Grid *grid, struct Loct *loct, struct Pchar *plant);
 void quantum_yield(struct Grid *grid, struct Pchar *plant);
 void opt_lai(struct Grid *grid,struct Loct *loct, struct Pchar *plant);
 double lai_mass(struct Grid *grid, struct Pmas *mass, struct Pchar *pchar);
 double irr_attn(struct Grid *grid, struct Loct *loct, struct Pchar *pchar);
-void qten_ar(struct Grid *grid, struct Pchar *plant);
+void f_qten_ar(struct Grid *grid, struct Pchar *plant);
 void spcfc_res_mass(struct Pchar *plant, struct Pmas *mass);
 void mortality(struct Grid *grid, struct Pchar *plant);
 void stom_cond(struct Grid *grid,struct Loct *loct, struct Pchar *plant);
@@ -351,7 +359,7 @@ void f_voc_emit_guenther97(struct Grid *grid, struct Loct *loct, struct Echar *e
 void f_doc_boyer(struct Grid *grid, struct Loct *loct, struct Smas *mass, struct Sflx *sflx);
 
 /* GHG PROCESSES ****************************************************/
-void f_casa_mositure(struct Grid *grid, struct Loct *loct);
+void f_casa_moisture(struct Grid *grid, struct Loct *loct);
 void f_ch4oxy_ridgewell(struct Grid *grid, struct Loct *loct, struct Flux *flux);
 void f_ch4oxy_casa(struct Grid *grid, struct Loct *loct, struct Flux *flux);
 void f_ch4oxy_delgrosso(struct Grid *grid, struct Loct *loct, struct Flux *flux);

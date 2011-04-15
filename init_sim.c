@@ -117,8 +117,10 @@ void f_init_sim(
 		h_sr[f] = h_ersn_c[f] = h_agrersn_c[f] = h_doc[f] = 0.0;
 		h_gpp_df97[f] = h_gpp_c4[f] = 0.0;
 		h_pot_prmfrst[f] = 0.0;
+		h_trnsp[f] = h_incepev[f] = h_ssurfev[f] = 0.0;
+		h_nbp[f] = h_hvst[f] = 0.0;
 		
-		h_agrarea[f] = h_luc[f] = 0.0;
+		h_agrarea[f] = h_paddyarea[f] = h_luc[f] = 0.0;
 		h_luc_1[f] = h_luc_2[f] = h_luc_3[f] = 0.0;
 		h_burnt_area[f] = 0.0;
 		h_bioburn_co2[f] = h_bioburn_co[f] = h_bioburn_ch4[f] = 0.0;
@@ -143,6 +145,7 @@ void f_init_sim(
 		h_nh3_emit_agr[f] = 0.0;
 		h_no3_leach[f] = 0.0;
 		h_n_fertin[f] = h_n_depoin[f] = 0.0;
+		h_hvst_wood[f] = 0.0;
 
 		h_voc_isopr_g97[f] = h_voc_monotrp_g97[f] = h_voc_methanl_g97[f] = 0.0;
 		h_voc_acetone_g97[f] = h_voc_actaldhd_g97[f] = h_voc_frmardhd_g97[f] = 0.0;
@@ -156,6 +159,13 @@ void f_init_sim(
 		ci_r[f] = ci_r_d13c[f] = ci_r_d14c[f] = 0.0;
 		ci_l[f] = ci_l_d13c[f] = ci_l_d14c[f] = 0.0;
 		ci_h[f] = ci_h_d13c[f] = ci_h_d14c[f] = 0.0;
+		
+		for(g=0;g<ASTEP;g++){
+			hm_temp[f][g] = 0.0;
+			hm_prec[f][g] = 0.0;
+			hm_ch4_wh[f][g] = 0.0;
+			hm_inund[f][g] = 0.0;
+		}
 	}
 	for(f=0;f<ASTEP;f++){
 		m_ch4ox1[f] = m_ch4ox2[f] = m_ch4ox3[f] = 0.0;

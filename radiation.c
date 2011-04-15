@@ -15,7 +15,7 @@
 extern short RAD_SENS;
 
 /* solar declination at the middle day (15th day) of month *********/
-double sl_dec(
+double f_solar_decl(
 	struct Grid *grid
 ){
 	double sl_dec;
@@ -23,13 +23,13 @@ double sl_dec(
 	double doy[ASTEP] = {15.0, 46.0, 74.0, 105.0, 135.0, 166.0, 
 				196.0, 227.0, 258.0, 288.0, 319.0, 349.0}; 
 
-	sl_dec = 23.45*sin((doy[grid->m]-80.0)*360.0/370.0*dTr); /** **/
+	sl_dec = 23.45*sin((doy[grid->m] - 80.0)*360.0/370.0*dTr); /** **/
 	
 	return (sl_dec);	
 }
 
 /* solar hight at midday, in degree ********************************/
-double sl_hgt(
+double f_solar_hgt(
 	struct Grid *grid
 ){
 	double aaa, bbb;
@@ -44,7 +44,7 @@ double sl_hgt(
 }
 
 /* day length, or photoperiod of vegetation production *************/
-double dlen(
+double f_day_length(
 	struct Grid *grid
 ){
 	double ho, sr, ss, dl, ha;
@@ -212,7 +212,7 @@ double par(
 }
 
 /* net radiation of canopy and ground surface *******************************/
-void net_rad(
+void f_net_rad(
 	struct Grid *grid, 
 	struct Loct *loct, 
 	struct Mass *mass, 

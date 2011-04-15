@@ -26,7 +26,7 @@ void allocation(
 						
 	if(flux->epp[grid->m]>0.0){ /* during growing-period */
 		/* allocation ratios of EPP */
-		if(mass->lai[grid->m]>pchar->opt_lai[grid->m]){ 
+		if(mass->lai[grid->m] > pchar->opt_lai[grid->m]){ 
 			/* if holding LAI is greater than the optimam one */
 			/**** avoid too high LAI under good condition: 2009/04/29 A.Ito ****/
 			aaa = mass->lai[grid->m] -  pchar->opt_lai[grid->m];

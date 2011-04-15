@@ -21,11 +21,8 @@ void set_cru_clim(
 	long h, cru_te;
 	double tmp_var, pre_var, tcdc_var;
 	
-	if(CRU_DL==102){
-		cru_te = 2002;
-	}else if(CRU_DL==106){
-		cru_te = 2005;
-	}
+	/* last year of CRU-data calculation */
+	cru_te = CRU_CL + 1900;
 	
 	if(grid->climy<=cru_te){
 		/* 1901-2000:CRU TS2.1 (20th century) */
@@ -45,27 +42,49 @@ void set_cru_clim(
 	}else{
 		/* 2003-2008: extrapolation using NCEP/NCAR data: 2009/01/05 by A.Ito */
 		/* 2006-2009: extrapolation using NCEP/NCAR data: 2010/01/04 by A.Ito */
+		/* 2006-2010: extrapolation using NCEP/NCAR data: 2011/03/XX by A.Ito */
 		for(h=0;h<ASTEP;h++){
 			/* temperature */
-			tmp_var = grid->ncep_tmp2m[grid->climy - 1948][h][grid->ncep_lat][grid->ncep_lon] 
+			tmp_var = grid->ncep_tmp2m[grid->climy - NCEP_BGY][h][grid->ncep_lat][grid->ncep_lon] 
 					- grid->ncep_tmp2m_b[h][grid->ncep_lat][grid->ncep_lon];
 			grid->tmp_sfc[h] = grid->tmp_sfc_a[h] + tmp_var;
 			grid->tmp_2m[h] = grid->tmp_2m_a[h] + tmp_var;
-			grid->tmp10_soil[h]=grid->tmp10_soil_a[h] + tmp_var;
-			grid->tmp200_soil[h]=grid->tmp200_soil_a[h] + tmp_var;
+			grid->tmp10_soil[h] = grid->tmp10_soil_a[h] + tmp_var*0.3;
+			grid->tmp200_soil[h] = grid->tmp200_soil_a[h] + tmp_var*0.1;
 			
 			/* precipitation */
-			pre_var = grid->ncep_prate[grid->climy - 1948][h][grid->ncep_lat][grid->ncep_lon] 
-					- grid->ncep_prate_b[h][grid->ncep_lat][grid->ncep_lon];
+			pre_var = grid->ncep_prate[grid->climy - NCEP_BGY][h][grid->ncep_lat][grid->ncep_lon] 
+						- grid->ncep_prate_b[h][grid->ncep_lat][grid->ncep_lon];
 			grid->prate_sfc[h] = grid->prate_sfc_a[h] + pre_var;
 			if(grid->prate_sfc[h]<0.0){
 				grid->prate_sfc[h] = 0.0;
 			}
 			
 			/* cloudiness */
-			tcdc_var = grid->ncep_tcdc[grid->climy - 1948][h][grid->ncep_lat][grid->ncep_lon] 
+			tcdc_var = grid->ncep_tcdc[grid->climy - NCEP_BGY][h][grid->ncep_lat][grid->ncep_lon] 
 					- grid->ncep_tcdc_b[h][grid->ncep_lat][grid->ncep_lon];
 			grid->tcdc_clm[h] = grid->tcdc_clm_a[h] + tcdc_var;
+			if(grid->tcdc_clm[h]<0.0){
+				grid->tcdc_clm[h] = 0.0;
+			}
+			if(grid->tcdc_clm[h]>1.0){
+				grid->tcdc_clm[h] = 1.0;
+			}
+		}
+	}
+	
+	/* perturbation for uncertainty analysis: 2010/05/17 (A.Ito) ***************/
+	if(PTB_SEED == -9999){
+		;
+	}else{
+		for(h=0;h<ASTEP;h++){
+			grid->tmp_sfc[h] += 0.2*f_pert[11];
+			grid->tmp_2m[h] += 0.2*f_pert[11];
+			grid->tmp10_soil[h] += 0.2*f_pert[11];
+			grid->tmp200_soil[h] += 0.2*f_pert[11];
+			
+			grid->prate_sfc[h] *= 1.0 + 0.1*f_pert[12];
+			grid->tcdc_clm[h] *= 1.0 + 0.1*f_pert[13];
 			if(grid->tcdc_clm[h]<0.0){
 				grid->tcdc_clm[h]=0.0;
 			}

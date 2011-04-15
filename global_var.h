@@ -25,6 +25,9 @@ struct Flux flux_agr;
 /* global variables ********************************************/
 /* GCM variables ************/
 long GCM, CO2S, GCM_R, GCM_C; /* */
+long PTB_SEED; /* added by A.Ito (2010/05/10) */
+long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
+double f_pert[20];
 
 /* atm. GHG scenario */
 double aco2_a1[553], aco2_a2[553], aco2_b1[553], aco2_b2[553];
@@ -35,11 +38,13 @@ double an2o_a1[553], an2o_a2[553], an2o_b1[553], an2o_b2[553];
 double h_tmp[HIST], h_pre[HIST], h_dswr[HIST], h_aet[HIST], h_rof[HIST];
 double h_gpp[HIST], h_npp[HIST], h_nep[HIST], h_plant[HIST], h_soil[HIST];
 double h_sr[HIST], h_ersn_c[HIST], h_agrersn_c[HIST], h_doc[HIST];
-double h_agrarea[HIST], h_luc[HIST];
+double h_agrarea[HIST], h_paddyarea[HIST], h_luc[HIST];
 double h_luc_1[HIST], h_luc_2[HIST], h_luc_3[HIST];
 double h_gpp_df97[HIST];
 double h_gpp_c4[HIST];	/* added by A.Ito (2009/08/31) */
 double h_pot_prmfrst[HIST];
+double h_trnsp[HIST], h_incepev[HIST], h_ssurfev[HIST];
+double h_nbp[HIST], h_hvst[HIST];
 
 double h_burnt_area[HIST];
 double h_bioburn_co2[HIST], h_bioburn_ch4[HIST], h_bioburn_co[HIST];
@@ -68,6 +73,8 @@ double h_voc_isopr_g97[HIST], h_voc_monotrp_g97[HIST], h_voc_methanl_g97[HIST];
 double h_voc_acetone_g97[HIST], h_voc_actaldhd_g97[HIST], h_voc_frmardhd_g97[HIST];
 double h_voc_formacd_g97[HIST], h_voc_acetacd_g97[HIST], h_voc_co_g97[HIST];
 
+double h_hvst_wood[HIST];
+
 double ci_aco2[HIST], ci_aco2_d13c[HIST], ci_aco2_d14c[HIST];
 double ci_gpp[HIST], ci_gpp_d13c[HIST], ci_gpp_d14c[HIST];
 double ci_er[HIST], ci_er_d13c[HIST], ci_er_d14c[HIST];
@@ -76,6 +83,11 @@ double ci_c[HIST], ci_c_d13c[HIST], ci_c_d14c[HIST];
 double ci_r[HIST], ci_r_d13c[HIST], ci_r_d14c[HIST];
 double ci_l[HIST], ci_l_d13c[HIST], ci_l_d14c[HIST];
 double ci_h[HIST], ci_h_d13c[HIST], ci_h_d14c[HIST];
+
+double hm_temp[HIST][ASTEP];
+double hm_prec[HIST][ASTEP];
+double hm_ch4_wh[HIST][ASTEP];
+double hm_inund[HIST][ASTEP];
 
 /* regional historical */
 double rh_area[NREG];

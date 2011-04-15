@@ -45,13 +45,14 @@ and plot-scale validation. Ecological Modelling, 151:147-179.
  
 */
 
-/* main simulation roop *************************************************/
+/* main simulation roop ******************************************************/
 int main(
 	int argc, 
 	char *argv[]
 ){
 	short zone;
-	long f, g, h, l_config;
+	long f, g, h, l_config, flag_calc;
+	double area_t, area_b, area_r, area_l;
 	/* global land area */
 	/* file name strings */
 	char filename[100];
@@ -112,10 +113,58 @@ int main(
 	printf("config  6: %s %ld\n", s_config, l_config);
 	TEMP_GC = l_config;
 		
+	/* config: 7 parameter perturbation */
+	fscanf(fp_config,"%s %ld", s_config, &l_config);
+	printf("config  7: %s %ld\n", s_config, l_config);
+	PTB_SEED = l_config;
+	
+	/* config: 8 CH4 experiment */
+	fscanf(fp_config,"%s %ld %ld %ld", s_config, &EX_CH4_1, &EX_CH4_2, &EX_CH4_3);
+	printf("config  8: %s %ld %ld %ld\n", s_config, EX_CH4_1, EX_CH4_2, EX_CH4_3);
+	
+	/* config: 9 simulation area */
+	fscanf(fp_config,"%s %lf %lf %lf %lf", s_config, &area_t, &area_b, &area_l, &area_r);
+	printf("config  9: %s %lf %lf %lf %lf\n", s_config, area_t, area_b, area_l, area_r);
+	
+	/* global factor: 2010/05/12 by A.Ito */
+	srand(PTB_SEED);
+	rand();
+	if(PTB_SEED == -9999){
+		for(f=0;f<20;f++){
+			f_pert[f] = 0.0;
+		}
+	}else{
+		for(f=0;f<20;f++){
+			f_pert[f] = 0.0;
+			for(g=0;g<12;g++){
+				f_pert[f] += (double)rand() / (double)RAND_MAX;
+			}
+			f_pert[f] -= 6.0;
+			
+			if(f_pert[f] > 3.0){
+				f_pert[f] = 3.0;
+			}
+			if(f_pert[f] < -3.0){
+				f_pert[f] = -3.0;
+			}
+		}
+	}
+	
 	/* open source files *************************************************/
 	printf("Open input files...");
 	open_input(fp_s, fp_c);	/* -> open_input.c */
 	printf("done\n");
+	
+	for(h=0;h<64;h++){
+		for(g=0;g<128;g++){
+			for(f=0;f<12;f++){
+				fscanf(fp_s[52],"%lf", &grid.ndepo_chaser_dnhx[f][h][g]);
+				fscanf(fp_s[52],"%lf", &grid.ndepo_chaser_dnoy[f][h][g]);
+				fscanf(fp_s[52],"%lf", &grid.ndepo_chaser_wnhx[f][h][g]);
+				fscanf(fp_s[52],"%lf", &grid.ndepo_chaser_wnoy[f][h][g]);
+			}
+		}
+	}	
 	
 	/* open result file **************************************************/
 	printf("Create output binary file...");
@@ -201,7 +250,7 @@ int main(
 				grid.row, grid.col, grid.lat, grid.lon, grid.veg_olson, grid.veg_sage, 
 				grid.veg_crop, grid.cru_exist); /* */
 			
-			/* head record */
+			/* head records of output files */
 			for(h=0;h<OFILES;h++){
 				if(CALC_OLSON == 1){
 					fprintf(fp_o1[h],"%ld %ld %ld %ld\n", 
@@ -211,103 +260,114 @@ int main(
 							grid.field_cap1, grid.field_cap2, grid.bulkdens);
 				}
 				if(CALC_CROP == 1){
-					fprintf(fp_o2[h],"%ld %ld %ld %ld\n", 
-							grid.row, grid.col, grid.veg_olson, grid.veg_sage); 
+					/* modified: 2011/02/04 (A.Ito) */
+					fprintf(fp_o2[h],"%ld %ld %ld %ld %ld\n", 
+							grid.row, grid.col, grid.veg_olson, grid.veg_sage, grid.veg_crop); 
 					
 					fprintf(fp_o2[h],"%lf %lf %lf\n", 
 							grid.field_cap1, grid.field_cap2, grid.bulkdens);
 				}
 			}
 			
+			/* selection of calculation grids ***************************************/
+			flag_calc = 0;
+			if(grid.veg_olson!=0 && grid.veg_olson!=33 
+					/* && (g+0)%10==0  */
+					&& (g+0)%1==0 /* */
+					&& grid.lat<=area_t&&grid.lat>=area_b && grid.lon>=area_l&&grid.lon<=area_r
+					/* && grid.lat<90.0&&grid.lat>-90.0 && grid.lon>-180.0&&grid.lon<180.0 */
+					/* && grid.lat<65.0&&grid.lat>55.0 && grid.lon>65.0&&grid.lon<85.0 */
+					/* && grid.lat<=60.75&&grid.lat>=58.25 && grid.lon>=67.25&&grid.lon<=73.75 */   /*DEM*/
+					/* && grid.lat<=59.25&&grid.lat>=57.25 && grid.lon>=79.25&&grid.lon<=85.25 */   /*KRS*/
+			){
+				flag_calc = 1;
+			}
+			
 			/* calculation for lands *******************************************/
 			/* Olson map */
-			if(CALC_OLSON == 1){
-				if(grid.veg_olson!=0 && grid.veg_olson!=33 && (g+0)%1==0){
-					/* sequential number */
-					grid.n_olson++;
-					/* total area */
-					go_landarea += grid.area;
-					vo_area[grid.veg_olson] += grid.area;
-					rh_area[grid.reg_g] += grid.area;
+			if(CALC_OLSON == 1 && flag_calc==1){
+				/* sequential number */
+				grid.n_olson++;
+				/* total area */
+				go_landarea += grid.area;
+				vo_area[grid.veg_olson] += grid.area;
+				rh_area[grid.reg_g] += grid.area;
 
-					/* clear all parameters ******/
-					clear(&grid, &loct, &echar, &mass, &flux);
+				/* clear all parameters ******/
+				f_clear(&grid, &loct, &echar, &mass, &flux);
 
-					/* initialize vegatation and soil conditions ****/ 
-					initVS(&grid, &loct, &mass, &flux, &echar);		
+				/* initialize vegatation and soil conditions ****/ 
+				initVS(&grid, &loct, &mass, &flux, &echar);		
+			
+				/* initialize climate & CO2 conditions ****/
+				f_init_clim(&grid);
+			
+				/* initialize location conditions ****/
+				f_init_loct(&grid, &loct, &mass, &flux, &echar);
 				
-					/* initialize climate & CO2 conditions ****/
-					initC(&grid);
+				/* initialize stable carbon isotope ****/
+				f_init_c_isotpes(&grid, &flux, &echar, &mass);
+
+				/* spin-up: stabilization roop ***************************/
+				cal_stable(&grid, &loct, &echar, &mass, &flux, fp_o1);
+
+				/* snap shot for checking *****/
+				screenshow(&grid, &loct, &mass, &flux, &echar); 
 				
-					/* initialize location conditions ****/
-					initL(&grid, &loct, &mass, &flux, &echar);
-					
-					/* initialize stable carbon isotope ****/
-					f_init_c_isotpes(&grid, &flux, &echar, &mass);
+				/* experiment *******************************************/
+				/* past: 1901-2000/2009 */
+				cal_cruclim(&grid, &loct, &echar, &mass, &flux, fp_o1);	
 
-					/* spin-up: stabilization roop ***************************/
-					cal_stable(&grid, &loct, &echar, &mass, &flux, fp_o1);
-
-					/* snap shot for checking *****/
-					screenshow(&grid, &loct, &mass, &flux, &echar); 
-					
-					/* experiment *******************************************/
-					/* past: 1901-2000/2009 */
-					cal_cruclim(&grid, &loct, &echar, &mass, &flux, fp_o1);	
-
-					/* future: 2001-2100 */
-					if(GCM_SIM){
-						cal_gcmclim2(&grid, &loct, &echar, &mass, &flux, fp_o1);
-					}
-					
-					printf("\n");
+				/* future: 2001-2100 */
+				if(GCM_SIM){
+					cal_gcmclim2(&grid, &loct, &echar, &mass, &flux, fp_o1);
 				}
+				
+				printf("\n");
 			}
 						
 			/* croplands */
-			if(CALC_CROP == 1){
-				if(grid.veg_olson!=0 && grid.veg_olson!=33 && (g+0)%1==0){
-					/* generic cropland */
-					
-					grid.veg_olson = 31;
-					vo_area[grid.veg_olson] += grid.area;
-					
-					/* sequential number */
-					grid.n_crop++;
-					/* total area */
-
-					/* clear all parameters ******/
-					clear(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr); 
-
-					/* initialize vegatation and soil conditions ****/ 
-					initVS(&grid, &loct_agr, &mass_agr, &flux_agr, &echar_agr);
+			if(CALC_CROP == 1 && flag_calc==1){
+				/* generic cropland */
 				
-					/* initialize climate conditions ****/
-					initC(&grid);
+				grid.veg_olson = 31;
+				vo_area[grid.veg_olson] += grid.area;
 				
-					/* initialize location conditions ****/
-					initL(&grid, &loct_agr, &mass_agr, &flux_agr, &echar_agr);
+				/* sequential number */
+				grid.n_crop++;
+				/* total area */
+
+				/* clear all parameters ******/
+				f_clear(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr); 
+
+				/* initialize vegatation and soil conditions ****/ 
+				initVS(&grid, &loct_agr, &mass_agr, &flux_agr, &echar_agr);
+			
+				/* initialize climate conditions ****/
+				f_init_clim(&grid);
+			
+				/* initialize location conditions ****/
+				f_init_loct(&grid, &loct_agr, &mass_agr, &flux_agr, &echar_agr);
+			
+				/* initialize stable carbon isotope ****/
+				f_init_c_isotpes(&grid, &flux_agr, &echar_agr, &mass_agr);
+
+				/* spin-up: stabilization roop ***************************/
+				cal_stable(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
+
+				/* snap shot for checking *****/
+				screenshow(&grid, &loct_agr, &mass_agr, &flux_agr, &echar_agr);
 				
-					/* initialize stable carbon isotope ****/
-					f_init_c_isotpes(&grid, &flux_agr, &echar_agr, &mass_agr);
+				/* experiment **************************************/
+				/* past: 1901-2000 */
+				cal_cruclim(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2); 
 
-					/* spin-up: stabilization roop ***************************/
-					cal_stable(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
-
-					/* snap shot for checking *****/
-					screenshow(&grid, &loct_agr, &mass_agr, &flux_agr, &echar_agr);
-					
-					/* experiment **************************************/
-					/* past: 1901-2000 */
-					cal_cruclim(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2); 
-
-					/* future: 2001-2100 */
-					if(GCM_SIM){
-						cal_gcmclim2(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
-					}
-					
-					printf("\n");
+				/* future: 2001-2100 */
+				if(GCM_SIM){
+					cal_gcmclim2(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
 				}
+				
+				printf("\n");
 			}
 		}
 		/* end of longitudinal loop *************************/
@@ -405,4 +465,3 @@ int main(
 	
 	return 0;
 }
-

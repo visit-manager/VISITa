@@ -12,7 +12,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/* crop processes, e.g. grains, root crops, and pcharetables **************/
+/* crop processes, e.g. grains, root crops, and pcharetables ***********/
 void agri_process(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -43,7 +43,7 @@ void agri_process(
 	f_after_deal(grid, pchar, mass, flux);
 }
 
-/* planting of new crops ****************************************/
+/* planting of new crops **********************************************/
 void planting(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -73,9 +73,9 @@ void planting(
 	f_leaf_age(1, pchar, mass, emerge);
 
 	/* annual crops */
-	mass->fol+= 0.4;
-	mass->stm+= 0.3;
-	mass->rot+= 0.3;
+	mass->fol += 0.4;
+	mass->stm += 0.3;
+	mass->rot += 0.3;
 	flux->hvst[grid->m] = 1.0;
 	
 	f_leaf_age(0, pchar, mass, 0.4);
@@ -146,9 +146,9 @@ void planting(
 	flux->d13c_rrg[grid->m] = flux->d13c_tpr[grid->m];
 	
 	/* partitioning of photosynthate */
-	mass->fol+= (flux->tpf[grid->m]-flux->rfg[grid->m]);
-	mass->stm+= (flux->tpc[grid->m]-flux->rcg[grid->m]);
-	mass->rot+= (flux->tpr[grid->m]-flux->rrg[grid->m]);
+	mass->fol += (flux->tpf[grid->m]-flux->rfg[grid->m]);
+	mass->stm += (flux->tpc[grid->m]-flux->rcg[grid->m]);
+	mass->rot += (flux->tpr[grid->m]-flux->rrg[grid->m]);
 	
 	f_leaf_age(0, pchar, mass, (flux->tpf[grid->m]-flux->rfg[grid->m]));
 	
@@ -173,7 +173,7 @@ void planting(
 	}
 }
 
-/* harvest grain, leaves, and fruits ***************************/
+/* harvest grain, leaves, and fruits ***************************************/
 void harvesting(
 	struct Grid *grid, 
 	struct Loct *loct, 

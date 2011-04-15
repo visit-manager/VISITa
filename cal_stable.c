@@ -22,8 +22,8 @@ void cal_stable(
 	struct Flux *flux, 
 	FILE *fp_o[OFILES]
 ){
-	long f, g, nn, term_time;
-	double plantmass, ann_nep;
+	long f, g, nn, term_time, dyr;
+	double plantmass, ann_nep, f_fert, total_hvst;
 	
 	/** maximum simulation times **/
 	grid->phase = 0; /* spin-up */
@@ -57,6 +57,14 @@ void cal_stable(
 		grid->f_pasture_p = grid->fpast_rk[199];
 	}
 	
+	if(grid->rank_nat==1){
+		/* developing countries */
+		f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - 1900.0)))+0.0014929171;
+	}else if(grid->rank_nat==2){
+		/* developed countries */
+		f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - 1900.0)))+0.53533202;
+	}
+	
 	/* LOOP to stable stage ************************************************/
 	nn = 0; 
 	ann_nep = 10.0;
@@ -77,11 +85,11 @@ void cal_stable(
 			ghg_flux_zero(f, flux);
 			
 			/* atmospheric CO2 ****************/
-			co2_trend(grid);
+			f_co2_trend(grid);
 			co2_in_canopy(grid, loct, mass, flux);
 			
 			/* environmental condition ***/
-			dynmcL(grid, loct, mass, echar);
+			f_dyn_loct(grid, loct, mass, echar);
 			
 			/* vegetation processes *****/
 			f_biome_processes(grid, loct, echar, mass, flux);
@@ -124,16 +132,16 @@ void cal_stable(
 			/* NH4:NO3 ratio is based on inventories */
 			if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || 
 											 grid->veg_olson==31 || grid->veg_olson==32)){
-				(flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0;
-				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0;
-				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0;
+				(flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0 * f_fert;
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
 			}else{
 				(flux->soil).n_fertin[grid->m] = 0.0;
 			}
 			if((echar->soil).v_type == 2){
-				(flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0;
-				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0;
-				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0;
+				(flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0 * f_fert;
+				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
+				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
 			}
 			
 			/* CH4 oxydation **************/
@@ -256,7 +264,9 @@ void cal_stable(
 			}
 			for(f=0;f<ASTEP;f++){
 				grid->m = f;
+				/* water-logged */
 				f_ch4_emit_walter(3, grid, loct, flux);
+				/* drainage */
 				f_ch4_emit_walter(4, grid, loct, flux);
 			}
 		}
@@ -283,7 +293,7 @@ void cal_stable(
 		}
 	}
 	
-	/* land use change */
+	/* land use change **********************************/
 	if(loct->v_type == 1){
 		f_luc_emit(grid, mass, flux);
 	}else{
@@ -292,12 +302,44 @@ void cal_stable(
 		flux->lu_ten = 0.0;
 		flux->lu_hund = 0.0;
 	}
+	
+	/* wood harvest: 2010/10/15 by A.Ito *****************/
+	total_hvst = 0.0;
+	if((mass->c3).v_type == 1 && NECB_WHVST == 1){
+		dyr = 1900 - 1700;
+		
+		total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr] 
+					+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr];
+		
+		total_hvst *= 1.0/1000.0 * 1.0/grid->area;
+		
+		if((mass->c3).stm > (total_hvst+1.0)){
+			(mass->c3).stm -= total_hvst;
+			flux->hvst_wood = total_hvst;
+		}else{
+			(mass->c3).stm = 1.0;
+			flux->hvst_wood = 0.0; 
+		}
+		
+		if((mass->c3).stm < 1.0){
+			(mass->c3).stm = 1.0;
+		}
+	}else{
+		flux->hvst_wood = 0.0;
+	}
 
 	/* net biome production (added by A.Ito: 2010/01/20) */
 	for(f=0;f<ASTEP;f++){
-		flux->nbp[f] = flux->nep[f] - flux->lu_ten/12.0 - flux->lu_hund/12.0 
-			- (flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+flux->bb_co2_wood[f]
-			   +flux->bb_co2_root[f])/1000.0*12.0/44.0;
+		flux->nbp[f] = flux->nep[f];
+		
+		if(NECB_LUC == 1){
+			flux->nbp[f] -= (flux->lu_ten/12.0 + flux->lu_hund/12.0);
+		}
+		
+		if(NECB_BB == 1){
+			flux->nbp[f] -= (flux->bb_co2_litter[f] + flux->bb_co2_leaf[f] 
+							 + flux->bb_co2_wood[f] + flux->bb_co2_root[f])/1000.0*12.0/44.0;
+		}
 	}
 	
 	/* history data */

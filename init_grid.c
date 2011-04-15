@@ -247,6 +247,42 @@ void f_init_grid(
 	grid->country = country;	/* country code */
 	grid->region = region;		/* region code : note recommended to use Girogi region code */
 	
+	/* added: 2010/05/11 */
+	switch(grid->country){
+		/* OECD countries */
+		case 840:	grid->rank_nat = 2;		break;	/* United States */
+		case 826:	grid->rank_nat = 2;		break;	/* United Kingdom */
+		case 276:	grid->rank_nat = 2;		break;	/* Germany */
+		case 250:	grid->rank_nat = 2;		break;	/* France */
+		case 380:	grid->rank_nat = 2;		break;	/* Italy */
+		case 528:	grid->rank_nat = 2;		break;	/* Netherland */
+		case 56:	grid->rank_nat = 2;		break;	/* Beigium */
+		case 442:	grid->rank_nat = 2;		break;	/* Luxenburg */
+		case 246:	grid->rank_nat = 2;		break;	/* Finland */
+		case 752:	grid->rank_nat = 2;		break;	/* Sweden */
+		case 40:	grid->rank_nat = 2;		break;	/* Austria */
+		case 208:	grid->rank_nat = 2;		break;	/* Denmark */
+		case 724:	grid->rank_nat = 2;		break;	/* Spain */
+		case 620:	grid->rank_nat = 2;		break;	/* Portugal */
+		case 300:	grid->rank_nat = 2;		break;	/* Greece */
+		case 372:	grid->rank_nat = 2;		break;	/* Ireland */
+		case 200:	grid->rank_nat = 2;		break;	/* Czechoslovakia */
+		case 348:	grid->rank_nat = 2;		break;	/* Hunagry */
+		case 616:	grid->rank_nat = 2;		break;	/* Poland */
+		case 392:	grid->rank_nat = 2;		break;	/* Japan */
+		case 124:	grid->rank_nat = 2;		break;	/* Canada */
+		case 484:	grid->rank_nat = 2;		break;	/* Mexico */
+		case 36:	grid->rank_nat = 2;		break;	/* Australia */
+		case 554:	grid->rank_nat = 2;		break;	/* New Zealand */
+		case 756:	grid->rank_nat = 2;		break;	/* Swiss */
+		case 578:	grid->rank_nat = 2;		break;	/* Norway */
+		case 352:	grid->rank_nat = 2;		break;	/* Iceland */
+		case 792:	grid->rank_nat = 2;		break;	/* Turkey */
+		case 410:	grid->rank_nat = 2;		break;	/* South Korea */
+			
+		default:	grid->rank_nat = 1;	/** developing countries */
+	}
+	
 	/* Olson's vegetation area *****************************/
 	/* Olson, J. S., J. A. Watts, et al. (1983). 
 	Carbon in live vegetation of major world ecosystems, 
@@ -465,6 +501,12 @@ void f_init_grid(
 		}
 	}
 	
+	/* experiment for biodiversity: 2011/01/15 (A.Ito) **********************************/
+	if(grid->veg_olson>=1 && grid->veg_olson<=12){
+		/* reduced biodiversity of forests */
+		/* grid->veg_olson = 1; */
+	}
+	
 	/* Cropland coverage by Ramankutty & Foley (1999) */
 	for(h=0;h<293;h++){
 		fscanf(fp_s[11],"%lf", &(grid->fcrop_sage[h])); 
@@ -576,23 +618,45 @@ void f_init_grid(
 	}
 	
 	/* wetland fraction: data by Global Lakes and Wetlands Database by WWF *****/
-	/* revised wetland data: by A.Ito (2009/07/14) */
-	fscanf(fp_s[21],"%lf %lf %lf %lf %lf", &lat, &lon, &total, &lake, &wetland); 
-	grid->f_wetland = wetland/grid->area;
-	if(grid->f_wetland > 1.0){
-		grid->f_wetland = 1.0;
+	if(ALT_FWET==1){
+		/* Alternative data (NASA/GISS): 2011/03/30 by A.Ito */
+		fscanf(fp_s[21],"%lf", &wetland);
+		grid->f_wetland = wetland;
+	}else{
+		/* default */
+		/* revised wetland data: by A.Ito (2009/07/14) */
+		fscanf(fp_s[21],"%lf %lf %lf %lf %lf", &lat, &lon, &total, &lake, &wetland); 
+		grid->f_wetland = wetland/grid->area;
+		if(grid->f_wetland > 1.0){
+			grid->f_wetland = 1.0;
+		}
 	}
 	grid->f_lake = lake/grid->area;
 	if(grid->f_lake > 1.0){
 		grid->f_lake = 1.0;
 	}
 	
-	/* paddy fraction: data by U.Wisconsin SAGE (Leff et al.) *****************/
-	fscanf(fp_s[22],"%lf", &paddy); 
-	if(paddy>0.0){
-		grid->f_paddy = paddy;
+	/* paddy fraction *****************/
+	if(ALT_FWET==1){
+		/* Alternative data (IIS-UT + SAGE): 2011/03/30 by A.Ito */
+		fscanf(fp_s[22],"%lf", &paddy); 
+		if(paddy>0.0){
+			grid->f_paddy = paddy;
+			grid->f_paddy_b = paddy;
+		}else{
+			grid->f_paddy = 0.0;
+			grid->f_paddy_b = 0.0;
+		}
 	}else{
-		grid->f_paddy = 0.0;
+		/* default: data by U.Wisconsin SAGE (Leff et al.) */
+		fscanf(fp_s[22],"%lf", &paddy); 
+		if(paddy>0.0){
+			grid->f_paddy = paddy;
+			grid->f_paddy_b = paddy;
+		}else{
+			grid->f_paddy = 0.0;
+			grid->f_paddy_b = 0.0;
+		}
 	}
 	
 	grid->f_upland = 1.0 - grid->f_wetland - grid->f_lake - grid->f_paddy;
@@ -644,7 +708,17 @@ void f_init_grid(
 			fscanf(fp_s[43],"%lf", &grid->t_vs1_unh_hmnzed[h]);
 			fscanf(fp_s[44],"%lf", &grid->t_vs2_unh_hmnzed[h]);
 		}
+	}else{
+		for(h=0;h<301;h++){
+			grid->fcrop_unh_hmnzed[h] = 0.0;
+			grid->fpast_unh_hmnzed[h] = 0.0;
+			grid->fprim_unh_hmnzed[h] = 0.0;
+			grid->fsecd_unh_hmnzed[h] = 0.0;
+			grid->ssma_unh_hmnzed[h] = 0.0;
+			grid->ssmb_unh_hmnzed[h] = 0.0;
+		}
 	}
+	
 	/* AD 1700-2005 (added 2010/01/31) */
 	if(LANDUSE==8){
 		for(h=0;h<306;h++){
@@ -670,6 +744,25 @@ void f_init_grid(
 			fscanf(fp_s[43],"%lf", &grid->t_vs1_unh_hmnzed[h]);
 			fscanf(fp_s[44],"%lf", &grid->t_vs2_unh_hmnzed[h]);
 		}
+	}else{
+		for(h=0;h<306;h++){
+			grid->fcrop_unh_hmnzed[h] = 0.0;
+			grid->fpast_unh_hmnzed[h] = 0.0;
+			grid->fprim_unh_hmnzed[h] = 0.0;
+			grid->fsecd_unh_hmnzed[h] = 0.0;
+			grid->ssma_unh_hmnzed[h] = 0.0;
+			grid->ssmb_unh_hmnzed[h] = 0.0;
+		}
+	}
+	
+	/* wood harvest based on RCP-harmonized data: LUHa.v1 */
+	/* added by A.Ito (2010/10/15) */
+	for(h=0;h<306;h++){
+		fscanf(fp_s[53],"%lf", &grid->hvst_p1[h]);
+		fscanf(fp_s[54],"%lf", &grid->hvst_p2[h]);
+		fscanf(fp_s[55],"%lf", &grid->hvst_s1[h]);
+		fscanf(fp_s[56],"%lf", &grid->hvst_s2[h]);
+		fscanf(fp_s[57],"%lf", &grid->hvst_s3[h]);
 	}
 	
 	/* crop and pasture fractions: 1700-2007 */
@@ -730,9 +823,17 @@ void f_init_grid(
 	/* inundation ********************************************/
 	fscanf(fp_s[48],"%lf", &lat);
 	fscanf(fp_s[48],"%lf", &lon);
+	grid->inundation_ssmi_av = 0.0;
+	grid->inundation_ssmi_max = 0.0;
 	for(h=0;h<ASTEP;h++){
 		fscanf(fp_s[48],"%ld", &aaa);
 		grid->inundation_ssmi[h] = (double)aaa/8.0;
+		
+		grid->inundation_ssmi_av += grid->inundation_ssmi[h] *MDN[h]/365.0;
+		
+		if(grid->inundation_ssmi[h] > grid->inundation_ssmi_max){
+			grid->inundation_ssmi_max = grid->inundation_ssmi[h];
+		}
 	}
 	
 	/* permafrost type **************************************/
@@ -768,4 +869,20 @@ void f_init_grid(
 	 24: Ocean/inland seas
 	 25: Land
 	*/
+	
+	/* CHASE 2001 monthly, by A.Ito (2010/05/21) ******************************/
+	grid->chaser_row = grid->row/(360.0/64.0);
+	if(grid->col>=360){
+		grid->chaser_col = grid->col/(720.0/128.0) - 64;
+	}else if(grid->col<360){
+		grid->chaser_col = grid->col/(720.0/128.0) + 64;
+	}
+		
+	grid->ndepo_ann_dnhx = grid->ndepo_ann_dnoy = grid->ndepo_ann_wnhx = grid->ndepo_ann_wnoy = 0.0;
+	for(e=0;e<ASTEP;e++){
+		grid->ndepo_ann_dnhx += grid->ndepo_chaser_dnhx[e][grid->chaser_row][grid->chaser_col] * MDN[e];
+		grid->ndepo_ann_dnoy += grid->ndepo_chaser_dnoy[e][grid->chaser_row][grid->chaser_col] * MDN[e];
+		grid->ndepo_ann_wnhx += grid->ndepo_chaser_wnhx[e][grid->chaser_row][grid->chaser_col] * MDN[e];
+		grid->ndepo_ann_wnoy += grid->ndepo_chaser_wnoy[e][grid->chaser_row][grid->chaser_col] * MDN[e];
+	}
 }

@@ -12,7 +12,7 @@
 #include"prototype.h"
 
 /* ecophysiological vegetation processes *******************************/
-void ecophysiology(
+void f_ecophysiology(
 	struct Grid *grid, 
 	struct Loct *loct,
 	struct Pchar *pchar, 
@@ -99,7 +99,7 @@ void ecophysiology(
 	pchar->gc[grid->m] = canopy_cond(grid, loct, pchar, mass);
 
 	/** plant respiration **/
-	qten_ar(grid, pchar); /*Q10*/
+	f_qten_ar(grid, pchar); /* Q10 */
 	spcfc_res_mass(pchar, mass); /* woody specific respiration rate */
 
 	/** litterfall of plant respiration **/
@@ -299,7 +299,7 @@ void opt_lai(
 }
 
 /* Q10 of autotrophic respiration **********************************************/
-void qten_ar(
+void f_qten_ar(
 	struct Grid *grid, 
 	struct Pchar *pchar
 ){

@@ -22,6 +22,9 @@
 
 #define HIST 201	/* simulation dulation (years) */
 
+/* initial (minimal) carbon stock ***********/
+#define INT_C 0.01
+
 /***************************************************/
 /* total vegetation number */
 #define VEG_NUM_OLSON 34		/* Olson veg (modified) */
@@ -41,10 +44,11 @@
 
 /***************************************************/
 /* 20th century */
-/* #define HIST_PD 100  */		/* 100: AD 1901 - 2000 */
-/* #define HIST_PD 102	*/	/* 102: AD 1901 - 2002 */
-/* #define HIST_PD 108	*/	/* 102: AD 1901 - 2008 */
-#define HIST_PD 109	/* */	/* 102: AD 1901 - 2009 */
+/* #define HIST_PD 100  */		/* AD 1901 - 2000 */
+/* #define HIST_PD 102	*/	/* AD 1901 - 2002 */
+/* #define HIST_PD 108	*/	/* AD 1901 - 2008 */
+/* #define HIST_PD 109	*/ /* */	/* AD 1901 - 2009 */
+#define HIST_PD 110	/* */	/* AD 1901 - 2010 */
 
 /* 21st century */
 #define GCM_SIM 0
@@ -58,10 +62,12 @@
 /* 102: TS2.1 */
 /* 106: TS3.0 */
 #define CRU_DL 106
+#define CRU_CL 105
 
 /* Simulation using NCEP/NACR reanalysis data */
+#define NCEP_BGY 1948
 #define NCEP_SIM 1
-#define NCEP_DL 62
+#define NCEP_DL 63
 
 /* start year of CO2 */
 #define PIVOT_CO2Y 1901
@@ -92,6 +98,10 @@
 #define NECB_DOC 1
 /* CH4 */
 #define NECB_CH4 1
+/* Wood harvest: 2010/10/15 by A.Ito */
+#define NECB_WHVST 1
+/* land-use change */
+#define NECB_LUC 1
 
 /* land use setting */
 #define LANDUSE 8
@@ -141,6 +151,11 @@
 /* specific scheme on permaforst */
 #define PERFROST 0
 
+/* Alternative land-cover data for CH4 */
+#define ALT_FWET 1
+/* 0: not use alternative data */
+/* 1: use data */
+
 /***************************************************/
 /* carbon-nitrogen coupling */
 #define CN_COUPLE 0
@@ -153,11 +168,11 @@
 /* temperature */
 #define TM 0
 /* 0: as it is */
-/* 1: uniform warming by 1ﾃ釆ｩﾂｰC */
+/* 1: uniform warming by 1degｰC */
 /* 2: gradual rise */
 /* 3: descrete warming */
 /* 4: spike rise */
-/* 5: uniform cooling by 1ﾃ釆ｩﾂｰC */
+/* 5: uniform cooling by 1degｰC */
 /* 6: descrete cooling */
 
 /* precipitation */

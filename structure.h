@@ -28,6 +28,8 @@ struct Grid{
 	long 	gcm_row;				/* grid order, row in GCM's grid */
 	long 	gcm_col;				/* grid order, column in GCM's grid */
 	long	ncep_lat, ncep_lon;
+	long 	chaser_row;				/* grid order, row in CHASER grid */
+	long 	chaser_col;				/* grid order, column in CHASER grid */
 	
 	double 	lat;					/* latitude of the center of grid cell */
 	double 	lon;					/* longitude of the center of grid cell */
@@ -42,6 +44,7 @@ struct Grid{
 	long 	n_sage;					/* cell numbers from the origin: SAGE map */
 	long 	n_crop;					/* cell numbers from the origin: SAGE map */
 	short	reg_g;					/* region ID by F.Giorgi */
+	short	rank_nat;				/* 1: developing, 2: developed */
 	
 	/* Olson's actual biome ID */
 	long 	veg_olson;			
@@ -81,7 +84,7 @@ struct Grid{
 	double 	gp_atem;				/* average temperature during the growing period, degree Celcius */
 	double 	gp_tem;					/* average temperature during the growing period, degree Celcius */
 	double 	gp_pre;					/* precipitation during the prowing period, mm */
-
+	
 	/* climate condition: *_a[] means the average during 1965 to 1998 */	
 	double 	tmp_sfc_a[ASTEP];		/* ground surface temperature, degree Celcius */
 	double 	tmp_2m_a[ASTEP];		/* 2m air temperature, degree Celcius */
@@ -139,7 +142,7 @@ struct Grid{
 	float	proj_rad_b[1][1][1];			/* surface downward solar radiation */
 #endif	
 	
-	/* NCEP/NCAR 1948-2008 */
+	/* NCEP/NCAR 1948-2009 */
 #if NCEP_SIM==1	
 	float	ncep_tmp2m[NCEP_DL][ASTEP][94][192];
 	float	ncep_prate[NCEP_DL][ASTEP][94][192];
@@ -234,6 +237,12 @@ struct Grid{
 	
 	double	f_crop_base;				/* base cropland fraction in 2000 */
 	double	f_pasture_base;				/* base cropland fraction in 2000 */
+	
+	double	hvst_p1[310];
+	double	hvst_p2[310];
+	double	hvst_s1[310];
+	double	hvst_s2[310];
+	double	hvst_s3[310];
 
 	/* RUSLE erosion model coefficients */
 	double 	f_erosion_r;				/* rain factor */
@@ -259,12 +268,20 @@ struct Grid{
 	double 	total_n_1m;					/* total soil N in upper 1m, gN/m2 */
 	
 	double 	f_paddy;					/* paddy land fraction */
+	double 	f_paddy_b;					/* paddy land fraction */
 	double 	f_wetland;					/* wetland fraction */
 	double 	f_upland;					/* upland (e.g. forest, grassland) fraction */
 	double 	f_lake;						/* lake fraction */
 	
 	/* nitrogen deposition */
 	double 	ndepo[3];					/* N deposition by Galloway et al. (2004) */
+	
+	/* CHASE 2001 monthly, by A.Ito (2010/05/21) */
+	double	ndepo_chaser_dnhx[12][64][128];
+	double	ndepo_chaser_dnoy[12][64][128];
+	double	ndepo_chaser_wnhx[12][64][128];
+	double	ndepo_chaser_wnoy[12][64][128];
+	double	ndepo_ann_dnhx, ndepo_ann_dnoy, ndepo_ann_wnhx, ndepo_ann_wnoy;
 	
 	/* radiation conversion model using SRB data */
 	double	srb_dif_aa;					/* linear regression a */
@@ -276,6 +293,8 @@ struct Grid{
 	double	srb_dif_max_y;
 	
 	double	inundation_ssmi[ASTEP];		/* inundation by SSM/I: added by A.Ito (2009/07/13) */
+	double	inundation_ssmi_av;
+	double	inundation_ssmi_max;
 	
 	long	type_permaforst;			/* permafrost type by NSIDC */
 };			
@@ -285,7 +304,7 @@ struct Loct{
 	short	v_type;				/* vegetation classification types */
 								/* 1: Olson actual vegetation */
 								/* 2: SAGE natural vegetation */
-
+	
 	long 	time_hyd;					/* time to reach stabilization of water budget */
 	long 	time;						/* time to reach stabilization of carbon budget */
 
@@ -346,38 +365,43 @@ struct Loct{
 	double	pntrt[ASTEP];				/* water penetration from upper to lower layer, mm */
 	double	thaw[ASTEP];				/* snow thaw water, mm */
 	double	vmc30[ASTEP];				/* volumatric moisture content of upper layer, fraction */
-	double	vmc[ASTEP];				/* volumatric moisture content of lower layer, fraction */
-	double	snp[ASTEP];				/* snow fraction of precipitation */
-	double	soil_appr30;			/* soil aperture of upper layer, fraction */
-	double	soil_apprw;				/* soil aperture of lower layer, fraction */
+	double	vmc[ASTEP];					/* volumatric moisture content of lower layer, fraction */
+	double	snp[ASTEP];					/* snow fraction of precipitation */
+	double	soil_appr30;				/* soil aperture of upper layer, fraction */
+	double	soil_apprw;					/* soil aperture of lower layer, fraction */
 	
-	double	n_frtlz_in;				/* N-fertilization input */
+	double	n_frtlz_in;					/* N-fertilization input */
 	double	depo_no3[ASTEP];			/* NO3- deposition */
 	double	depo_nh4[ASTEP];			/* NH4+ deposition */
 	
 	/* CASA moisture **********************************/
 	/* long	mday;			*/
-	double	m_m[ASTEP];				/* soil moisture index */
-	double	m_m_pre;				/* precipitation */
+	double	m_m[ASTEP];					/* soil moisture index */
+	double	m_m_pre;					/* precipitation */
 	double	m_rdr[ASTEP];				/* dryness */
 	double	m_vmc[ASTEP];				/* volumetric soil moisture */
 	double	m_pet[ASTEP];				/* potential evapotranspiration */
-	double	m_e[ASTEP];				/* soil water change */
+	double	m_e[ASTEP];					/* soil water change */
 	double	m_sw[ASTEP];				/* soil wetness */
-	double	i_w[ASTEP];				/* moisture scalar */
+	double	i_w[ASTEP];					/* moisture scalar */
 	/* double	d_tmp[31];			
 	double	d_sw[31];			
 	double	d_vmc[31];			*/
 	double	wfps[ASTEP];				/* water-filled pore space */
 	
+	double	f_inund_wet_wh[ASTEP];	/* inundation area for Wlater & Heimann CH4 scheme */
+	double	f_inund_pad_wh[ASTEP];	/* inundation area for Wlater & Heimann CH4 scheme */
+	
 	/* maximum GPP for Cao CH4 scheme */
-	double	gpp_max;
+	double	gpp_max;						/* maximum GPP */
 	
 	/* CH4 emission by Walter & Heimann: added by A.Ito (2009/08/05) */
-	double	water_table_depth;
-	double	water_table_depth_pre;
-	double	npp_max;
-	double	prof_ch4[SOIL_LAYER+2];
+	double	water_table_depth;				/* current time-step */
+	double	water_table_depth_pre;			/* previous time-step */
+	double	npp_max;						/* maximum NPP */
+	double	prof_ch4[SOIL_LAYER+2];			/* CH4 concentration profile */
+	
+	double	cum_dprec;
 	
 	/* monitoring variables for debugging */
 	double	xx1[ASTEP];
@@ -550,7 +574,7 @@ struct Schar{
 	double	ft0_l[ASTEP];			
 	double	ft0_h[ASTEP];
 	double	fm0_l[ASTEP];
-	double	fm0_h[ASTEP];			
+	double	fm0_h[ASTEP];
 };			
 
 /* ecosystem characteristics *******************************************/
@@ -869,55 +893,55 @@ struct Flux{
 	double	bb_co2_wood[ASTEP];			/* from wood */
 	double	bb_co2_root[ASTEP];			/* from root */
 	/* CO (g species) */
-	double	bb_co_litter[ASTEP];			
-	double	bb_co_leaf[ASTEP];			
-	double	bb_co_wood[ASTEP];			
-	double	bb_co_root[ASTEP];			
+	double	bb_co_litter[ASTEP];		/* from litter */	
+	double	bb_co_leaf[ASTEP];			/* from leaf */
+	double	bb_co_wood[ASTEP];			/* from wood */
+	double	bb_co_root[ASTEP];			/* from root */
 	/* CH4 (g species) */
-	double	bb_ch4_litter[ASTEP];			
-	double	bb_ch4_leaf[ASTEP];			
-	double	bb_ch4_wood[ASTEP];			
-	double	bb_ch4_root[ASTEP];			
+	double	bb_ch4_litter[ASTEP];		/* from litter */
+	double	bb_ch4_leaf[ASTEP];			/* from leaf */
+	double	bb_ch4_wood[ASTEP];			/* from wood */
+	double	bb_ch4_root[ASTEP];			/* from root */
 	/* NMHC (g species) */
-	double	bb_nmhc_litter[ASTEP];			
-	double	bb_nmhc_leaf[ASTEP];			
-	double	bb_nmhc_wood[ASTEP];			
-	double	bb_nmhc_root[ASTEP];			
+	double	bb_nmhc_litter[ASTEP];		/* from litter */
+	double	bb_nmhc_leaf[ASTEP];		/* from leaf */
+	double	bb_nmhc_wood[ASTEP];		/* from wood */
+	double	bb_nmhc_root[ASTEP];		/* from root */	
 	/* OC (g species) */
-	double	bb_oc_litter[ASTEP];			
-	double	bb_oc_leaf[ASTEP];			
-	double	bb_oc_wood[ASTEP];			
-	double	bb_oc_root[ASTEP];			
+	double	bb_oc_litter[ASTEP];		/* from litter */
+	double	bb_oc_leaf[ASTEP];			/* from leaf */
+	double	bb_oc_wood[ASTEP];			/* from wood */
+	double	bb_oc_root[ASTEP];			/* from root */
 	/* BC (g species) */
-	double	bb_bc_litter[ASTEP];			
-	double	bb_bc_leaf[ASTEP];			
-	double	bb_bc_wood[ASTEP];			
-	double	bb_bc_root[ASTEP];			
+	double	bb_bc_litter[ASTEP];		/* from litter */
+	double	bb_bc_leaf[ASTEP];			/* from leaf */
+	double	bb_bc_wood[ASTEP];			/* from wood */
+	double	bb_bc_root[ASTEP];			/* from root */
 	/* NOx (g species) */
-	double	bb_nox_litter[ASTEP];			
-	double	bb_nox_leaf[ASTEP];			
-	double	bb_nox_wood[ASTEP];			
-	double	bb_nox_root[ASTEP];			
+	double	bb_nox_litter[ASTEP];		/* from litter */
+	double	bb_nox_leaf[ASTEP];			/* from leaf */
+	double	bb_nox_wood[ASTEP];			/* from wood */
+	double	bb_nox_root[ASTEP];			/* from root */
 	/* SO2 (g species) */
-	double	bb_so2_litter[ASTEP];			
-	double	bb_so2_leaf[ASTEP];			
-	double	bb_so2_wood[ASTEP];			
-	double	bb_so2_root[ASTEP];			
+	double	bb_so2_litter[ASTEP];		/* from litter */
+	double	bb_so2_leaf[ASTEP];			/* from leaf */
+	double	bb_so2_wood[ASTEP];			/* from wood */
+	double	bb_so2_root[ASTEP];			/* from root */
 	/* PM2.5 (g species) */
-	double	bb_pm25_litter[ASTEP];			
-	double	bb_pm25_leaf[ASTEP];			
-	double	bb_pm25_wood[ASTEP];			
-	double	bb_pm25_root[ASTEP];			
+	double	bb_pm25_litter[ASTEP];		/* from litter */
+	double	bb_pm25_leaf[ASTEP];		/* from leaf */
+	double	bb_pm25_wood[ASTEP];		/* from wood */
+	double	bb_pm25_root[ASTEP];		/* from root */	
 	/* TPM (g species) */
-	double	bb_tpm_litter[ASTEP];			
-	double	bb_tpm_leaf[ASTEP];			
-	double	bb_tpm_wood[ASTEP];			
-	double	bb_tpm_root[ASTEP];			
+	double	bb_tpm_litter[ASTEP];		/* from litter */
+	double	bb_tpm_leaf[ASTEP];			/* from leaf */
+	double	bb_tpm_wood[ASTEP];			/* from wood */
+	double	bb_tpm_root[ASTEP];			/* from root */
 	/* TEC (g species) */
-	double	bb_tec_litter[ASTEP];			
-	double	bb_tec_leaf[ASTEP];			
-	double	bb_tec_wood[ASTEP];			
-	double	bb_tec_root[ASTEP];			
+	double	bb_tec_litter[ASTEP];		/* from litter */
+	double	bb_tec_leaf[ASTEP];			/* from leaf */
+	double	bb_tec_wood[ASTEP];			/* from wood */
+	double	bb_tec_root[ASTEP];			/* from root */
 	
 	/* VOC, in micro g C m-2 month-1 */
 	double	voc_isopr_g97[ASTEP];				/* isoprene */
@@ -940,8 +964,8 @@ struct Flux{
 	double	d13c_efflux_p;						/* d13C */
 	
 	/* d14C: added by A.Ito (2009/07/12) */
-	double	d14c_sr[ASTEP];
-	double	d14c_er[ASTEP];
+	double	d14c_sr[ASTEP];						/* d14C of soil respiration */
+	double	d14c_er[ASTEP];						/* d14C of ecosystem respiration */
 	
 	/* erosion, Mg ha-1 yr-1 ******/
 	/* total */
@@ -952,4 +976,7 @@ struct Flux{
 	double	erod_soil_crop;						/* cropland erosion of mineral soil */
 	double	erod_orgmat_crop;					/* cropland erosion of organic matter */
 	double	erod_carbon_crop;					/* cropland erosion of carbon */
+	
+	/* wood harvest: 2010/11/09 */
+	double	hvst_wood;
 };

@@ -14,7 +14,7 @@
 #include"prototype.h"
 
 /* Atmospheric CO2 *********************************************/
-void co2_trend(
+void f_co2_trend(
 	struct Grid *grid
 ){
 	double base, inc, lgrd, season;
