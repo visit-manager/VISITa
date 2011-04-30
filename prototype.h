@@ -199,6 +199,9 @@ void f_cult_luc(struct Grid *grid);
 long f_basin_id_trip(long original);
 long region_giorgi(double lat, double lon);
 
+void f_parameter_perturbation(long iseed,struct Grid *grid,struct Loct *loct,struct Echar *echar,
+	double f_prtrb[20]);
+
 /* MASS & PARAMETERS INITIALIZATION *****************************/
 void initVS(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux, 
 	struct Echar *echar);

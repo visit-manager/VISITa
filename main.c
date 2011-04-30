@@ -29,6 +29,7 @@ and plot-scale validation. Ecological Modelling, 151:147-179.
 #include<stdlib.h>
 #include<math.h>
 #include<string.h>
+#include<time.h>
 
 /* global variables */
 #include"global_var.h"
@@ -59,6 +60,7 @@ int main(
 	char s_date[25];
 	char s_case[25];
 	char s_config[16];
+	char num[4];
 	/* file pointer */
 	FILE *fp_s[IFILEN];
 	FILE *fp_c[4];
@@ -118,6 +120,16 @@ int main(
 	printf("config  7: %s %ld\n", s_config, l_config);
 	PTB_SEED = l_config;
 	
+	/* for command-based simulations */
+	PTB_SEED = (long)atol(argv[2]);
+	
+	if(PTB_SEED > 0){
+		snprintf(num, 4, "%03d", (short)PTB_SEED);
+		strcat(s_date, "E");
+		strcat(s_date, num);
+		strcat(s_date, "_");
+	}
+	
 	/* config: 8 CH4 experiment */
 	fscanf(fp_config,"%s %ld %ld %ld", s_config, &EX_CH4_1, &EX_CH4_2, &EX_CH4_3);
 	printf("config  8: %s %ld %ld %ld\n", s_config, EX_CH4_1, EX_CH4_2, EX_CH4_3);
@@ -127,7 +139,7 @@ int main(
 	printf("config  9: %s %lf %lf %lf %lf\n", s_config, area_t, area_b, area_l, area_r);
 	
 	/* global factor: 2010/05/12 by A.Ito */
-	srand(PTB_SEED);
+	srand(PTB_SEED + clock()%1000);
 	rand();
 	if(PTB_SEED == -9999){
 		for(f=0;f<20;f++){

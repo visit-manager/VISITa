@@ -74,22 +74,24 @@ void set_cru_clim(
 	}
 	
 	/* perturbation for uncertainty analysis: 2010/05/17 (A.Ito) ***************/
-	if(PTB_SEED == -9999){
-		;
-	}else{
-		for(h=0;h<ASTEP;h++){
-			grid->tmp_sfc[h] += 0.2*f_pert[11];
-			grid->tmp_2m[h] += 0.2*f_pert[11];
-			grid->tmp10_soil[h] += 0.2*f_pert[11];
-			grid->tmp200_soil[h] += 0.2*f_pert[11];
-			
-			grid->prate_sfc[h] *= 1.0 + 0.1*f_pert[12];
-			grid->tcdc_clm[h] *= 1.0 + 0.1*f_pert[13];
-			if(grid->tcdc_clm[h]<0.0){
-				grid->tcdc_clm[h]=0.0;
-			}
-			if(grid->tcdc_clm[h]>1.0){
-				grid->tcdc_clm[h]=1.0;
+	if(PRT_CLIM == 1){
+		if(PTB_SEED == -9999){
+			;
+		}else{
+			for(h=0;h<ASTEP;h++){
+				grid->tmp_sfc[h] += 0.2*f_pert[11];
+				grid->tmp_2m[h] += 0.2*f_pert[11];
+				grid->tmp10_soil[h] += 0.2*f_pert[11];
+				grid->tmp200_soil[h] += 0.2*f_pert[11];
+				
+				grid->prate_sfc[h] *= 1.0 + 0.1*f_pert[12];
+				grid->tcdc_clm[h] *= 1.0 + 0.1*f_pert[13];
+				if(grid->tcdc_clm[h]<0.0){
+					grid->tcdc_clm[h]=0.0;
+				}
+				if(grid->tcdc_clm[h]>1.0){
+					grid->tcdc_clm[h]=1.0;
+				}
 			}
 		}
 	}

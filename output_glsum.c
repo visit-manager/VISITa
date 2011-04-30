@@ -952,5 +952,10 @@ void f_glosum_output(
 	}
 	fprintf(fp_glsum,"\n");
 	
+	/* perturbation factor */
+	for(h=0;h<20;h++){
+		fprintf(fp_glsum,"%ld %lf\n", h, f_pert[h]);
+	}
+	
 	fclose(fp_glsum);
 }

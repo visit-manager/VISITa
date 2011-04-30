@@ -67,7 +67,7 @@
 /* Simulation using NCEP/NACR reanalysis data */
 #define NCEP_BGY 1948
 #define NCEP_SIM 1
-#define NCEP_DL 63
+#define NCEP_DL 63   /* 1948-2010 */
 
 /* start year of CO2 */
 #define PIVOT_CO2Y 1901
@@ -152,9 +152,14 @@
 #define PERFROST 0
 
 /* Alternative land-cover data for CH4 */
-#define ALT_FWET 1
+#define ALT_FWET 0
 /* 0: not use alternative data */
 /* 1: use data */
+
+/* parameter perturbation */
+#define PRT_PARAM 0
+/* climate perturbation */
+#define PRT_CLIM 0
 
 /***************************************************/
 /* carbon-nitrogen coupling */

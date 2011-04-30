@@ -327,13 +327,25 @@ void f_output_result(
 		fprintf(fp_o[0],"%.4lf ", (flux->plant).ar[f]);
 		fprintf(fp_o[0],"%.4lf ", (flux->soil).hr[f]);
 		fprintf(fp_o[0],"%.4lf ",  flux->nep[f]);
-		fprintf(fp_o[0],"%.4lf ",  flux->nbp[f]);	/* added by A.Ito (2010/01/20) */
-		fprintf(fp_o[0],"%.4lf ",  flux->ncb[f]);
+		fprintf(fp_o[0],"%.4lf ",  flux->nbp[f]);	/* */ /* added by A.Ito (2010/01/20) */
+		fprintf(fp_o[0],"%.4lf ",  flux->ncb[f]); /* */
+		
+		/* added: 2011/04/19 (A.Ito) */
+		fprintf(fp_o[0],"%.4lf ",  (flux->plant).hvst[f]);
+		fprintf(fp_o[0],"%.4lf ",  (flux->soil).doc_boyer[f]);
+		fprintf(fp_o[0],"%.4lf ",  flux->voc_isopr_g97[f]+flux->voc_monotrp_g97[f]+flux->voc_methanl_g97[f]+flux->voc_acetone_g97[f]+
+				flux->voc_actaldhd_g97[f]+flux->voc_frmardhd_g97[f]+flux->voc_formacd_g97[f]+flux->voc_acetacd_g97[f]+flux->voc_co_g97[f]);
 	}
 	fprintf(fp_o[0],"%.4lf ", flux->lu_detr);
 	fprintf(fp_o[0],"%.4lf ", flux->lu_conv);
 	fprintf(fp_o[0],"%.4lf ", flux->lu_ten);
 	fprintf(fp_o[0],"%.4lf ", flux->lu_hund); /* */
+	
+	/* added: 2011/04/19 (A.Ito) */
+	fprintf(fp_o[0],"%.4lf ", flux->erod_carbon);
+	fprintf(fp_o[0],"%.4lf ", flux->erod_carbon_crop);
+	fprintf(fp_o[0],"%.4lf ", flux->hvst_wood);
+	
 	fprintf(fp_o[0],"\n");
 	
 	/* nitrogen ***********************************************/
@@ -452,7 +464,7 @@ void f_output_result(
 		fprintf(fp_o[3],"%.3lf ", (flux->plant).emit_ch4_kirschbaum_photo[f]); /* */
 
 		fprintf(fp_o[3],"%.3lf ", loct->f_inund_wet_wh[f]);
-		fprintf(fp_o[3],"%.3lf ", loct->f_inund_pad_wh[f]); /* added: 2011/03/07 (A.Ito) */
+		fprintf(fp_o[3],"%.3lf ", loct->f_inund_pad_wh[f]); /* */ /* added: 2011/03/07 (A.Ito) */
 	}
 	fprintf(fp_o[3],"\n");
 
@@ -494,7 +506,7 @@ void f_output_result(
 	/* hydrometeorology ***********************************************/
 	fprintf(fp_o[6],"%ld %lf ", year, grid->f_crop_con);
 	for(f=0;f<ASTEP;f++){
-		/* fprintf(fp_o[6],"%.3lf ", grid->tmp_2m[f]);
+		fprintf(fp_o[6],"%.3lf ", grid->tmp_2m[f]);
 		fprintf(fp_o[6],"%.2lf ", grid->prate_sfc[f]);
 		fprintf(fp_o[6],"%.2lf ", grid->gl_rad[f]);
 		fprintf(fp_o[6],"%.2lf ", grid->par[f]);
@@ -508,7 +520,7 @@ void f_output_result(
 		fprintf(fp_o[6],"%.2lf ", loct->incep[f]);
 		fprintf(fp_o[6],"%.2lf ", loct->evpr[f]);
 		fprintf(fp_o[6],"%.2lf ", loct->trspr[f]);
-		fprintf(fp_o[6],"%.2lf ", loct->ro2[f]); */
+		fprintf(fp_o[6],"%.2lf ", loct->ro2[f]); /* */
 	}
 	fprintf(fp_o[6],"\n");
 	
