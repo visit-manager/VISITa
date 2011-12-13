@@ -30,9 +30,9 @@ long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
 double f_pert[20];
 
 /* atm. GHG scenario */
-double aco2_a1[553], aco2_a2[553], aco2_b1[553], aco2_b2[553];
-double ach4_a1[553], ach4_a2[553], ach4_b1[553], ach4_b2[553];
-double an2o_a1[553], an2o_a2[553], an2o_b1[553], an2o_b2[553];
+double aco2_a1[N_GHG_TS], aco2_a2[N_GHG_TS], aco2_b1[N_GHG_TS], aco2_b2[N_GHG_TS];
+double ach4_a1[N_GHG_TS], ach4_a2[N_GHG_TS], ach4_b1[N_GHG_TS], ach4_b2[N_GHG_TS];
+double an2o_a1[N_GHG_TS], an2o_a2[N_GHG_TS], an2o_b1[N_GHG_TS], an2o_b2[N_GHG_TS];
 
 /* historical results: 201 years, spinup+1901-2100 *************/
 double h_tmp[HIST], h_pre[HIST], h_dswr[HIST], h_aet[HIST], h_rof[HIST];

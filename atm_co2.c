@@ -55,7 +55,7 @@ void f_co2_trend(
 
 	/** seasonal change **/
 	amplitude = exp(0.04*grid->lat);
-	if(grid->lat>=0.0){
+	if(grid->lat >= 0.0){
 		season = amplitude/2.0*sin(((double)(grid->m)-0.0)/12.0*2.0*PI);
 	}else{   /*  if(grid->lat<0.0) */
 		season = amplitude/2.0*sin(((double)(grid->m)+6.0)/12.0*2.0*PI);

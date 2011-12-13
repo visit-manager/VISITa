@@ -61,8 +61,10 @@
 /* CRU data length: 2010/01/04 (A.Ito) */
 /* 102: TS2.1 */
 /* 106: TS3.0 */
-#define CRU_DL 106
-#define CRU_CL 105
+/* 109: TS3.1 */
+#define CRU_DL 109
+/* calculation length */
+#define CRU_CL 109  /* <= asseing climate data uncertainty */
 
 /* Simulation using NCEP/NACR reanalysis data */
 #define NCEP_BGY 1948
@@ -83,6 +85,8 @@
 /* #define PIVOT_GCMY 2001 */
 /* start year of GCM climate */
 #define PIVOT_GCMY 1970
+
+#define N_GHG_TS 553
 
 /***************************************************/
 /* NECB: coupling carbon loss */
@@ -126,9 +130,9 @@
 /* 1: lai based */
 
 /* binary output */
-#define C13_GOUT 0
-#define C14_GOUT 0
-#define PHYS_GOUT 0
+#define C13_GOUT 1
+#define C14_GOUT 1
+#define PHYS_GOUT 1
 
 /***************************************************/
 /* PAR conversion */
@@ -148,6 +152,14 @@
 #define CH4_WH 1
 #define SOIL_LAYER 20
 
+/* sensitivity run of W&H scheme */
+#define SENS_WHCH4 0
+/* 0: control */
+/* 1: t_veg * 1.1 */
+/* 2: t_veg * 0.9 */
+/* 3: bubble 450 microM */
+/* 4: bubble 550 microM */
+
 /* specific scheme on permaforst */
 #define PERFROST 0
 
@@ -161,14 +173,24 @@
 /* climate perturbation */
 #define PRT_CLIM 0
 
-/***************************************************/
+/********************************************************/
 /* carbon-nitrogen coupling */
 #define CN_COUPLE 0
 /* 0: no coupling (for safety) */
 /* 1: physiological coupling: Amax, Rd, Decomp. */
 /* 2: ecological coupling: mortality, etc. */
 
-/***************************************************/
+/* sensitivity run of biomass burning emission factor */
+#define SENS_FIRE 0
+/* 0: off */
+/* 1: on */
+
+/* sensitivity run of N deposition */
+#define SENS_N 0
+/* 0: off */
+/* 1: on */
+
+/********************************************************/
 /* sensitivity analysis *****************/
 /* temperature */
 #define TM 0
@@ -257,14 +279,14 @@
 /* 1: actual CO2 rise */
 /* 2: no CO2 rise */
 
-/* deforestation *******************************/
+/* deforestation ************************************/
 #define DEFOREST 0
 /* 0: as present */
 /* 1: entire deforestation, replaced by 19 */
 /* 2: entire deforestation, replaced by 13 */
 /* 3: entire deforestation, replaced by 31 */
 
-/***********************************************/
+/****************************************************/
 /* 0: no GCM */
 
 /*** AR3 ***/

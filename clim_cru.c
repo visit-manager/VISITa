@@ -23,16 +23,19 @@ void read_cru_clim(
 	FILE *fp_c[4], 
 	struct Grid *grid
 ){
-	long kk[4];
+	long kk[4], flag;
 	long f, g, h;
 	double data, alt;
 	
 	/*  printf("reading CRU data...");  */
 	/* read CRU TS3.0 Vapor-pressure data: 2010/01/04 (A.Ito) */
 	
+	flag = 0;
+	
 	/* read CRU TS Cloud data */
 	fscanf(fp_c[0],"%ld", &kk[0]);
 	if(kk[0]!=0){
+		flag++;
 		for(h=0;h<CRU_DL;h++){
 			for(g=0;g<ASTEP;g++){
 				fscanf(fp_c[0],"%lf", &data);
@@ -45,6 +48,7 @@ void read_cru_clim(
 	/* read CRU TS Precipitation data */
 	fscanf(fp_c[1],"%ld", &kk[1]);
 	if(kk[1]!=0){
+		flag++;
 		for(h=0;h<CRU_DL;h++){
 			for(g=0;g<ASTEP;g++){
 				fscanf(fp_c[1],"%lf", &data);
@@ -57,6 +61,7 @@ void read_cru_clim(
 	/* read CRU TS Temperature data */
 	fscanf(fp_c[2],"%ld", &kk[2]);
 	if(kk[2]!=0){
+		flag++;
 		for(h=0;h<CRU_DL;h++){
 			for(g=0;g<ASTEP;g++){
 				fscanf(fp_c[2],"%lf", &data);
@@ -69,6 +74,7 @@ void read_cru_clim(
 	/* read CRU TS Vapor-pressure data */
 	fscanf(fp_c[3],"%ld", &kk[3]);
 	if(kk[3]!=0){
+		flag++;
 		for(h=0;h<CRU_DL;h++){
 			for(g=0;g<ASTEP;g++){
 				fscanf(fp_c[3],"%lf", &data);
@@ -81,7 +87,7 @@ void read_cru_clim(
 	/*  printf("********* %ld\n",cru_flag);  */
 	
 	/* if valid CRU climate data are all available **/
-	if((kk[0]+kk[1]+kk[2]+kk[3])==4){
+	if(flag==4){
 		/* data available */
 		grid->cru_exist = 1;
 		alt = (grid->topo>=0.0)?grid->topo:0.0; 

@@ -57,6 +57,24 @@ void open_input(
 			printf("No cru_ts30_1901-2006.vap.dat\n");  
 			exit(1); 
 		}
+	}else if(CRU_DL==109){
+		/* UEA-CRU data from 1901 - 2009: 2011/05/02 (A.Ito) */
+		if( (fp_c[0]=fopen("./data/cru31_cld_1901-2009.txt","rt"))==NULL ){  
+			printf("No cru31_cld_1901-2009.txt\n");  
+			exit(1); 
+		}
+		if( (fp_c[1]=fopen("./data/cru31_pre_1901-2009.txt","rt"))==NULL ){  
+			printf("No cru31_pre_1901-2009.txt\n");  
+			exit(1); 
+		}
+		if( (fp_c[2]=fopen("./data/cru31_tmp_1901-2009.txt","rt"))==NULL ){  
+			printf("No cru31_tmp_1901-2009.txt\n");  
+			exit(1); 
+		}
+		if( (fp_c[3]=fopen("./data/cru31_vap_1901-2009.txt","rt"))==NULL ){  
+			printf("No cru31_vap_1901-2009.txt\n");  
+			exit(1); 
+		}
 	}
 	
 	if( (fp_s[0]=fopen("./data/nat_reg_05.dat","rt"))==NULL ){  
@@ -343,41 +361,6 @@ void open_input(
 		}
 	}
 	
-	/* crop and pasture fractions: 1700-2007 */
-	/* Ramankutty & Kimball: added 2010/07/07 (A.Ito) */
-	if( (fp_s[50]=fopen("./data/glcrop_1700-2007_0.5.dat","rt"))==NULL ){  
-		printf("No glcrop_1700-2007_0.5.dat\n");  
-		exit(1); 
-	}
-
-	if( (fp_s[51]=fopen("./data/glpast_1700-2007_0.5.dat","rt"))==NULL ){  
-		printf("No glpast_1700-2007_0.5.dat\n");  
-		exit(1); 
-	}
-	
-	/* wood harvest based on RCP-harmonized data: LUHa.v1 */
-	/* added by A.Ito (2010/10/15) */
-	if( (fp_s[53]=fopen("./data/luc_eos2_gvbh1_1700-2005.dat","rt"))==NULL ){  
-		printf("No luc_eos2_gvbh1_1700-2005.dat\n");  
-		exit(1); 
-	}
-	if( (fp_s[54]=fopen("./data/luc_eos2_gvbh2_1700-2005.dat","rt"))==NULL ){  
-		printf("No luc_eos2_gvbh2_1700-2005.dat\n");  
-		exit(1); 
-	}
-	if( (fp_s[55]=fopen("./data/luc_eos2_hsbh1_1700-2005.dat","rt"))==NULL ){  
-		printf("No luc_eos2_hsbh1_1700-2005.dat\n");  
-		exit(1); 
-	}
-	if( (fp_s[56]=fopen("./data/luc_eos2_hsbh2_1700-2005.dat","rt"))==NULL ){  
-		printf("No luc_eos2_hsbh2_1700-2005.dat\n");  
-		exit(1); 
-	}
-	if( (fp_s[57]=fopen("./data/luc_eos2_hsbh3_1700-2005.dat","rt"))==NULL ){  
-		printf("No luc_eos2_hsbh3_1700-2005.dat\n");  
-		exit(1); 
-	}
-	
 	/***************************************************/
 	/* 0: stable */
 	/* 1: gradual rise (SRES A1 or A1B) */
@@ -482,8 +465,44 @@ void open_input(
 		exit(1); 
 	}
 	
+	/* crop and pasture fractions: 1700-2007 */
+	/* Ramankutty & Kimball: added 2010/07/07 (A.Ito) */
+	if( (fp_s[50]=fopen("./data/glcrop_1700-2007_0.5.dat","rt"))==NULL ){  
+		printf("No glcrop_1700-2007_0.5.dat\n");  
+		exit(1); 
+	}
+	
+	if( (fp_s[51]=fopen("./data/glpast_1700-2007_0.5.dat","rt"))==NULL ){  
+		printf("No glpast_1700-2007_0.5.dat\n");  
+		exit(1); 
+	}
+	
+	/* N deposition by CHASER */
 	if( (fp_s[52]=fopen("./data/chaser_ndepo_2001mon.txt","rt"))==NULL ){  
 		printf("No CHASER N deposition data\n");  
+		exit(1); 
+	}
+	
+	/* wood harvest based on RCP-harmonized data: LUHa.v1 */
+	/* added by A.Ito (2010/10/15) */
+	if( (fp_s[53]=fopen("./data/luc_eos2_gvbh1_1700-2005.dat","rt"))==NULL ){  
+		printf("No luc_eos2_gvbh1_1700-2005.dat\n");  
+		exit(1); 
+	}
+	if( (fp_s[54]=fopen("./data/luc_eos2_gvbh2_1700-2005.dat","rt"))==NULL ){  
+		printf("No luc_eos2_gvbh2_1700-2005.dat\n");  
+		exit(1); 
+	}
+	if( (fp_s[55]=fopen("./data/luc_eos2_hsbh1_1700-2005.dat","rt"))==NULL ){  
+		printf("No luc_eos2_hsbh1_1700-2005.dat\n");  
+		exit(1); 
+	}
+	if( (fp_s[56]=fopen("./data/luc_eos2_hsbh2_1700-2005.dat","rt"))==NULL ){  
+		printf("No luc_eos2_hsbh2_1700-2005.dat\n");  
+		exit(1); 
+	}
+	if( (fp_s[57]=fopen("./data/luc_eos2_hsbh3_1700-2005.dat","rt"))==NULL ){  
+		printf("No luc_eos2_hsbh3_1700-2005.dat\n");  
 		exit(1); 
 	}
 }

@@ -121,7 +121,7 @@ int main(
 	PTB_SEED = l_config;
 	
 	/* for command-based simulations */
-	PTB_SEED = (long)atol(argv[2]);
+	/* PTB_SEED = (long)atol(argv[2]); */
 	
 	if(PTB_SEED > 0){
 		snprintf(num, 4, "%03d", (short)PTB_SEED);
@@ -129,14 +129,7 @@ int main(
 		strcat(s_date, num);
 		strcat(s_date, "_");
 	}
-	
-	/* config: 8 CH4 experiment */
-	fscanf(fp_config,"%s %ld %ld %ld", s_config, &EX_CH4_1, &EX_CH4_2, &EX_CH4_3);
-	printf("config  8: %s %ld %ld %ld\n", s_config, EX_CH4_1, EX_CH4_2, EX_CH4_3);
-	
-	/* config: 9 simulation area */
-	fscanf(fp_config,"%s %lf %lf %lf %lf", s_config, &area_t, &area_b, &area_l, &area_r);
-	printf("config  9: %s %lf %lf %lf %lf\n", s_config, area_t, area_b, area_l, area_r);
+	/* note: no perturbation for PTB_SEED<=0 */
 	
 	/* global factor: 2010/05/12 by A.Ito */
 	srand(PTB_SEED + clock()%1000);
@@ -161,6 +154,14 @@ int main(
 			}
 		}
 	}
+	
+	/* config: 8 CH4 experiment */
+	fscanf(fp_config,"%s %ld %ld %ld", s_config, &EX_CH4_1, &EX_CH4_2, &EX_CH4_3);
+	printf("config  8: %s %ld %ld %ld\n", s_config, EX_CH4_1, EX_CH4_2, EX_CH4_3);
+	
+	/* config: 9 simulation area */
+	fscanf(fp_config,"%s %lf %lf %lf %lf", s_config, &area_t, &area_b, &area_l, &area_r);
+	printf("config  9: %s %lf %lf %lf %lf\n", s_config, area_t, area_b, area_l, area_r);
 	
 	/* open source files *************************************************/
 	printf("Open input files...");

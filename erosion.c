@@ -94,7 +94,8 @@ void f_erosion(
 			fveg_a += loct->f_vegcov[f] * MDN[f]/365.0;
 		}
 		
-		grid->f_erosion_c = (1.0 - grid->f_crop_con)*c_factor_v[grid->veg_sage]*(1.6 - fveg_a) + grid->f_crop_con*0.5;
+		grid->f_erosion_c = (1.0 - grid->f_crop_con)*c_factor_v[grid->veg_sage]
+				* (1.6 - fveg_a) + grid->f_crop_con*0.5;
 	}
 	if(grid->f_erosion_c<0.0){
 		grid->f_erosion_c = 0.0;

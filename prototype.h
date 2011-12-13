@@ -12,7 +12,7 @@
 #include"setting.h"
 
 #define IFILEN 58
-#define OFILES 8
+#define OFILES 9
 
 extern short DF97;
 extern double MDN[ASTEP];
@@ -20,9 +20,9 @@ extern long GCM, CO2S, GCM_R, GCM_C;
 extern long PTB_SEED; /* added by A.Ito (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
 extern double f_pert[20];
-extern double aco2_a1[553], aco2_a2[553], aco2_b1[553], aco2_b2[553];
-extern double ach4_a1[553], ach4_a2[553], ach4_b1[553], ach4_b2[553];
-extern double an2o_a1[553], an2o_a2[553], an2o_b1[553], an2o_b2[553];
+extern double aco2_a1[N_GHG_TS], aco2_a2[N_GHG_TS], aco2_b1[N_GHG_TS], aco2_b2[N_GHG_TS];
+extern double ach4_a1[N_GHG_TS], ach4_a2[N_GHG_TS], ach4_b1[N_GHG_TS], ach4_b2[N_GHG_TS];
+extern double an2o_a1[N_GHG_TS], an2o_a2[N_GHG_TS], an2o_b1[N_GHG_TS], an2o_b2[N_GHG_TS];
 
 extern double glandarea;
 extern double h_tmp[HIST], h_pre[HIST], h_dswr[HIST], h_aet[HIST], h_rof[HIST];

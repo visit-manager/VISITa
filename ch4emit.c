@@ -236,6 +236,13 @@ void f_ch4_emit_walter(
 	hh = sdepth/SOIL_LAYER;	/* layer thickness, m */
 	
 	b_thresh = 500.0;	/* bubbling threshold, micro mol / liter */	
+	
+	if(SENS_WHCH4 == 3){
+		b_thresh = 450.0;
+	}else if(SENS_WHCH4 == 4){
+		b_thresh = 550.0;
+	}
+	
 	/* rdepth = loct->rtdpth; */		/* rooting depth, m */
 	f_sand = grid->pc_sand / 100.0;
 	f_clay = grid->pc_clay / 100.0;
@@ -322,6 +329,12 @@ void f_ch4_emit_walter(
 		/* tuning parameter (cf. Table 2) */
 		r0 = 0.4;  /* 1.0 => 0.7: 2009/08/20 */
  	}	
+	
+	if(SENS_WHCH4 == 1){
+		t_veg *= 1.1;
+	}else if(SENS_WHCH4 == 2){
+		t_veg = 0.9;
+	}
 		
 	/* stability index, should be < 0.5 */
 	rr = kk/hh/hh;

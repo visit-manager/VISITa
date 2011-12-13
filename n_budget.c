@@ -280,6 +280,11 @@ void f_n_deposit(
 		/* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
 	}
 	
+	if(SENS_N == 1){
+		ndepo_dry = f_dry * ndepo_ann * MDN[grid->m]/365.0;
+		ndepo_wet = f_wet * ndepo_ann * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
+	}
+	
 	if(ndepo_dry<0.0){
 		ndepo_dry = 0.0;
 	}

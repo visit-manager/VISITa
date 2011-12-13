@@ -169,16 +169,35 @@ void f_cult_luc(
 	}
 	
 	/* historical change in paddy field area: added by A.Ito (2011/2/28) ********/
-	if(LANDUSE==8){
+	if(LANDUSE==7){
+		if(grid->climy<=2005){
+			if(grid->f_paddy_b > 0.0 && grid->fcrop_rk[2000 - 1700] > 0.0){
+				grid->f_paddy = grid->f_paddy_b * 
+					(grid->fcrop_rk[grid->climy - 1700] / grid->fcrop_rk[2000 - 1700]);
+			}
+		}else if(grid->climy>=2006){
+			if(grid->f_paddy_b > 0.0 && grid->fcrop_rk[2000 - 1700] > 0.0){
+				grid->f_paddy = grid->f_paddy_b * 
+					(grid->fcrop_rk[2005 - 1700] / grid->fcrop_rk[2000 - 1700]);
+			}
+		}
+		
+		if(grid->f_paddy > 1.0){
+			grid->f_paddy = 1.0;
+		}
+		if(grid->f_paddy < 0.0){
+			grid->f_paddy = 0.0;
+		}
+	}if(LANDUSE==8){
 		if(grid->climy<=2005){
 			if(grid->f_paddy_b > 0.0 && grid->fcrop_unh_hmnzed[2000 - 1700] > 0.0){
 				grid->f_paddy = grid->f_paddy_b * 
-					(grid->fcrop_unh_hmnzed[grid->climy - 1700] / grid->fcrop_unh_hmnzed[2000 - 1700]);
+				(grid->fcrop_unh_hmnzed[grid->climy - 1700] / grid->fcrop_unh_hmnzed[2000 - 1700]);
 			}
 		}else if(grid->climy>=2006){
 			if(grid->f_paddy_b > 0.0 && grid->fcrop_unh_hmnzed[2000 - 1700] > 0.0){
 				grid->f_paddy = grid->f_paddy_b * 
-					(grid->fcrop_unh_hmnzed[2005 - 1700] / grid->fcrop_unh_hmnzed[2000 - 1700]);
+				(grid->fcrop_unh_hmnzed[2005 - 1700] / grid->fcrop_unh_hmnzed[2000 - 1700]);
 			}
 		}
 		

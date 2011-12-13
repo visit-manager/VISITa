@@ -28,6 +28,7 @@ void set_cru_clim(
 		/* 1901-2000:CRU TS2.1 (20th century) */
 		/* 1901-2002:CRU TS2.1 */
 		/* 1901-2005:CRU TS3.0 */
+		/* 1901-2009:CRU TS3.1 */
 		for(h=0;h<ASTEP;h++){
 			grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] 
 							+ (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
