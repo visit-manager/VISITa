@@ -125,7 +125,7 @@
 /* 1: all 0.5 */
 
 /* parameterization of vegetation cover */
-#define VEGCOVER 0
+#define PARA_VEGCV 0
 /* 0: conventional */
 /* 1: lai based */
 

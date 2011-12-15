@@ -261,9 +261,6 @@ void vanish(
 	flux->erod_soil = 0.0;
 	flux->erod_orgmat = 0.0;
 	flux->erod_carbon = 0.0;
-	flux->erod_soil_crop = 0.0;
-	flux->erod_orgmat_crop = 0.0;
-	flux->erod_carbon_crop = 0.0;
 	flux->hvst_wood = 0.0; 
 }
 

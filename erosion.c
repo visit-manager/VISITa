@@ -82,22 +82,53 @@ void f_erosion(
 	}
 
 	/* C: land cover */
-	if(VEGCOVER==0){
+	if(PARA_VEGCV==0){
 		/* conventional */
 		/* grid->f_erosion_c = (1.0-grid->f_crop)*c_factor_v[grid->veg_sage] + grid->f_crop*0.5; */
+		/* grid->f_erosion_c = (1.0-grid->f_crop_con)*c_factor_v[grid->veg_sage] 
+			+ f_paddy*c_factor_paddy + f_upcrop * c_factor_upcrop; */
 		
-		grid->f_erosion_c = (1.0-grid->f_crop_con)*c_factor_v[grid->veg_sage] 
-			+ f_paddy*c_factor_paddy + f_upcrop * c_factor_upcrop;
-	}else if(VEGCOVER==1){
-		fveg_a = 0.0;
+		/* case natural: 2011/12/15 (A.Ito) */
+		if(loct->v_type == 1){
+			grid->f_erosion_c = c_factor_v[grid->veg_sage];
+		}
+		
+		/* case cropland: 2011/12/15 (A.Ito) */
+		if(loct->v_type == 2){
+			if((f_paddy+f_upcrop) > 0.0){
+				grid->f_erosion_c = (f_paddy * c_factor_paddy + f_upcrop * c_factor_upcrop) 
+						/ (f_paddy+f_upcrop);
+			}else{
+				grid->f_erosion_c = 0.0;
+			}
+		}
+		
+	}else if(PARA_VEGCV==1){
+		/* parameterization */
+		/* fveg_a = 0.0;
 		for(f=0;f<12;f++){
 			fveg_a += loct->f_vegcov[f] * MDN[f]/365.0;
 		}
 		
 		grid->f_erosion_c = (1.0 - grid->f_crop_con)*c_factor_v[grid->veg_sage]
-				* (1.6 - fveg_a) + grid->f_crop_con*0.5;
+			* (1.6 - fveg_a) + grid->f_crop_con*0.5; */
+		
+		fveg_a = 0.0;
+		for(f=0;f<12;f++){
+			fveg_a += loct->f_vegcov[f] * MDN[f]/365.0;
+		}
+		
+		/* case natural: 2011/12/15 (A.Ito) */
+		if(loct->v_type == 1){
+			grid->f_erosion_c = c_factor_v[grid->veg_sage] * (1.6 - fveg_a);
+		}
+		
+		/* case cropland: 2011/12/15 (A.Ito) */
+		if(loct->v_type == 2){
+			grid->f_erosion_c = 0.5;
+		}
 	}
-	if(grid->f_erosion_c<0.0){
+	if(grid->f_erosion_c < 0.0){
 		grid->f_erosion_c = 0.0;
 	}
 
@@ -145,35 +176,48 @@ void f_erosion(
 		consv = 0.5;
 	}
 	
-	grid->f_erosion_p = (1.0-grid->f_crop_con)*p_factor_v[grid->veg_sage] + grid->f_crop_con*consv;
-	if(grid->f_erosion_p<0.0){
+	/* case natural: 2011/12/15 (A.Ito) */
+	if(loct->v_type == 1){
+		grid->f_erosion_p = p_factor_v[grid->veg_sage];
+	}
+	
+	/* case cropland: 2011/12/15 (A.Ito) */
+	if(loct->v_type == 2){	
+		grid->f_erosion_p = consv;
+	}
+
+	if(grid->f_erosion_p < 0.0){
 		grid->f_erosion_p = 0.0;
 	}
 	
 	/* Erosion *************************************************************/
-	flux->erod_soil = grid->f_erosion_r * grid->f_erosion_k * grid->f_erosion_ls * 
-		grid->f_erosion_c * grid->f_erosion_p;  /* t/ha/yr */
-	if(flux->erod_soil<0.0){
-		flux->erod_soil = 0.0;
-	}else if(flux->erod_soil > 130.0*5.0){
-		flux->erod_soil = 130.0*5.0;
-	}
-	
-	flux->erod_orgmat = flux->erod_soil * grid->pcnt_orgmat/100.0;
-	flux->erod_carbon = flux->erod_orgmat/dmTc;
-
-	/* Cropland erosion */
-	flux->erod_soil_crop = grid->f_erosion_r * grid->f_erosion_k * grid->f_erosion_ls * 
-		(f_paddy*c_factor_paddy + f_upcrop * c_factor_upcrop) * grid->f_erosion_p;  
-	/* t/ha (mixed veg+agr)/yr */
+	/* case natural: 2011/12/15 (A.Ito) */
+	if(loct->v_type == 1){
+		flux->erod_soil = grid->f_erosion_r * grid->f_erosion_k * grid->f_erosion_ls * 
+				grid->f_erosion_c * grid->f_erosion_p;  /* t/ha/yr */
 		
-	if(flux->erod_soil_crop < 0.0){
-		flux->erod_soil_crop = 0.0;
-	}else if(flux->erod_soil_crop > 130.0*5.0){
-		flux->erod_soil_crop = 130.0*5.0;
+		if(flux->erod_soil<0.0){
+			flux->erod_soil = 0.0;
+		}else if(flux->erod_soil > 130.0*5.0){
+			flux->erod_soil = 130.0*5.0;
+		}
+		
+		flux->erod_orgmat = flux->erod_soil * grid->pcnt_orgmat/100.0;
+		flux->erod_carbon = flux->erod_orgmat/dmTc;
 	}
 	
-	flux->erod_orgmat_crop = flux->erod_soil_crop * grid->pcnt_orgmat/100.0;
-	flux->erod_carbon_crop = flux->erod_orgmat_crop/dmTc;
+	/* case cropland: 2011/12/15 (A.Ito) */
+	if(loct->v_type == 2){	
+		flux->erod_soil = grid->f_erosion_r * grid->f_erosion_k * grid->f_erosion_ls * 
+					grid->f_erosion_c * grid->f_erosion_p;  /* t/ha/yr */
+		
+		if(flux->erod_soil < 0.0){
+			flux->erod_soil = 0.0;
+		}else if(flux->erod_soil > 130.0*5.0){
+			flux->erod_soil = 130.0*5.0;
+		}
+		
+		flux->erod_orgmat = flux->erod_soil * grid->pcnt_orgmat/100.0;
+		flux->erod_carbon = flux->erod_orgmat/dmTc;
+	}
 }
-

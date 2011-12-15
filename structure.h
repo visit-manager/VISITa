@@ -972,10 +972,6 @@ struct Flux{
 	double	erod_soil;							/* erosion of mineral soil */
 	double	erod_orgmat;						/* erosion of organic matter */
 	double	erod_carbon;						/* erosion of carbon */
-	/* cropland */
-	double	erod_soil_crop;						/* cropland erosion of mineral soil */
-	double	erod_orgmat_crop;					/* cropland erosion of organic matter */
-	double	erod_carbon_crop;					/* cropland erosion of carbon */
 	
 	/* wood harvest: 2010/11/09 */
 	double	hvst_wood;

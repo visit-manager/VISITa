@@ -382,21 +382,25 @@ void f_set_history_data(
 		}
 	}
 	
-	/* erosion */
-	h_ersn_c[year] += fweight_nat * flux->erod_carbon * grid->area;
-	h_agrersn_c[year] += fweight_nat * flux->erod_carbon_crop * grid->area;
+	/* erosion and land-use change: 2011/12/15 (A.Ito) */
+	if(loct->v_type == 1){
+		h_ersn_c[year] += fweight * flux->erod_carbon * grid->area;
 
-	h_agrarea[year] += fweight_nat * grid->area * grid->f_crop_con;
-	h_paddyarea[year] += fweight_pad * grid->area * grid->f_paddy;
-	h_luc[year] += fweight_nat * (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
-	
-	h_luc_1[year] += fweight_nat * flux->lu_conv * grid->area;
-	h_luc_2[year] += fweight_nat * flux->lu_ten * grid->area;
-	h_luc_3[year] += fweight_nat * flux->lu_hund * grid->area;
-	
-	rh_luc[grid->reg_g][year] += fweight_nat * (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
-	
-	h_hvst_wood[year] += fweight_nat * flux->hvst_wood * grid->area;
+		h_luc[year] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
+		h_luc_1[year] += flux->lu_conv * grid->area;
+		h_luc_2[year] += flux->lu_ten * grid->area;
+		h_luc_3[year] += flux->lu_hund * grid->area;
+		
+		rh_luc[grid->reg_g][year] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
+		
+		h_hvst_wood[year] += flux->hvst_wood * grid->area;
+	}
+	if(loct->v_type == 2){
+		h_agrersn_c[year] += fweight * grid->area * flux->erod_carbon;
+		
+		h_agrarea[year] += fweight * grid->area;
+		h_paddyarea[year] += grid->f_paddy * grid->area;
+	}
 }
 
 /*********************************************************************/

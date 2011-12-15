@@ -359,7 +359,7 @@ void f_output_result(
 	
 	/* added: 2011/04/19 (A.Ito) */
 	fprintf(fp_o[0],"%.4lf ", flux->erod_carbon);
-	fprintf(fp_o[0],"%.4lf ", flux->erod_carbon_crop);
+	fprintf(fp_o[0],"%.4lf ", flux->erod_carbon); /* 2011/12/15 */
 	fprintf(fp_o[0],"%.4lf ", flux->hvst_wood);
 	
 	fprintf(fp_o[0],"\n");
@@ -433,9 +433,9 @@ void f_output_result(
 	fprintf(fp_o[2],"%lf ", flux->erod_soil);
 	fprintf(fp_o[2],"%lf ", flux->erod_orgmat);
 	fprintf(fp_o[2],"%lf ", flux->erod_carbon);		
-	fprintf(fp_o[2],"%lf ", flux->erod_soil_crop);
-	fprintf(fp_o[2],"%lf ", flux->erod_orgmat_crop);
-	fprintf(fp_o[2],"%lf ", flux->erod_carbon_crop);
+	fprintf(fp_o[2],"%lf ", flux->erod_soil);
+	fprintf(fp_o[2],"%lf ", flux->erod_orgmat);
+	fprintf(fp_o[2],"%lf ", flux->erod_carbon);
 	fprintf(fp_o[2],"%.3lf ", ltr_ann);
 	fprintf(fp_o[2],"%.3lf ", hrl_ann);
 	fprintf(fp_o[2],"%.3lf ", msl_ann);
