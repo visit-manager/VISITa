@@ -118,7 +118,7 @@ void f_init_sim(
 		h_gpp_df97[f] = h_gpp_c4[f] = 0.0;
 		h_pot_prmfrst[f] = 0.0;
 		h_trnsp[f] = h_incepev[f] = h_ssurfev[f] = 0.0;
-		h_nbp[f] = h_hvst[f] = 0.0;
+		h_nbp[f] = h_hvst[f] = h_abgm[f] = 0.0;
 		
 		h_agrarea[f] = h_paddyarea[f] = h_luc[f] = 0.0;
 		h_luc_1[f] = h_luc_2[f] = h_luc_3[f] = 0.0;

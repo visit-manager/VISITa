@@ -86,6 +86,7 @@
 /* start year of GCM climate */
 #define PIVOT_GCMY 1970
 
+/* atmopsheric GHG data length */
 #define N_GHG_TS 553
 
 /***************************************************/
@@ -145,12 +146,13 @@
 
 /* SRB-based diffuse radiation estimation */
 #define DIF_SRB 1
-/* 0: off */
-/* 1: on */
+/* 0:off, 1:0n */
 
 /* CH4 emission by Walter-Heimann scheme */
 #define CH4_WH 1
+/* 0:off, 1:0n */
 #define SOIL_LAYER 20
+/* number of soil layers */ 
 
 /* sensitivity run of W&H scheme */
 #define SENS_WHCH4 0
@@ -162,6 +164,7 @@
 
 /* specific scheme on permaforst */
 #define PERFROST 0
+/* 0:off, 1:0n */
 
 /* Alternative land-cover data for CH4 */
 #define ALT_FWET 0
@@ -170,8 +173,10 @@
 
 /* parameter perturbation */
 #define PRT_PARAM 0
+/* 0:off, 1:0n */
 /* climate perturbation */
 #define PRT_CLIM 0
+/* 0:off, 1:0n */
 
 /********************************************************/
 /* carbon-nitrogen coupling */
@@ -182,13 +187,11 @@
 
 /* sensitivity run of biomass burning emission factor */
 #define SENS_FIRE 0
-/* 0: off */
-/* 1: on */
+/* 0:off, 1:0n */
 
 /* sensitivity run of N deposition */
 #define SENS_N 0
-/* 0: off */
-/* 1: on */
+/* 0:off, 1:0n */
 
 /********************************************************/
 /* sensitivity analysis *****************/

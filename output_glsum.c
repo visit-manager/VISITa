@@ -89,10 +89,15 @@ void f_set_history_data(
 		h_nep[year] += fweight * flux->nep[f] * grid->area;
 		h_nbp[year] += fweight * flux->nbp[f] * grid->area;
 		h_hvst[year] += fweight * (flux->plant).hvst[f] * grid->area;
+		
 		h_plant[year] += fweight * ((mass->plant).mfol[f] + (mass->plant).mstm[f] + 
 									(mass->plant).mrot[f]) * MDN[f] /365.0 * grid->area;
 		h_soil[year] += fweight * ((mass->soil).ltr_m[f] + 
 								   (mass->soil).msl_m[f])* MDN[f]/365.0 * grid->area;
+		
+		/* added by A.Ito (2011/12/16) */
+		h_abgm[year] += fweight * ((mass->plant).mfol[f] + (mass->plant).mstm[f]) * MDN[f] /365.0 * grid->area;
+		
 		h_sr[year] += fweight * ((flux->plant).rrm[f] + (flux->plant).rrg[f] + (flux->soil).hr[f]) * grid->area;
 		h_doc[year] += fweight * (flux->soil).doc_boyer[f] * grid->area;
 		
@@ -518,6 +523,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_nbp[h]);   /* added by A.Ito (2010/11/27) */
 		fprintf(fp_glsum,"%lf ", h_hvst[h]);
 		fprintf(fp_glsum,"%lf ", h_paddyarea[h]); /* added by A.Ito (2011/2/28) */
+		fprintf(fp_glsum,"%lf ", h_abgm[h]); /* added by A.Ito (2011/12/16) */
 
 		fprintf(fp_glsum,"\n");
 	}

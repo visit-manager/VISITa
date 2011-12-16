@@ -135,6 +135,21 @@ void ghg_flux_zero(
 	long month, 
 	struct Flux *flux
 ){
+	flux->lu_detr = 0.0;
+	flux->lu_conv = 0.0;
+	flux->lu_ten = 0.0;
+	flux->lu_hund = 0.0;
+	
+	flux->npp_miami = 0.0;
+	flux->npp_montreal = 0.0;
+	flux->npp_schuur = 0.0;
+	flux->npp_nceas = 0.0;
+	
+	flux->erod_soil = 0.0;
+	flux->erod_orgmat = 0.0;
+	flux->erod_carbon = 0.0;
+	flux->hvst_wood = 0.0; 
+
 	(flux->c3).n_biofix[month] = 0.0;			
 	(flux->c3).uptake_no3[month] = 0.0;			
 	(flux->c3).uptake_nh4[month] = 0.0;	

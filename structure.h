@@ -302,8 +302,8 @@ struct Grid{
 /* grid conditions, derived from submodules *******************************************/
 struct Loct{ 
 	short	v_type;				/* vegetation classification types */
-								/* 1: Olson actual vegetation */
-								/* 2: SAGE natural vegetation */
+								/* 1: Olson+SAGE natural vegetation */
+								/* 2: agricultural vegetation */
 	
 	long 	time_hyd;					/* time to reach stabilization of water budget */
 	long 	time;						/* time to reach stabilization of carbon budget */
@@ -401,7 +401,7 @@ struct Loct{
 	double	npp_max;						/* maximum NPP */
 	double	prof_ch4[SOIL_LAYER+2];			/* CH4 concentration profile */
 	
-	double	cum_dprec;
+	double	cum_dprec;					/* cumulative precipitation change */
 	
 	/* monitoring variables for debugging */
 	double	xx1[ASTEP];
@@ -417,8 +417,8 @@ struct Loct{
 /* vegetation characteristics ****************************************************/
 struct Pchar{ 
 	short	v_type;				/* vegetation classification types */
-								/* 1: Olson actual vegetation */
-								/* 2: SAGE natural vegetation */
+								/* 1: Olson+SAGE natural vegetation */
+								/* 2: agricultural vegetation */
 								
 	/* optics */
 	double	albedo;					/* reflectivity, or albedo */
@@ -547,8 +547,8 @@ struct Pchar{
 /* soil characteristics *************************************************/
 struct Schar{ 
 	short	v_type;				/* vegetation classification types */
-								/* 1: Olson actual vegetation */
-								/* 2: SAGE natural vegetation */
+								/* 1: Olson+SAGE natural vegetation */
+								/* 2: agricultural vegetation */
 
 	double	albedo0;			/* reflectivity, or albedo */
 	double	albedo[ASTEP];		/* monthly */
@@ -587,8 +587,8 @@ struct Echar{
 /* plant biomass *******************************************************/
 struct Pmas{ 
 	short	v_type;				/* vegetation classification types */
-								/* 1: Olson actual vegetation */
-								/* 2: SAGE natural vegetation */
+								/* 1: Olson+SAGE natural vegetation */
+								/* 2: agricultural vegetation */
 
 	/* leaf area index (LAI), m2 m-2  */
 	double	lai[ASTEP];			/* monthly value */
@@ -633,8 +633,8 @@ struct Pmas{
 /* soil carbon storage *************************************************/
 struct Smas{ 
 	short	v_type;				/* vegetation classification types */
-								/* 1: Olson actual vegetation */
-								/* 2: SAGE natural vegetation */
+								/* 1: Olson+SAGE natural vegetation */
+								/* 2: agricultural vegetation */
 
 	/* carbon mass, Mg C ha-1 */ 
 	double	ltr;				/* litter mass */
@@ -693,8 +693,8 @@ struct Mass{
 /* plant carbon fluxes, all monthly *******************************/
 struct Pflx{ 
 	short	v_type;				/* vegetation classification types */
-								/* 1: Olson actual vegetation */
-								/* 2: SAGE natural vegetation */
+								/* 1: Olson+SAGE natural vegetation */
+								/* 2: agricultural vegetation */
 
 	/* carbon flux, in Mg C ha-1 mon-1 */ 
 	double	gpp[ASTEP];			/* gross primary production */
@@ -709,7 +709,7 @@ struct Pflx{
 	double	tpr[ASTEP];			/* translocation of photosynthate to root */
 	double	tpp[ASTEP];			/* translocation of photosynthate to root */
  	
-	double	ar[ASTEP];				/* plant respiration, =rpm+rpg */
+	double	ar[ASTEP];			/* plant respiration, =rpm+rpg */
 	double	arg[ASTEP];			/* plant growth respiration */
 	double	arm[ASTEP];			/* plant maintenance respiration */
 	double	rfg[ASTEP];			/* foliage growth respiration */
@@ -730,31 +730,32 @@ struct Pflx{
 	double	emit_ch4_kirschbaum_mass[ASTEP];		/* plant CH4 emission, mass-based */
 	double	emit_ch4_kirschbaum_photo[ASTEP];		/* plant CH4 emission, photosynthesis-based */
 	
-	/* stable carbon isotope composition, d13C, permille */
+	/* stable carbon isotope composition, d13C, permille ******/
+	/* production */
 	double	d13c_gpp[ASTEP];		/* GPP */
 	double	d13c_spp[ASTEP];		/* SPP */
 	double	d13c_epp[ASTEP];		/* EPP */
 	double	d13c_npp[ASTEP];		/* NPP */
-	
-	double	d13c_tpf[ASTEP];		/* leaf translocation */	
-	double	d13c_tpc[ASTEP];		/* stem translocation */
-	double	d13c_tpr[ASTEP];		/* root translocation */
-	double	d13c_tpp[ASTEP];		/* total translocation */
- 	
-	double	d13c_ar[ASTEP];			/* autotrophic respiration */
-	double	d13c_arg[ASTEP];		
-	double	d13c_arm[ASTEP];			
-	double	d13c_rfg[ASTEP];		
-	double	d13c_rfm[ASTEP];		
-	double	d13c_rcg[ASTEP];		
-	double	d13c_rcm[ASTEP];
-	double	d13c_rrg[ASTEP];		
-	double	d13c_rrm[ASTEP];			
-	
-	double	d13c_lf[ASTEP];			/* leaf litterfall */
-	double	d13c_lc[ASTEP];			
-	double	d13c_lr[ASTEP];			
-	double	d13c_lL[ASTEP];			
+	/* translocation */
+	double	d13c_tpf[ASTEP];		/* leaf  */	
+	double	d13c_tpc[ASTEP];		/* stem  */
+	double	d13c_tpr[ASTEP];		/* root  */
+	double	d13c_tpp[ASTEP];		/* total  */
+	/* autotrophic respiration */
+	double	d13c_ar[ASTEP];			/* total  */	
+	double	d13c_arg[ASTEP];		/* growth  */	
+	double	d13c_arm[ASTEP];		/* maintenance  */	
+	double	d13c_rfg[ASTEP];		/* growth, leaf  */	
+	double	d13c_rfm[ASTEP];		/* maintenance, leaf  */	
+	double	d13c_rcg[ASTEP];		/* growth, stem  */
+	double	d13c_rcm[ASTEP];		/* maintenance, stem  */
+	double	d13c_rrg[ASTEP];		/* growth, root  */	
+	double	d13c_rrm[ASTEP];		/* maintenance, root  */
+	/* leaf litterfall */
+	double	d13c_lf[ASTEP];			/* leaf  */	
+	double	d13c_lc[ASTEP];			/* stem  */
+	double	d13c_lr[ASTEP];			/* root  */
+	double	d13c_lL[ASTEP];			/* total  */
 	double	d13c_lf_c[ASTEP];		
 
 	double	d13c_hvst[ASTEP];			/* harvest */
