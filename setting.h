@@ -65,6 +65,7 @@
 #define CRU_DL 109
 /* calculation length */
 #define CRU_CL 109  /* <= asseing climate data uncertainty */
+/* #define CRU_CL 70  */
 
 /* Simulation using NCEP/NACR reanalysis data */
 #define NCEP_BGY 1948
