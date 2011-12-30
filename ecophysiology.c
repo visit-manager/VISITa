@@ -209,14 +209,20 @@ void stom_cond(
 	struct Loct *loct, 
 	struct Pchar *pchar
 ){
-	double b1d, cc;
+	double aco2, b1d, cc;
+	
+	aco2 = loct->aco2[grid->m];
+	if(FIX_GSCO2 == 1){
+		/* non-CO2-responsive */
+		aco2 = 350.0;
+	}
 	
 	/* stomatal conductance model by Ball, Woodraw, and Berry (1987) */
 	/*
 	 Leuning, R. (1995), A critical appraisal of a combined stomatal-photosynthesis 
 	 model for C3 plants, Plant, Cell and Environment, 18, 339-355.
 	*/
-	b1d = pchar->gs_b1/((loct->aco2[grid->m] - pchar->cmpcd[grid->m])*(1.0+loct->vpd[grid->m]/pchar->gs_b2)); /* */
+	b1d = pchar->gs_b1/((aco2 - pchar->cmpcd[grid->m])*(1.0+loct->vpd[grid->m]/pchar->gs_b2)); /* */
 	/* insensitive to CO2 */
 	/* b1d=plant->gs_b1/(( 350.0 - 40.0 )*(1.0+loct->vpd[grid->m]/plant->gs_b2)); */
 

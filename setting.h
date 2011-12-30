@@ -121,12 +121,12 @@
 /* 7: Ramankutty land-use change, 1700-2007 */
 /* 8: Hurtt harmonized land-use change, 1700-2005 (added 2010/01/31) */
 
-/* setting of soil conservation */
+/* erosion: setting of soil conservation */
 #define SOIL_CONSV 0
 /* 0: OECD nations = 0.75, developing = 0.95 */
 /* 1: all 0.5 */
 
-/* parameterization of vegetation cover */
+/* erosion: parameterization of vegetation cover */
 #define PARA_VEGCV 0
 /* 0: conventional */
 /* 1: lai based */
@@ -177,6 +177,10 @@
 /* 0:off, 1:0n */
 /* climate perturbation */
 #define PRT_CLIM 0
+/* 0:off, 1:0n */
+
+/* fixed CO2 for gs: separation of CO2 effects */
+#define FIX_GSCO2 0
 /* 0:off, 1:0n */
 
 /********************************************************/

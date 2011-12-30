@@ -507,6 +507,11 @@ void leaf_ansolv(
 	cs = ca - a_net/gb;
 	
 	gs = bd + m*a_net*rh/cs;		
+	if(FIX_GSCO2 == 1){
+		/* non-CO2-responsive */
+		gs = bd + m*a_net*rh/(35.0 * 0.7);
+	}
+	
 	ci = cs - a_net/gs;
 	
 	*assim = p_gross;
