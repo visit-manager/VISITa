@@ -144,10 +144,10 @@ struct Grid{
 	
 	/* NCEP/NCAR 1948-2009 */
 #if NCEP_SIM==1	
-	float	ncep_tmp2m[NCEP_DL][ASTEP][94][192];
-	float	ncep_prate[NCEP_DL][ASTEP][94][192];
-	float	ncep_tcdc[NCEP_DL][ASTEP][94][192];
-	float	ncep_vpres[NCEP_DL][ASTEP][94][192];
+	float	ncep_tmp2m[NCEP_DL][ASTEP][94][192];		/* temperature */
+	float	ncep_prate[NCEP_DL][ASTEP][94][192];		/* precipitation */
+	float	ncep_tcdc[NCEP_DL][ASTEP][94][192];			/* total cloudiness */
+	float	ncep_vpres[NCEP_DL][ASTEP][94][192];		/* vapor pressure */
 	/* average */
 	float	ncep_tmp2m_b[ASTEP][94][192];
 	float	ncep_prate_b[ASTEP][94][192];
@@ -194,11 +194,11 @@ struct Grid{
 	double 	fgrass3_image[111];				/* C3 pasture grass */
 	double 	fgrass4_image[111];				/* C4 pasture grass */
 	
-	double	fcrop;
-	double	frice;
-	double	fwheat;
-	double	fmaize;
-	double	fothers;
+	double	fcrop;			/* fraction of cropland */
+	double	frice;			/* fraction of rice */
+	double	fwheat;			/* fraction of wheat */
+	double	fmaize;			/* fraction of maize */
+	double	fothers;		/* fraction of other crops */
 	
 	/* EOS-WEBSTER, 1700-2000/2005, Hurtt et al. */
 	double	fcrop_unh_hmnzed[310];		/* cropland fraction */
@@ -236,8 +236,9 @@ struct Grid{
 	double	fpast_rk[308];				/* pasture fraction by Ramankutty & Kimball (2010) */
 	
 	double	f_crop_base;				/* base cropland fraction in 2000 */
-	double	f_pasture_base;				/* base cropland fraction in 2000 */
+	double	f_pasture_base;				/* base pasture fraction in 2000 */
 	
+	/* wood harvest */
 	double	hvst_p1[310];
 	double	hvst_p2[310];
 	double	hvst_s1[310];
@@ -277,10 +278,10 @@ struct Grid{
 	double 	ndepo[3];					/* N deposition by Galloway et al. (2004) */
 	
 	/* CHASE 2001 monthly, by A.Ito (2010/05/21) */
-	double	ndepo_chaser_dnhx[12][64][128];
-	double	ndepo_chaser_dnoy[12][64][128];
-	double	ndepo_chaser_wnhx[12][64][128];
-	double	ndepo_chaser_wnoy[12][64][128];
+	double	ndepo_chaser_dnhx[12][64][128];		/* NHx, dry */
+	double	ndepo_chaser_dnoy[12][64][128];		/* NOy, dry */
+	double	ndepo_chaser_wnhx[12][64][128];		/* NHx, wet */
+	double	ndepo_chaser_wnoy[12][64][128];		/* NOy, wet */
 	double	ndepo_ann_dnhx, ndepo_ann_dnoy, ndepo_ann_wnhx, ndepo_ann_wnoy;
 	
 	/* radiation conversion model using SRB data */
@@ -403,7 +404,7 @@ struct Loct{
 	
 	double	cum_dprec;					/* cumulative precipitation change */
 	
-	/* monitoring variables for debugging */
+	/* tentative variables for debugging and monitoring */
 	double	xx1[ASTEP];
 	double	xx2[ASTEP];
 	double	xx3[ASTEP];
@@ -541,7 +542,7 @@ struct Pchar{
 	/* root stratification parameters by Zeng (2001) *******/
 	double	root_dist_a;			/* root profile parameter a, m-1 */
 	double	root_dist_b;			/* root profile parameter b, m-1 */
-	double	root_depth;
+	double	root_depth;				/* rooting depth */
 };			
 
 /* soil characteristics *************************************************/
@@ -654,10 +655,10 @@ struct Smas{
 	double	d13c_soil[ASTEP];	/* total soil */
 	
 	/* radio isotope 14C: added by A.Ito (2009/06/23) */
-	double	d14c_ltr;
-	double	d14c_ltr_m[ASTEP];
-	double	d14c_msl;
-	double	d14c_msl_m[ASTEP];
+	double	d14c_ltr;			/* litter */
+	double	d14c_ltr_m[ASTEP];	/* monthly */
+	double	d14c_msl;			/* mineral soil */
+	double	d14c_msl_m[ASTEP];	/* monthly */
 
 	/* soil inorganic N, g N ha-1 */
 	double	n_no3;				/* NO3- */
@@ -698,8 +699,8 @@ struct Pflx{
 
 	/* carbon flux, in Mg C ha-1 mon-1 */ 
 	double	gpp[ASTEP];			/* gross primary production */
-	double	spp[ASTEP];			/* net primary production */
-	double	epp[ASTEP];			/* net primary production */
+	double	spp[ASTEP];			/* net surplus production */
+	double	epp[ASTEP];			/* net effective production */
 	double	npp[ASTEP];			/* net primary production */
 	
 	double	gpp_df97[ASTEP];	/* gross primary production by de Pury & Farquhar scheme */
@@ -707,7 +708,7 @@ struct Pflx{
 	double	tpf[ASTEP];			/* translocation of photosynthate to foliage */
 	double	tpc[ASTEP];			/* translocation of photosynthate to stem */
 	double	tpr[ASTEP];			/* translocation of photosynthate to root */
-	double	tpp[ASTEP];			/* translocation of photosynthate to root */
+	double	tpp[ASTEP];			/* translocation of photosynthate, total */
  	
 	double	ar[ASTEP];			/* plant respiration, =rpm+rpg */
 	double	arg[ASTEP];			/* plant growth respiration */
@@ -758,7 +759,7 @@ struct Pflx{
 	double	d13c_lL[ASTEP];			/* total  */
 	double	d13c_lf_c[ASTEP];		
 
-	double	d13c_hvst[ASTEP];			/* harvest */
+	double	d13c_hvst[ASTEP];		/* harvest */
 
 	double	d14c_gpp[ASTEP];		/* GPP */
 	double	d14c_lL[ASTEP];			/* litter input */
@@ -852,6 +853,7 @@ struct Sflx{
 
 /* ecosystem carbon fluxes *************************************************/
 struct Flux{ 
+	/* components */
 	struct	Pflx c3;				/* C3 plant fluxes */
 	struct	Pflx c4;				/* C4 plant fluxes */
 	struct	Pflx plant;				/* total plant fluxes */
@@ -944,7 +946,7 @@ struct Flux{
 	double	bb_tec_wood[ASTEP];			/* from wood */
 	double	bb_tec_root[ASTEP];			/* from root */
 	
-	/* VOC, in micro g C m-2 month-1 */
+	/* Biogenic VOC, in micro g C m-2 month-1 */
 	double	voc_isopr_g97[ASTEP];				/* isoprene */
 	double	voc_monotrp_g97[ASTEP];				/* monoterpene */
 	double	voc_methanl_g97[ASTEP];				/* methanol */
@@ -958,8 +960,8 @@ struct Flux{
 	/* stable carbon isotope composition, d13C, permille */
 	double	d13c_nep[ASTEP];					/* NEP */
 	double	d13c_ncb[ASTEP];					/* NCB */
-	double	d13c_sr[ASTEP];
-	double	d13c_er[ASTEP];
+	double	d13c_sr[ASTEP];						/* SR, soil respiration */
+	double	d13c_er[ASTEP];						/* ER, ecosystem respiration */
 
 	double	efflux_p;							/* total CO2 efflux */
 	double	d13c_efflux_p;						/* d13C */

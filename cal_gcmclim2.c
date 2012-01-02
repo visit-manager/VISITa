@@ -36,14 +36,14 @@ void cal_gcmclim2(
 	}else if(TEMP_GC==3 || TEMP_GC==4){
 		simyr = 200;
 	}else{
-		simyr = GCM_PD;
+		simyr = GCM_PD; /*** AD 2001-2100 ***/
 	}
 	
 	/* LOOP to dynamic stage ***************************************/
-	for(g=0;g<simyr;g++){ /*** AD 2001-2100 ***/
+	for(g=0;g<simyr;g++){ 
 	
 		/* climate change ********************/
-		grid->climy = 2001+ g;
+		grid->climy = GCM_BGY + g;
 		if(GCM!=0){			
 			set_gcm_clim(grid);
 		}

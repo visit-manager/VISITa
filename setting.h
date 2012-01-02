@@ -20,8 +20,6 @@
 /***********************/
 #define ASTEP 12	/* annual time-step, 12=monthly */
 
-#define HIST 201	/* simulation dulation (years) */
-
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
@@ -42,53 +40,66 @@
 /* number of regions */
 #define NREG 23
 
+/* atmopsheric GHG data length */
+#define N_GHG_TS 553
+
 /***************************************************/
-/* 20th century */
-/* #define HIST_PD 100  */		/* AD 1901 - 2000 */
-/* #define HIST_PD 102	*/	/* AD 1901 - 2002 */
-/* #define HIST_PD 108	*/	/* AD 1901 - 2008 */
-/* #define HIST_PD 109	*/ /* */	/* AD 1901 - 2009 */
-#define HIST_PD 110	/* */	/* AD 1901 - 2010 */
+/* simulation framework duration (years) */
+#define HIST 201	
+/* only for memory setting; not actual period */
 
-/* 21st century */
-#define GCM_SIM 0
-/* #define GCM_PD 100 */ /* 100 : 2001-2100 */
-/* #define GCM_PD 99 */	/* 99 : 2001-2099 */
-#define GCM_PD 0		/* 100 : 2001-2100 */
-/* GCM data length: 1970-2100 */
-#define GCM_DL 131
-
-/* CRU data length: 2010/01/04 (A.Ito) */
-/* 102: TS2.1 */
-/* 106: TS3.0 */
-/* 109: TS3.1 */
-#define CRU_DL 109
-/* calculation length */
-#define CRU_CL 109  /* <= asseing climate data uncertainty */
-/* #define CRU_CL 70  */
-
-/* Simulation using NCEP/NACR reanalysis data */
-#define NCEP_BGY 1948
-#define NCEP_SIM 1
-#define NCEP_DL 63   /* 1948-2010 */
-
-/* start year of CO2 */
+/* start year (AD) of CO2 time series */
 #define PIVOT_CO2Y 1901
 /* cru-init 1901 */
 /* con 1990 */
 /* dcd 2081 */
 /* NCEP1 1948 */
-/* start year of climate */
+
+/* total historical run: using CRU + NCEP, etc.*/
+#define HIST_PD 100  /* */	/* AD 1901 - 2000 */
+/* #define HIST_PD 102	*/	/* AD 1901 - 2002 */
+/* #define HIST_PD 108	*/	/* AD 1901 - 2008 */
+/* #define HIST_PD 109	*/	/* AD 1901 - 2009 */
+/* #define HIST_PD 110	*/	/* AD 1901 - 2010 */
+
+/* start year (AD) of climate */
 #define PIVOT_CLIMY 1901 
 /* 1901: CRU */
 /* 1990: control */
 /* 1948: control */
-/* #define PIVOT_GCMY 2001 */
-/* start year of GCM climate */
-#define PIVOT_GCMY 1970
 
-/* atmopsheric GHG data length */
-#define N_GHG_TS 553
+/* CRU data length: 2010/01/04 (A.Ito) */
+#define CRU_DL 109
+/* 102: TS2.1 */
+/* 106: TS3.0 */
+/* 109: TS3.1 */
+/* calculation length: Note CRU_CL LE(=<) CRU_DL */
+#define CRU_CL 100  /* <= asseing climate data uncertainty */
+/* #define CRU_CL 109  */
+/* #define CRU_CL 70  */
+
+/* Simulation using NCEP/NACR reanalysis data */
+#define NCEP_SIM 1
+/* 0: no  1:yes */
+/* data length (years) */
+#define NCEP_DL 63   /* 1948-2010 */
+/* year of data beginning (AD) */
+#define NCEP_BGY 1948
+
+/* future projection ***********/
+/* simulation suing GCM-derived projection scenarios */
+#define GCM_SIM 1
+/* 0: no  1:yes */
+#define GCM_PD 100		/* 100 : 2001-2100 */
+/* #define GCM_PD 99 */	/* 99 : 2001-2099 */
+/* year of data beginning (AD) */
+#define GCM_BGY 2001
+
+/* GCM data length */
+#define GCM_DL 131 /* 1970-2100 */
+/* #define PIVOT_GCMY 2001 */
+/* start year of GCM climate (AD) */
+#define PIVOT_GCMY 1970
 
 /***************************************************/
 /* NECB: coupling carbon loss */
@@ -267,7 +278,7 @@
 /* 5: +10% Albedo */
 /* 6: +10% WHC30/WHC */
 
-/* 7: constant LAI (1990s av) in 2001-2100 */
+/* 7: fixed LAI (1990s av) in 2001-2100 */
 
 /* climate change ************************/
 /* 0:off   1:on */
