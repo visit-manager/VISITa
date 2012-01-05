@@ -34,6 +34,7 @@ extern double h_gpp_df97[HIST], h_gpp_c4[HIST]; /* added by A.Ito (2009/08/31) *
 extern double h_pot_prmfrst[HIST];
 extern double h_trnsp[HIST], h_incepev[HIST], h_ssurfev[HIST];
 extern double h_nbp[HIST], h_hvst[HIST], h_abgm[HIST];
+extern double h_sw1[HIST], h_sw2[HIST];
 
 extern double h_burnt_area[HIST];
 extern double h_bioburn_co2[HIST], h_bioburn_ch4[HIST], h_bioburn_co[HIST];

@@ -45,6 +45,7 @@ double h_gpp_c4[HIST];	/* added by A.Ito (2009/08/31) */
 double h_pot_prmfrst[HIST];
 double h_trnsp[HIST], h_incepev[HIST], h_ssurfev[HIST];
 double h_nbp[HIST], h_hvst[HIST], h_abgm[HIST];
+double h_sw1[HIST], h_sw2[HIST];
 
 double h_burnt_area[HIST];
 double h_bioburn_co2[HIST], h_bioburn_ch4[HIST], h_bioburn_co[HIST];

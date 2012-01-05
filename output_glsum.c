@@ -73,6 +73,9 @@ void f_set_history_data(
 		h_incepev[year] += fweight * loct->incep[f] * grid->area;
 		h_ssurfev[year] += fweight * loct->evpr[f] * grid->area;
 		
+		h_sw1[year] += fweight * loct->msw30[f]* MDN[f]/365.0 * grid->area;
+		h_sw2[year] += fweight * loct->msww[f]* MDN[f]/365.0 * grid->area;
+		
 		/* potential permafrost area: added by A.Ito (2010/03/27) */
 		if(grid->tmp_sfc_am <= -2.0){
 			h_pot_prmfrst[year] += fweight * grid->area;
@@ -524,6 +527,9 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_hvst[h]);
 		fprintf(fp_glsum,"%lf ", h_paddyarea[h]); /* added by A.Ito (2011/2/28) */
 		fprintf(fp_glsum,"%lf ", h_abgm[h]); /* added by A.Ito (2011/12/16) */
+
+		fprintf(fp_glsum,"%lf ", h_sw1[h]); /* added by A.Ito (2012/01/05) */
+		fprintf(fp_glsum,"%lf ", h_sw2[h]); /* added by A.Ito (2011/01/05) */
 
 		fprintf(fp_glsum,"\n");
 	}
