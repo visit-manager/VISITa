@@ -56,11 +56,12 @@
 /* NCEP1 1948 */
 
 /* total historical run: using CRU + NCEP, etc.*/
-#define HIST_PD 100  /* */	/* AD 1901 - 2000 */
+/* #define HIST_PD 100  */	/* AD 1901 - 2000 */
 /* #define HIST_PD 102	*/	/* AD 1901 - 2002 */
 /* #define HIST_PD 108	*/	/* AD 1901 - 2008 */
 /* #define HIST_PD 109	*/	/* AD 1901 - 2009 */
 /* #define HIST_PD 110	*/	/* AD 1901 - 2010 */
+#define HIST_PD 111	/* */	/* AD 1901 - 2011 */
 
 /* start year (AD) of climate */
 #define PIVOT_CLIMY 1901 
@@ -69,26 +70,27 @@
 /* 1948: control */
 
 /* CRU data length: 2010/01/04 (A.Ito) */
-#define CRU_DL 109
+#define CRU_DL 109 /* AD 1901 - 2009 */
 /* 102: TS2.1 */
 /* 106: TS3.0 */
 /* 109: TS3.1 */
 /* calculation length: Note CRU_CL LE(=<) CRU_DL */
-#define CRU_CL 100  /* <= asseing climate data uncertainty */
-/* #define CRU_CL 109  */
+/* #define CRU_CL 100 */  /* <= asseing climate data uncertainty */
+#define CRU_CL 109  /* */
 /* #define CRU_CL 70  */
 
 /* Simulation using NCEP/NACR reanalysis data */
 #define NCEP_SIM 1
 /* 0: no  1:yes */
 /* data length (years) */
-#define NCEP_DL 63   /* 1948-2010 */
+/* extension to 2011: 2012/01/26 by A.Ito */
+#define NCEP_DL 64   /* 1948-2011 */
 /* year of data beginning (AD) */
 #define NCEP_BGY 1948
 
 /* future projection ***********/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_SIM 1
+#define GCM_SIM 0
 /* 0: no  1:yes */
 #define GCM_PD 100		/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */

@@ -142,7 +142,7 @@ struct Grid{
 	float	proj_rad_b[1][1][1];			/* surface downward solar radiation */
 #endif	
 	
-	/* NCEP/NCAR 1948-2009 */
+	/* NCEP/NCAR 1948-2011 */
 #if NCEP_SIM==1	
 	float	ncep_tmp2m[NCEP_DL][ASTEP][94][192];		/* temperature */
 	float	ncep_prate[NCEP_DL][ASTEP][94][192];		/* precipitation */

@@ -28,16 +28,26 @@ void read_ncep_clim(
 	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4809.dat","rt"))==NULL ){  
 		printf("No tcdc.eatm.gauss.mon4809.dat\n");  exit(1); } */
 	
-	if( (fp_t=fopen("./data/air.2m.gauss.mon4810.dat","rt"))==NULL ){  
+	/* if( (fp_t=fopen("./data/air.2m.gauss.mon4810.dat","rt"))==NULL ){  
 		printf("No air.2m.gauss.mon4810.dat\n");  exit(1); }
 	if( (fp_p=fopen("./data/prate.sfc.gauss.mon4810.dat","rt"))==NULL ){  
 		printf("No prate.sfc.gauss.mon4810.dat\n");  exit(1); }
 	if( (fp_h=fopen("./data/vpres.sfc.gauss.mon4810.dat","rt"))==NULL ){  
 		printf("No vpres.sfc.gauss.mon4810.dat\n");  exit(1); }
 	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4810.dat","rt"))==NULL ){  
-		printf("No tcdc.eatm.gauss.mon4810.dat\n");  exit(1); }
+		printf("No tcdc.eatm.gauss.mon4810.dat\n");  exit(1); } */
 	
-	for(f=0;f<NCEP_DL;f++){   /*  1948-2009 */
+    /* extension to 2011: 2012/01/26 by A.Ito */
+	if( (fp_t=fopen("./data/air.2m.gauss.mon4811.dat","rt"))==NULL ){  
+		printf("No air.2m.gauss.mon4811.dat\n");  exit(1); }
+	if( (fp_p=fopen("./data/prate.sfc.gauss.mon4811.dat","rt"))==NULL ){  
+		printf("No prate.sfc.gauss.mon4811.dat\n");  exit(1); }
+	if( (fp_h=fopen("./data/vpres.sfc.gauss.mon4811.dat","rt"))==NULL ){  
+		printf("No vpres.sfc.gauss.mon4811.dat\n");  exit(1); }
+	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4811.dat","rt"))==NULL ){  
+		printf("No tcdc.eatm.gauss.mon4811.dat\n");  exit(1); }
+	
+	for(f=0;f<NCEP_DL;f++){   /*  1948-2011 */
 		for(g=0;g<ASTEP;g++){
 			fscanf(fp_t,"%ld %ld", &yr, &mon);
 			fscanf(fp_p,"%ld %ld", &yr, &mon);

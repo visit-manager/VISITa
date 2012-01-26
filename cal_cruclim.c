@@ -11,7 +11,8 @@
 #include"structure.h"
 #include"prototype.h"
 
-/* 1901-2000 (2002 / 2008 / 2009) *****************************************************/
+/* HISTORICAL SIMULATION */
+/* 1901-2000 (2002 / 2008 / 2009/ 2011) *****************************************************/
 void cal_cruclim(
 	struct Grid *grid, 
 	struct Loct *loct, 

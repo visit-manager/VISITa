@@ -13,6 +13,7 @@
 
 extern short TEMP_GC;
 
+/* FUTURE SIMULATION */
 /* time-series with GCM climate scenarios : 2001-2099 ************************/
 void cal_gcmclim2(
 	struct Grid *grid, 
