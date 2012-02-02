@@ -622,6 +622,8 @@ void f_init_grid(
 		/* Alternative data (NASA/GISS): 2011/03/30 by A.Ito */
 		fscanf(fp_s[21],"%lf", &wetland);
 		grid->f_wetland = wetland;
+        /* corrected: A. Ito (with Hamada-san's comment) 2012/01/30 */
+        lake = 0.0;
 	}else{
 		/* default */
 		/* revised wetland data: by A.Ito (2009/07/14) */
@@ -885,4 +887,7 @@ void f_init_grid(
 		grid->ndepo_ann_wnhx += grid->ndepo_chaser_wnhx[e][grid->chaser_row][grid->chaser_col] * MDN[e];
 		grid->ndepo_ann_wnoy += grid->ndepo_chaser_wnoy[e][grid->chaser_row][grid->chaser_col] * MDN[e];
 	}
+    
+    /* added: A. Ito (with Hamada-san's comment) 2012/01/30 */
+    grid->phase = 0;
 }

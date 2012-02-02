@@ -141,7 +141,13 @@ void f_biomassburning(
 			/* Eq.1 in Thonicke  */
 			aad = (0.4994 * (aa*100.0) + 1.02)/100.0;	
 			
-			bb = aad/me_crit[grid->veg_sage];
+            /* corrected by A.Ito (2012/02/01) based on Hamada-san's comment */
+            if(grid->veg_sage>=1 && grid->veg_sage<=15){
+                bb = aad/me_crit[grid->veg_sage];
+            }else{
+                /* ocean */
+                bb = 0.0;
+            }
 			/* Eq.2 in Thonicke  */
 			cc = exp(-PI*bb*bb);
 			

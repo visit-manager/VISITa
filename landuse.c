@@ -278,6 +278,9 @@ void f_luc_emit(
 	/* effectice biomass */
 	eff_mass = (mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot;
 	
+    /* added: A. Ito (with Hamada-san's comment) 2012/01/30 */
+    f_luc = 0.0;
+    
 	if(grid->phase==0){
 		/* spin-up: fluxes for 1801-1900 *******************************/
 		/* modified by A.Ito (2009/06/05: 2010/01/07) */
@@ -324,7 +327,8 @@ void f_luc_emit(
 				mass_ten = f_luc * eff_mass * fe_ten/(fe_conv + fe_ten + fe_hund);
 				flux->detr_ten[1900-f] = mass_ten;
 			}else{
-				fe_ten = 0.0;
+                /* corrected: A. Ito (with Hamada-san's comment) 2012/01/30 */
+				mass_ten = 0.0;
 				flux->detr_ten[1900-f] = 0.0;
 			}
 			/* corrected: A.Ito and E.Kato (2009/08/16) */
