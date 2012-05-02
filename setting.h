@@ -25,7 +25,7 @@
 
 /***************************************************/
 /* total vegetation number */
-#define VEG_NUM_OLSON 34		/* Olson veg (modified) */
+#define VEG_NUM_OLSON 34	/* Olson veg (modified) */
 #define VEG_NUM_SAGE 16		/* SAGE veg (modified) */
 #define VEG_NUM_CROP 3		/* crop types */
 
@@ -59,9 +59,9 @@
 /* #define HIST_PD 100  */	/* AD 1901 - 2000 */
 /* #define HIST_PD 102	*/	/* AD 1901 - 2002 */
 /* #define HIST_PD 108	*/	/* AD 1901 - 2008 */
-/* #define HIST_PD 109	*/	/* AD 1901 - 2009 */
+#define HIST_PD 109	/* */	/* AD 1901 - 2009 */
 /* #define HIST_PD 110	*/	/* AD 1901 - 2010 */
-#define HIST_PD 111	/* */	/* AD 1901 - 2011 */
+/* #define HIST_PD 111	*/	/* AD 1901 - 2011 */
 
 /* start year (AD) of climate */
 #define PIVOT_CLIMY 1901 
@@ -70,7 +70,7 @@
 /* 1948: control */
 
 /* CRU data length: 2010/01/04 (A.Ito) */
-#define CRU_DL 109 /* AD 1901 - 2009 */
+#define CRU_DL 109  /* AD 1901 - 2009 */
 /* 102: TS2.1 */
 /* 106: TS3.0 */
 /* 109: TS3.1 */
@@ -80,7 +80,7 @@
 /* #define CRU_CL 70  */
 
 /* Simulation using NCEP/NACR reanalysis data */
-#define NCEP_SIM 1
+#define NCEP_SIM 0
 /* 0: no  1:yes */
 /* data length (years) */
 /* extension to 2011: 2012/01/26 by A.Ito */
@@ -90,12 +90,14 @@
 
 /* future projection ***********/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_SIM 0
+#define GCM_SIM 1
 /* 0: no  1:yes */
-#define GCM_PD 100		/* 100 : 2001-2100 */
+/* #define GCM_PD 100 */	/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
 /* year of data beginning (AD) */
-#define GCM_BGY 2001
+/* #define GCM_BGY 2001 */
+#define GCM_BGY 2010
+#define GCM_ENY 2100
 
 /* GCM data length */
 #define GCM_DL 131 /* 1970-2100 */

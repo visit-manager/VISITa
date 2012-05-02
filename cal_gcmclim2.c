@@ -37,14 +37,14 @@ void cal_gcmclim2(
 	}else if(TEMP_GC==3 || TEMP_GC==4){
 		simyr = 200;
 	}else{
-		simyr = GCM_PD; /*** AD 2001-2100 ***/
+		simyr = GCM_ENY - GCM_BGY +1; /*** AD 2001-2100 ***/
 	}
 	
 	/* LOOP to dynamic stage ***************************************/
-	for(g=0;g<simyr;g++){ 
+	for(g=GCM_BGY;g<GCM_ENY;g++){ 
 	
 		/* climate change ********************/
-		grid->climy = GCM_BGY + g;
+		grid->climy = g;
 		if(GCM!=0){			
 			set_gcm_clim(grid);
 		}
@@ -62,8 +62,9 @@ void cal_gcmclim2(
 		}else if(CO2S==7){
 			grid->co2y = 2081;
 		}else{
-			grid->co2y = 2001 + g; 
+			grid->co2y = 2001 + (g - GCM_BGY); 
 		}
+        
 		if(TEMP_GC != 0){
 			grid->co2y = 2001;
 		}
@@ -135,7 +136,7 @@ void cal_gcmclim2(
 				(flux->plant).lL[f] = flux->lL0[f];
 			}
 			if(BACC==4){
-				rl_a = (echar->soil).rl0*(1.0 - 0.001*(double)(g+1));
+				rl_a = (echar->soil).rl0*(1.0 - 0.001*(double)((grid->climy - GCM_BGY)+1));
 				if((mass->soil).ltr+(flux->plant).lL[f]){
 					(echar->soil).rl = ((echar->soil).rl*(mass->soil).ltr + 
 							rl_a*(flux->plant).lL[f])/((mass->soil).ltr+(flux->plant).lL[f]);

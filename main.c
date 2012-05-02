@@ -42,7 +42,7 @@ and plot-scale validation. Ecological Modelling, 151:147-179.
 
 /*  how to run the model?
  
- <prompt> ./visita config_file_name
+ <prompt> ./visita
  
 */
 
@@ -69,7 +69,7 @@ int main(
 	FILE *fp_config;
 	
 	/* read configure (instead of arguments) by A.Ito (2009/09/01) ************/
-	if((fp_config = fopen(argv[1],"rt"))==NULL){
+	if((fp_config = fopen("setting.txt","rt")) == NULL){
 	   printf("No configuration file !!!!!!!!!\n");
 	   exit(1);
 	}
@@ -328,7 +328,7 @@ int main(
 				screenshow(&grid, &loct, &mass, &flux, &echar); 
 				
 				/* experiment *******************************************/
-				/* past: 1901-2000/2009 */
+				/* historical: 1901-2000/2009 */
 				cal_cruclim(&grid, &loct, &echar, &mass, &flux, fp_o1);	
 
 				/* future: 2001-2100 */
@@ -372,7 +372,7 @@ int main(
 				screenshow(&grid, &loct_agr, &mass_agr, &flux_agr, &echar_agr);
 				
 				/* experiment **************************************/
-				/* past: 1901-2000 */
+				/* historical: 1901-2000 */
 				cal_cruclim(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2); 
 
 				/* future: 2001-2100 */
