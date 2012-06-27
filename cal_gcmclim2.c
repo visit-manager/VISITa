@@ -41,7 +41,7 @@ void cal_gcmclim2(
 	}
 	
 	/* LOOP to dynamic stage ***************************************/
-	for(g=GCM_BGY;g<GCM_ENY;g++){ 
+	for(g=GCM_BGY;g<=GCM_ENY;g++){ 
 	
 		/* climate change ********************/
 		grid->climy = g;
