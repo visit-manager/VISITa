@@ -261,7 +261,7 @@ int main(
 			
 			printf("%3ld %3ld: %7.2lf %7.2lf: %2ld %2ld %2ld: %1ld\n", 
 				grid.row, grid.col, grid.lat, grid.lon, grid.veg_olson, grid.veg_sage, 
-				grid.veg_crop, grid.cru_exist); /* */
+				grid.veg_crop, grid.hist_exist); /* */
 			
 			/* head records of output files */
 			for(h=0;h<OFILES;h++){
@@ -329,10 +329,11 @@ int main(
 				
 				/* experiment *******************************************/
 				/* historical: 1901-2000/2009 */
+				/* ISI-MIP: 1950-2099 */
 				cal_cruclim(&grid, &loct, &echar, &mass, &flux, fp_o1);	
 
 				/* future: 2001-2100 */
-				if(GCM_SIM){
+				if(GCM_SIM==1){
 					cal_gcmclim2(&grid, &loct, &echar, &mass, &flux, fp_o1);
 				}
 				
@@ -373,6 +374,7 @@ int main(
 				
 				/* experiment **************************************/
 				/* historical: 1901-2000 */
+                /* ISI-MIP: 1950-2099 */
 				cal_cruclim(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2); 
 
 				/* future: 2001-2100 */

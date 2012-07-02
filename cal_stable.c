@@ -77,6 +77,12 @@ void cal_stable(
 		if(grid->y==0){ /* for the first year */
 			npp_empirical(grid, loct, flux);
 		}
+        
+        if(ISIMIP_RUN==1 && grid->hist_exist == 1){
+            ann_nep = 10.0;
+            grid->climy = nn%30 +1951;
+			set_hist_clim(grid);
+		}
 		
 		plantmass = ann_nep = 0.0;
 		for(f=0;f<ASTEP;f++){
@@ -211,14 +217,21 @@ void cal_stable(
 		}
 		
 		/* terminal conditions ****************************/
-		if(nn < 200){	
-			/* continued */
-			ann_nep = 10.0; 
-		}else if(nn>=200 && nn<term_time){	
-			ann_nep = fabs(ann_nep); /**** 1. sufficiently stabilized ****/	
-		}else{  /*  if(nn>=term_time) */
-			break; /**** 3. stop by 2000 years ****/	
-		}
+        if(ISIMIP_RUN==0){
+            if(nn < 200){	
+                /* continued */
+                ann_nep = 10.0; 
+            }else if(nn>=200 && nn<term_time){	
+                ann_nep = fabs(ann_nep); /**** 1. sufficiently stabilized ****/	
+            }else{  /*  if(nn>=term_time) */
+                break; /**** 3. stop by 2000 years ****/	
+            }
+        }else if(ISIMIP_RUN==0){
+            /* spin-up 3000 years (30 x 100 times): 2012/07/02 by A.Ito */
+            if(nn==3000){
+                ann_nep = 0.0;
+            }
+        }
 		
 		if(plantmass<0.0 || plantmass>=500.0){
 			printf("!!! BAD plant biomass: %lf\n", plantmass);

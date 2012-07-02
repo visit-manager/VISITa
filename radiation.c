@@ -64,14 +64,15 @@ double f_day_length(
 
 /* shortwave radiation at the atmosphere-top ***********************/
 double top_rad(
-	struct Grid *grid
+	struct Grid *grid, 
+    short ha
 ){
 	double doy[12] = {15.0, 46.0, 74.0, 105.0, 135.0, 166.0, 
 		196.0, 227.0, 258.0, 288.0, 319.0, 349.0};
 	double ge, dlt, dtc, ho;
 	double aa, bb, cc, dd, ee, gg, hh, ii;
 	
-	ge = 2.0*PI/365.0*doy[grid->m];
+	ge = 2.0 * PI / 365.0*doy[grid->m];
 	
 	aa = -0.399912*cos(ge) + 0.070257*sin(ge);
 	bb = -0.006758*cos(2.0*ge)+0.000907*sin(2.0*ge);
@@ -102,9 +103,9 @@ double top_rad(
 	}
 	
 	/* holizontally incident radiation at the top of the atmosphere */
-	hh = sin(dlt)*sin(grid->lat*dTr); 
-	ii = cos(dlt)*cos(grid->lat*dTr); 
-	ho = gg*dtc*(hh+ii); 
+	hh = sin(dlt) * sin(grid->lat * dTr); 
+	ii = cos(dlt) * cos(grid->lat * dTr) * cos((double)ha * dTr);; 
+	ho = gg * dtc * (hh + ii); 
 	ho = (ho>=0.0)?ho:0.0;
 			
 	return(ho);
@@ -120,7 +121,7 @@ double gl_rad(
 	 the empirical Equbal's equation */
 	cloudiness = grid->tcdc_clm[grid->m];
 	/* jj=0.803-0.34*cloudiness-0.458*cloudiness*cloudiness; */ /* Black's */
-	jj = 0.8964-0.5392*cloudiness; /* new regression based on NCEP/NCAR data*/
+	jj = 0.8964 - 0.5392 * cloudiness; /* new regression based on NCEP/NCAR data*/
 	jj = (jj<=1.0)?jj:1.0; 
 	jj = (jj>=0.0)?jj:0.0;
 	
@@ -153,14 +154,14 @@ double par(
 		
 		/* new estimation of diffuse radiation: 2008/09/08 by A.Ito */
 		if(DIF_SRB==1){
-			if((grid->srb_dif_rr*grid->srb_dif_rr) > 0.25){
+			if((grid->srb_dif_rr * grid->srb_dif_rr) > 0.25){
 				dd = grid->srb_dif_aa + grid->srb_dif_bb*kt;
 			}else{
 				/* global average */
 				dd = 1.306833 - 1.250070*kt;
 			}
 		}else{
-			dd = 0.958-0.982*kt;
+			dd = 0.958 - 0.982*kt;
 		}
 		
 		if(RAD_SENS==1){

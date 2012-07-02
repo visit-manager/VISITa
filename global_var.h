@@ -33,6 +33,11 @@ double f_pert[20];
 double aco2_a1[N_GHG_TS], aco2_a2[N_GHG_TS], aco2_b1[N_GHG_TS], aco2_b2[N_GHG_TS];
 double ach4_a1[N_GHG_TS], ach4_a2[N_GHG_TS], ach4_b1[N_GHG_TS], ach4_b2[N_GHG_TS];
 double an2o_a1[N_GHG_TS], an2o_a2[N_GHG_TS], an2o_b1[N_GHG_TS], an2o_b2[N_GHG_TS];
+/* for ISI-MIP: 2012/06/27 by A.Ito */
+/* a1 => RCP6.0 */
+/* a2 => RCP8.5 */
+/* b1 => RCP2.6 */
+/* b2 => RCP4.5 */
 
 /* historical results: 201 years, spinup+1901-2100 *************/
 double h_tmp[HIST], h_pre[HIST], h_dswr[HIST], h_aet[HIST], h_rof[HIST];

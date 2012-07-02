@@ -12,7 +12,7 @@
 #include"prototype.h"
 
 /* HISTORICAL SIMULATION */
-/* 1901-2000 (2002 / 2008 / 2009/ 2011) *****************************************************/
+/* 1901-2000 (2002 / 2008 / 2009/ 2011) *******************************************/
 void cal_cruclim(
 	struct Grid *grid, 
 	struct Loct *loct, 
@@ -25,7 +25,8 @@ void cal_cruclim(
 	double f_fert, total_hvst;
 	extern double MDN[ASTEP];
 	
-	grid->phase = 1; /* history */
+    /* historical simulation */
+	grid->phase = 1; 
 	
 	(echar->soil).rl = (echar->soil).rl0;
 	(echar->soil).rh = (echar->soil).rh0;
@@ -33,11 +34,12 @@ void cal_cruclim(
 	/* LOOP to dynamic stage *******************************************************/
 	for(g=0; g<HIST_PD; g++){
 		/* AD1901 - 2002 / 2008 / 2009 */
+        /* ISIMIP: 1951-2099 */
 		
 		/* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
-		if(grid->cru_exist == 1){
-			set_cru_clim(grid);
+		if(grid->hist_exist == 1){
+			set_hist_clim(grid);
 		}
 		
 		/* land-use change ******************/

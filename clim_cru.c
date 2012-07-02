@@ -25,90 +25,178 @@ void read_cru_clim(
 ){
 	long kk[4], flag;
 	long f, g, h;
-	double data, alt;
-	
+	double data, alt, aa, bb;
+    double atmp, apres, shum, avtas, avpr, drad;
+    float r_isimip_data[179*12];
+
 	/*  printf("reading CRU data...");  */
 	/* read CRU TS3.0 Vapor-pressure data: 2010/01/04 (A.Ito) */
 	
-	flag = 0;
-	
-	/* read CRU TS Cloud data */
-	fscanf(fp_c[0],"%ld", &kk[0]);
-	if(kk[0]!=0){
-		flag++;
-		for(h=0;h<CRU_DL;h++){
-			for(g=0;g<ASTEP;g++){
-				fscanf(fp_c[0],"%lf", &data);
-				
-				grid->hist_cld[h][g] = data/100.0;
-			}
-		}
-	}
-	
-	/* read CRU TS Precipitation data */
-	fscanf(fp_c[1],"%ld", &kk[1]);
-	if(kk[1]!=0){
-		flag++;
-		for(h=0;h<CRU_DL;h++){
-			for(g=0;g<ASTEP;g++){
-				fscanf(fp_c[1],"%lf", &data);
-				
-				grid->hist_pre[h][g] = data;
-			}
-		}
-	}
-	
-	/* read CRU TS Temperature data */
-	fscanf(fp_c[2],"%ld", &kk[2]);
-	if(kk[2]!=0){
-		flag++;
-		for(h=0;h<CRU_DL;h++){
-			for(g=0;g<ASTEP;g++){
-				fscanf(fp_c[2],"%lf", &data);
-				
-				grid->hist_tmp[h][g] = data;
-			}
-		}
-	}
-	
-	/* read CRU TS Vapor-pressure data */
-	fscanf(fp_c[3],"%ld", &kk[3]);
-	if(kk[3]!=0){
-		flag++;
-		for(h=0;h<CRU_DL;h++){
-			for(g=0;g<ASTEP;g++){
-				fscanf(fp_c[3],"%lf", &data);
-				
-				grid->hist_vap[h][g] = data;
-			}
-		}
-	}
-	
-	/*  printf("********* %ld\n",cru_flag);  */
-	
-	/* if valid CRU climate data are all available **/
-	if(flag==4){
-		/* data available */
-		grid->cru_exist = 1;
-		alt = (grid->topo>=0.0)?grid->topo:0.0; 
+    for(g=0;g<ASTEP;g++){
+        grid->hist_cld_b[g] = grid->hist_pre_b[g] = 0.0;
+        grid->hist_tmp_b[g] = grid->hist_vap_b[g] = 0.0;
+    }
 
-		/* base climate (average 1971 - 2000) ******************/
-		for(g=0;g<ASTEP;g++){
-			grid->hist_cld_b[g] = grid->hist_pre_b[g] = 0.0;
-			grid->hist_tmp_b[g] = grid->hist_vap_b[g] = 0.0;
-		}
-		for(f=0;f<30;f++){
-			for(g=0;g<ASTEP;g++){
-				grid->hist_cld_b[g] += grid->hist_cld[70+f][g]/30.0;
-				grid->hist_pre_b[g] += grid->hist_pre[70+f][g]/30.0;
-				grid->hist_vap_b[g] += grid->hist_vap[70+f][g]/30.0;
-				grid->hist_tmp_b[g] += grid->hist_tmp[70+f][g]/30.0;
-			}
-		}
-	}else{
-		/* unavailable CRU TS2.1 data, for example on ocean */
-		grid->cru_exist = 0;
-	}
+   if(ISIMIP_RUN==0){
+        flag = 0;
+        
+        /* read CRU TS Cloud data */
+        fscanf(fp_c[0],"%ld", &kk[0]);
+        if(kk[0]!=0){
+            flag++;
+            for(h=0;h<CRU_DL;h++){
+                for(g=0;g<ASTEP;g++){
+                    fscanf(fp_c[0],"%lf", &data);
+                    
+                    grid->hist_cld[h][g] = data/100.0;
+                }
+            }
+        }
+        
+        /* read CRU TS Precipitation data */
+        fscanf(fp_c[1],"%ld", &kk[1]);
+        if(kk[1]!=0){
+            flag++;
+            for(h=0;h<CRU_DL;h++){
+                for(g=0;g<ASTEP;g++){
+                    fscanf(fp_c[1],"%lf", &data);
+                    
+                    grid->hist_pre[h][g] = data;
+                }
+            }
+        }
+        
+        /* read CRU TS Temperature data */
+        fscanf(fp_c[2],"%ld", &kk[2]);
+        if(kk[2]!=0){
+            flag++;
+            for(h=0;h<CRU_DL;h++){
+                for(g=0;g<ASTEP;g++){
+                    fscanf(fp_c[2],"%lf", &data);
+                    
+                    grid->hist_tmp[h][g] = data;
+                }
+            }
+        }
+        
+        /* read CRU TS Vapor-pressure data */
+        fscanf(fp_c[3],"%ld", &kk[3]);
+        if(kk[3]!=0){
+            flag++;
+            for(h=0;h<CRU_DL;h++){
+                for(g=0;g<ASTEP;g++){
+                    fscanf(fp_c[3],"%lf", &data);
+                    
+                    grid->hist_vap[h][g] = data;
+                }
+            }
+        }
+        
+        /*  printf("********* %ld\n",cru_flag);  */
+        
+        /* if valid CRU climate data are all available **/
+        if(flag==4){
+            /* data available */
+            grid->hist_exist = 1;
+            alt = (grid->topo>=0.0)?grid->topo:0.0; 
+
+            /* base climate (average 1971 - 2000) ******************/
+            for(f=0;f<30;f++){
+                for(g=0;g<ASTEP;g++){
+                    grid->hist_cld_b[g] += grid->hist_cld[70+f][g]/30.0;
+                    grid->hist_pre_b[g] += grid->hist_pre[70+f][g]/30.0;
+                    grid->hist_vap_b[g] += grid->hist_vap[70+f][g]/30.0;
+                    grid->hist_tmp_b[g] += grid->hist_tmp[70+f][g]/30.0;
+                }
+            }
+        }else{
+            /* unavailable CRU TS2.1 data, for example on ocean */
+            grid->hist_exist = 0;
+        }
+    }else if(ISIMIP_RUN==1){
+        
+        /* ISI-MIP: 2012/06/27 by A.Ito ****************/
+        /* 1951-1980-detrended: spi-up */
+        /* 1951-2005:           historical */
+        /* 2006-2099:           future projection */
+        
+        /* ait tempetaure, deg-C */
+        fread(r_isimip_data,sizeof(float),ASTEP*ISIMIP_DL, fp_c[0]);
+        avtas = 0.0;
+        for(h=0;h<ISIMIP_DL;h++){
+            for(g=0;g<ASTEP;g++){
+                grid->hist_tmp[h][g] = (double)r_isimip_data[h*ASTEP+g] - ZAT;
+                avtas += grid->hist_tmp[h][g] / (double)ISIMIP_DL / (double)ASTEP;
+            }
+        }
+        
+        /* precipitation, mm month-1 */
+        fread(r_isimip_data,sizeof(float),ASTEP*ISIMIP_DL, fp_c[1]);
+        avpr = 0.0;
+        for(h=0;h<ISIMIP_DL;h++){
+            for(g=0;g<ASTEP;g++){
+                grid->hist_pre[h][g] = (double)r_isimip_data[h*ASTEP+g] * (double)MDN[g] *24.0*3600.0;
+                avpr += grid->hist_pre[h][g] / (double)ISIMIP_DL;
+            }
+        }
+        
+        /* specific humidity => vapor pressure, hPa */
+        fread(r_isimip_data,sizeof(float),ASTEP*ISIMIP_DL, fp_c[2]);
+        for(h=0;h<ISIMIP_DL;h++){
+            for(g=0;g<ASTEP;g++){
+            
+                /* specific humidity to vapor pressure */
+                /* revided by A.Ito (2012/06/28) */
+                atmp = grid->hist_tmp[h][g];
+                apres = 1013.25*exp(-1.0*(28.964*0.001)*9.8*alt/(8.3144*(atmp+ZAT))); 
+                shum = (double)r_isimip_data[h*ASTEP+g];
+                grid->hist_vap[h][g] = apres * shum/(0.622 + 0.378*shum);
+            }
+        }
+        
+        /* radiation => cloudiness, fraction */
+        fread(r_isimip_data,sizeof(float),ASTEP*ISIMIP_DL, fp_c[3]);
+        for(h=0;h<ISIMIP_DL;h++){
+            for(g=0;g<ASTEP;g++){
+                /* average downward-shortwave radiation */
+                /* 2012/06/29 by A.Ito */
+                drad = 0.0;
+                for (f=0;f<24;f++) {
+                    drad += top_rad(grid, -180+15*f) / 24.0; 
+                }
+                
+                /* inverse estimation of cloudiness */
+                aa = (double)r_isimip_data[h*ASTEP+g] / drad;
+                bb = (0.8964 - aa) / 0.5392;
+                if(bb < 0.0){
+                    bb = 0.0;
+                }
+                if(bb > 1.0){
+                    bb = 1.0;
+                }
+            
+                grid->hist_cld[h][g] = bb;
+            }
+        }
+        
+        /* effective data availability */
+        if(avtas > -50.0 && avtas < 50.0 && avpr >= 0.0 && avpr < 10000.0){
+            grid->hist_exist = 1;
+        }else{
+            grid->hist_exist = 0;
+        }
+        
+        /* climatology */
+        for(f=0;f<30;f++){
+            for(g=0;g<ASTEP;g++){
+                /* average of 1951–1980 (historial detrended) data */
+                grid->hist_cld_b[g] += grid->hist_cld[f][g]/30.0;
+                grid->hist_pre_b[g] += grid->hist_pre[f][g]/30.0;
+                grid->hist_vap_b[g] += grid->hist_vap[f][g]/30.0;
+                grid->hist_tmp_b[g] += grid->hist_tmp[f][g]/30.0;
+            }
+        }
+    }
 	
 	/*  printf("done\n");  */
 }

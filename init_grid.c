@@ -111,6 +111,7 @@ void f_init_grid(
 	/* GCM grid *************************************/
 	grid->gcm_row = 0;
 	grid->gcm_col = 0;
+    
 	/* AR3 ****************/
 	if(GCM==1 || GCM==2 || GCM==3 || GCM==4 || GCM==5 || GCM==6){ /* CCSR/NIES */
 		grid->gcm_row = grid->row/11.25;	
@@ -241,7 +242,7 @@ void f_init_grid(
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}
-
+    
 	/* input geography in the grid *************/	
 	fscanf(fp_s[0],"%ld %ld", &country, &region); 
 	grid->country = country;	/* country code */

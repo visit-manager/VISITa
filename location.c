@@ -36,7 +36,7 @@ void f_init_clim(
 		f_co2_trend(grid);
 
 		/* climatic conditions */
-		/* NCEP/NCAR data ***************************************/
+		/* NCEP/NCAR mean climate data ***************************************/
 		grid->tmp_sfc[h] = grid->tmp_sfc_a[h]; /* temperature, degree C */
 		grid->tmp_2m[h] = grid->tmp_2m_a[h];
 		grid->tmp10_soil[h] = grid->tmp10_soil_a[h];
@@ -45,7 +45,7 @@ void f_init_clim(
 		grid->prate_sfc[h] = grid->prate_sfc_a[h]; /* precipitation, mm / month */
 		
 		/*** UEA/CRU data ***/
-		if(grid->cru_exist == 1){
+		if(grid->hist_exist == 1){ /* for grids data are available */
 			/* temporary */
 			grid->tmp_sfc[h] = grid->hist_tmp_b[h] + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
 			grid->tmp10_soil[h] = grid->hist_tmp_b[h] + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
@@ -82,7 +82,7 @@ void f_init_clim(
 		
 		/* radiation fluxes and day-length */
 		grid->dlen[h] = f_day_length(grid);		
-		grid->top_rad[h] = top_rad(grid); 	
+		grid->top_rad[h] = top_rad(grid, 0); 	
 
 		grid->gl_rad[h] = gl_rad(grid); 	
 		grid->par[h] = par(grid); 
@@ -242,7 +242,7 @@ void f_dyn_loct(
 	
 	/* solar constant sensitivity */
 	if(SC==3 || SC==4){
-		grid->top_rad[grid->m] = top_rad(grid); 	
+		grid->top_rad[grid->m] = top_rad(grid, 0); 	
 		grid->gl_rad[grid->m] = gl_rad(grid); 	
 		grid->par[grid->m] = par(grid); 
 	}else if(SC==5){
@@ -251,7 +251,7 @@ void f_dyn_loct(
 	}
 	
 	/* radiatin for cal_cruclim: 1901-2000 */
-	if(grid->cru_exist == 1 && grid->phase == 1){
+	if(grid->hist_exist == 1 && grid->phase == 1){
 		grid->gl_rad[grid->m] = gl_rad(grid); 
 		grid->par[grid->m] = par(grid); 
 	}
@@ -311,14 +311,14 @@ void f_dyn_loct(
 			* loct->prsr[grid->m] / (8.3144*(grid->tmp10_soil[grid->m]+273.15));
 	}
 
-	if(grid->cru_exist == 1){
+	if(grid->hist_exist == 1){
 		/* vapour pressure, hPa */
-		if(grid->phase==0){
+		if(grid->phase == 0){
 			/* spin-up */
 			loct->vp[grid->m] = grid->hist_vap_b[grid->m];
 		}else if(grid->phase==1){
-			if(grid->climy<=2002){
-				/* based on UEA/CRU */
+			if(grid->climy < (PIVOT_CLIMY + HIST_PD)){
+				/* based on UEA/CRU or ISI-MIP data */
 				loct->vp[grid->m] = grid->hist_vap[grid->climy - PIVOT_CLIMY][grid->m];	
 			}else{
 				/* based on NCEP/NCAR */

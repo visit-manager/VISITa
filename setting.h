@@ -17,11 +17,16 @@
 #define STCIR (0.0111/0.9889) /* standard stable carbon isotope ratio */
 #define UGC 8.314 /* universal gas constant */
 
-/***********************/
+/***************************************************/
 #define ASTEP 12	/* annual time-step, 12=monthly */
 
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
+
+/***************************************************/
+#define ISIMIP_RUN 1
+/* 0: normal (no ISI-MIP) */
+/* 1: ISI-MIP runs */
 
 /***************************************************/
 /* total vegetation number */
@@ -41,7 +46,12 @@
 #define NREG 23
 
 /* atmopsheric GHG data length */
-#define N_GHG_TS 553
+#if ISIMIP_RUN==1
+    /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define N_GHG_TS 736
+#else
+    #define N_GHG_TS 553 /* default */
+#endif
 
 /***************************************************/
 /* simulation framework duration (years) */
@@ -49,25 +59,40 @@
 /* only for memory setting; not actual period */
 
 /* start year (AD) of CO2 time series */
-#define PIVOT_CO2Y 1901
+/* #define PIVOT_CO2Y 1901 */
 /* cru-init 1901 */
 /* con 1990 */
 /* dcd 2081 */
 /* NCEP1 1948 */
+#if ISIMIP_RUN==1
+    #define PIVOT_CO2Y 1951 /* ISI-MIP: 2012/06/27 by A.Ito */
+#else
+    #define PIVOT_CO2Y 1901
+#endif
 
 /* total historical run: using CRU + NCEP, etc.*/
 /* #define HIST_PD 100  */	/* AD 1901 - 2000 */
 /* #define HIST_PD 102	*/	/* AD 1901 - 2002 */
 /* #define HIST_PD 108	*/	/* AD 1901 - 2008 */
-#define HIST_PD 109	/* */	/* AD 1901 - 2009 */
+/* #define HIST_PD 109	*/	/* AD 1901 - 2009 */
 /* #define HIST_PD 110	*/	/* AD 1901 - 2010 */
 /* #define HIST_PD 111	*/	/* AD 1901 - 2011 */
+#if ISIMIP_RUN==1
+    #define HIST_PD 149     /* AD 1951 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
+#else
+    #define HIST_PD 109
+#endif
 
 /* start year (AD) of climate */
-#define PIVOT_CLIMY 1901 
+/* #define PIVOT_CLIMY 1901 */
 /* 1901: CRU */
 /* 1990: control */
 /* 1948: control */
+#if ISIMIP_RUN==1
+    #define PIVOT_CLIMY 1951    /* ISI-MIP: 2012/06/27 by A.Ito */
+#else
+    #define PIVOT_CLIMY 1901
+#endif
 
 /* CRU data length: 2010/01/04 (A.Ito) */
 #define CRU_DL 109  /* AD 1901 - 2009 */
@@ -88,9 +113,15 @@
 /* year of data beginning (AD) */
 #define NCEP_BGY 1948
 
+/* Simulation using ISI-MIP data (yr) */
+#define ISIMIP_DL 179 
+/* spinup 1951-1980 */
+/* historical 1951-2005 */
+/* historical 2006-2099 */
+
 /* future projection ***********/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_SIM 1
+#define GCM_SIM 0
 /* 0: no  1:yes */
 /* #define GCM_PD 100 */	/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
@@ -165,7 +196,7 @@
 /* 0:off, 1:0n */
 
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 
@@ -506,3 +537,23 @@
 /* 1265: NCAR PCM + A2 2 */
 /* 1266: NCAR PCM + A2 3 */
 /* 1267: NCAR PCM + A2 4 */
+
+/*** ISI-MIP: 2012/06/27 by A.Ito ***/
+/* 2001: HadGEM2-ES RCP 2.6 +co2 */
+/* 2002: HadGEM2-ES RCP 8.5 +co2 */
+/* 2003: HadGEM2-ES RCP 4.5 +co2 */
+/* 2004: HadGEM2-ES RCP 6.0 +co2 */
+/* 2005: HadGEM2-ES RCP 8.5 +noco2 */
+
+/* 2011: IPSL-CM5A-LR RCP 2.6 +co2 */
+/* 2012: IPSL-CM5A-LR RCP 8.5 +co2 */
+
+/* 2021: GFDL-ESM2M RCP 2.6 +co2 */
+/* 2022: GFDL-ESM2M RCP 8.5 +co2 */
+
+/* 2031: MIROC-ESM-CHEM RCP 2.6 +co2 */
+/* 2032: MIROC-ESM-CHEM RCP 8.5 +co2 */
+
+/* 2041: NorESM1-M RCP 2.6 +co2 */
+/* 2042: NorESM1-M RCP 8.5 +co2 */
+

@@ -11,7 +11,7 @@
 
 #include"setting.h"
 
-#define IFILEN 58
+#define IFILEN 58 /* */  /* normal case */
 #define OFILES 9
 
 extern short DF97;
@@ -194,7 +194,7 @@ void f_co2_trend(struct Grid *grid);
 void read_gcm_clim(struct Grid *grid);
 void read_ncep_clim(struct Grid *grid);
 void set_gcm_clim(struct Grid *grid);
-void set_cru_clim(struct Grid *grid);
+void set_hist_clim(struct Grid *grid);
 void read_cru_clim(FILE *fp_c[4], struct Grid *grid);
 void f_cult_luc(struct Grid *grid);
 long f_basin_id_trip(long original);
@@ -227,7 +227,7 @@ void cal_gcmclim2(struct Grid *grid, struct Loct *loct,
 double f_solar_decl(struct Grid *grid);
 double f_solar_hgt(struct Grid *grid);
 double f_day_length(struct Grid *grid);
-double top_rad(struct Grid *grid);
+double top_rad(struct Grid *grid, short ha);
 double gl_rad(struct Grid *grid);
 double par(struct Grid *grid);
 void f_net_rad(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Echar *echar);

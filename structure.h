@@ -164,11 +164,11 @@ struct Grid{
 	float	ncep_tcdc_b[1][1][1];
 	float	ncep_vpres_b[1][1][1]; 
 #endif
-	
+
 	double	proj_prec_co;			/* carry-over of negative precipitation */
 
-	/* UEA/CRU TS2.1 data */
-	long	cru_exist;							/* flag of CRU TS2.1 data availability */
+	/* historical (e.g., UEA/CRU TS2.1) data */
+	long	hist_exist;							/* flag of data availability */
 	double	hist_tmp[CRU_DL][ASTEP];			/* temperature */
 	double	hist_pre[CRU_DL][ASTEP];			/* precipitation */
 	double	hist_cld[CRU_DL][ASTEP];			/* cloud cover */
