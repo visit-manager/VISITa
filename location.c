@@ -251,7 +251,7 @@ void f_dyn_loct(
 	}
 	
 	/* radiatin for cal_cruclim: 1901-2000 */
-	if(grid->hist_exist == 1 && grid->phase == 1){
+	if(grid->hist_exist == 1){
 		grid->gl_rad[grid->m] = gl_rad(grid); 
 		grid->par[grid->m] = par(grid); 
 	}

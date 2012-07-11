@@ -65,7 +65,7 @@
 /* dcd 2081 */
 /* NCEP1 1948 */
 #if ISIMIP_RUN==1
-    #define PIVOT_CO2Y 1951 /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define PIVOT_CO2Y 1950 /* ISI-MIP: 2012/06/27 by A.Ito */
 #else
     #define PIVOT_CO2Y 1901
 #endif
@@ -78,7 +78,7 @@
 /* #define HIST_PD 110	*/	/* AD 1901 - 2010 */
 /* #define HIST_PD 111	*/	/* AD 1901 - 2011 */
 #if ISIMIP_RUN==1
-    #define HIST_PD 149     /* AD 1951 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define HIST_PD 150     /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
 #else
     #define HIST_PD 109
 #endif
@@ -89,13 +89,17 @@
 /* 1990: control */
 /* 1948: control */
 #if ISIMIP_RUN==1
-    #define PIVOT_CLIMY 1951    /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define PIVOT_CLIMY 1950    /* ISI-MIP: 2012/06/27 by A.Ito */
 #else
     #define PIVOT_CLIMY 1901
 #endif
 
 /* CRU data length: 2010/01/04 (A.Ito) */
-#define CRU_DL 109  /* AD 1901 - 2009 */
+#if ISIMIP_RUN==1
+    #define CRU_DL 180  /* SU 30 + AD 1950 - 2009 */
+#else
+    #define CRU_DL 109  /* AD 1901 - 2009 */
+#endif
 /* 102: TS2.1 */
 /* 106: TS3.0 */
 /* 109: TS3.1 */
@@ -114,7 +118,7 @@
 #define NCEP_BGY 1948
 
 /* Simulation using ISI-MIP data (yr) */
-#define ISIMIP_DL 179 
+#define ISIMIP_DL 180 
 /* spinup 1951-1980 */
 /* historical 1951-2005 */
 /* historical 2006-2099 */
@@ -547,6 +551,8 @@
 
 /* 2011: IPSL-CM5A-LR RCP 2.6 +co2 */
 /* 2012: IPSL-CM5A-LR RCP 8.5 +co2 */
+/* 2013: IPSL-CM5A-LR RCP 4.5 +co2 */
+/* 2014: IPSL-CM5A-LR RCP 6.0 +co2 */
 
 /* 2021: GFDL-ESM2M RCP 2.6 +co2 */
 /* 2022: GFDL-ESM2M RCP 8.5 +co2 */

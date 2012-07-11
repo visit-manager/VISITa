@@ -34,7 +34,7 @@ void cal_cruclim(
 	/* LOOP to dynamic stage *******************************************************/
 	for(g=0; g<HIST_PD; g++){
 		/* AD1901 - 2002 / 2008 / 2009 */
-        /* ISIMIP: 1951-2099 */
+        /* ISIMIP: 1950-2099 */
 		
 		/* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;

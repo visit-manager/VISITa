@@ -226,8 +226,9 @@ void cal_stable(
             }else{  /*  if(nn>=term_time) */
                 break; /**** 3. stop by 2000 years ****/	
             }
-        }else if(ISIMIP_RUN==0){
+        }else if(ISIMIP_RUN==1){
             /* spin-up 3000 years (30 x 100 times): 2012/07/02 by A.Ito */
+            ann_nep = 10.0;
             if(nn==3000){
                 ann_nep = 0.0;
             }
@@ -363,6 +364,6 @@ void cal_stable(
 	publish_cbud(grid, loct, echar, mass, flux, fp_o[0]); /* */
 	
 	/* output */
-	f_output_result(1900, grid, loct, echar, mass, flux, fp_o); /* */
+	f_output_result(PIVOT_CLIMY-1, grid, loct, echar, mass, flux, fp_o); /* */
 }
 

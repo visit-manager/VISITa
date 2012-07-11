@@ -25,7 +25,7 @@ void read_cru_clim(
 ){
 	long kk[4], flag;
 	long f, g, h;
-	double data, alt, aa, bb;
+	double data, alt, aa, bb, vps;
     double atmp, apres, shum, avtas, avpr, drad;
     float r_isimip_data[179*12];
 
@@ -137,20 +137,27 @@ void read_cru_clim(
             for(g=0;g<ASTEP;g++){
                 grid->hist_pre[h][g] = (double)r_isimip_data[h*ASTEP+g] * (double)MDN[g] *24.0*3600.0;
                 avpr += grid->hist_pre[h][g] / (double)ISIMIP_DL;
+                grid->hist_pre[h][g] = (grid->hist_pre[h][g]>0.0)?grid->hist_pre[h][g]:0.0;
             }
         }
         
-        /* specific humidity => vapor pressure, hPa */
+        /* relative humidity (%) => vapor pressure (hPa) */
         fread(r_isimip_data,sizeof(float),ASTEP*ISIMIP_DL, fp_c[2]);
         for(h=0;h<ISIMIP_DL;h++){
             for(g=0;g<ASTEP;g++){
             
                 /* specific humidity to vapor pressure */
                 /* revided by A.Ito (2012/06/28) */
-                atmp = grid->hist_tmp[h][g];
-                apres = 1013.25*exp(-1.0*(28.964*0.001)*9.8*alt/(8.3144*(atmp+ZAT))); 
-                shum = (double)r_isimip_data[h*ASTEP+g];
-                grid->hist_vap[h][g] = apres * shum/(0.622 + 0.378*shum);
+                
+                if(grid->hist_tmp[h][g]>0.0){ /* at water surface */
+                    vps = 6.1078*pow(10.0, (7.5*grid->hist_tmp[h][g])/(237.3+grid->hist_tmp[h][g]));
+                }else{ /* at ice surface */  /*  if(grid->tmp_2m[grid->m]<=0.0) */
+                    vps = 6.1078*pow(10.0, (9.5*grid->hist_tmp[h][g])/(265.3+grid->hist_tmp[h][g]));
+                }
+                vps = (vps>=0.0)?vps:0.0;
+    
+                grid->hist_vap[h][g] = vps * (double)r_isimip_data[h*ASTEP+g]/100.0;
+                grid->hist_vap[h][g] = (grid->hist_vap[h][g]>0.0)?grid->hist_vap[h][g]:0.0;
             }
         }
         
@@ -161,12 +168,17 @@ void read_cru_clim(
                 /* average downward-shortwave radiation */
                 /* 2012/06/29 by A.Ito */
                 drad = 0.0;
+                grid->m = g;
                 for (f=0;f<24;f++) {
                     drad += top_rad(grid, -180+15*f) / 24.0; 
                 }
                 
                 /* inverse estimation of cloudiness */
-                aa = (double)r_isimip_data[h*ASTEP+g] / drad;
+                if(drad > 0.0){
+                    aa = (double)r_isimip_data[h*ASTEP+g] / drad;
+                }else{
+                    aa = 0.0;
+                }
                 bb = (0.8964 - aa) / 0.5392;
                 if(bb < 0.0){
                     bb = 0.0;
@@ -176,6 +188,7 @@ void read_cru_clim(
                 }
             
                 grid->hist_cld[h][g] = bb;
+                grid->hist_cld[h][g] = (grid->hist_cld[h][g]>0.0)?grid->hist_cld[h][g]:0.0;
             }
         }
         

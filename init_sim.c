@@ -110,7 +110,7 @@ void f_init_sim(
         }
         fclose(fp_co2);
     }else if(ISIMIP_RUN==1){
-        if((fp_co2 = fopen("./data/rcp_co2.txt","rt"))==NULL){
+        if((fp_co2 = fopen("./data/rcp_ghg.txt","rt"))==NULL){
             printf("No rcp_co2.txt\n");
             exit(1);
         }

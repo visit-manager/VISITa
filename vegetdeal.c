@@ -626,6 +626,22 @@ void set_gcm_index(
 		case 1271:	strcpy(s_case,"CS35A21_"); break;
 		case 1272:	strcpy(s_case,"CS35B11_"); break;
 
+		case 2001:	strcpy(s_case,"ISIH26C_"); break;
+		case 2002:	strcpy(s_case,"ISIH85C_"); break;
+		case 2003:	strcpy(s_case,"ISIH45C_"); break;
+		case 2004:	strcpy(s_case,"ISIH60C_"); break;
+		case 2005:	strcpy(s_case,"ISIH85N_"); break;
+		case 2011:	strcpy(s_case,"ISII26C_"); break;
+		case 2012:	strcpy(s_case,"ISII85C_"); break;
+		case 2013:	strcpy(s_case,"ISII45C_"); break;
+		case 2014:	strcpy(s_case,"ISII60C_"); break;
+		case 2021:	strcpy(s_case,"ISIG26C_"); break;
+		case 2022:	strcpy(s_case,"ISIG85C_"); break;
+		case 2031:	strcpy(s_case,"ISIM26C_"); break;
+		case 2032:	strcpy(s_case,"ISIM85C_"); break;
+		case 2041:	strcpy(s_case,"ISIN26C_"); break;
+		case 2042:	strcpy(s_case,"ISIN85C_"); break;
+
 		default:
 			strcpy(s_case,"STCLIM_"); 
 			printf("NULL CASE !!!");

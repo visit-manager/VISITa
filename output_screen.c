@@ -37,6 +37,8 @@ void screenshow(
 	for(h=0;h<12;h++){		printf("%6.0lf ",grid->prate_sfc[h]);		ann+=grid->prate_sfc[h];	}		printf(" %.1lf\n",ann); 
 	printf("PAR: ");
 	for(h=0;h<12;h++){		printf("%6.0lf ",grid->par[h]);		}			printf("\n"); 
+	printf("CLD: ");
+	for(h=0;h<12;h++){		printf("%6.0lf ",grid->tcdc_clm[h]);		}			printf("\n"); 
 	
 	printf("SWU: ");
 	for(h=0;h<12;h++){		printf("%6.0lf ",loct->msw30[h]);	}			printf("\n"); 

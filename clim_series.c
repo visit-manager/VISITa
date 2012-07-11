@@ -79,7 +79,7 @@ void set_hist_clim(
         
         /* ISI-MIP climate data: 2012/06/28 by A.Ito */
         if(grid->phase == 0){
-            offset = 0;
+            offset = -1;
         }else if(grid->phase == 1 || grid->phase == 2){
             offset = 30;
         }

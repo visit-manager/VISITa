@@ -148,7 +148,7 @@ double par(
 	based on the empirical Tooming's equation */	
 	/* ref. Iqbal, M. 1983. An introduction to solar radiation. 
 	Academic Press, Toronto. */
-	if(grid->top_rad[grid->m]!=0.0){
+	if(grid->top_rad[grid->m] > 0.0){
 		/* surface / top ratio */
 		kt = grid->gl_rad[grid->m]/grid->top_rad[grid->m];
 		

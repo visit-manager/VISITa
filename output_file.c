@@ -370,7 +370,7 @@ void f_output_result(
 	/* parameter added by A.Ito (2009/12/22) */
 	fprintf(fp_o[1],"%ld %lf ", year, grid->f_crop_con);
 	for(f=0;f<ASTEP;f++){
-		fprintf(fp_o[1],"%.3lf ", (mass->c3).n_cnpy_m[f]);
+		/* fprintf(fp_o[1],"%.3lf ", (mass->c3).n_cnpy_m[f]);
 		fprintf(fp_o[1],"%.3lf ", (mass->c3).n_strg_m[f]);
 		fprintf(fp_o[1],"%.3lf ", (mass->c4).n_cnpy_m[f]);
 		fprintf(fp_o[1],"%.3lf ", (mass->c4).n_strg_m[f]);
@@ -404,7 +404,7 @@ void f_output_result(
 
 		fprintf(fp_o[1],"%.3lf ", grid->f_crop_con * loct->n_frtlz_in*1000.0);
 		fprintf(fp_o[1],"%.3lf ", loct->depo_no3[f]);
-		fprintf(fp_o[1],"%.3lf ", loct->depo_nh4[f]);  /* */
+		fprintf(fp_o[1],"%.3lf ", loct->depo_nh4[f]);  */
 		
 		/* monitor: 2010/03/24 by A.Ito */
 		/* fprintf(fp_o[1],"%.3lf ", loct->xx1[f]); 
@@ -515,7 +515,7 @@ void f_output_result(
 	/* VOC ***********************************************/
 	fprintf(fp_o[5],"%ld %lf ", year, grid->f_crop_con);
 	for(f=0;f<ASTEP;f++){
-		fprintf(fp_o[5],"%.3lf ", flux->voc_isopr_g97[f]);
+		/* fprintf(fp_o[5],"%.3lf ", flux->voc_isopr_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_monotrp_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_methanl_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_acetone_g97[f]);
@@ -523,7 +523,7 @@ void f_output_result(
 		fprintf(fp_o[5],"%.3lf ", flux->voc_frmardhd_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_formacd_g97[f]);
 		fprintf(fp_o[5],"%.3lf ", flux->voc_acetacd_g97[f]);
-		fprintf(fp_o[5],"%.3lf ", flux->voc_co_g97[f]); /* */
+		fprintf(fp_o[5],"%.3lf ", flux->voc_co_g97[f]); */
 	}
 	fprintf(fp_o[5],"\n");
 	
@@ -545,13 +545,15 @@ void f_output_result(
 		fprintf(fp_o[6],"%.2lf ", loct->evpr[f]);
 		fprintf(fp_o[6],"%.2lf ", loct->trspr[f]);
 		fprintf(fp_o[6],"%.2lf ", loct->ro2[f]); /* */
+        
+		fprintf(fp_o[6],"%.4lf ", loct->fapar_mono[f]); /* */
 	}
 	fprintf(fp_o[6],"\n");
 	
 	/* carbon isotopes: added by A.Ito (2009/07/14) */
 	fprintf(fp_o[7],"%ld %lf ", year, grid->f_crop_con);
 	for(f=0;f<ASTEP;f++){
-		fprintf(fp_o[7],"%.4lf ", loct->c4ptn[f]);
+		/* fprintf(fp_o[7],"%.4lf ", loct->c4ptn[f]);
 		
 		fprintf(fp_o[7],"%.3lf ", grid->d13c_bco2[f]);
 		fprintf(fp_o[7],"%.3lf ", loct->d13c_aco2[f]);
@@ -584,7 +586,7 @@ void f_output_result(
 		fprintf(fp_o[7],"%.3lf ", (mass->c4).d14c_mstm[f]);
 		fprintf(fp_o[7],"%.3lf ", (mass->c4).d14c_mrot[f]);
 		fprintf(fp_o[7],"%.3lf ", (mass->soil).d14c_ltr_m[f]);
-		fprintf(fp_o[7],"%.3lf ", (mass->soil).d14c_msl_m[f]); /* */
+		fprintf(fp_o[7],"%.3lf ", (mass->soil).d14c_msl_m[f]); */
 	}
 	fprintf(fp_o[7],"\n");
 	

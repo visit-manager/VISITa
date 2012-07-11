@@ -81,218 +81,218 @@ void open_input(
     if(ISIMIP_RUN==1){
         switch(GCM){
             case 2001:
-                if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No tas_rcp2p6_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp2p6_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_rcp2p6_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No pr_rcp2p6_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[1]=fopen("./data/pr_rcp2p6_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp2p6_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_rcp2p6_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No huss_rcp2p6_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[2]=fopen("./data/rhs_rcp2p6_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp2p6_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_rcp2p6_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No rsds_rcp2p6_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[3]=fopen("./data/rsds_rcp2p6_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp2p6_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
                 break;
             case 2002: case 2005:
-                if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No tas_rcp8p5_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp8p5_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_rcp8p5_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No pr_rcp8p5_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[1]=fopen("./data/pr_rcp8p5_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp8p5_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_rcp8p5_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No huss_rcp8p5_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[2]=fopen("./data/rhs_rcp8p5_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp8p5_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_rcp8p5_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No rsds_rcp8p5_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[3]=fopen("./data/rsds_rcp8p5_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp8p5_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
                 break;
             case 2003:
-                if( (fp_c[0]=fopen("./data/tas_rcp4p5_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No tas_rcp4p5_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[0]=fopen("./data/tas_rcp4p5_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp4p5_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_rcp4p5_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No pr_rcp4p5_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[1]=fopen("./data/pr_rcp4p5_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp4p5_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_rcp4p5_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No huss_rcp4p5_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[2]=fopen("./data/rhs_rcp4p5_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp4p5_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_rcp4p5_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No rsds_rcp4p5_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[3]=fopen("./data/rsds_rcp4p5_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp4p5_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
                 break;
             case 2004:
-                if( (fp_c[0]=fopen("./data/tas_rcp6p0_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No tas_rcp6p0_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[0]=fopen("./data/tas_rcp6p0_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp6p0_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_rcp6p0_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No pr_rcp6p0_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[1]=fopen("./data/pr_rcp6p0_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp6p0_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_rcp6p0_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No huss_rcp6p0_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[2]=fopen("./data/rhs_rcp6p0_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp6p0_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_rcp6p0_isimip_hadgem_1951-2099.flt","rb"))==NULL ){  
-                    printf("No rsds_rcp6p0_isimip_hadgem_1951-2099.flt\n");  
+                if( (fp_c[3]=fopen("./data/rsds_rcp6p0_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp6p0_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
                 break;
             case 2011:
-                if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_ipsl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No tas_rcp2p6_isimip_ipsl_1951-2099.flt\n");  
+                if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp2p6_isimip_ipsl_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_rcp2p6_isimip_ipsl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No pr_rcp2p6_isimip_ipsl_1951-2099.flt\n");  
+                if( (fp_c[1]=fopen("./data/pr_rcp2p6_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp2p6_isimip_ipsl_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_rcp2p6_isimip_ipsl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No huss_rcp2p6_isimip_ipsl_1951-2099.flt\n");  
+                if( (fp_c[2]=fopen("./data/rhs_rcp2p6_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No huss_rcp2p6_isimip_ipsl_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_rcp2p6_isimip_ipsl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No rsds_rcp2p6_isimip_ipsl_1951-2099.flt\n");  
+                if( (fp_c[3]=fopen("./data/rsds_rcp2p6_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp2p6_isimip_ipsl_1950-2099.flt\n");  
                     exit(1); 
                 }
                 break;
             case 2012:
-                if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_ipsl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No tas_rcp8p5_isimip_ipsl_1951-2099.flt\n");  
+                if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp8p5_isimip_ipsl_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_rcp8p5_isimip_ipsl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No pr_rcp8p5_isimip_ipsl_1951-2099.flt\n");  
+                if( (fp_c[1]=fopen("./data/pr_rcp8p5_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp8p5_isimip_ipsl_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_rcp8p5_isimip_ipsl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No huss_rcp8p5_isimip_ipsl_1951-2099.flt\n");  
+                if( (fp_c[2]=fopen("./data/rhs_rcp8p5_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp8p5_isimip_ipsl_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_rcp8p5_isimip_ipsl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No rsds_rcp8p5_isimip_ipsl_1951-2099.flt\n");  
+                if( (fp_c[3]=fopen("./data/rsds_rcp8p5_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp8p5_isimip_ipsl_1950-2099.flt\n");  
                     exit(1); 
                 }
                 break;
             case 2021:
-                if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_gfdl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No tas_rcp2p6_isimip_gfdl_1951-2099.flt\n");  
+                if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp2p6_isimip_gfdl_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_rcp2p6_isimip_gfdl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No pr_rcp2p6_isimip_gfdl_1951-2099.flt\n");  
+                if( (fp_c[1]=fopen("./data/pr_rcp2p6_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp2p6_isimip_gfdl_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_rcp2p6_isimip_gfdl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No huss_rcp2p6_isimip_gfdl_1951-2099.flt\n");  
+                if( (fp_c[2]=fopen("./data/rhs_rcp2p6_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp2p6_isimip_gfdl_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_rcp2p6_isimip_gfdl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No rsds_rcp2p6_isimip_gfdl_1951-2099.flt\n");  
+                if( (fp_c[3]=fopen("./data/rsds_rcp2p6_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp2p6_isimip_gfdl_1950-2099.flt\n");  
                     exit(1); 
                 }
                 break;
             case 2022:
-                if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_gfdl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No tas_rcp8p5_isimip_gfdl_1951-2099.flt\n");  
+                if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp8p5_isimip_gfdl_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_rcp8p5_isimip_gfdl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No pr_rcp8p5_isimip_gfdl_1951-2099.flt\n");  
+                if( (fp_c[1]=fopen("./data/pr_rcp8p5_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp8p5_isimip_gfdl_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_rcp8p5_isimip_gfdl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No huss_rcp8p5_isimip_gfdl_1951-2099.flt\n");  
+                if( (fp_c[2]=fopen("./data/rhs_rcp8p5_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp8p5_isimip_gfdl_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_rcp8p5_isimip_gfdl_1951-2099.flt","rb"))==NULL ){  
-                    printf("No rsds_rcp8p5_isimip_gfdl_1951-2099.flt\n");  
+                if( (fp_c[3]=fopen("./data/rsds_rcp8p5_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp8p5_isimip_gfdl_1950-2099.flt\n");  
                     exit(1); 
                 }
                 break;
             case 2031:
-                if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_miroc_1951-2099.flt","rb"))==NULL ){  
-                    printf("No tas_rcp2p6_isimip_miroc_1951-2099.flt\n");  
+                if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp2p6_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_rcp2p6_isimip_miroc_1951-2099.flt","rb"))==NULL ){  
-                    printf("No pr_rcp2p6_isimip_miroc_1951-2099.flt\n");  
+                if( (fp_c[1]=fopen("./data/pr_rcp2p6_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp2p6_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_rcp2p6_isimip_miroc_1951-2099.flt","rb"))==NULL ){  
-                    printf("No huss_rcp2p6_isimip_miroc_1951-2099.flt\n");  
+                if( (fp_c[2]=fopen("./data/rhs_rcp2p6_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp2p6_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_rcp2p6_isimip_miroc_1951-2099.flt","rb"))==NULL ){  
-                    printf("No rsds_rcp2p6_isimip_miroc_1951-2099.flt\n");  
+                if( (fp_c[3]=fopen("./data/rsds_rcp2p6_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp2p6_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
                 }
                 break;
             case 2032:
-                if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_miroc_1951-2099.flt","rb"))==NULL ){  
-                    printf("No tas_rcp8p5_isimip_miroc_1951-2099.flt\n");  
+                if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp8p5_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_rcp8p5_isimip_miroc_1951-2099.flt","rb"))==NULL ){  
-                    printf("No pr_rcp8p5_isimip_miroc_1951-2099.flt\n");  
+                if( (fp_c[1]=fopen("./data/pr_rcp8p5_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp8p5_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_rcp8p5_isimip_miroc_1951-2099.flt","rb"))==NULL ){  
-                    printf("No huss_rcp8p5_isimip_miroc_1951-2099.flt\n");  
+                if( (fp_c[2]=fopen("./data/rhs_rcp8p5_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp8p5_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_rcp8p5_isimip_miroc_1951-2099.flt","rb"))==NULL ){  
-                    printf("No rsds_rcp8p5_isimip_miroc_1951-2099.flt\n");  
+                if( (fp_c[3]=fopen("./data/rsds_rcp8p5_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp8p5_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
                 }
                 break;
             case 2041:
-                if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_noresm_1951-2099.flt","rb"))==NULL ){  
-                    printf("No tas_rcp2p6_isimip_noresm_1951-2099.flt\n");  
+                if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp2p6_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_rcp2p6_isimip_noresm_1951-2099.flt","rb"))==NULL ){  
-                    printf("No pr_rcp2p6_isimip_noresm_1951-2099.flt\n");  
+                if( (fp_c[1]=fopen("./data/pr_rcp2p6_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp2p6_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_rcp2p6_isimip_noresm_1951-2099.flt","rb"))==NULL ){  
-                    printf("No huss_rcp2p6_isimip_noresm_1951-2099.flt\n");  
+                if( (fp_c[2]=fopen("./data/rhs_rcp2p6_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp2p6_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_rcp2p6_isimip_noresm_1951-2099.flt","rb"))==NULL ){  
-                    printf("No rsds_rcp2p6_isimip_noresm_1951-2099.flt\n");  
+                if( (fp_c[3]=fopen("./data/rsds_rcp2p6_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp2p6_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
                 }
                 break;
             case 2042:
-                if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_noresm_1951-2099.flt","rb"))==NULL ){  
-                    printf("No tas_rcp8p5_isimip_noresm_1951-2099.flt\n");  
+                if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp8p5_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_rcp8p5_isimip_noresm_1951-2099.flt","rb"))==NULL ){  
-                    printf("No pr_rcp8p5_isimip_noresm_1951-2099.flt\n");  
+                if( (fp_c[1]=fopen("./data/pr_rcp8p5_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp8p5_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_rcp8p5_isimip_noresm_1951-2099.flt","rb"))==NULL ){  
-                    printf("No huss_rcp8p5_isimip_noresm_1951-2099.flt\n");  
+                if( (fp_c[2]=fopen("./data/rhs_rcp8p5_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp8p5_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_rcp8p5_isimip_noresm_1951-2099.flt","rb"))==NULL ){  
-                    printf("No rsds_rcp8p5_isimip_noresm_1951-2099.flt\n");  
+                if( (fp_c[3]=fopen("./data/rsds_rcp8p5_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp8p5_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
                 }
                 break;
@@ -689,7 +689,7 @@ void open_input(
 			exit(1);
 		}
 		fp_s[45]=fopen("./data/image_a2_fgrass.dat","rt");
-    }else if(GCM==2003){
+    }else if(GCM==2003 || GCM==2013){
         CO2S = 2; /* RCP4.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_b2_fcrop.dat","rt"))==NULL){
@@ -697,7 +697,7 @@ void open_input(
 			exit(1);
 		}
 		fp_s[45]=fopen("./data/image_b2_fgrass.dat","rt");
-    }else if(GCM==2004){
+    }else if(GCM==2004 || GCM==2014){
         CO2S = 3; /* RCP6.0 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1_fcrop.dat","rt"))==NULL){
