@@ -181,7 +181,7 @@ void vlzero(struct Grid *grid, struct Pmas *mass, struct Pflx *flux);
 
 /* INITIALIZATION *********************************************/
 void open_input(FILE *fp_s[IFILEN], FILE *fp_c[4]);
-void f_output_file_open(short vtype, short zone, char s_date[25], char s_case[25], 
+void f_output_file_open(short vtype, short zone, char s_date[32], char s_case[32], 
 	char filename[100], FILE *fp[OFILES]);
 void f_init_sim(struct Grid *grid);
 void f_init_grid(FILE *fp_r[IFILEN], struct Grid *grid); 

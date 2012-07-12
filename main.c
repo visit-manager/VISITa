@@ -57,8 +57,8 @@ int main(
 	/* global land area */
 	/* file name strings */
 	char filename[100];
-	char s_date[25];
-	char s_case[25];
+	char s_date[32];
+	char s_case[32];
 	char s_config[16];
 	char num[4];
 	/* file pointer */
@@ -285,8 +285,8 @@ int main(
 			/* selection of calculation grids ***************************************/
 			flag_calc = 0;
 			if(grid.veg_olson!=0 && grid.veg_olson!=33 
-					&& (g+0)%10==0  /* */
-					/* && (g+0)%1==0 */
+					/* && (g+0)%10==0  */
+					&& (g+0)%1==0 /* */
 					&& grid.lat<=area_t&&grid.lat>=area_b && grid.lon>=area_l&&grid.lon<=area_r
 					/* && grid.lat<90.0&&grid.lat>-90.0 && grid.lon>-180.0&&grid.lon<180.0 */
 					/* && grid.lat<65.0&&grid.lat>55.0 && grid.lon>65.0&&grid.lon<85.0 */

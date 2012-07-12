@@ -19,8 +19,8 @@
 void f_output_file_open(
 	short vtype, 
 	short zone,
-	char s_date[25], 
-	char s_case[25], 
+	char s_date[32], 
+	char s_case[32], 
 	char filename[100], 
 	FILE *fp[OFILES]
 ){

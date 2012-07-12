@@ -250,6 +250,23 @@ void f_ch4oxy_casa(
 			c_ch4 = ach4_b1[grid->co2y-1750]/1000.0/30.0;
 			break;
 	}
+    
+    if(ISIMIP_RUN==1){
+        switch(CO2S){
+            case 1:
+                c_ch4 = ach4_a1[grid->co2y-1750]/1000.0/30.0;
+                break;
+            case 4:
+                c_ch4 = ach4_a2[grid->co2y-1750]/1000.0/30.0;
+                break;
+            case 5:
+                c_ch4 = ach4_b1[grid->co2y-1750]/1000.0/30.0;
+                break;
+            default:
+                c_ch4 = ach4_a1[grid->co2y-1750]/1000.0/30.0;
+                break;
+        }
+    }
 	
 	/* fc = aa = grid->whc30/300.0; */
 	fc = aa = grid->field_cap1/300.0;  
