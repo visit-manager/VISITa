@@ -80,7 +80,7 @@ void open_input(
     }else /* ISI-MIP: 2012/06/27 by A.Ito */
     if(ISIMIP_RUN==1){
         switch(GCM){
-            case 2001:
+            case 2001: case 2005:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp2p6_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
@@ -98,7 +98,7 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 2002: case 2005:
+            case 2002: case 2006:
                 if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp8p5_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
@@ -116,7 +116,7 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 2003:
+            case 2003: case 2007:
                 if( (fp_c[0]=fopen("./data/tas_rcp4p5_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp4p5_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
@@ -134,7 +134,7 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 2004:
+            case 2004: case 2008:
                 if( (fp_c[0]=fopen("./data/tas_rcp6p0_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp6p0_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
@@ -152,7 +152,7 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 2011:
+            case 2011: case 2015:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp2p6_isimip_ipsl_1950-2099.flt\n");  
                     exit(1); 
@@ -170,7 +170,7 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 2012:
+            case 2012: case 2016:
                 if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp8p5_isimip_ipsl_1950-2099.flt\n");  
                     exit(1); 
@@ -188,7 +188,43 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 2021:
+            case 2013: case 2017:
+                if( (fp_c[0]=fopen("./data/tas_rcp4p5_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp4p5_isimip_ipsl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_rcp4p5_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp4p5_isimip_ipsl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/rhs_rcp4p5_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp4p5_isimip_ipsl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_rcp4p5_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp4p5_isimip_ipsl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                break;
+            case 2014: case 2018:
+                if( (fp_c[0]=fopen("./data/tas_rcp6p0_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp6p0_isimip_ipsl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_rcp6p0_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp6p0_isimip_ipsl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/rhs_rcp6p0_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp6p0_isimip_ipsl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_rcp6p0_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp6p0_isimip_ipsl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                break;
+            case 2021: case 2025:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp2p6_isimip_gfdl_1950-2099.flt\n");  
                     exit(1); 
@@ -206,7 +242,7 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 2022:
+            case 2022: case 2026:
                 if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp8p5_isimip_gfdl_1950-2099.flt\n");  
                     exit(1); 
@@ -224,7 +260,43 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 2031:
+            case 2023: case 2027:
+                if( (fp_c[0]=fopen("./data/tas_rcp4p5_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp4p5_isimip_gfdl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_rcp4p5_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp4p5_isimip_gfdl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/rhs_rcp4p5_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp4p5_isimip_gfdl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_rcp4p5_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp4p5_isimip_gfdl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                break;
+            case 2024: case 2028:
+                if( (fp_c[0]=fopen("./data/tas_rcp6p0_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp6p0_isimip_gfdl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_rcp6p0_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp6p0_isimip_gfdl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/rhs_rcp6p0_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp6p0_isimip_gfdl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_rcp6p0_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp6p0_isimip_gfdl_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                break;
+            case 2031: case 2035:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp2p6_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
@@ -242,7 +314,7 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 2032:
+            case 2032: case 2036:
                 if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp8p5_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
@@ -260,7 +332,43 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 2041:
+            case 2033: case 2037:
+                if( (fp_c[0]=fopen("./data/tas_rcp4p5_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp4p5_isimip_miroc_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_rcp4p5_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp4p5_isimip_miroc_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/rhs_rcp4p5_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp4p5_isimip_miroc_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_rcp4p5_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp4p5_isimip_miroc_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                break;
+            case 2034: case 2038:
+                if( (fp_c[0]=fopen("./data/tas_rcp6p0_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp6p0_isimip_miroc_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_rcp6p0_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp6p0_isimip_miroc_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/rhs_rcp6p0_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp6p0_isimip_miroc_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_rcp6p0_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp6p0_isimip_miroc_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                break;
+            case 2041: case 2045:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp2p6_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
@@ -278,7 +386,7 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 2042:
+            case 2042: case 2046:
                 if( (fp_c[0]=fopen("./data/tas_rcp8p5_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp8p5_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
@@ -293,6 +401,42 @@ void open_input(
                 }
                 if( (fp_c[3]=fopen("./data/rsds_rcp8p5_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
                     printf("No rsds_rcp8p5_isimip_noresm_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                break;
+            case 2043: case 2047:
+                if( (fp_c[0]=fopen("./data/tas_rcp4p5_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp4p5_isimip_noresm_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_rcp4p5_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp4p5_isimip_noresm_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/rhs_rcp4p5_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp4p5_isimip_noresm_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_rcp4p5_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp4p5_isimip_noresm_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                break;
+            case 2044: case 2048:
+                if( (fp_c[0]=fopen("./data/tas_rcp6p0_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No tas_rcp6p0_isimip_noresm_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_rcp6p0_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No pr_rcp6p0_isimip_noresm_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/rhs_rcp6p0_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rhs_rcp6p0_isimip_noresm_1950-2099.flt\n");  
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_rcp6p0_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
+                    printf("No rsds_rcp6p0_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
                 }
                 break;
@@ -673,7 +817,8 @@ void open_input(
     
     /* ISI-MIP: 2012/06/27 by A.Ito ***********************************/
     /* assumption: SRES data were used, instead of RCP data */
-    if(GCM==2001 || GCM==2011 || GCM==2021 || GCM==2031 || GCM==2041){
+    if(GCM==2001 || GCM==2011 || GCM==2021 || GCM==2031 || GCM==2041
+        || GCM==2005 || GCM==2015 || GCM==2025 || GCM==2035 || GCM==2045){
         CO2S = 1; /* RCP2.6 */
         /**/
         if((fp_s[23]=fopen("./data/image_b1_fcrop.dat","rt"))==NULL){
@@ -681,7 +826,8 @@ void open_input(
 			exit(1);
 		}
 		fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt");
-    }else if(GCM==2002 || GCM==2012 || GCM==2022 || GCM==2032 || GCM==2042){
+    }else if(GCM==2002 || GCM==2012 || GCM==2022 || GCM==2032 || GCM==2042
+        || GCM==2006 || GCM==2016 || GCM==2026 || GCM==2036 || GCM==2046){
         CO2S = 4; /* RCP8.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a2_fcrop.dat","rt"))==NULL){
@@ -689,15 +835,17 @@ void open_input(
 			exit(1);
 		}
 		fp_s[45]=fopen("./data/image_a2_fgrass.dat","rt");
-    }else if(GCM==2003 || GCM==2013){
+    }else if(GCM==2003 || GCM==2013 || GCM==2023 || GCM==2033 || GCM==2043
+        || GCM==2007 || GCM==2017 || GCM==2027 || GCM==2037 || GCM==2047){
         CO2S = 2; /* RCP4.5 */
         /**/
-        if((fp_s[23]=fopen("./data/image_b2_fcrop.dat","rt"))==NULL){
-			printf("NO image_b2_fcrop.dat !!\n");
+        if((fp_s[23]=fopen("./data/image_a1_fcrop.dat","rt"))==NULL){
+			printf("NO image_a1_fcrop.dat !!\n");
 			exit(1);
 		}
-		fp_s[45]=fopen("./data/image_b2_fgrass.dat","rt");
-    }else if(GCM==2004 || GCM==2014){
+		fp_s[45]=fopen("./data/image_a1_fgrass.dat","rt");
+    }else if(GCM==2004 || GCM==2014 || GCM==2024 || GCM==2034 || GCM==2044
+        || GCM==2008 || GCM==2018 || GCM==2028 || GCM==2038 || GCM==2048){
         CO2S = 3; /* RCP6.0 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1_fcrop.dat","rt"))==NULL){

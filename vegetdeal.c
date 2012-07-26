@@ -630,17 +630,46 @@ void set_gcm_index(
 		case 2002:	strcpy(s_case,"ISIH85C_"); break;
 		case 2003:	strcpy(s_case,"ISIH45C_"); break;
 		case 2004:	strcpy(s_case,"ISIH60C_"); break;
-		case 2005:	strcpy(s_case,"ISIH85N_"); break;
+		case 2005:	strcpy(s_case,"ISIH26N_"); break;
+		case 2006:	strcpy(s_case,"ISIH85N_"); break;
+		case 2007:	strcpy(s_case,"ISIH45N_"); break;
+		case 2008:	strcpy(s_case,"ISIH60N_"); break;
+        
 		case 2011:	strcpy(s_case,"ISII26C_"); break;
 		case 2012:	strcpy(s_case,"ISII85C_"); break;
 		case 2013:	strcpy(s_case,"ISII45C_"); break;
 		case 2014:	strcpy(s_case,"ISII60C_"); break;
+		case 2015:	strcpy(s_case,"ISII26N_"); break;
+		case 2016:	strcpy(s_case,"ISII85N_"); break;
+		case 2017:	strcpy(s_case,"ISII45N_"); break;
+		case 2018:	strcpy(s_case,"ISII60N_"); break;
+        
 		case 2021:	strcpy(s_case,"ISIG26C_"); break;
 		case 2022:	strcpy(s_case,"ISIG85C_"); break;
+		case 2023:	strcpy(s_case,"ISIG45C_"); break;
+		case 2024:	strcpy(s_case,"ISIG60C_"); break;
+		case 2025:	strcpy(s_case,"ISIG26N_"); break;
+		case 2026:	strcpy(s_case,"ISIG85N_"); break;
+		case 2027:	strcpy(s_case,"ISIG45N_"); break;
+		case 2028:	strcpy(s_case,"ISIG60N_"); break;
+        
 		case 2031:	strcpy(s_case,"ISIM26C_"); break;
 		case 2032:	strcpy(s_case,"ISIM85C_"); break;
+		case 2033:	strcpy(s_case,"ISIM45C_"); break;
+		case 2034:	strcpy(s_case,"ISIM60C_"); break;
+		case 2035:	strcpy(s_case,"ISIM26N_"); break;
+		case 2036:	strcpy(s_case,"ISIM85N_"); break;
+		case 2037:	strcpy(s_case,"ISIM45N_"); break;
+		case 2038:	strcpy(s_case,"ISIM60N_"); break;
+        
 		case 2041:	strcpy(s_case,"ISIN26C_"); break;
 		case 2042:	strcpy(s_case,"ISIN85C_"); break;
+		case 2043:	strcpy(s_case,"ISIN45C_"); break;
+		case 2044:	strcpy(s_case,"ISIN60C_"); break;
+		case 2045:	strcpy(s_case,"ISIN26N_"); break;
+		case 2046:	strcpy(s_case,"ISIN85N_"); break;
+		case 2047:	strcpy(s_case,"ISIN45N_"); break;
+		case 2048:	strcpy(s_case,"ISIN60N_"); break;
 
 		default:
 			strcpy(s_case,"STCLIM_"); 

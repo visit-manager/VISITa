@@ -547,19 +547,44 @@
 /* 2002: HadGEM2-ES RCP 8.5 +co2 */
 /* 2003: HadGEM2-ES RCP 4.5 +co2 */
 /* 2004: HadGEM2-ES RCP 6.0 +co2 */
-/* 2005: HadGEM2-ES RCP 8.5 +noco2 */
+/* 2005: HadGEM2-ES RCP 2.6 +noco2 */
+/* 2006: HadGEM2-ES RCP 8.5 +noco2 */
+/* 2007: HadGEM2-ES RCP 4.5 +noco2 */
+/* 2008: HadGEM2-ES RCP 6.0 +noco2 */
 
 /* 2011: IPSL-CM5A-LR RCP 2.6 +co2 */
 /* 2012: IPSL-CM5A-LR RCP 8.5 +co2 */
 /* 2013: IPSL-CM5A-LR RCP 4.5 +co2 */
 /* 2014: IPSL-CM5A-LR RCP 6.0 +co2 */
+/* 2015: IPSL-CM5A-LR RCP 2.6 +noco2 */
+/* 2016: IPSL-CM5A-LR RCP 8.5 +noco2 */
+/* 2017: IPSL-CM5A-LR RCP 4.5 +noco2 */
+/* 2018: IPSL-CM5A-LR RCP 6.0 +noco2 */
 
 /* 2021: GFDL-ESM2M RCP 2.6 +co2 */
 /* 2022: GFDL-ESM2M RCP 8.5 +co2 */
+/* 2023: GFDL-ESM2M RCP 4.5 +co2 */
+/* 2024: GFDL-ESM2M RCP 6.0 +co2 */
+/* 2025: GFDL-ESM2M RCP 2.6 +noco2 */
+/* 2026: GFDL-ESM2M RCP 8.5 +noco2 */
+/* 2027: GFDL-ESM2M RCP 4.5 +noco2 */
+/* 2028: GFDL-ESM2M RCP 6.0 +noco2 */
 
 /* 2031: MIROC-ESM-CHEM RCP 2.6 +co2 */
 /* 2032: MIROC-ESM-CHEM RCP 8.5 +co2 */
+/* 2033: MIROC-ESM-CHEM RCP 4.5 +co2 */
+/* 2034: MIROC-ESM-CHEM RCP 6.0 +co2 */
+/* 2035: MIROC-ESM-CHEM RCP 2.6 +noco2 */
+/* 2036: MIROC-ESM-CHEM RCP 8.5 +noco2 */
+/* 2037: MIROC-ESM-CHEM RCP 4.5 +noco2 */
+/* 2038: MIROC-ESM-CHEM RCP 6.0 +noco2 */
 
 /* 2041: NorESM1-M RCP 2.6 +co2 */
 /* 2042: NorESM1-M RCP 8.5 +co2 */
+/* 2043: NorESM1-M RCP 4.5 +co2 */
+/* 2044: NorESM1-M RCP 6.0 +co2 */
+/* 2045: NorESM1-M RCP 2.6 +noco2 */
+/* 2046: NorESM1-M RCP 8.5 +noco2 */
+/* 2047: NorESM1-M RCP 4.5 +noco2 */
+/* 2048: NorESM1-M RCP 6.0 +noco2 */
 
