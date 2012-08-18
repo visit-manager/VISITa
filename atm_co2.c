@@ -56,13 +56,13 @@ void f_co2_trend(
                 base = aco2_b1[grid->co2y-1765];
                 break;
             case 2:
-                base = aco2_a2[grid->co2y-1765];
+                base = aco2_b2[grid->co2y-1765]; /* corercted: 2012/08/06 */
                 break;
             case 3:
-                base = aco2_b2[grid->co2y-1765];
+                base = aco2_a1[grid->co2y-1765]; /* corercted: 2012/08/06 */
                 break;
             case 4:
-                base = aco2_a1[grid->co2y-1765];
+                base = aco2_a2[grid->co2y-1765]; /* corercted: 2012/08/06 */
                 break;
         }
     }

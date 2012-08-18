@@ -27,7 +27,7 @@ void read_cru_clim(
 	long f, g, h;
 	double data, alt, aa, bb, vps;
     double atmp, apres, shum, avtas, avpr, drad;
-    float r_isimip_data[179*12];
+    float r_isimip_data[CRU_DL*12]; /* corrected: 2012/08/05 */
 
 	/*  printf("reading CRU data...");  */
 	/* read CRU TS3.0 Vapor-pressure data: 2010/01/04 (A.Ito) */

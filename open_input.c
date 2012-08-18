@@ -652,7 +652,7 @@ void open_input(
 	}
 	/* U.NH harmonized historical land-use data (2010/01/31: by A.Ito) */
 	/* URL  http://luh.unh.edu/ */
-	if(LANDUSE==8){
+	if(LANDUSE==8 || LANDUSE==9){
 		if( (fp_s[26]=fopen("./data/luc_eos2_gcrop_1700-2005.dat","rt"))==NULL ){  
 			printf("No luc_eos2_gcrop_1700-2005.dat\n");  
 			exit(1); 
@@ -839,20 +839,20 @@ void open_input(
         || GCM==2007 || GCM==2017 || GCM==2027 || GCM==2037 || GCM==2047){
         CO2S = 2; /* RCP4.5 */
         /**/
-        if((fp_s[23]=fopen("./data/image_a1_fcrop.dat","rt"))==NULL){
-			printf("NO image_a1_fcrop.dat !!\n");
+        if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
+			printf("NO image_a1b_fcrop.dat !!\n");
 			exit(1);
 		}
-		fp_s[45]=fopen("./data/image_a1_fgrass.dat","rt");
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
     }else if(GCM==2004 || GCM==2014 || GCM==2024 || GCM==2034 || GCM==2044
         || GCM==2008 || GCM==2018 || GCM==2028 || GCM==2038 || GCM==2048){
         CO2S = 3; /* RCP6.0 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1_fcrop.dat","rt"))==NULL){
-			printf("NO image_a1_fcrop.dat !!\n");
+			printf("NO image_a1b_fcrop.dat !!\n");
 			exit(1);
 		}
-		fp_s[45]=fopen("./data/image_a1_fgrass.dat","rt");
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
     }
 	
     /* SAGE crop data */

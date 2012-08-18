@@ -52,13 +52,13 @@ void cal_cruclim(
 			grid->co2y = PIVOT_CO2Y;
 			/* PIVOT_CO2Y = 1901 (usual setting) */
 		}
-        /* ISI-MIP no-co2 run: 2012/07/26 by A.Ito */
-        if(GCM==2005 ||GCM==2006 ||GCM==2007 ||GCM==2008 ||
+        /* ISI-MIP no-co2 run: 2012/07/31 by A.Ito */
+        if((GCM==2005 ||GCM==2006 ||GCM==2007 ||GCM==2008 ||
             GCM==2015 ||GCM==2016 ||GCM==2017 ||GCM==2018 ||
             GCM==2025 ||GCM==2026 ||GCM==2027 ||GCM==2028 ||
             GCM==2035 ||GCM==2036 ||GCM==2037 ||GCM==2038 ||
-            GCM==2045 ||GCM==2046 ||GCM==2047 ||GCM==2048){
-            grid->co2y = PIVOT_CO2Y;
+            GCM==2045 ||GCM==2046 ||GCM==2047 ||GCM==2048) && grid->climy>=2000){
+            grid->co2y = 2000;
         }
 		
 		/* historical change in fertilizer input: 2010/05/11 by A.Ito */

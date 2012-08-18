@@ -160,7 +160,7 @@
 #define NECB_LUC 1
 
 /* land use setting */
-#define LANDUSE 8
+#define LANDUSE 9
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -170,6 +170,7 @@
 /* 6: EOS-WEBSTER Hurtt land-use change, 1700-2000 */
 /* 7: Ramankutty land-use change, 1700-2007 */
 /* 8: Hurtt harmonized land-use change, 1700-2005 (added 2010/01/31) */
+/* 9: fixed land-use at 2000 */
 
 /* erosion: setting of soil conservation */
 #define SOIL_CONSV 0

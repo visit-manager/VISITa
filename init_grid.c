@@ -723,7 +723,7 @@ void f_init_grid(
 	}
 	
 	/* AD 1700-2005 (added 2010/01/31) */
-	if(LANDUSE==8){
+	if(LANDUSE==8 || LANDUSE==9){
 		for(h=0;h<306;h++){
 			/* fractional cover */
 			fscanf(fp_s[26],"%lf", &grid->fcrop_unh_hmnzed[h]);

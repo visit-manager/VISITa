@@ -111,7 +111,10 @@ void f_cult_luc(
 				((grid->fgrass3_image[grid->climy - 1990] + grid->fgrass4_image[grid->climy - 1990]) 
 				 - (grid->fgrass3_image[15]+grid->fgrass4_image[15]))/100.0;
 		}
-	}else{
+	}else if(LANDUSE==9){
+        grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - 1700];
+        grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - 1700];
+    }else{
 		printf("Wrong land-use setting ID\n");
 		exit(1);
 	}
@@ -160,7 +163,9 @@ void f_cult_luc(
 		}else if(LANDUSE==7){
 			grid->f_deforest = (grid->f_crop_con - grid->f_crop_p) 
 								+ (grid->f_pasture_con - grid->f_pasture_p);
-		}
+		}else if(LANDUSE==9){
+            grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
+        }
 	}
 	
 	/* abandonment */
@@ -295,6 +300,9 @@ void f_luc_emit(
 			/* added 2010/01/07 (A.Ito) */
 			f_luc = (grid->fcrop_rk[1900-1700] - grid->fcrop_rk[1900-1700-1])
 					+(grid->fpast_rk[1900-1700] - grid->fpast_rk[1900-1700-1]);
+		}else if(LANDUSE==9){
+			f_luc = (grid->t_vc_unh_hmnzed[2000 - 1700] + grid->t_vp_unh_hmnzed[2000 - 1700])
+				+ (grid->t_sc_unh_hmnzed[2000 - 1700] + grid->t_sp_unh_hmnzed[2000 - 1700])*f_mass_secfor;
 		}
 		
 		/* modified by A.Ito (2009/08/19) */
@@ -387,11 +395,11 @@ void f_luc_emit(
 		/* annual land use change */
 		if(LANDUSE == 0){
 			f_luc = 0.0;
-		}else if(LANDUSE>=1 && LANDUSE<=5){
+		}else if(LANDUSE>=1 && LANDUSE<=5 || LANDUSE==9){
 			f_luc = grid->f_deforest;
 			/*  grid->f_crop_con - grid->f_crop_p;  */
 		}else if(LANDUSE==6 || LANDUSE==8){
-			/* assumption: biomass in secondary forest is half (0.5) of primary forest */
+			/* assumption: biomass in secondary forest is lower (0.1) than primary forest */
 			f_luc = grid->f_deforest_v + grid->f_deforest_s * f_mass_secfor;
 		}else if(LANDUSE==7){
 			/* added 2010/01/07 (A.Ito) */

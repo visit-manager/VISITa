@@ -55,6 +55,9 @@ void cal_stable(
 	}else if(LANDUSE==7){
 		grid->f_crop_p = grid->fcrop_rk[199];
 		grid->f_pasture_p = grid->fpast_rk[199];
+	}else if(LANDUSE==9){
+		grid->f_crop_p = grid->fcrop_unh_hmnzed[200];
+		grid->f_pasture_p = grid->fpast_unh_hmnzed[200];
 	}
 	
 	if(grid->rank_nat==1){
