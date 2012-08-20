@@ -25,7 +25,7 @@ void f_co2_trend(
 	time = (double)(grid->co2y);
 	
 	/** BASE **/
-    if(ISIMIP_RUN==0){
+    if(ISIMIP_RUN == 0){
         if(time<1990.0){
             /* fitting curve from observational data */
             aa0 = 1904299.0;
@@ -45,12 +45,12 @@ void f_co2_trend(
                 /* constant CO2 level */
                 base = sres_co2[11];
             }else{
-                base = sres_co2[grid->co2y-1990];
+                base = sres_co2[grid->co2y - 1990];
             }
             
             inc = 0.0;
         }
-    }else if(ISIMIP_RUN==1){
+    }else if(ISIMIP_RUN == 1){
         switch(CO2S){
             case 1:
                 base = aco2_b1[grid->co2y-1765];

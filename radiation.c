@@ -67,7 +67,7 @@ double top_rad(
 	struct Grid *grid, 
     short ha
 ){
-	double doy[12] = {15.0, 46.0, 74.0, 105.0, 135.0, 166.0, 
+	double doy[ASTEP] = {15.0, 46.0, 74.0, 105.0, 135.0, 166.0, 
 		196.0, 227.0, 258.0, 288.0, 319.0, 349.0};
 	double ge, dlt, dtc, ho;
 	double aa, bb, cc, dd, ee, gg, hh, ii;
@@ -106,7 +106,7 @@ double top_rad(
 	hh = sin(dlt) * sin(grid->lat * dTr); 
 	ii = cos(dlt) * cos(grid->lat * dTr) * cos((double)ha * dTr);; 
 	ho = gg * dtc * (hh + ii); 
-	ho = (ho>=0.0)?ho:0.0;
+	ho = (ho >= 0.0)?ho:0.0;
 			
 	return(ho);
 }
@@ -237,7 +237,7 @@ void f_net_rad(
 	}
 	ccc = 1.0-0.65*grid->tcdc_clm[grid->m];
 	net_long = aaa*bbb*ccc;
-	loct->rad_net_long[grid->m]=net_long;
+	loct->rad_net_long[grid->m] = net_long;
 	
 	/** soil surface albedo **/
 	(echar->soil).albedo[grid->m] = albedo_soil(loct, &(echar->soil));
@@ -245,10 +245,10 @@ void f_net_rad(
 	ee_c3 = loct->c3ptn[grid->m]*(echar->c3).eK[grid->m]*(mass->c3).lai[grid->m];
 	ee_c4 = loct->c4ptn[grid->m]*(echar->c4).eK[grid->m]*(mass->c4).lai[grid->m];
 	
-	eee = ee_c3+ee_c4;
+	eee = ee_c3 + ee_c4;
 	ground = exp(-1.0*eee);
-	c3_canopy = (1.0-ground)*loct->c3ptn[grid->m];
-	c4_canopy = (1.0-ground)*loct->c4ptn[grid->m];
+	c3_canopy = (1.0 - ground)*loct->c3ptn[grid->m];
+	c4_canopy = (1.0 - ground)*loct->c4ptn[grid->m];
 	loct->albedo_sfc[grid->m] = (echar->soil).albedo[grid->m]*ground + 
 					(echar->c3).albedo*c3_canopy + (echar->c4).albedo*c4_canopy;
 	

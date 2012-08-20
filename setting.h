@@ -96,14 +96,14 @@
 
 /* CRU data length: 2010/01/04 (A.Ito) */
 #if ISIMIP_RUN==1
-    #define CRU_DL 180  /* SU 30 + AD 1950 - 2009 */
+    #define CRU_TS 180  /* SU 30 + AD 1950 - 2009 */
 #else
-    #define CRU_DL 109  /* AD 1901 - 2009 */
+    #define CRU_TS 109  /* AD 1901 - 2009 */
 #endif
 /* 102: TS2.1 */
 /* 106: TS3.0 */
 /* 109: TS3.1 */
-/* calculation length: Note CRU_CL LE(=<) CRU_DL */
+/* calculation length: Note CRU_CL LE(=<) CRU_TS */
 /* #define CRU_CL 100 */  /* <= asseing climate data uncertainty */
 #define CRU_CL 109  /* */
 /* #define CRU_CL 70  */
@@ -113,7 +113,7 @@
 /* 0: no  1:yes */
 /* data length (years) */
 /* extension to 2011: 2012/01/26 by A.Ito */
-#define NCEP_DL 64   /* 1948-2011 */
+#define NCEP_TS 64   /* 1948-2011 */
 /* year of data beginning (AD) */
 #define NCEP_BGY 1948
 
@@ -135,7 +135,7 @@
 #define GCM_ENY 2100
 
 /* GCM data length */
-#define GCM_DL 131 /* 1970-2100 */
+#define GCM_TS 131 /* 1970-2100 */
 /* #define PIVOT_GCMY 2001 */
 /* start year of GCM climate (AD) */
 #define PIVOT_GCMY 1970
@@ -171,6 +171,14 @@
 /* 7: Ramankutty land-use change, 1700-2007 */
 /* 8: Hurtt harmonized land-use change, 1700-2005 (added 2010/01/31) */
 /* 9: fixed land-use at 2000 */
+
+#define BG_LUY 1700
+
+#if ISIMIP_RUN==1
+    #define PIVOT_LUY 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
+#else
+    #define PIVOT_LUY 1900
+#endif
 
 /* erosion: setting of soil conservation */
 #define SOIL_CONSV 0

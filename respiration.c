@@ -12,7 +12,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-/* from foliage, maintenance respiration ************************************/
+/* from foliage, maintenance respiration ********************************/
 double frfm(
 	struct Grid *grid, 
 	struct Pchar *veg, 
@@ -44,7 +44,7 @@ double frfm(
 	return (rfm);
 }
 
-/* from foliage, growth and construction respiration ************/
+/* from foliage, growth and construction respiration ****************/
 double frfg(
 	struct Grid *grid, 
 	struct Pchar *veg, 
@@ -116,7 +116,7 @@ double frrm(
 	return(rfm);
 }
 
-/* from root, growth and construction respiration ************/
+/* from root, growth and construction respiration ****************/
 double frrg(
 	struct Grid *grid, 
 	struct Pchar *veg, 

@@ -419,7 +419,7 @@ void f_init_grid(
 	/* set CRU TS3.0 *************** 2010/01/04 (A.Ito) ********/
 	/* New, M., D. Lister, et al. (2002). "A high-resolution data set of 
 	surface climate over global land areas." Climate Research 21: 1-25. */
-	for(h=0;h<CRU_DL;h++){
+	for(h=0;h<CRU_TS;h++){
 		for(g=0;g<ASTEP;g++){
 			grid->hist_cld[h][g] = grid->tcdc_clm_a[g];
 			grid->hist_pre[h][g] = grid->prate_sfc_a[g];

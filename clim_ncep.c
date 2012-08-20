@@ -47,7 +47,7 @@ void read_ncep_clim(
 	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4811.dat","rt"))==NULL ){  
 		printf("No tcdc.eatm.gauss.mon4811.dat\n");  exit(1); }
 	
-	for(f=0;f<NCEP_DL;f++){   /*  1948-2011 */
+	for(f=0;f<NCEP_TS;f++){   /*  1948-2011 */
 		for(g=0;g<ASTEP;g++){
 			fscanf(fp_t,"%ld %ld", &yr, &mon);
 			fscanf(fp_p,"%ld %ld", &yr, &mon);

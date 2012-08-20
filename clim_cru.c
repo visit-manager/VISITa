@@ -27,7 +27,7 @@ void read_cru_clim(
 	long f, g, h;
 	double data, alt, aa, bb, vps;
     double atmp, apres, shum, avtas, avpr, drad;
-    float r_isimip_data[CRU_DL*12]; /* corrected: 2012/08/05 */
+    float r_isimip_data[CRU_TS*12]; /* corrected: 2012/08/05 */
 
 	/*  printf("reading CRU data...");  */
 	/* read CRU TS3.0 Vapor-pressure data: 2010/01/04 (A.Ito) */
@@ -44,7 +44,7 @@ void read_cru_clim(
         fscanf(fp_c[0],"%ld", &kk[0]);
         if(kk[0]!=0){
             flag++;
-            for(h=0;h<CRU_DL;h++){
+            for(h=0;h<CRU_TS;h++){
                 for(g=0;g<ASTEP;g++){
                     fscanf(fp_c[0],"%lf", &data);
                     
@@ -57,7 +57,7 @@ void read_cru_clim(
         fscanf(fp_c[1],"%ld", &kk[1]);
         if(kk[1]!=0){
             flag++;
-            for(h=0;h<CRU_DL;h++){
+            for(h=0;h<CRU_TS;h++){
                 for(g=0;g<ASTEP;g++){
                     fscanf(fp_c[1],"%lf", &data);
                     
@@ -70,7 +70,7 @@ void read_cru_clim(
         fscanf(fp_c[2],"%ld", &kk[2]);
         if(kk[2]!=0){
             flag++;
-            for(h=0;h<CRU_DL;h++){
+            for(h=0;h<CRU_TS;h++){
                 for(g=0;g<ASTEP;g++){
                     fscanf(fp_c[2],"%lf", &data);
                     
@@ -83,7 +83,7 @@ void read_cru_clim(
         fscanf(fp_c[3],"%ld", &kk[3]);
         if(kk[3]!=0){
             flag++;
-            for(h=0;h<CRU_DL;h++){
+            for(h=0;h<CRU_TS;h++){
                 for(g=0;g<ASTEP;g++){
                     fscanf(fp_c[3],"%lf", &data);
                     

@@ -121,10 +121,10 @@ struct Grid{
 	/* GCM climate: year x month x row x column */
 	/* 160 x 320   */
 #if GCM_SIM==1
-	float	proj_tmp2m[GCM_DL][ASTEP][160][320];		/* temperature */
-	float	proj_prec[GCM_DL][ASTEP][160][320];			/* precipitation */
-	float	proj_hum[GCM_DL][ASTEP][160][320];			/* specific humidity */
-	float	proj_rad[GCM_DL][ASTEP][160][320];			/* surface downward solar radiation */
+	float	proj_tmp2m[GCM_TS][ASTEP][160][320];		/* temperature */
+	float	proj_prec[GCM_TS][ASTEP][160][320];			/* precipitation */
+	float	proj_hum[GCM_TS][ASTEP][160][320];			/* specific humidity */
+	float	proj_rad[GCM_TS][ASTEP][160][320];			/* surface downward solar radiation */
 	/* 1970-1999 average: month x row x column [ASTEP][160][320] */
 	float	proj_tmp2m_b[ASTEP][160][320];				/* temperature */
 	float	proj_prec_b[ASTEP][160][320];				/* precipitation */
@@ -144,10 +144,10 @@ struct Grid{
 	
 	/* NCEP/NCAR 1948-2011 */
 #if NCEP_SIM==1	
-	float	ncep_tmp2m[NCEP_DL][ASTEP][94][192];		/* temperature */
-	float	ncep_prate[NCEP_DL][ASTEP][94][192];		/* precipitation */
-	float	ncep_tcdc[NCEP_DL][ASTEP][94][192];			/* total cloudiness */
-	float	ncep_vpres[NCEP_DL][ASTEP][94][192];		/* vapor pressure */
+	float	ncep_tmp2m[NCEP_TS][ASTEP][94][192];		/* temperature */
+	float	ncep_prate[NCEP_TS][ASTEP][94][192];		/* precipitation */
+	float	ncep_tcdc[NCEP_TS][ASTEP][94][192];			/* total cloudiness */
+	float	ncep_vpres[NCEP_TS][ASTEP][94][192];		/* vapor pressure */
 	/* average */
 	float	ncep_tmp2m_b[ASTEP][94][192];
 	float	ncep_prate_b[ASTEP][94][192];
@@ -169,10 +169,10 @@ struct Grid{
 
 	/* historical (e.g., UEA/CRU TS2.1) data */
 	long	hist_exist;							/* flag of data availability */
-	double	hist_tmp[CRU_DL][ASTEP];			/* temperature */
-	double	hist_pre[CRU_DL][ASTEP];			/* precipitation */
-	double	hist_cld[CRU_DL][ASTEP];			/* cloud cover */
-	double	hist_vap[CRU_DL][ASTEP];			/* vapor pressure */
+	double	hist_tmp[CRU_TS][ASTEP];			/* temperature */
+	double	hist_pre[CRU_TS][ASTEP];			/* precipitation */
+	double	hist_cld[CRU_TS][ASTEP];			/* cloud cover */
+	double	hist_vap[CRU_TS][ASTEP];			/* vapor pressure */
 	/* historical average */
 	double	hist_tmp_b[ASTEP];					/* temperature */
 	double	hist_pre_b[ASTEP];					/* precipitation */
@@ -278,10 +278,10 @@ struct Grid{
 	double 	ndepo[3];					/* N deposition by Galloway et al. (2004) */
 	
 	/* CHASE 2001 monthly, by A.Ito (2010/05/21) */
-	double	ndepo_chaser_dnhx[12][64][128];		/* NHx, dry */
-	double	ndepo_chaser_dnoy[12][64][128];		/* NOy, dry */
-	double	ndepo_chaser_wnhx[12][64][128];		/* NHx, wet */
-	double	ndepo_chaser_wnoy[12][64][128];		/* NOy, wet */
+	double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
+	double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
+	double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
+	double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
 	double	ndepo_ann_dnhx, ndepo_ann_dnoy, ndepo_ann_wnhx, ndepo_ann_wnoy;
 	
 	/* radiation conversion model using SRB data */
