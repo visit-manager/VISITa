@@ -136,10 +136,29 @@ void f_cult_luc(
 	/* annual deforestation */
 	if(grid->phase==0){
 		/* spin-up */
-		grid->f_deforest = grid->fcrop_sage[(PIVOT_LUY+1) - BG_LUY] - grid->fcrop_sage[PIVOT_LUY - BG_LUY];
+		if(LANDUSE == 0){
+			grid->f_deforest = 0.0;
+		}else if(LANDUSE>=1 && LANDUSE<=5){
+            grid->f_deforest = grid->fcrop_sage[(PIVOT_LUY+1) - BG_LUY]
+                        - grid->fcrop_sage[PIVOT_LUY - BG_LUY];
+        }else if(LANDUSE==6 || LANDUSE==8){
+            grid->f_deforest = grid->t_vc_unh_hmnzed[PIVOT_LUY - BG_LUY] 
+                                + grid->t_vp_unh_hmnzed[PIVOT_LUY - BG_LUY]
+                                + grid->t_sc_unh_hmnzed[PIVOT_LUY - BG_LUY] 
+                                + grid->t_sp_unh_hmnzed[PIVOT_LUY - BG_LUY];
+            grid->f_deforest_v = grid->t_vc_unh_hmnzed[PIVOT_LUY - BG_LUY] 
+                                + grid->t_vp_unh_hmnzed[PIVOT_LUY - BG_LUY];
+            grid->f_deforest_s = grid->t_sc_unh_hmnzed[PIVOT_LUY - BG_LUY] 
+                                + grid->t_sp_unh_hmnzed[PIVOT_LUY - BG_LUY];
+        }else if(LANDUSE==7){
+            grid->f_deforest = grid->fcrop_sage[(PIVOT_LUY+1) - BG_LUY]
+                        - grid->fcrop_sage[PIVOT_LUY - BG_LUY];
+        }else if(LANDUSE==9){
+             grid->f_deforest = 0.0;
+        }
 		/* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
 	
-	}else{
+	}else if(grid->phase==1 || grid->phase==2){
 		if(LANDUSE == 0){
 			grid->f_deforest = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
@@ -164,7 +183,8 @@ void f_cult_luc(
 			grid->f_deforest = (grid->f_crop_con - grid->f_crop_p) 
 								+ (grid->f_pasture_con - grid->f_pasture_p);
 		}else if(LANDUSE==9){
-            grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
+            /* grid->f_deforest = grid->f_crop_con - grid->f_crop_p; */
+            grid->f_deforest = 0.0;
         }
 	}
 	
@@ -398,7 +418,7 @@ void f_luc_emit(
 		/* annual land use change */
 		if(LANDUSE == 0){
 			f_luc = 0.0;
-		}else if(LANDUSE>=1 && LANDUSE<=5 || LANDUSE==9){
+		}else if(LANDUSE>=1 && LANDUSE<=5){
 			f_luc = grid->f_deforest;
 			/*  grid->f_crop_con - grid->f_crop_p;  */
 		}else if(LANDUSE==6 || LANDUSE==8){
