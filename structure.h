@@ -273,6 +273,7 @@ struct Grid{
 	double 	f_wetland;					/* wetland fraction */
 	double 	f_upland;					/* upland (e.g. forest, grassland) fraction */
 	double 	f_lake;						/* lake fraction */
+	double 	f_wetland0;					/* wetland fraction (base) */
 	
 	/* nitrogen deposition */
 	double 	ndepo[3];					/* N deposition by Galloway et al. (2004) */
@@ -298,6 +299,7 @@ struct Grid{
 	double	inundation_ssmi_max;
 	
 	long	type_permaforst;			/* permafrost type by NSIDC */
+    double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
 };			
 
 /* grid conditions, derived from submodules *******************************************/

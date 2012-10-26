@@ -402,6 +402,8 @@ void f_set_history_data(
 		rh_luc[grid->reg_g][year] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
 		
 		h_hvst_wood[year] += flux->hvst_wood * grid->area;
+        
+        h_wetarea[year] += grid->f_wetland * grid->area;
 	}
 	if(loct->v_type == 2){
 		h_agrersn_c[year] += fweight * grid->area * flux->erod_carbon;
@@ -530,6 +532,8 @@ void f_glosum_output(
 
 		fprintf(fp_glsum,"%lf ", h_sw1[h]); /* added by A.Ito (2012/01/05) */
 		fprintf(fp_glsum,"%lf ", h_sw2[h]); /* added by A.Ito (2011/01/05) */
+
+		fprintf(fp_glsum,"%lf ", h_wetarea[h]); /* added by A.Ito (2012/10/26) */
 
 		fprintf(fp_glsum,"\n");
 	}

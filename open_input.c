@@ -848,7 +848,7 @@ void open_input(
         || GCM==2008 || GCM==2018 || GCM==2028 || GCM==2038 || GCM==2048){
         CO2S = 3; /* RCP6.0 */
         /**/
-        if((fp_s[23]=fopen("./data/image_a1_fcrop.dat","rt"))==NULL){
+        if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
 			printf("NO image_a1b_fcrop.dat !!\n");
 			exit(1);
 		}

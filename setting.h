@@ -160,7 +160,7 @@
 #define NECB_LUC 1
 
 /* land use setting */
-#define LANDUSE 9
+#define LANDUSE 0
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -209,7 +209,7 @@
 /* 0:off, 1:0n */
 
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 
@@ -255,6 +255,10 @@
 
 /* sensitivity run of N deposition */
 #define SENS_N 0
+/* 0:off, 1:0n */
+
+/* change in wetland extent due to permafrost melting: 2012/10/26 by A.Ito */
+#define VAR_PFMWET 1
 /* 0:off, 1:0n */
 
 /********************************************************/

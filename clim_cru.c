@@ -209,6 +209,13 @@ void read_cru_clim(
                 grid->hist_tmp_b[g] += grid->hist_tmp[f][g]/30.0;
             }
         }
+        
+        /* base temperature for permafrost dynamics */
+        for(f=0;f<20;f++){
+            for(g=0;g<ASTEP;g++){
+                grid->tmp_base_permaforst += grid->hist_tmp[f+10][g]/240.0;
+            }
+        }
     }
 	
 	/*  printf("done\n");  */

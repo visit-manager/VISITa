@@ -638,6 +638,9 @@ void f_init_grid(
 	if(grid->f_lake > 1.0){
 		grid->f_lake = 1.0;
 	}
+    
+    /* base wetland extent: 2012/10/26 by A.Ito */
+    grid->f_wetland0 = grid->f_wetland;
 	
 	/* paddy fraction *****************/
 	if(ALT_FWET==1){

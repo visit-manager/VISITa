@@ -62,7 +62,7 @@ extern double h_n_fertin[HIST], h_n_depoin[HIST]; /* added by A.Ito (2010/05/02)
 extern double h_voc_isopr_g97[HIST], h_voc_monotrp_g97[HIST], h_voc_methanl_g97[HIST];
 extern double h_voc_acetone_g97[HIST], h_voc_actaldhd_g97[HIST], h_voc_frmardhd_g97[HIST];
 extern double h_voc_formacd_g97[HIST], h_voc_acetacd_g97[HIST], h_voc_co_g97[HIST];
-extern double h_hvst_wood[HIST];
+extern double h_hvst_wood[HIST], h_wetarea[HIST];
 
 extern double ci_aco2[HIST], ci_aco2_d13c[HIST], ci_aco2_d14c[HIST];
 extern double ci_gpp[HIST], ci_gpp_d13c[HIST], ci_gpp_d14c[HIST];

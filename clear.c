@@ -87,6 +87,8 @@ void f_clear(
 	for(f = 0;f<(SOIL_LAYER+2);f++){
 		loct->prof_ch4[f] = 0.0;
 	}
+    
+    grid->tmp_base_permaforst = 0.0;
 }
 
 /* make plant fluxes vacant ***************************/

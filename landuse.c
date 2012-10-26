@@ -194,7 +194,9 @@ void f_cult_luc(
 	}
 	
 	/* historical change in paddy field area: added by A.Ito (2011/2/28) ********/
-	if(LANDUSE==7){
+	if(LANDUSE==0){
+		grid->f_paddy = 0.0;
+	}else if(LANDUSE==7){
 		if(grid->climy<=2005){
 			if(grid->f_paddy_b > 0.0 && grid->fcrop_rk[2000 - BG_LUY] > 0.0){
 				grid->f_paddy = grid->f_paddy_b * 
@@ -232,8 +234,6 @@ void f_cult_luc(
 		if(grid->f_paddy < 0.0){
 			grid->f_paddy = 0.0;
 		}
-	}else if(LANDUSE==0){
-		grid->f_paddy = 0.0;
 	}
 }
 

@@ -238,7 +238,7 @@ void f_dyn_loct(
 	struct Echar *echar
 ){
 	long h;
-	double alt, k_c, vpres_var;
+	double alt, k_c, vpres_var, tmp_ann, tmp_var, wet_var;
 	
 	/* solar constant sensitivity */
 	if(SC==3 || SC==4){
@@ -286,6 +286,51 @@ void f_dyn_loct(
 			grid->tmp_soil_mean += grid->tmp10_soil[h]*MDN[h]/365.0;
 		}
 		loct->cum_dprec = 0.0;
+        
+        /* change in wetland area due to permafrost melting: 2012/10/26 by A.Ito ****/
+        if(VAR_PFMWET == 1){
+            
+            tmp_ann = 0.0;
+            for(h=0;h<ASTEP;h++){
+                tmp_ann = grid->tmp_2m[h]*MDN[h]/365.0;
+            }
+            
+            tmp_var = tmp_ann - grid->tmp_base_permaforst;
+            
+            wet_var = 0.0;
+            if(tmp_ann > -2.0 && tmp_var > 0.0 ){
+                switch(grid->type_permaforst){
+                    case 1: case 5: case 9: case 13: case 17:
+                        /* continuous permafrost */
+                        wet_var = 0.005 * tmp_var;
+                        break;
+                    case 2: case 6: case 10: case 14: case 18:
+                        /* discontinuous permafrost */
+                        wet_var = 0.003 * tmp_var;
+                        break;
+                    case 3: case 7: case 11: case 15: case 19:
+                        /* sporadic permafrost */
+                        wet_var = 0.001 * tmp_var;
+                        break;
+                    case 4: case 8: case 12: case 16: case 20:
+                        /* isolated permafrost */
+                        wet_var = 0.0003 * tmp_var;
+                        break;
+                    default:
+                        /* no permafrost */
+                        wet_var = 0.0;
+               }
+            }
+            if(wet_var < 0.0){
+                wet_var = 0.0;
+            }
+            
+            grid->f_wetland += wet_var;
+            
+            if(grid->f_wetland > 1.0){
+                grid->f_wetland = 1.0;
+            }
+        }
 	}
 	/* cumulative precipitation anomaly: 2010/07/23 by A.Ito */
 	/* if(grid->climy<2005){ */
