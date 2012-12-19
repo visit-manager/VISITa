@@ -315,8 +315,8 @@ struct Loct{
 	double	d13c_aco2[ASTEP];			/* stable carbon isotope composition of CO2, dimensionless */
 	double	cnpy_co2_recyc;				/* within-canopy CO2 recycling ratio */
 	
-	double	c4ptn[ASTEP];				/* ground coverage of C3 plants, fraction */
-	double	c3ptn[ASTEP];				/* ground coverage of C4 plants, fraction */
+	double	c4ptn[ASTEP];				/* ground coverage of C4 plants, fraction */
+	double	c3ptn[ASTEP];				/* ground coverage of C3 plants, fraction */
 	long	gd[ASTEP], bbm;				/* vegetative growing period, days */
 	double	gdd[ASTEP];				 	/* cumulative growth degree days, degC days */
 	

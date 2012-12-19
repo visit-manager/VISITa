@@ -302,19 +302,19 @@ void f_dyn_loct(
                 switch(grid->type_permaforst){
                     case 1: case 5: case 9: case 13: case 17:
                         /* continuous permafrost */
-                        wet_var = 0.005 * tmp_var;
+                        wet_var = 0.05 * tmp_var;
                         break;
                     case 2: case 6: case 10: case 14: case 18:
                         /* discontinuous permafrost */
-                        wet_var = 0.003 * tmp_var;
+                        wet_var = 0.03 * tmp_var;
                         break;
                     case 3: case 7: case 11: case 15: case 19:
                         /* sporadic permafrost */
-                        wet_var = 0.001 * tmp_var;
+                        wet_var = 0.01 * tmp_var;
                         break;
                     case 4: case 8: case 12: case 16: case 20:
                         /* isolated permafrost */
-                        wet_var = 0.0003 * tmp_var;
+                        wet_var = 0.003 * tmp_var;
                         break;
                     default:
                         /* no permafrost */

@@ -24,7 +24,7 @@
 #define INT_C 0.01
 
 /***************************************************/
-#define ISIMIP_RUN 1
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 
@@ -160,7 +160,7 @@
 #define NECB_LUC 1
 
 /* land use setting */
-#define LANDUSE 0
+#define LANDUSE 8
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
