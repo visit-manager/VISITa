@@ -173,6 +173,7 @@
 /* 9: fixed land-use at 2000 */
 
 #define BG_LUY 1700
+/* begin year of land-use data */
 
 #if ISIMIP_RUN==1
     #define PIVOT_LUY 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
@@ -195,6 +196,11 @@
 #define C14_GOUT 1
 #define PHYS_GOUT 1
 
+/* albedo perturbation experiment: 2012/12/30 by A.Ito */
+#define EX_ALBEDO 1
+/* 0: off */
+/* 1: on */
+
 /***************************************************/
 /* PAR conversion */
 #define D_PAR 1
@@ -209,7 +215,7 @@
 /* 0:off, 1:0n */
 
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 
@@ -232,8 +238,6 @@
 /* 1: use data */
 
 /* parameter perturbation */
-#define PRT_PARAM 0
-/* 0:off, 1:0n */
 /* climate perturbation */
 #define PRT_CLIM 0
 /* 0:off, 1:0n */
@@ -258,8 +262,19 @@
 /* 0:off, 1:0n */
 
 /* change in wetland extent due to permafrost melting: 2012/10/26 by A.Ito */
-#define VAR_PFMWET 1
+#define VAR_PFMWET 0
 /* 0:off, 1:0n */
+
+/********************************************************/
+#define OUTPUT_CARBON1 0
+#define OUTPUT_CARBON2 0
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
+#define OUTPUT_HYDMET 0
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 0
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 
 /********************************************************/
 /* sensitivity analysis *****************/

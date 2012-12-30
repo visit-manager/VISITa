@@ -165,6 +165,16 @@ struct Grid{
 	float	ncep_vpres_b[1][1][1]; 
 #endif
 
+    /* albedo perturbation: 2012/12/29 by A.Ito */
+#if EX_ALBEDO==1
+    float   albedo_av[ASTEP][36][72];
+    float   albedo_sd[ASTEP][36][72];
+#else
+    float   albedo_av[1][1][1];
+    float   albedo_sd[1][1][1];
+#endif
+    float   albedo_pert[12];
+
 	double	proj_prec_co;			/* carry-over of negative precipitation */
 
 	/* historical (e.g., UEA/CRU TS2.1) data */

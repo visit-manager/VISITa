@@ -52,7 +52,7 @@ int main(
 	char *argv[]
 ){
 	short zone;
-	long f, g, h, l_config, flag_calc;
+	long f, g, h, l_config, rpert, flag_calc;
 	double area_t, area_b, area_r, area_l;
 	/* global land area */
 	/* file name strings */
@@ -116,44 +116,50 @@ int main(
 	TEMP_GC = l_config;
 		
 	/* config: 7 parameter perturbation */
-	fscanf(fp_config,"%s %ld", s_config, &l_config);
-	printf("config  7: %s %ld\n", s_config, l_config);
-	PTB_SEED = l_config;
-	
-	/* for command-based simulations */
-	/* PTB_SEED = (long)atol(argv[2]); */
-	
-	if(PTB_SEED > 0){
-		snprintf(num, 4, "%03d", (short)PTB_SEED);
+    /* note: no perturbation for PARAM_PTB<=0 */
+	fscanf(fp_config,"%s %ld %ld", s_config, &l_config, &rpert);
+	printf("config  7: %s %ld %ld\n", s_config, l_config, rpert);
+    PARAM_PTB = l_config;
+    
+    if(EX_ALBEDO==1){
+        srand((long)atol(argv[1]) + clock()%1000);
+    
+        snprintf(num, 4, "%03d", (short)rpert);
 		strcat(s_date, "E");
 		strcat(s_date, num);
 		strcat(s_date, "_");
-	}
-	/* note: no perturbation for PTB_SEED<=0 */
-	
-	/* global factor: 2010/05/12 by A.Ito */
-	srand(PTB_SEED + clock()%1000);
-	rand();
-	if(PTB_SEED == -9999){
-		for(f=0;f<20;f++){
-			f_pert[f] = 0.0;
-		}
-	}else{
-		for(f=0;f<20;f++){
-			f_pert[f] = 0.0;
-			for(g=0;g<12;g++){
-				f_pert[f] += (double)rand() / (double)RAND_MAX;
-			}
-			f_pert[f] -= 6.0;
-			
-			if(f_pert[f] > 3.0){
-				f_pert[f] = 3.0;
-			}
-			if(f_pert[f] < -3.0){
-				f_pert[f] = -3.0;
-			}
-		}
-	}
+        for(f=0;f<20;f++){
+            f_pert[f] = 0.0;
+        }
+    }else{
+        if(PARAM_PTB==1){
+            snprintf(num, 4, "%03d", (short)rpert);
+            strcat(s_date, "E");
+            strcat(s_date, num);
+            strcat(s_date, "_");
+            
+            srand(rpert + clock()%1000);
+            rand();
+            for(f=0;f<20;f++){
+                f_pert[f] = 0.0;
+                for(g=0;g<12;g++){
+                    f_pert[f] += (double)rand() / (double)RAND_MAX;
+                }
+                f_pert[f] -= 6.0;
+                
+                if(f_pert[f] > 3.0){
+                    f_pert[f] = 3.0;
+                }
+                if(f_pert[f] < -3.0){
+                    f_pert[f] = -3.0;
+                }
+            }
+        }else{
+            for(f=0;f<20;f++){
+                f_pert[f] = 0.0;
+            }
+        }
+    }
 	
 	/* config: 8 CH4 experiment */
 	fscanf(fp_config,"%s %ld %ld %ld", s_config, &EX_CH4_1, &EX_CH4_2, &EX_CH4_3);

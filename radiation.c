@@ -252,14 +252,28 @@ void f_net_rad(
 	loct->albedo_sfc[grid->m] = (echar->soil).albedo[grid->m]*ground + 
 					(echar->c3).albedo*c3_canopy + (echar->c4).albedo*c4_canopy;
 	
-	ddd1 = exp(-1.0*eee*(1.0-transmittance)); /*2003-06-27*/
+    /* albedo perturbation: 2012/12/29 by A.Ito */
+    if(EX_ALBEDO==1){
+    
+        loct->albedo_sfc[grid->m] += grid->albedo_pert[grid->m];
+        
+        if(loct->albedo_sfc[grid->m]>0.99){
+            loct->albedo_sfc[grid->m] = 0.99;
+        }
+        if(loct->albedo_sfc[grid->m]<0.01){
+            loct->albedo_sfc[grid->m] = 0.01;
+        }
+    }
+    
+	ddd1 = exp(-1.0*eee*(1.0 - transmittance)); /*2003-06-27*/
 	ddd2 = exp(-1.0*eee); /*2003-06-27*/
 	
 	loct->rad_net_short[grid->m] = (1.0 - loct->albedo_sfc[grid->m])*grid->gl_rad[grid->m];
 	kmono_c3 = irr_attn(grid, loct, &(echar->c3));
 	kmono_c4 = irr_attn(grid, loct, &(echar->c4));
-	loct->fapar_mono[grid->m] = loct->c3ptn[grid->m]*(1.0-(echar->c3).albedo)*(1.0-exp(-1.0*kmono_c3*(mass->c3).lai[grid->m])) 
-						+ loct->c4ptn[grid->m]*(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*kmono_c4*(mass->c4).lai[grid->m]));
+	loct->fapar_mono[grid->m] = loct->c3ptn[grid->m]*(1.0-(echar->c3).albedo)
+                    *(1.0-exp(-1.0*kmono_c3*(mass->c3).lai[grid->m]))+ loct->c4ptn[grid->m]
+                    *(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*kmono_c4*(mass->c4).lai[grid->m]));
 	
 	/** global radiation under the canopy or at the soil surface **/
 	loct->gl_rad_g[grid->m] = grid->gl_rad[grid->m]*ddd1;
@@ -284,7 +298,9 @@ double albedo_soil(
 	double albedo;
 	
 	/* a function of snow accumulation */
-	albedo = schar->albedo0 + (0.7 - schar->albedo0)/(1.0 + exp(-0.05*(loct->snwa - 70.0)));
+	/* albedo = schar->albedo0 + (0.7 - schar->albedo0)/(1.0 + exp(-0.05*(loct->snwa - 70.0))); */
+    /* revised: 2012/12/29 by A.Ito */
+	albedo = schar->albedo0 + (0.95 - schar->albedo0)/(1.0 + exp(-0.05*(loct->snwa - 75.0)));
 	
 	if(RAD_SENS==3){
 		albedo *= 1.1;
@@ -292,9 +308,13 @@ double albedo_soil(
 	if(RAD_SENS==4){
 		albedo *= 0.9;
 	}
-	
-	albedo = (albedo>0.05)?albedo:0.05; 
-	albedo = (albedo<0.75)?albedo:0.75;
+    
+	/* albedo = (albedo>0.05)?albedo:0.05;
+	albedo = (albedo<0.75)?albedo:0.75; */
+    
+    /* revised: 2012/12/29 by A.Ito */
+    albedo = (albedo>0.01)?albedo:0.01;
+	albedo = (albedo<0.95)?albedo:0.95;
 	
 	return(albedo);
 }

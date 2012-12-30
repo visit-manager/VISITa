@@ -26,7 +26,8 @@ void f_init_sim(
 ){
 	long f, g, h, year;
 	double data;
-	FILE *fp_co2;
+    float rdat[36*72],albvar;
+	FILE *fpi;
 		
 	/**********************************************/
 	set_rowcol_gcm();	/* -> vegetdeal.c */
@@ -35,42 +36,71 @@ void f_init_sim(
 	grid->n_olson = 0;
 	grid->n_sage = 0;
 	grid->n_crop = 0;
+    
+	/**********************************************/
+    if(EX_ALBEDO==1){
+        fpi = fopen("./data/albedo_cmip_5deg.flt","rb");
+        
+        for(f=0;f<12;f++){
+            fread(rdat,sizeof(float),36*72, fpi);
+            for(g=0;g<36;g++){
+                for(h=0;h<72;h++){
+                    grid->albedo_av[f][g][h] = rdat[g*72+h];
+                }
+            }
+            fread(rdat,sizeof(float),36*72, fpi);
+            for(g=0;g<36;g++){
+                for(h=0;h<72;h++){
+                    if(rdat[g*72+h]>0.0 && rdat[g*72+h]<1.0){
+                        albvar = sqrt(rdat[g*72+h]);
+                    }else{
+                        albvar = 0.0;
+                    }
+                    grid->albedo_sd[f][g][h] = albvar;
+                }
+            }
+        }
+        fclose(fpi);
+    }else{
+        grid->albedo_av[0][0][0] = 0.2;
+        grid->albedo_sd[0][0][0] = 0.1;
+    }
 		
 	/* atm. CO2 scenario ****************************/
 	printf("reading CO2 data...");
     if(ISIMIP_RUN==0){
         if(CO2S==1){
-            if((fp_co2 = fopen("./data/SRES_A1.dat","rt"))==NULL){
+            if((fpi = fopen("./data/SRES_A1.dat","rt"))==NULL){
                 printf("No SRES_A1.dat\n");
                 exit(1);
             }
         }else if(CO2S==2){
-            if((fp_co2 = fopen("./data/SRES_A1FI.dat","rt"))==NULL){
+            if((fpi = fopen("./data/SRES_A1FI.dat","rt"))==NULL){
                 printf("No SRES_A1FI.dat\n");
                 exit(1);
             }
         }else if(CO2S==3){
-            if((fp_co2 = fopen("./data/SRES_A1T.dat","rt"))==NULL){
+            if((fpi = fopen("./data/SRES_A1T.dat","rt"))==NULL){
                 printf("No SRES_A1T.dat\n");
                 exit(1);
             }
         }else if(CO2S==4){
-            if((fp_co2 = fopen("./data/SRES_A2.dat","rt"))==NULL){
+            if((fpi = fopen("./data/SRES_A2.dat","rt"))==NULL){
                 printf("No SRES_A2.dat\n");
                 exit(1);
             }
         }else if(CO2S==5){
-            if((fp_co2 = fopen("./data/SRES_B1.dat","rt"))==NULL){
+            if((fpi = fopen("./data/SRES_B1.dat","rt"))==NULL){
                 printf("No SRES_B1.dat\n");
                 exit(1);
             }
         }else if(CO2S==6){
-            if((fp_co2 = fopen("./data/SRES_B2.dat","rt"))==NULL){
+            if((fpi = fopen("./data/SRES_B2.dat","rt"))==NULL){
                 printf("No SRES_B2.dat\n");
                 exit(1);
             }
         }else{
-            if((fp_co2 = fopen("./data/SRES_A1.dat","rt"))==NULL){
+            if((fpi = fopen("./data/SRES_A1.dat","rt"))==NULL){
                 printf("No SRES_A1.dat\n");
                 exit(1);
             }
@@ -78,66 +108,66 @@ void f_init_sim(
         
         /* SRES Scenario CO2 */
         for(f=0;f<111;f++){
-            fscanf(fp_co2,"%ld %lf", &year, &data);
+            fscanf(fpi,"%ld %lf", &year, &data);
             sres_co2[f] = data;
         }
         
-        fclose(fp_co2);
+        fclose(fpi);
         
         /* source: http://crga.atmos.uiuc.edu/research/post-sres.html
             M.E.Schlesinger and S.Malyshev			*/
-        if((fp_co2 = fopen("./data/AtmGHG_timeseries.dat","rt"))==NULL){
+        if((fpi = fopen("./data/AtmGHG_timeseries.dat","rt"))==NULL){
             printf("No AtmGHG_timeseries.dat\n");
             exit(1);
         }
         for(f=0;f<N_GHG_TS;f++){
-            fscanf(fp_co2,"%ld", &year);
+            fscanf(fpi,"%ld", &year);
             /* CO2, ppmv */
-            fscanf(fp_co2,"%lf", &aco2_a1[f]);
-            fscanf(fp_co2,"%lf", &aco2_b1[f]);
-            fscanf(fp_co2,"%lf", &aco2_a2[f]);
-            fscanf(fp_co2,"%lf", &aco2_b2[f]);
+            fscanf(fpi,"%lf", &aco2_a1[f]);
+            fscanf(fpi,"%lf", &aco2_b1[f]);
+            fscanf(fpi,"%lf", &aco2_a2[f]);
+            fscanf(fpi,"%lf", &aco2_b2[f]);
             /* CH4, ppbv */
-            fscanf(fp_co2,"%lf", &ach4_a1[f]);
-            fscanf(fp_co2,"%lf", &ach4_b1[f]);
-            fscanf(fp_co2,"%lf", &ach4_a2[f]);
-            fscanf(fp_co2,"%lf", &ach4_b2[f]);
+            fscanf(fpi,"%lf", &ach4_a1[f]);
+            fscanf(fpi,"%lf", &ach4_b1[f]);
+            fscanf(fpi,"%lf", &ach4_a2[f]);
+            fscanf(fpi,"%lf", &ach4_b2[f]);
             /* N2O, ppbv */
-            fscanf(fp_co2,"%lf", &an2o_a1[f]);
-            fscanf(fp_co2,"%lf", &an2o_b1[f]);
-            fscanf(fp_co2,"%lf", &an2o_a2[f]);
-            fscanf(fp_co2,"%lf", &an2o_b2[f]);
+            fscanf(fpi,"%lf", &an2o_a1[f]);
+            fscanf(fpi,"%lf", &an2o_b1[f]);
+            fscanf(fpi,"%lf", &an2o_a2[f]);
+            fscanf(fpi,"%lf", &an2o_b2[f]);
         }
-        fclose(fp_co2);
+        fclose(fpi);
     }else if(ISIMIP_RUN==1){
-        if((fp_co2 = fopen("./data/rcp_ghg.txt","rt"))==NULL){
+        if((fpi = fopen("./data/rcp_ghg.txt","rt"))==NULL){
             printf("No rcp_co2.txt\n");
             exit(1);
         }
         for(f=0;f<N_GHG_TS;f++){
-            fscanf(fp_co2,"%ld", &year); /* 1765-2500 */
+            fscanf(fpi,"%ld", &year); /* 1765-2500 */
             /* CO2, ppmv */
             /* CH4, ppbv */
             /* N2O, ppbv */
             
             /* RCP2.6 */
-            fscanf(fp_co2,"%lf", &aco2_b1[f]);
-            fscanf(fp_co2,"%lf", &ach4_b1[f]);
-            fscanf(fp_co2,"%lf", &an2o_b1[f]);
+            fscanf(fpi,"%lf", &aco2_b1[f]);
+            fscanf(fpi,"%lf", &ach4_b1[f]);
+            fscanf(fpi,"%lf", &an2o_b1[f]);
             /* RCP4.5 */
-            fscanf(fp_co2,"%lf", &aco2_b2[f]);
-            fscanf(fp_co2,"%lf", &ach4_b2[f]);
-            fscanf(fp_co2,"%lf", &an2o_b2[f]);
+            fscanf(fpi,"%lf", &aco2_b2[f]);
+            fscanf(fpi,"%lf", &ach4_b2[f]);
+            fscanf(fpi,"%lf", &an2o_b2[f]);
             /* RCP6.0 */
-            fscanf(fp_co2,"%lf", &aco2_a1[f]);
-            fscanf(fp_co2,"%lf", &ach4_a1[f]);
-            fscanf(fp_co2,"%lf", &an2o_a1[f]);
+            fscanf(fpi,"%lf", &aco2_a1[f]);
+            fscanf(fpi,"%lf", &ach4_a1[f]);
+            fscanf(fpi,"%lf", &an2o_a1[f]);
             /* RCP8.5 */
-            fscanf(fp_co2,"%lf", &aco2_a2[f]);
-            fscanf(fp_co2,"%lf", &ach4_a2[f]);
-            fscanf(fp_co2,"%lf", &an2o_a2[f]);
+            fscanf(fpi,"%lf", &aco2_a2[f]);
+            fscanf(fpi,"%lf", &ach4_a2[f]);
+            fscanf(fpi,"%lf", &an2o_a2[f]);
         }
-        fclose(fp_co2);
+        fclose(fpi);
     }
 	
 	/* global analysis initialization ********************************/
