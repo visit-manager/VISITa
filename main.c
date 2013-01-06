@@ -124,7 +124,7 @@ int main(
     if(EX_ALBEDO==1){
         srand((long)atol(argv[1]) + clock()%1000);
     
-        snprintf(num, 4, "%03d", (short)rpert);
+        snprintf(num, 4, "%03d", (short)atol(argv[1]));
 		strcat(s_date, "E");
 		strcat(s_date, num);
 		strcat(s_date, "_");
