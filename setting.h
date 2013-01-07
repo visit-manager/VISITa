@@ -199,7 +199,9 @@
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
 #define EX_ALBEDO 1
 /* 0: off */
-/* 1: on */
+/* 1: perturbation */
+/* 2: max */
+/* 3: min */
 
 /***************************************************/
 /* PAR conversion */

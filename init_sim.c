@@ -38,8 +38,9 @@ void f_init_sim(
 	grid->n_crop = 0;
     
 	/**********************************************/
-    if(EX_ALBEDO==1){
-        fpi = fopen("./data/albedo_cmip_5deg.flt","rb");
+    /* albedo perturbation */
+    if(EX_ALBEDO>=1){
+        fpi = fopen("./data/albedo_cmip_5deg_2.flt","rb");
         
         for(f=0;f<12;f++){
             fread(rdat,sizeof(float),36*72, fpi);
@@ -48,6 +49,7 @@ void f_init_sim(
                     grid->albedo_av[f][g][h] = rdat[g*72+h];
                 }
             }
+            
             fread(rdat,sizeof(float),36*72, fpi);
             for(g=0;g<36;g++){
                 for(h=0;h<72;h++){
@@ -57,6 +59,20 @@ void f_init_sim(
                         albvar = 0.0;
                     }
                     grid->albedo_sd[f][g][h] = albvar;
+                }
+            }
+            
+            fread(rdat,sizeof(float),36*72, fpi);
+            for(g=0;g<36;g++){
+                for(h=0;h<72;h++){
+                    grid->albedo_max[f][g][h] = rdat[g*72+h];
+                }
+            }
+            
+            fread(rdat,sizeof(float),36*72, fpi);
+            for(g=0;g<36;g++){
+                for(h=0;h<72;h++){
+                    grid->albedo_min[f][g][h] = rdat[g*72+h];
                 }
             }
         }

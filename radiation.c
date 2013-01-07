@@ -227,9 +227,9 @@ void f_net_rad(
 	transmittance = 0.12;
 
 	/** longwave budget : modified 2002/12/25, based on Budyko (1971) **/
-	aaa = pow((grid->tmp_2m[grid->m]+ZAT), 4.0) * 5.6703 / 100000000.0;
+	aaa = pow((grid->tmp_2m[grid->m] + ZAT), 4.0) * 5.6703 / 100000000.0;
 	if(loct->vp[grid->m]>0.1&&loct->vp[grid->m]<40.0){
-		bbb = 0.39 - 0.058*sqrt( loct->vp[grid->m]*760.0/1013.0 );
+		bbb = 0.39 - 0.058*sqrt(loct->vp[grid->m]*760.0/1013.0 );
 	}else if(loct->vp[grid->m]<=0.1){
 		bbb = 0.39 - 0.058*sqrt( 0.1*760.0/1013.0 );
 	}else if(loct->vp[grid->m]>=40.0){
@@ -254,15 +254,18 @@ void f_net_rad(
 	
     /* albedo perturbation: 2012/12/29 by A.Ito */
     if(EX_ALBEDO==1){
-    
         loct->albedo_sfc[grid->m] += grid->albedo_pert[grid->m];
-        
-        if(loct->albedo_sfc[grid->m]>0.99){
-            loct->albedo_sfc[grid->m] = 0.99;
-        }
-        if(loct->albedo_sfc[grid->m]<0.01){
-            loct->albedo_sfc[grid->m] = 0.01;
-        }
+    }else if(EX_ALBEDO==2){
+        loct->albedo_sfc[grid->m] = grid->albedo_max[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==3){
+        loct->albedo_sfc[grid->m] = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
+    }
+    
+    if(loct->albedo_sfc[grid->m]>0.99){
+        loct->albedo_sfc[grid->m] = 0.99;
+    }
+    if(loct->albedo_sfc[grid->m]<0.01){
+        loct->albedo_sfc[grid->m] = 0.01;
     }
     
 	ddd1 = exp(-1.0*eee*(1.0 - transmittance)); /*2003-06-27*/

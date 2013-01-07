@@ -166,12 +166,16 @@ struct Grid{
 #endif
 
     /* albedo perturbation: 2012/12/29 by A.Ito */
-#if EX_ALBEDO==1
-    float   albedo_av[ASTEP][36][72];
-    float   albedo_sd[ASTEP][36][72];
-#else
+#if EX_ALBEDO==0
     float   albedo_av[1][1][1];
     float   albedo_sd[1][1][1];
+    float   albedo_max[1][1][1];
+    float   albedo_min[1][1][1];
+#else
+    float   albedo_av[ASTEP][36][72];
+    float   albedo_sd[ASTEP][36][72];
+    float   albedo_max[ASTEP][36][72];
+    float   albedo_min[ASTEP][36][72];
 #endif
     float   albedo_pert[12];
 
