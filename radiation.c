@@ -268,8 +268,8 @@ void f_net_rad(
         loct->albedo_sfc[grid->m] = 0.01;
     }
     
-	ddd1 = exp(-1.0*eee*(1.0 - transmittance)); /*2003-06-27*/
-	ddd2 = exp(-1.0*eee); /*2003-06-27*/
+	ddd1 = exp(-1.0 * eee * (1.0 - transmittance)); /*2003-06-27*/
+	ddd2 = exp(-1.0 * eee); /*2003-06-27*/
 	
 	loct->rad_net_short[grid->m] = (1.0 - loct->albedo_sfc[grid->m])*grid->gl_rad[grid->m];
 	kmono_c3 = irr_attn(grid, loct, &(echar->c3));
@@ -281,14 +281,34 @@ void f_net_rad(
 	/** global radiation under the canopy or at the soil surface **/
 	loct->gl_rad_g[grid->m] = grid->gl_rad[grid->m]*ddd1;
 	
-	/** net radiation of plant canopy **/
+	/** net radiation of plant canopy, W m-2 **/
 	fff = loct->c3ptn[grid->m]*(echar->c3).albedo + loct->c4ptn[grid->m]*(echar->c4).albedo;
-	rad_net_p = (1.0-fff)*(1.0-ddd1)*grid->gl_rad[grid->m] - net_long*(1.0-ddd2);
+    
+    if(EX_ALBEDO==1){
+        fff += grid->albedo_pert[grid->m];
+    }else if(EX_ALBEDO==2){
+        fff = grid->albedo_max[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==3){
+        fff = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
+    }
+    fff = (fff<0.99)?fff:0.99;
+    fff = (fff>0.01)?fff:0.01;
+	rad_net_p = (1.0 - fff)*(1.0 - ddd1)*grid->gl_rad[grid->m] - net_long*(1.0 - ddd2);
 	rad_net_p = (rad_net_p>=0.0)?rad_net_p:0.0;
 	loct->rad_net_p[grid->m] = rad_net_p;
 	
-	/** net radiation of soil surface **/
-	rad_net_g = (1.0-(echar->soil).albedo[grid->m])*ddd1*grid->gl_rad[grid->m] - net_long*ddd2;
+	/** net radiation of soil surface, W m-2 **/
+    fff = (echar->soil).albedo[grid->m];
+    if(EX_ALBEDO==1){
+        fff += grid->albedo_pert[grid->m];
+    }else if(EX_ALBEDO==2){
+        fff = grid->albedo_max[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==3){
+        fff = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
+    }
+    fff = (fff<0.99)?fff:0.99;
+    fff = (fff>0.01)?fff:0.01;
+	rad_net_g = (1.0-fff)*ddd1*grid->gl_rad[grid->m] - net_long*ddd2;
 	rad_net_g = (rad_net_g>=0.0)?rad_net_g:0.0;
 	loct->rad_net_g[grid->m] = rad_net_g;
 }
