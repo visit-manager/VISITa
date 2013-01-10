@@ -52,6 +52,7 @@ double h_trnsp[HIST], h_incepev[HIST], h_ssurfev[HIST];
 double h_nbp[HIST], h_hvst[HIST], h_abgm[HIST];
 double h_sw1[HIST], h_sw2[HIST];
 double h_rns[HIST], h_rnl[HIST];	/* added by A.Ito (2013/01/02) */
+double h_rnsd[HIST];
 
 double h_burnt_area[HIST];
 double h_bioburn_co2[HIST], h_bioburn_ch4[HIST], h_bioburn_co[HIST];
@@ -191,10 +192,11 @@ float g_apar[5][360][720];
 float g_apar2[5][360][720]; 
 float g_aet[5][360][720]; 
 float g_rof[5][360][720]; 
-float g_rns[5][360][720]; 
+float g_rns[5][360][720];
 float g_rnl[5][360][720]; 
 float g_sw1[5][360][720]; 
 float g_sw2[5][360][720]; 
+float g_rnsd[5][360][720];
 #endif
 
 #if CH4_WH==1

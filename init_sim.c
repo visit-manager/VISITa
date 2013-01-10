@@ -198,7 +198,8 @@ void f_init_sim(
 		h_nbp[f] = h_hvst[f] = h_abgm[f] = 0.0;
 		h_sw1[f] = h_sw2[f] = 0.0;
         h_rns[f] = h_rnl[f] = 0.0; /* added by A.Ito (2013/01/02) */
-		
+		h_rns[f] = 0.0;
+        
 		h_agrarea[f] = h_paddyarea[f] = h_luc[f] = 0.0;
 		h_luc_1[f] = h_luc_2[f] = h_luc_3[f] = 0.0;
 		h_burnt_area[f] = 0.0;
@@ -320,6 +321,7 @@ void f_init_sim(
 				g_rnl[f][g][h] = 0.0;
 				g_sw1[f][g][h] = 0.0;
 				g_sw2[f][g][h] = 0.0;
+				g_rnsd[f][g][h] = 0.0;
 #endif
 			}
 		}

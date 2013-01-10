@@ -18,7 +18,7 @@
 void f_init_clim(
 	struct Grid *grid
 ){
-	short h;
+	short h,i;
 	double aaa, bbb;
 	
 	/* in 1950 :311 ppmv*/
@@ -89,7 +89,7 @@ void f_init_clim(
 		
 		grid->rad_a[h] = grid->gl_rad[h];
 		grid->par_a[h] = grid->par[h];
-
+        
 		/* sensitivity analysis *************************/
 		if(TM==1){
 			grid->tmp_sfc[h] += 1.0;
@@ -254,6 +254,14 @@ void f_dyn_loct(
 	if(grid->hist_exist == 1){
 		grid->gl_rad[grid->m] = gl_rad(grid); 
 		grid->par[grid->m] = par(grid); 
+        
+        /* added: 2013/01/10 by A.Ito */
+        loct->grad_d[grid->m] = 0.0;
+        for(h=0;h<24;h++){
+            grid->top_rad[grid->m] = top_rad(grid, -180+h*15);
+            loct->grad_d[grid->m] += gl_rad(grid)/24.0;
+        }
+        grid->top_rad[grid->m] = top_rad(grid, 0);
 	}
 	
 	for(h=0;h<ASTEP;h++){

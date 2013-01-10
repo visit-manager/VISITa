@@ -36,6 +36,7 @@ extern double h_trnsp[HIST], h_incepev[HIST], h_ssurfev[HIST];
 extern double h_nbp[HIST], h_hvst[HIST], h_abgm[HIST];
 extern double h_sw1[HIST], h_sw2[HIST];
 extern double h_rns[HIST], h_rnl[HIST];	/* added by A.Ito (2013/01/02) */
+extern double h_rnsd[HIST];
 
 extern double h_burnt_area[HIST];
 extern double h_bioburn_co2[HIST], h_bioburn_ch4[HIST], h_bioburn_co[HIST];
@@ -145,6 +146,7 @@ extern float g_rns[5][360][720];
 extern float g_rnl[5][360][720]; 
 extern float g_sw1[5][360][720]; 
 extern float g_sw2[5][360][720]; 
+extern float g_rnsd[5][360][720];
 #endif
 
 #if CH4_WH==1

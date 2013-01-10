@@ -770,6 +770,7 @@ void f_grid_av(
 		g_rnl[period][grid->row][grid->col] += loct->rad_net_long[grid->m]*MDN[grid->m]/365.0 /10.0;
 		g_sw1[period][grid->row][grid->col] += loct->msw30[grid->m] /10.0;
 		g_sw2[period][grid->row][grid->col] += loct->msww[grid->m] /10.0;
+		g_rnsd[period][grid->row][grid->col] += loct->nrad_d[grid->m]*MDN[grid->m]/365.0 /10.0;
 #endif
 		
 #if CH4_WH==1

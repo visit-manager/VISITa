@@ -66,16 +66,16 @@ int main(
 	FILE *fp_c[4];
 	FILE *fp_o1[OFILES], *fp_o2[OFILES];
 	FILE *fp_binout;
-	FILE *fp_config;
+	FILE *fp_setting;
 	
 	/* read configure (instead of arguments) by A.Ito (2009/09/01) ************/
-	if((fp_config = fopen("setting.txt","rt")) == NULL){
+	if((fp_setting = fopen("setting.txt","rt")) == NULL){
 	   printf("No configuration file !!!!!!!!!\n");
 	   exit(1);
 	}
 	
 	/* config: 1 experiomental scenario ID number (see setting.h) */
-	fscanf(fp_config,"%s %ld", s_config, &l_config);
+	fscanf(fp_setting,"%s %ld", s_config, &l_config);
 	printf("config  1: %s %ld\n", s_config, l_config);
 	GCM = l_config;
 	   if(GCM>=0 && GCM<=2100){
@@ -87,37 +87,37 @@ int main(
 	set_gcm_index(s_case);	/* -> vegetdeal.c */
 	
 	/* config: 2 file identifier (arbitrary phrase such as date, your name, etc.) */
-	fscanf(fp_config,"%s %s", s_config, s_date);
+	fscanf(fp_setting,"%s %s", s_config, s_date);
 	strcat(s_date, "_");
 	printf("config  2: %s %s\n", s_config, s_date);
 	   
 	/* config: 3 code for radiation sensitivity analysis */
-	fscanf(fp_config,"%s %ld", s_config, &l_config);   
+	fscanf(fp_setting,"%s %ld", s_config, &l_config);   
 	printf("config  3: %s %ld\n", s_config, l_config);
 	RAD_SENS = l_config;
 	
 	/* config: 4 photosynthesis model 0(Monsi-Saeki) or 1(DePury-Farquhar) */
-	fscanf(fp_config,"%s %ld", s_config, &l_config);
+	fscanf(fp_setting,"%s %ld", s_config, &l_config);
 	printf("config  4: %s %ld\n", s_config, l_config);
 	DF97 = l_config;
 	/* 0: Monsi-Saeki */
 	/* 1: de Pury-Farquhar */
 	   
 	/* config: 5 future solar radiation change */
-	fscanf(fp_config,"%s %ld", s_config, &l_config);
+	fscanf(fp_setting,"%s %ld", s_config, &l_config);
 	printf("config  5: %s %ld\n", s_config, l_config);
 	CC_R = l_config;
 	/* 0: no radiation change */
 	/* 1: with radiation change */
 
 	/* config: 6 simple temperature change scenario */
-	fscanf(fp_config,"%s %ld", s_config, &l_config);
+	fscanf(fp_setting,"%s %ld", s_config, &l_config);
 	printf("config  6: %s %ld\n", s_config, l_config);
 	TEMP_GC = l_config;
 		
 	/* config: 7 parameter perturbation */
     /* note: no perturbation for PARAM_PTB<=0 */
-	fscanf(fp_config,"%s %ld %ld", s_config, &l_config, &rpert);
+	fscanf(fp_setting,"%s %ld %ld", s_config, &l_config, &rpert);
 	printf("config  7: %s %ld %ld\n", s_config, l_config, rpert);
     PARAM_PTB = l_config;
     
@@ -162,12 +162,15 @@ int main(
     }
 	
 	/* config: 8 CH4 experiment */
-	fscanf(fp_config,"%s %ld %ld %ld", s_config, &EX_CH4_1, &EX_CH4_2, &EX_CH4_3);
+	fscanf(fp_setting,"%s %ld %ld %ld", s_config, &EX_CH4_1, &EX_CH4_2, &EX_CH4_3);
 	printf("config  8: %s %ld %ld %ld\n", s_config, EX_CH4_1, EX_CH4_2, EX_CH4_3);
 	
 	/* config: 9 simulation area */
-	fscanf(fp_config,"%s %lf %lf %lf %lf", s_config, &area_t, &area_b, &area_l, &area_r);
+	fscanf(fp_setting,"%s %lf %lf %lf %lf", s_config, &area_t, &area_b, &area_l, &area_r);
 	printf("config  9: %s %lf %lf %lf %lf\n", s_config, area_t, area_b, area_l, area_r);
+    
+    /* close setting.txt */
+    fclose(fp_setting);
 	
 	/* open source files *************************************************/
 	printf("Open input files...");
@@ -464,6 +467,7 @@ int main(
 	fwrite(g_sw2, sizeof(float), 5*360*720, fp_binout);	// 210
 	fwrite(g_snh4, sizeof(float), 5*360*720, fp_binout);	// 215
 	fwrite(g_sno3, sizeof(float), 5*360*720, fp_binout);	// 220
+	fwrite(g_rnsd, sizeof(float), 5*360*720, fp_binout);	// 221 added: 2013/01/10 by A.Ito
 #endif
 	
 #if CH4_WH==1	

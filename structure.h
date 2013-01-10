@@ -342,8 +342,12 @@ struct Loct{
 	double	rad_net_short[ASTEP];		/* net short-wave radiation, W m-2 */
 	double	rad_net[ASTEP];				/* net radiation, W m-2 */
 	double	rdi;						/* radiative dryness index by Budyko */
+    
+    /* added: 2013/01/10 by A.Ito */
+    double  grad_d[ASTEP];              /* daily average downward SW radiation, W m-2 */
+    double  nrad_d[ASTEP];              /* daily average net SW radiation, W m-2 */
 	
-	double	fapar_mono[ASTEP];				
+	double	fapar_mono[ASTEP];			
 	double	fapar_df[ASTEP];				
 
 	double	pet_prty[ASTEP];			/* Priestley-Taylor potential evapotranspiration, mm month-1 */

@@ -104,7 +104,7 @@ double top_rad(
 	
 	/* holizontally incident radiation at the top of the atmosphere */
 	hh = sin(dlt) * sin(grid->lat * dTr); 
-	ii = cos(dlt) * cos(grid->lat * dTr) * cos((double)ha * dTr);; 
+	ii = cos(dlt) * cos(grid->lat * dTr) * cos((double)ha * dTr); 
 	ho = gg * dtc * (hh + ii); 
 	ho = (ho >= 0.0)?ho:0.0;
 			
@@ -259,6 +259,8 @@ void f_net_rad(
         loct->albedo_sfc[grid->m] = grid->albedo_max[grid->m][grid->row/10][grid->col/10];
     }else if(EX_ALBEDO==3){
         loct->albedo_sfc[grid->m] = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==4){
+        loct->albedo_sfc[grid->m] = grid->albedo_av[grid->m][grid->row/10][grid->col/10];
     }
     
     if(loct->albedo_sfc[grid->m]>0.99){
@@ -277,6 +279,9 @@ void f_net_rad(
 	loct->fapar_mono[grid->m] = loct->c3ptn[grid->m]*(1.0-(echar->c3).albedo)
                     *(1.0-exp(-1.0*kmono_c3*(mass->c3).lai[grid->m]))+ loct->c4ptn[grid->m]
                     *(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*kmono_c4*(mass->c4).lai[grid->m]));
+    
+    /* added: 2013/01/10 by A.Ito */
+    loct->nrad_d[grid->m] = (1.0 - loct->albedo_sfc[grid->m]) * loct->grad_d[grid->m];
 	
 	/** global radiation under the canopy or at the soil surface **/
 	loct->gl_rad_g[grid->m] = grid->gl_rad[grid->m]*ddd1;
@@ -290,6 +295,8 @@ void f_net_rad(
         fff = grid->albedo_max[grid->m][grid->row/10][grid->col/10];
     }else if(EX_ALBEDO==3){
         fff = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==4){
+        fff = grid->albedo_av[grid->m][grid->row/10][grid->col/10];
     }
     fff = (fff<0.99)?fff:0.99;
     fff = (fff>0.01)?fff:0.01;
@@ -305,6 +312,8 @@ void f_net_rad(
         fff = grid->albedo_max[grid->m][grid->row/10][grid->col/10];
     }else if(EX_ALBEDO==3){
         fff = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==4){
+        fff = grid->albedo_av[grid->m][grid->row/10][grid->col/10];
     }
     fff = (fff<0.99)?fff:0.99;
     fff = (fff>0.01)?fff:0.01;
