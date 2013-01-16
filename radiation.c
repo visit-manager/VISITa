@@ -261,6 +261,8 @@ void f_net_rad(
         loct->albedo_sfc[grid->m] = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
     }else if(EX_ALBEDO==4){
         loct->albedo_sfc[grid->m] = grid->albedo_av[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==5){
+        loct->albedo_sfc[grid->m] = grid->glbalbedo[grid->m];
     }
     
     if(loct->albedo_sfc[grid->m]>0.99){
@@ -297,6 +299,8 @@ void f_net_rad(
         fff = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
     }else if(EX_ALBEDO==4){
         fff = grid->albedo_av[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==5){
+        fff = grid->glbalbedo[grid->m];
     }
     fff = (fff<0.99)?fff:0.99;
     fff = (fff>0.01)?fff:0.01;
@@ -314,6 +318,8 @@ void f_net_rad(
         fff = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
     }else if(EX_ALBEDO==4){
         fff = grid->albedo_av[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==5){
+        fff = grid->glbalbedo[grid->m];
     }
     fff = (fff<0.99)?fff:0.99;
     fff = (fff>0.01)?fff:0.01;

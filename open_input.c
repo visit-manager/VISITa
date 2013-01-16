@@ -920,4 +920,8 @@ void open_input(
 		exit(1); 
 	}
     
+    if( (fp_s[58]=fopen("./data/GlobAlbedo_av.flt","rb"))==NULL ){
+		printf("No GlobAlbedo_av.flt\n");  
+		exit(1); 
+	}
 }

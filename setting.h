@@ -197,12 +197,13 @@
 #define PHYS_GOUT 1
 
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
-#define EX_ALBEDO 4
+#define EX_ALBEDO 5
 /* 0: off */
 /* 1: perturbation */
 /* 2: CMIP5-max */
 /* 3: CMIP5-min */
 /* 4: CMIP5-mean */
+/* 5: GlobAlbedo */
 
 /***************************************************/
 /* PAR conversion */

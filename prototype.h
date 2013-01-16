@@ -11,7 +11,7 @@
 
 #include"setting.h"
 
-#define IFILEN 58 /* */  /* normal case */
+#define IFILEN 59 /* */  /* normal case */
 #define OFILES 9
 
 extern short DF97;

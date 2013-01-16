@@ -30,6 +30,7 @@ void f_init_grid(
 	double prate_sfc, spfh_2m, soilw10, soilw200, ugrd_10m, vgrd_10m;
 	double geo_prop, crit_tension;
 	double lat, lon, total, wetland, lake, paddy;
+    float rfdat[ASTEP];
 	
 	/* grid latitudes of CSIRO AOGCM */
 	double csiro_lat[56]={	
@@ -894,4 +895,10 @@ void f_init_grid(
     
     /* added: A. Ito (with Hamada-san's comment) 2012/01/30 */
     grid->phase = 0;
+    
+    /* GlobAlbedo: 2013/01/16 ************/
+    fread(rfdat,sizeof(float),12, fp_s[58]);
+    for(e=0;e<ASTEP;e++){
+        grid->glbalbedo[e] = rfdat[e];
+    }
 }

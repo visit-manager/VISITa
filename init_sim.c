@@ -40,6 +40,7 @@ void f_init_sim(
 	/**********************************************/
     /* albedo perturbation */
     if(EX_ALBEDO>=1){
+        /* CMIP5: by A.Ito */
         fpi = fopen("./data/albedo_cmip_5deg_2.flt","rb");
         
         for(f=0;f<12;f++){
@@ -77,6 +78,7 @@ void f_init_sim(
             }
         }
         fclose(fpi);
+        
     }else{
         grid->albedo_av[0][0][0] = 0.2;
         grid->albedo_sd[0][0][0] = 0.1;

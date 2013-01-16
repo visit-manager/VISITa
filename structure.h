@@ -178,6 +178,7 @@ struct Grid{
     float   albedo_min[ASTEP][36][72];
 #endif
     float   albedo_pert[12];
+    float   glbalbedo[ASTEP];
 
 	double	proj_prec_co;			/* carry-over of negative precipitation */
 
