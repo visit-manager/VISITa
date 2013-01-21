@@ -134,7 +134,7 @@ double lai_mass(
 	/* 2.0: single-sided leaf area */	
 	
 	/* sensitivity analysis: prescribed LAI **/
-	if(SENS == 7 && (grid->climy>=2001) ){
+	if(SENS == 7 && (grid->climy>=2000) ){
 		lai_est = mass->lai0[grid->m];
 	}
 	
