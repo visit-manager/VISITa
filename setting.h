@@ -24,7 +24,7 @@
 #define INT_C 0.01
 
 /***************************************************/
-#define ISIMIP_RUN 0
+#define ISIMIP_RUN 1
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 
@@ -80,6 +80,7 @@
 #if ISIMIP_RUN==1
     #define HIST_PD 150     /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
 #else
+    /* non-ISI-MIP: case dependent */
     #define HIST_PD 109
 #endif
 
@@ -98,6 +99,7 @@
 #if ISIMIP_RUN==1
     #define CRU_TS 180  /* SU 30 + AD 1950 - 2009 */
 #else
+    /* non-ISI-MIP: case dependent */
     #define CRU_TS 109  /* AD 1901 - 2009 */
 #endif
 /* 102: TS2.1 */
@@ -197,13 +199,18 @@
 #define PHYS_GOUT 1
 
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
-#define EX_ALBEDO 5
+#define EX_ALBEDO 0
 /* 0: off */
 /* 1: perturbation */
 /* 2: CMIP5-max */
 /* 3: CMIP5-min */
 /* 4: CMIP5-mean */
 /* 5: GlobAlbedo */
+
+/* ozone impacts: 2013/02/25 by A.Ito *************/
+#define EX_OZONE 0
+/* 0: off */
+/* 1: on */
 
 /***************************************************/
 /* PAR conversion */
@@ -340,7 +347,7 @@
 /* 3: litter quantity */
 
 /* parameter sensitivity analysis */
-#define SENS 0
+#define SENS 7
 /* 0: control */
 /* 1: +10% gsmax */
 /* 2: +10% Pmax */
@@ -349,7 +356,7 @@
 /* 5: +10% Albedo */
 /* 6: +10% WHC30/WHC */
 
-/* 7: fixed LAI (1990s av) in 2001-2100 */
+/* 7: fixed LAI (1990s av) in 2000-2100 */
 
 /* climate change ************************/
 /* 0:off   1:on */

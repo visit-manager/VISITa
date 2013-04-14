@@ -63,6 +63,7 @@ struct Grid{
 	double 	bco2[ASTEP];			/* background CO2 concentration, in ppmv */
 	double 	d13c_bco2[ASTEP];		/* stable carbon isotope composition of background CO2, permille */
 	double	d14c_bco2[ASTEP];		/* D14C of atmospheric CO2: added by A.Ito (2009/06/23) */
+    double  bo3[ASTEP];             /* monthly O3, ppb */
 
 	/* climate condition: *[] means the transitional value */
 	long 	climy;					/* year of climate data */
@@ -329,6 +330,7 @@ struct Loct{
 	double	aco2[ASTEP];				/* ambient CO2 concentration, in ppmv */
 	double	d13c_aco2[ASTEP];			/* stable carbon isotope composition of CO2, dimensionless */
 	double	cnpy_co2_recyc;				/* within-canopy CO2 recycling ratio */
+    double  ao3;                        /* ambient O3, ppb */
 	
 	double	c4ptn[ASTEP];				/* ground coverage of C4 plants, fraction */
 	double	c3ptn[ASTEP];				/* ground coverage of C3 plants, fraction */
@@ -494,6 +496,7 @@ struct Pchar{
 	double	ft[ASTEP];				/* temperature coefficient */
 	double	fcd[ASTEP];				/* CO2 coefficient */
 	double	fsw[ASTEP];				/* soil water coefficient */
+    double  fo3[ASTEP];             /* O3 coefficient: 2013/02/25 by A.Ito */
 	double	ptop;					/* canopy-top photosynthetic rate */
 	double	sla;					/* specific leaf area, cm2 g dm-1 */
 	double	eK0;					/* light attenuation coefficient, no dimension */
@@ -518,6 +521,9 @@ struct Pchar{
 	
 	double	psat_df[ASTEP];
 	double	lue_df[ASTEP];
+    
+    /* O3 effect: 2013/02/23 by A.Ito */
+    double  f_o3;
 	
 	/*** photosynthesis: de Pury and Farquhar (1997) ***/
 	
