@@ -63,6 +63,7 @@ struct Grid{
 	double 	bco2[ASTEP];			/* background CO2 concentration, in ppmv */
 	double 	d13c_bco2[ASTEP];		/* stable carbon isotope composition of background CO2, permille */
 	double	d14c_bco2[ASTEP];		/* D14C of atmospheric CO2: added by A.Ito (2009/06/23) */
+    double  bo3[ASTEP];             /* monthly O3, ppb */
 
 	/* climate condition: *[] means the transitional value */
 	long 	climy;					/* year of climate data */
@@ -120,11 +121,11 @@ struct Grid{
 	
 	/* GCM climate: year x month x row x column */
 	/* 160 x 320   */
-#if GCM_SIM==1
-	float	proj_tmp2m[GCM_TS][ASTEP][160][320];		/* temperature */
-	float	proj_prec[GCM_TS][ASTEP][160][320];			/* precipitation */
-	float	proj_hum[GCM_TS][ASTEP][160][320];			/* specific humidity */
-	float	proj_rad[GCM_TS][ASTEP][160][320];			/* surface downward solar radiation */
+#if GCM_RUN==1
+	float	proj_tmp2m[DL_GCM][ASTEP][160][320];		/* temperature */
+	float	proj_prec[DL_GCM][ASTEP][160][320];			/* precipitation */
+	float	proj_hum[DL_GCM][ASTEP][160][320];			/* specific humidity */
+	float	proj_rad[DL_GCM][ASTEP][160][320];			/* surface downward solar radiation */
 	/* 1970-1999 average: month x row x column [ASTEP][160][320] */
 	float	proj_tmp2m_b[ASTEP][160][320];				/* temperature */
 	float	proj_prec_b[ASTEP][160][320];				/* precipitation */
@@ -143,11 +144,11 @@ struct Grid{
 #endif	
 	
 	/* NCEP/NCAR 1948-2011 */
-#if NCEP_SIM==1	
-	float	ncep_tmp2m[NCEP_TS][ASTEP][94][192];		/* temperature */
-	float	ncep_prate[NCEP_TS][ASTEP][94][192];		/* precipitation */
-	float	ncep_tcdc[NCEP_TS][ASTEP][94][192];			/* total cloudiness */
-	float	ncep_vpres[NCEP_TS][ASTEP][94][192];		/* vapor pressure */
+#if NCEP_RUN==1	
+	float	ncep_tmp2m[DL_NCEP][ASTEP][94][192];		/* temperature */
+	float	ncep_prate[DL_NCEP][ASTEP][94][192];		/* precipitation */
+	float	ncep_tcdc[DL_NCEP][ASTEP][94][192];			/* total cloudiness */
+	float	ncep_vpres[DL_NCEP][ASTEP][94][192];		/* vapor pressure */
 	/* average */
 	float	ncep_tmp2m_b[ASTEP][94][192];
 	float	ncep_prate_b[ASTEP][94][192];
@@ -165,14 +166,29 @@ struct Grid{
 	float	ncep_vpres_b[1][1][1]; 
 #endif
 
+    /* albedo perturbation: 2012/12/29 by A.Ito */
+#if EX_ALBEDO==0
+    float   albedo_av[1][1][1];
+    float   albedo_sd[1][1][1];
+    float   albedo_max[1][1][1];
+    float   albedo_min[1][1][1];
+#else
+    float   albedo_av[ASTEP][36][72];
+    float   albedo_sd[ASTEP][36][72];
+    float   albedo_max[ASTEP][36][72];
+    float   albedo_min[ASTEP][36][72];
+#endif
+    float   albedo_pert[12];
+    float   glbalbedo[ASTEP];
+
 	double	proj_prec_co;			/* carry-over of negative precipitation */
 
 	/* historical (e.g., UEA/CRU TS2.1) data */
 	long	hist_exist;							/* flag of data availability */
-	double	hist_tmp[CRU_TS][ASTEP];			/* temperature */
-	double	hist_pre[CRU_TS][ASTEP];			/* precipitation */
-	double	hist_cld[CRU_TS][ASTEP];			/* cloud cover */
-	double	hist_vap[CRU_TS][ASTEP];			/* vapor pressure */
+	double	hist_tmp[DL_CRU][ASTEP];			/* temperature */
+	double	hist_pre[DL_CRU][ASTEP];			/* precipitation */
+	double	hist_cld[DL_CRU][ASTEP];			/* cloud cover */
+	double	hist_vap[DL_CRU][ASTEP];			/* vapor pressure */
 	/* historical average */
 	double	hist_tmp_b[ASTEP];					/* temperature */
 	double	hist_pre_b[ASTEP];					/* precipitation */
@@ -273,6 +289,7 @@ struct Grid{
 	double 	f_wetland;					/* wetland fraction */
 	double 	f_upland;					/* upland (e.g. forest, grassland) fraction */
 	double 	f_lake;						/* lake fraction */
+	double 	f_wetland0;					/* wetland fraction (base) */
 	
 	/* nitrogen deposition */
 	double 	ndepo[3];					/* N deposition by Galloway et al. (2004) */
@@ -298,6 +315,7 @@ struct Grid{
 	double	inundation_ssmi_max;
 	
 	long	type_permaforst;			/* permafrost type by NSIDC */
+    double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
 };			
 
 /* grid conditions, derived from submodules *******************************************/
@@ -312,9 +330,10 @@ struct Loct{
 	double	aco2[ASTEP];				/* ambient CO2 concentration, in ppmv */
 	double	d13c_aco2[ASTEP];			/* stable carbon isotope composition of CO2, dimensionless */
 	double	cnpy_co2_recyc;				/* within-canopy CO2 recycling ratio */
+    double  ao3;                        /* ambient O3, ppb */
 	
-	double	c4ptn[ASTEP];				/* ground coverage of C3 plants, fraction */
-	double	c3ptn[ASTEP];				/* ground coverage of C4 plants, fraction */
+	double	c4ptn[ASTEP];				/* ground coverage of C4 plants, fraction */
+	double	c3ptn[ASTEP];				/* ground coverage of C3 plants, fraction */
 	long	gd[ASTEP], bbm;				/* vegetative growing period, days */
 	double	gdd[ASTEP];				 	/* cumulative growth degree days, degC days */
 	
@@ -326,8 +345,12 @@ struct Loct{
 	double	rad_net_short[ASTEP];		/* net short-wave radiation, W m-2 */
 	double	rad_net[ASTEP];				/* net radiation, W m-2 */
 	double	rdi;						/* radiative dryness index by Budyko */
+    
+    /* added: 2013/01/10 by A.Ito */
+    double  grad_d[ASTEP];              /* daily average downward SW radiation, W m-2 */
+    double  nrad_d[ASTEP];              /* daily average net SW radiation, W m-2 */
 	
-	double	fapar_mono[ASTEP];				
+	double	fapar_mono[ASTEP];			
 	double	fapar_df[ASTEP];				
 
 	double	pet_prty[ASTEP];			/* Priestley-Taylor potential evapotranspiration, mm month-1 */
@@ -473,6 +496,7 @@ struct Pchar{
 	double	ft[ASTEP];				/* temperature coefficient */
 	double	fcd[ASTEP];				/* CO2 coefficient */
 	double	fsw[ASTEP];				/* soil water coefficient */
+    double  fo3[ASTEP];             /* O3 coefficient: 2013/02/25 by A.Ito */
 	double	ptop;					/* canopy-top photosynthetic rate */
 	double	sla;					/* specific leaf area, cm2 g dm-1 */
 	double	eK0;					/* light attenuation coefficient, no dimension */
@@ -497,6 +521,9 @@ struct Pchar{
 	
 	double	psat_df[ASTEP];
 	double	lue_df[ASTEP];
+    
+    /* O3 effect: 2013/02/23 by A.Ito */
+    double  f_o3;
 	
 	/*** photosynthesis: de Pury and Farquhar (1997) ***/
 	

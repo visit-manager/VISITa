@@ -101,10 +101,24 @@ double top_rad(
 			gg *= 0.97;
 		}
 	}
+    
+    /* EX SRM: 2013/06/04 by A.Ito *******************/
+    if(EX_SRM == 1 && grid->climy>=2010){
+        gg -= 2.6 /90.0 * (double)(grid->climy - 2010);
+    }
+    if(EX_SRM == 2 && grid->climy>=2010){
+        gg -= 4.5 /90.0 * (double)(grid->climy - 2010);
+    }
+    if(EX_SRM == 3 && grid->climy>=2010){
+        gg -= 6.0 /90.0 * (double)(grid->climy - 2010);
+    }
+    if(EX_SRM == 4 && grid->climy>=2010){
+        gg -= 8.5 /90.0 * (double)(grid->climy - 2010);
+    }
 	
 	/* holizontally incident radiation at the top of the atmosphere */
 	hh = sin(dlt) * sin(grid->lat * dTr); 
-	ii = cos(dlt) * cos(grid->lat * dTr) * cos((double)ha * dTr);; 
+	ii = cos(dlt) * cos(grid->lat * dTr) * cos((double)ha * dTr); 
 	ho = gg * dtc * (hh + ii); 
 	ho = (ho >= 0.0)?ho:0.0;
 			
@@ -227,9 +241,9 @@ void f_net_rad(
 	transmittance = 0.12;
 
 	/** longwave budget : modified 2002/12/25, based on Budyko (1971) **/
-	aaa = pow((grid->tmp_2m[grid->m]+ZAT), 4.0) * 5.6703 / 100000000.0;
+	aaa = pow((grid->tmp_2m[grid->m] + ZAT), 4.0) * 5.6703 / 100000000.0;
 	if(loct->vp[grid->m]>0.1&&loct->vp[grid->m]<40.0){
-		bbb = 0.39 - 0.058*sqrt( loct->vp[grid->m]*760.0/1013.0 );
+		bbb = 0.39 - 0.058*sqrt(loct->vp[grid->m]*760.0/1013.0 );
 	}else if(loct->vp[grid->m]<=0.1){
 		bbb = 0.39 - 0.058*sqrt( 0.1*760.0/1013.0 );
 	}else if(loct->vp[grid->m]>=40.0){
@@ -252,26 +266,78 @@ void f_net_rad(
 	loct->albedo_sfc[grid->m] = (echar->soil).albedo[grid->m]*ground + 
 					(echar->c3).albedo*c3_canopy + (echar->c4).albedo*c4_canopy;
 	
-	ddd1 = exp(-1.0*eee*(1.0-transmittance)); /*2003-06-27*/
-	ddd2 = exp(-1.0*eee); /*2003-06-27*/
+    /* albedo perturbation: 2012/12/29 by A.Ito */
+    if(EX_ALBEDO==1){
+        loct->albedo_sfc[grid->m] += grid->albedo_pert[grid->m];
+    }else if(EX_ALBEDO==2){
+        loct->albedo_sfc[grid->m] = grid->albedo_max[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==3){
+        loct->albedo_sfc[grid->m] = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==4){
+        loct->albedo_sfc[grid->m] = grid->albedo_av[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==5){
+        loct->albedo_sfc[grid->m] = grid->glbalbedo[grid->m];
+    }
+    
+    if(loct->albedo_sfc[grid->m]>0.99){
+        loct->albedo_sfc[grid->m] = 0.99;
+    }
+    if(loct->albedo_sfc[grid->m]<0.01){
+        loct->albedo_sfc[grid->m] = 0.01;
+    }
+    
+	ddd1 = exp(-1.0 * eee * (1.0 - transmittance)); /*2003-06-27*/
+	ddd2 = exp(-1.0 * eee); /*2003-06-27*/
 	
 	loct->rad_net_short[grid->m] = (1.0 - loct->albedo_sfc[grid->m])*grid->gl_rad[grid->m];
 	kmono_c3 = irr_attn(grid, loct, &(echar->c3));
 	kmono_c4 = irr_attn(grid, loct, &(echar->c4));
-	loct->fapar_mono[grid->m] = loct->c3ptn[grid->m]*(1.0-(echar->c3).albedo)*(1.0-exp(-1.0*kmono_c3*(mass->c3).lai[grid->m])) 
-						+ loct->c4ptn[grid->m]*(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*kmono_c4*(mass->c4).lai[grid->m]));
+	loct->fapar_mono[grid->m] = loct->c3ptn[grid->m]*(1.0-(echar->c3).albedo)
+                    *(1.0-exp(-1.0*kmono_c3*(mass->c3).lai[grid->m]))+ loct->c4ptn[grid->m]
+                    *(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*kmono_c4*(mass->c4).lai[grid->m]));
+    
+    /* added: 2013/01/10 by A.Ito */
+    loct->nrad_d[grid->m] = (1.0 - loct->albedo_sfc[grid->m]) * loct->grad_d[grid->m];
 	
 	/** global radiation under the canopy or at the soil surface **/
 	loct->gl_rad_g[grid->m] = grid->gl_rad[grid->m]*ddd1;
 	
-	/** net radiation of plant canopy **/
+	/** net radiation of plant canopy, W m-2 **/
 	fff = loct->c3ptn[grid->m]*(echar->c3).albedo + loct->c4ptn[grid->m]*(echar->c4).albedo;
-	rad_net_p = (1.0-fff)*(1.0-ddd1)*grid->gl_rad[grid->m] - net_long*(1.0-ddd2);
+    
+    if(EX_ALBEDO==1){
+        fff += grid->albedo_pert[grid->m];
+    }else if(EX_ALBEDO==2){
+        fff = grid->albedo_max[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==3){
+        fff = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==4){
+        fff = grid->albedo_av[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==5){
+        fff = grid->glbalbedo[grid->m];
+    }
+    fff = (fff<0.99)?fff:0.99;
+    fff = (fff>0.01)?fff:0.01;
+	rad_net_p = (1.0 - fff)*(1.0 - ddd1)*grid->gl_rad[grid->m] - net_long*(1.0 - ddd2);
 	rad_net_p = (rad_net_p>=0.0)?rad_net_p:0.0;
 	loct->rad_net_p[grid->m] = rad_net_p;
 	
-	/** net radiation of soil surface **/
-	rad_net_g = (1.0-(echar->soil).albedo[grid->m])*ddd1*grid->gl_rad[grid->m] - net_long*ddd2;
+	/** net radiation of soil surface, W m-2 **/
+    fff = (echar->soil).albedo[grid->m];
+    if(EX_ALBEDO==1){
+        fff += grid->albedo_pert[grid->m];
+    }else if(EX_ALBEDO==2){
+        fff = grid->albedo_max[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==3){
+        fff = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==4){
+        fff = grid->albedo_av[grid->m][grid->row/10][grid->col/10];
+    }else if(EX_ALBEDO==5){
+        fff = grid->glbalbedo[grid->m];
+    }
+    fff = (fff<0.99)?fff:0.99;
+    fff = (fff>0.01)?fff:0.01;
+	rad_net_g = (1.0-fff)*ddd1*grid->gl_rad[grid->m] - net_long*ddd2;
 	rad_net_g = (rad_net_g>=0.0)?rad_net_g:0.0;
 	loct->rad_net_g[grid->m] = rad_net_g;
 }
@@ -284,7 +350,9 @@ double albedo_soil(
 	double albedo;
 	
 	/* a function of snow accumulation */
-	albedo = schar->albedo0 + (0.7 - schar->albedo0)/(1.0 + exp(-0.05*(loct->snwa - 70.0)));
+	/* albedo = schar->albedo0 + (0.7 - schar->albedo0)/(1.0 + exp(-0.05*(loct->snwa - 70.0))); */
+    /* revised: 2012/12/29 by A.Ito */
+	albedo = schar->albedo0 + (0.95 - schar->albedo0)/(1.0 + exp(-0.05*(loct->snwa - 75.0)));
 	
 	if(RAD_SENS==3){
 		albedo *= 1.1;
@@ -292,9 +360,13 @@ double albedo_soil(
 	if(RAD_SENS==4){
 		albedo *= 0.9;
 	}
-	
-	albedo = (albedo>0.05)?albedo:0.05; 
-	albedo = (albedo<0.75)?albedo:0.75;
+    
+	/* albedo = (albedo>0.05)?albedo:0.05;
+	albedo = (albedo<0.75)?albedo:0.75; */
+    
+    /* revised: 2012/12/29 by A.Ito */
+    albedo = (albedo>0.01)?albedo:0.01;
+	albedo = (albedo<0.95)?albedo:0.95;
 	
 	return(albedo);
 }

@@ -12,8 +12,8 @@
 #include"prototype.h"
 
 /* HISTORICAL SIMULATION */
-/* 1901-2000 (2002 / 2008 / 2009/ 2011) *******************************************/
-void cal_cruclim(
+/* 1901-2000 (2002 / 2008 / 2009/ 2011 / 2012) ***********************************/
+void cal_historical(
 	struct Grid *grid, 
 	struct Loct *loct, 
 	struct Echar *echar, 
@@ -25,7 +25,7 @@ void cal_cruclim(
 	double f_fert, total_hvst;
 	extern double MDN[ASTEP];
 	
-    /* historical simulation */
+    /* phase: 1, historical simulation */
 	grid->phase = 1; 
 	
 	(echar->soil).rl = (echar->soil).rl0;

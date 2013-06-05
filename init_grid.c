@@ -30,6 +30,7 @@ void f_init_grid(
 	double prate_sfc, spfh_2m, soilw10, soilw200, ugrd_10m, vgrd_10m;
 	double geo_prop, crit_tension;
 	double lat, lon, total, wetland, lake, paddy;
+    float rfdat[ASTEP];
 	
 	/* grid latitudes of CSIRO AOGCM */
 	double csiro_lat[56]={	
@@ -419,7 +420,7 @@ void f_init_grid(
 	/* set CRU TS3.0 *************** 2010/01/04 (A.Ito) ********/
 	/* New, M., D. Lister, et al. (2002). "A high-resolution data set of 
 	surface climate over global land areas." Climate Research 21: 1-25. */
-	for(h=0;h<CRU_TS;h++){
+	for(h=0;h<DL_CRU;h++){
 		for(g=0;g<ASTEP;g++){
 			grid->hist_cld[h][g] = grid->tcdc_clm_a[g];
 			grid->hist_pre[h][g] = grid->prate_sfc_a[g];
@@ -638,6 +639,9 @@ void f_init_grid(
 	if(grid->f_lake > 1.0){
 		grid->f_lake = 1.0;
 	}
+    
+    /* base wetland extent: 2012/10/26 by A.Ito */
+    grid->f_wetland0 = grid->f_wetland;
 	
 	/* paddy fraction *****************/
 	if(ALT_FWET==1){
@@ -891,4 +895,10 @@ void f_init_grid(
     
     /* added: A. Ito (with Hamada-san's comment) 2012/01/30 */
     grid->phase = 0;
+    
+    /* GlobAlbedo: 2013/01/16 ************/
+    fread(rfdat,sizeof(float),12, fp_s[58]);
+    for(e=0;e<ASTEP;e++){
+        grid->glbalbedo[e] = rfdat[e];
+    }
 }

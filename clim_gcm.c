@@ -861,7 +861,7 @@ void read_gcm_clim(
 	
 	if(GCM!=0){
 		alt = (grid->topo>=0.0)?grid->topo:0.0; 
-		for(f=0;f<GCM_TS;f++){   /*  1970-2100 */
+		for(f=0;f<DL_GCM;f++){   /*  1970-2100 */
 			for(g=0;g<ASTEP;g++){
 				fscanf(fp_t,"%ld %ld", &yr, &mon);
 				fscanf(fp_p,"%ld %ld", &yr, &mon);
@@ -911,7 +911,7 @@ void read_gcm_clim(
 			}
 		}
 	}else{
-		for(f=0;f<GCM_TS;f++){
+		for(f=0;f<DL_GCM;f++){
 			for(g=0;g<ASTEP;g++){
 				for(h=0;h<GCM_R;h++){
 					for(i=0;i<GCM_C;i++){

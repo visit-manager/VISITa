@@ -79,7 +79,13 @@ void screenshow(
 	for(h=0;h<12;h++){		printf("%6.2lf ",(mass->soil).d14c_ltr_m[h]);		}	printf("\n"); 
 	printf("14MS: ");
 	for(h=0;h<12;h++){		printf("%6.2lf ",(mass->soil).d14c_msl_m[h]);		}	printf("\n");  */
-
+    
+    printf("ALB: ");
+	for(h=0;h<12;h++){		printf("%6.3lf ",grid->albedo_pert[h]);		}	printf("\n");
+    printf("ALB: ");
+	for(h=0;h<12;h++){		printf("%6.3lf ",loct->albedo_sfc[h]);		}	printf("\n");
+    printf("RNS: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",loct->rad_net_short[h]);		}	printf("\n");
 	
 	printf("LA3: ");
 	for(h=0;h<12;h++){		printf("%6.1lf ",(mass->c3).lai[h]);		}	printf("\n"); 
@@ -96,7 +102,7 @@ void screenshow(
 	printf("NEP: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",flux->nep[h]);		ann+=flux->nep[h];	}		printf(" %.1lf\n",ann); 
 	
-	printf("M1P: ");		ann=0.0;
+	/* printf("M1P: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4flux_paddy_cao[h]);		ann+=(flux->soil).ch4flux_paddy_cao[h];	}		printf(": %.1lf\n",ann); 
 	printf("M1W: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4flux_wetland_cao[h]);		ann+=(flux->soil).ch4flux_wetland_cao[h];	}		printf(": %.1lf\n",ann);
@@ -108,9 +114,9 @@ void screenshow(
 	printf("M2E: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4_paddy_wh_ebull[h]);		ann+=(flux->soil).ch4_paddy_wh_ebull[h];	}		printf(": %.1lf\n",ann);
 	printf("M2R: ");		ann=0.0;
-	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4_paddy_wh_release[h]);		ann+=(flux->soil).ch4_paddy_wh_release[h];	}		printf(": %.1lf\n",ann);
+	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4_paddy_wh_release[h]);		ann+=(flux->soil).ch4_paddy_wh_release[h];	}		printf(": %.1lf\n",ann); */
 	
-	printf("XX1: ");
+	/* printf("XX1: ");
 	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx1[h]);		}			printf("\n"); 
 	printf("XX2: ");
 	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx2[h]);		}			printf("\n"); 
@@ -119,15 +125,12 @@ void screenshow(
 	printf("XX4: ");
 	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx4[h]);		}			printf("\n"); 
 	printf("XX5: ");
-	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx5[h]);		}			printf("\n");
+	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx5[h]);		}			printf("\n"); */
 	
 /*	printf("GP3: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->c3).gpp[h]);		ann+=(flux->c3).gpp[h];	}		printf(" %.1lf\n",ann); 
 	printf("GP4: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->c4).gpp[h]);		ann+=(flux->c4).gpp[h];	}		printf(" %.1lf\n",ann); 
-	
-	
-	
 
 	printf("DS3: ");
 	for(h=0;h<12;h++){		printf("%6.3lf ",(echar->c3).fsw[h]);		}	printf("\n"); 
@@ -182,8 +185,6 @@ void screenshow(
 	printf("I_W: ");
 	for(h=0;h<12;h++){		printf("%5.2lf ",loct->i_w[h]);		}			printf("\n"); */
 	
-/*	 */
-
 /*	printf("NCN: ");
 	for(h=0;h<12;h++){		printf("%5.0lf ",(mass->plant).n_cnpy_m[h]/1000.0);		}			printf("\n"); 
 	printf("NST: ");

@@ -11,18 +11,18 @@
 
 #include"setting.h"
 
-#define IFILEN 58 /* */  /* normal case */
+#define IFILEN 59 /* */  /* normal case */
 #define OFILES 9
 
 extern short DF97;
 extern double MDN[ASTEP];
 extern long GCM, CO2S, GCM_R, GCM_C;
-extern long PTB_SEED; /* added by A.Ito (2010/05/10) */
+extern long PARAM_PTB; /* added by A.Ito (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
 extern double f_pert[20];
-extern double aco2_a1[N_GHG_TS], aco2_a2[N_GHG_TS], aco2_b1[N_GHG_TS], aco2_b2[N_GHG_TS];
-extern double ach4_a1[N_GHG_TS], ach4_a2[N_GHG_TS], ach4_b1[N_GHG_TS], ach4_b2[N_GHG_TS];
-extern double an2o_a1[N_GHG_TS], an2o_a2[N_GHG_TS], an2o_b1[N_GHG_TS], an2o_b2[N_GHG_TS];
+extern double aco2_a1[AGHG_DL], aco2_a2[AGHG_DL], aco2_b1[AGHG_DL], aco2_b2[AGHG_DL];
+extern double ach4_a1[AGHG_DL], ach4_a2[AGHG_DL], ach4_b1[AGHG_DL], ach4_b2[AGHG_DL];
+extern double an2o_a1[AGHG_DL], an2o_a2[AGHG_DL], an2o_b1[AGHG_DL], an2o_b2[AGHG_DL];
 
 extern double glandarea;
 extern double h_tmp[HIST], h_pre[HIST], h_dswr[HIST], h_aet[HIST], h_rof[HIST];
@@ -35,6 +35,8 @@ extern double h_pot_prmfrst[HIST];
 extern double h_trnsp[HIST], h_incepev[HIST], h_ssurfev[HIST];
 extern double h_nbp[HIST], h_hvst[HIST], h_abgm[HIST];
 extern double h_sw1[HIST], h_sw2[HIST];
+extern double h_rns[HIST], h_rnl[HIST];	/* added by A.Ito (2013/01/02) */
+extern double h_rnsd[HIST];
 
 extern double h_burnt_area[HIST];
 extern double h_bioburn_co2[HIST], h_bioburn_ch4[HIST], h_bioburn_co[HIST];
@@ -62,7 +64,7 @@ extern double h_n_fertin[HIST], h_n_depoin[HIST]; /* added by A.Ito (2010/05/02)
 extern double h_voc_isopr_g97[HIST], h_voc_monotrp_g97[HIST], h_voc_methanl_g97[HIST];
 extern double h_voc_acetone_g97[HIST], h_voc_actaldhd_g97[HIST], h_voc_frmardhd_g97[HIST];
 extern double h_voc_formacd_g97[HIST], h_voc_acetacd_g97[HIST], h_voc_co_g97[HIST];
-extern double h_hvst_wood[HIST];
+extern double h_hvst_wood[HIST], h_wetarea[HIST];
 
 extern double ci_aco2[HIST], ci_aco2_d13c[HIST], ci_aco2_d14c[HIST];
 extern double ci_gpp[HIST], ci_gpp_d13c[HIST], ci_gpp_d14c[HIST];
@@ -144,6 +146,7 @@ extern float g_rns[5][360][720];
 extern float g_rnl[5][360][720]; 
 extern float g_sw1[5][360][720]; 
 extern float g_sw2[5][360][720]; 
+extern float g_rnsd[5][360][720];
 #endif
 
 #if CH4_WH==1
@@ -216,11 +219,11 @@ void parameterCrop(struct Grid *grid, struct Pchar *C3);
 void parameterSoil_crop(struct Grid *grid, struct Schar *Soil);
 
 /* EXPERIMENTAL STEPS *********************************************/
-void cal_stable(struct Grid *grid, struct Loct *loct, 
+void cal_spinup(struct Grid *grid, struct Loct *loct, 
 	struct Echar *echar, struct Mass *mass, struct Flux *flux, FILE *fp[OFILES]);
-void cal_cruclim(struct Grid *grid, struct Loct *loct, 
+void cal_historical(struct Grid *grid, struct Loct *loct, 
 	struct Echar *echar, struct Mass *mass, struct Flux *flux, FILE *fp[OFILES]);
-void cal_gcmclim2(struct Grid *grid, struct Loct *loct, 
+void cal_projection(struct Grid *grid, struct Loct *loct, 
 	struct Echar *echar, struct Mass *mass, struct Flux *flux, FILE *fp[OFILES]);
 
 /* RADIATION *****************************************/

@@ -18,7 +18,7 @@
 void f_init_clim(
 	struct Grid *grid
 ){
-	short h;
+	short h,i;
 	double aaa, bbb;
 	
 	/* in 1950 :311 ppmv*/
@@ -89,7 +89,7 @@ void f_init_clim(
 		
 		grid->rad_a[h] = grid->gl_rad[h];
 		grid->par_a[h] = grid->par[h];
-
+        
 		/* sensitivity analysis *************************/
 		if(TM==1){
 			grid->tmp_sfc[h] += 1.0;
@@ -238,7 +238,7 @@ void f_dyn_loct(
 	struct Echar *echar
 ){
 	long h;
-	double alt, k_c, vpres_var;
+	double alt, k_c, vpres_var, tmp_ann, tmp_var, wet_var;
 	
 	/* solar constant sensitivity */
 	if(SC==3 || SC==4){
@@ -250,10 +250,18 @@ void f_dyn_loct(
 		grid->par[grid->m] += 10.0;
 	}
 	
-	/* radiatin for cal_cruclim: 1901-2000 */
+	/* radiatin for cal_historical: 1901-2000 */
 	if(grid->hist_exist == 1){
 		grid->gl_rad[grid->m] = gl_rad(grid); 
 		grid->par[grid->m] = par(grid); 
+        
+        /* added: 2013/01/10 by A.Ito */
+        loct->grad_d[grid->m] = 0.0;
+        for(h=0;h<24;h++){
+            grid->top_rad[grid->m] = top_rad(grid, -180+h*15);
+            loct->grad_d[grid->m] += gl_rad(grid)/24.0;
+        }
+        grid->top_rad[grid->m] = top_rad(grid, 0);
 	}
 	
 	for(h=0;h<ASTEP;h++){
@@ -286,6 +294,51 @@ void f_dyn_loct(
 			grid->tmp_soil_mean += grid->tmp10_soil[h]*MDN[h]/365.0;
 		}
 		loct->cum_dprec = 0.0;
+        
+        /* change in wetland area due to permafrost melting: 2012/10/26 by A.Ito ****/
+        if(VAR_PFMWET == 1){
+            
+            tmp_ann = 0.0;
+            for(h=0;h<ASTEP;h++){
+                tmp_ann = grid->tmp_2m[h]*MDN[h]/365.0;
+            }
+            
+            tmp_var = tmp_ann - grid->tmp_base_permaforst;
+            
+            wet_var = 0.0;
+            if(tmp_ann > -2.0 && tmp_var > 0.0 ){
+                switch(grid->type_permaforst){
+                    case 1: case 5: case 9: case 13: case 17:
+                        /* continuous permafrost */
+                        wet_var = 0.05 * tmp_var;
+                        break;
+                    case 2: case 6: case 10: case 14: case 18:
+                        /* discontinuous permafrost */
+                        wet_var = 0.03 * tmp_var;
+                        break;
+                    case 3: case 7: case 11: case 15: case 19:
+                        /* sporadic permafrost */
+                        wet_var = 0.01 * tmp_var;
+                        break;
+                    case 4: case 8: case 12: case 16: case 20:
+                        /* isolated permafrost */
+                        wet_var = 0.003 * tmp_var;
+                        break;
+                    default:
+                        /* no permafrost */
+                        wet_var = 0.0;
+               }
+            }
+            if(wet_var < 0.0){
+                wet_var = 0.0;
+            }
+            
+            grid->f_wetland += wet_var;
+            
+            if(grid->f_wetland > 1.0){
+                grid->f_wetland = 1.0;
+            }
+        }
 	}
 	/* cumulative precipitation anomaly: 2010/07/23 by A.Ito */
 	/* if(grid->climy<2005){ */
@@ -322,7 +375,7 @@ void f_dyn_loct(
 				loct->vp[grid->m] = grid->hist_vap[grid->climy - PIVOT_CLIMY][grid->m];	
 			}else{
 				/* based on NCEP/NCAR */
-				vpres_var = grid->ncep_vpres[grid->climy - NCEP_BGY][grid->m][grid->ncep_lat][grid->ncep_lon] 
+				vpres_var = grid->ncep_vpres[grid->climy - PIVOT_NCEP][grid->m][grid->ncep_lat][grid->ncep_lon] 
 								- grid->ncep_vpres_b[grid->m][grid->ncep_lat][grid->ncep_lon];
 				
 				loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;

@@ -75,6 +75,10 @@ void f_set_history_data(
 		
 		h_sw1[year] += fweight * loct->msw30[f]* MDN[f]/365.0 * grid->area;
 		h_sw2[year] += fweight * loct->msww[f]* MDN[f]/365.0 * grid->area;
+        
+        h_rns[year] += fweight * loct->rad_net_short[f]* MDN[f]/365.0 * grid->area;
+        h_rnl[year] += fweight * loct->rad_net_long[f]* MDN[f]/365.0 * grid->area;
+        h_rnsd[year] += fweight * loct->nrad_d[f]* MDN[f]/365.0 * grid->area;
 		
 		/* potential permafrost area: added by A.Ito (2010/03/27) */
 		if(grid->tmp_sfc_am <= -2.0){
@@ -402,6 +406,8 @@ void f_set_history_data(
 		rh_luc[grid->reg_g][year] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
 		
 		h_hvst_wood[year] += flux->hvst_wood * grid->area;
+        
+        h_wetarea[year] += grid->f_wetland * grid->area;
 	}
 	if(loct->v_type == 2){
 		h_agrersn_c[year] += fweight * grid->area * flux->erod_carbon;
@@ -531,6 +537,12 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_sw1[h]); /* added by A.Ito (2012/01/05) */
 		fprintf(fp_glsum,"%lf ", h_sw2[h]); /* added by A.Ito (2011/01/05) */
 
+		fprintf(fp_glsum,"%lf ", h_wetarea[h]); /* added by A.Ito (2012/10/26) */
+
+		fprintf(fp_glsum,"%lf ", h_rns[h]); /* added by A.Ito (2013/01/02) */
+		fprintf(fp_glsum,"%lf ", h_rnl[h]);
+		fprintf(fp_glsum,"%lf ", h_rnsd[h]);
+
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
@@ -556,7 +568,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<VEG_NUM_OLSON;h++){
+	for(h=0;h<NVEG_OLSON;h++){
 		fprintf(fp_glsum,"%lf ", vo_area[h]);
 		fprintf(fp_glsum,"%lf ", vo_gpp[h]);
 		fprintf(fp_glsum,"%lf ", vo_npp[h]);
@@ -570,7 +582,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<VEG_NUM_SAGE;h++){
+	for(h=0;h<NVEG_SAGE;h++){
 		fprintf(fp_glsum,"%lf ", vs_area[h]);
 		fprintf(fp_glsum,"%lf ", vs_gpp[h]);
 		fprintf(fp_glsum,"%lf ", vs_npp[h]);

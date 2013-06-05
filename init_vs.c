@@ -56,6 +56,30 @@ void initVS(
 		/* grid->whc30*=1.1;
 		grid->whc*=1.1; */
 	}
+    
+    /* albedo perturbation: 2012/12/29 by A.Ito ********/
+    if(EX_ALBEDO==1){
+        p_scale = 0.0;
+        for(f=0;f<12;f++){
+            p_scale += (double)rand() / (double)RAND_MAX;
+        }
+        p_scale -= 6.0;
+        
+        if(p_scale > 3.0){
+            p_scale = 3.0;
+        }
+        if(p_scale < -3.0){
+            p_scale = -3.0;
+        }
+        
+        for(f=0;f<ASTEP;f++){
+            grid->albedo_pert[f] = p_scale * grid->albedo_sd[f][grid->row/10][grid->col/10];
+        }
+    }else{
+        for(f=0;f<ASTEP;f++){
+            grid->albedo_pert[f] = 0.0;
+        }
+    }
 	
 	if(M_D==1){
 		(echar->soil).kml*=1.3;
@@ -73,48 +97,44 @@ void initVS(
 	
 	/* parameter perturbation: 2010/05/10 added by A.Ito */
 	p_scale = 0.06667;
-	if(PRT_PARAM == 1){
-		if(PTB_SEED == -9999){
-			;
-		}else{
-			/**/
-			(echar->c3).pmax *= 1.0 + p_scale*f_pert[0];
-			(echar->c4).pmax *= 1.0 + p_scale*f_pert[0];
-			/**/
-			(echar->c3).lue0 *= 1.0 + p_scale*f_pert[1];
-			(echar->c4).lue0 *= 1.0 + p_scale*f_pert[1];
-			/**/
-			(echar->c3).sla *= 1.0 + p_scale*f_pert[2];
-			(echar->c4).sla *= 1.0 + p_scale*f_pert[2];
-			/**/
-			(echar->c3).qTf0 *= 1.0 + p_scale*f_pert[3];
-			(echar->c4).qTf0 *= 1.0 + p_scale*f_pert[3];
-			(echar->c3).qTc0 *= 1.0 + p_scale*f_pert[3];
-			(echar->c4).qTc0 *= 1.0 + p_scale*f_pert[3];
-			(echar->c3).qTr0 *= 1.0 + p_scale*f_pert[3];
-			(echar->c4).qTr0 *= 1.0 + p_scale*f_pert[3];
-			/**/
-			(echar->c3).lf0 *= 1.0 + p_scale*f_pert[4];
-			(echar->c4).lf0 *= 1.0 + p_scale*f_pert[4];
-			/**/
-			(echar->c3).topt0 += 0.3333*f_pert[5];
-			(echar->c4).topt0 += 0.3333*f_pert[5];
-			/**/
-			(echar->c3).tmin += 0.3333*f_pert[6];
-			(echar->c4).tmin += 0.3333*f_pert[6];
-			/**/
-			(echar->c3).kmci *= 1.0 + p_scale*f_pert[7];
-			(echar->c4).kmci *= 1.0 + p_scale*f_pert[7];
-			/**/
-			(echar->c3).km_nstl *= 1.0 + p_scale*f_pert[8];
-			(echar->c4).km_nstl *= 1.0 + p_scale*f_pert[8];
-			
-			/**/
-			(echar->soil).rl0 *= 1.0 + p_scale*f_pert[9];
-			/**/
-			(echar->soil).rh0 *= 1.0 + p_scale*f_pert[10];
-		}
-	}
+    if(PARAM_PTB == 1){
+        /**/
+        (echar->c3).pmax *= 1.0 + p_scale*f_pert[0];
+        (echar->c4).pmax *= 1.0 + p_scale*f_pert[0];
+        /**/
+        (echar->c3).lue0 *= 1.0 + p_scale*f_pert[1];
+        (echar->c4).lue0 *= 1.0 + p_scale*f_pert[1];
+        /**/
+        (echar->c3).sla *= 1.0 + p_scale*f_pert[2];
+        (echar->c4).sla *= 1.0 + p_scale*f_pert[2];
+        /**/
+        (echar->c3).qTf0 *= 1.0 + p_scale*f_pert[3];
+        (echar->c4).qTf0 *= 1.0 + p_scale*f_pert[3];
+        (echar->c3).qTc0 *= 1.0 + p_scale*f_pert[3];
+        (echar->c4).qTc0 *= 1.0 + p_scale*f_pert[3];
+        (echar->c3).qTr0 *= 1.0 + p_scale*f_pert[3];
+        (echar->c4).qTr0 *= 1.0 + p_scale*f_pert[3];
+        /**/
+        (echar->c3).lf0 *= 1.0 + p_scale*f_pert[4];
+        (echar->c4).lf0 *= 1.0 + p_scale*f_pert[4];
+        /**/
+        (echar->c3).topt0 += 0.3333*f_pert[5];
+        (echar->c4).topt0 += 0.3333*f_pert[5];
+        /**/
+        (echar->c3).tmin += 0.3333*f_pert[6];
+        (echar->c4).tmin += 0.3333*f_pert[6];
+        /**/
+        (echar->c3).kmci *= 1.0 + p_scale*f_pert[7];
+        (echar->c4).kmci *= 1.0 + p_scale*f_pert[7];
+        /**/
+        (echar->c3).km_nstl *= 1.0 + p_scale*f_pert[8];
+        (echar->c4).km_nstl *= 1.0 + p_scale*f_pert[8];
+        
+        /**/
+        (echar->soil).rl0 *= 1.0 + p_scale*f_pert[9];
+        /**/
+        (echar->soil).rh0 *= 1.0 + p_scale*f_pert[10];
+    }
 	
 	/* growing period **********************/
 	for(g=0;g<2;g++){

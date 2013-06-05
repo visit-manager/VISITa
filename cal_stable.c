@@ -14,7 +14,7 @@
 #define TER_CON 0.001 /* criteria for determining the equilibrium, NEP value in Mg C ha-1 yr-1 */
 
 /* EQUILIBRIUM ***************************************************************/
-void cal_stable(
+void cal_spinup(
 	struct Grid *grid, 
 	struct Loct *loct, 
 	struct Echar *echar, 

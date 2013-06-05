@@ -66,8 +66,8 @@ void f_ecophysiology(
 	f_n_leaf_conc(grid, pchar, mass);
 	
 	/** initial ci: 70% of ambient level **/
-	pchar->ci[grid->m] = loct->aco2[grid->m]*0.7; 
-	
+	pchar->ci[grid->m] = loct->aco2[grid->m]*0.7;
+    	
 	/* stabilization of single-leaf processes */
 	for(g=0;g<6;g++){			
 		 /* give quantum yield , mol CO2 mon photon-1*/
@@ -134,7 +134,7 @@ double lai_mass(
 	/* 2.0: single-sided leaf area */	
 	
 	/* sensitivity analysis: prescribed LAI **/
-	if(SENS == 7 && (grid->climy>=2001) ){
+	if(SENS == 7 && (grid->climy>=2000) ){
 		lai_est = mass->lai0[grid->m];
 	}
 	
@@ -228,9 +228,14 @@ void stom_cond(
 
 	/** add soil water factor **/
 	cc = 1.0; /* not defined yet */
+    
+    /* ozone impact on stomata: 2013/02/25 by A.Ito */
+    if(EX_OZONE == 1){
+        cc *= pchar->fo3[grid->m];
+    }
 
 	if(pchar->psat[grid->m]>0.0){
-		pchar->gs[grid->m] = pchar->gs_b0 + b1d*pchar->ptop/pchar->psat[grid->m]*cc;
+		pchar->gs[grid->m] = pchar->gs_b0 + b1d * pchar->ptop / pchar->psat[grid->m] * cc;
 	}else{
 		pchar->gs[grid->m] = pchar->gs_b0; 
 	}
