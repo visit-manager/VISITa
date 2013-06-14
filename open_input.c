@@ -22,7 +22,7 @@ void open_input(
 	FILE *fp_c[4]
 ){
     if(ISIMIP_RUN==0){
-        if(CRU_TS==102){
+        if(DL_CRU==102){
             /* UEA-CRU data from 1901 - 2002 */
             if( (fp_c[0]=fopen("./data/cru21_cld_1901-2002.dat","rt"))==NULL ){  
                 printf("No cru21_cld_1901-2002.dat\n");  
@@ -40,7 +40,7 @@ void open_input(
                 printf("No cru21_vap_1901-2002.dat\n");  
                 exit(1); 
             }
-        }else if(CRU_TS==106){
+        }else if(DL_CRU==106){
             /* UEA-CRU data from 1901 - 2006: 2010/01/04 (A.Ito) */
             if( (fp_c[0]=fopen("./data/cru_ts30_1901-2006.cld.dat","rt"))==NULL ){  
                 printf("No cru_ts30_1901-2006.cld.dat\n");  
@@ -58,7 +58,7 @@ void open_input(
                 printf("No cru_ts30_1901-2006.vap.dat\n");  
                 exit(1); 
             }
-        }else if(CRU_TS==109){
+        }else if(DL_CRU==109){
             /* UEA-CRU data from 1901 - 2009: 2011/05/02 (A.Ito) */
             if( (fp_c[0]=fopen("./data/cru31_cld_1901-2009.txt","rt"))==NULL ){  
                 printf("No cru31_cld_1901-2009.txt\n");  
@@ -74,6 +74,24 @@ void open_input(
             }
             if( (fp_c[3]=fopen("./data/cru31_vap_1901-2009.txt","rt"))==NULL ){  
                 printf("No cru31_vap_1901-2009.txt\n");  
+                exit(1); 
+            }
+        }else if(DL_CRU==111){
+            /* UEA-CRU data from 1901 - 2011: 2012/04/14 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/cru32_cld_1901-2011.txt","rt"))==NULL ){  
+                printf("No cru32_cld_1901-2011.txt\n");  
+                exit(1); 
+            }
+            if( (fp_c[1]=fopen("./data/cru32_pre_1901-2011.txt","rt"))==NULL ){  
+                printf("No cru32_pre_1901-2011.txt\n");  
+                exit(1); 
+            }
+            if( (fp_c[2]=fopen("./data/cru32_tmp_1901-2011.txt","rt"))==NULL ){  
+                printf("No cru32_tmp_1901-2011.txt\n");  
+                exit(1); 
+            }
+            if( (fp_c[3]=fopen("./data/cru32_vap_1901-2011.txt","rt"))==NULL ){  
+                printf("No cru32_vap_1901-2011.txt\n");  
                 exit(1); 
             }
         }

@@ -121,11 +121,11 @@ struct Grid{
 	
 	/* GCM climate: year x month x row x column */
 	/* 160 x 320   */
-#if GCM_SIM==1
-	float	proj_tmp2m[GCM_TS][ASTEP][160][320];		/* temperature */
-	float	proj_prec[GCM_TS][ASTEP][160][320];			/* precipitation */
-	float	proj_hum[GCM_TS][ASTEP][160][320];			/* specific humidity */
-	float	proj_rad[GCM_TS][ASTEP][160][320];			/* surface downward solar radiation */
+#if GCM_RUN==1
+	float	proj_tmp2m[DL_GCM][ASTEP][160][320];		/* temperature */
+	float	proj_prec[DL_GCM][ASTEP][160][320];			/* precipitation */
+	float	proj_hum[DL_GCM][ASTEP][160][320];			/* specific humidity */
+	float	proj_rad[DL_GCM][ASTEP][160][320];			/* surface downward solar radiation */
 	/* 1970-1999 average: month x row x column [ASTEP][160][320] */
 	float	proj_tmp2m_b[ASTEP][160][320];				/* temperature */
 	float	proj_prec_b[ASTEP][160][320];				/* precipitation */
@@ -144,11 +144,11 @@ struct Grid{
 #endif	
 	
 	/* NCEP/NCAR 1948-2011 */
-#if NCEP_SIM==1	
-	float	ncep_tmp2m[NCEP_TS][ASTEP][94][192];		/* temperature */
-	float	ncep_prate[NCEP_TS][ASTEP][94][192];		/* precipitation */
-	float	ncep_tcdc[NCEP_TS][ASTEP][94][192];			/* total cloudiness */
-	float	ncep_vpres[NCEP_TS][ASTEP][94][192];		/* vapor pressure */
+#if NCEP_RUN==1	
+	float	ncep_tmp2m[DL_NCEP][ASTEP][94][192];		/* temperature */
+	float	ncep_prate[DL_NCEP][ASTEP][94][192];		/* precipitation */
+	float	ncep_tcdc[DL_NCEP][ASTEP][94][192];			/* total cloudiness */
+	float	ncep_vpres[DL_NCEP][ASTEP][94][192];		/* vapor pressure */
 	/* average */
 	float	ncep_tmp2m_b[ASTEP][94][192];
 	float	ncep_prate_b[ASTEP][94][192];
@@ -185,10 +185,10 @@ struct Grid{
 
 	/* historical (e.g., UEA/CRU TS2.1) data */
 	long	hist_exist;							/* flag of data availability */
-	double	hist_tmp[CRU_TS][ASTEP];			/* temperature */
-	double	hist_pre[CRU_TS][ASTEP];			/* precipitation */
-	double	hist_cld[CRU_TS][ASTEP];			/* cloud cover */
-	double	hist_vap[CRU_TS][ASTEP];			/* vapor pressure */
+	double	hist_tmp[DL_CRU][ASTEP];			/* temperature */
+	double	hist_pre[DL_CRU][ASTEP];			/* precipitation */
+	double	hist_cld[DL_CRU][ASTEP];			/* cloud cover */
+	double	hist_vap[DL_CRU][ASTEP];			/* vapor pressure */
 	/* historical average */
 	double	hist_tmp_b[ASTEP];					/* temperature */
 	double	hist_pre_b[ASTEP];					/* precipitation */

@@ -30,9 +30,9 @@ long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
 double f_pert[20];
 
 /* atm. GHG scenario */
-double aco2_a1[N_GHG_TS], aco2_a2[N_GHG_TS], aco2_b1[N_GHG_TS], aco2_b2[N_GHG_TS];
-double ach4_a1[N_GHG_TS], ach4_a2[N_GHG_TS], ach4_b1[N_GHG_TS], ach4_b2[N_GHG_TS];
-double an2o_a1[N_GHG_TS], an2o_a2[N_GHG_TS], an2o_b1[N_GHG_TS], an2o_b2[N_GHG_TS];
+double aco2_a1[AGHG_DL], aco2_a2[AGHG_DL], aco2_b1[AGHG_DL], aco2_b2[AGHG_DL];
+double ach4_a1[AGHG_DL], ach4_a2[AGHG_DL], ach4_b1[AGHG_DL], ach4_b2[AGHG_DL];
+double an2o_a1[AGHG_DL], an2o_a2[AGHG_DL], an2o_b1[AGHG_DL], an2o_b2[AGHG_DL];
 /* for ISI-MIP: 2012/06/27 by A.Ito */
 /* a1 => RCP6.0 */
 /* a2 => RCP8.5 */

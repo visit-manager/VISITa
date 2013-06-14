@@ -568,7 +568,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<VEG_NUM_OLSON;h++){
+	for(h=0;h<NVEG_OLSON;h++){
 		fprintf(fp_glsum,"%lf ", vo_area[h]);
 		fprintf(fp_glsum,"%lf ", vo_gpp[h]);
 		fprintf(fp_glsum,"%lf ", vo_npp[h]);
@@ -582,7 +582,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<VEG_NUM_SAGE;h++){
+	for(h=0;h<NVEG_SAGE;h++){
 		fprintf(fp_glsum,"%lf ", vs_area[h]);
 		fprintf(fp_glsum,"%lf ", vs_gpp[h]);
 		fprintf(fp_glsum,"%lf ", vs_npp[h]);

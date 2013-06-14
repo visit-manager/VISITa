@@ -226,11 +226,11 @@ int main(
 	printf("done\n");
 	
 	/* read climate scenario 2010/01/04 (A.Ito) ***********/
-	if(NCEP_SIM == 1){
+	if(NCEP_RUN == 1){
 		printf("Reading NCEP climate data...");
 		read_ncep_clim(&grid);
 	}
-	if(GCM_SIM == 1){
+	if(GCM_RUN == 1){
 		printf("Reading GCM climate projection...");
 		read_gcm_clim(&grid);
 	}
@@ -265,7 +265,7 @@ int main(
 			/* initialize grid condition: data setting */
 			f_init_grid(fp_s, &grid);
 			
-			/* read CRU TS2.1/TS3.0 climate data */
+			/* read CRU TS2.X/TS3.X climate data */
 			read_cru_clim(fp_c, &grid);
 			
 			printf("%3ld %3ld: %7.2lf %7.2lf: %2ld %2ld %2ld: %1ld\n", 
@@ -331,7 +331,7 @@ int main(
 				f_init_c_isotpes(&grid, &flux, &echar, &mass);
 
 				/* spin-up: stabilization roop ***************************/
-				cal_stable(&grid, &loct, &echar, &mass, &flux, fp_o1);
+				cal_spinup(&grid, &loct, &echar, &mass, &flux, fp_o1);
 
 				/* snap shot for checking *****/
 				screenshow(&grid, &loct, &mass, &flux, &echar); 
@@ -339,11 +339,11 @@ int main(
 				/* experiment *******************************************/
 				/* historical: 1901-2000/2009 */
 				/* ISI-MIP: 1950-2099 */
-				cal_cruclim(&grid, &loct, &echar, &mass, &flux, fp_o1);	
+				cal_historical(&grid, &loct, &echar, &mass, &flux, fp_o1);	
 
 				/* future: 2001-2100 */
-				if(GCM_SIM==1){
-					cal_gcmclim2(&grid, &loct, &echar, &mass, &flux, fp_o1);
+				if(GCM_RUN==1){
+					cal_projection(&grid, &loct, &echar, &mass, &flux, fp_o1);
 				}
 				
 				printf("\n");
@@ -376,7 +376,7 @@ int main(
 				f_init_c_isotpes(&grid, &flux_agr, &echar_agr, &mass_agr);
 
 				/* spin-up: stabilization roop ***************************/
-				cal_stable(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
+				cal_spinup(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
 
 				/* snap shot for checking *****/
 				screenshow(&grid, &loct_agr, &mass_agr, &flux_agr, &echar_agr);
@@ -384,11 +384,11 @@ int main(
 				/* experiment **************************************/
 				/* historical: 1901-2000 */
                 /* ISI-MIP: 1950-2099 */
-				cal_cruclim(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2); 
+				cal_historical(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2); 
 
 				/* future: 2001-2100 */
-				if(GCM_SIM){
-					cal_gcmclim2(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
+				if(GCM_RUN){
+					cal_projection(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
 				}
 				
 				printf("\n");

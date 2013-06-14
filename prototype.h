@@ -20,9 +20,9 @@ extern long GCM, CO2S, GCM_R, GCM_C;
 extern long PARAM_PTB; /* added by A.Ito (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
 extern double f_pert[20];
-extern double aco2_a1[N_GHG_TS], aco2_a2[N_GHG_TS], aco2_b1[N_GHG_TS], aco2_b2[N_GHG_TS];
-extern double ach4_a1[N_GHG_TS], ach4_a2[N_GHG_TS], ach4_b1[N_GHG_TS], ach4_b2[N_GHG_TS];
-extern double an2o_a1[N_GHG_TS], an2o_a2[N_GHG_TS], an2o_b1[N_GHG_TS], an2o_b2[N_GHG_TS];
+extern double aco2_a1[AGHG_DL], aco2_a2[AGHG_DL], aco2_b1[AGHG_DL], aco2_b2[AGHG_DL];
+extern double ach4_a1[AGHG_DL], ach4_a2[AGHG_DL], ach4_b1[AGHG_DL], ach4_b2[AGHG_DL];
+extern double an2o_a1[AGHG_DL], an2o_a2[AGHG_DL], an2o_b1[AGHG_DL], an2o_b2[AGHG_DL];
 
 extern double glandarea;
 extern double h_tmp[HIST], h_pre[HIST], h_dswr[HIST], h_aet[HIST], h_rof[HIST];
@@ -219,11 +219,11 @@ void parameterCrop(struct Grid *grid, struct Pchar *C3);
 void parameterSoil_crop(struct Grid *grid, struct Schar *Soil);
 
 /* EXPERIMENTAL STEPS *********************************************/
-void cal_stable(struct Grid *grid, struct Loct *loct, 
+void cal_spinup(struct Grid *grid, struct Loct *loct, 
 	struct Echar *echar, struct Mass *mass, struct Flux *flux, FILE *fp[OFILES]);
-void cal_cruclim(struct Grid *grid, struct Loct *loct, 
+void cal_historical(struct Grid *grid, struct Loct *loct, 
 	struct Echar *echar, struct Mass *mass, struct Flux *flux, FILE *fp[OFILES]);
-void cal_gcmclim2(struct Grid *grid, struct Loct *loct, 
+void cal_projection(struct Grid *grid, struct Loct *loct, 
 	struct Echar *echar, struct Mass *mass, struct Flux *flux, FILE *fp[OFILES]);
 
 /* RADIATION *****************************************/

@@ -250,7 +250,7 @@ void f_dyn_loct(
 		grid->par[grid->m] += 10.0;
 	}
 	
-	/* radiatin for cal_cruclim: 1901-2000 */
+	/* radiatin for cal_historical: 1901-2000 */
 	if(grid->hist_exist == 1){
 		grid->gl_rad[grid->m] = gl_rad(grid); 
 		grid->par[grid->m] = par(grid); 
@@ -375,7 +375,7 @@ void f_dyn_loct(
 				loct->vp[grid->m] = grid->hist_vap[grid->climy - PIVOT_CLIMY][grid->m];	
 			}else{
 				/* based on NCEP/NCAR */
-				vpres_var = grid->ncep_vpres[grid->climy - NCEP_BGY][grid->m][grid->ncep_lat][grid->ncep_lon] 
+				vpres_var = grid->ncep_vpres[grid->climy - PIVOT_NCEP][grid->m][grid->ncep_lat][grid->ncep_lon] 
 								- grid->ncep_vpres_b[grid->m][grid->ncep_lat][grid->ncep_lon];
 				
 				loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;

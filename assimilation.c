@@ -29,11 +29,11 @@ double fgpp(
 	Iwanami Shoten, Tokyo, pp. 71-100.
 	*/
 	if(pchar->psat[grid->m] > 0.0){
-		cc1 = 2.0*pchar->psat[grid->m]*grid->dlen[grid->m]*lTs/pchar->eK[grid->m]; 
+		cc1 = 2.0 * pchar->psat[grid->m]*grid->dlen[grid->m]*lTs/pchar->eK[grid->m]; 
 		bb = pchar->eK[grid->m]*pchar->lue[grid->m]*grid->par[grid->m]/pchar->psat[grid->m];
-		cc2 = 1.0 + sqrt(1.0+bb);
-		cc3 = 1.0 + sqrt(1.0+bb*exp(-1.0*pchar->eK[grid->m]*mass->lai[grid->m]));
-		gpp = cc1*log(cc2/cc3);
+		cc2 = 1.0 + sqrt(1.0 + bb);
+		cc3 = 1.0 + sqrt(1.0 + bb*exp(-1.0*pchar->eK[grid->m]*mass->lai[grid->m]));
+		gpp = cc1 * log(cc2 / cc3);
 	}else{
 		gpp = 0.0;
 	}
@@ -60,10 +60,10 @@ void pc_sat(
 	
 	/** CO2 compensation point **/
 	if(pchar->phototype==3){ /* C3 plants with change: Brooks&Farquhar(1985) */
-		aa3 = 0.000347*(grid->tmp_sfc[grid->m]-20.0)*(grid->tmp_sfc[grid->m]-20.0);
-		aa1 = 1.0+0.0451*(grid->tmp_sfc[grid->m]-20.0)+aa3;
+		aa3 = 0.000347 * (grid->tmp_sfc[grid->m] - 20.0)*(grid->tmp_sfc[grid->m] - 20.0);
+		aa1 = 1.0 + 0.0451 * (grid->tmp_sfc[grid->m] - 20.0) + aa3;
 		aa1 = (aa1>0.0)?aa1:0.0;
-		pchar->cmpcd[grid->m] = pchar->cmpcd0*aa1;	
+		pchar->cmpcd[grid->m] = pchar->cmpcd0*aa1;
 	}else if(pchar->phototype==4){ /* C4 plants without change */
 		pchar->cmpcd[grid->m] = pchar->cmpcd0;
 	}

@@ -138,7 +138,7 @@ void f_init_sim(
             printf("No AtmGHG_timeseries.dat\n");
             exit(1);
         }
-        for(f=0;f<N_GHG_TS;f++){
+        for(f=0;f<AGHG_DL;f++){
             fscanf(fpi,"%ld", &year);
             /* CO2, ppmv */
             fscanf(fpi,"%lf", &aco2_a1[f]);
@@ -162,7 +162,7 @@ void f_init_sim(
             printf("No rcp_co2.txt\n");
             exit(1);
         }
-        for(f=0;f<N_GHG_TS;f++){
+        for(f=0;f<AGHG_DL;f++){
             fscanf(fpi,"%ld", &year); /* 1765-2500 */
             /* CO2, ppmv */
             /* CH4, ppbv */
@@ -256,12 +256,12 @@ void f_init_sim(
 		m_gpp[f] = m_npp[f] = m_nep[f] = 0.0;
 		m_ch4p_cao[f] = m_ch4p_wh[f] = 0.0;
 	}
-	for(f=0;f<VEG_NUM_OLSON;f++){
+	for(f=0;f<NVEG_OLSON;f++){
 		vo_area[f] = 0.0;
 		vo_gpp[f] = vo_npp[f] = vo_nep[f] = 0.0;
 		vo_lai[f] = vo_fol[f] = vo_stm[f] = vo_rot[f] = vo_ltr[f] = vo_msl[f] = 0.0;
 	}
-	for(f=0;f<VEG_NUM_SAGE;f++){
+	for(f=0;f<NVEG_SAGE;f++){
 		vs_area[f] = 0.0;
 		vs_gpp[f] = vs_npp[f] = vs_nep[f] = 0.0;
 		vs_lai[f] = vs_fol[f] = vs_stm[f] = vs_rot[f] = vs_ltr[f] = vs_msl[f] = 0.0;
