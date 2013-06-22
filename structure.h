@@ -184,7 +184,7 @@ struct Grid{
 	double	proj_prec_co;			/* carry-over of negative precipitation */
 
 	/* historical (e.g., UEA/CRU TS2.1) data */
-	long	hist_exist;							/* flag of data availability */
+	long	flag_histdata;							/* flag of data availability */
 	double	hist_tmp[DL_CRU][ASTEP];			/* temperature */
 	double	hist_pre[DL_CRU][ASTEP];			/* precipitation */
 	double	hist_cld[DL_CRU][ASTEP];			/* cloud cover */

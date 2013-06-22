@@ -18,13 +18,14 @@
 #define UGC 8.314 /* universal gas constant */
 
 /***************************************************/
-#define ASTEP 12	/* annual time-step, 12=monthly */
+/* annual time-step, 12=monthly */
+#define ASTEP 12	
 
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
 /***************************************************/
-#define ISIMIP_RUN 1
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 
@@ -115,7 +116,7 @@
 /* #define CL_CRU 70  */
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
@@ -235,7 +236,7 @@
 /* 0:off, 1:0n */
 
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 
@@ -289,7 +290,7 @@
 #define C13_GOUT 1
 #define C14_GOUT 1
 #define PHYS_GOUT 1
-
+/* text output */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 1
 #define OUTPUT_ISOTOPE 1

@@ -84,7 +84,7 @@ void cal_spinup(
 			npp_empirical(grid, loct, flux);
 		}
         
-        if(ISIMIP_RUN==1 && grid->hist_exist == 1){
+        if(ISIMIP_RUN==1 && grid->flag_histdata == 1){
             ann_nep = 10.0;
             grid->climy = nn%30 +1951;
 			set_hist_clim(grid);

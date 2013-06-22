@@ -107,13 +107,13 @@ double top_rad(
         gg -= 2.6 /90.0 * (double)(grid->climy - 2010);
     }
     if(EX_SRM == 2 && grid->climy>=2010){
-        gg -= 4.5 /90.0 * (double)(grid->climy - 2010);
+        gg -= 8.5 /90.0 * (double)(grid->climy - 2010);
     }
     if(EX_SRM == 3 && grid->climy>=2010){
-        gg -= 6.0 /90.0 * (double)(grid->climy - 2010);
+        gg -= 4.5 /90.0 * (double)(grid->climy - 2010);
     }
     if(EX_SRM == 4 && grid->climy>=2010){
-        gg -= 8.5 /90.0 * (double)(grid->climy - 2010);
+        gg -= 6.0 /90.0 * (double)(grid->climy - 2010);
     }
 	
 	/* holizontally incident radiation at the top of the atmosphere */

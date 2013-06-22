@@ -45,7 +45,7 @@ void f_init_clim(
 		grid->prate_sfc[h] = grid->prate_sfc_a[h]; /* precipitation, mm / month */
 		
 		/*** UEA/CRU data ***/
-		if(grid->hist_exist == 1){ /* for grids data are available */
+		if(grid->flag_histdata == 1){ /* for grids data are available */
 			/* temporary */
 			grid->tmp_sfc[h] = grid->hist_tmp_b[h] + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
 			grid->tmp10_soil[h] = grid->hist_tmp_b[h] + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
@@ -249,9 +249,9 @@ void f_dyn_loct(
 		grid->par[grid->m] = par(grid); 
 		grid->par[grid->m] += 10.0;
 	}
-	
+    
 	/* radiatin for cal_historical: 1901-2000 */
-	if(grid->hist_exist == 1){
+	if(grid->flag_histdata == 1){
 		grid->gl_rad[grid->m] = gl_rad(grid); 
 		grid->par[grid->m] = par(grid); 
         
@@ -364,7 +364,7 @@ void f_dyn_loct(
 			* loct->prsr[grid->m] / (8.3144*(grid->tmp10_soil[grid->m]+273.15));
 	}
 
-	if(grid->hist_exist == 1){
+	if(grid->flag_histdata == 1){
 		/* vapour pressure, hPa */
 		if(grid->phase == 0){
 			/* spin-up */

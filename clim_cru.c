@@ -97,7 +97,7 @@ void read_cru_clim(
         /* if valid CRU climate data are all available **/
         if(flag==4){
             /* data available */
-            grid->hist_exist = 1;
+            grid->flag_histdata = 1;
             alt = (grid->topo>=0.0)?grid->topo:0.0; 
 
             /* base climate (average 1971 - 2000) ******************/
@@ -110,8 +110,8 @@ void read_cru_clim(
                 }
             }
         }else{
-            /* unavailable CRU TS2.1 data, for example on ocean */
-            grid->hist_exist = 0;
+            /* unavailable CRU TS data, for example on ocean */
+            grid->flag_histdata = 0;
         }
     }else if(ISIMIP_RUN==1){
         
@@ -194,9 +194,9 @@ void read_cru_clim(
         
         /* effective data availability */
         if(avtas > -50.0 && avtas < 50.0 && avpr >= 0.0 && avpr < 10000.0){
-            grid->hist_exist = 1;
+            grid->flag_histdata = 1;
         }else{
-            grid->hist_exist = 0;
+            grid->flag_histdata = 0;
         }
         
         /* climatology */

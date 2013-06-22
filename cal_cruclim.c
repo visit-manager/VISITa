@@ -38,7 +38,7 @@ void cal_historical(
 		
 		/* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
-		if(grid->hist_exist == 1){
+		if(grid->flag_histdata == 1){
 			set_hist_clim(grid);
 		}
 		

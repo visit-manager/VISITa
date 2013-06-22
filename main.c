@@ -270,7 +270,7 @@ int main(
 			
 			printf("%3ld %3ld: %7.2lf %7.2lf: %2ld %2ld %2ld: %1ld\n", 
 				grid.row, grid.col, grid.lat, grid.lon, grid.veg_olson, grid.veg_sage, 
-				grid.veg_crop, grid.hist_exist); /* */
+				grid.veg_crop, grid.flag_histdata); /* */
 			
 			/* head records of output files */
 			for(h=0;h<OFILES;h++){

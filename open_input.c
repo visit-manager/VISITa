@@ -94,6 +94,9 @@ void open_input(
                 printf("No cru32_vap_1901-2011.txt\n");  
                 exit(1); 
             }
+        }else{
+            printf("No CRU data\n");
+            exit(1);
         }
     }else /* ISI-MIP: 2012/06/27 by A.Ito */
     if(ISIMIP_RUN==1){
