@@ -256,7 +256,7 @@ void set_gcm_clim(
 		if(grid->gl_rad[h]<0.0){
 			grid->gl_rad[h] = 0.0;
 		}
-		grid->par[h] = par(grid);
+		grid->par[h] = f_par(grid);
 		
 		if(CC_R==2){
 			grid->gl_rad[h] = grid->rad_a[h];	/* mean SW */

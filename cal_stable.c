@@ -76,7 +76,7 @@ void cal_spinup(
 	ann_nep = 10.0;
     /* corrected: A. Ito (with Hamada-san's comment) 2012/01/30 */
 	loct->gpp_max = loct->npp_max = 0.0; 
-	while(ann_nep>TER_CON){ /*** acnep>TER_CON nn<10 ***/
+	while(ann_nep > TER_CON){ /*** acnep>TER_CON nn<10 ***/
 		grid->y = nn;
 				
 		/* empirical model NPP *****************/

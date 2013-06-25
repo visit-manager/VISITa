@@ -82,10 +82,10 @@ void f_init_clim(
 		
 		/* radiation fluxes and day-length */
 		grid->dlen[h] = f_day_length(grid);		
-		grid->top_rad[h] = top_rad(grid, 0); 	
+		grid->top_rad[h] = f_top_rad(grid, 0); 	
 
-		grid->gl_rad[h] = gl_rad(grid); 	
-		grid->par[h] = par(grid); 
+		grid->gl_rad[h] = f_gl_rad(grid); 	
+		grid->par[h] = f_par(grid); 
 		
 		grid->rad_a[h] = grid->gl_rad[h];
 		grid->par_a[h] = grid->par[h];
@@ -242,26 +242,27 @@ void f_dyn_loct(
 	
 	/* solar constant sensitivity */
 	if(SC==3 || SC==4){
-		grid->top_rad[grid->m] = top_rad(grid, 0); 	
-		grid->gl_rad[grid->m] = gl_rad(grid); 	
-		grid->par[grid->m] = par(grid); 
+		grid->top_rad[grid->m] = f_top_rad(grid, 0); 	
+		grid->gl_rad[grid->m] = f_gl_rad(grid); 	
+		grid->par[grid->m] = f_par(grid); 
 	}else if(SC==5){
-		grid->par[grid->m] = par(grid); 
+		grid->par[grid->m] = f_par(grid); 
 		grid->par[grid->m] += 10.0;
 	}
     
 	/* radiatin for cal_historical: 1901-2000 */
 	if(grid->flag_histdata == 1){
-		grid->gl_rad[grid->m] = gl_rad(grid); 
-		grid->par[grid->m] = par(grid); 
         
         /* added: 2013/01/10 by A.Ito */
         loct->grad_d[grid->m] = 0.0;
         for(h=0;h<24;h++){
-            grid->top_rad[grid->m] = top_rad(grid, -180+h*15);
-            loct->grad_d[grid->m] += gl_rad(grid)/24.0;
+            grid->top_rad[grid->m] = f_top_rad(grid, -180+h*15);
+            loct->grad_d[grid->m] += f_gl_rad(grid)/24.0;
         }
-        grid->top_rad[grid->m] = top_rad(grid, 0);
+ 
+        grid->top_rad[grid->m] = f_top_rad(grid, 0);
+		grid->gl_rad[grid->m] = f_gl_rad(grid); 
+		grid->par[grid->m] = f_par(grid); 
 	}
 	
 	for(h=0;h<ASTEP;h++){

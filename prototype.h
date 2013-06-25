@@ -230,9 +230,9 @@ void cal_projection(struct Grid *grid, struct Loct *loct,
 double f_solar_decl(struct Grid *grid);
 double f_solar_hgt(struct Grid *grid);
 double f_day_length(struct Grid *grid);
-double top_rad(struct Grid *grid, short ha);
-double gl_rad(struct Grid *grid);
-double par(struct Grid *grid);
+double f_top_rad(struct Grid *grid, short ha);
+double f_gl_rad(struct Grid *grid);
+double f_par(struct Grid *grid);
 void f_net_rad(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Echar *echar);
 double albedo_soil(struct Loct *loct, struct Schar *schar);
 

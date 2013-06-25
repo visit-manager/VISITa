@@ -24,7 +24,7 @@ void f_plant_stand_budget(
 	f = grid->m;
 	
 	/** mass **************************************************************************/
-	mass->lai_p = (mass->c3).lai[f] + (mass->c4).lai[f];
+	mass->lai_p = (mass->c3).lai[f]*loct->c3ptn[f] + (mass->c4).lai[f]*loct->c4ptn[f];
 	/* carbon */
 	(mass->plant).fol = (mass->c3).fol*loct->c3ptn[f] + (mass->c4).fol*loct->c4ptn[f];
 	(mass->plant).stm = (mass->c3).stm*loct->c3ptn[f] + (mass->c4).stm*loct->c4ptn[f];

@@ -170,7 +170,7 @@ void read_cru_clim(
                 drad = 0.0;
                 grid->m = g;
                 for (f=0;f<24;f++) {
-                    drad += top_rad(grid, -180+15*f) / 24.0; 
+                    drad += f_top_rad(grid, -180+15*f) / 24.0; 
                 }
                 
                 /* inverse estimation of cloudiness */

@@ -25,7 +25,7 @@
 #define INT_C 0.01
 
 /***************************************************/
-#define ISIMIP_RUN 0
+#define ISIMIP_RUN 1
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 
@@ -116,7 +116,7 @@
 /* #define CL_CRU 70  */
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
@@ -168,7 +168,7 @@
 #define NECB_LUC 1
 
 /* land use setting */
-#define LANDUSE 8
+#define LANDUSE 0
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -293,13 +293,13 @@
 /* text output */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
-#define OUTPUT_GHG 1
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 0
 #define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_BVOC 0
 
 /********************************************************/
 /* sensitivity analysis *****************/
