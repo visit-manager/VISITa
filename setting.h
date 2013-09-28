@@ -16,6 +16,7 @@
 #define ZAT 273.15 /* zero degree centigrade in absolute temperature */
 #define STCIR (0.0111/0.9889) /* standard stable carbon isotope ratio */
 #define UGC 8.314 /* universal gas constant */
+#define SLC 1367.0
 
 /***************************************************/
 /* annual time-step, 12=monthly */
@@ -25,7 +26,7 @@
 #define INT_C 0.01
 
 /***************************************************/
-#define ISIMIP_RUN 1
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 
@@ -106,17 +107,18 @@
     /* non-ISI-MIP: case dependent */
     #define DL_CRU 111  /* AD 1901 - 2011 */
 #endif
+
+/* calculation length: Note CL_CRU LE(=<) DL_CRU */
+/* #define CL_CRU 100 */  /* <= asseing climate data uncertainty */
+/* #define CL_CRU 70  */
+#define CL_CRU 111  /* */
 /* 102: TS2.1 */
 /* 106: TS3.0 */
 /* 109: TS3.1 */
 /* 111: TS3.2 */
-/* calculation length: Note CL_CRU LE(=<) DL_CRU */
-/* #define CL_CRU 100 */  /* <= asseing climate data uncertainty */
-#define CL_CRU 111  /* */
-/* #define CL_CRU 70  */
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
@@ -168,7 +170,7 @@
 #define NECB_LUC 1
 
 /* land use setting */
-#define LANDUSE 0
+#define LANDUSE 8
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -236,7 +238,7 @@
 /* 0:off, 1:0n */
 
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 
