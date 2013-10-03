@@ -313,7 +313,8 @@ void f_luc_emit(
 			f_luc = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
 			f_luc = grid->fcrop_sage[PIVOT_LUY-BG_LUY] - grid->fcrop_sage[PIVOT_LUY-BG_LUY-1];
-		}else if(LANDUSE==6){
+		}else if(LANDUSE==6 || LANDUSE==8){
+            /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
 			f_luc = (grid->t_vc_unh_hmnzed[PIVOT_LUY - BG_LUY] + grid->t_vp_unh_hmnzed[PIVOT_LUY - BG_LUY])
 				+ (grid->t_sc_unh_hmnzed[PIVOT_LUY - BG_LUY] + grid->t_sp_unh_hmnzed[PIVOT_LUY - BG_LUY])*f_mass_secfor;
 		}else if(LANDUSE==7){

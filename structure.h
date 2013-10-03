@@ -806,8 +806,8 @@ struct Pflx{
 /* soil carbon fluxes  *******************************************************/
 struct Sflx{	 
 	short	v_type;				/* vegetation classification types */
-								/* 1: Olson actual vegetation */
-								/* 2: SAGE natural vegetation */
+								/* 1: Olson+SAGE natural vegetation */
+								/* 2: agricultural vegetation */
 
 	/* carbon flux, in Mg C ha-1 mon-1 */ 
 	double	lL[ASTEP];			/* litter input */

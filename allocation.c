@@ -131,7 +131,7 @@ void reallocation_survival(
 				break;
 		}
 	}else if(pchar->v_type==2){
-		switch(grid->veg_sage){
+		/* switch(grid->veg_sage){
 			case 1: case 2: case 3: case 4: case 5: case 6: case 8: 
 				ral_cap_stf = 0.03;
 				ral_cap_rtf = 0.065;
@@ -140,18 +140,18 @@ void reallocation_survival(
 				ral_cap_stf = 0.03;
 				ral_cap_rtf = 0.03;
 				break;
-			case 9: case 10: case 11: case 12: case 13: case 14: case 15: 
+			case 9: case 10: case 11: case 12: case 13: case 14: case 15:  */
 				ral_cap_stf = 0.070;
 				ral_cap_rtf = 0.12;
-				break;
-		}
-	}else if(pchar->v_type==3){
+				/* break; */
+		/* } */
+	}/* else if(pchar->v_type==3){
 		ral_cap_stf = 0.070;
 		ral_cap_rtf = 0.12;
-	}
+	} */
 		
 	/* to fliage: critical reallocation for survival */
-	aaa = 0.075*100.0*2.0/2.2/pchar->sla;
+	aaa = 0.075 * 100.0 * 2.0 / 2.2 / pchar->sla;
 	if(mass->fol < aaa){
 		bbb = mass->stm*ral_cap_stf;
 		ccc = mass->rot*ral_cap_rtf;

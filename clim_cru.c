@@ -125,7 +125,7 @@ void read_cru_clim(
         avtas = 0.0;
         for(h=0;h<ISIMIP_DL;h++){
             for(g=0;g<ASTEP;g++){
-                grid->hist_tmp[h][g] = (double)r_isimip_data[h*ASTEP+g] - ZAT;
+                grid->hist_tmp[h][g] = (double)r_isimip_data[h*ASTEP + g] - ZAT;
                 avtas += grid->hist_tmp[h][g] / (double)ISIMIP_DL / (double)ASTEP;
             }
         }

@@ -168,6 +168,8 @@
 #define NECB_WHVST 1
 /* land-use change */
 #define NECB_LUC 1
+/* crop harvest */
+#define NECB_CROP 1
 
 /* land use setting */
 #define LANDUSE 8

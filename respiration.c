@@ -36,7 +36,7 @@ double frfm(
 	ft = exp(log(veg->qTf[grid->m])/10.0*(grid->tmp_sfc[grid->m]-t0));
 	
 	if(mass->fol>=0.0){	
-		rfm = mass->fol*rfmt0*ft;
+		rfm = mass->fol * rfmt0*ft;
 	}else{
 		rfm = 0.0;
 	}
@@ -53,7 +53,7 @@ double frfg(
 	double rfg;
 	
 	/* construction cost is proportional to biomass growth */
-	rfg = veg->rgf*flux->tpf[grid->m]; 
+	rfg = veg->rgf * flux->tpf[grid->m]; 
 	
 	return(rfg);
 }
@@ -72,7 +72,7 @@ double frcm(
 	/* temperature dependence, exponential */
 	ft = exp(log(veg->qTc[grid->m])/10.0*(grid->tmp_sfc[grid->m]-t0));
 	if(mass->stm >= 0.0){	
-		rfm = mass->stm*rfmt0*ft;
+		rfm = mass->stm * rfmt0 * ft;
 	}else{
 		rfm = 0.0;
 	}

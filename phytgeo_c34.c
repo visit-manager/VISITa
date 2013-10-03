@@ -27,17 +27,17 @@ void c34composition(
 			/* empirical tharmal and moisture gradient, annual */
 			switch(grid->veg_olson){
 				case 14: case 15: case 16: case 17: case 18: case 19: case 27: case 28:
-					if(grid->tmp_sfc_am<-5.0){
-						loct->c4ptn[f]=0.0;
-						loct->c3ptn[f]=1.0;
-					}else if(grid->tmp_sfc_am>=-5.0){
-						tmp_factor = (grid->tmp_sfc_am+5.0)*0.032;
-						pre_factor = 1.0/(grid->prate_sfc_ann*0.00025+0.65);
+					if(grid->tmp_sfc_am < -5.0){
+						loct->c4ptn[f] = 0.0;
+						loct->c3ptn[f] = 1.0;
+					}else if(grid->tmp_sfc_am >= -5.0){
+						tmp_factor = (grid->tmp_sfc_am + 5.0)*0.032;
+						pre_factor = 1.0/(grid->prate_sfc_ann * 0.00025 + 0.65);
 						
-						if((tmp_factor*pre_factor)<=0.96){
-							loct->c4ptn[f] = tmp_factor*pre_factor;
-							loct->c3ptn[f] = 1.0-loct->c4ptn[f];
-						}else if((tmp_factor*pre_factor)>0.96){
+						if((tmp_factor*pre_factor) <= 0.96){
+							loct->c4ptn[f] = tmp_factor * pre_factor;
+							loct->c3ptn[f] = 1.0 - loct->c4ptn[f];
+						}else if((tmp_factor*pre_factor) > 0.96){
 							loct->c4ptn[f] = 0.96;
 							loct->c3ptn[f] = 0.04;
 						}

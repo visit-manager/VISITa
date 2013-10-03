@@ -273,7 +273,7 @@ double f_df97_gpp(
 			vcmax0 = lai_t*n_photocap*(n_top - n_nonphoto)*
 				(1.0-exp(-(0.713 + ke_b1*lai_t)))/(0.713 + ke_b1*lai_t);
 			/* maximum carboxylation rate: Eq.8 in DF97 */
-			vcmax = vcmax0 * exp(64800.0*(temp-25.0)/(298.15*UGC*(temp+ZAT)));
+			vcmax = vcmax0 * exp(64800.0*(temp - 25.0)/(298.15*UGC*(temp+ZAT)));
 			/* maximum electron transport rate: proportional Jmax/Vcmax relationship */
 			jmax =2.1 * vcmax0 * ft_et;
 			
