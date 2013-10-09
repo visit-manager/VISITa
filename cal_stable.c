@@ -424,9 +424,9 @@ void cal_spinup(
         if(NECB_BVOC == 1){
             /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
         
-            flux->nbp[f] -= flux->voc_isopr_g97[f] + flux->voc_monotrp_g97[f] + flux->voc_methanl_g97[f] +
-                flux->voc_acetone_g97[f] + flux->voc_actaldhd_g97[f] + flux->voc_frmardhd_g97[f] +
-                flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f];
+            flux->nbp[f] -= (flux->voc_isopr_g97[f] + flux->voc_monotrp_g97[f] + flux->voc_methanl_g97[f] +
+                    flux->voc_acetone_g97[f] + flux->voc_actaldhd_g97[f] + flux->voc_frmardhd_g97[f] +
+                    flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f])*10000.0/1000000.0/1000000.0;
         }
         
         if(NECB_CROP == 1){
