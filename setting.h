@@ -131,7 +131,7 @@
 #define ISIMIP_DL 180 
 /* spinup 1951-1980 */
 /* historical 1951-2005 */
-/* historical 2006-2099 */
+/* projection 2006-2099 */
 
 /* future projection ***********/
 /* simulation suing GCM-derived projection scenarios */
@@ -226,6 +226,12 @@
 /* 3: bulk 6.0 W m-2 */
 /* 4: bulk 8.5 W m-2 */
 
+/* experiment: soil decomposition temperature dependence */
+#define EX_SDTD 0
+/* 0: default (Lloyd & Taylor) */
+/* 1: 2.0 */
+/* 2: 1.5 for litter, 2.5 for humus */
+
 /***************************************************/
 /* PAR conversion */
 #define D_PAR 1
@@ -240,7 +246,7 @@
 /* 0:off, 1:0n */
 
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 

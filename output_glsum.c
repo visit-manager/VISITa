@@ -152,7 +152,8 @@ void f_set_history_data(
 		
 		/* added by A.Ito (2010/05/02) */
 		h_n_fertin[year] += fweight * (flux->soil).n_fertin[f] * grid->area;
-		h_n_depoin[year] += fweight * (loct->depo_no3[f] + loct->depo_no3[f]) * grid->area;
+		/* corrected by A.Ito (2013/11/07) */
+		h_n_depoin[year] += fweight * (loct->depo_nh4[f] + loct->depo_no3[f]) * grid->area;
 		
 		if(loct->v_type == 1 && REPL_OLSON_CROP == 0){ /* added by A.Ito (2009/06/16) */
 			if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32){

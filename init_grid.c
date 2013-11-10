@@ -258,7 +258,7 @@ void f_init_grid(
 		case 250:	grid->rank_nat = 2;		break;	/* France */
 		case 380:	grid->rank_nat = 2;		break;	/* Italy */
 		case 528:	grid->rank_nat = 2;		break;	/* Netherland */
-		case 56:	grid->rank_nat = 2;		break;	/* Beigium */
+		case 56:	grid->rank_nat = 2;		break;	/* Belgium */
 		case 442:	grid->rank_nat = 2;		break;	/* Luxenburg */
 		case 246:	grid->rank_nat = 2;		break;	/* Finland */
 		case 752:	grid->rank_nat = 2;		break;	/* Sweden */
@@ -269,7 +269,7 @@ void f_init_grid(
 		case 300:	grid->rank_nat = 2;		break;	/* Greece */
 		case 372:	grid->rank_nat = 2;		break;	/* Ireland */
 		case 200:	grid->rank_nat = 2;		break;	/* Czechoslovakia */
-		case 348:	grid->rank_nat = 2;		break;	/* Hunagry */
+		case 348:	grid->rank_nat = 2;		break;	/* Hungary */
 		case 616:	grid->rank_nat = 2;		break;	/* Poland */
 		case 392:	grid->rank_nat = 2;		break;	/* Japan */
 		case 124:	grid->rank_nat = 2;		break;	/* Canada */
