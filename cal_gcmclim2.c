@@ -45,7 +45,7 @@ void cal_projection(
 	
 		/* climate change ********************/
 		grid->climy = g;
-		if(GCM!=0){			
+		if(GCM != 0){			
 			set_gcm_clim(grid);
 		}
 		
@@ -58,11 +58,11 @@ void cal_projection(
 		
 		/* CO2 change ********************/
 		if(CO2S==0){
-			grid->co2y = 2001; 
+			grid->co2y = GCM_BGY; 
 		}else if(CO2S==7){
 			grid->co2y = 2081;
 		}else{
-			grid->co2y = 2001 + (g - GCM_BGY); 
+			grid->co2y = g; 
 		}
         
 		if(TEMP_GC != 0){
@@ -115,18 +115,18 @@ void cal_projection(
 				grid->bco2[f] = grid->bco2[f] * exp((6.0/100.0 * (double)(grid->climy-2000)) / 6.0);
 			}
 			
-			/* ambient CO2 in canopy */
+			/* ambient CO2 in canopy *********************/
 			co2_in_canopy(grid, loct, mass, flux);
 						
 			/* environmental condition *******************/
 			f_dyn_loct(grid, loct, mass, echar);
 			
-			/* vegetation processes ***********************/
+			/* vegetation processes **********************/
 			f_biome_processes(grid, loct, echar, mass, flux);
 
-			/* VOC emission *****************/
+			/* VOC emission ******************************/
 			f_voc_emit_guenther97(grid, loct, echar, mass, flux);
-			/* Plant CH4 emission *****************/
+			/* Plant CH4 emission ************************/
 			f_ch4_emit_veg(grid, loct, echar, mass, flux);
 			
 			/* aggregate plant mass and fluxes */
@@ -394,11 +394,8 @@ void cal_projection(
 			g_luc[4][grid->row][grid->col] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) /10.0;
 		}
 	}
-	fprintf(fp_o[0],"\n");
-	fprintf(fp_o[1],"\n");
-	fprintf(fp_o[2],"\n");
-	fprintf(fp_o[3],"\n");
-	fprintf(fp_o[4],"\n");
-	fprintf(fp_o[5],"\n");
-	fprintf(fp_o[6],"\n");
+    
+    for(f=0;f<OFILES;f++){
+        fprintf(fp_o[f],"\n");
+    }
 }

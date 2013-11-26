@@ -143,71 +143,71 @@ double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0,
 /* 2: 2020s */
 /* 3: 2050s */
 /* 4: 2080s */
-float g_tmp[5][360][720];
-float g_prc[5][360][720];
-float g_swr[5][360][720];
-float g_gpp[5][360][720];
-float g_npp[5][360][720];
-float g_nep[5][360][720];
-float g_pmas[5][360][720];
-float g_smas[5][360][720];
-float g_ch4e_cao[5][360][720];
-float g_ch4ep_cao[5][360][720];
-float g_ch4o_curry[5][360][720];
-float g_n2oe[5][360][720];
-float g_bbco2[5][360][720];
-float g_ersn[5][360][720];
-float g_isopr[5][360][720];
-float g_sr[5][360][720];
-float g_luc[5][360][720]; 
-float g_er[5][360][720]; 
-float g_snh4[5][360][720]; 
-float g_sno3[5][360][720]; 
+float g_tmp[5][N_ROW][N_COL];
+float g_prc[5][N_ROW][N_COL];
+float g_swr[5][N_ROW][N_COL];
+float g_gpp[5][N_ROW][N_COL];
+float g_npp[5][N_ROW][N_COL];
+float g_nep[5][N_ROW][N_COL];
+float g_pmas[5][N_ROW][N_COL];
+float g_smas[5][N_ROW][N_COL];
+float g_ch4e_cao[5][N_ROW][N_COL];
+float g_ch4ep_cao[5][N_ROW][N_COL];
+float g_ch4o_curry[5][N_ROW][N_COL];
+float g_n2oe[5][N_ROW][N_COL];
+float g_bbco2[5][N_ROW][N_COL];
+float g_ersn[5][N_ROW][N_COL];
+float g_isopr[5][N_ROW][N_COL];
+float g_sr[5][N_ROW][N_COL];
+float g_luc[5][N_ROW][N_COL]; 
+float g_er[5][N_ROW][N_COL]; 
+float g_snh4[5][N_ROW][N_COL]; 
+float g_sno3[5][N_ROW][N_COL]; 
 
 #if C13_GOUT==1
-float g_f13[5][360][720]; 
-float g_c13[5][360][720]; 
-float g_r13[5][360][720]; 
-float g_l13[5][360][720]; 
-float g_h13[5][360][720]; 
-float g_gpp13[5][360][720]; 
-float g_er13[5][360][720]; 
+float g_f13[5][N_ROW][N_COL]; 
+float g_c13[5][N_ROW][N_COL]; 
+float g_r13[5][N_ROW][N_COL]; 
+float g_l13[5][N_ROW][N_COL]; 
+float g_h13[5][N_ROW][N_COL]; 
+float g_gpp13[5][N_ROW][N_COL]; 
+float g_er13[5][N_ROW][N_COL]; 
 #endif
 
 #if C14_GOUT==1
-float g_f14[5][360][720]; 
-float g_c14[5][360][720]; 
-float g_r14[5][360][720]; 
-float g_l14[5][360][720]; 
-float g_h14[5][360][720]; 
-float g_gpp14[5][360][720]; 
-float g_er14[5][360][720]; 
+float g_f14[5][N_ROW][N_COL]; 
+float g_c14[5][N_ROW][N_COL]; 
+float g_r14[5][N_ROW][N_COL]; 
+float g_l14[5][N_ROW][N_COL]; 
+float g_h14[5][N_ROW][N_COL]; 
+float g_gpp14[5][N_ROW][N_COL]; 
+float g_er14[5][N_ROW][N_COL]; 
 #endif
 
 #if PHYS_GOUT==1
-float g_lai[5][360][720]; 
-float g_parb[5][360][720]; 
-float g_pard[5][360][720]; 
-float g_apar[5][360][720]; 
-float g_apar2[5][360][720]; 
-float g_aet[5][360][720]; 
-float g_rof[5][360][720]; 
-float g_rns[5][360][720];
-float g_rnl[5][360][720]; 
-float g_sw1[5][360][720]; 
-float g_sw2[5][360][720]; 
-float g_rnsd[5][360][720];
+float g_lai[5][N_ROW][N_COL]; 
+float g_parb[5][N_ROW][N_COL]; 
+float g_pard[5][N_ROW][N_COL]; 
+float g_apar[5][N_ROW][N_COL]; 
+float g_apar2[5][N_ROW][N_COL]; 
+float g_aet[5][N_ROW][N_COL]; 
+float g_rof[5][N_ROW][N_COL]; 
+float g_rns[5][N_ROW][N_COL];
+float g_rnl[5][N_ROW][N_COL]; 
+float g_sw1[5][N_ROW][N_COL]; 
+float g_sw2[5][N_ROW][N_COL]; 
+float g_rnsd[5][N_ROW][N_COL];
 #endif
 
 #if CH4_WH==1
-float g_ch4ep_wh[5][360][720];
-float g_ch4ew_wh[5][360][720];
-float gm_ch4ep_wh[12][360][720];
+float g_ch4ep_wh[5][N_ROW][N_COL];
+float g_ch4ew_wh[5][N_ROW][N_COL];
+float gm_ch4ep_wh[12][N_ROW][N_COL];
 #endif
 
-/* float gs_gpp_1[12][360][720], gs_gpp_2[12][360][720], gs_gpp_3[12][360][720];
-float gs_ipar_1[12][360][720], gs_ipar_2[12][360][720], gs_ipar_3[12][360][720];
-float gs_ipard_1[12][360][720], gs_ipard_2[12][360][720], gs_ipard_3[12][360][720]; */
+/* float gs_gpp_1[12][N_ROW][N_COL], gs_gpp_2[12][N_ROW][N_COL], gs_gpp_3[12][N_ROW][N_COL];
+float gs_ipar_1[12][N_ROW][N_COL], gs_ipar_2[12][N_ROW][N_COL], gs_ipar_3[12][N_ROW][N_COL];
+float gs_ipard_1[12][N_ROW][N_COL], gs_ipard_2[12][N_ROW][N_COL], gs_ipard_3[12][N_ROW][N_COL]; */
 
 short RAD_SENS;
 /* 0: control */

@@ -94,6 +94,24 @@ void open_input(
                 printf("No cru32_vap_1901-2011.txt\n");  
                 exit(1); 
             }
+        }else if(DL_CRU==112){
+            /* UEA-CRU data from 1901 - 2012: 2013/11/26 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/cru321_cld_1901-2012.txt","rt"))==NULL ){  
+                printf("No cru321_cld_1901-2012.txt\n");  
+                exit(1); 
+            }
+            if( (fp_c[1]=fopen("./data/cru321_pre_1901-2012.txt","rt"))==NULL ){  
+                printf("No cru321_pre_1901-2012.txt\n");  
+                exit(1); 
+            }
+            if( (fp_c[2]=fopen("./data/cru321_tmp_1901-2012.txt","rt"))==NULL ){  
+                printf("No cru321_tmp_1901-2012.txt\n");  
+                exit(1); 
+            }
+            if( (fp_c[3]=fopen("./data/cru321_vap_1901-2012.txt","rt"))==NULL ){  
+                printf("No cru321_vap_1901-2012.txt\n");  
+                exit(1); 
+            }
         }else{
             printf("No CRU data\n");
             exit(1);
@@ -875,7 +893,19 @@ void open_input(
 		}
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
     }
+    
+    /* GEO-MIP */
+    if(GCM==3500 || GCM==3504){
+        CO2S = 2; /* RCP4.5 */
+        /**/
+        if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
+			printf("NO image_a1b_fcrop.dat !!\n");
+			exit(1);
+		}
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+    }
 	
+    /**************************************************************/
     /* SAGE crop data */
 	if( (fp_s[46]=fopen("./data/sage_crops.dat","rt"))==NULL ){  
 		printf("No sage_crops.dat\n");  

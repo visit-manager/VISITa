@@ -157,7 +157,7 @@ void f_init_sim(
             fscanf(fpi,"%lf", &an2o_b2[f]);
         }
         fclose(fpi);
-    }else if(ISIMIP_RUN==1){
+    }else if(ISIMIP_RUN==1 || GEOMIP_RUN==1){
         if((fpi = fopen("./data/rcp_ghg.txt","rt"))==NULL){
             printf("No rcp_co2.txt\n");
             exit(1);
@@ -267,8 +267,8 @@ void f_init_sim(
 		vs_lai[f] = vs_fol[f] = vs_stm[f] = vs_rot[f] = vs_ltr[f] = vs_msl[f] = 0.0;
 	}
 
-	for(g=0;g<360;g++){
-		for(h=0;h<720;h++){
+	for(g=0;g<N_ROW;g++){
+		for(h=0;h<N_COL;h++){
 			for(f=0;f<5;f++){
 				g_tmp[f][g][h] = 0.0;
 				g_prc[f][g][h] = 0.0;
@@ -330,8 +330,8 @@ void f_init_sim(
 	}  /* */
 	
 #if CH4_WH==1
-	for(g=0;g<360;g++){
-		for(h=0;h<720;h++){
+	for(g=0;g<N_ROW;g++){
+		for(h=0;h<N_COL;h++){
 			for(f=0;f<5;f++){
 				g_ch4ep_wh[f][g][h] = 0.0;
 				g_ch4ew_wh[f][g][h] = 0.0;

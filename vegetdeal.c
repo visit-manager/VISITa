@@ -464,6 +464,9 @@ void set_rowcol_gcm(
 			 || GCM==1265 || GCM==1266 || GCM==1267){ /* NCAR PCM */
 		GCM_R = 64;
 		GCM_C = 128;
+	}else if(GCM==3500 || GCM==3504){
+		GCM_R = 64;
+		GCM_C = 128;
 	}else{
 		GCM_R = 1;
 		GCM_C = 1;
@@ -670,6 +673,10 @@ void set_gcm_index(
 		case 2046:	strcpy(s_case,"ISIN85N_"); break;
 		case 2047:	strcpy(s_case,"ISIN45N_"); break;
 		case 2048:	strcpy(s_case,"ISIN60N_"); break;
+        
+        /* GEO-MIP runs: 2013/11/26 by A.Ito */
+		case 3500:	strcpy(s_case,"GEOM0_"); break;
+		case 3504:	strcpy(s_case,"GEOM4_"); break;
 
 		default:
 			strcpy(s_case,"STCLIM_"); 

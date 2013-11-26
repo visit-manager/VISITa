@@ -244,6 +244,12 @@ void f_init_grid(
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}
     
+    /* GEO-MIP: 2013/11/26 by A.Ito */
+    if(GCM==3500 || GCM==3504){ /* GEO-MIP MIROC-ESM */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}
+    
 	/* input geography in the grid *************/	
 	fscanf(fp_s[0],"%ld %ld", &country, &region); 
 	grid->country = country;	/* country code */

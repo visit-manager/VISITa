@@ -223,7 +223,7 @@ void cal_spinup(
 		}
 		
 		/* terminal conditions ****************************/
-        if(ISIMIP_RUN==0){
+        if(ISIMIP_RUN == 0){
             if(nn < 200){	
                 /* continued */
                 ann_nep = 10.0; 
@@ -232,10 +232,10 @@ void cal_spinup(
             }else{  /*  if(nn>=term_time) */
                 break; /**** 3. stop by 2000 years ****/	
             }
-        }else if(ISIMIP_RUN==1){
+        }else if(ISIMIP_RUN == 1){
             /* spin-up 3000 years (30 x 100 times): 2012/07/02 by A.Ito */
             ann_nep = 10.0;
-            if(nn==3000){
+            if(nn == 3000){
                 ann_nep = 0.0;
             }
         }
@@ -300,7 +300,7 @@ void cal_spinup(
 		}
 	}
 		
-	if(NECB_CH4==1){
+	if(NECB_CH4 == 1){
 		for(f=0;f<ASTEP;f++){
 			(mass->soil).msl += grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
 					- grid->f_paddy * ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] + 
@@ -399,7 +399,7 @@ void cal_spinup(
 							 + flux->bb_bc_wood[f] + flux->bb_bc_root[f])/1000.0;
 		}
         
-        if(NECB_DOC==1){
+        if(NECB_DOC == 1){
             /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
             
             flux->nbp[f] -= (flux->soil).doc_boyer[f]/1000000.0;

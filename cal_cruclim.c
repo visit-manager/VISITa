@@ -70,7 +70,7 @@ void cal_historical(
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
 		}
 		
-		/* seasonal (monthly) loop ********************************************/
+		/* seasonal (monthly) loop ************************************************/
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;
 			
@@ -437,11 +437,8 @@ void cal_historical(
 			g_luc[1][grid->row][grid->col] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) /10.0;
 		}
 	}
-	fprintf(fp_o[0],"\n");
-	fprintf(fp_o[1],"\n");
-	fprintf(fp_o[2],"\n");
-	fprintf(fp_o[3],"\n");
-	fprintf(fp_o[4],"\n");
-	fprintf(fp_o[5],"\n");
-	fprintf(fp_o[6],"\n");
+    
+    for(f=0;f<OFILES;f++){
+        fprintf(fp_o[f],"\n");
+    }
 }

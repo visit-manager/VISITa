@@ -20,7 +20,10 @@
 
 /***************************************************/
 /* annual time-step, 12=monthly */
-#define ASTEP 12	
+#define ASTEP 12
+
+#define N_ROW 360
+#define N_COL 720
 
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
@@ -29,6 +32,10 @@
 #define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
+
+#define GEOMIP_RUN 1
+/* 0: normal (no GEO-MIP) */
+/* 1: GEO-MIP runs */
 
 /***************************************************/
 /* total vegetation number */
@@ -52,6 +59,9 @@
 /* atmopsheric GHG data length */
 #if ISIMIP_RUN==1
     /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define AGHG_DL 736
+#elif GEOMIP_RUN==1
+    /* GEO-MIP: 2012/06/27 by A.Ito */
     #define AGHG_DL 736
 #else
     #define AGHG_DL 553 /* default */
@@ -86,7 +96,7 @@
     /* #define HIST_PD 110	*/	/* AD 1901 - 2010 */
     /* #define HIST_PD 111	*/	/* AD 1901 - 2011 */
     /* #define HIST_PD 112	*/	/* AD 1901 - 2012 */
-    #define HIST_PD 112
+    #define HIST_PD 105  /* AD 1901 - 2005 */
 #endif
 
 /* start year (AD) of climate */
@@ -105,20 +115,21 @@
     #define DL_CRU 180  /* SU 30 + AD 1950 - 2009 */
 #else
     /* non-ISI-MIP: case dependent */
-    #define DL_CRU 111  /* AD 1901 - 2011 */
+    /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
+    #define DL_CRU 112  /* CRU TS3.21: AD 1901 - 2012 */
 #endif
 
 /* calculation length: Note CL_CRU LE(=<) DL_CRU */
 /* #define CL_CRU 100 */  /* <= asseing climate data uncertainty */
-/* #define CL_CRU 70  */
-#define CL_CRU 111  /* */
+#define CL_CRU 112  /* */
 /* 102: TS2.1 */
 /* 106: TS3.0 */
 /* 109: TS3.1 */
 /* 111: TS3.2 */
+/* 112: TS3.21 */
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
@@ -135,20 +146,23 @@
 
 /* future projection ***********/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_RUN 0
+#define GCM_RUN 1
 /* 0: no  1:yes */
 /* #define GCM_PD 100 */	/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
 /* year of data beginning (AD) */
 /* #define GCM_BGY 2001 */
-#define GCM_BGY 2010
+#define GCM_BGY 2006
 #define GCM_ENY 2100
 
 /* GCM data length */
-#define DL_GCM 131 /* 1970-2100 */
+#define DL_GCM 131 /* */ /* 1970-2100 */
+/* #define DL_GCM 241 */ /* 1860-2100 */
 /* #define PIVOT_GCMY 2001 */
-/* start year of GCM climate (AD) */
-#define PIVOT_GCMY 1970
+
+/* start year of GCM data (AD) */
+#define PIVOT_GCMY 1970 /* */
+/* #define PIVOT_GCMY 1860 */
 
 /***************************************************/
 /* NECB: coupling carbon loss */
@@ -172,7 +186,7 @@
 #define NECB_CROP 1
 
 /* land use setting */
-#define LANDUSE 8
+#define LANDUSE 9
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -260,7 +274,7 @@
 /* 4: bubble 550 microM */
 
 /* specific scheme on permaforst */
-#define PERFROST 0
+#define EX_PERFROST 0
 /* 0:off, 1:0n */
 
 /* Alternative land-cover data for CH4 */
@@ -649,4 +663,26 @@
 /* 2046: NorESM1-M RCP 8.5 +noco2 */
 /* 2047: NorESM1-M RCP 4.5 +noco2 */
 /* 2048: NorESM1-M RCP 6.0 +noco2 */
+
+/** GEO-MIP: 2013/11/26 by A.Ito ***********/
+/* 3000: BNU-ESM RCP4.5 */
+/* 3004: BNU-ESM G4 */
+
+/* 3100: CSIRO-mk3L-1-2 RCP4.5 */
+/* 3104: CSIRO-mk3L-1-2 G4 */
+
+/* 3200: GISS-EL-R RCP4.5 */
+/* 3204: GISS-EL-R G4 */
+
+/* 3300: HadGEM2-ES RCP4.5 */
+/* 3304: HadGEM2-ES G4 */
+
+/* 3400: IPSL-CM54-LR RCP4.5 */
+/* 3404: IPSL-CM54-LR G4 */
+
+/* 3500: MIROC-ESM RCP4.5 */
+/* 3504: MIROC-ESM G4 */
+
+/* 3600: MIROC-ESM-CHEM RCP4.5 */
+/* 3604: MIROC-ESM-CHEM G4 */
 

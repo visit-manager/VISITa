@@ -78,7 +78,7 @@ int main(
 	fscanf(fp_setting,"%s %ld", s_config, &l_config);
 	printf("config  1: %s %ld\n", s_config, l_config);
 	GCM = l_config;
-	   if(GCM>=0 && GCM<=2100){
+	   if(GCM>=0 && GCM<=3700){
 	   ;
 	}else{
 	   printf("Bad scenario ID specified !!!\n");
@@ -239,7 +239,7 @@ int main(
 	/*************************************************************************/
 	/* latitude loop: north to south **************/
 	printf("Start simulation...\n");
-	for(f=0;f<360;f++){
+	for(f=0;f<N_ROW;f++){
 		/* zone number: e.g., 5-deg latitude */
 		zone = (short)f/FROWS + 1;
 		
@@ -257,7 +257,7 @@ int main(
 		grid.area = grid_area(90.0-0.5*(double)f, 89.5-0.5*(double)f, 0.0, 0.5);
 
 		/* longitude loop: west to east ****************************************/
-		for(g=0;g<720;g++){
+		for(g=0;g<N_COL;g++){
 			/* grid position */
 			grid.row = f; 
 			grid.col = g;	
@@ -414,66 +414,66 @@ int main(
 	/* end of latitudinal loop *************************************/
 	
 	/* decadal average grid values */
-	fwrite(g_tmp, sizeof(float), 5*360*720, fp_binout);  // 0-4
-	fwrite(g_prc, sizeof(float), 5*360*720, fp_binout);  // 5-9
-	fwrite(g_swr, sizeof(float), 5*360*720, fp_binout);  // 10-14
-	fwrite(g_gpp, sizeof(float), 5*360*720, fp_binout);  // 15-19
-	fwrite(g_npp, sizeof(float), 5*360*720, fp_binout);  // 20-24
-	fwrite(g_nep, sizeof(float), 5*360*720, fp_binout);  // 25-29
-	fwrite(g_pmas, sizeof(float), 5*360*720, fp_binout);  // 30-34
-	fwrite(g_smas, sizeof(float), 5*360*720, fp_binout);  // 35-39
-	fwrite(g_ch4e_cao, sizeof(float), 5*360*720, fp_binout);  // 40-44
-	fwrite(g_ch4o_curry, sizeof(float), 5*360*720, fp_binout);  // 45-49
-	fwrite(g_n2oe, sizeof(float), 5*360*720, fp_binout);  // 50-54
-	fwrite(g_bbco2, sizeof(float), 5*360*720, fp_binout);  // 55-59
-	fwrite(g_ersn, sizeof(float), 5*360*720, fp_binout);  // 60-64
-	fwrite(g_isopr, sizeof(float), 5*360*720, fp_binout);  // 65-69
-	fwrite(g_sr, sizeof(float), 5*360*720, fp_binout);  // 70-74
-	fwrite(g_luc, sizeof(float), 5*360*720, fp_binout);  // 75-79
-	fwrite(g_er, sizeof(float), 5*360*720, fp_binout);		// 80-84
-	fwrite(g_ch4ep_cao, sizeof(float), 5*360*720, fp_binout);	// 85-89
+	fwrite(g_tmp, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 0-4
+	fwrite(g_prc, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 5-9
+	fwrite(g_swr, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 10-14
+	fwrite(g_gpp, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 15-19
+	fwrite(g_npp, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 20-24
+	fwrite(g_nep, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 25-29
+	fwrite(g_pmas, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 30-34
+	fwrite(g_smas, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 35-39
+	fwrite(g_ch4e_cao, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 40-44
+	fwrite(g_ch4o_curry, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 45-49
+	fwrite(g_n2oe, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 50-54
+	fwrite(g_bbco2, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 55-59
+	fwrite(g_ersn, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 60-64
+	fwrite(g_isopr, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 65-69
+	fwrite(g_sr, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 70-74
+	fwrite(g_luc, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 75-79
+	fwrite(g_er, sizeof(float), 5*N_ROW*N_COL, fp_binout);		// 80-84
+	fwrite(g_ch4ep_cao, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 85-89
 
 #if C13_GOUT==1	
-	fwrite(g_gpp13, sizeof(float), 5*360*720, fp_binout);	// 90
-	fwrite(g_er13, sizeof(float), 5*360*720, fp_binout);	// 95
-	fwrite(g_f13, sizeof(float), 5*360*720, fp_binout);  // 100
-	fwrite(g_c13, sizeof(float), 5*360*720, fp_binout);  // 105
-	fwrite(g_r13, sizeof(float), 5*360*720, fp_binout);  // 110
-	fwrite(g_l13, sizeof(float), 5*360*720, fp_binout);  // 115
-	fwrite(g_h13, sizeof(float), 5*360*720, fp_binout);  // 120
+	fwrite(g_gpp13, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 90
+	fwrite(g_er13, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 95
+	fwrite(g_f13, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 100
+	fwrite(g_c13, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 105
+	fwrite(g_r13, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 110
+	fwrite(g_l13, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 115
+	fwrite(g_h13, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 120
 #endif
 	
 #if C14_GOUT==1	
-	fwrite(g_gpp14, sizeof(float), 5*360*720, fp_binout);	// 125
-	fwrite(g_er14, sizeof(float), 5*360*720, fp_binout);	// 130
-	fwrite(g_f14, sizeof(float), 5*360*720, fp_binout);  // 135
-	fwrite(g_c14, sizeof(float), 5*360*720, fp_binout);  // 140
-	fwrite(g_r14, sizeof(float), 5*360*720, fp_binout);  // 145
-	fwrite(g_l14, sizeof(float), 5*360*720, fp_binout);  // 150
-	fwrite(g_h14, sizeof(float), 5*360*720, fp_binout);  // 155
+	fwrite(g_gpp14, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 125
+	fwrite(g_er14, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 130
+	fwrite(g_f14, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 135
+	fwrite(g_c14, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 140
+	fwrite(g_r14, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 145
+	fwrite(g_l14, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 150
+	fwrite(g_h14, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 155
 #endif
 
 #if PHYS_GOUT==1
-	fwrite(g_lai, sizeof(float), 5*360*720, fp_binout);	// 160
-	fwrite(g_parb, sizeof(float), 5*360*720, fp_binout);	// 165
-	fwrite(g_pard, sizeof(float), 5*360*720, fp_binout);	// 170
-	fwrite(g_apar, sizeof(float), 5*360*720, fp_binout);	// 175
-	fwrite(g_apar2, sizeof(float), 5*360*720, fp_binout);	// 180
-	fwrite(g_aet, sizeof(float), 5*360*720, fp_binout);	// 185
-	fwrite(g_rof, sizeof(float), 5*360*720, fp_binout);	// 190
-	fwrite(g_rns, sizeof(float), 5*360*720, fp_binout);	// 195
-	fwrite(g_rnl, sizeof(float), 5*360*720, fp_binout);	// 200
-	fwrite(g_sw1, sizeof(float), 5*360*720, fp_binout);	// 205
-	fwrite(g_sw2, sizeof(float), 5*360*720, fp_binout);	// 210
-	fwrite(g_snh4, sizeof(float), 5*360*720, fp_binout);	// 215
-	fwrite(g_sno3, sizeof(float), 5*360*720, fp_binout);	// 220
-	fwrite(g_rnsd, sizeof(float), 5*360*720, fp_binout);	// 221 added: 2013/01/10 by A.Ito
+	fwrite(g_lai, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 160
+	fwrite(g_parb, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 165
+	fwrite(g_pard, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 170
+	fwrite(g_apar, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 175
+	fwrite(g_apar2, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 180
+	fwrite(g_aet, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 185
+	fwrite(g_rof, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 190
+	fwrite(g_rns, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 195
+	fwrite(g_rnl, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 200
+	fwrite(g_sw1, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 205
+	fwrite(g_sw2, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 210
+	fwrite(g_snh4, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 215
+	fwrite(g_sno3, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 220
+	fwrite(g_rnsd, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 221 added: 2013/01/10 by A.Ito
 #endif
 	
 #if CH4_WH==1	
-	fwrite(g_ch4ep_wh, sizeof(float), 5*360*720, fp_binout);	// 225
-	fwrite(g_ch4ew_wh, sizeof(float), 5*360*720, fp_binout);	// 230
-	fwrite(gm_ch4ep_wh, sizeof(float), 12*360*720, fp_binout);	// 235
+	fwrite(g_ch4ep_wh, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 225
+	fwrite(g_ch4ew_wh, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 230
+	fwrite(gm_ch4ep_wh, sizeof(float), 12*N_ROW*N_COL, fp_binout);	// 235
 #endif
 	
 	/* close files */
