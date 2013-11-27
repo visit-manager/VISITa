@@ -138,7 +138,7 @@ void f_init_sim(
             printf("No AtmGHG_timeseries.dat\n");
             exit(1);
         }
-        for(f=0;f<AGHG_DL;f++){
+        for(f=0;f<DL_AGHG;f++){
             fscanf(fpi,"%ld", &year);
             /* CO2, ppmv */
             fscanf(fpi,"%lf", &aco2_a1[f]);
@@ -162,7 +162,7 @@ void f_init_sim(
             printf("No rcp_co2.txt\n");
             exit(1);
         }
-        for(f=0;f<AGHG_DL;f++){
+        for(f=0;f<DL_AGHG;f++){
             fscanf(fpi,"%ld", &year); /* 1765-2500 */
             /* CO2, ppmv */
             /* CH4, ppbv */
@@ -190,7 +190,7 @@ void f_init_sim(
 	
 	/* global analysis initialization ********************************/
 	go_landarea = gs_landarea = 0.0;
-	for(f=0;f<HIST;f++){
+	for(f=0;f<PD_SIM;f++){
 		h_tmp[f] = h_pre[f] = h_dswr[f] = h_aet[f] = h_rof[f] = 0.0;
 		h_gpp[f] = h_npp[f] = h_nep[f] = h_plant[f] = h_soil[f] = 0.0;
 		h_sr[f] = h_ersn_c[f] = h_agrersn_c[f] = h_doc[f] = 0.0;
@@ -346,7 +346,7 @@ void f_init_sim(
 	/* regional historical */
 	for(f=0;f<NREG;f++){
 		rh_area[f] = 0.0;
-		for(g=0;g<HIST;g++){
+		for(g=0;g<PD_SIM;g++){
 			rh_temp[f][g] = rh_prec[f][g] = rh_dswrf[f][g] = 0.0;
 			rh_rns[f][g] = rh_rnl[f][g] = 0.0;
 			rh_ipar[f][g] = rh_apar[f][g] = 0.0;

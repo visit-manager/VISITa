@@ -18,7 +18,7 @@
 #define UGC 8.314 /* universal gas constant */
 #define SLC 1367.0
 
-/***********************************************************/
+/***************************************************/
 /* annual time-step, 12=monthly */
 #define ASTEP 12
 
@@ -28,16 +28,16 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-/***********************************************************/
+/***************************************************/
 #define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 
-#define GEOMIP_RUN 0
+#define GEOMIP_RUN 1
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
-/***********************************************************/
+/***************************************************/
 /* total vegetation number */
 #define NVEG_OLSON 34	/* Olson veg (modified) */
 #define NVEG_SAGE 16		/* SAGE veg (modified) */
@@ -59,17 +59,17 @@
 /* atmopsheric GHG data length */
 #if ISIMIP_RUN==1
     /* ISI-MIP: 2012/06/27 by A.Ito */
-    #define DL_AGHG 736
+    #define AGHG_DL 736
 #elif GEOMIP_RUN==1
     /* GEO-MIP: 2012/06/27 by A.Ito */
-    #define DL_AGHG 736
+    #define AGHG_DL 736
 #else
-    #define DL_AGHG 553 /* default */
+    #define AGHG_DL 553 /* default */
 #endif
 
-/***********************************************************/
+/***************************************************/
 /* simulation framework duration (years) */
-#define PD_SIM 201	
+#define HIST 201	
 /* only for memory preparation; not actual period */
 
 /* start year (AD) of CO2 time series */
@@ -86,17 +86,17 @@
 
 /* total historical run: using CRU, NCEP, etc.*/
 #if ISIMIP_RUN==1
-    #define PD_HIST 150     /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define HIST_PD 150     /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
 #else
     /* non-ISI-MIP: case dependent */
-    /* #define PD_HIST 100  */	/* AD 1901 - 2000 */
-    /* #define PD_HIST 102	*/	/* AD 1901 - 2002 */
-    /* #define PD_HIST 108	*/	/* AD 1901 - 2008 */
-    /* #define PD_HIST 109	*/	/* AD 1901 - 2009 */
-    /* #define PD_HIST 110	*/	/* AD 1901 - 2010 */
-    /* #define PD_HIST 111	*/	/* AD 1901 - 2011 */
-    #define PD_HIST 112	/* */	/* AD 1901 - 2012 */
-    /* #define PD_HIST 105 */  /* AD 1901 - 2005 */
+    /* #define HIST_PD 100  */	/* AD 1901 - 2000 */
+    /* #define HIST_PD 102	*/	/* AD 1901 - 2002 */
+    /* #define HIST_PD 108	*/	/* AD 1901 - 2008 */
+    /* #define HIST_PD 109	*/	/* AD 1901 - 2009 */
+    /* #define HIST_PD 110	*/	/* AD 1901 - 2010 */
+    /* #define HIST_PD 111	*/	/* AD 1901 - 2011 */
+    /* #define HIST_PD 112	*/	/* AD 1901 - 2012 */
+    #define HIST_PD 105  /* AD 1901 - 2005 */
 #endif
 
 /* start year (AD) of climate */
@@ -105,7 +105,7 @@
 /* 1990: control */
 /* 1948: control */
 #if ISIMIP_RUN==1
-    #define PIVOT_CLIMY 1950  /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define PIVOT_CLIMY 1950    /* ISI-MIP: 2012/06/27 by A.Ito */
 #else
     #define PIVOT_CLIMY 1901
 #endif
@@ -117,12 +117,16 @@
     /* non-ISI-MIP: case dependent */
     /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
     #define DL_CRU 112  /* CRU TS3.21: AD 1901 - 2012 */
-    /* 102: TS2.1 */
-    /* 106: TS3.0 */
-    /* 109: TS3.1 */
-    /* 111: TS3.2 */
-    /* 112: TS3.21 */
 #endif
+
+/* calculation length: Note CL_CRU LE(=<) DL_CRU */
+/* #define CL_CRU 100 */  /* <= asseing climate data uncertainty */
+#define CL_CRU 112  /* */
+/* 102: TS2.1 */
+/* 106: TS3.0 */
+/* 109: TS3.1 */
+/* 111: TS3.2 */
+/* 112: TS3.21 */
 
 /* Simulation using NCEP/NCAR reanalysis data */
 #define NCEP_RUN 0
@@ -135,14 +139,14 @@
 #define DL_NCEP 65   /* 1948-2012 */
 
 /* Simulation using ISI-MIP data (yr) */
-#define DL_ISIMIP 180 
+#define ISIMIP_DL 180 
 /* spinup 1951-1980 */
 /* historical 1951-2005 */
 /* projection 2006-2099 */
 
-/* future projection *****************************/
+/* future projection ***********/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_RUN 0
+#define GCM_RUN 1
 /* 0: no  1:yes */
 /* #define GCM_PD 100 */	/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
@@ -182,7 +186,7 @@
 #define NECB_CROP 1
 
 /* land use setting */
-#define LANDUSE 8
+#define LANDUSE 9
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -194,13 +198,13 @@
 /* 8: Hurtt harmonized land-use change, 1700-2005 (added 2010/01/31) */
 /* 9: fixed land-use at 2000 */
 
-#define PIVOT_LUC 1700
+#define BG_LUY 1700
 /* begin year of land-use data */
 
 #if ISIMIP_RUN==1
-    #define LUC_BGY 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define PIVOT_LUY 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
 #else
-    #define LUC_BGY 1900
+    #define PIVOT_LUY 1900
 #endif
 
 /* erosion: setting of soil conservation */
@@ -317,7 +321,7 @@
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
-#define OUTPUT_GHG 1
+#define OUTPUT_GHG 0
 #define OUTPUT_BB 1
 #define OUTPUT_BVOC 0
 

@@ -121,29 +121,29 @@ void read_cru_clim(
         /* 2006-2099:           future projection */
         
         /* ait tempetaure, deg-C */
-        fread(r_isimip_data,sizeof(float),ASTEP*ISIMIP_DL, fp_c[0]);
+        fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[0]);
         avtas = 0.0;
-        for(h=0;h<ISIMIP_DL;h++){
+        for(h=0;h<DL_ISIMIP;h++){
             for(g=0;g<ASTEP;g++){
                 grid->hist_tmp[h][g] = (double)r_isimip_data[h*ASTEP + g] - ZAT;
-                avtas += grid->hist_tmp[h][g] / (double)ISIMIP_DL / (double)ASTEP;
+                avtas += grid->hist_tmp[h][g] / (double)DL_ISIMIP / (double)ASTEP;
             }
         }
         
         /* precipitation, mm month-1 */
-        fread(r_isimip_data,sizeof(float),ASTEP*ISIMIP_DL, fp_c[1]);
+        fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[1]);
         avpr = 0.0;
-        for(h=0;h<ISIMIP_DL;h++){
+        for(h=0;h<DL_ISIMIP;h++){
             for(g=0;g<ASTEP;g++){
                 grid->hist_pre[h][g] = (double)r_isimip_data[h*ASTEP+g] * (double)MDN[g] *24.0*3600.0;
-                avpr += grid->hist_pre[h][g] / (double)ISIMIP_DL;
+                avpr += grid->hist_pre[h][g] / (double)DL_ISIMIP;
                 grid->hist_pre[h][g] = (grid->hist_pre[h][g]>0.0)?grid->hist_pre[h][g]:0.0;
             }
         }
         
         /* relative humidity (%) => vapor pressure (hPa) */
-        fread(r_isimip_data,sizeof(float),ASTEP*ISIMIP_DL, fp_c[2]);
-        for(h=0;h<ISIMIP_DL;h++){
+        fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[2]);
+        for(h=0;h<DL_ISIMIP;h++){
             for(g=0;g<ASTEP;g++){
             
                 /* specific humidity to vapor pressure */
@@ -162,8 +162,8 @@ void read_cru_clim(
         }
         
         /* radiation => cloudiness, fraction */
-        fread(r_isimip_data,sizeof(float),ASTEP*ISIMIP_DL, fp_c[3]);
-        for(h=0;h<ISIMIP_DL;h++){
+        fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[3]);
+        for(h=0;h<DL_ISIMIP;h++){
             for(g=0;g<ASTEP;g++){
                 /* average downward-shortwave radiation */
                 /* 2012/06/29 by A.Ito */

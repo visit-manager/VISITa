@@ -371,7 +371,7 @@ void f_dyn_loct(
 			/* spin-up */
 			loct->vp[grid->m] = grid->hist_vap_b[grid->m];
 		}else if(grid->phase==1){
-			if(grid->climy < (PIVOT_CLIMY + HIST_PD)){
+			if(grid->climy < (PIVOT_CLIMY + PD_HIST)){
 				/* based on UEA/CRU or ISI-MIP data */
 				loct->vp[grid->m] = grid->hist_vap[grid->climy - PIVOT_CLIMY][grid->m];	
 			}else{

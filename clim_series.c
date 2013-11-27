@@ -23,7 +23,7 @@ void set_hist_clim(
 	double tmp_var, pre_var, tcdc_var;
 	
 	/* last year of CRU-data calculation */
-	cru_te = CL_CRU + 1900;
+	cru_te = DL_CRU + (PIVOT_CLIMY-1);
 	
     if(ISIMIP_RUN == 0){
         if(grid->climy <= cru_te){

@@ -32,7 +32,7 @@ void cal_historical(
 	(echar->soil).rh = (echar->soil).rh0;
 	
 	/* LOOP to dynamic stage *******************************************************/
-	for(g=0; g<HIST_PD; g++){
+	for(g=0; g<PD_HIST; g++){
 		/* AD1901 - 2002 / 2008 / 2009 */
         /* ISIMIP: 1950-2099 */
 		
