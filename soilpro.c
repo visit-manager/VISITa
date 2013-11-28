@@ -149,7 +149,21 @@ double frl(
 		}
 	}else{
 		ftl=0.05;
-	} 
+	}
+    
+    if(EX_SDTD == 1){
+        if(grid->tmp10_soil[grid->m]>-20.0){
+            ftl = 0.05 + 0.95 * exp(log(2.0)/10.0 * (grid->tmp10_soil[grid->m] - 10.0));
+        }else{
+            ftl=0.05;
+        }
+    }else if(EX_SDTD == 2){
+        if(grid->tmp10_soil[grid->m]>-20.0){
+            ftl = 0.05 + 0.95 * exp(log(1.5)/10.0 * (grid->tmp10_soil[grid->m] - 10.0));
+        }else{
+            ftl=0.05;
+        }
+    }
 	
 	/* acclimation */
 	if(BACC==1&&grid->phase>=1){
@@ -212,7 +226,21 @@ double frh(
 		}
 	}else{
 		fth = 0.05;
-	} 
+	}
+    
+    if(EX_SDTD == 1){
+        if(grid->tmp200_soil[grid->m]>-20.0){
+            fth = 0.05 + 0.95 * exp(log(2.0)/10.0 * (grid->tmp200_soil[grid->m] - 10.0));
+        }else{
+            fth=0.05;
+        }
+    }else if(EX_SDTD == 2){
+        if(grid->tmp200_soil[grid->m]>-20.0){
+            fth = 0.05 + 0.95 * exp(log(2.5)/10.0 * (grid->tmp200_soil[grid->m] - 10.0));
+        }else{
+            fth=0.05;
+        }
+    }
 
 	/* acclimation */
 	if(BACC==1 && grid->phase>=1){

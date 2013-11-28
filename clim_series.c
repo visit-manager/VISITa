@@ -23,9 +23,9 @@ void set_hist_clim(
 	double tmp_var, pre_var, tcdc_var;
 	
 	/* last year of CRU-data calculation */
-	cru_te = CL_CRU + 1900;
+	cru_te = DL_CRU + (PIVOT_CLIMY-1);
 	
-    if(ISIMIP_RUN==0){
+    if(ISIMIP_RUN == 0){
         if(grid->climy <= cru_te){
             /* 1901-2000:CRU TS2.1 (20th century) */
             /* 1901-2002:CRU TS2.1 */
@@ -77,7 +77,7 @@ void set_hist_clim(
                 }
             }
         }
-    }else if(ISIMIP_RUN==1){
+    }else if(ISIMIP_RUN == 1){
         
         /* ISI-MIP climate data: 2012/06/28 by A.Ito */
         if(grid->phase == 0){
@@ -132,6 +132,7 @@ void set_gcm_clim(
 	/***************************************************/
 	for(h=0;h<ASTEP;h++){
 		grid->m = h;
+        
 		/* temperature ***************************************************/
 		/* gradual temperature change: added by A.Ito (2009/06/15) */
 		if(TEMP_GC == 1){
@@ -256,12 +257,12 @@ void set_gcm_clim(
 		if(grid->gl_rad[h]<0.0){
 			grid->gl_rad[h] = 0.0;
 		}
-		grid->par[h] = par(grid);
+		grid->par[h] = f_par(grid);
 		
-		if(CC_R==2){
+		if(CC_R == 2){
 			grid->gl_rad[h] = grid->rad_a[h];	/* mean SW */
 		}
-		if(CC_R==3){
+		if(CC_R == 3){
 			rad_var = grid->proj_rad[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
 					grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
 					

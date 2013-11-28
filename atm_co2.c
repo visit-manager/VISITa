@@ -71,11 +71,11 @@ void f_co2_trend(
 	lgrd = 1.6*(grid->lat/85.0);
 
 	/** seasonal change **/
-	amplitude = exp(0.04*grid->lat);
+	amplitude = exp(0.04 * grid->lat);
 	if(grid->lat >= 0.0){
-		season = amplitude/2.0*sin(((double)(grid->m)-0.0)/12.0*2.0*PI);
+		season = amplitude/2.0*sin(((double)(grid->m) - 0.0)/12.0*2.0*PI);
 	}else{   /*  if(grid->lat<0.0) */
-		season = amplitude/2.0*sin(((double)(grid->m)+6.0)/12.0*2.0*PI);
+		season = amplitude/2.0*sin(((double)(grid->m) + 6.0)/12.0*2.0*PI);
 	}
 	
 	/*  grid->bco2[grid->m]=base+lgrd+season;   */
@@ -107,8 +107,8 @@ void co2_in_canopy(
 	/* CO2 concentration */
 	loct->aco2[grid->m] = grid->bco2[grid->m];
 	/* d13C - CO2 */
-	closure_factor = 1.5*0.75*mass->lai_p/(1.5 + 0.75*mass->lai_p);
-	source_factor = 2.0*0.5*flux->efflux_p/(2.0 + 0.5*flux->efflux_p);
+	closure_factor = 1.5 * 0.75*mass->lai_p/(1.5 + 0.75*mass->lai_p);
+	source_factor = 2.0 * 0.5*flux->efflux_p/(2.0 + 0.5*flux->efflux_p);
 	
 	loct->cnpy_co2_recyc = 0.2*closure_factor*source_factor;  
 	/*  0.3  011017  */  /*  0.1  011020  */  /*  0.5  011022  */

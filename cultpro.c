@@ -188,7 +188,7 @@ void harvesting(
 		
 	/** harvest of crops **/
 	hvst_index = -0.45; /* harvest index -> 45% of biomass */
-	flux->hvst[grid->m] = hvst_index*(mass->fol+mass->stm+mass->rot);
+	flux->hvst[grid->m] = hvst_index*(mass->fol + mass->stm + mass->rot);
 
 	mass->fol += (hvst_index*mass->fol);
 	mass->stm += (hvst_index*mass->stm);

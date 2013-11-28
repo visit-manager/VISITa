@@ -184,7 +184,7 @@ struct Grid{
 	double	proj_prec_co;			/* carry-over of negative precipitation */
 
 	/* historical (e.g., UEA/CRU TS2.1) data */
-	long	hist_exist;							/* flag of data availability */
+	long	flag_histdata;							/* flag of data availability */
 	double	hist_tmp[DL_CRU][ASTEP];			/* temperature */
 	double	hist_pre[DL_CRU][ASTEP];			/* precipitation */
 	double	hist_cld[DL_CRU][ASTEP];			/* cloud cover */
@@ -806,8 +806,8 @@ struct Pflx{
 /* soil carbon fluxes  *******************************************************/
 struct Sflx{	 
 	short	v_type;				/* vegetation classification types */
-								/* 1: Olson actual vegetation */
-								/* 2: SAGE natural vegetation */
+								/* 1: Olson+SAGE natural vegetation */
+								/* 2: agricultural vegetation */
 
 	/* carbon flux, in Mg C ha-1 mon-1 */ 
 	double	lL[ASTEP];			/* litter input */

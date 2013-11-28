@@ -70,8 +70,8 @@ void pc_sat(
 		
 	/** temperature effect ******************************************************/
 	if(grid->tmp_sfc[grid->m]<=pchar->tmax && grid->tmp_sfc[grid->m]>=pchar->tmin){
-		aa1 = (grid->tmp_sfc[grid->m]-pchar->tmax)*(grid->tmp_sfc[grid->m]-pchar->tmin);
-		aa2 = (grid->tmp_sfc[grid->m]-pchar->topt)*(grid->tmp_sfc[grid->m]-pchar->topt);
+		aa1 = (grid->tmp_sfc[grid->m] - pchar->tmax)*(grid->tmp_sfc[grid->m] - pchar->tmin);
+		aa2 = (grid->tmp_sfc[grid->m] - pchar->topt)*(grid->tmp_sfc[grid->m] - pchar->topt);
 		ftem = aa1/(aa1 - aa2);
 	}else{
 		ftem = 0.0;
@@ -135,7 +135,7 @@ void pc_sat(
 	
 	/* acclimation ************************************************ 2009/04/29 A.Ito */
 	if(loct->aco2[grid->m]>400.0 && RAD_SENS==11){
-		f_acclim = (1.16 - (loct->aco2[grid->m]-400.0)*0.00075)/1.16;
+		f_acclim = (1.16 - (loct->aco2[grid->m] - 400.0)*0.00075)/1.16;
 	}else{
 		f_acclim = 1.0;
 	}

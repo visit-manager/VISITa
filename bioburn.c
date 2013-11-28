@@ -202,7 +202,9 @@ void f_biomassburning(
 			aa = 0.0;
 		}
 		/* fractional area burnt */
-		flux->a_burnt[f] = flux->f_burnt*aa*(1.0 - grid->f_crop_con);
+		/* flux->a_burnt[f] = flux->f_burnt*aa*(1.0 - grid->f_crop_con); */
+        /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+		flux->a_burnt[f] = flux->f_burnt * aa;
 		
 		/* g/kg = kg/Mg, per ha */
 		/* CO2 emission */

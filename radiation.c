@@ -63,7 +63,7 @@ double f_day_length(
 }
 
 /* shortwave radiation at the atmosphere-top ***********************/
-double top_rad(
+double f_top_rad(
 	struct Grid *grid, 
     short ha
 ){
@@ -86,36 +86,22 @@ double top_rad(
 		 
 	/* solar constant = 4.921 MJ/m2 =1367 W/m2=1.96 cal/cm2/min
 		 = 6151.5 micro mol photons/ m2 / s */	
-	gg = 1367.0; 
+	gg = SLC; 
 	
-	if(SC==1){
+	if(SC == 1){
 		gg *= 1.01;
-	}else if(SC==2){
+	}else if(SC == 2){
 		gg *= 0.99;
-	}else if(SC==3){
+	}else if(SC == 3){
 		if(grid->climy>=1990){
 			gg *= 1.03;
 		}
-	}else if(SC==4){
+	}else if(SC == 4){
 		if(grid->climy>=1990){
 			gg *= 0.97;
 		}
 	}
     
-    /* EX SRM: 2013/06/04 by A.Ito *******************/
-    if(EX_SRM == 1 && grid->climy>=2010){
-        gg -= 2.6 /90.0 * (double)(grid->climy - 2010);
-    }
-    if(EX_SRM == 2 && grid->climy>=2010){
-        gg -= 4.5 /90.0 * (double)(grid->climy - 2010);
-    }
-    if(EX_SRM == 3 && grid->climy>=2010){
-        gg -= 6.0 /90.0 * (double)(grid->climy - 2010);
-    }
-    if(EX_SRM == 4 && grid->climy>=2010){
-        gg -= 8.5 /90.0 * (double)(grid->climy - 2010);
-    }
-	
 	/* holizontally incident radiation at the top of the atmosphere */
 	hh = sin(dlt) * sin(grid->lat * dTr); 
 	ii = cos(dlt) * cos(grid->lat * dTr) * cos((double)ha * dTr); 
@@ -126,7 +112,7 @@ double top_rad(
 }
 
 /* global radiation at the ground surface *********************/
-double gl_rad(
+double f_gl_rad(
 	struct Grid *grid
 ){
 	double cloudiness, jj, hh;
@@ -140,12 +126,29 @@ double gl_rad(
 	jj = (jj>=0.0)?jj:0.0;
 	
 	hh = grid->top_rad[grid->m]*jj; 
+
+    /* EX SRM: 2013/06/04 by A.Ito *******************/
+    if(EX_SRM == 1 && grid->climy>=2010){
+        hh -= 2.6 /90.0 * (double)(grid->climy - 2010);
+    }
+    if(EX_SRM == 2 && grid->climy>=2010){
+        hh -= 8.5 /90.0 * (double)(grid->climy - 2010);
+    }
+    if(EX_SRM == 3 && grid->climy>=2010){
+        hh -= 4.5 /90.0 * (double)(grid->climy - 2010);
+    }
+    if(EX_SRM == 4 && grid->climy>=2010){
+        hh -= 6.0 /90.0 * (double)(grid->climy - 2010);
+    }
+	
+	hh = (hh<=SLC)?hh:SLC;
+	hh = (hh>=0.0)?hh:0.0;
 	
 	return(hh);
 }
 
 /* photosynthetically active radiation ***************************/
-double par(
+double f_par(
 	struct Grid *grid
 ){
 	double kt, hd, dd, par;

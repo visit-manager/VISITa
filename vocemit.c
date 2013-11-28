@@ -184,19 +184,23 @@ void f_voc_emit_guenther97(
 	flux->voc_co_g97[grid->m] = emit_potent_co[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
 	
 	/* carbon loss by BVOC emission: 2008/10/09 */
-	if(NECB_BVOC==1){
+	if(NECB_BVOC == 1){
+        /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+         
 		total_closs = flux->voc_isopr_g97[grid->m] + flux->voc_monotrp_g97[grid->m] + flux->voc_methanl_g97[grid->m] + 
 			flux->voc_acetone_g97[grid->m] + flux->voc_actaldhd_g97[grid->m] + flux->voc_frmardhd_g97[grid->m] + 
 			flux->voc_formacd_g97[grid->m] + flux->voc_acetacd_g97[grid->m] + flux->voc_co_g97[grid->m];
 		
-		(mass->c3).fol -= total_closs/100000000.0;
-		if((mass->c3).fol < 0.0){
-			(mass->c3).fol = 0.0;
+		(mass->c3).fol -= loct->c3ptn[grid->m] * total_closs/100000000.0;
+        (mass->c3).mfol[grid->m] = (mass->c3).fol;
+		if((mass->c3).fol < INT_C){
+			(mass->c3).fol = INT_C;
 		}
 		
-		(mass->c4).fol -= total_closs/100000000.0;
-		if((mass->c4).fol < 0.0){
-			(mass->c4).fol = 0.0;
+		(mass->c4).fol -= loct->c4ptn[grid->m] * total_closs/100000000.0;
+        (mass->c4).mfol[grid->m] = (mass->c4).fol;
+		if((mass->c4).fol < INT_C){
+			(mass->c4).fol = INT_C;
 		}
 	}
 }
