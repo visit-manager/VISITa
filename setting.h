@@ -662,19 +662,24 @@
 
 /** GEO-MIP: 2013/11/26 by A.Ito ***********/
 /* 3000: BNU-ESM RCP4.5 */
+/* 3004: BNU-ESM G3 */
 /* 3004: BNU-ESM G4 */
 
 /* 3100: CSIRO-mk3L-1-2 RCP4.5 */
 /* 3104: CSIRO-mk3L-1-2 G4 */
 
 /* 3200: GISS-EL-R RCP4.5 */
+/* 3203: GISS-EL-R G3 */
 /* 3204: GISS-EL-R G4 */
 
 /* 3300: HadGEM2-ES RCP4.5 */
+/* 3303: HadGEM2-ES G3 */
 /* 3304: HadGEM2-ES G4 */
+/* 3213: HadGEM2-ES G3S */
 
 /* 3400: IPSL-CM54-LR RCP4.5 */
-/* 3404: IPSL-CM54-LR G4 */
+/* 3403: IPSL-CM54-LR G3 */
+/* 3405: IPSL-CM54-LR G5 */
 
 /* 3500: MIROC-ESM RCP4.5 */
 /* 3504: MIROC-ESM G4 */

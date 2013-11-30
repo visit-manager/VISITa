@@ -96,7 +96,7 @@
     /* #define PD_HIST 110	*/	/* AD 1901 - 2010 */
     /* #define PD_HIST 111	*/	/* AD 1901 - 2011 */
     #define PD_HIST 112	/* */	/* AD 1901 - 2012 */
-    /* #define PD_HIST 105 */  /* AD 1901 - 2005 */
+    /* #define PD_HIST 105 */  /* AD 1901 - 2005 --GEOMIP */
 #endif
 
 /* start year (AD) of climate */
@@ -147,17 +147,17 @@
 /* #define GCM_PD 100 */	/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
 /* year of data beginning (AD) */
-/* #define GCM_BGY 2001 */
-#define GCM_BGY 2006
-#define GCM_ENY 2100
+/* #define BGY_GCM 2001 */
+#define BGY_GCM 2006  /* --GEOMIP */
+#define ENY_GCM 2100
 
 /* GCM data length */
-#define DL_GCM 131 /* */ /* 1970-2100 */
+#define DL_GCM 131 /* */ /* 1970-2100 --GEOMIP */
 /* #define DL_GCM 241 */ /* 1860-2100 */
 /* #define PIVOT_GCMY 2001 */
 
 /* start year of GCM data (AD) */
-#define PIVOT_GCMY 1970 /* */
+#define PIVOT_GCMY 1970   /* --GEOMIP */
 /* #define PIVOT_GCMY 1860 */
 
 /***************************************************/
@@ -192,15 +192,15 @@
 /* 6: EOS-WEBSTER Hurtt land-use change, 1700-2000 */
 /* 7: Ramankutty land-use change, 1700-2007 */
 /* 8: Hurtt harmonized land-use change, 1700-2005 (added 2010/01/31) */
-/* 9: fixed land-use at 2000 */
+/* 9: fixed land-use at 2000 --GEOMIP */
 
 #define PIVOT_LUC 1700
 /* begin year of land-use data */
 
 #if ISIMIP_RUN==1
-    #define LUC_BGY 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define BGY_LUC 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
 #else
-    #define LUC_BGY 1900
+    #define BGY_LUC 1900
 #endif
 
 /* erosion: setting of soil conservation */
@@ -256,7 +256,7 @@
 /* 0:off, 1:0n */
 
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 

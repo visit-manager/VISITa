@@ -245,7 +245,31 @@ void f_init_grid(
 	}
     
     /* GEO-MIP: 2013/11/26 by A.Ito */
-    if(GCM==3500 || GCM==3504){ /* GEO-MIP MIROC-ESM */
+    if(GCM==3000 || GCM==3003 || GCM==3004){ /* GEO-MIP BNU-ESM */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM==3100 || GCM==3104){ /* GEO-MIP CSIRO */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM==3200 || GCM==3203 || GCM==3204){ /* GEO-MIP GISS */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM==3300 || GCM==3303 || GCM==3304 || GCM==3313){ /* GEO-MIP HadGEM */
+		if(grid->lat>=89.379){
+			grid->gcm_row = 0;
+		}else if(grid->lat<=-89.379){
+			grid->gcm_row = 144;
+		}else{
+			grid->gcm_row = (long)((89.379-grid->lat)/(180.0/(double)GCM_R));
+		}
+        grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM==3400 || GCM==3403 || GCM==3405){ /* GEO-MIP IPSL */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM==3500 || GCM==3504){ /* GEO-MIP MIROC-ESM */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM==3600 || GCM==3604){ /* GEO-MIP MIROC-ESM-CHEM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}

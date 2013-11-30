@@ -49,19 +49,25 @@ void f_ch4_emit_cao(
 	/* wtable = 5.0; */
 	/* f_wtable = 0.383 * (0.5*exp(0.096 * wtable) + 0.5*exp(0.096 * -5.0)); OLD */
 	/* revised by A.Ito (2009/07/13) **/
-	wtable = 0.0;
+	/* wtable = 0.0;
 	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * wtable) 
-						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -25.0));
+						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -25.0)); */
+	/* 2013/11/29 by A.Ito */
+    wtable = 2.0;
+	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * wtable) 
+						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -15.0));
 	/* if(ALT_FWET == 1){
 		f_wtable = 0.383 * (grid->f_wetland*exp(0.096 * wtable) 
 							+ (1.0-grid->f_wetland)*exp(0.096 * -25.0));
 	} */
-	
 	if(f_wtable<0.0){
 		f_wtable = 0.0;
 	}
+     
 	/* lake: added by A.Ito (2009/07/14) */
-	f_wtable_lake = 0.383 * exp(0.096 * 5.0);
+	/* f_wtable_lake = 0.383 * exp(0.096 * 5.0); */
+	/* lake: revised by A.Ito (2013/11/29) */
+	f_wtable_lake = 0.383 * exp(0.096 * 7.0);
 	
 	/* Mg C ha-1 month-1 */
 	(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * 
@@ -99,8 +105,11 @@ void f_ch4_emit_cao(
 	}
 	f_wtable = 0.383 * exp(0.096 * wtable); */
 	/* revised by A.Ito (2009/07/13) */
-	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * 3.0) 
-						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -50.0));	
+	/* f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * 3.0)
+						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -50.0));	 */
+    /* revised by A.Ito (2013/11/29) */
+	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * 3.0)
+						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -20.0));
 	if(f_wtable<0.0){
 		f_wtable = 0.0;
 	}
@@ -272,11 +281,13 @@ void f_ch4_emit_walter(
 	/* characteristics ***************************/
 	if(smode==1){	/* water-logged wetlands */
 		t_veg = 6.0;	/* vegetation factor */
-		rdepth = 0.20;		/* rooting depth, m */
+		/* rdepth = 0.20; */		/* rooting depth, m */
+		rdepth = 0.25;		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
 		
 		/* water-table depth, m from surface */
-		loct->water_table_depth = 0.00;
+		/* loct->water_table_depth = 0.00; */
 		/* loct->water_table_depth = -0.02; */
+		loct->water_table_depth = -0.02; /* revised 2013/11/29 by A.Ito */
 		if(EX_CH4_1 == 1){
 			loct->water_table_depth = 0.0 - loct->cum_dprec*0.0002;
 		}else if(EX_CH4_1 == 2){
@@ -288,14 +299,17 @@ void f_ch4_emit_walter(
 		wtdepth = loct->water_table_depth;	
 		
 		/* tuning parameter (cf. Table 2) */
-		r0 = 0.4;  /* 1.0 => 0.7: 2009/08/20 */
+		/* r0 = 0.4; */  /* 1.0 => 0.7: 2009/08/20 */
+		r0 = 0.45;  /* revised 2013/11/29 by A.Ito */
 	}else if(smode==2){	/* drainage wetlands */
 		t_veg = 4.0;	/* vegetation factor */
-		rdepth = 0.15;		/* rooting depth, m */
+		/* rdepth = 0.15; */		/* rooting depth, m */
+		rdepth = 0.25;		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
 		
 		/* water-table depth, m from surface */
-		loct->water_table_depth = 0.25;
+		/* loct->water_table_depth = 0.25; */
 		/* loct->water_table_depth = 0.20; */
+		loct->water_table_depth = 0.15;  /* revised 2013/11/29 by A.Ito */
 		if(EX_CH4_1 == 1){
 			loct->water_table_depth = 0.25 - loct->cum_dprec*0.0002;
 		}else if(EX_CH4_1 == 2){
@@ -307,7 +321,8 @@ void f_ch4_emit_walter(
 		wtdepth = loct->water_table_depth;	
 		
 		/* tuning parameter (cf. Table 2) */
-		r0 = 0.25;  /* 1.0 => 0.7: 2009/08/20 */
+		/* r0 = 0.25; */  /* 1.0 => 0.7: 2009/08/20 */
+		r0 = 0.35;  /* revised 2013/11/29 by A.Ito */
 	}else if(smode==3){	/* water-logged paddy fields */
 		t_veg = 10.0;	/* vegetation factor */
 		rdepth = 0.20;		/* rooting depth, m */ /* 0.3 => 0.2: 2009/08/20 */
