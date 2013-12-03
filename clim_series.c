@@ -127,7 +127,7 @@ void set_gcm_clim(
 ){
 	long h;
 	double tmp_var, pre_var, rad_var;
-	double alt, apres, rvap;
+	double alt, apres, rvap, est_cld;
 	
 	/***************************************************/
 	for(h=0;h<ASTEP;h++){
@@ -252,11 +252,33 @@ void set_gcm_clim(
 				rad_var = 0.0;	/* mean SW & PAR */
 			}
 		}
-		
+        
 		grid->gl_rad[h] = grid->rad_a[h] + rad_var;
 		if(grid->gl_rad[h]<0.0){
 			grid->gl_rad[h] = 0.0;
 		}
+        
+        /* estimation of cloudiness: 2013/12/03 by A.Ito */
+        if(grid->top_rad[h] > 0.0){
+            est_cld = grid->gl_rad[h] / grid->top_rad[h];
+            if(est_cld < 0.01){
+                est_cld = 0.01;
+            }else if(est_cld >= 0.8964){
+                est_cld = 0.8964;
+            }
+            
+            est_cld = (0.8964 - est_cld)/0.5392;
+            if(est_cld < 0.01){
+                est_cld = 0.01;
+            }else if(est_cld >= 0.99){
+                est_cld = 0.99;
+            }
+        }else{
+            est_cld = 0.5;
+        }
+        grid->tcdc_clm[h] = est_cld;
+        
+        /* PAR */
 		grid->par[h] = f_par(grid);
 		
 		if(CC_R == 2){

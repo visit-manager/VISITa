@@ -53,9 +53,9 @@ void f_ch4_emit_cao(
 	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * wtable) 
 						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -25.0)); */
 	/* 2013/11/29 by A.Ito */
-    wtable = 2.0;
+    wtable = 4.0;
 	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * wtable) 
-						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -15.0));
+						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -10.0));
 	/* if(ALT_FWET == 1){
 		f_wtable = 0.383 * (grid->f_wetland*exp(0.096 * wtable) 
 							+ (1.0-grid->f_wetland)*exp(0.096 * -25.0));
@@ -67,7 +67,7 @@ void f_ch4_emit_cao(
 	/* lake: added by A.Ito (2009/07/14) */
 	/* f_wtable_lake = 0.383 * exp(0.096 * 5.0); */
 	/* lake: revised by A.Ito (2013/11/29) */
-	f_wtable_lake = 0.383 * exp(0.096 * 7.0);
+	f_wtable_lake = 0.383 * exp(0.096 * 8.0);
 	
 	/* Mg C ha-1 month-1 */
 	(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * 
@@ -108,14 +108,14 @@ void f_ch4_emit_cao(
 	/* f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * 3.0)
 						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -50.0));	 */
     /* revised by A.Ito (2013/11/29) */
-	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * 3.0)
-						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -20.0));
+	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * 4.0)
+						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -10.0));
 	if(f_wtable<0.0){
 		f_wtable = 0.0;
 	}
 	/* Mg C ha-1 month-1 */
 	/* assuming low decomposition at paddy field: 0.4, 2008/06/11 */
-	(flux->soil).ch4prod_paddy_cao[grid->m] = 0.4*hr_decomp * f_temp * f_wtable;  
+	(flux->soil).ch4prod_paddy_cao[grid->m] = 0.5*hr_decomp * f_temp * f_wtable;
 	/* mg CH4 m-2 month-1 */
 	(flux->soil).ch4prod_paddy_cao[grid->m] *= 16.0/12.0 * 1000000000.0 / 10000.0;
 	(flux->soil).ch4prod_paddy_cao[grid->m] *= grid->f_paddy;
@@ -411,7 +411,8 @@ void f_ch4_emit_walter(
 	
 	/* sensitivity of Q10 of CH4 production: A.Ito (2010/08/02) */
 	/* q10_ch4prod = 6.0; */
-	q10_ch4prod = 4.0;
+	/* q10_ch4prod = 4.0; */
+	q10_ch4prod = 3.0;
 	if(EX_CH4_2 == 1){
 		q10_ch4prod = 3.0;
 	}else if(EX_CH4_2 == 2){

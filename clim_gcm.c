@@ -869,7 +869,7 @@ void read_gcm_clim(
 		if( (fp_p=fopen("./data/pr_BNU-ESM_197001-210012_rcp45_g3.txt","rt"))==NULL ){  printf("No pr_BNU-ESM_197001-210012_rcp45_g3.txt\n");  exit(1); }
 		if( (fp_h=fopen("./data/huss_BNU-ESM_197001-210012_rcp45_g3.txt","rt"))==NULL ){  printf("No huss_BNU-ESM_197001-210012_rcp45_g3.txt\n");  exit(1); }
 		if( (fp_r=fopen("./data/rsds_BNU-ESM_197001-210012_rcp45_g3.txt","rt"))==NULL ){  printf("No rsds_BNU-ESM_197001-210012_rcp45_g3.txt\n");  exit(1); }
-	}else if(GCM==3004){  /*  GEOMIP: BNU-ESM G3  */
+	}else if(GCM==3004){  /*  GEOMIP: BNU-ESM G4  */
 		if( (fp_t=fopen("./data/tas_BNU-ESM_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No tas_BNU-ESM_197001-210012_rcp45_g4.txt\n");  exit(1); }
 		if( (fp_p=fopen("./data/pr_BNU-ESM_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No pr_BNU-ESM_197001-210012_rcp45_g4.txt\n");  exit(1); }
 		if( (fp_h=fopen("./data/huss_BNU-ESM_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No huss_BNU-ESM_197001-210012_rcp45_g4.txt\n");  exit(1); }

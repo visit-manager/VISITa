@@ -125,7 +125,7 @@ double f_gl_rad(
 	jj = (jj<=1.0)?jj:1.0; 
 	jj = (jj>=0.0)?jj:0.0;
 	
-	hh = grid->top_rad[grid->m]*jj; 
+	hh = grid->top_rad[grid->m] * jj; 
 
     /* EX SRM: 2013/06/04 by A.Ito *******************/
     if(EX_SRM == 1 && grid->climy>=2010){
@@ -245,14 +245,14 @@ void f_net_rad(
 
 	/** longwave budget : modified 2002/12/25, based on Budyko (1971) **/
 	aaa = pow((grid->tmp_2m[grid->m] + ZAT), 4.0) * 5.6703 / 100000000.0;
-	if(loct->vp[grid->m]>0.1&&loct->vp[grid->m]<40.0){
+	if(loct->vp[grid->m]>0.1 && loct->vp[grid->m]<40.0){
 		bbb = 0.39 - 0.058*sqrt(loct->vp[grid->m]*760.0/1013.0 );
 	}else if(loct->vp[grid->m]<=0.1){
 		bbb = 0.39 - 0.058*sqrt( 0.1*760.0/1013.0 );
 	}else if(loct->vp[grid->m]>=40.0){
 		bbb = 0.39 - 0.058*sqrt( 40.0 );
 	}
-	ccc = 1.0-0.65*grid->tcdc_clm[grid->m];
+	ccc = 1.0 - 0.65*grid->tcdc_clm[grid->m];
 	net_long = aaa*bbb*ccc;
 	loct->rad_net_long[grid->m] = net_long;
 	

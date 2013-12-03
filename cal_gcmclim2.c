@@ -30,7 +30,7 @@ void cal_projection(
 	grid->phase = 2; 
 	
 	/* set long-term average climate */
-	f_init_clim(grid); 
+	/* f_init_clim(grid); */
 	
 	if(TEMP_GC==1 || TEMP_GC==2){
 		simyr = 400;

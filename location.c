@@ -18,7 +18,7 @@
 void f_init_clim(
 	struct Grid *grid
 ){
-	short h,i;
+	short h;
 	double aaa, bbb;
 	
 	/* in 1950 :311 ppmv*/
@@ -259,10 +259,11 @@ void f_dyn_loct(
             grid->top_rad[grid->m] = f_top_rad(grid, -180+h*15);
             loct->grad_d[grid->m] += f_gl_rad(grid)/24.0;
         }
- 
+        
+        /* midday */
         grid->top_rad[grid->m] = f_top_rad(grid, 0);
 		grid->gl_rad[grid->m] = f_gl_rad(grid); 
-		grid->par[grid->m] = f_par(grid); 
+		grid->par[grid->m] = f_par(grid);
 	}
 	
 	for(h=0;h<ASTEP;h++){
