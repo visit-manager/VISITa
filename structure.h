@@ -351,7 +351,8 @@ struct Loct{
     double  nrad_d[ASTEP];              /* daily average net SW radiation, W m-2 */
 	
 	double	fapar_mono[ASTEP];			
-	double	fapar_df[ASTEP];				
+	double	fapar_df[ASTEP];
+    double  apar_d[ASTEP];
 
 	double	pet_prty[ASTEP];			/* Priestley-Taylor potential evapotranspiration, mm month-1 */
 	double	pet_prty_ann;				/* annual Priestley-Taylor potential evapotranspiration, mm yr-1 */

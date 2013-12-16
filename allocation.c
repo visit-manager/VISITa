@@ -156,8 +156,8 @@ void reallocation_survival(
 		bbb = mass->stm*ral_cap_stf;
 		ccc = mass->rot*ral_cap_rtf;
 		
-		ral_stf = aaa*pchar->alloc_abg*(bbb/aaa)/(0.5+(bbb/aaa));
-		ral_rtf = aaa*(1.0-pchar->alloc_abg)*(ccc/aaa)/(0.5+(ccc/aaa));
+		ral_stf = aaa * pchar->alloc_abg * (bbb/aaa)/(0.5 + (bbb/aaa));
+		ral_rtf = aaa * (1.0 - pchar->alloc_abg)*(ccc / aaa)/(0.5 + (ccc/aaa));
 
 		mass->fol += ral_stf+ral_rtf;
 		mass->stm -= ral_stf;
@@ -169,17 +169,17 @@ void reallocation_survival(
 	/* to fliage, improve production */
 	aaa = (pchar->opt_lai[grid->m]-mass->lai[grid->m])*100.0*2.0/2.2/pchar->sla;
 	if(aaa>0.0){
-		bbb = mass->stm*ral_cap_stf;
-		ccc = mass->rot*ral_cap_rtf;
+		bbb = mass->stm * ral_cap_stf;
+		ccc = mass->rot * ral_cap_rtf;
 		
-		ral_stf = aaa*pchar->alloc_abg*(bbb/aaa)/(1.5+(bbb/aaa));
-		ral_rtf = aaa*(1.0-pchar->alloc_abg)*(ccc/aaa)/(1.5+(ccc/aaa));
+		ral_stf = aaa*pchar->alloc_abg * (bbb/aaa)/(1.5 + (bbb/aaa));
+		ral_rtf = aaa*(1.0 - pchar->alloc_abg)*(ccc/aaa)/(1.5+(ccc/aaa));
 
-		mass->fol += ral_stf+ral_rtf;
+		mass->fol += ral_stf + ral_rtf;
 		mass->stm -= ral_stf;
 		mass->rot -= ral_rtf;
 		
-		f_leaf_age(0, pchar, mass, ral_stf+ral_rtf);
+		f_leaf_age(0, pchar, mass, ral_stf + ral_rtf);
 	}
 	
 	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
@@ -187,7 +187,7 @@ void reallocation_survival(
 	/* to stem and branch */
 	if(mass->stm <= 0.0){
 		if(mass->rot > 0.0){
-			aaa = mass->rot*pchar->alloc_abg;
+			aaa = mass->rot * pchar->alloc_abg;
 			mass->rot -= aaa;
 			mass->stm += aaa;
 		}

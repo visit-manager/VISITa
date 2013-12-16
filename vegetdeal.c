@@ -704,7 +704,7 @@ void set_gcm_index(
  		case 3300:	strcpy(s_case,"GEOH0_"); break;
 		case 3303:	strcpy(s_case,"GEOH3_"); break;
 		case 3304:	strcpy(s_case,"GEOH4_"); break;
-		case 3213:	strcpy(s_case,"GEOH3S_"); break;
+		case 3313:	strcpy(s_case,"GEOH3S_"); break;
 		case 3400:	strcpy(s_case,"GEOI0_"); break;
 		case 3403:	strcpy(s_case,"GEOI3_"); break;
 		case 3405:	strcpy(s_case,"GEOI5_"); break;

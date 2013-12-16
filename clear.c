@@ -38,6 +38,7 @@ void f_clear(
 		
 		loct->gl_rad_g[f] = 0.0;
 		loct->rad_net_g[f] = loct->rad_net_p[f] = 0.0;
+        loct->fapar_mono[f] = loct->fapar_df[f] = loct->apar_d[f] = 0.0;
 		loct->rad_net_long[f] = loct->albedo_sfc[f] = 0.0;
 		loct->gd[f] = 0;
 		loct->gdd[f] = 0.0;

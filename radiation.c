@@ -299,6 +299,10 @@ void f_net_rad(
                     *(1.0-exp(-1.0*kmono_c3*(mass->c3).lai[grid->m]))+ loct->c4ptn[grid->m]
                     *(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*kmono_c4*(mass->c4).lai[grid->m]));
     
+    loct->apar_d[grid->m] = loct->grad_d[grid->m] * 
+       ( loct->c3ptn[grid->m]*(1.0-(echar->c3).albedo)*(1.0-exp(-1.0*(echar->c3).eK[grid->m]*(mass->c3).lai[grid->m]))
+        + loct->c4ptn[grid->m]*(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*(echar->c4).eK[grid->m]*(mass->c4).lai[grid->m])) );
+
     /* added: 2013/01/10 by A.Ito */
     loct->nrad_d[grid->m] = (1.0 - loct->albedo_sfc[grid->m]) * loct->grad_d[grid->m];
 	

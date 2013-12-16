@@ -568,6 +568,11 @@ void f_output_result(
             fprintf(fp_o[6],"%.4lf ", (echar->soil).albedo[f]); /* */
             fprintf(fp_o[6],"%.4lf ", loct->albedo_sfc[f]); 
             fprintf(fp_o[6],"%.2lf ", loct->msnwa[f]);
+            
+            /* added 2013/12/16 by A.Ito */
+            fprintf(fp_o[6],"%.2lf ", grid->par_be[f]);
+            fprintf(fp_o[6],"%.2lf ", grid->par_de[f]);
+            fprintf(fp_o[6],"%.4lf ", loct->apar_d[f]);
         }
         fprintf(fp_o[6],"\n");
     }

@@ -139,7 +139,7 @@ void cal_projection(
 				rl_a = (echar->soil).rl0*(1.0 - 0.001*(double)((grid->climy - BGY_GCM)+1));
 				if((mass->soil).ltr+(flux->plant).lL[f]){
 					(echar->soil).rl = ((echar->soil).rl*(mass->soil).ltr + 
-							rl_a*(flux->plant).lL[f])/((mass->soil).ltr+(flux->plant).lL[f]);
+							rl_a*(flux->plant).lL[f])/((mass->soil).ltr + (flux->plant).lL[f]);
 				}else{
 					(echar->soil).rl = rl_a;
 				}
@@ -227,12 +227,12 @@ void cal_projection(
 			
 			/* ecosystem mass balance *************/	
 			/* net ecosystem production */
-			flux->nep[f] = (flux->plant).npp[f]-(flux->soil).hr[f];
+			flux->nep[f] = (flux->plant).npp[f] - (flux->soil).hr[f];
 			flux->er[f] = (flux->plant).ar[f] + (flux->soil).hr[f];
 			/* total ecosystem carbon storage */
 			mass->total[f] = (mass->c3).plant[f]*loct->c3ptn[f]+(mass->c4).plant[f]*loct->c4ptn[f]+(mass->soil).soil[f];
 			/** net carbon balance taking crop harvest into account **/
-			flux->ncb[f] = flux->nep[f]+(flux->plant).hvst[f];
+			flux->ncb[f] = flux->nep[f] + (flux->plant).hvst[f];
 			
 			/* carbon isotope */
 			f_cisotope_efflux(grid, loct, mass, flux);

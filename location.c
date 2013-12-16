@@ -419,7 +419,7 @@ void f_dyn_loct(
 	
 	/** net radiation **/
 	f_net_rad(grid, loct, mass, echar);
-	
+    	
 	/** hydrological water budget **/
 	(mass->plant).lai[grid->m] = (mass->c3).lai[grid->m]*loct->c3ptn[grid->m]
 					+ (mass->c4).lai[grid->m]*loct->c4ptn[grid->m];
