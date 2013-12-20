@@ -22,7 +22,7 @@ void f_output_file_open(
 	char s_date[32], 
 	char s_case[32], 
 	char filename[100], 
-	FILE *fp[OFILES]
+	FILE *fp[OFILEN]
 ){
 	char num[4];
 	char svtype[8]; /* corrected: A.Ito and E.Kato (2009/08/16) */
@@ -296,7 +296,7 @@ void f_output_result(
 	struct Echar *echar, 
 	struct Mass *mass, 
 	struct Flux *flux, 
-	FILE *fp_o[OFILES]
+	FILE *fp_o[OFILEN]
 ){
 	long f;
 	double pre_ann, hrl_ann, hrm_ann, ltr_ann, msl_ann;

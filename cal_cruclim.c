@@ -19,7 +19,7 @@ void cal_historical(
 	struct Echar *echar, 
 	struct Mass *mass, 
 	struct Flux *flux, 
-	FILE *fp_o[OFILES]
+	FILE *fp_o[OFILEN]
 ){
 	long f, g, dyr;
 	double f_fert, total_hvst, f_nat, iweight, iweight3, avc3;
@@ -438,7 +438,7 @@ void cal_historical(
 		}
 	}
     
-    for(f=0;f<OFILES;f++){
+    for(f=0;f<OFILEN;f++){
         fprintf(fp_o[f],"\n");
     }
 }

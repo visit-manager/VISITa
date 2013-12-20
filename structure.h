@@ -217,25 +217,25 @@ struct Grid{
 	double	fothers;		/* fraction of other crops */
 	
 	/* EOS-WEBSTER, 1700-2000/2005, Hurtt et al. */
-	double	fcrop_unh_hmnzed[310];		/* cropland fraction */
-	double	fpast_unh_hmnzed[310];		/* pasture fraction */
-	double	fprim_unh_hmnzed[310];		/* primary land fraction */
-	double	fsecd_unh_hmnzed[310];		/* secondary land fraction */
-	double	ssma_unh_hmnzed[310];		/* secondary land property 1 */
-	double	ssmb_unh_hmnzed[310];		/* secondary land property 2 */
-	double	t_cp_unh_hmnzed[310];		/* conversion crop to pasture */
-	double	t_cs_unh_hmnzed[310];		/* conversion crop to secondary */
-	double	t_pc_unh_hmnzed[310];		/* conversion pasture to crop */
-	double	t_ps_unh_hmnzed[310];		/* conversion pasture to secondary */
-	double	t_sc_unh_hmnzed[310];		/* conversion secondary to crop */
-	double	t_sp_unh_hmnzed[310];		/* conversion secondary to pasture */
-	double	t_ss1_unh_hmnzed[310];		/*  */
-	double	t_ss2_unh_hmnzed[310];		/*  */
-	double	t_ss3_unh_hmnzed[310];		/*  */
-	double	t_vc_unh_hmnzed[310];		/* conversion primary to crop */
-	double	t_vp_unh_hmnzed[310];		/* conversion primary to pasture */
-	double	t_vs1_unh_hmnzed[310];		/*  */
-	double	t_vs2_unh_hmnzed[310];		/*  */
+	double	fcrop_unh_hmnzed[DL_LUH];		/* cropland fraction */
+	double	fpast_unh_hmnzed[DL_LUH];		/* pasture fraction */
+	double	fprim_unh_hmnzed[DL_LUH];		/* primary land fraction */
+	double	fsecd_unh_hmnzed[DL_LUH];		/* secondary land fraction */
+	double	ssma_unh_hmnzed[DL_LUH];		/* secondary land property 1 */
+	double	ssmb_unh_hmnzed[DL_LUH];		/* secondary land property 2 */
+	double	t_cp_unh_hmnzed[DL_LUH];		/* conversion crop to pasture */
+	double	t_cs_unh_hmnzed[DL_LUH];		/* conversion crop to secondary */
+	double	t_pc_unh_hmnzed[DL_LUH];		/* conversion pasture to crop */
+	double	t_ps_unh_hmnzed[DL_LUH];		/* conversion pasture to secondary */
+	double	t_sc_unh_hmnzed[DL_LUH];		/* conversion secondary to crop */
+	double	t_sp_unh_hmnzed[DL_LUH];		/* conversion secondary to pasture */
+	double	t_ss1_unh_hmnzed[DL_LUH];		/*  */
+	double	t_ss2_unh_hmnzed[DL_LUH];		/*  */
+	double	t_ss3_unh_hmnzed[DL_LUH];		/*  */
+	double	t_vc_unh_hmnzed[DL_LUH];		/* conversion primary to crop */
+	double	t_vp_unh_hmnzed[DL_LUH];		/* conversion primary to pasture */
+	double	t_vs1_unh_hmnzed[DL_LUH];		/*  */
+	double	t_vs2_unh_hmnzed[DL_LUH];		/*  */
 	
 	double 	f_crop_con;					/* contemporary cropland fraction */
 	double 	f_crop_p;					/* previous cropland fraction */
@@ -353,6 +353,7 @@ struct Loct{
 	double	fapar_mono[ASTEP];			
 	double	fapar_df[ASTEP];
     double  apar_d[ASTEP];
+    double  appfd_d[ASTEP];
 
 	double	pet_prty[ASTEP];			/* Priestley-Taylor potential evapotranspiration, mm month-1 */
 	double	pet_prty_ann;				/* annual Priestley-Taylor potential evapotranspiration, mm yr-1 */

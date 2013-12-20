@@ -21,7 +21,7 @@ void cal_projection(
 	struct Echar *echar, 
 	struct Mass *mass, 
 	struct Flux *flux, 
-	FILE *fp_o[OFILES]
+	FILE *fp_o[OFILEN]
 ){
 	long f, g, simyr, dyr;
 	double rl_a, f_fert, total_hvst, f_nat, iweight, iweight3, avc3;
@@ -395,7 +395,7 @@ void cal_projection(
 		}
 	}
     
-    for(f=0;f<OFILES;f++){
+    for(f=0;f<OFILEN;f++){
         fprintf(fp_o[f],"\n");
     }
 }

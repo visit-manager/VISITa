@@ -20,7 +20,7 @@ void cal_spinup(
 	struct Echar *echar, 
 	struct Mass *mass, 
 	struct Flux *flux, 
-	FILE *fp_o[OFILES]
+	FILE *fp_o[OFILEN]
 ){
 	long f, g, nn, term_time, dyr;
 	double plantmass, ann_nep, f_fert, total_hvst, f_nat, iweight, iweight3, avc3;

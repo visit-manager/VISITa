@@ -182,7 +182,7 @@
 #define NECB_CROP 1
 
 /* land use setting */
-#define LANDUSE 9
+#define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -193,8 +193,13 @@
 /* 7: Ramankutty land-use change, 1700-2007 */
 /* 8: Hurtt harmonized land-use change, 1700-2005 (added 2010/01/31) */
 /* 9: fixed land-use at 2000 --GEOMIP */
+/* 10: LUH 1500-2005/2006-2100 --GEOMIP */
 
-#define PIVOT_LUC 1700
+//#define DL_LUH 310 /* 1700-2000/2005 */
+#define DL_LUH 601 /* 1500-2100 */
+
+//#define PIVOT_LUC 1700
+#define PIVOT_LUC 1500
 /* begin year of land-use data */
 
 #if ISIMIP_RUN==1
