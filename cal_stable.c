@@ -61,6 +61,9 @@ void cal_spinup(
 	}else if(LANDUSE==9){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[200];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[200];
+	}else if(LANDUSE==10){
+		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - PIVOT_LUC];
+		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - PIVOT_LUC];
 	}
 	
 	if(grid->rank_nat==1){

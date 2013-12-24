@@ -255,11 +255,11 @@ struct Grid{
 	double	f_pasture_base;				/* base pasture fraction in 2000 */
 	
 	/* wood harvest */
-	double	hvst_p1[310];
-	double	hvst_p2[310];
-	double	hvst_s1[310];
-	double	hvst_s2[310];
-	double	hvst_s3[310];
+	double	hvst_p1[DL_LUH];
+	double	hvst_p2[DL_LUH];
+	double	hvst_s1[DL_LUH];
+	double	hvst_s2[DL_LUH];
+	double	hvst_s3[DL_LUH];
 
 	/* RUSLE erosion model coefficients */
 	double 	f_erosion_r;				/* rain factor */

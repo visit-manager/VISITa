@@ -1110,35 +1110,30 @@ void open_input(
 		exit(1); 
 	}
 	
-	/* wood harvest based on RCP-harmonized data: LUHa.v1 */
+	/* wood harvest based on RCP-harmonized data: LUHa.v1 *************/
 	/* added by A.Ito (2010/10/15) */
-	if( (fp_s[53]=fopen("./data/luc_eos2_gvbh1_1700-2005.dat","rt"))==NULL ){  
-		printf("No luc_eos2_gvbh1_1700-2005.dat\n");  
-		exit(1); 
-	}
-	if( (fp_s[54]=fopen("./data/luc_eos2_gvbh2_1700-2005.dat","rt"))==NULL ){  
-		printf("No luc_eos2_gvbh2_1700-2005.dat\n");  
-		exit(1); 
-	}
-	if( (fp_s[55]=fopen("./data/luc_eos2_hsbh1_1700-2005.dat","rt"))==NULL ){  
-		printf("No luc_eos2_hsbh1_1700-2005.dat\n");  
-		exit(1); 
-	}
-	if( (fp_s[56]=fopen("./data/luc_eos2_hsbh2_1700-2005.dat","rt"))==NULL ){  
-		printf("No luc_eos2_hsbh2_1700-2005.dat\n");  
-		exit(1); 
-	}
-	if( (fp_s[57]=fopen("./data/luc_eos2_hsbh3_1700-2005.dat","rt"))==NULL ){  
-		printf("No luc_eos2_hsbh3_1700-2005.dat\n");  
-		exit(1); 
-	}
-    
-    if( (fp_s[58]=fopen("./data/GlobAlbedo_av.flt","rb"))==NULL ){
-		printf("No GlobAlbedo_av.flt\n");  
-		exit(1); 
-	}
-    
-    if((GCM>=3000 && GCM<=3800) || LANDUSE==10){
+    if(LANDUSE==10){
+         if( (fp_s[53]=fopen("./data/luh_gvbh1_1500_2005.txt","rt"))==NULL ){  
+            printf("No luh_gvbh1_1500_2005.txt\n");  
+            exit(1); 
+        }
+        if( (fp_s[54]=fopen("./data/luh_gvbh2_1500_2005.txt","rt"))==NULL ){  
+            printf("No luh_gvbh2_1500_2005.txt\n");  
+            exit(1); 
+        }
+        if( (fp_s[55]=fopen("./data/luh_gsbh1_1500_2005.txt","rt"))==NULL ){  
+            printf("No luh_gsbh1_1500_2005.txt\n");  
+            exit(1); 
+        }
+        if( (fp_s[56]=fopen("./data/luh_gsbh2_1500_2005.txt","rt"))==NULL ){  
+            printf("No luh_gsbh2_1500_2005.txt\n");  
+            exit(1); 
+        }
+        if( (fp_s[57]=fopen("./data/luh_gsbh3_1500_2005.txt","rt"))==NULL ){  
+            printf("No luh_gsbh3_1500_2005.txt\n");  
+            exit(1); 
+        }
+        
         if( (fp_s[78]=fopen("./data/luh_gvbh1_rcp45_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gvbh1_rcp45_2005_2100.txt\n");  
             exit(1); 
@@ -1159,5 +1154,32 @@ void open_input(
             printf("No luh_gsbh3_rcp45_2005_2100.txt\n");  
             exit(1); 
         }
+    }else{
+        if( (fp_s[53]=fopen("./data/luc_eos2_gvbh1_1700-2005.dat","rt"))==NULL ){  
+            printf("No luc_eos2_gvbh1_1700-2005.dat\n");  
+            exit(1); 
+        }
+        if( (fp_s[54]=fopen("./data/luc_eos2_gvbh2_1700-2005.dat","rt"))==NULL ){  
+            printf("No luc_eos2_gvbh2_1700-2005.dat\n");  
+            exit(1); 
+        }
+        if( (fp_s[55]=fopen("./data/luc_eos2_hsbh1_1700-2005.dat","rt"))==NULL ){  
+            printf("No luc_eos2_hsbh1_1700-2005.dat\n");  
+            exit(1); 
+        }
+        if( (fp_s[56]=fopen("./data/luc_eos2_hsbh2_1700-2005.dat","rt"))==NULL ){  
+            printf("No luc_eos2_hsbh2_1700-2005.dat\n");  
+            exit(1); 
+        }
+        if( (fp_s[57]=fopen("./data/luc_eos2_hsbh3_1700-2005.dat","rt"))==NULL ){  
+            printf("No luc_eos2_hsbh3_1700-2005.dat\n");  
+            exit(1); 
+        }
+    }
+    
+    /* GlobAlbedo *******************************/
+    if( (fp_s[58]=fopen("./data/GlobAlbedo_av.flt","rb"))==NULL ){
+        printf("No GlobAlbedo_av.flt\n");  
+        exit(1); 
     }
 }

@@ -22,7 +22,7 @@ void f_cult_luc(
 		/* Natural condition *************/
 		grid->f_crop_con = 0.0;
 		grid->f_pasture_con = 0.0;
-	}else if(LANDUSE>=1 && LANDUSE<=5){
+	}else if(LANDUSE==1 || LANDUSE==2 || LANDUSE==3 || LANDUSE==4 || LANDUSE==5){
 		/* SAGE land-use data:
 		 Ramankutty, N., and J. A. Foley (1999), Estimating historical changes in global 
 		 land cover: croplands from 1700 to 1992, Global Biogeochemical Cycles, 13(4), 997-1027.
@@ -61,6 +61,8 @@ void f_cult_luc(
 						+ grid->fcrop4_image[grid->climy - 1990]) 
 						- (grid->fcrop3_image[0]+grid->fcrop4_image[0]))/100.0;
 					break;
+                default:
+                    break;
 			}
 			
 			grid->f_pasture_con = 0.0;
@@ -113,8 +115,8 @@ void f_cult_luc(
 		}
 	}else if(LANDUSE==9){
         /* 9: fixed land-use at 2000 --GEOMIP */
-        grid->f_crop_con = grid->fcrop_unh_hmnzed[BGY_LUC - PIVOT_LUC];
-        grid->f_pasture_con = grid->fpast_unh_hmnzed[BGY_LUC - PIVOT_LUC];
+        grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC];
+        grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - PIVOT_LUC];
     }else if(LANDUSE==10){
 		/* UNH harmonized land-use change, 1500-2100 (added 2013/12/20) */
 			grid->f_crop_con = grid->fcrop_unh_hmnzed[grid->climy - PIVOT_LUC];
@@ -239,7 +241,9 @@ void f_cult_luc(
 		if(grid->f_paddy < 0.0){
 			grid->f_paddy = 0.0;
 		}
-	}else if(LANDUSE==10){
+	}else if(LANDUSE==9){
+        grid->f_paddy = grid->f_paddy_b;
+    }else if(LANDUSE==10){
         if(grid->f_paddy_b > 0.0 && grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC] > 0.0){
             grid->f_paddy = grid->f_paddy_b * 
                 (grid->fcrop_unh_hmnzed[grid->climy - PIVOT_LUC] / grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC]);
