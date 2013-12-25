@@ -485,6 +485,9 @@ void set_rowcol_gcm(
 	}else if(GCM==3600 || GCM==3604){
 		GCM_R = 64;
 		GCM_C = 128;
+	}else if(GCM==3700 || GCM==3704){
+		GCM_R = 64;
+		GCM_C = 128;
 	}else{
 		GCM_R = 1;
 		GCM_C = 1;
@@ -712,6 +715,8 @@ void set_gcm_index(
 		case 3504:	strcpy(s_case,"GEOM4_"); break;
 		case 3600:	strcpy(s_case,"GEOMC0_"); break;
 		case 3604:	strcpy(s_case,"GEOMC4_"); break;
+		case 3700:	strcpy(s_case,"GEOCC0_"); break;
+		case 3704:	strcpy(s_case,"GEOCC4_"); break;
 
 		default:
 			strcpy(s_case,"STCLIM_"); 

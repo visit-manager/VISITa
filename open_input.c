@@ -1113,7 +1113,7 @@ void open_input(
 	/* wood harvest based on RCP-harmonized data: LUHa.v1 *************/
 	/* added by A.Ito (2010/10/15) */
     if(LANDUSE==10){
-         if( (fp_s[53]=fopen("./data/luh_gvbh1_1500_2005.txt","rt"))==NULL ){  
+        if( (fp_s[53]=fopen("./data/luh_gvbh1_1500_2005.txt","rt"))==NULL ){  
             printf("No luh_gvbh1_1500_2005.txt\n");  
             exit(1); 
         }

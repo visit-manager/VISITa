@@ -272,6 +272,9 @@ void f_init_grid(
 	}if(GCM==3600 || GCM==3604){ /* GEO-MIP MIROC-ESM-CHEM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM==3700 || GCM==3704){ /* GEO-MIP CanESM2 */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}
     
 	/* input geography in the grid *************/	

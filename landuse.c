@@ -170,7 +170,7 @@ void f_cult_luc(
 			grid->f_deforest = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
 			grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
-		}else if(LANDUSE==6 || LANDUSE==8 || LANDUSE==10){
+		}else if(LANDUSE==6 || LANDUSE==8){
 			if(grid->climy<=1999){
 				grid->f_deforest = grid->t_vc_unh_hmnzed[grid->climy - PIVOT_LUC] 
 									+ grid->t_vp_unh_hmnzed[grid->climy - PIVOT_LUC]
@@ -192,6 +192,15 @@ void f_cult_luc(
 		}else if(LANDUSE==9){
             /* grid->f_deforest = grid->f_crop_con - grid->f_crop_p; */
             grid->f_deforest = 0.0;
+        }else if(LANDUSE==10){
+            grid->f_deforest = grid->t_vc_unh_hmnzed[grid->climy - PIVOT_LUC]
+                                + grid->t_vp_unh_hmnzed[grid->climy - PIVOT_LUC]
+                                + grid->t_sc_unh_hmnzed[grid->climy - PIVOT_LUC] 
+                                + grid->t_sp_unh_hmnzed[grid->climy - PIVOT_LUC];
+            grid->f_deforest_v = grid->t_vc_unh_hmnzed[grid->climy - PIVOT_LUC] 
+                                + grid->t_vp_unh_hmnzed[grid->climy - PIVOT_LUC];
+            grid->f_deforest_s = grid->t_sc_unh_hmnzed[grid->climy - PIVOT_LUC] 
+                                + grid->t_sp_unh_hmnzed[grid->climy - PIVOT_LUC];
         }
 	}
 	

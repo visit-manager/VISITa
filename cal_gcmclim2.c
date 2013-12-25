@@ -286,8 +286,9 @@ void cal_projection(
 		/* wood harvest: 2010/10/15 by A.Ito ***********/
 		total_hvst = 0.0;
 		if((mass->c3).v_type == 1 && NECB_WHVST == 1){
-			dyr = grid->climy - 1700;
-			if(g>304){
+			dyr = grid->climy - PIVOT_LUC;
+			
+            if(LANDUSE != 10 && g>304){
 				dyr = 304;
 			}
 			

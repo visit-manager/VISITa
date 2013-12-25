@@ -39,7 +39,7 @@ void f_init_sim(
     
 	/**********************************************/
     /* albedo perturbation */
-    if(EX_ALBEDO>=1){
+    if(EX_ALBEDO >= 1){
         /* CMIP5: by A.Ito */
         fpi = fopen("./data/albedo_cmip_5deg_2.flt","rb");
         
@@ -86,7 +86,7 @@ void f_init_sim(
 		
 	/* atm. CO2 scenario ****************************/
 	printf("reading CO2 data...");
-    if(ISIMIP_RUN==0){
+    if(ISIMIP_RUN == 0){
         if(CO2S==1){
             if((fpi = fopen("./data/SRES_A1.dat","rt"))==NULL){
                 printf("No SRES_A1.dat\n");

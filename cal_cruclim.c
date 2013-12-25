@@ -327,10 +327,10 @@ void cal_historical(
 		/* wood harvest: 2010/10/15 by A.Ito ***************/
 		total_hvst = 0.0;
 		if((mass->c3).v_type == 1 && NECB_WHVST == 1){
-			dyr = grid->climy - 1700;
+			dyr = grid->climy - PIVOT_LUC;
 			
 			/* assumption for the period later than 2004: A.Ito (2010/11/11) */
-			if(dyr>304){
+			if(LANDUSE != 10 && dyr>304){
 				dyr = 304;	
 			}
             
