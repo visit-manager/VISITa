@@ -210,7 +210,7 @@ double f_par(
 		
 		/* fraction of PAR ******/
 		/* beam */
-		grid->par_be[grid->m] = 0.43*(grid->gl_rad[grid->m]-hd); 
+		grid->par_be[grid->m] = 0.43*(grid->gl_rad[grid->m] - hd); 
 		/* diffuse */
 		grid->par_de[grid->m] = 0.57*hd; 
 		
@@ -247,9 +247,9 @@ void f_net_rad(
 	aaa = pow((grid->tmp_2m[grid->m] + ZAT), 4.0) * 5.6703 / 100000000.0;
 	if(loct->vp[grid->m]>0.1 && loct->vp[grid->m]<40.0){
 		bbb = 0.39 - 0.058*sqrt(loct->vp[grid->m]*760.0/1013.0 );
-	}else if(loct->vp[grid->m]<=0.1){
+	}else if(loct->vp[grid->m] <= 0.1){
 		bbb = 0.39 - 0.058*sqrt( 0.1*760.0/1013.0 );
-	}else if(loct->vp[grid->m]>=40.0){
+	}else if(loct->vp[grid->m] >= 40.0){
 		bbb = 0.39 - 0.058*sqrt( 40.0 );
 	}
 	ccc = 1.0 - 0.65*grid->tcdc_clm[grid->m];

@@ -89,7 +89,7 @@ double frcg(
 	double rcg;
 	
 	/* construction cost is proportional to biomass growth */
-	rcg = veg->rgc*flux->tpc[grid->m]; 
+	rcg = veg->rgc * flux->tpc[grid->m]; 
 	
 	return(rcg);
 }
@@ -108,7 +108,7 @@ double frrm(
 	ft = exp(log(veg->qTr[grid->m])/10.0*(grid->tmp_sfc[grid->m]-t0));
 	
 	if(mass->rot >= 0.0){	
-		rfm = mass->rot*rfmt0*ft;
+		rfm = mass->rot * rfmt0 * ft;
 	}else{
 		rfm = 0.0;
 	}
@@ -125,7 +125,7 @@ double frrg(
 	double rrg;
 	
 	/* construction cost is proportional to biomass growth */
-	rrg = veg->rgr*flux->tpr[grid->m]; 
+	rrg = veg->rgr * flux->tpr[grid->m]; 
 	
 	return(rrg);
 }

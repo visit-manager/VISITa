@@ -725,34 +725,10 @@ void f_init_grid(
 	 */
     /* revised by A.Ito (2013/12/20) */
 	if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10){
-    
-        if(LANDUSE==10){
-            /* skip RCPXX - 2005 data */
-            fscanf(fp_s[59],"%lf", &ddummy);
-            fscanf(fp_s[60],"%lf", &ddummy);
-            fscanf(fp_s[61],"%lf", &ddummy);
-            fscanf(fp_s[62],"%lf", &ddummy);
-            fscanf(fp_s[63],"%lf", &ddummy);
-            fscanf(fp_s[64],"%lf", &ddummy);
-            fscanf(fp_s[65],"%lf", &ddummy);
-            fscanf(fp_s[66],"%lf", &ddummy);
-            fscanf(fp_s[67],"%lf", &ddummy);
-            fscanf(fp_s[68],"%lf", &ddummy);
-            fscanf(fp_s[69],"%lf", &ddummy);
-            fscanf(fp_s[70],"%lf", &ddummy);
-            fscanf(fp_s[71],"%lf", &ddummy);
-            fscanf(fp_s[72],"%lf", &ddummy);
-            fscanf(fp_s[73],"%lf", &ddummy);
-            fscanf(fp_s[74],"%lf", &ddummy);
-            fscanf(fp_s[75],"%lf", &ddummy);
-            fscanf(fp_s[76],"%lf", &ddummy);
-            fscanf(fp_s[77],"%lf", &ddummy);
-        }
-    
-    
+        
 		for(h=0;h<DL_LUH;h++){
 			/* fractional cover */
-            if(h<(BGY_GCM - PIVOT_LUC)){  /* 1500-2005 */
+            if(h<(BGY_GCM - PIVOT_LUC -1)){  /* 1500-2005 */
                 fscanf(fp_s[26],"%lf", &grid->fcrop_unh_hmnzed[h]);
                 fscanf(fp_s[27],"%lf", &grid->fpast_unh_hmnzed[h]);
                 fscanf(fp_s[28],"%lf", &grid->fprim_unh_hmnzed[h]);
@@ -794,6 +770,30 @@ void f_init_grid(
                 fscanf(fp_s[77],"%lf", &grid->t_vs2_unh_hmnzed[h]);
             }
 		}
+        
+        if(LANDUSE==10){
+            /* skip RCPXX - 2005 data */
+            fscanf(fp_s[26],"%lf", &ddummy);
+            fscanf(fp_s[27],"%lf", &ddummy);
+            fscanf(fp_s[28],"%lf", &ddummy);
+            fscanf(fp_s[29],"%lf", &ddummy);
+            fscanf(fp_s[30],"%lf", &ddummy);
+            fscanf(fp_s[31],"%lf", &ddummy);
+            fscanf(fp_s[32],"%lf", &ddummy);
+            fscanf(fp_s[33],"%lf", &ddummy);
+            fscanf(fp_s[34],"%lf", &ddummy);
+            fscanf(fp_s[35],"%lf", &ddummy);
+            fscanf(fp_s[36],"%lf", &ddummy);
+            fscanf(fp_s[37],"%lf", &ddummy);
+            fscanf(fp_s[38],"%lf", &ddummy);
+            fscanf(fp_s[39],"%lf", &ddummy);
+            fscanf(fp_s[40],"%lf", &ddummy);
+            fscanf(fp_s[41],"%lf", &ddummy);
+            fscanf(fp_s[42],"%lf", &ddummy);
+            fscanf(fp_s[43],"%lf", &ddummy);
+            fscanf(fp_s[44],"%lf", &ddummy);
+        }
+    
 	}else{
 		for(h=0;h<DL_LUH;h++){
 			grid->fcrop_unh_hmnzed[h] = 0.0;
@@ -825,16 +825,8 @@ void f_init_grid(
     
     if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10){
         
-        if(LANDUSE==10){
-            fscanf(fp_s[78],"%lf", &ddummy);
-            fscanf(fp_s[79],"%lf", &ddummy);
-            fscanf(fp_s[80],"%lf", &ddummy);
-            fscanf(fp_s[81],"%lf", &ddummy);
-            fscanf(fp_s[82],"%lf", &ddummy);
-        }
-    
         for(h=0;h<DL_LUH;h++){
-            if(h<(BGY_GCM - PIVOT_LUC)){
+            if(h<(BGY_GCM - PIVOT_LUC - 1)){
                 fscanf(fp_s[53],"%lf", &grid->hvst_p1[h]);
                 fscanf(fp_s[54],"%lf", &grid->hvst_p2[h]);
                 fscanf(fp_s[55],"%lf", &grid->hvst_s1[h]);
@@ -847,6 +839,15 @@ void f_init_grid(
                 fscanf(fp_s[81],"%lf", &grid->hvst_s2[h]);
                 fscanf(fp_s[82],"%lf", &grid->hvst_s3[h]);
             }
+            
+            if(LANDUSE==10){
+                fscanf(fp_s[53],"%lf", &ddummy);
+                fscanf(fp_s[54],"%lf", &ddummy);
+                fscanf(fp_s[55],"%lf", &ddummy);
+                fscanf(fp_s[56],"%lf", &ddummy);
+                fscanf(fp_s[57],"%lf", &ddummy);
+            }
+    
         }
     }else{
         for(h=0;h<DL_LUH;h++){
