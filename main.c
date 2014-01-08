@@ -78,7 +78,7 @@ int main(
 	fscanf(fp_setting,"%s %ld", s_config, &l_config);
 	printf("config  1: %s %ld\n", s_config, l_config);
 	GCM = l_config;
-	   if(GCM>=0 && GCM<=3700){
+	   if(GCM>=0 && GCM<=3800){
 	   ;
 	}else{
 	   printf("Bad scenario ID specified !!!\n");
