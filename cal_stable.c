@@ -20,7 +20,7 @@ void cal_spinup(
 	struct Echar *echar, 
 	struct Mass *mass, 
 	struct Flux *flux, 
-	FILE *fp_o[OFILES]
+	FILE *fp_o[OFILEN]
 ){
 	long f, g, nn, term_time, dyr;
 	double plantmass, ann_nep, f_fert, total_hvst, f_nat, iweight, iweight3, avc3;
@@ -61,8 +61,12 @@ void cal_spinup(
 	}else if(LANDUSE==9){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[200];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[200];
+	}else if(LANDUSE==10){
+		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - PIVOT_LUC];
+		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - PIVOT_LUC];
 	}
 	
+    /* historical fertilizer */
 	if(grid->rank_nat==1){
 		/* developing countries */
 		f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - 1900.0)))+0.0014929171;
@@ -341,7 +345,11 @@ void cal_spinup(
 	if((mass->c3).v_type == 1 && NECB_WHVST == 1){
         /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
         
-		dyr = 1900 - 1700;
+        if(LANDUSE ==10){
+            dyr = 1900 - 1500;
+        }else{
+            dyr = 1900 - 1700;
+        }
 		
         /* from total grid */
 		total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr] 

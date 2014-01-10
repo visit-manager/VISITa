@@ -18,7 +18,7 @@
 void f_init_clim(
 	struct Grid *grid
 ){
-	short h,i;
+	short h;
 	double aaa, bbb;
 	
 	/* in 1950 :311 ppmv*/
@@ -259,10 +259,11 @@ void f_dyn_loct(
             grid->top_rad[grid->m] = f_top_rad(grid, -180+h*15);
             loct->grad_d[grid->m] += f_gl_rad(grid)/24.0;
         }
- 
+        
+        /* midday */
         grid->top_rad[grid->m] = f_top_rad(grid, 0);
 		grid->gl_rad[grid->m] = f_gl_rad(grid); 
-		grid->par[grid->m] = f_par(grid); 
+		grid->par[grid->m] = f_par(grid);
 	}
 	
 	for(h=0;h<ASTEP;h++){
@@ -350,7 +351,7 @@ void f_dyn_loct(
 	/* altitude */
 	alt = (grid->topo>=0.0)?grid->topo:0.0; 
 	/* air pressure */
-	loct->prsr[grid->m] = 1013.25*exp(-1.0*(28.964*0.001)*9.8*alt/(8.3144*(grid->tmp_2m[grid->m]+ZAT))); 
+	loct->prsr[grid->m] = 1013.25*exp(-1.0*(28.964*0.001)*9.8*alt/(8.3144*(grid->tmp_2m[grid->m]+ZAT)));
 	
 	/* saturated vapour pressure, hPa */
 	loct->vps[grid->m] = vap_pre_sat(grid); 
@@ -418,7 +419,7 @@ void f_dyn_loct(
 	
 	/** net radiation **/
 	f_net_rad(grid, loct, mass, echar);
-	
+    	
 	/** hydrological water budget **/
 	(mass->plant).lai[grid->m] = (mass->c3).lai[grid->m]*loct->c3ptn[grid->m]
 					+ (mass->c4).lai[grid->m]*loct->c4ptn[grid->m];

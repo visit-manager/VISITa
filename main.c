@@ -64,7 +64,7 @@ int main(
 	/* file pointer */
 	FILE *fp_s[IFILEN];
 	FILE *fp_c[4];
-	FILE *fp_o1[OFILES], *fp_o2[OFILES];
+	FILE *fp_o1[OFILEN], *fp_o2[OFILEN];
 	FILE *fp_binout;
 	FILE *fp_setting;
 	
@@ -78,7 +78,7 @@ int main(
 	fscanf(fp_setting,"%s %ld", s_config, &l_config);
 	printf("config  1: %s %ld\n", s_config, l_config);
 	GCM = l_config;
-	   if(GCM>=0 && GCM<=3700){
+	   if(GCM>=0 && GCM<=3800){
 	   ;
 	}else{
 	   printf("Bad scenario ID specified !!!\n");
@@ -273,7 +273,7 @@ int main(
 				grid.veg_crop, grid.flag_histdata); /* */
 			
 			/* head records of output files */
-			for(h=0;h<OFILES;h++){
+			for(h=0;h<OFILEN;h++){
 				if(CALC_OLSON == 1){
 					fprintf(fp_o1[h],"%ld %ld %ld %ld\n", 
 							grid.row, grid.col, grid.veg_olson, grid.veg_sage); 
@@ -401,7 +401,7 @@ int main(
 		
 		/* close output files */
 		if(f%FROWS == (FROWS-1)){
-			for(h=0;h<OFILES;h++){
+			for(h=0;h<OFILEN;h++){
 				if(CALC_OLSON == 1){
 					fclose(fp_o1[h]);
 				}

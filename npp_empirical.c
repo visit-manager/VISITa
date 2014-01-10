@@ -72,7 +72,7 @@ void npp_empirical(
 	the sensitivity of tropical forest growth to precipitation. 
 	Ecology, 84:1165-1170.
 	*/
-	npp_tem = 17.6243/(1.0+exp(1.3496-grid->tmp_sfc_am*0.071514));
+	npp_tem = 17.6243/(1.0 + exp(1.3496-grid->tmp_sfc_am*0.071514));
 	npp_pre = 0.005212*pow(grid->prate_sfc_ann, 1.12363)/exp(0.000459532*grid->prate_sfc_ann);
 	flux->npp_schuur = (npp_tem<npp_pre)?npp_tem:npp_pre;
 	
@@ -119,5 +119,4 @@ void npp_empirical(
 			flux->npp_nceas = (npp_tem<npp_pre)?npp_tem:npp_pre;
 			break;
 	}
-	
 }

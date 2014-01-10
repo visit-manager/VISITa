@@ -32,6 +32,7 @@ void set_hist_clim(
             /* 1901-2005:CRU TS3.0 */
             /* 1901-2009:CRU TS3.1 */
             /* 1901-2011:CRU TS3.2 */
+            /* 1901-2012:CRU TS3.21 */
             for(h=0;h<ASTEP;h++){
                 grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] 
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
@@ -48,6 +49,7 @@ void set_hist_clim(
             /* 2006-2009: extrapolation using NCEP/NCAR data: 2010/01/04 by A.Ito */
             /* 2006-2010: extrapolation using NCEP/NCAR data: 2011/03/XX by A.Ito */
             /* 2012-2012: extrapolation using NCEP/NCAR data: 2012/04/14 by A.Ito */
+            /* 2013-2013: extrapolation using NCEP/NCAR data: 2013/01/10 by A.Ito */
             for(h=0;h<ASTEP;h++){
                 /* temperature */
                 tmp_var = grid->ncep_tmp2m[grid->climy - PIVOT_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
@@ -127,7 +129,7 @@ void set_gcm_clim(
 ){
 	long h;
 	double tmp_var, pre_var, rad_var;
-	double alt, apres, rvap;
+	double alt, apres, rvap, est_cld;
 	
 	/***************************************************/
 	for(h=0;h<ASTEP;h++){
@@ -252,11 +254,33 @@ void set_gcm_clim(
 				rad_var = 0.0;	/* mean SW & PAR */
 			}
 		}
-		
+        
 		grid->gl_rad[h] = grid->rad_a[h] + rad_var;
 		if(grid->gl_rad[h]<0.0){
 			grid->gl_rad[h] = 0.0;
 		}
+        
+        /* estimation of cloudiness: 2013/12/03 by A.Ito */
+        if(grid->top_rad[h] > 0.0){
+            est_cld = grid->gl_rad[h] / grid->top_rad[h];
+            if(est_cld < 0.01){
+                est_cld = 0.01;
+            }else if(est_cld >= 0.8964){
+                est_cld = 0.8964;
+            }
+            
+            est_cld = (0.8964 - est_cld)/0.5392;
+            if(est_cld < 0.01){
+                est_cld = 0.01;
+            }else if(est_cld >= 0.99){
+                est_cld = 0.99;
+            }
+        }else{
+            est_cld = 0.5;
+        }
+        grid->tcdc_clm[h] = est_cld;
+        
+        /* PAR */
 		grid->par[h] = f_par(grid);
 		
 		if(CC_R == 2){

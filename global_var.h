@@ -52,7 +52,8 @@ double h_trnsp[PD_SIM], h_incepev[PD_SIM], h_ssurfev[PD_SIM];
 double h_nbp[PD_SIM], h_hvst[PD_SIM], h_abgm[PD_SIM];
 double h_sw1[PD_SIM], h_sw2[PD_SIM];
 double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
-double h_rnsd[PD_SIM];
+double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM];
+double h_parb[PD_SIM], h_pard[PD_SIM];
 
 double h_burnt_area[PD_SIM];
 double h_bioburn_co2[PD_SIM], h_bioburn_ch4[PD_SIM], h_bioburn_co[PD_SIM];

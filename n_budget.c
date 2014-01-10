@@ -287,10 +287,10 @@ void f_n_deposit(
 		ndepo_wet = f_wet * ndepo_ann * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
 	}
 	
-	if(ndepo_dry<0.0){
+	if(ndepo_dry < 0.0){
 		ndepo_dry = 0.0;
 	}
-	if(ndepo_wet<0.0){
+	if(ndepo_wet < 0.0){
 		ndepo_wet = 0.0;
 	}
 	

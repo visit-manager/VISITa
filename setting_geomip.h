@@ -18,7 +18,7 @@
 #define UGC 8.314 /* universal gas constant */
 #define SLC 1367.0
 
-/***************************************************/
+/***********************************************************/
 /* annual time-step, 12=monthly */
 #define ASTEP 12
 
@@ -28,7 +28,7 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-/***************************************************/
+/***********************************************************/
 #define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
@@ -37,7 +37,7 @@
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
-/***************************************************/
+/***********************************************************/
 /* total vegetation number */
 #define NVEG_OLSON 34	/* Olson veg (modified) */
 #define NVEG_SAGE 16		/* SAGE veg (modified) */
@@ -59,17 +59,17 @@
 /* atmopsheric GHG data length */
 #if ISIMIP_RUN==1
     /* ISI-MIP: 2012/06/27 by A.Ito */
-    #define AGHG_DL 736
+    #define DL_AGHG 736
 #elif GEOMIP_RUN==1
     /* GEO-MIP: 2012/06/27 by A.Ito */
-    #define AGHG_DL 736
+    #define DL_AGHG 736
 #else
-    #define AGHG_DL 553 /* default */
+    #define DL_AGHG 553 /* default */
 #endif
 
-/***************************************************/
+/***********************************************************/
 /* simulation framework duration (years) */
-#define HIST 201	
+#define PD_SIM 201	
 /* only for memory preparation; not actual period */
 
 /* start year (AD) of CO2 time series */
@@ -86,17 +86,17 @@
 
 /* total historical run: using CRU, NCEP, etc.*/
 #if ISIMIP_RUN==1
-    #define HIST_PD 150     /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define PD_HIST 150     /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
 #else
     /* non-ISI-MIP: case dependent */
-    /* #define HIST_PD 100  */	/* AD 1901 - 2000 */
-    /* #define HIST_PD 102	*/	/* AD 1901 - 2002 */
-    /* #define HIST_PD 108	*/	/* AD 1901 - 2008 */
-    /* #define HIST_PD 109	*/	/* AD 1901 - 2009 */
-    /* #define HIST_PD 110	*/	/* AD 1901 - 2010 */
-    /* #define HIST_PD 111	*/	/* AD 1901 - 2011 */
-    /* #define HIST_PD 112	*/	/* AD 1901 - 2012 */
-    #define HIST_PD 105  /* AD 1901 - 2005 */
+    /* #define PD_HIST 100  */	/* AD 1901 - 2000 */
+    /* #define PD_HIST 102	*/	/* AD 1901 - 2002 */
+    /* #define PD_HIST 108	*/	/* AD 1901 - 2008 */
+    /* #define PD_HIST 109	*/	/* AD 1901 - 2009 */
+    /* #define PD_HIST 110	*/	/* AD 1901 - 2010 */
+    /* #define PD_HIST 111	*/	/* AD 1901 - 2011 */
+    /* #define PD_HIST 112	*/	/* AD 1901 - 2012 */
+    #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
 #endif
 
 /* start year (AD) of climate */
@@ -105,7 +105,7 @@
 /* 1990: control */
 /* 1948: control */
 #if ISIMIP_RUN==1
-    #define PIVOT_CLIMY 1950    /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define PIVOT_CLIMY 1950  /* ISI-MIP: 2012/06/27 by A.Ito */
 #else
     #define PIVOT_CLIMY 1901
 #endif
@@ -117,16 +117,12 @@
     /* non-ISI-MIP: case dependent */
     /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
     #define DL_CRU 112  /* CRU TS3.21: AD 1901 - 2012 */
+    /* 102: TS2.1 */
+    /* 106: TS3.0 */
+    /* 109: TS3.1 */
+    /* 111: TS3.2 */
+    /* 112: TS3.21 */
 #endif
-
-/* calculation length: Note CL_CRU LE(=<) DL_CRU */
-/* #define CL_CRU 100 */  /* <= asseing climate data uncertainty */
-#define CL_CRU 112  /* */
-/* 102: TS2.1 */
-/* 106: TS3.0 */
-/* 109: TS3.1 */
-/* 111: TS3.2 */
-/* 112: TS3.21 */
 
 /* Simulation using NCEP/NCAR reanalysis data */
 #define NCEP_RUN 0
@@ -139,29 +135,29 @@
 #define DL_NCEP 65   /* 1948-2012 */
 
 /* Simulation using ISI-MIP data (yr) */
-#define ISIMIP_DL 180 
+#define DL_ISIMIP 180 
 /* spinup 1951-1980 */
 /* historical 1951-2005 */
 /* projection 2006-2099 */
 
-/* future projection ***********/
+/* future projection *****************************/
 /* simulation suing GCM-derived projection scenarios */
 #define GCM_RUN 1
 /* 0: no  1:yes */
 /* #define GCM_PD 100 */	/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
 /* year of data beginning (AD) */
-/* #define GCM_BGY 2001 */
-#define GCM_BGY 2006
-#define GCM_ENY 2100
+/* #define BGY_GCM 2001 */
+#define BGY_GCM 2006  /* --GEOMIP */
+#define ENY_GCM 2100
 
 /* GCM data length */
-#define DL_GCM 131 /* */ /* 1970-2100 */
+#define DL_GCM 131 /* */ /* 1970-2100 --GEOMIP */
 /* #define DL_GCM 241 */ /* 1860-2100 */
 /* #define PIVOT_GCMY 2001 */
 
 /* start year of GCM data (AD) */
-#define PIVOT_GCMY 1970 /* */
+#define PIVOT_GCMY 1970   /* --GEOMIP */
 /* #define PIVOT_GCMY 1860 */
 
 /***************************************************/
@@ -186,7 +182,7 @@
 #define NECB_CROP 1
 
 /* land use setting */
-#define LANDUSE 9
+#define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -196,15 +192,20 @@
 /* 6: EOS-WEBSTER Hurtt land-use change, 1700-2000 */
 /* 7: Ramankutty land-use change, 1700-2007 */
 /* 8: Hurtt harmonized land-use change, 1700-2005 (added 2010/01/31) */
-/* 9: fixed land-use at 2000 */
+/* 9: fixed land-use at 2000 --GEOMIP */
+/* 10: LUH 1500-2005/2006-2100 --GEOMIP */
 
-#define BG_LUY 1700
+//#define DL_LUH 310 /* 1700-2000/2005 */
+#define DL_LUH 601 /* 1500-2100 */
+
+//#define PIVOT_LUC 1700
+#define PIVOT_LUC 1500
 /* begin year of land-use data */
 
 #if ISIMIP_RUN==1
-    #define PIVOT_LUY 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define BGY_LUC 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
 #else
-    #define PIVOT_LUY 1900
+    #define BGY_LUC 1900
 #endif
 
 /* erosion: setting of soil conservation */
@@ -666,23 +667,31 @@
 
 /** GEO-MIP: 2013/11/26 by A.Ito ***********/
 /* 3000: BNU-ESM RCP4.5 */
+/* 3004: BNU-ESM G3 */
 /* 3004: BNU-ESM G4 */
 
 /* 3100: CSIRO-mk3L-1-2 RCP4.5 */
 /* 3104: CSIRO-mk3L-1-2 G4 */
 
 /* 3200: GISS-EL-R RCP4.5 */
+/* 3203: GISS-EL-R G3 */
 /* 3204: GISS-EL-R G4 */
 
 /* 3300: HadGEM2-ES RCP4.5 */
+/* 3303: HadGEM2-ES G3 */
 /* 3304: HadGEM2-ES G4 */
+/* 3213: HadGEM2-ES G3S */
 
 /* 3400: IPSL-CM54-LR RCP4.5 */
-/* 3404: IPSL-CM54-LR G4 */
+/* 3403: IPSL-CM54-LR G3 */
+/* 3405: IPSL-CM54-LR G5 */
 
 /* 3500: MIROC-ESM RCP4.5 */
 /* 3504: MIROC-ESM G4 */
 
 /* 3600: MIROC-ESM-CHEM RCP4.5 */
 /* 3604: MIROC-ESM-CHEM G4 */
+
+/* 3700: CanESM2 RCP4.5 */
+/* 3704: CanESM2 G4 */
 

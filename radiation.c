@@ -125,7 +125,7 @@ double f_gl_rad(
 	jj = (jj<=1.0)?jj:1.0; 
 	jj = (jj>=0.0)?jj:0.0;
 	
-	hh = grid->top_rad[grid->m]*jj; 
+	hh = grid->top_rad[grid->m] * jj; 
 
     /* EX SRM: 2013/06/04 by A.Ito *******************/
     if(EX_SRM == 1 && grid->climy>=2010){
@@ -210,7 +210,7 @@ double f_par(
 		
 		/* fraction of PAR ******/
 		/* beam */
-		grid->par_be[grid->m] = 0.43*(grid->gl_rad[grid->m]-hd); 
+		grid->par_be[grid->m] = 0.43*(grid->gl_rad[grid->m] - hd); 
 		/* diffuse */
 		grid->par_de[grid->m] = 0.57*hd; 
 		
@@ -245,14 +245,14 @@ void f_net_rad(
 
 	/** longwave budget : modified 2002/12/25, based on Budyko (1971) **/
 	aaa = pow((grid->tmp_2m[grid->m] + ZAT), 4.0) * 5.6703 / 100000000.0;
-	if(loct->vp[grid->m]>0.1&&loct->vp[grid->m]<40.0){
+	if(loct->vp[grid->m]>0.1 && loct->vp[grid->m]<40.0){
 		bbb = 0.39 - 0.058*sqrt(loct->vp[grid->m]*760.0/1013.0 );
-	}else if(loct->vp[grid->m]<=0.1){
+	}else if(loct->vp[grid->m] <= 0.1){
 		bbb = 0.39 - 0.058*sqrt( 0.1*760.0/1013.0 );
-	}else if(loct->vp[grid->m]>=40.0){
+	}else if(loct->vp[grid->m] >= 40.0){
 		bbb = 0.39 - 0.058*sqrt( 40.0 );
 	}
-	ccc = 1.0-0.65*grid->tcdc_clm[grid->m];
+	ccc = 1.0 - 0.65*grid->tcdc_clm[grid->m];
 	net_long = aaa*bbb*ccc;
 	loct->rad_net_long[grid->m] = net_long;
 	
@@ -299,6 +299,10 @@ void f_net_rad(
                     *(1.0-exp(-1.0*kmono_c3*(mass->c3).lai[grid->m]))+ loct->c4ptn[grid->m]
                     *(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*kmono_c4*(mass->c4).lai[grid->m]));
     
+    loct->apar_d[grid->m] = loct->grad_d[grid->m] * 
+       ( loct->c3ptn[grid->m]*(1.0-(echar->c3).albedo)*(1.0-exp(-1.0*(echar->c3).eK[grid->m]*(mass->c3).lai[grid->m]))
+        + loct->c4ptn[grid->m]*(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*(echar->c4).eK[grid->m]*(mass->c4).lai[grid->m])) );
+
     /* added: 2013/01/10 by A.Ito */
     loct->nrad_d[grid->m] = (1.0 - loct->albedo_sfc[grid->m]) * loct->grad_d[grid->m];
 	

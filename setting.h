@@ -95,8 +95,9 @@
     /* #define PD_HIST 109	*/	/* AD 1901 - 2009 */
     /* #define PD_HIST 110	*/	/* AD 1901 - 2010 */
     /* #define PD_HIST 111	*/	/* AD 1901 - 2011 */
-    #define PD_HIST 112	/* */	/* AD 1901 - 2012 */
-    /* #define PD_HIST 105 */  /* AD 1901 - 2005 */
+    /* #define PD_HIST 112	*/	/* AD 1901 - 2012 */
+    #define PD_HIST 113	/* */	/* AD 1901 - 2013 */
+    /* #define PD_HIST 105 */  /* AD 1901 - 2005 --GEOMIP */
 #endif
 
 /* start year (AD) of climate */
@@ -125,20 +126,21 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
 /* data length (years) */
 /* extension to 2011: 2012/01/26 by A.Ito */
 /* extension to 2012: 2013/04/14 by A.Ito */
-#define DL_NCEP 65   /* 1948-2012 */
+/* extension to 2013: 2014/01/02 by A.Ito */
+#define DL_NCEP 66   /* 1948-2013 */
 
 /* Simulation using ISI-MIP data (yr) */
-#define DL_ISIMIP 180 
 /* spinup 1951-1980 */
 /* historical 1951-2005 */
 /* projection 2006-2099 */
+#define DL_ISIMIP 180 
 
 /* future projection *****************************/
 /* simulation suing GCM-derived projection scenarios */
@@ -147,17 +149,17 @@
 /* #define GCM_PD 100 */	/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
 /* year of data beginning (AD) */
-/* #define GCM_BGY 2001 */
-#define GCM_BGY 2006
-#define GCM_ENY 2100
+/* #define BGY_GCM 2001 */
+#define BGY_GCM 2006  /* --GEOMIP */
+#define ENY_GCM 2100
 
 /* GCM data length */
-#define DL_GCM 131 /* */ /* 1970-2100 */
+#define DL_GCM 131 /* */ /* 1970-2100 --GEOMIP */
 /* #define DL_GCM 241 */ /* 1860-2100 */
 /* #define PIVOT_GCMY 2001 */
 
 /* start year of GCM data (AD) */
-#define PIVOT_GCMY 1970 /* */
+#define PIVOT_GCMY 1970   /* --GEOMIP */
 /* #define PIVOT_GCMY 1860 */
 
 /***************************************************/
@@ -182,7 +184,7 @@
 #define NECB_CROP 1
 
 /* land use setting */
-#define LANDUSE 8
+#define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -192,15 +194,20 @@
 /* 6: EOS-WEBSTER Hurtt land-use change, 1700-2000 */
 /* 7: Ramankutty land-use change, 1700-2007 */
 /* 8: Hurtt harmonized land-use change, 1700-2005 (added 2010/01/31) */
-/* 9: fixed land-use at 2000 */
+/* 9: fixed land-use at 2000 --GEOMIP */
+/* 10: LUH 1500-2005/2006-2100 --GEOMIP */
 
-#define PIVOT_LUC 1700
+//#define DL_LUH 306 /* 1700-2000/2005 */
+#define DL_LUH 601 /* 1500-2100 */
+
 /* begin year of land-use data */
+#define PIVOT_LUC 1500
+//#define PIVOT_LUC 1700
 
 #if ISIMIP_RUN==1
-    #define LUC_BGY 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define BGY_LUC 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
 #else
-    #define LUC_BGY 1900
+    #define BGY_LUC 1900
 #endif
 
 /* erosion: setting of soil conservation */
@@ -256,7 +263,7 @@
 /* 0:off, 1:0n */
 
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 
@@ -313,13 +320,13 @@
 /* text output */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
+#define OUTPUT_ISOTOPE 1
+#define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
+#define OUTPUT_EROSION 1
 #define OUTPUT_GHG 1
 #define OUTPUT_BB 1
-#define OUTPUT_BVOC 0
+#define OUTPUT_BVOC 1
 
 /********************************************************/
 /* sensitivity analysis *****************/

@@ -464,7 +464,28 @@ void set_rowcol_gcm(
 			 || GCM==1265 || GCM==1266 || GCM==1267){ /* NCAR PCM */
 		GCM_R = 64;
 		GCM_C = 128;
+	}else if(GCM==3000 || GCM==3003 || GCM==3004){
+		GCM_R = 64;
+		GCM_C = 128;
+	}else if(GCM==3100 || GCM==3104){
+		GCM_R = 56;
+		GCM_C = 64;
+	}else if(GCM==3200 || GCM==3203 || GCM==3204){
+		GCM_R = 90;
+		GCM_C = 144;
+	}else if(GCM==3300 || GCM==3303 || GCM==3304 || GCM==3313){
+		GCM_R = 145;
+		GCM_C = 192;
+	}else if(GCM==3400 || GCM==3403 || GCM==3405){
+		GCM_R = 96;
+		GCM_C = 96;
 	}else if(GCM==3500 || GCM==3504){
+		GCM_R = 64;
+		GCM_C = 128;
+	}else if(GCM==3600 || GCM==3604){
+		GCM_R = 64;
+		GCM_C = 128;
+	}else if(GCM==3700 || GCM==3704){
 		GCM_R = 64;
 		GCM_C = 128;
 	}else{
@@ -675,8 +696,27 @@ void set_gcm_index(
 		case 2048:	strcpy(s_case,"ISIN60N_"); break;
         
         /* GEO-MIP runs: 2013/11/26 by A.Ito */
+		case 3000:	strcpy(s_case,"GEOB0_"); break;
+		case 3003:	strcpy(s_case,"GEOB3_"); break;
+		case 3004:	strcpy(s_case,"GEOB4_"); break;
+		case 3100:	strcpy(s_case,"GEOC0_"); break;
+		case 3104:	strcpy(s_case,"GEOC4_"); break;
+		case 3200:	strcpy(s_case,"GEOG0_"); break;
+		case 3203:	strcpy(s_case,"GEOG3_"); break;
+		case 3204:	strcpy(s_case,"GEOG4_"); break;
+ 		case 3300:	strcpy(s_case,"GEOH0_"); break;
+		case 3303:	strcpy(s_case,"GEOH3_"); break;
+		case 3304:	strcpy(s_case,"GEOH4_"); break;
+		case 3313:	strcpy(s_case,"GEOH3S_"); break;
+		case 3400:	strcpy(s_case,"GEOI0_"); break;
+		case 3403:	strcpy(s_case,"GEOI3_"); break;
+		case 3405:	strcpy(s_case,"GEOI5_"); break;
 		case 3500:	strcpy(s_case,"GEOM0_"); break;
 		case 3504:	strcpy(s_case,"GEOM4_"); break;
+		case 3600:	strcpy(s_case,"GEOMC0_"); break;
+		case 3604:	strcpy(s_case,"GEOMC4_"); break;
+		case 3700:	strcpy(s_case,"GEOCC0_"); break;
+		case 3704:	strcpy(s_case,"GEOCC4_"); break;
 
 		default:
 			strcpy(s_case,"STCLIM_"); 

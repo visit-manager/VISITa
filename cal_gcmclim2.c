@@ -21,7 +21,7 @@ void cal_projection(
 	struct Echar *echar, 
 	struct Mass *mass, 
 	struct Flux *flux, 
-	FILE *fp_o[OFILES]
+	FILE *fp_o[OFILEN]
 ){
 	long f, g, simyr, dyr;
 	double rl_a, f_fert, total_hvst, f_nat, iweight, iweight3, avc3;
@@ -30,18 +30,18 @@ void cal_projection(
 	grid->phase = 2; 
 	
 	/* set long-term average climate */
-	f_init_clim(grid); 
+	/* f_init_clim(grid); */
 	
 	if(TEMP_GC==1 || TEMP_GC==2){
 		simyr = 400;
 	}else if(TEMP_GC==3 || TEMP_GC==4){
 		simyr = 200;
 	}else{
-		simyr = GCM_ENY - GCM_BGY +1; /*** AD 2001-2100 ***/
+		simyr = ENY_GCM - BGY_GCM +1; /*** AD 2001-2100 ***/
 	}
 	
 	/* LOOP to dynamic stage ***************************************/
-	for(g=GCM_BGY;g<=GCM_ENY;g++){ 
+	for(g=BGY_GCM;g<=ENY_GCM;g++){ 
 	
 		/* climate change ********************/
 		grid->climy = g;
@@ -58,7 +58,7 @@ void cal_projection(
 		
 		/* CO2 change ********************/
 		if(CO2S==0){
-			grid->co2y = GCM_BGY; 
+			grid->co2y = BGY_GCM; 
 		}else if(CO2S==7){
 			grid->co2y = 2081;
 		}else{
@@ -136,10 +136,10 @@ void cal_projection(
 				(flux->plant).lL[f] = flux->lL0[f];
 			}
 			if(BACC==4){
-				rl_a = (echar->soil).rl0*(1.0 - 0.001*(double)((grid->climy - GCM_BGY)+1));
+				rl_a = (echar->soil).rl0*(1.0 - 0.001*(double)((grid->climy - BGY_GCM)+1));
 				if((mass->soil).ltr+(flux->plant).lL[f]){
 					(echar->soil).rl = ((echar->soil).rl*(mass->soil).ltr + 
-							rl_a*(flux->plant).lL[f])/((mass->soil).ltr+(flux->plant).lL[f]);
+							rl_a*(flux->plant).lL[f])/((mass->soil).ltr + (flux->plant).lL[f]);
 				}else{
 					(echar->soil).rl = rl_a;
 				}
@@ -227,12 +227,12 @@ void cal_projection(
 			
 			/* ecosystem mass balance *************/	
 			/* net ecosystem production */
-			flux->nep[f] = (flux->plant).npp[f]-(flux->soil).hr[f];
+			flux->nep[f] = (flux->plant).npp[f] - (flux->soil).hr[f];
 			flux->er[f] = (flux->plant).ar[f] + (flux->soil).hr[f];
 			/* total ecosystem carbon storage */
 			mass->total[f] = (mass->c3).plant[f]*loct->c3ptn[f]+(mass->c4).plant[f]*loct->c4ptn[f]+(mass->soil).soil[f];
 			/** net carbon balance taking crop harvest into account **/
-			flux->ncb[f] = flux->nep[f]+(flux->plant).hvst[f];
+			flux->ncb[f] = flux->nep[f] + (flux->plant).hvst[f];
 			
 			/* carbon isotope */
 			f_cisotope_efflux(grid, loct, mass, flux);
@@ -286,12 +286,13 @@ void cal_projection(
 		/* wood harvest: 2010/10/15 by A.Ito ***********/
 		total_hvst = 0.0;
 		if((mass->c3).v_type == 1 && NECB_WHVST == 1){
-			dyr = grid->climy - 1700;
-			if(g>304){
-				dyr = 304;
+			dyr = grid->climy - PIVOT_LUC;
+			
+            if(LANDUSE != 10 && g> (PIVOT_LUC+DL_LUH-1)){
+				dyr = (PIVOT_LUC+DL_LUH-1);
 			}
 			
-			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr] 
+			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
 						+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr];
 			
 			total_hvst *= 1.0/1000.0 * 1.0/grid->area;
@@ -395,7 +396,7 @@ void cal_projection(
 		}
 	}
     
-    for(f=0;f<OFILES;f++){
+    for(f=0;f<OFILEN;f++){
         fprintf(fp_o[f],"\n");
     }
 }

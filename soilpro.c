@@ -166,7 +166,7 @@ double frl(
     }
 	
 	/* acclimation */
-	if(BACC==1&&grid->phase>=1){
+	if(BACC==1 && grid->phase>=1){
 		ftl = schar->ft0_l[grid->m];
 	}
 	
@@ -179,7 +179,7 @@ double frl(
 	/* fal = 0.4*loct->soil_appr30*(1.0*schar->kmsl)/(schar->kmsl+loct->soil_appr30)+0.6; */
 	fal = 0.4*loct->soil_appr30/(schar->kmsl + loct->soil_appr30) + 0.6;
 	
-	fsm=(fwl>fal)?fal:fwl;
+	fsm = (fwl>fal)?fal:fwl;
 	
 	/* acclimation */
 	if(BACC==2 && grid->phase>=1){
@@ -190,7 +190,7 @@ double frl(
 
 	/* printf("%lf %lf %lf\n",ftl,fwl,fsm); */
 
-	rl = mass->ltr*rlto*ftl*fsm; 
+	rl = mass->ltr * rlto * ftl * fsm; 
 	
 	/* in case of too much emission, in order to avoid negative mass value */ 
 	if((mass->ltr - rl*(1.0 + schar->me))<0.0){
@@ -232,13 +232,13 @@ double frh(
         if(grid->tmp200_soil[grid->m]>-20.0){
             fth = 0.05 + 0.95 * exp(log(2.0)/10.0 * (grid->tmp200_soil[grid->m] - 10.0));
         }else{
-            fth=0.05;
+            fth = 0.05;
         }
     }else if(EX_SDTD == 2){
         if(grid->tmp200_soil[grid->m]>-20.0){
             fth = 0.05 + 0.95 * exp(log(2.5)/10.0 * (grid->tmp200_soil[grid->m] - 10.0));
         }else{
-            fth=0.05;
+            fth = 0.05;
         }
     }
 
@@ -265,10 +265,10 @@ double frh(
 	
 	schar->fm_h[grid->m] = fsm;
 
-	rh = mass->msl*rhto*fth*fsm; 
+	rh = mass->msl * rhto * fth * fsm; 
 	
 	/* in case of too much emission, in order to avoid negative mass value */ 
-	if((mass->msl - rh)<0.0){
+	if((mass->msl - rh) < 0.0){
 		rh = mass->msl;
 	}
 	
@@ -284,7 +284,7 @@ double fsf(
 	double sf;
 	
 	/* humus formation is assumed to proceed in paralell with litter respiration, proportionally */
-	sf = schar->me*flux->rl[grid->m];
+	sf = schar->me * flux->rl[grid->m];
 	
 	return(sf);	
 }

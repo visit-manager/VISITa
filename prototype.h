@@ -11,8 +11,9 @@
 
 #include"setting.h"
 
-#define IFILEN 59 /* */  /* normal case */
-#define OFILES 9
+/* #define IFILEN 59 */  /* normal case */
+#define IFILEN 83 /* */  /* normal case */
+#define OFILEN 9
 
 extern short DF97;
 extern double MDN[ASTEP];
@@ -36,7 +37,8 @@ extern double h_trnsp[PD_SIM], h_incepev[PD_SIM], h_ssurfev[PD_SIM];
 extern double h_nbp[PD_SIM], h_hvst[PD_SIM], h_abgm[PD_SIM];
 extern double h_sw1[PD_SIM], h_sw2[PD_SIM];
 extern double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
-extern double h_rnsd[PD_SIM];
+extern double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM];
+extern double h_parb[PD_SIM], h_pard[PD_SIM];
 
 extern double h_burnt_area[PD_SIM];
 extern double h_bioburn_co2[PD_SIM], h_bioburn_ch4[PD_SIM], h_bioburn_co[PD_SIM];
@@ -185,7 +187,7 @@ void vlzero(struct Grid *grid, struct Pmas *mass, struct Pflx *flux);
 /* INITIALIZATION *********************************************/
 void open_input(FILE *fp_s[IFILEN], FILE *fp_c[4]);
 void f_output_file_open(short vtype, short zone, char s_date[32], char s_case[32], 
-	char filename[100], FILE *fp[OFILES]);
+	char filename[100], FILE *fp[OFILEN]);
 void f_init_sim(struct Grid *grid);
 void f_init_grid(FILE *fp_r[IFILEN], struct Grid *grid); 
 void f_init_clim(struct Grid *grid);
@@ -220,11 +222,11 @@ void parameterSoil_crop(struct Grid *grid, struct Schar *Soil);
 
 /* EXPERIMENTAL STEPS *********************************************/
 void cal_spinup(struct Grid *grid, struct Loct *loct, 
-	struct Echar *echar, struct Mass *mass, struct Flux *flux, FILE *fp[OFILES]);
+	struct Echar *echar, struct Mass *mass, struct Flux *flux, FILE *fp[OFILEN]);
 void cal_historical(struct Grid *grid, struct Loct *loct, 
-	struct Echar *echar, struct Mass *mass, struct Flux *flux, FILE *fp[OFILES]);
+	struct Echar *echar, struct Mass *mass, struct Flux *flux, FILE *fp[OFILEN]);
 void cal_projection(struct Grid *grid, struct Loct *loct, 
-	struct Echar *echar, struct Mass *mass, struct Flux *flux, FILE *fp[OFILES]);
+	struct Echar *echar, struct Mass *mass, struct Flux *flux, FILE *fp[OFILEN]);
 
 /* RADIATION *****************************************/
 double f_solar_decl(struct Grid *grid);
@@ -397,9 +399,9 @@ void f_n_immoblz(struct Grid *grid, struct Loct *loct, struct Schar *schar, stru
 /* OUTPUT *************************************/
 void f_set_history_data(long year, struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_output_result(long year, struct Grid *grid, struct Loct *loct, struct Echar *echar, struct Mass *mass, 
-	struct Flux *flux, FILE *fp_o[OFILES]);
+	struct Flux *flux, FILE *fp_o[OFILEN]);
 void screenshow(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux, struct Echar *echar);
 void publish_cbud(struct Grid*grid, struct Loct *loct, struct Echar *echar, 
 	struct Mass *mass, struct Flux *flux, FILE *result);
-void f_glosum_output(char sdate[25], char scase[25]);
+void f_glosum_output(char sdate[32], char scase[32]);
 void f_grid_av(struct Grid *grid, struct Loct *loct, struct Echar *echar, struct Mass *mass, struct Flux *flux);

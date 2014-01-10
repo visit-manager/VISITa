@@ -39,7 +39,7 @@ void f_init_sim(
     
 	/**********************************************/
     /* albedo perturbation */
-    if(EX_ALBEDO>=1){
+    if(EX_ALBEDO >= 1){
         /* CMIP5: by A.Ito */
         fpi = fopen("./data/albedo_cmip_5deg_2.flt","rb");
         
@@ -86,7 +86,7 @@ void f_init_sim(
 		
 	/* atm. CO2 scenario ****************************/
 	printf("reading CO2 data...");
-    if(ISIMIP_RUN==0){
+    if(ISIMIP_RUN == 0){
         if(CO2S==1){
             if((fpi = fopen("./data/SRES_A1.dat","rt"))==NULL){
                 printf("No SRES_A1.dat\n");
@@ -200,7 +200,8 @@ void f_init_sim(
 		h_nbp[f] = h_hvst[f] = h_abgm[f] = 0.0;
 		h_sw1[f] = h_sw2[f] = 0.0;
         h_rns[f] = h_rnl[f] = 0.0; /* added by A.Ito (2013/01/02) */
-		h_rns[f] = 0.0;
+		h_rnsd[f] = h_cld[f] = h_apar[f] = 0.0;
+        h_parb[f] = h_pard[f] = 0.0;
         
 		h_agrarea[f] = h_paddyarea[f] = h_luc[f] = 0.0;
 		h_luc_1[f] = h_luc_2[f] = h_luc_3[f] = 0.0;
