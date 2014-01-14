@@ -724,7 +724,7 @@ void f_init_grid(
 	 Global Change Biology, 12, 1-22.
 	 */
     /* revised by A.Ito (2013/12/20) */
-	if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10){
+	if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
         
 		for(h=0;h<DL_LUH;h++){
 			/* fractional cover */
@@ -771,7 +771,7 @@ void f_init_grid(
             }
 		}
         
-        if(LANDUSE==10){
+        if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
             /* skip RCPXX - 2005 data */
             fscanf(fp_s[26],"%lf", &ddummy);
             fscanf(fp_s[27],"%lf", &ddummy);
@@ -818,12 +818,11 @@ void f_init_grid(
 		}
 	}
 	
-	
 	/* wood harvest based on RCP-harmonized data: LUHa.v1 */
 	/* added by A.Ito (2010/10/15) */
 	/* revised by A.Ito (2013/12/20, 24) */
     
-    if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10){
+    if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
         
         for(h=0;h<DL_LUH;h++){
             if(h<(BGY_GCM - PIVOT_LUC - 1)){
@@ -839,15 +838,14 @@ void f_init_grid(
                 fscanf(fp_s[81],"%lf", &grid->hvst_s2[h]);
                 fscanf(fp_s[82],"%lf", &grid->hvst_s3[h]);
             }
-            
-            if(LANDUSE==10){
-                fscanf(fp_s[53],"%lf", &ddummy);
-                fscanf(fp_s[54],"%lf", &ddummy);
-                fscanf(fp_s[55],"%lf", &ddummy);
-                fscanf(fp_s[56],"%lf", &ddummy);
-                fscanf(fp_s[57],"%lf", &ddummy);
-            }
-    
+        }
+        
+        if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+            fscanf(fp_s[53],"%lf", &ddummy);
+            fscanf(fp_s[54],"%lf", &ddummy);
+            fscanf(fp_s[55],"%lf", &ddummy);
+            fscanf(fp_s[56],"%lf", &ddummy);
+            fscanf(fp_s[57],"%lf", &ddummy);
         }
     }else{
         for(h=0;h<DL_LUH;h++){

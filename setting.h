@@ -195,7 +195,10 @@
 /* 7: Ramankutty land-use change, 1700-2007 */
 /* 8: Hurtt harmonized land-use change, 1700-2005 (added 2010/01/31) */
 /* 9: fixed land-use at 2000 --GEOMIP */
-/* 10: LUH 1500-2005/2006-2100 --GEOMIP */
+/* 10: LUH 1500-2005/2006-2100 (RCP4.5) --GEOMIP */
+/* 11: LUH 1500-2005/2006-2100 (RCP2.6) */
+/* 12: LUH 1500-2005/2006-2100 (RCP6.0) */
+/* 13: LUH 1500-2005/2006-2100 (RCP8.5) */
 
 //#define DL_LUH 306 /* 1700-2000/2005 */
 #define DL_LUH 601 /* 1500-2100 */

@@ -288,7 +288,8 @@ void cal_projection(
 		if((mass->c3).v_type == 1 && NECB_WHVST == 1){
 			dyr = grid->climy - PIVOT_LUC;
 			
-            if(LANDUSE != 10 && g> (PIVOT_LUC+DL_LUH-1)){
+            if( (LANDUSE != 10 && LANDUSE != 11 && LANDUSE != 12 && LANDUSE != 13) &&
+                    g> (PIVOT_LUC+DL_LUH-1)){
 				dyr = (PIVOT_LUC+DL_LUH-1);
 			}
 			

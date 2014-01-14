@@ -61,7 +61,7 @@ void cal_spinup(
 	}else if(LANDUSE==9){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[200];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[200];
-	}else if(LANDUSE==10){
+	}else if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - PIVOT_LUC];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - PIVOT_LUC];
 	}
@@ -345,7 +345,7 @@ void cal_spinup(
 	if((mass->c3).v_type == 1 && NECB_WHVST == 1){
         /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
         
-        if(LANDUSE ==10){
+        if(LANDUSE ==10 || LANDUSE ==11 || LANDUSE ==12 || LANDUSE ==13){
             dyr = 1900 - 1500;
         }else{
             dyr = 1900 - 1700;

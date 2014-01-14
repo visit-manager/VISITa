@@ -38,6 +38,7 @@ void cal_historical(
 		
 		/* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
+        
 		if(grid->flag_histdata == 1){
 			set_hist_clim(grid);
 		}
@@ -330,12 +331,13 @@ void cal_historical(
 			dyr = grid->climy - PIVOT_LUC;
 			
 			/* assumption for the period later than 2004: A.Ito (2010/11/11) */
-			if(LANDUSE != 10 && dyr>304){
-				dyr = 304;	
+			if( (LANDUSE != 10 && LANDUSE != 11 && LANDUSE != 12 && LANDUSE != 13) &&
+                    grid->climy > (PIVOT_LUC+DL_LUH-1)){
+				dyr = (PIVOT_LUC+DL_LUH-1);
 			}
             
             /* from total grid */
-			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr] 
+			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
 						+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr];
 			
 			total_hvst *= 1.0/1000.0 * 1.0/grid->area;
