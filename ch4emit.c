@@ -135,6 +135,13 @@ void f_ch4_emit_cao(
 	/* net flux */
 	(flux->soil).ch4flux_paddy_cao[grid->m] = (flux->soil).ch4prod_paddy_cao[grid->m] 
 			- (flux->soil).ch4oxy_paddy_cao[grid->m];
+    
+    /* 2014/01/22 for WSL output **********/
+    loct->xx1[grid->m] = grid->f_wetland;
+    loct->xx2[grid->m] = grid->f_wetland + 0.2*grid->f_lake + grid->f_paddy;
+    loct->xx3[grid->m] = grid->inundation_ssmi[grid->m];
+    loct->xx4[grid->m] = grid->inundation_ssmi[grid->m]*(-4.0) + (1.0-grid->inundation_ssmi[grid->m])*10.0;
+    loct->xx5[grid->m] = 0.333*grid->tmp10_soil[grid->m] + 0.667*grid->tmp200_soil[grid->m];
 }
 
 /* aerobic CH4 emission ***********************************************************/
@@ -645,6 +652,10 @@ void f_ch4_emit_walter(
 	/* flux: mg CH4 m-2 month-1 ************************/
 	if(smode==1){
 		loct->f_inund_wet_wh[grid->m] = fa_wetland;
+        loct->xx6[grid->m] += fa_wetland;
+        if((grid->f_wetland+grid->f_paddy) > 0.0){
+            loct->xx7[grid->m] += fa_wetland*(grid->f_wetland+grid->f_paddy) * 100.0*wtdepth;
+        }
 		
 		(flux->soil).ch4_wetland_wh_plant[grid->m] += fa_wetland * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
 		(flux->soil).ch4_wetland_wh_ebull[grid->m] += fa_wetland * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
@@ -652,6 +663,10 @@ void f_ch4_emit_walter(
 					(loct->prof_ch4[1]-loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
 		(flux->soil).ch4_wetland_wh_release[grid->m] += fa_wetland * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
 	}if(smode==2){
+        if((grid->f_wetland+grid->f_paddy) > 0.0){
+            loct->xx7[grid->m] += fa_wetland*(grid->f_wetland+grid->f_paddy) * 100.0*wtdepth;
+        }
+        
 		(flux->soil).ch4_wetland_wh_plant[grid->m] += fa_wetland * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
 		(flux->soil).ch4_wetland_wh_ebull[grid->m] += fa_wetland * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
 		(flux->soil).ch4_wetland_wh_diff[grid->m] += fa_wetland * df[1]/(dpth[1]-dpth[0])*
@@ -659,19 +674,31 @@ void f_ch4_emit_walter(
 		(flux->soil).ch4_wetland_wh_release[grid->m] += fa_wetland * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
 	}else if(smode==3){
 		loct->f_inund_pad_wh[grid->m] = fa_paddy;
-		
+        loct->xx6[grid->m] += fa_paddy;
+		if((grid->f_wetland+grid->f_paddy) > 0.0){
+            loct->xx7[grid->m] += fa_paddy*(grid->f_wetland+grid->f_paddy) * 100.0*wtdepth;
+        }
+        
 		(flux->soil).ch4_paddy_wh_plant[grid->m] += fa_paddy * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
 		(flux->soil).ch4_paddy_wh_ebull[grid->m] += fa_paddy * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
 		(flux->soil).ch4_paddy_wh_diff[grid->m] += fa_paddy * df[1]/(dpth[1]-dpth[0])*
 					(loct->prof_ch4[1]-loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
 		(flux->soil).ch4_paddy_wh_release[grid->m] += fa_paddy * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
 	}else if(smode==4){
+        if((grid->f_wetland+grid->f_paddy) > 0.0){
+            loct->xx7[grid->m] += fa_paddy*(grid->f_wetland+grid->f_paddy) * 100.0*wtdepth;
+        }
+        
 		(flux->soil).ch4_paddy_wh_plant[grid->m] += fa_paddy * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
 		(flux->soil).ch4_paddy_wh_ebull[grid->m] += fa_paddy * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
 		(flux->soil).ch4_paddy_wh_diff[grid->m] += fa_paddy * df[1]/(dpth[1]-dpth[0])*
 					(loct->prof_ch4[1]-loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
 		(flux->soil).ch4_paddy_wh_release[grid->m] += fa_paddy * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
 	}
+    
+    if((grid->f_wetland+grid->f_paddy) <= 0.0){
+        loct->xx7[grid->m] = -9999.0;
+    }
 
 	loct->water_table_depth_pre = loct->water_table_depth;
 }
