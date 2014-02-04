@@ -287,6 +287,7 @@
 #define ALT_FWET 0
 /* 0: not use alternative data */
 /* 1: use data */
+/* 2: use Peregon-san data: 2014/02/04 */
 
 /* parameter perturbation */
 /* climate perturbation */

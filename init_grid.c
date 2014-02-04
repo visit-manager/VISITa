@@ -664,9 +664,17 @@ void f_init_grid(
 		/* revised wetland data: by A.Ito (2009/07/14) */
 		fscanf(fp_s[21],"%lf %lf %lf %lf %lf", &lat, &lon, &total, &lake, &wetland); 
 		grid->f_wetland = wetland/grid->area;
+        
+        /* WSL-Perogon welnad map: 2014/2/4 by A.Ito */
+        fscanf(fp_s[83],"%ld %lf", &aaa, &wetland); 
+        if(ALT_FWET==2 && aaa==1){
+            grid->f_wetland = wetland;
+        }
+        
 		if(grid->f_wetland > 1.0){
 			grid->f_wetland = 1.0;
 		}
+
 	}
 	grid->f_lake = lake/grid->area;
 	if(grid->f_lake > 1.0){
@@ -964,9 +972,9 @@ void f_init_grid(
 	
 	/* CHASE 2001 monthly, by A.Ito (2010/05/21) ******************************/
 	grid->chaser_row = grid->row/(360.0/64.0);
-	if(grid->col>=360){
+	if(grid->col >= 360){
 		grid->chaser_col = grid->col/(720.0/128.0) - 64;
-	}else if(grid->col<360){
+	}else if(grid->col < 360){
 		grid->chaser_col = grid->col/(720.0/128.0) + 64;
 	}
 		

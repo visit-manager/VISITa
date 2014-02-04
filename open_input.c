@@ -587,6 +587,11 @@ void open_input(
 			exit(1); 
 		}
 	}
+    /* WSL-Perogon welnad map: 2014/2/4 by A.Ito */
+    if( (fp_s[83]=fopen("./data/fwetland_peregon.txt","rt"))==NULL ){
+        printf("No fwetland_peregon.txt\n");  
+        exit(1); 
+    }
 	
 	if(ALT_FWET==1){
 		/* Alternative data (SAGE): 2011/03/30 by A.Ito */

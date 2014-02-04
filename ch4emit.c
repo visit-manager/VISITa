@@ -630,7 +630,7 @@ void f_ch4_emit_walter(
 				fa_wetland = (1.0 - f_inundation)*grid->f_wetland;
 				break;
 			case 3:
-				fa_paddy = f_inundation*grid->f_paddy; 
+				fa_paddy = f_inundation*grid->f_paddy;
 				break;
 			case 4:
 				fa_paddy = (1.0 - f_inundation)*grid->f_paddy; 
@@ -654,7 +654,7 @@ void f_ch4_emit_walter(
 		loct->f_inund_wet_wh[grid->m] = fa_wetland;
         loct->xx6[grid->m] += fa_wetland;
         if((grid->f_wetland+grid->f_paddy) > 0.0){
-            loct->xx7[grid->m] += fa_wetland*(grid->f_wetland+grid->f_paddy) * 100.0*wtdepth;
+            loct->xx7[grid->m] += f_inundation * grid->f_wetland / (grid->f_wetland+grid->f_paddy) * 100.0*wtdepth;
         }
 		
 		(flux->soil).ch4_wetland_wh_plant[grid->m] += fa_wetland * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
@@ -664,7 +664,7 @@ void f_ch4_emit_walter(
 		(flux->soil).ch4_wetland_wh_release[grid->m] += fa_wetland * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
 	}if(smode==2){
         if((grid->f_wetland+grid->f_paddy) > 0.0){
-            loct->xx7[grid->m] += fa_wetland*(grid->f_wetland+grid->f_paddy) * 100.0*wtdepth;
+            loct->xx7[grid->m] += (1.0 - f_inundation) * grid->f_wetland / (grid->f_wetland+grid->f_paddy) * 100.0*wtdepth;
         }
         
 		(flux->soil).ch4_wetland_wh_plant[grid->m] += fa_wetland * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
@@ -675,8 +675,8 @@ void f_ch4_emit_walter(
 	}else if(smode==3){
 		loct->f_inund_pad_wh[grid->m] = fa_paddy;
         loct->xx6[grid->m] += fa_paddy;
-		if((grid->f_wetland+grid->f_paddy) > 0.0){
-            loct->xx7[grid->m] += fa_paddy*(grid->f_wetland+grid->f_paddy) * 100.0*wtdepth;
+        if((grid->f_wetland+grid->f_paddy) > 0.0){
+            loct->xx7[grid->m] += f_inundation * grid->f_paddy / (grid->f_wetland+grid->f_paddy) * 100.0*wtdepth;
         }
         
 		(flux->soil).ch4_paddy_wh_plant[grid->m] += fa_paddy * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
@@ -686,7 +686,7 @@ void f_ch4_emit_walter(
 		(flux->soil).ch4_paddy_wh_release[grid->m] += fa_paddy * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
 	}else if(smode==4){
         if((grid->f_wetland+grid->f_paddy) > 0.0){
-            loct->xx7[grid->m] += fa_paddy*(grid->f_wetland+grid->f_paddy) * 100.0*wtdepth;
+            loct->xx7[grid->m] += (1.0 - f_inundation) * grid->f_paddy / (grid->f_wetland+grid->f_paddy)  * 100.0*wtdepth;
         }
         
 		(flux->soil).ch4_paddy_wh_plant[grid->m] += fa_paddy * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];

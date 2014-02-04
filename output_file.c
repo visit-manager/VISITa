@@ -21,7 +21,7 @@ void f_output_file_open(
 	short zone,
 	char s_date[32], 
 	char s_case[32], 
-	char filename[100], 
+	char filename[128],
 	FILE *fp[OFILEN]
 ){
 	char num[4];

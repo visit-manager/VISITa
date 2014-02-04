@@ -476,7 +476,7 @@ int main(
 	fwrite(gm_ch4ep_wh, sizeof(float), 12*N_ROW*N_COL, fp_binout);	// 235
 #endif
 	
-	/* close files */
+	/* close files *************/
 	for(h=0;h<IFILEN;h++){
 		fclose(fp_s[h]); 
 	}
