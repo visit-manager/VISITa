@@ -26,8 +26,8 @@ void f_waterbudget(
 	extern double MDN[12];
 	
 	/** snow/rain portions **/
-	loct->snp[grid->m] = 1.0/(1.0+exp(0.75*(grid->tmp_2m[grid->m]-2.0)));
-	snow = loct->snp[grid->m]*grid->prate_sfc[grid->m];
+	loct->snp[grid->m] = 1.0/(1.0 + exp(0.75*(grid->tmp_2m[grid->m]-2.0)));
+	snow = loct->snp[grid->m] * grid->prate_sfc[grid->m];
 	rain = (1.0-loct->snp[grid->m])*grid->prate_sfc[grid->m];
 	
 	/** thaw water **/

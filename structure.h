@@ -897,6 +897,7 @@ struct Flux{
 	double	npp_madison_gddswsi;	/* NPP estimated by Zaks's Madison model 1: GDD & WSI */
 	double	npp_madison_tp;			/* NPP estimated by Zaks's Madison model 1: temp & prec */
 	double	npp_nceas;				/* NPP estimated by NCEAS */
+	double	npp_chikugo;			/* NPP estimated by Chikugo */
 
 	/* carbon flux, in  Mg C ha-1 yr-1 */ 
 	double	nep[ASTEP];				/* net ecosystem production */

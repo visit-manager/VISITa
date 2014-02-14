@@ -18,7 +18,7 @@ void npp_empirical(
 ){
 	long f, n;
 	double lhvp, aet_ann, pet_ann, rn_ann, npp_tem, npp_pre;
-	double gdd, wsi, par;
+	double gdd, wsi, par, rdi;
 	extern double MDN[ASTEP];
 	
 	/* annual climatology *********************************/
@@ -55,6 +55,15 @@ void npp_empirical(
 	}else{
 		wsi = 0.0;
 	}
+    
+    if(grid->prate_sfc_ann > 0.0){
+        rdi = (rn_ann * 24.0*3600.0*365.0) / 2500000.0 / grid->prate_sfc_ann;
+    }else{
+        rdi = 10.0;
+    }
+    
+    /* Chikugo **************/
+    flux->npp_chikugo = cTdm * 0.29 * (exp(-0.216*rdi*rdi)) * (rn_ann*24.0*3600.0*365.0 / pow(10.0, 9.0));
 	
 	/* Lieth, H., 1975. Modeling the primary productivity of the world. 
 	In: H. Lieth and R.H. Whittaker (Editor), Primary productivity of the biosphere. 

@@ -253,6 +253,11 @@ void publish_cbud(
 	fprintf(result,"%lf ", flux->npp_montreal); 
 	fprintf(result,"%lf ", flux->npp_schuur); /* added 2008/09/08 by A.Ito */
 	fprintf(result,"%lf ", flux->npp_nceas);  /* added 2008/09/08 by A.Ito */
+
+	fprintf(result,"%lf ", flux->npp_chikugo);  /* added 2014/02/14 by A.Ito */
+	fprintf(result,"%lf ", flux->npp_madison_parwsi);  /* added 2014/02/14 by A.Ito */
+	fprintf(result,"%lf ", flux->npp_madison_gddswsi);  /* added 2014/02/14 by A.Ito */
+	fprintf(result,"%lf ", flux->npp_madison_tp);  /* added 2014/02/14 by A.Ito */
 	
 	fprintf(result,"%.2lf ", flux->erod_soil);
 	fprintf(result,"%.2lf ", flux->erod_orgmat);

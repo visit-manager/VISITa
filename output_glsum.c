@@ -84,7 +84,7 @@ void f_set_history_data(
         h_apar[year] += fweight * loct->apar_d[f]* MDN[f]/365.0 * grid->area;
         h_parb[year] += fweight * grid->par_bp[f]* MDN[f]/365.0 * grid->area;
         h_pard[year] += fweight * grid->par_dp[f]* MDN[f]/365.0 * grid->area;
-		
+        
 		/* potential permafrost area: added by A.Ito (2010/03/27) */
 		if(grid->tmp_sfc_am <= -2.0){
 			h_pot_prmfrst[year] += fweight * grid->area;
@@ -106,6 +106,8 @@ void f_set_history_data(
 									(mass->plant).mrot[f]) * MDN[f] /365.0 * grid->area;
 		h_soil[year] += fweight * ((mass->soil).ltr_m[f] + 
 								   (mass->soil).msl_m[f])* MDN[f]/365.0 * grid->area;
+		
+        h_arm[year] += fweight * (flux->plant).arm[f] * grid->area;
 		
 		/* added by A.Ito (2011/12/16) */
 		h_abgm[year] += fweight * ((mass->plant).mfol[f] + (mass->plant).mstm[f]) * MDN[f] /365.0 * grid->area;
@@ -553,6 +555,8 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_apar[h]); /* added by A.Ito (2013/12/16) */
 		fprintf(fp_glsum,"%lf ", h_parb[h]); /* added by A.Ito (2013/12/24) */
 		fprintf(fp_glsum,"%lf ", h_pard[h]); /* added by A.Ito (2013/12/24) */
+
+		fprintf(fp_glsum,"%lf ", h_arm[h]); /* added by A.Ito (2014/02/14) */
 
 		fprintf(fp_glsum,"\n");
 	}
