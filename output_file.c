@@ -368,6 +368,16 @@ void f_output_result(
         fprintf(fp_o[0],"%.4lf ", flux->lu_ten);
         fprintf(fp_o[0],"%.4lf ", flux->lu_hund); /* */
         
+        /* added 2014/02/17 by A.Ito */
+        fprintf(fp_o[0],"%.4lf ", flux->npp_miami); 
+        fprintf(fp_o[0],"%.4lf ", flux->npp_montreal); 
+        fprintf(fp_o[0],"%.4lf ", flux->npp_schuur);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_nceas);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_chikugo);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_parwsi);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_gddswsi);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_tp);
+	
         /* added: 2011/04/19 (A.Ito) */
         fprintf(fp_o[0],"%.4lf ", flux->erod_carbon);
         fprintf(fp_o[0],"%.4lf ", flux->erod_carbon); /* 2011/12/15 */

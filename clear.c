@@ -147,6 +147,10 @@ void ghg_flux_zero(
 	flux->npp_montreal = 0.0;
 	flux->npp_schuur = 0.0;
 	flux->npp_nceas = 0.0;
+	flux->npp_chikugo = 0.0;
+	flux->npp_madison_gddswsi = 0.0;
+	flux->npp_madison_parwsi = 0.0;
+	flux->npp_madison_tp = 0.0;
 	
 	flux->erod_soil = 0.0;
 	flux->erod_orgmat = 0.0;

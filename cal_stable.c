@@ -83,11 +83,6 @@ void cal_spinup(
 	while(ann_nep > TER_CON){ /*** acnep>TER_CON nn<10 ***/
 		grid->y = nn;
 				
-		/* empirical model NPP *****************/
-		if(grid->y==0){ /* for the first year */
-			npp_empirical(grid, loct, flux);
-		}
-        
         if(ISIMIP_RUN==1 && grid->flag_histdata == 1){
             ann_nep = 10.0;
             grid->climy = nn%30 +1951;
@@ -219,6 +214,11 @@ void cal_spinup(
 		/* erosion */
 		f_erosion(grid, loct, echar, mass, flux);
 		
+		/* empirical model NPP *****************/
+		//if(grid->y==0){ /* for the first year */
+			npp_empirical(grid, loct, flux);
+		//}
+        
 		if(NECB_ERSN==1){
 			(mass->soil).ltr -= flux->erod_carbon*0.20;
 			if((mass->soil).ltr < 0.0){
