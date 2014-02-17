@@ -18,7 +18,7 @@ void npp_empirical(
 ){
 	long f, n;
 	double lhvp, aet_ann, pet_ann, rn_ann, npp_tem, npp_pre;
-	double gdd, wsi, par;
+	double gdd, wsi, par, rdi;
 	extern double MDN[ASTEP];
 	
 	/* annual climatology *********************************/
@@ -55,6 +55,15 @@ void npp_empirical(
 	}else{
 		wsi = 0.0;
 	}
+    
+    if(grid->prate_sfc_ann > 0.0){
+        rdi = (rn_ann * 24.0*3600.0*365.0) / 2500000.0 / grid->prate_sfc_ann;
+    }else{
+        rdi = 10.0;
+    }
+    
+    /* Chikugo **************/
+    flux->npp_chikugo = cTdm * 0.29 * (exp(-0.216*rdi*rdi)) * (rn_ann*24.0*3600.0*365.0 / pow(10.0, 9.0));
 	
 	/* Lieth, H., 1975. Modeling the primary productivity of the world. 
 	In: H. Lieth and R.H. Whittaker (Editor), Primary productivity of the biosphere. 
@@ -72,7 +81,7 @@ void npp_empirical(
 	the sensitivity of tropical forest growth to precipitation. 
 	Ecology, 84:1165-1170.
 	*/
-	npp_tem = 17.6243/(1.0+exp(1.3496-grid->tmp_sfc_am*0.071514));
+	npp_tem = 17.6243/(1.0 + exp(1.3496-grid->tmp_sfc_am*0.071514));
 	npp_pre = 0.005212*pow(grid->prate_sfc_ann, 1.12363)/exp(0.000459532*grid->prate_sfc_ann);
 	flux->npp_schuur = (npp_tem<npp_pre)?npp_tem:npp_pre;
 	
@@ -113,11 +122,10 @@ void npp_empirical(
 				flux->npp_nceas = 0.0;
 			}
 			break;
-		case 1: 
+		case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8:
 			npp_tem = 25.4 / (1.0 + exp(1.584 - 0.0622*grid->tmp_sfc_am));
 			npp_pre = 0.551 * pow(grid->prate_sfc_ann, 1.055) / exp(0.000306*grid->prate_sfc_ann)/100.0;
 			flux->npp_nceas = (npp_tem<npp_pre)?npp_tem:npp_pre;
 			break;
 	}
-	
 }

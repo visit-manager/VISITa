@@ -63,6 +63,7 @@ struct Grid{
 	double 	bco2[ASTEP];			/* background CO2 concentration, in ppmv */
 	double 	d13c_bco2[ASTEP];		/* stable carbon isotope composition of background CO2, permille */
 	double	d14c_bco2[ASTEP];		/* D14C of atmospheric CO2: added by A.Ito (2009/06/23) */
+    double  bo3[ASTEP];             /* monthly O3, ppb */
 
 	/* climate condition: *[] means the transitional value */
 	long 	climy;					/* year of climate data */
@@ -120,11 +121,11 @@ struct Grid{
 	
 	/* GCM climate: year x month x row x column */
 	/* 160 x 320   */
-#if GCM_SIM==1
-	float	proj_tmp2m[GCM_TS][ASTEP][160][320];		/* temperature */
-	float	proj_prec[GCM_TS][ASTEP][160][320];			/* precipitation */
-	float	proj_hum[GCM_TS][ASTEP][160][320];			/* specific humidity */
-	float	proj_rad[GCM_TS][ASTEP][160][320];			/* surface downward solar radiation */
+#if GCM_RUN==1
+	float	proj_tmp2m[DL_GCM][ASTEP][160][320];		/* temperature */
+	float	proj_prec[DL_GCM][ASTEP][160][320];			/* precipitation */
+	float	proj_hum[DL_GCM][ASTEP][160][320];			/* specific humidity */
+	float	proj_rad[DL_GCM][ASTEP][160][320];			/* surface downward solar radiation */
 	/* 1970-1999 average: month x row x column [ASTEP][160][320] */
 	float	proj_tmp2m_b[ASTEP][160][320];				/* temperature */
 	float	proj_prec_b[ASTEP][160][320];				/* precipitation */
@@ -143,11 +144,11 @@ struct Grid{
 #endif	
 	
 	/* NCEP/NCAR 1948-2011 */
-#if NCEP_SIM==1	
-	float	ncep_tmp2m[NCEP_TS][ASTEP][94][192];		/* temperature */
-	float	ncep_prate[NCEP_TS][ASTEP][94][192];		/* precipitation */
-	float	ncep_tcdc[NCEP_TS][ASTEP][94][192];			/* total cloudiness */
-	float	ncep_vpres[NCEP_TS][ASTEP][94][192];		/* vapor pressure */
+#if NCEP_RUN==1	
+	float	ncep_tmp2m[DL_NCEP][ASTEP][94][192];		/* temperature */
+	float	ncep_prate[DL_NCEP][ASTEP][94][192];		/* precipitation */
+	float	ncep_tcdc[DL_NCEP][ASTEP][94][192];			/* total cloudiness */
+	float	ncep_vpres[DL_NCEP][ASTEP][94][192];		/* vapor pressure */
 	/* average */
 	float	ncep_tmp2m_b[ASTEP][94][192];
 	float	ncep_prate_b[ASTEP][94][192];
@@ -183,11 +184,11 @@ struct Grid{
 	double	proj_prec_co;			/* carry-over of negative precipitation */
 
 	/* historical (e.g., UEA/CRU TS2.1) data */
-	long	hist_exist;							/* flag of data availability */
-	double	hist_tmp[CRU_TS][ASTEP];			/* temperature */
-	double	hist_pre[CRU_TS][ASTEP];			/* precipitation */
-	double	hist_cld[CRU_TS][ASTEP];			/* cloud cover */
-	double	hist_vap[CRU_TS][ASTEP];			/* vapor pressure */
+	long	flag_histdata;							/* flag of data availability */
+	double	hist_tmp[DL_CRU][ASTEP];			/* temperature */
+	double	hist_pre[DL_CRU][ASTEP];			/* precipitation */
+	double	hist_cld[DL_CRU][ASTEP];			/* cloud cover */
+	double	hist_vap[DL_CRU][ASTEP];			/* vapor pressure */
 	/* historical average */
 	double	hist_tmp_b[ASTEP];					/* temperature */
 	double	hist_pre_b[ASTEP];					/* precipitation */
@@ -216,25 +217,25 @@ struct Grid{
 	double	fothers;		/* fraction of other crops */
 	
 	/* EOS-WEBSTER, 1700-2000/2005, Hurtt et al. */
-	double	fcrop_unh_hmnzed[310];		/* cropland fraction */
-	double	fpast_unh_hmnzed[310];		/* pasture fraction */
-	double	fprim_unh_hmnzed[310];		/* primary land fraction */
-	double	fsecd_unh_hmnzed[310];		/* secondary land fraction */
-	double	ssma_unh_hmnzed[310];		/* secondary land property 1 */
-	double	ssmb_unh_hmnzed[310];		/* secondary land property 2 */
-	double	t_cp_unh_hmnzed[310];		/* conversion crop to pasture */
-	double	t_cs_unh_hmnzed[310];		/* conversion crop to secondary */
-	double	t_pc_unh_hmnzed[310];		/* conversion pasture to crop */
-	double	t_ps_unh_hmnzed[310];		/* conversion pasture to secondary */
-	double	t_sc_unh_hmnzed[310];		/* conversion secondary to crop */
-	double	t_sp_unh_hmnzed[310];		/* conversion secondary to pasture */
-	double	t_ss1_unh_hmnzed[310];		/*  */
-	double	t_ss2_unh_hmnzed[310];		/*  */
-	double	t_ss3_unh_hmnzed[310];		/*  */
-	double	t_vc_unh_hmnzed[310];		/* conversion primary to crop */
-	double	t_vp_unh_hmnzed[310];		/* conversion primary to pasture */
-	double	t_vs1_unh_hmnzed[310];		/*  */
-	double	t_vs2_unh_hmnzed[310];		/*  */
+	double	fcrop_unh_hmnzed[DL_LUH];		/* cropland fraction */
+	double	fpast_unh_hmnzed[DL_LUH];		/* pasture fraction */
+	double	fprim_unh_hmnzed[DL_LUH];		/* primary land fraction */
+	double	fsecd_unh_hmnzed[DL_LUH];		/* secondary land fraction */
+	double	ssma_unh_hmnzed[DL_LUH];		/* secondary land property 1 */
+	double	ssmb_unh_hmnzed[DL_LUH];		/* secondary land property 2 */
+	double	t_cp_unh_hmnzed[DL_LUH];		/* conversion crop to pasture */
+	double	t_cs_unh_hmnzed[DL_LUH];		/* conversion crop to secondary */
+	double	t_pc_unh_hmnzed[DL_LUH];		/* conversion pasture to crop */
+	double	t_ps_unh_hmnzed[DL_LUH];		/* conversion pasture to secondary */
+	double	t_sc_unh_hmnzed[DL_LUH];		/* conversion secondary to crop */
+	double	t_sp_unh_hmnzed[DL_LUH];		/* conversion secondary to pasture */
+	double	t_ss1_unh_hmnzed[DL_LUH];		/*  */
+	double	t_ss2_unh_hmnzed[DL_LUH];		/*  */
+	double	t_ss3_unh_hmnzed[DL_LUH];		/*  */
+	double	t_vc_unh_hmnzed[DL_LUH];		/* conversion primary to crop */
+	double	t_vp_unh_hmnzed[DL_LUH];		/* conversion primary to pasture */
+	double	t_vs1_unh_hmnzed[DL_LUH];		/*  */
+	double	t_vs2_unh_hmnzed[DL_LUH];		/*  */
 	
 	double 	f_crop_con;					/* contemporary cropland fraction */
 	double 	f_crop_p;					/* previous cropland fraction */
@@ -254,11 +255,11 @@ struct Grid{
 	double	f_pasture_base;				/* base pasture fraction in 2000 */
 	
 	/* wood harvest */
-	double	hvst_p1[310];
-	double	hvst_p2[310];
-	double	hvst_s1[310];
-	double	hvst_s2[310];
-	double	hvst_s3[310];
+	double	hvst_p1[DL_LUH];
+	double	hvst_p2[DL_LUH];
+	double	hvst_s1[DL_LUH];
+	double	hvst_s2[DL_LUH];
+	double	hvst_s3[DL_LUH];
 
 	/* RUSLE erosion model coefficients */
 	double 	f_erosion_r;				/* rain factor */
@@ -329,6 +330,7 @@ struct Loct{
 	double	aco2[ASTEP];				/* ambient CO2 concentration, in ppmv */
 	double	d13c_aco2[ASTEP];			/* stable carbon isotope composition of CO2, dimensionless */
 	double	cnpy_co2_recyc;				/* within-canopy CO2 recycling ratio */
+    double  ao3;                        /* ambient O3, ppb */
 	
 	double	c4ptn[ASTEP];				/* ground coverage of C4 plants, fraction */
 	double	c3ptn[ASTEP];				/* ground coverage of C3 plants, fraction */
@@ -349,7 +351,9 @@ struct Loct{
     double  nrad_d[ASTEP];              /* daily average net SW radiation, W m-2 */
 	
 	double	fapar_mono[ASTEP];			
-	double	fapar_df[ASTEP];				
+	double	fapar_df[ASTEP];
+    double  apar_d[ASTEP];
+    double  appfd_d[ASTEP];
 
 	double	pet_prty[ASTEP];			/* Priestley-Taylor potential evapotranspiration, mm month-1 */
 	double	pet_prty_ann;				/* annual Priestley-Taylor potential evapotranspiration, mm yr-1 */
@@ -494,6 +498,7 @@ struct Pchar{
 	double	ft[ASTEP];				/* temperature coefficient */
 	double	fcd[ASTEP];				/* CO2 coefficient */
 	double	fsw[ASTEP];				/* soil water coefficient */
+    double  fo3[ASTEP];             /* O3 coefficient: 2013/02/25 by A.Ito */
 	double	ptop;					/* canopy-top photosynthetic rate */
 	double	sla;					/* specific leaf area, cm2 g dm-1 */
 	double	eK0;					/* light attenuation coefficient, no dimension */
@@ -518,6 +523,9 @@ struct Pchar{
 	
 	double	psat_df[ASTEP];
 	double	lue_df[ASTEP];
+    
+    /* O3 effect: 2013/02/23 by A.Ito */
+    double  f_o3;
 	
 	/*** photosynthesis: de Pury and Farquhar (1997) ***/
 	
@@ -800,8 +808,8 @@ struct Pflx{
 /* soil carbon fluxes  *******************************************************/
 struct Sflx{	 
 	short	v_type;				/* vegetation classification types */
-								/* 1: Olson actual vegetation */
-								/* 2: SAGE natural vegetation */
+								/* 1: Olson+SAGE natural vegetation */
+								/* 2: agricultural vegetation */
 
 	/* carbon flux, in Mg C ha-1 mon-1 */ 
 	double	lL[ASTEP];			/* litter input */
@@ -889,6 +897,7 @@ struct Flux{
 	double	npp_madison_gddswsi;	/* NPP estimated by Zaks's Madison model 1: GDD & WSI */
 	double	npp_madison_tp;			/* NPP estimated by Zaks's Madison model 1: temp & prec */
 	double	npp_nceas;				/* NPP estimated by NCEAS */
+	double	npp_chikugo;			/* NPP estimated by Chikugo */
 
 	/* carbon flux, in  Mg C ha-1 yr-1 */ 
 	double	nep[ASTEP];				/* net ecosystem production */

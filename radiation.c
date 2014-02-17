@@ -63,7 +63,7 @@ double f_day_length(
 }
 
 /* shortwave radiation at the atmosphere-top ***********************/
-double top_rad(
+double f_top_rad(
 	struct Grid *grid, 
     short ha
 ){
@@ -86,22 +86,36 @@ double top_rad(
 		 
 	/* solar constant = 4.921 MJ/m2 =1367 W/m2=1.96 cal/cm2/min
 		 = 6151.5 micro mol photons/ m2 / s */	
-	gg = 1367.0; 
-	
-	if(SC==1){
+	gg = SLC;
+    
+    /* EX SRM: 2013/06/04 by A.Ito *******************/
+	if(EX_SRM == 1 && grid->climy >= 2000){
+        gg -= 2.6;
+    }
+    if(EX_SRM == 2 && grid->climy >= 2000){
+        gg -= 4.5;
+    }
+    if(EX_SRM == 3 && grid->climy >= 2000){
+        gg -= 6.0;
+    }
+    if(EX_SRM == 4 && grid->climy >= 2000){
+        gg -= 8.5;
+    }
+    
+	if(SC == 1){
 		gg *= 1.01;
-	}else if(SC==2){
+	}else if(SC == 2){
 		gg *= 0.99;
-	}else if(SC==3){
+	}else if(SC == 3){
 		if(grid->climy>=1990){
 			gg *= 1.03;
 		}
-	}else if(SC==4){
+	}else if(SC == 4){
 		if(grid->climy>=1990){
 			gg *= 0.97;
 		}
 	}
-	
+    
 	/* holizontally incident radiation at the top of the atmosphere */
 	hh = sin(dlt) * sin(grid->lat * dTr); 
 	ii = cos(dlt) * cos(grid->lat * dTr) * cos((double)ha * dTr); 
@@ -112,7 +126,7 @@ double top_rad(
 }
 
 /* global radiation at the ground surface *********************/
-double gl_rad(
+double f_gl_rad(
 	struct Grid *grid
 ){
 	double cloudiness, jj, hh;
@@ -125,13 +139,30 @@ double gl_rad(
 	jj = (jj<=1.0)?jj:1.0; 
 	jj = (jj>=0.0)?jj:0.0;
 	
-	hh = grid->top_rad[grid->m]*jj; 
+	hh = grid->top_rad[grid->m] * jj; 
+
+    /* EX SRM: 2013/06/04 by A.Ito *******************/
+    if(EX_SRM == 11 && grid->climy >= 2000){
+        hh -= 2.6;
+    }
+    if(EX_SRM == 12 && grid->climy >= 2000){
+        hh -= 4.5;
+    }
+    if(EX_SRM == 13 && grid->climy >= 2000){
+        hh -= 6.0;
+    }
+    if(EX_SRM == 14 && grid->climy >= 2000){
+        hh -= 8.5;
+    }
+	
+	hh = (hh<=SLC)?hh:SLC;
+	hh = (hh>=0.0)?hh:0.0;
 	
 	return(hh);
 }
 
 /* photosynthetically active radiation ***************************/
-double par(
+double f_par(
 	struct Grid *grid
 ){
 	double kt, hd, dd, par;
@@ -193,7 +224,7 @@ double par(
 		
 		/* fraction of PAR ******/
 		/* beam */
-		grid->par_be[grid->m] = 0.43*(grid->gl_rad[grid->m]-hd); 
+		grid->par_be[grid->m] = 0.43*(grid->gl_rad[grid->m] - hd); 
 		/* diffuse */
 		grid->par_de[grid->m] = 0.57*hd; 
 		
@@ -228,14 +259,14 @@ void f_net_rad(
 
 	/** longwave budget : modified 2002/12/25, based on Budyko (1971) **/
 	aaa = pow((grid->tmp_2m[grid->m] + ZAT), 4.0) * 5.6703 / 100000000.0;
-	if(loct->vp[grid->m]>0.1&&loct->vp[grid->m]<40.0){
+	if(loct->vp[grid->m]>0.1 && loct->vp[grid->m]<40.0){
 		bbb = 0.39 - 0.058*sqrt(loct->vp[grid->m]*760.0/1013.0 );
-	}else if(loct->vp[grid->m]<=0.1){
+	}else if(loct->vp[grid->m] <= 0.1){
 		bbb = 0.39 - 0.058*sqrt( 0.1*760.0/1013.0 );
-	}else if(loct->vp[grid->m]>=40.0){
+	}else if(loct->vp[grid->m] >= 40.0){
 		bbb = 0.39 - 0.058*sqrt( 40.0 );
 	}
-	ccc = 1.0-0.65*grid->tcdc_clm[grid->m];
+	ccc = 1.0 - 0.65*grid->tcdc_clm[grid->m];
 	net_long = aaa*bbb*ccc;
 	loct->rad_net_long[grid->m] = net_long;
 	
@@ -282,6 +313,10 @@ void f_net_rad(
                     *(1.0-exp(-1.0*kmono_c3*(mass->c3).lai[grid->m]))+ loct->c4ptn[grid->m]
                     *(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*kmono_c4*(mass->c4).lai[grid->m]));
     
+    loct->apar_d[grid->m] = loct->grad_d[grid->m] * 
+       ( loct->c3ptn[grid->m]*(1.0-(echar->c3).albedo)*(1.0-exp(-1.0*(echar->c3).eK[grid->m]*(mass->c3).lai[grid->m]))
+        + loct->c4ptn[grid->m]*(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*(echar->c4).eK[grid->m]*(mass->c4).lai[grid->m])) );
+
     /* added: 2013/01/10 by A.Ito */
     loct->nrad_d[grid->m] = (1.0 - loct->albedo_sfc[grid->m]) * loct->grad_d[grid->m];
 	

@@ -27,7 +27,7 @@ void read_cru_clim(
 	long f, g, h;
 	double data, alt, aa, bb, vps;
     double atmp, apres, shum, avtas, avpr, drad;
-    float r_isimip_data[CRU_TS*12]; /* corrected: 2012/08/05 */
+    float r_isimip_data[DL_CRU*12]; /* corrected: 2012/08/05 */
 
 	/*  printf("reading CRU data...");  */
 	/* read CRU TS3.0 Vapor-pressure data: 2010/01/04 (A.Ito) */
@@ -44,7 +44,7 @@ void read_cru_clim(
         fscanf(fp_c[0],"%ld", &kk[0]);
         if(kk[0]!=0){
             flag++;
-            for(h=0;h<CRU_TS;h++){
+            for(h=0;h<DL_CRU;h++){
                 for(g=0;g<ASTEP;g++){
                     fscanf(fp_c[0],"%lf", &data);
                     
@@ -57,7 +57,7 @@ void read_cru_clim(
         fscanf(fp_c[1],"%ld", &kk[1]);
         if(kk[1]!=0){
             flag++;
-            for(h=0;h<CRU_TS;h++){
+            for(h=0;h<DL_CRU;h++){
                 for(g=0;g<ASTEP;g++){
                     fscanf(fp_c[1],"%lf", &data);
                     
@@ -70,7 +70,7 @@ void read_cru_clim(
         fscanf(fp_c[2],"%ld", &kk[2]);
         if(kk[2]!=0){
             flag++;
-            for(h=0;h<CRU_TS;h++){
+            for(h=0;h<DL_CRU;h++){
                 for(g=0;g<ASTEP;g++){
                     fscanf(fp_c[2],"%lf", &data);
                     
@@ -83,7 +83,7 @@ void read_cru_clim(
         fscanf(fp_c[3],"%ld", &kk[3]);
         if(kk[3]!=0){
             flag++;
-            for(h=0;h<CRU_TS;h++){
+            for(h=0;h<DL_CRU;h++){
                 for(g=0;g<ASTEP;g++){
                     fscanf(fp_c[3],"%lf", &data);
                     
@@ -97,7 +97,7 @@ void read_cru_clim(
         /* if valid CRU climate data are all available **/
         if(flag==4){
             /* data available */
-            grid->hist_exist = 1;
+            grid->flag_histdata = 1;
             alt = (grid->topo>=0.0)?grid->topo:0.0; 
 
             /* base climate (average 1971 - 2000) ******************/
@@ -110,8 +110,8 @@ void read_cru_clim(
                 }
             }
         }else{
-            /* unavailable CRU TS2.1 data, for example on ocean */
-            grid->hist_exist = 0;
+            /* unavailable CRU TS data, for example on ocean */
+            grid->flag_histdata = 0;
         }
     }else if(ISIMIP_RUN==1){
         
@@ -121,29 +121,29 @@ void read_cru_clim(
         /* 2006-2099:           future projection */
         
         /* ait tempetaure, deg-C */
-        fread(r_isimip_data,sizeof(float),ASTEP*ISIMIP_DL, fp_c[0]);
+        fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[0]);
         avtas = 0.0;
-        for(h=0;h<ISIMIP_DL;h++){
+        for(h=0;h<DL_ISIMIP;h++){
             for(g=0;g<ASTEP;g++){
-                grid->hist_tmp[h][g] = (double)r_isimip_data[h*ASTEP+g] - ZAT;
-                avtas += grid->hist_tmp[h][g] / (double)ISIMIP_DL / (double)ASTEP;
+                grid->hist_tmp[h][g] = (double)r_isimip_data[h*ASTEP + g] - ZAT;
+                avtas += grid->hist_tmp[h][g] / (double)DL_ISIMIP / (double)ASTEP;
             }
         }
         
         /* precipitation, mm month-1 */
-        fread(r_isimip_data,sizeof(float),ASTEP*ISIMIP_DL, fp_c[1]);
+        fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[1]);
         avpr = 0.0;
-        for(h=0;h<ISIMIP_DL;h++){
+        for(h=0;h<DL_ISIMIP;h++){
             for(g=0;g<ASTEP;g++){
                 grid->hist_pre[h][g] = (double)r_isimip_data[h*ASTEP+g] * (double)MDN[g] *24.0*3600.0;
-                avpr += grid->hist_pre[h][g] / (double)ISIMIP_DL;
+                avpr += grid->hist_pre[h][g] / (double)DL_ISIMIP;
                 grid->hist_pre[h][g] = (grid->hist_pre[h][g]>0.0)?grid->hist_pre[h][g]:0.0;
             }
         }
         
         /* relative humidity (%) => vapor pressure (hPa) */
-        fread(r_isimip_data,sizeof(float),ASTEP*ISIMIP_DL, fp_c[2]);
-        for(h=0;h<ISIMIP_DL;h++){
+        fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[2]);
+        for(h=0;h<DL_ISIMIP;h++){
             for(g=0;g<ASTEP;g++){
             
                 /* specific humidity to vapor pressure */
@@ -162,15 +162,15 @@ void read_cru_clim(
         }
         
         /* radiation => cloudiness, fraction */
-        fread(r_isimip_data,sizeof(float),ASTEP*ISIMIP_DL, fp_c[3]);
-        for(h=0;h<ISIMIP_DL;h++){
+        fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[3]);
+        for(h=0;h<DL_ISIMIP;h++){
             for(g=0;g<ASTEP;g++){
                 /* average downward-shortwave radiation */
                 /* 2012/06/29 by A.Ito */
                 drad = 0.0;
                 grid->m = g;
                 for (f=0;f<24;f++) {
-                    drad += top_rad(grid, -180+15*f) / 24.0; 
+                    drad += f_top_rad(grid, -180+15*f) / 24.0; 
                 }
                 
                 /* inverse estimation of cloudiness */
@@ -194,9 +194,9 @@ void read_cru_clim(
         
         /* effective data availability */
         if(avtas > -50.0 && avtas < 50.0 && avpr >= 0.0 && avpr < 10000.0){
-            grid->hist_exist = 1;
+            grid->flag_histdata = 1;
         }else{
-            grid->hist_exist = 0;
+            grid->flag_histdata = 0;
         }
         
         /* climatology */

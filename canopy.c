@@ -155,7 +155,7 @@ double f_df97_gpp(
 		hangle = -180.0 + (double)h* (360.0/(double)DSTEP);
 		
 		/* solar angle */
-		h_sinh[h] = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr) 
+		h_sinh[h] = sin(grid->lat*dTr) * sin(grid->sl_dec[grid->m]*dTr) 
 			+cos(grid->lat*dTr)*cos(grid->sl_dec[grid->m]*dTr)*cos(hangle*dTr);
 		h_sinh[h] = (h_sinh[h]<=1.0)?h_sinh[h]:1.0; 
 		h_sinh[h] = (h_sinh[h]>=-1.0)?h_sinh[h]:-1.0;
@@ -273,7 +273,7 @@ double f_df97_gpp(
 			vcmax0 = lai_t*n_photocap*(n_top - n_nonphoto)*
 				(1.0-exp(-(0.713 + ke_b1*lai_t)))/(0.713 + ke_b1*lai_t);
 			/* maximum carboxylation rate: Eq.8 in DF97 */
-			vcmax = vcmax0 * exp(64800.0*(temp-25.0)/(298.15*UGC*(temp+ZAT)));
+			vcmax = vcmax0 * exp(64800.0*(temp - 25.0)/(298.15*UGC*(temp+ZAT)));
 			/* maximum electron transport rate: proportional Jmax/Vcmax relationship */
 			jmax =2.1 * vcmax0 * ft_et;
 			
@@ -439,9 +439,9 @@ void leaf_ansolv(
 		rrr = (2.0*pp*pp*pp - 9.0*pp*qq + 27.0*rr)/54.0;
 		theta = acos(rrr/sqrt(qqq*qqq*qqq));
 		 	
-	 	xx1 = -2.0*sqrt(qqq) * cos(theta/3.0) - pp/3.0;
-	 	xx2 = -2.0*sqrt(qqq) * cos((theta+2.0*PI)/3.0) - pp/3.0;
-	 	xx3 = -2.0*sqrt(qqq) * cos((theta+4.0*PI)/3.0) - pp/3.0; 	/**/
+	 	xx1 = -2.0*sqrt(qqq) * cos(theta / 3.0) - pp/3.0;
+	 	xx2 = -2.0*sqrt(qqq) * cos((theta + 2.0*PI)/3.0) - pp/3.0;
+	 	xx3 = -2.0*sqrt(qqq) * cos((theta + 4.0*PI)/3.0) - pp/3.0; 	/**/
 	 		 	
 		pc = xx3 + rd;
 	 }else{

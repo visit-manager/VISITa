@@ -39,7 +39,7 @@ void f_init_sim(
     
 	/**********************************************/
     /* albedo perturbation */
-    if(EX_ALBEDO>=1){
+    if(EX_ALBEDO >= 1){
         /* CMIP5: by A.Ito */
         fpi = fopen("./data/albedo_cmip_5deg_2.flt","rb");
         
@@ -86,7 +86,7 @@ void f_init_sim(
 		
 	/* atm. CO2 scenario ****************************/
 	printf("reading CO2 data...");
-    if(ISIMIP_RUN==0){
+    if(ISIMIP_RUN == 0){
         if(CO2S==1){
             if((fpi = fopen("./data/SRES_A1.dat","rt"))==NULL){
                 printf("No SRES_A1.dat\n");
@@ -138,7 +138,7 @@ void f_init_sim(
             printf("No AtmGHG_timeseries.dat\n");
             exit(1);
         }
-        for(f=0;f<N_GHG_TS;f++){
+        for(f=0;f<DL_AGHG;f++){
             fscanf(fpi,"%ld", &year);
             /* CO2, ppmv */
             fscanf(fpi,"%lf", &aco2_a1[f]);
@@ -157,12 +157,12 @@ void f_init_sim(
             fscanf(fpi,"%lf", &an2o_b2[f]);
         }
         fclose(fpi);
-    }else if(ISIMIP_RUN==1){
+    }else if(ISIMIP_RUN==1 || GEOMIP_RUN==1){
         if((fpi = fopen("./data/rcp_ghg.txt","rt"))==NULL){
             printf("No rcp_co2.txt\n");
             exit(1);
         }
-        for(f=0;f<N_GHG_TS;f++){
+        for(f=0;f<DL_AGHG;f++){
             fscanf(fpi,"%ld", &year); /* 1765-2500 */
             /* CO2, ppmv */
             /* CH4, ppbv */
@@ -190,7 +190,7 @@ void f_init_sim(
 	
 	/* global analysis initialization ********************************/
 	go_landarea = gs_landarea = 0.0;
-	for(f=0;f<HIST;f++){
+	for(f=0;f<PD_SIM;f++){
 		h_tmp[f] = h_pre[f] = h_dswr[f] = h_aet[f] = h_rof[f] = 0.0;
 		h_gpp[f] = h_npp[f] = h_nep[f] = h_plant[f] = h_soil[f] = 0.0;
 		h_sr[f] = h_ersn_c[f] = h_agrersn_c[f] = h_doc[f] = 0.0;
@@ -200,7 +200,9 @@ void f_init_sim(
 		h_nbp[f] = h_hvst[f] = h_abgm[f] = 0.0;
 		h_sw1[f] = h_sw2[f] = 0.0;
         h_rns[f] = h_rnl[f] = 0.0; /* added by A.Ito (2013/01/02) */
-		h_rns[f] = 0.0;
+		h_rnsd[f] = h_cld[f] = h_apar[f] = 0.0;
+        h_parb[f] = h_pard[f] = 0.0;
+        h_arm[f] = 0.0;
         
 		h_agrarea[f] = h_paddyarea[f] = h_luc[f] = 0.0;
 		h_luc_1[f] = h_luc_2[f] = h_luc_3[f] = 0.0;
@@ -256,19 +258,19 @@ void f_init_sim(
 		m_gpp[f] = m_npp[f] = m_nep[f] = 0.0;
 		m_ch4p_cao[f] = m_ch4p_wh[f] = 0.0;
 	}
-	for(f=0;f<VEG_NUM_OLSON;f++){
+	for(f=0;f<NVEG_OLSON;f++){
 		vo_area[f] = 0.0;
 		vo_gpp[f] = vo_npp[f] = vo_nep[f] = 0.0;
 		vo_lai[f] = vo_fol[f] = vo_stm[f] = vo_rot[f] = vo_ltr[f] = vo_msl[f] = 0.0;
 	}
-	for(f=0;f<VEG_NUM_SAGE;f++){
+	for(f=0;f<NVEG_SAGE;f++){
 		vs_area[f] = 0.0;
 		vs_gpp[f] = vs_npp[f] = vs_nep[f] = 0.0;
 		vs_lai[f] = vs_fol[f] = vs_stm[f] = vs_rot[f] = vs_ltr[f] = vs_msl[f] = 0.0;
 	}
 
-	for(g=0;g<360;g++){
-		for(h=0;h<720;h++){
+	for(g=0;g<N_ROW;g++){
+		for(h=0;h<N_COL;h++){
 			for(f=0;f<5;f++){
 				g_tmp[f][g][h] = 0.0;
 				g_prc[f][g][h] = 0.0;
@@ -330,8 +332,8 @@ void f_init_sim(
 	}  /* */
 	
 #if CH4_WH==1
-	for(g=0;g<360;g++){
-		for(h=0;h<720;h++){
+	for(g=0;g<N_ROW;g++){
+		for(h=0;h<N_COL;h++){
 			for(f=0;f<5;f++){
 				g_ch4ep_wh[f][g][h] = 0.0;
 				g_ch4ew_wh[f][g][h] = 0.0;
@@ -346,7 +348,7 @@ void f_init_sim(
 	/* regional historical */
 	for(f=0;f<NREG;f++){
 		rh_area[f] = 0.0;
-		for(g=0;g<HIST;g++){
+		for(g=0;g<PD_SIM;g++){
 			rh_temp[f][g] = rh_prec[f][g] = rh_dswrf[f][g] = 0.0;
 			rh_rns[f][g] = rh_rnl[f][g] = 0.0;
 			rh_ipar[f][g] = rh_apar[f][g] = 0.0;

@@ -23,14 +23,16 @@ void set_hist_clim(
 	double tmp_var, pre_var, tcdc_var;
 	
 	/* last year of CRU-data calculation */
-	cru_te = CRU_CL + 1900;
+	cru_te = DL_CRU + (PIVOT_CLIMY-1);
 	
-    if(ISIMIP_RUN==0){
+    if(ISIMIP_RUN == 0){
         if(grid->climy <= cru_te){
             /* 1901-2000:CRU TS2.1 (20th century) */
             /* 1901-2002:CRU TS2.1 */
             /* 1901-2005:CRU TS3.0 */
             /* 1901-2009:CRU TS3.1 */
+            /* 1901-2011:CRU TS3.2 */
+            /* 1901-2012:CRU TS3.21 */
             for(h=0;h<ASTEP;h++){
                 grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] 
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
@@ -46,9 +48,11 @@ void set_hist_clim(
             /* 2003-2008: extrapolation using NCEP/NCAR data: 2009/01/05 by A.Ito */
             /* 2006-2009: extrapolation using NCEP/NCAR data: 2010/01/04 by A.Ito */
             /* 2006-2010: extrapolation using NCEP/NCAR data: 2011/03/XX by A.Ito */
+            /* 2012-2012: extrapolation using NCEP/NCAR data: 2012/04/14 by A.Ito */
+            /* 2013-2013: extrapolation using NCEP/NCAR data: 2013/01/10 by A.Ito */
             for(h=0;h<ASTEP;h++){
                 /* temperature */
-                tmp_var = grid->ncep_tmp2m[grid->climy - NCEP_BGY][h][grid->ncep_lat][grid->ncep_lon] 
+                tmp_var = grid->ncep_tmp2m[grid->climy - PIVOT_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
                         - grid->ncep_tmp2m_b[h][grid->ncep_lat][grid->ncep_lon];
                 grid->tmp_sfc[h] = grid->tmp_sfc_a[h] + tmp_var;
                 grid->tmp_2m[h] = grid->tmp_2m_a[h] + tmp_var;
@@ -56,7 +60,7 @@ void set_hist_clim(
                 grid->tmp200_soil[h] = grid->tmp200_soil_a[h] + tmp_var*0.1;
                 
                 /* precipitation */
-                pre_var = grid->ncep_prate[grid->climy - NCEP_BGY][h][grid->ncep_lat][grid->ncep_lon] 
+                pre_var = grid->ncep_prate[grid->climy - PIVOT_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
                             - grid->ncep_prate_b[h][grid->ncep_lat][grid->ncep_lon];
                 grid->prate_sfc[h] = grid->prate_sfc_a[h] + pre_var;
                 if(grid->prate_sfc[h]<0.0){
@@ -64,7 +68,7 @@ void set_hist_clim(
                 }
                 
                 /* cloudiness */
-                tcdc_var = grid->ncep_tcdc[grid->climy - NCEP_BGY][h][grid->ncep_lat][grid->ncep_lon] 
+                tcdc_var = grid->ncep_tcdc[grid->climy - PIVOT_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
                         - grid->ncep_tcdc_b[h][grid->ncep_lat][grid->ncep_lon];
                 grid->tcdc_clm[h] = grid->tcdc_clm_a[h] + tcdc_var;
                 if(grid->tcdc_clm[h]<0.0){
@@ -75,7 +79,7 @@ void set_hist_clim(
                 }
             }
         }
-    }else if(ISIMIP_RUN==1){
+    }else if(ISIMIP_RUN == 1){
         
         /* ISI-MIP climate data: 2012/06/28 by A.Ito */
         if(grid->phase == 0){
@@ -125,11 +129,12 @@ void set_gcm_clim(
 ){
 	long h;
 	double tmp_var, pre_var, rad_var;
-	double alt, apres, rvap;
+	double alt, apres, rvap, est_cld;
 	
 	/***************************************************/
 	for(h=0;h<ASTEP;h++){
 		grid->m = h;
+        
 		/* temperature ***************************************************/
 		/* gradual temperature change: added by A.Ito (2009/06/15) */
 		if(TEMP_GC == 1){
@@ -249,17 +254,39 @@ void set_gcm_clim(
 				rad_var = 0.0;	/* mean SW & PAR */
 			}
 		}
-		
+        
 		grid->gl_rad[h] = grid->rad_a[h] + rad_var;
 		if(grid->gl_rad[h]<0.0){
 			grid->gl_rad[h] = 0.0;
 		}
-		grid->par[h] = par(grid);
+        
+        /* estimation of cloudiness: 2013/12/03 by A.Ito */
+        if(grid->top_rad[h] > 0.0){
+            est_cld = grid->gl_rad[h] / grid->top_rad[h];
+            if(est_cld < 0.01){
+                est_cld = 0.01;
+            }else if(est_cld >= 0.8964){
+                est_cld = 0.8964;
+            }
+            
+            est_cld = (0.8964 - est_cld)/0.5392;
+            if(est_cld < 0.01){
+                est_cld = 0.01;
+            }else if(est_cld >= 0.99){
+                est_cld = 0.99;
+            }
+        }else{
+            est_cld = 0.5;
+        }
+        grid->tcdc_clm[h] = est_cld;
+        
+        /* PAR */
+		grid->par[h] = f_par(grid);
 		
-		if(CC_R==2){
+		if(CC_R == 2){
 			grid->gl_rad[h] = grid->rad_a[h];	/* mean SW */
 		}
-		if(CC_R==3){
+		if(CC_R == 3){
 			rad_var = grid->proj_rad[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
 					grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
 					

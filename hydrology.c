@@ -26,8 +26,8 @@ void f_waterbudget(
 	extern double MDN[12];
 	
 	/** snow/rain portions **/
-	loct->snp[grid->m] = 1.0/(1.0+exp(0.75*(grid->tmp_2m[grid->m]-2.0)));
-	snow = loct->snp[grid->m]*grid->prate_sfc[grid->m];
+	loct->snp[grid->m] = 1.0/(1.0 + exp(0.75*(grid->tmp_2m[grid->m]-2.0)));
+	snow = loct->snp[grid->m] * grid->prate_sfc[grid->m];
 	rain = (1.0-loct->snp[grid->m])*grid->prate_sfc[grid->m];
 	
 	/** thaw water **/
@@ -242,8 +242,8 @@ double pm_evaporation(
 	/* ggc=1000.0*(1.0-(grid->whc-loct->sww)/grid->whc)+10.0; */ /*2003-06-27*/
 	/* ggc=1000.0*(1.0-((grid->whc30+grid->whc)-(loct->sw30+loct->sww))/(grid->whc30+grid->whc))+10.0; */
 	/* ggc=1000.0*(1.0-((grid->whc30+grid->whc)-(loct->sw30+loct->sww))/(grid->whc30+grid->whc))+100.0; */ /*2003-06-27*/
-	ggc = 500.0*(1.0-((grid->field_cap1+grid->field_cap2)-(loct->sw30+loct->sww))/
-				 (grid->field_cap1+grid->field_cap2))+10.0; /*2003-06-27*/
+	ggc = 500.0*(1.0 - ((grid->field_cap1+grid->field_cap2)-(loct->sw30+loct->sww))/
+				 (grid->field_cap1 + grid->field_cap2))+10.0; /*2003-06-27*/
 	rc_g = 1.0/(ggc*eta);
 	
 	aaa = (loct->slope_vps[grid->m]*loct->rad_net_g[grid->m])+(cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);
@@ -276,11 +276,11 @@ double pm_transpiration(
 
 	if(loct->canopy_con[grid->m] > 0.0 && rn_transp > 0.0){
 		/** canopy resistance **/
-		rc_p = 1.0/(loct->canopy_con[grid->m]*eta);
+		rc_p = 1.0/(loct->canopy_con[grid->m] * eta);
 		
-		aaa = (loct->slope_vps[grid->m]*rn_transp) + (cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);
-		bbb = loct->slope_vps[grid->m]+psycon*(1.0 + rc_p/loct->r_aero[grid->m]);	
-		transpiration = MDN[grid->m]*grid->dlen[grid->m]*aaa/bbb/lht;
+		aaa = (loct->slope_vps[grid->m] * rn_transp) + (cp * spwt * loct->vpd[grid->m] / loct->r_aero[grid->m]);
+		bbb = loct->slope_vps[grid->m] + psycon*(1.0 + rc_p/loct->r_aero[grid->m]);	
+		transpiration = MDN[grid->m] * grid->dlen[grid->m]*aaa/bbb/lht;
 	}else{
 		transpiration = 0.0;
 	}
@@ -308,10 +308,10 @@ double pm_interception(
 	/** no vegetation resistance **/
 	rc_p = 0.0;
 	
-	aaa = (loct->slope_vps[grid->m]*loct->rad_net_p[grid->m])
+	aaa = (loct->slope_vps[grid->m] * loct->rad_net_p[grid->m])
 		+ (cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);
 	bbb = loct->slope_vps[grid->m] + psycon*(1.0 + rc_p/loct->r_aero[grid->m]);	
-	interception = MDN[grid->m]*grid->dlen[grid->m]*aaa/bbb/lht;
+	interception = MDN[grid->m] * grid->dlen[grid->m] * aaa/bbb/lht;
 	interception = (interception>=0.0)?interception:0.0;
 	
 	return(interception);

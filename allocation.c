@@ -71,7 +71,7 @@ void allocation(
 		}
 				
 		/* monthly translocation fluxes */
-		flux->tpp[grid->m] = (alloc_f+alloc_c+alloc_r)*flux->epp[grid->m];
+		flux->tpp[grid->m] = (alloc_f + alloc_c + alloc_r)*flux->epp[grid->m];
 		flux->tpf[grid->m] = alloc_f*flux->epp[grid->m];
 		flux->tpc[grid->m] = alloc_c*flux->epp[grid->m];
 		flux->tpr[grid->m] = alloc_r*flux->epp[grid->m];
@@ -79,8 +79,8 @@ void allocation(
 	}else{ /* during NON growing-period */   /*  if(flux->epp[grid->m] <= 0.0) */
 		/* allocation ratios of GPP, not EPP */
 		alloc_f = pchar->alloc_ass;
-		alloc_c = (1.0-pchar->alloc_ass)*pchar->alloc_abg;
-		alloc_r = (1.0-pchar->alloc_ass)*(1.0-pchar->alloc_abg);
+		alloc_c = (1.0 - pchar->alloc_ass)*pchar->alloc_abg;
+		alloc_r = (1.0 - pchar->alloc_ass)*(1.0 - pchar->alloc_abg);
 				
 		/* monthly translocation fluxes */
 		flux->tpp[grid->m] = (alloc_f+alloc_c+alloc_r)*flux->epp[grid->m];
@@ -112,7 +112,7 @@ void reallocation_survival(
 	double aaa, bbb, ccc;
 	double ral_stf, ral_rtf;
 	
-	if(pchar->v_type==1){
+	if(pchar->v_type == 1){
 		switch(grid->veg_olson){
 			case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: 
 			case 9: case 11: 
@@ -130,8 +130,8 @@ void reallocation_survival(
 				ral_cap_rtf = 0.12;
 				break;
 		}
-	}else if(pchar->v_type==2){
-		switch(grid->veg_sage){
+	}else if(pchar->v_type == 2){
+		/* switch(grid->veg_sage){
 			case 1: case 2: case 3: case 4: case 5: case 6: case 8: 
 				ral_cap_stf = 0.03;
 				ral_cap_rtf = 0.065;
@@ -140,24 +140,24 @@ void reallocation_survival(
 				ral_cap_stf = 0.03;
 				ral_cap_rtf = 0.03;
 				break;
-			case 9: case 10: case 11: case 12: case 13: case 14: case 15: 
+			case 9: case 10: case 11: case 12: case 13: case 14: case 15:  */
 				ral_cap_stf = 0.070;
 				ral_cap_rtf = 0.12;
-				break;
-		}
-	}else if(pchar->v_type==3){
+				/* break; */
+		/* } */
+	}/* else if(pchar->v_type==3){
 		ral_cap_stf = 0.070;
 		ral_cap_rtf = 0.12;
-	}
+	} */
 		
 	/* to fliage: critical reallocation for survival */
-	aaa = 0.075*100.0*2.0/2.2/pchar->sla;
+	aaa = 0.075 * 100.0 * 2.0 / 2.2 / pchar->sla;
 	if(mass->fol < aaa){
 		bbb = mass->stm*ral_cap_stf;
 		ccc = mass->rot*ral_cap_rtf;
 		
-		ral_stf = aaa*pchar->alloc_abg*(bbb/aaa)/(0.5+(bbb/aaa));
-		ral_rtf = aaa*(1.0-pchar->alloc_abg)*(ccc/aaa)/(0.5+(ccc/aaa));
+		ral_stf = aaa * pchar->alloc_abg * (bbb/aaa)/(0.5 + (bbb/aaa));
+		ral_rtf = aaa * (1.0 - pchar->alloc_abg)*(ccc / aaa)/(0.5 + (ccc/aaa));
 
 		mass->fol += ral_stf+ral_rtf;
 		mass->stm -= ral_stf;
@@ -167,19 +167,19 @@ void reallocation_survival(
 	}
 	
 	/* to fliage, improve production */
-	aaa = (pchar->opt_lai[grid->m]-mass->lai[grid->m])*100.0*2.0/2.2/pchar->sla;
+	aaa = (pchar->opt_lai[grid->m] - mass->lai[grid->m])*100.0*2.0/2.2/pchar->sla;
 	if(aaa>0.0){
-		bbb = mass->stm*ral_cap_stf;
-		ccc = mass->rot*ral_cap_rtf;
+		bbb = mass->stm * ral_cap_stf;
+		ccc = mass->rot * ral_cap_rtf;
 		
-		ral_stf = aaa*pchar->alloc_abg*(bbb/aaa)/(1.5+(bbb/aaa));
-		ral_rtf = aaa*(1.0-pchar->alloc_abg)*(ccc/aaa)/(1.5+(ccc/aaa));
+		ral_stf = aaa*pchar->alloc_abg * (bbb/aaa)/(1.5 + (bbb/aaa));
+		ral_rtf = aaa*(1.0 - pchar->alloc_abg)*(ccc/aaa)/(1.5+(ccc/aaa));
 
-		mass->fol += ral_stf+ral_rtf;
+		mass->fol += ral_stf + ral_rtf;
 		mass->stm -= ral_stf;
 		mass->rot -= ral_rtf;
 		
-		f_leaf_age(0, pchar, mass, ral_stf+ral_rtf);
+		f_leaf_age(0, pchar, mass, ral_stf + ral_rtf);
 	}
 	
 	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
@@ -187,7 +187,7 @@ void reallocation_survival(
 	/* to stem and branch */
 	if(mass->stm <= 0.0){
 		if(mass->rot > 0.0){
-			aaa = mass->rot*pchar->alloc_abg;
+			aaa = mass->rot * pchar->alloc_abg;
 			mass->rot -= aaa;
 			mass->stm += aaa;
 		}

@@ -79,7 +79,12 @@ void f_set_history_data(
         h_rns[year] += fweight * loct->rad_net_short[f]* MDN[f]/365.0 * grid->area;
         h_rnl[year] += fweight * loct->rad_net_long[f]* MDN[f]/365.0 * grid->area;
         h_rnsd[year] += fweight * loct->nrad_d[f]* MDN[f]/365.0 * grid->area;
-		
+        h_cld[year] += fweight * grid->tcdc_clm[f]* MDN[f]/365.0 * grid->area;
+        
+        h_apar[year] += fweight * loct->apar_d[f]* MDN[f]/365.0 * grid->area;
+        h_parb[year] += fweight * grid->par_bp[f]* MDN[f]/365.0 * grid->area;
+        h_pard[year] += fweight * grid->par_dp[f]* MDN[f]/365.0 * grid->area;
+        
 		/* potential permafrost area: added by A.Ito (2010/03/27) */
 		if(grid->tmp_sfc_am <= -2.0){
 			h_pot_prmfrst[year] += fweight * grid->area;
@@ -101,6 +106,8 @@ void f_set_history_data(
 									(mass->plant).mrot[f]) * MDN[f] /365.0 * grid->area;
 		h_soil[year] += fweight * ((mass->soil).ltr_m[f] + 
 								   (mass->soil).msl_m[f])* MDN[f]/365.0 * grid->area;
+		
+        h_arm[year] += fweight * (flux->plant).arm[f] * grid->area;
 		
 		/* added by A.Ito (2011/12/16) */
 		h_abgm[year] += fweight * ((mass->plant).mfol[f] + (mass->plant).mstm[f]) * MDN[f] /365.0 * grid->area;
@@ -152,9 +159,10 @@ void f_set_history_data(
 		
 		/* added by A.Ito (2010/05/02) */
 		h_n_fertin[year] += fweight * (flux->soil).n_fertin[f] * grid->area;
-		h_n_depoin[year] += fweight * (loct->depo_no3[f] + loct->depo_no3[f]) * grid->area;
+		/* corrected by A.Ito (2013/11/07) */
+		h_n_depoin[year] += fweight * (loct->depo_nh4[f] + loct->depo_no3[f]) * grid->area;
 		
-		if(loct->v_type == 1){ /* added by A.Ito (2009/06/16) */
+		if(loct->v_type == 1 && REPL_OLSON_CROP == 0){ /* added by A.Ito (2009/06/16) */
 			if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32){
 				h_n2o_emit_ngas_agr[year] += (flux->soil).d_n2o_ngas[f] * grid->area;
 				h_n2o_emit_casa_agr[year] += (flux->soil).d_n2o_casa[f] * grid->area;
@@ -433,7 +441,7 @@ void f_glosum_output(
 	
 	fp_glsum = fopen(filename,"wt");
 	fprintf(fp_glsum,"%.2lf %.2lf\n", go_landarea, gs_landarea);
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		fprintf(fp_glsum,"%lf ", h_tmp[h]);
 		fprintf(fp_glsum,"%lf ", h_pre[h]);
@@ -542,6 +550,13 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_rns[h]); /* added by A.Ito (2013/01/02) */
 		fprintf(fp_glsum,"%lf ", h_rnl[h]);
 		fprintf(fp_glsum,"%lf ", h_rnsd[h]);
+		fprintf(fp_glsum,"%lf ", h_cld[h]);
+
+		fprintf(fp_glsum,"%lf ", h_apar[h]); /* added by A.Ito (2013/12/16) */
+		fprintf(fp_glsum,"%lf ", h_parb[h]); /* added by A.Ito (2013/12/24) */
+		fprintf(fp_glsum,"%lf ", h_pard[h]); /* added by A.Ito (2013/12/24) */
+
+		fprintf(fp_glsum,"%lf ", h_arm[h]); /* added by A.Ito (2014/02/14) */
 
 		fprintf(fp_glsum,"\n");
 	}
@@ -568,7 +583,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<VEG_NUM_OLSON;h++){
+	for(h=0;h<NVEG_OLSON;h++){
 		fprintf(fp_glsum,"%lf ", vo_area[h]);
 		fprintf(fp_glsum,"%lf ", vo_gpp[h]);
 		fprintf(fp_glsum,"%lf ", vo_npp[h]);
@@ -582,7 +597,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<VEG_NUM_SAGE;h++){
+	for(h=0;h<NVEG_SAGE;h++){
 		fprintf(fp_glsum,"%lf ", vs_area[h]);
 		fprintf(fp_glsum,"%lf ", vs_gpp[h]);
 		fprintf(fp_glsum,"%lf ", vs_npp[h]);
@@ -601,7 +616,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", rh_area[i]);
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_temp[i][h]);
@@ -609,7 +624,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_prec[i][h]);
@@ -617,7 +632,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_dswrf[i][h]);
@@ -625,7 +640,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_rns[i][h]);
@@ -633,7 +648,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_rnl[i][h]);
@@ -641,7 +656,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ipar[i][h]);
@@ -649,7 +664,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_apar[i][h]);
@@ -657,7 +672,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_gpp[i][h]);
@@ -665,7 +680,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_npp[i][h]);
@@ -673,7 +688,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_nep[i][h]);
@@ -681,7 +696,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_evpr[i][h]);
@@ -689,7 +704,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_trsp[i][h]);
@@ -697,7 +712,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_incp[i][h]);
@@ -705,7 +720,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_rnof[i][h]);
@@ -715,7 +730,7 @@ void f_glosum_output(
 	fprintf(fp_glsum,"\n");
 		
 	/* historical carbon isotopes: added by A.Ito (2009/07/15) */
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		fprintf(fp_glsum,"%lf ", ci_aco2[h]);
 		fprintf(fp_glsum,"%lf ", ci_aco2_d13c[h]);
@@ -750,7 +765,7 @@ void f_glosum_output(
 
 	/* regional *************************************************/
 	/* added by A.Ito (2009/09/30) */
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_gpp[i][h]);
@@ -758,7 +773,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_gpp_d13c[i][h]);
@@ -766,7 +781,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_gpp_d14c[i][h]);
@@ -774,7 +789,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_er[i][h]);
@@ -782,7 +797,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_er_d13c[i][h]);
@@ -790,7 +805,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_er_d14c[i][h]);
@@ -798,7 +813,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_f[i][h]);
@@ -806,7 +821,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_f_d13c[i][h]);
@@ -814,7 +829,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_f_d14c[i][h]);
@@ -822,7 +837,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_c[i][h]);
@@ -830,7 +845,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_c_d13c[i][h]);
@@ -838,7 +853,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_c_d14c[i][h]);
@@ -846,7 +861,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_r[i][h]);
@@ -854,7 +869,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_r_d13c[i][h]);
@@ -862,7 +877,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_r_d14c[i][h]);
@@ -870,7 +885,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_l[i][h]);
@@ -878,7 +893,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_l_d13c[i][h]);
@@ -886,7 +901,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_l_d14c[i][h]);
@@ -894,7 +909,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_h[i][h]);
@@ -902,7 +917,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_h_d13c[i][h]);
@@ -910,7 +925,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ci_h_d14c[i][h]);
@@ -920,7 +935,7 @@ void f_glosum_output(
 	fprintf(fp_glsum,"\n");
 	
 	/* added by A.Ito (2009/11/15) */
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_hvst[i][h]);
@@ -928,42 +943,42 @@ void f_glosum_output(
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_luc[i][h]);
 		}
 		fprintf(fp_glsum,"\n");
 	}
-	fprintf(fp_glsum,"\n");for(h=0;h<HIST;h++){
+	fprintf(fp_glsum,"\n");for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ch4ox_curry[i][h]);
 		}
 		fprintf(fp_glsum,"\n");
 	}
-	fprintf(fp_glsum,"\n");for(h=0;h<HIST;h++){
+	fprintf(fp_glsum,"\n");for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ch4emit_wh_wet[i][h]);
 		}
 		fprintf(fp_glsum,"\n");
 	}
-	fprintf(fp_glsum,"\n");for(h=0;h<HIST;h++){
+	fprintf(fp_glsum,"\n");for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_ch4emit_wh_paddy[i][h]);
 		}
 		fprintf(fp_glsum,"\n");
 	}
-	fprintf(fp_glsum,"\n");for(h=0;h<HIST;h++){
+	fprintf(fp_glsum,"\n");for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_n2o_emit_ngas[i][h]);
 		}
 		fprintf(fp_glsum,"\n");
 	}
-	fprintf(fp_glsum,"\n");for(h=0;h<HIST;h++){
+	fprintf(fp_glsum,"\n");for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(PIVOT_CLIMY-1));
 		for(i=0;i<NREG;i++){
 			fprintf(fp_glsum,"%lf ", rh_n2o_emitagr_ngas[i][h]);
@@ -972,7 +987,7 @@ void f_glosum_output(
 	}
 	fprintf(fp_glsum,"\n");
 	
-	for(h=0;h<HIST;h++){
+	for(h=0;h<PD_SIM;h++){
 		for(i=0;i<ASTEP;i++){
 			fprintf(fp_glsum,"%ld %ld %lf %lf %lf %lf\n", h+(PIVOT_CLIMY-1), i+1, 
 				hm_temp[h][i], hm_prec[h][i], hm_ch4_wh[h][i], hm_inund[h][i]);

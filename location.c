@@ -18,7 +18,7 @@
 void f_init_clim(
 	struct Grid *grid
 ){
-	short h,i;
+	short h;
 	double aaa, bbb;
 	
 	/* in 1950 :311 ppmv*/
@@ -45,7 +45,7 @@ void f_init_clim(
 		grid->prate_sfc[h] = grid->prate_sfc_a[h]; /* precipitation, mm / month */
 		
 		/*** UEA/CRU data ***/
-		if(grid->hist_exist == 1){ /* for grids data are available */
+		if(grid->flag_histdata == 1){ /* for grids data are available */
 			/* temporary */
 			grid->tmp_sfc[h] = grid->hist_tmp_b[h] + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
 			grid->tmp10_soil[h] = grid->hist_tmp_b[h] + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
@@ -82,10 +82,10 @@ void f_init_clim(
 		
 		/* radiation fluxes and day-length */
 		grid->dlen[h] = f_day_length(grid);		
-		grid->top_rad[h] = top_rad(grid, 0); 	
+		grid->top_rad[h] = f_top_rad(grid, 0); 	
 
-		grid->gl_rad[h] = gl_rad(grid); 	
-		grid->par[h] = par(grid); 
+		grid->gl_rad[h] = f_gl_rad(grid); 	
+		grid->par[h] = f_par(grid); 
 		
 		grid->rad_a[h] = grid->gl_rad[h];
 		grid->par_a[h] = grid->par[h];
@@ -242,38 +242,42 @@ void f_dyn_loct(
 	
 	/* solar constant sensitivity */
 	if(SC==3 || SC==4){
-		grid->top_rad[grid->m] = top_rad(grid, 0); 	
-		grid->gl_rad[grid->m] = gl_rad(grid); 	
-		grid->par[grid->m] = par(grid); 
+		grid->top_rad[grid->m] = f_top_rad(grid, 0); 	
+		grid->gl_rad[grid->m] = f_gl_rad(grid); 	
+		grid->par[grid->m] = f_par(grid); 
 	}else if(SC==5){
-		grid->par[grid->m] = par(grid); 
+		grid->par[grid->m] = f_par(grid); 
 		grid->par[grid->m] += 10.0;
 	}
-	
-	/* radiatin for cal_cruclim: 1901-2000 */
-	if(grid->hist_exist == 1){
-		grid->gl_rad[grid->m] = gl_rad(grid); 
-		grid->par[grid->m] = par(grid); 
+    
+	/* radiatin for cal_historical: 1901-2000 */
+	if(grid->flag_histdata == 1){
         
         /* added: 2013/01/10 by A.Ito */
         loct->grad_d[grid->m] = 0.0;
         for(h=0;h<24;h++){
-            grid->top_rad[grid->m] = top_rad(grid, -180+h*15);
-            loct->grad_d[grid->m] += gl_rad(grid)/24.0;
+            grid->top_rad[grid->m] = f_top_rad(grid, -180+h*15);
+            loct->grad_d[grid->m] += f_gl_rad(grid)/24.0;
         }
-        grid->top_rad[grid->m] = top_rad(grid, 0);
+        
+        /* midday */
+        grid->top_rad[grid->m] = f_top_rad(grid, 0);
+		grid->gl_rad[grid->m] = f_gl_rad(grid); 
+		grid->par[grid->m] = f_par(grid);
 	}
 	
-	for(h=0;h<ASTEP;h++){
-		loct->xx1[h] = 0.0;
-		loct->xx2[h] = 0.0;
-		loct->xx3[h] = 0.0;
-		loct->xx4[h] = 0.0;
-		loct->xx5[h] = 0.0;
-		loct->xx6[h] = 0.0;
-		loct->xx7[h] = 0.0;
-		loct->xx8[h] = 0.0;
-	}
+    if(grid->m == 0){
+        for(h=0;h<ASTEP;h++){
+            loct->xx1[h] = 0.0;
+            loct->xx2[h] = 0.0;
+            loct->xx3[h] = 0.0;
+            loct->xx4[h] = 0.0;
+            loct->xx5[h] = 0.0;
+            loct->xx6[h] = 0.0;
+            loct->xx7[h] = 0.0;
+            loct->xx8[h] = 0.0;
+        }
+    }
 	
 	if(grid->m == 0){
 		grid->tmp_sfc_am = 0.0;
@@ -349,7 +353,7 @@ void f_dyn_loct(
 	/* altitude */
 	alt = (grid->topo>=0.0)?grid->topo:0.0; 
 	/* air pressure */
-	loct->prsr[grid->m] = 1013.25*exp(-1.0*(28.964*0.001)*9.8*alt/(8.3144*(grid->tmp_2m[grid->m]+ZAT))); 
+	loct->prsr[grid->m] = 1013.25*exp(-1.0*(28.964*0.001)*9.8*alt/(8.3144*(grid->tmp_2m[grid->m]+ZAT)));
 	
 	/* saturated vapour pressure, hPa */
 	loct->vps[grid->m] = vap_pre_sat(grid); 
@@ -364,18 +368,18 @@ void f_dyn_loct(
 			* loct->prsr[grid->m] / (8.3144*(grid->tmp10_soil[grid->m]+273.15));
 	}
 
-	if(grid->hist_exist == 1){
+	if(grid->flag_histdata == 1){
 		/* vapour pressure, hPa */
 		if(grid->phase == 0){
 			/* spin-up */
 			loct->vp[grid->m] = grid->hist_vap_b[grid->m];
 		}else if(grid->phase==1){
-			if(grid->climy < (PIVOT_CLIMY + HIST_PD)){
+			if(grid->climy < (PIVOT_CLIMY + PD_HIST)){
 				/* based on UEA/CRU or ISI-MIP data */
 				loct->vp[grid->m] = grid->hist_vap[grid->climy - PIVOT_CLIMY][grid->m];	
 			}else{
 				/* based on NCEP/NCAR */
-				vpres_var = grid->ncep_vpres[grid->climy - NCEP_BGY][grid->m][grid->ncep_lat][grid->ncep_lon] 
+				vpres_var = grid->ncep_vpres[grid->climy - PIVOT_NCEP][grid->m][grid->ncep_lat][grid->ncep_lon] 
 								- grid->ncep_vpres_b[grid->m][grid->ncep_lat][grid->ncep_lon];
 				
 				loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;
@@ -417,7 +421,7 @@ void f_dyn_loct(
 	
 	/** net radiation **/
 	f_net_rad(grid, loct, mass, echar);
-	
+    	
 	/** hydrological water budget **/
 	(mass->plant).lai[grid->m] = (mass->c3).lai[grid->m]*loct->c3ptn[grid->m]
 					+ (mass->c4).lai[grid->m]*loct->c4ptn[grid->m];

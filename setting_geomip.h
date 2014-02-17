@@ -33,7 +33,7 @@
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 
-#define GEOMIP_RUN 0
+#define GEOMIP_RUN 1
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
@@ -96,8 +96,7 @@
     /* #define PD_HIST 110	*/	/* AD 1901 - 2010 */
     /* #define PD_HIST 111	*/	/* AD 1901 - 2011 */
     /* #define PD_HIST 112	*/	/* AD 1901 - 2012 */
-    #define PD_HIST 113	/* */	/* AD 1901 - 2013 */
-    /* #define PD_HIST 105 */  /* AD 1901 - 2005 --GEOMIP */
+    #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
 #endif
 
 /* start year (AD) of climate */
@@ -126,25 +125,24 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
 /* data length (years) */
 /* extension to 2011: 2012/01/26 by A.Ito */
 /* extension to 2012: 2013/04/14 by A.Ito */
-/* extension to 2013: 2014/01/02 by A.Ito */
-#define DL_NCEP 66   /* 1948-2013 */
+#define DL_NCEP 65   /* 1948-2012 */
 
 /* Simulation using ISI-MIP data (yr) */
+#define DL_ISIMIP 180 
 /* spinup 1951-1980 */
 /* historical 1951-2005 */
 /* projection 2006-2099 */
-#define DL_ISIMIP 180 
 
 /* future projection *****************************/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_RUN 0
+#define GCM_RUN 1
 /* 0: no  1:yes */
 /* #define GCM_PD 100 */	/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
@@ -195,17 +193,14 @@
 /* 7: Ramankutty land-use change, 1700-2007 */
 /* 8: Hurtt harmonized land-use change, 1700-2005 (added 2010/01/31) */
 /* 9: fixed land-use at 2000 --GEOMIP */
-/* 10: LUH 1500-2005/2006-2100 (RCP4.5) --GEOMIP */
-/* 11: LUH 1500-2005/2006-2100 (RCP2.6) */
-/* 12: LUH 1500-2005/2006-2100 (RCP6.0) */
-/* 13: LUH 1500-2005/2006-2100 (RCP8.5) */
+/* 10: LUH 1500-2005/2006-2100 --GEOMIP */
 
-//#define DL_LUH 306 /* 1700-2000/2005 */
+//#define DL_LUH 310 /* 1700-2000/2005 */
 #define DL_LUH 601 /* 1500-2100 */
 
-/* begin year of land-use data */
-#define PIVOT_LUC 1500
 //#define PIVOT_LUC 1700
+#define PIVOT_LUC 1500
+/* begin year of land-use data */
 
 #if ISIMIP_RUN==1
     #define BGY_LUC 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
@@ -236,6 +231,15 @@
 #define EX_OZONE 0
 /* 0: off */
 /* 1: on */
+
+/* experiment: geoengeneering, solar radiation management *********/
+/* EX SRM: 2013/06/04 by A.Ito *******************/
+#define EX_SRM 0
+/* 0: off */
+/* 1: bulk 2.6 W m-2 */
+/* 2: bulk 4.5 W m-2 */
+/* 3: bulk 6.0 W m-2 */
+/* 4: bulk 8.5 W m-2 */
 
 /* experiment: soil decomposition temperature dependence */
 #define EX_SDTD 0
@@ -278,7 +282,6 @@
 #define ALT_FWET 0
 /* 0: not use alternative data */
 /* 1: use data */
-/* 2: use Peregon-san data: 2014/02/04 */
 
 /* parameter perturbation */
 /* climate perturbation */
@@ -320,7 +323,7 @@
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 0
-#define OUTPUT_BB 0
+#define OUTPUT_BB 1
 #define OUTPUT_BVOC 0
 
 /********************************************************/
@@ -664,23 +667,31 @@
 
 /** GEO-MIP: 2013/11/26 by A.Ito ***********/
 /* 3000: BNU-ESM RCP4.5 */
+/* 3004: BNU-ESM G3 */
 /* 3004: BNU-ESM G4 */
 
 /* 3100: CSIRO-mk3L-1-2 RCP4.5 */
 /* 3104: CSIRO-mk3L-1-2 G4 */
 
 /* 3200: GISS-EL-R RCP4.5 */
+/* 3203: GISS-EL-R G3 */
 /* 3204: GISS-EL-R G4 */
 
 /* 3300: HadGEM2-ES RCP4.5 */
+/* 3303: HadGEM2-ES G3 */
 /* 3304: HadGEM2-ES G4 */
+/* 3213: HadGEM2-ES G3S */
 
 /* 3400: IPSL-CM54-LR RCP4.5 */
-/* 3404: IPSL-CM54-LR G4 */
+/* 3403: IPSL-CM54-LR G3 */
+/* 3405: IPSL-CM54-LR G5 */
 
 /* 3500: MIROC-ESM RCP4.5 */
 /* 3504: MIROC-ESM G4 */
 
 /* 3600: MIROC-ESM-CHEM RCP4.5 */
 /* 3604: MIROC-ESM-CHEM G4 */
+
+/* 3700: CanESM2 RCP4.5 */
+/* 3704: CanESM2 G4 */
 

@@ -175,9 +175,11 @@ void f_nh3_volatilization(
 	/* pH: Lin et al. (2000) Eq.(16) */
 	/* modified by A.Ito (2009/06/05) */
 	/* f_ph = pow(10.0, grid->soil_ph - 10.0) / pow(10.0, 7.0 - 10.0); */
-	if(schar->v_type==1 && (grid->veg_olson==29 || grid->veg_olson==30 
-							|| grid->veg_olson==31 || grid->veg_olson==32)){
-		if(grid->soil_ph>=6.0){
+	/* if(schar->v_type==1 && (grid->veg_olson==29 || grid->veg_olson==30
+							|| grid->veg_olson==31 || grid->veg_olson==32)){ */
+    /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+	if(schar->v_type==2){
+		if(grid->soil_ph >= 6.0){
 			ph_soil = grid->soil_ph;
 		}else{
 			ph_soil = 6.0;
@@ -285,10 +287,10 @@ void f_n_deposit(
 		ndepo_wet = f_wet * ndepo_ann * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
 	}
 	
-	if(ndepo_dry<0.0){
+	if(ndepo_dry < 0.0){
 		ndepo_dry = 0.0;
 	}
-	if(ndepo_wet<0.0){
+	if(ndepo_wet < 0.0){
 		ndepo_wet = 0.0;
 	}
 	

@@ -14,16 +14,16 @@
 #define TER_CON 0.001 /* criteria for determining the equilibrium, NEP value in Mg C ha-1 yr-1 */
 
 /* EQUILIBRIUM ***************************************************************/
-void cal_stable(
+void cal_spinup(
 	struct Grid *grid, 
 	struct Loct *loct, 
 	struct Echar *echar, 
 	struct Mass *mass, 
 	struct Flux *flux, 
-	FILE *fp_o[OFILES]
+	FILE *fp_o[OFILEN]
 ){
 	long f, g, nn, term_time, dyr;
-	double plantmass, ann_nep, f_fert, total_hvst;
+	double plantmass, ann_nep, f_fert, total_hvst, f_nat, iweight, iweight3, avc3;
 	
 	/** maximum simulation times **/
 	grid->phase = 0; /* spin-up */
@@ -61,8 +61,12 @@ void cal_stable(
 	}else if(LANDUSE==9){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[200];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[200];
+	}else if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - PIVOT_LUC];
+		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - PIVOT_LUC];
 	}
 	
+    /* historical fertilizer */
 	if(grid->rank_nat==1){
 		/* developing countries */
 		f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - 1900.0)))+0.0014929171;
@@ -76,15 +80,10 @@ void cal_stable(
 	ann_nep = 10.0;
     /* corrected: A. Ito (with Hamada-san's comment) 2012/01/30 */
 	loct->gpp_max = loct->npp_max = 0.0; 
-	while(ann_nep>TER_CON){ /*** acnep>TER_CON nn<10 ***/
+	while(ann_nep > TER_CON){ /*** acnep>TER_CON nn<10 ***/
 		grid->y = nn;
 				
-		/* empirical model NPP *****************/
-		if(grid->y==0){ /* for the first year */
-			npp_empirical(grid, loct, flux);
-		}
-        
-        if(ISIMIP_RUN==1 && grid->hist_exist == 1){
+        if(ISIMIP_RUN==1 && grid->flag_histdata == 1){
             ann_nep = 10.0;
             grid->climy = nn%30 +1951;
 			set_hist_clim(grid);
@@ -189,15 +188,15 @@ void cal_stable(
 			/* annual average plant mass */
 			plantmass += (mass->plant).plant[f] * MDN[f]/365.0;
 			
-			if((echar->c3).v_type==1){
+			if((echar->c3).v_type == 1){
 				/* corrected: A.Ito and E.Kato (2009/08/16) */
-				if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson== 31 
+				/* if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson== 31
 						|| grid->veg_olson==32){
 					ann_nep += flux->ncb[f];
-				}else{
+				}else{ */
 					ann_nep += flux->nep[f];
-				}
-			}else if((echar->c3).v_type==2){
+				/* } */
+			}else if((echar->c3).v_type == 2){
 				ann_nep += flux->ncb[f];
 			}
 			
@@ -215,6 +214,11 @@ void cal_stable(
 		/* erosion */
 		f_erosion(grid, loct, echar, mass, flux);
 		
+		/* empirical model NPP *****************/
+		//if(grid->y==0){ /* for the first year */
+			npp_empirical(grid, loct, flux);
+		//}
+        
 		if(NECB_ERSN==1){
 			(mass->soil).ltr -= flux->erod_carbon*0.20;
 			if((mass->soil).ltr < 0.0){
@@ -223,7 +227,7 @@ void cal_stable(
 		}
 		
 		/* terminal conditions ****************************/
-        if(ISIMIP_RUN==0){
+        if(ISIMIP_RUN == 0){
             if(nn < 200){	
                 /* continued */
                 ann_nep = 10.0; 
@@ -232,10 +236,10 @@ void cal_stable(
             }else{  /*  if(nn>=term_time) */
                 break; /**** 3. stop by 2000 years ****/	
             }
-        }else if(ISIMIP_RUN==1){
+        }else if(ISIMIP_RUN == 1){
             /* spin-up 3000 years (30 x 100 times): 2012/07/02 by A.Ito */
             ann_nep = 10.0;
-            if(nn==3000){
+            if(nn == 3000){
                 ann_nep = 0.0;
             }
         }
@@ -300,7 +304,7 @@ void cal_stable(
 		}
 	}
 		
-	if(NECB_CH4==1){
+	if(NECB_CH4 == 1){
 		for(f=0;f<ASTEP;f++){
 			(mass->soil).msl += grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
 					- grid->f_paddy * ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] + 
@@ -308,8 +312,8 @@ void cal_stable(
 					- grid->f_wetland * ((flux->soil).ch4_wetland_wh_plant[f] + (flux->soil).ch4_wetland_wh_ebull[f] + 
 						(flux->soil).ch4_wetland_wh_diff[f] + (flux->soil).ch4_wetland_wh_release[f]) * 0.00001;
 			
-			if((mass->soil).msl < 0.0){
-				(mass->soil).msl = 0.0;
+			if((mass->soil).msl < INT_C){
+				(mass->soil).msl = INT_C;
 			}
 		}
 	}
@@ -324,26 +328,52 @@ void cal_stable(
 		flux->lu_hund = 0.0;
 	}
 	
+    f_nat = 1.0 - grid->f_crop_con;
+    if(f_nat > 0.0){
+        iweight = 1.0 / f_nat;
+    }
+    avc3 = 0.0;
+    for(f=0;f<ASTEP;f++){
+        avc3 += (loct->c3ptn[f] * MDN[f]/365.0);
+    }
+    if(avc3 > 0.0){
+        iweight3 = iweight * (1.0 / avc3);
+    }
+
 	/* wood harvest: 2010/10/15 by A.Ito *****************/
 	total_hvst = 0.0;
 	if((mass->c3).v_type == 1 && NECB_WHVST == 1){
-		dyr = 1900 - 1700;
+        /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+        
+        if(LANDUSE ==10 || LANDUSE ==11 || LANDUSE ==12 || LANDUSE ==13){
+            dyr = 1900 - 1500;
+        }else{
+            dyr = 1900 - 1700;
+        }
 		
+        /* from total grid */
 		total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr] 
 					+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr];
 		
 		total_hvst *= 1.0/1000.0 * 1.0/grid->area;
-		
-		if((mass->c3).stm > (total_hvst+1.0)){
-			(mass->c3).stm -= total_hvst;
-			flux->hvst_wood = total_hvst;
+        
+		if((mass->c3).stm > (total_hvst + INT_C)){
+        
+            if((mass->c3).stm > (total_hvst*iweight3 + INT_C)){
+                (mass->c3).stm -= total_hvst*iweight3;
+                flux->hvst_wood = total_hvst*iweight3;
+            }else{
+                (mass->c3).stm -= total_hvst;
+                flux->hvst_wood = total_hvst;
+            }
+ 			
 		}else{
-			(mass->c3).stm = 1.0;
-			flux->hvst_wood = 0.0; 
+            flux->hvst_wood = total_hvst - INT_C;
+            (mass->c3).stm = INT_C;
 		}
 		
-		if((mass->c3).stm < 1.0){
-			(mass->c3).stm = 1.0;
+		if((mass->c3).stm < INT_C){
+			(mass->c3).stm = INT_C;
 		}
 	}else{
 		flux->hvst_wood = 0.0;
@@ -353,14 +383,64 @@ void cal_stable(
 	for(f=0;f<ASTEP;f++){
 		flux->nbp[f] = flux->nep[f];
 		
-		if(NECB_LUC == 1){
-			flux->nbp[f] -= (flux->lu_ten/12.0 + flux->lu_hund/12.0);
-		}
+		if((mass->c3).v_type == 1 && NECB_LUC == 1){
+            flux->nbp[f] -= iweight * (flux->lu_ten/12.0 + flux->lu_hund/12.0);
+        }
+        
+        if(NECB_WHVST == 1){
+            flux->nbp[f] -= flux->hvst_wood;
+        }
 		
 		if(NECB_BB == 1){
+            /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+            
 			flux->nbp[f] -= (flux->bb_co2_litter[f] + flux->bb_co2_leaf[f] 
 							 + flux->bb_co2_wood[f] + flux->bb_co2_root[f])/1000.0*12.0/44.0;
+
+			flux->nbp[f] -= (flux->bb_co_litter[f] + flux->bb_co_leaf[f] 
+							 + flux->bb_co_wood[f] + flux->bb_co_root[f])/1000.0*12.0/28.0;
+
+			flux->nbp[f] -= (flux->bb_ch4_litter[f] + flux->bb_ch4_leaf[f]
+							 + flux->bb_ch4_wood[f] + flux->bb_ch4_root[f])/1000.0*12.0/16.0;
+
+			flux->nbp[f] -= (flux->bb_bc_litter[f] + flux->bb_bc_leaf[f]
+							 + flux->bb_bc_wood[f] + flux->bb_bc_root[f])/1000.0;
 		}
+        
+        if(NECB_DOC == 1){
+            /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+            
+            flux->nbp[f] -= (flux->soil).doc_boyer[f]/1000000.0;
+        }
+        
+        if(NECB_CH4 == 1){
+            /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+            
+            flux->nbp[f] += 12.0/16.0 * (grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
+                    - grid->f_paddy * ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] + 
+                                (flux->soil).ch4_paddy_wh_diff[f] + (flux->soil).ch4_paddy_wh_release[f]) * 0.00001
+                    - grid->f_wetland * ((flux->soil).ch4_wetland_wh_plant[f] + (flux->soil).ch4_wetland_wh_ebull[f] + 
+                                (flux->soil).ch4_wetland_wh_diff[f] + (flux->soil).ch4_wetland_wh_release[f]) * 0.00001);
+        }
+        
+        if(NECB_ERSN == 1){
+            /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+        
+            flux->nbp[f] -= flux->erod_carbon*0.20 / 12.0;
+        }
+        
+        if(NECB_BVOC == 1){
+            /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+        
+            flux->nbp[f] -= (flux->voc_isopr_g97[f] + flux->voc_monotrp_g97[f] + flux->voc_methanl_g97[f] +
+                    flux->voc_acetone_g97[f] + flux->voc_actaldhd_g97[f] + flux->voc_frmardhd_g97[f] +
+                    flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f])*10000.0/1000000.0/1000000.0;
+        }
+        
+        if(NECB_CROP == 1){
+            /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+            flux->nbp[f] += (flux->plant).hvst[f]; /* ! hvst is negative */
+        }
 	}
 	
 	/* history data */

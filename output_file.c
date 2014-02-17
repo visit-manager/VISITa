@@ -21,8 +21,8 @@ void f_output_file_open(
 	short zone,
 	char s_date[32], 
 	char s_case[32], 
-	char filename[100], 
-	FILE *fp[OFILES]
+	char filename[128],
+	FILE *fp[OFILEN]
 ){
 	char num[4];
 	char svtype[8]; /* corrected: A.Ito and E.Kato (2009/08/16) */
@@ -253,6 +253,11 @@ void publish_cbud(
 	fprintf(result,"%lf ", flux->npp_montreal); 
 	fprintf(result,"%lf ", flux->npp_schuur); /* added 2008/09/08 by A.Ito */
 	fprintf(result,"%lf ", flux->npp_nceas);  /* added 2008/09/08 by A.Ito */
+
+	fprintf(result,"%lf ", flux->npp_chikugo);  /* added 2014/02/14 by A.Ito */
+	fprintf(result,"%lf ", flux->npp_madison_parwsi);  /* added 2014/02/14 by A.Ito */
+	fprintf(result,"%lf ", flux->npp_madison_gddswsi);  /* added 2014/02/14 by A.Ito */
+	fprintf(result,"%lf ", flux->npp_madison_tp);  /* added 2014/02/14 by A.Ito */
 	
 	fprintf(result,"%.2lf ", flux->erod_soil);
 	fprintf(result,"%.2lf ", flux->erod_orgmat);
@@ -296,7 +301,7 @@ void f_output_result(
 	struct Echar *echar, 
 	struct Mass *mass, 
 	struct Flux *flux, 
-	FILE *fp_o[OFILES]
+	FILE *fp_o[OFILEN]
 ){
 	long f;
 	double pre_ann, hrl_ann, hrm_ann, ltr_ann, msl_ann;
@@ -363,6 +368,16 @@ void f_output_result(
         fprintf(fp_o[0],"%.4lf ", flux->lu_ten);
         fprintf(fp_o[0],"%.4lf ", flux->lu_hund); /* */
         
+        /* added 2014/02/17 by A.Ito */
+        fprintf(fp_o[0],"%.4lf ", flux->npp_miami); 
+        fprintf(fp_o[0],"%.4lf ", flux->npp_montreal); 
+        fprintf(fp_o[0],"%.4lf ", flux->npp_schuur);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_nceas);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_chikugo);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_parwsi);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_gddswsi);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_tp);
+	
         /* added: 2011/04/19 (A.Ito) */
         fprintf(fp_o[0],"%.4lf ", flux->erod_carbon);
         fprintf(fp_o[0],"%.4lf ", flux->erod_carbon); /* 2011/12/15 */
@@ -568,6 +583,20 @@ void f_output_result(
             fprintf(fp_o[6],"%.4lf ", (echar->soil).albedo[f]); /* */
             fprintf(fp_o[6],"%.4lf ", loct->albedo_sfc[f]); 
             fprintf(fp_o[6],"%.2lf ", loct->msnwa[f]);
+            
+            /* added 2013/12/16 by A.Ito */
+            fprintf(fp_o[6],"%.2lf ", grid->par_be[f]);
+            fprintf(fp_o[6],"%.2lf ", grid->par_de[f]);
+            fprintf(fp_o[6],"%.4lf ", loct->apar_d[f]);
+            
+            /* 2014/01/22 for WSL output */
+            fprintf(fp_o[6],"%.3lf ", loct->xx1[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx2[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx3[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx4[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx5[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx6[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx7[f]);
         }
         fprintf(fp_o[6],"\n");
     }

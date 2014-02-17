@@ -20,9 +20,9 @@ void growthperiod(
 	extern double MDN[12];
 
 	/** cumulative temperature, degree days**/
-	if(grid->lat>=0.0){
+	if(grid->lat >= 0.0){
 		if(grid->m==0){
-			pchar->gdd=0.0;
+			pchar->gdd = 0.0;
 			if(grid->y==0){
 				pchar->frag_dcd = 1;
 				pchar->frag_emg = 0;
@@ -30,7 +30,7 @@ void growthperiod(
 		}
 	}else{  /* if(grid->lat<0.0) */
 		if(grid->m==6){
-			pchar->gdd=0.0;
+			pchar->gdd = 0.0;
 			if(grid->y==0){
 				pchar->frag_dcd = 0;
 				pchar->frag_emg = 1;
@@ -89,7 +89,7 @@ void phenology_evergreen(
 	struct Grid *grid, 
 	struct Pchar *pchar
 ){
-	if(grid->tmp_sfc[grid->m]>=5.0){ 
+	if(grid->tmp_sfc[grid->m] >= 5.0){ 
 		/* warmer months */
 		pchar->season[grid->m] = 1;
 	}else{
@@ -110,7 +110,7 @@ void phenology_colddeciduous(
 	crit_tem = pchar->crit_temp;
 	crit_gdd = pchar->crit_gdd;
 		
-	if(grid->tmp_sfc[grid->m]<crit_tem){
+	if(grid->tmp_sfc[grid->m] < crit_tem){
 		/* dormancy */
 		pchar->season[grid->m] = 0;
 		/* leaf-shedding */
@@ -170,7 +170,7 @@ void phenology_grass(
 			/* dormancy */
 			pchar->season[grid->m] = 0;
 			/* leaf-shedding */
-			if(pchar->frag_emg==1&&pchar->frag_dcd==0){
+			if(pchar->frag_emg==1 && pchar->frag_dcd==0){
 				pchar->season[grid->m] = 3;
 				pchar->frag_dcd = 1;
 				pchar->frag_emg = 0;
@@ -228,7 +228,7 @@ void phenology_agriculture(
 		pchar->season[grid->m] = 1;	
 	}else{	
 		/* seasonal single cropping */	
-		if(grid->tmp_sfc[grid->m]<crit_tem){
+		if(grid->tmp_sfc[grid->m] < crit_tem){
 			/* dormancy */
 			pchar->season[grid->m] = 0;
 			/* leaf-shedding */
@@ -241,7 +241,7 @@ void phenology_agriculture(
 			/* growing-period */
 			pchar->season[grid->m] = 1;
 			/* leaf-emergence */
-			if(pchar->frag_emg==0){
+			if(pchar->frag_emg == 0){
 				pchar->season[grid->m] = 2;
 				pchar->frag_emg = 1;
 				pchar->frag_dcd = 0;
