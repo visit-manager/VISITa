@@ -20,6 +20,8 @@ extern double MDN[ASTEP];
 extern long GCM, CO2S, GCM_R, GCM_C;
 extern long PARAM_PTB; /* added by A.Ito (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
+extern long EX_SRM;
+
 extern double f_pert[20];
 extern double aco2_a1[DL_AGHG], aco2_a2[DL_AGHG], aco2_b1[DL_AGHG], aco2_b2[DL_AGHG];
 extern double ach4_a1[DL_AGHG], ach4_a2[DL_AGHG], ach4_b1[DL_AGHG], ach4_b2[DL_AGHG];

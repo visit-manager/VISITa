@@ -31,7 +31,7 @@ void npp_empirical(
 		pet_ann += loct->pm_evp[f]+loct->pm_incep[f]+loct->pm_trn[f];
 		
 		/* annual mean net radiation, W m-2 */
-		loct->rad_net[f] = loct->rad_net_short[f] - loct->rad_net_long[f];
+		loct->rad_net[f] = loct->rad_net_short[f] * 0.636619 * grid->dlen[f] / 24.0 - loct->rad_net_long[f];
 		rn_ann += loct->rad_net[f] * MDN[grid->m]/365.0;
 		
 		/* PRIESTRIE-TAYLOR PET model, mm ***/
@@ -63,7 +63,7 @@ void npp_empirical(
     }
     
     /* Chikugo **************/
-    flux->npp_chikugo = cTdm * 0.29 * (exp(-0.216*rdi*rdi)) * (rn_ann*24.0*3600.0*365.0 / pow(10.0, 9.0));
+    flux->npp_chikugo = cTdm * 0.29 * (exp(-0.216*rdi*rdi)) * (rn_ann*24.0*3600.0*365.0 / pow(10.0, 7.0) / 4.1868);
 	
 	/* Lieth, H., 1975. Modeling the primary productivity of the world. 
 	In: H. Lieth and R.H. Whittaker (Editor), Primary productivity of the biosphere. 
@@ -122,7 +122,7 @@ void npp_empirical(
 				flux->npp_nceas = 0.0;
 			}
 			break;
-		case 1: 
+		case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8:
 			npp_tem = 25.4 / (1.0 + exp(1.584 - 0.0622*grid->tmp_sfc_am));
 			npp_pre = 0.551 * pow(grid->prate_sfc_ann, 1.055) / exp(0.000306*grid->prate_sfc_ann)/100.0;
 			flux->npp_nceas = (npp_tem<npp_pre)?npp_tem:npp_pre;

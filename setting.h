@@ -33,7 +33,7 @@
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 
-#define GEOMIP_RUN 0
+#define GEOMIP_RUN 1
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
@@ -126,7 +126,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
@@ -144,7 +144,7 @@
 
 /* future projection *****************************/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_RUN 0
+#define GCM_RUN 1
 /* 0: no  1:yes */
 /* #define GCM_PD 100 */	/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
@@ -237,15 +237,6 @@
 /* 0: off */
 /* 1: on */
 
-/* experiment: geoengeneering, solar radiation management *********/
-/* EX SRM: 2013/06/04 by A.Ito *******************/
-#define EX_SRM 0
-/* 0: off */
-/* 1: bulk 2.6 W m-2 */
-/* 2: bulk 4.5 W m-2 */
-/* 3: bulk 6.0 W m-2 */
-/* 4: bulk 8.5 W m-2 */
-
 /* experiment: soil decomposition temperature dependence */
 #define EX_SDTD 0
 /* 0: default (Lloyd & Taylor) */
@@ -266,7 +257,7 @@
 /* 0:off, 1:0n */
 
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 
@@ -324,13 +315,13 @@
 /* text output */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
-#define OUTPUT_GHG 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 0
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 
 /********************************************************/
 /* sensitivity analysis *****************/

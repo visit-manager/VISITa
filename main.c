@@ -169,6 +169,10 @@ int main(
 	fscanf(fp_setting,"%s %lf %lf %lf %lf", s_config, &area_t, &area_b, &area_l, &area_r);
 	printf("config  9: %s %lf %lf %lf %lf\n", s_config, area_t, area_b, area_l, area_r);
     
+	/* config: 10 SRM experiment */
+	fscanf(fp_setting,"%s %ld", s_config, &EX_SRM);
+	printf("config  10: %s %ld\n", s_config, EX_SRM);
+	
     /* close setting.txt */
     fclose(fp_setting);
 	

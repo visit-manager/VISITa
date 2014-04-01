@@ -64,7 +64,7 @@ void f_voc_emit_guenther97(
 		0.002, 0.002, 0.003, 0.006, 0.002, 0.006, 0.006, 0.006, 
 		0.003, 0.002, 0.002, 0.003, 0.002, 0.003, 0.002, 
 		0.0005, 0.0005};
-	/* Tao, Z. and A. K. Jain, 2005: Modeling of global biogenic emissions of 
+	/* CO: Tao, Z. and A. K. Jain, 2005: Modeling of global biogenic emissions of 
 	 key indirect greenhouse gases and their response to atmospheric CO2 increases
 	 and changes in land cover and climate. 
 	 Journal of Geophysical Research, 110, 10.1029/2005JD005874.
@@ -73,7 +73,7 @@ void f_voc_emit_guenther97(
 		0.3, 0.3, 0.3, 0.3, 0.3, 0.36, 0.3, 0.3, 
 		0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 
 		0.3, 0.3};
-	short f;
+	long f, idveg;
 	double foliar_dens, leaf_temp, parday;
 	double f_ppfd, f_temp_isopr, f_temp_monotrp, f_phenology;
 	double aa, bb, cc, laiage[49], t_lai, total_closs;
@@ -97,6 +97,12 @@ void f_voc_emit_guenther97(
 	14	Desert
 	15	Polar Desert/Rock/Ice
 	*/
+    /* revised by A.Ito: 2014/03/27 */
+    if(loct->v_type==1){
+        idveg = grid->veg_sage;
+    }else if(loct->v_type==2){
+        idveg = 16;
+    }
 
 	/* foliar density, g d.m. C / m2   *********************/
 	foliar_dens = ((mass->c3).fol*loct->c3ptn[grid->m] 
@@ -173,15 +179,15 @@ void f_voc_emit_guenther97(
 	cc = foliar_dens * MDN[grid->m] * grid->dlen[grid->m];
 	
 	/* VOC emission, micro g C m-2 month-1  */
-	flux->voc_isopr_g97[grid->m] = emit_potent_isopr[grid->veg_sage] * cc * f_ppfd * f_temp_isopr * f_phenology;
-	flux->voc_monotrp_g97[grid->m] = emit_potent_monotrp[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_methanl_g97[grid->m] = emit_potent_methanl[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_acetone_g97[grid->m] = emit_potent_acetone[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_actaldhd_g97[grid->m] = emit_potent_actaldhd[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_frmardhd_g97[grid->m] = emit_potent_frmardhd[grid->veg_sage] * cc *f_temp_monotrp * f_phenology;
-	flux->voc_formacd_g97[grid->m] = emit_potent_formacd[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_acetacd_g97[grid->m] = emit_potent_acetacd[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_co_g97[grid->m] = emit_potent_co[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_isopr_g97[grid->m] = emit_potent_isopr[idveg] * cc * f_ppfd * f_temp_isopr * f_phenology;
+	flux->voc_monotrp_g97[grid->m] = emit_potent_monotrp[idveg] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_methanl_g97[grid->m] = emit_potent_methanl[idveg] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_acetone_g97[grid->m] = emit_potent_acetone[idveg] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_actaldhd_g97[grid->m] = emit_potent_actaldhd[idveg] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_frmardhd_g97[grid->m] = emit_potent_frmardhd[idveg] * cc *f_temp_monotrp * f_phenology;
+	flux->voc_formacd_g97[grid->m] = emit_potent_formacd[idveg] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_acetacd_g97[grid->m] = emit_potent_acetacd[idveg] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_co_g97[grid->m] = emit_potent_co[idveg] * cc * f_temp_monotrp * f_phenology;
 	
 	/* carbon loss by BVOC emission: 2008/10/09 */
 	if(NECB_BVOC == 1){

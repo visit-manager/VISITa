@@ -27,6 +27,20 @@ struct Flux flux_agr;
 long GCM, CO2S, GCM_R, GCM_C; /* */
 long PARAM_PTB; /* added by A.Ito (2010/05/10) */
 long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
+long EX_SRM;
+/* experiment: geoengeneering, solar radiation management *********/
+/* EX SRM: 2013/06/04 by A.Ito *******************/
+/* 0: off */
+/* 1: solar constant -2.6 W m-2 */
+/* 2: solar constant -4.5 W m-2 */
+/* 3: solar constant -6.0 W m-2 */
+/* 4: solar constant -8.5 W m-2 */
+
+/* 11: surface radiation -2.6 W m-2 */
+/* 12: surface radiation -4.5 W m-2 */
+/* 13: surface radiation -6.0 W m-2 */
+/* 14: surface radiation -8.5 W m-2 */
+
 double f_pert[20];
 
 /* atm. GHG scenario */

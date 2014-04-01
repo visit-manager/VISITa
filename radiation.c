@@ -86,8 +86,22 @@ double f_top_rad(
 		 
 	/* solar constant = 4.921 MJ/m2 =1367 W/m2=1.96 cal/cm2/min
 		 = 6151.5 micro mol photons/ m2 / s */	
-	gg = SLC; 
-	
+	gg = SLC;
+    
+    /* EX SRM: 2013/06/04 by A.Ito *******************/
+	if(EX_SRM == 1 && grid->climy >= 2000){
+        gg -= 2.6;
+    }
+    if(EX_SRM == 2 && grid->climy >= 2000){
+        gg -= 4.5;
+    }
+    if(EX_SRM == 3 && grid->climy >= 2000){
+        gg -= 6.0;
+    }
+    if(EX_SRM == 4 && grid->climy >= 2000){
+        gg -= 8.5;
+    }
+    
 	if(SC == 1){
 		gg *= 1.01;
 	}else if(SC == 2){
@@ -128,17 +142,17 @@ double f_gl_rad(
 	hh = grid->top_rad[grid->m] * jj; 
 
     /* EX SRM: 2013/06/04 by A.Ito *******************/
-    if(EX_SRM == 1 && grid->climy>=2010){
-        hh -= 2.6 /90.0 * (double)(grid->climy - 2010);
+    if(EX_SRM == 11 && grid->climy >= 2000){
+        hh -= 2.6;
     }
-    if(EX_SRM == 2 && grid->climy>=2010){
-        hh -= 8.5 /90.0 * (double)(grid->climy - 2010);
+    if(EX_SRM == 12 && grid->climy >= 2000){
+        hh -= 4.5;
     }
-    if(EX_SRM == 3 && grid->climy>=2010){
-        hh -= 4.5 /90.0 * (double)(grid->climy - 2010);
+    if(EX_SRM == 13 && grid->climy >= 2000){
+        hh -= 6.0;
     }
-    if(EX_SRM == 4 && grid->climy>=2010){
-        hh -= 6.0 /90.0 * (double)(grid->climy - 2010);
+    if(EX_SRM == 14 && grid->climy >= 2000){
+        hh -= 8.5;
     }
 	
 	hh = (hh<=SLC)?hh:SLC;
@@ -344,8 +358,8 @@ void f_net_rad(
     }
     fff = (fff<0.99)?fff:0.99;
     fff = (fff>0.01)?fff:0.01;
-	rad_net_g = (1.0-fff)*ddd1*grid->gl_rad[grid->m] - net_long*ddd2;
-	rad_net_g = (rad_net_g>=0.0)?rad_net_g:0.0;
+	rad_net_g = (1.0 - fff) * ddd1 * grid->gl_rad[grid->m] - net_long*ddd2;
+	rad_net_g = (rad_net_g >= 0.0)?rad_net_g:0.0;
 	loct->rad_net_g[grid->m] = rad_net_g;
 }
 
