@@ -56,7 +56,7 @@ void f_ch4_emit_cao(
     wtable = 4.0;
 	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * wtable) 
 						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -10.0));
-	/* if(ALT_FWET == 1){
+	/* if(ALT_FWETLAND == 1){
 		f_wtable = 0.383 * (grid->f_wetland*exp(0.096 * wtable) 
 							+ (1.0-grid->f_wetland)*exp(0.096 * -25.0));
 	} */
@@ -72,7 +72,7 @@ void f_ch4_emit_cao(
 	/* Mg C ha-1 month-1 */
 	(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * 
 					(f_wtable*grid->f_wetland + f_wtable_lake*0.2*grid->f_lake); /* 0.2: 090717 */
-	if(ALT_FWET == 1){
+	if(ALT_FWETLAND == 1){
 		(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * 
 			(f_wtable*grid->f_wetland + f_wtable_lake*0.2*grid->f_lake); 
 	}
@@ -537,7 +537,7 @@ void f_ch4_emit_walter(
 		f_inundation = grid->inundation_ssmi[grid->m]; /* */
 		
 		/* when using NASA/GISS wetland data: 2011/03/31 by A.Ito */
-		if(ALT_FWET == 1 && (smode==1||smode==2)){
+		if(ALT_FWETLAND == 1 && (smode==1||smode==2)){
 			/* to avoid double-counting of inundation fraction */
 			f_inundation = 1.0;
 		}

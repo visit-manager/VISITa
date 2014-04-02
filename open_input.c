@@ -570,7 +570,7 @@ void open_input(
 		exit(1); 
 	}
 
-	if(ALT_FWET==1){
+	if(ALT_FWETLAND==1){
 		/* Alternative data (NASA/GISS): 2011/03/30 by A.Ito */
 		if( (fp_s[21]=fopen("./data/fwetland_giss.txt","rt"))==NULL ){  
 			printf("No fwetland_giss.txt\n");  
@@ -593,7 +593,7 @@ void open_input(
         exit(1); 
     }
 	
-	if(ALT_FWET==1){
+	if(ALT_FWETLAND==1){
 		/* Alternative data (SAGE): 2011/03/30 by A.Ito */
 		if( (fp_s[22]=fopen("./data/fpaddy_iis_sage.txt","rt"))==NULL ){  
 			printf("No major_crps_rice_0.50x0.50.asc\n");  

@@ -653,7 +653,7 @@ void f_init_grid(
 	}
 	
 	/* wetland fraction: data by Global Lakes and Wetlands Database by WWF *****/
-	if(ALT_FWET==1){
+	if(ALT_FWETLAND==1){
 		/* Alternative data (NASA/GISS): 2011/03/30 by A.Ito */
 		fscanf(fp_s[21],"%lf", &wetland);
 		grid->f_wetland = wetland;
@@ -667,7 +667,7 @@ void f_init_grid(
         
         /* WSL-Perogon welnad map: 2014/2/4 by A.Ito */
         fscanf(fp_s[83],"%ld %lf", &aaa, &wetland); 
-        if(ALT_FWET==2 && aaa==1){
+        if(ALT_FWETLAND==2 && aaa==1){
             grid->f_wetland = wetland;
         }
         
@@ -685,7 +685,7 @@ void f_init_grid(
     grid->f_wetland0 = grid->f_wetland;
 	
 	/* paddy fraction *****************/
-	if(ALT_FWET==1){
+	if(ALT_FWETLAND==1){
 		/* Alternative data (IIS-UT + SAGE): 2011/03/30 by A.Ito */
 		fscanf(fp_s[22],"%lf", &paddy); 
 		if(paddy>0.0){
