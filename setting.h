@@ -184,7 +184,7 @@
 #define NECB_CROP 1
 
 /* land use setting */
-#define LANDUSE 10
+#define LANDUSE 9
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */

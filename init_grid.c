@@ -779,7 +779,7 @@ void f_init_grid(
             }
 		}
         
-        if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
             /* skip RCPXX - 2005 data */
             fscanf(fp_s[26],"%lf", &ddummy);
             fscanf(fp_s[27],"%lf", &ddummy);
@@ -848,7 +848,7 @@ void f_init_grid(
             }
         }
         
-        if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
             fscanf(fp_s[53],"%lf", &ddummy);
             fscanf(fp_s[54],"%lf", &ddummy);
             fscanf(fp_s[55],"%lf", &ddummy);

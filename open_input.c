@@ -696,7 +696,7 @@ void open_input(
 	}
 	/* U.NH harmonized historical land-use data (2010/01/31: by A.Ito) */
 	/* URL  http://luh.unh.edu/ */
-	if(LANDUSE==8 || LANDUSE==9){
+	if(LANDUSE==8){
 		if( (fp_s[26]=fopen("./data/luc_eos2_gcrop_1700-2005.dat","rt"))==NULL ){  
 			printf("No luc_eos2_gcrop_1700-2005.dat\n");  
 			exit(1); 
@@ -777,7 +777,7 @@ void open_input(
     
     /* U.NH harmonized historical land-use data (2013/12/19: by A.Ito) */
 	/* URL  http://luh.unh.edu/ */
-	if(LANDUSE==10){
+	if(LANDUSE==9|| LANDUSE==10){
         if( (fp_s[26]=fopen("./data/luh_gcrop_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gcrop_1500_2005.txt\n");  
 			exit(1); 
@@ -856,7 +856,7 @@ void open_input(
 		}
     }
     
-    if(LANDUSE==10){
+    if(LANDUSE==9 || LANDUSE==10){
         if( (fp_s[59]=fopen("./data/luh_gcrop_rcp45_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gcrop_rcp45_2005_2100.txt\n");  
             exit(1); 
@@ -1352,7 +1352,7 @@ void open_input(
 	
 	/* wood harvest based on RCP-harmonized data: LUHa.v1 *************/
 	/* added by A.Ito (2010/10/15) */
-    if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+    if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
         if( (fp_s[53]=fopen("./data/luh_gvbh1_1500_2005.txt","rt"))==NULL ){  
             printf("No luh_gvbh1_1500_2005.txt\n");  
             exit(1); 

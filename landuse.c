@@ -186,10 +186,10 @@ void f_cult_luc(
 				grid->f_deforest_v = grid->f_deforest;
 				grid->f_deforest_s = 0.0;
 			}
-		}else if(LANDUSE==7){
+		}else if(LANDUSE == 7){
 			grid->f_deforest = (grid->f_crop_con - grid->f_crop_p) 
 								+ (grid->f_pasture_con - grid->f_pasture_p);
-		}else if(LANDUSE==9){
+		}else if(LANDUSE == 9){
             /* grid->f_deforest = grid->f_crop_con - grid->f_crop_p; */
             grid->f_deforest = 0.0;
         }else if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
@@ -213,12 +213,12 @@ void f_cult_luc(
 	if(LANDUSE==0){
 		grid->f_paddy = 0.0;
 	}else if(LANDUSE==7){
-		if(grid->climy<=2005){
+		if(grid->climy <= 2005){
 			if(grid->f_paddy_b > 0.0 && grid->fcrop_rk[2000 - PIVOT_LUC] > 0.0){
 				grid->f_paddy = grid->f_paddy_b * 
 					(grid->fcrop_rk[grid->climy - PIVOT_LUC] / grid->fcrop_rk[2000 - PIVOT_LUC]);
 			}
-		}else if(grid->climy>=2006){
+		}else if(grid->climy >= 2006){
 			if(grid->f_paddy_b > 0.0 && grid->fcrop_rk[2000 - PIVOT_LUC] > 0.0){
 				grid->f_paddy = grid->f_paddy_b * 
 					(grid->fcrop_rk[2005 - PIVOT_LUC] / grid->fcrop_rk[2000 - PIVOT_LUC]);
@@ -232,12 +232,12 @@ void f_cult_luc(
 			grid->f_paddy = 0.0;
 		}
 	}else if(LANDUSE==8){
-		if(grid->climy<=2005){
+		if(grid->climy <= 2005){
 			if(grid->f_paddy_b > 0.0 && grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC] > 0.0){
 				grid->f_paddy = grid->f_paddy_b * 
                     (grid->fcrop_unh_hmnzed[grid->climy - PIVOT_LUC] / grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC]);
 			}
-		}else if(grid->climy>=2006){
+		}else if(grid->climy >= 2006){
 			if(grid->f_paddy_b > 0.0 && grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC] > 0.0){
 				grid->f_paddy = grid->f_paddy_b * 
                     (grid->fcrop_unh_hmnzed[2005 - PIVOT_LUC] / grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC]);
@@ -339,7 +339,7 @@ void f_luc_emit(
 	if(grid->phase==0){
 		/* spin-up: fluxes for 1801-1900 *******************************/
 		/* modified by A.Ito (2009/06/05: 2010/01/07) */
-		if(LANDUSE == 0){
+		if(LANDUSE == 0 || LANDUSE==9){
 			f_luc = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
 			f_luc = grid->fcrop_sage[BGY_LUC-PIVOT_LUC] - grid->fcrop_sage[BGY_LUC-PIVOT_LUC-1];
@@ -351,8 +351,6 @@ void f_luc_emit(
 			/* added 2010/01/07 (A.Ito) */
 			f_luc = (grid->fcrop_rk[BGY_LUC-PIVOT_LUC] - grid->fcrop_rk[BGY_LUC-PIVOT_LUC-1])
 					+(grid->fpast_rk[BGY_LUC-PIVOT_LUC] - grid->fpast_rk[BGY_LUC-PIVOT_LUC-1]);
-		}else if(LANDUSE==9){
-			f_luc = 0.0;
 		}
 		
 		/* modified by A.Ito (2009/08/19) */
@@ -366,7 +364,7 @@ void f_luc_emit(
 		
 		for(f=(BGY_LUC-9);f<=BGY_LUC;f++){
 			/* senstivity analysis */
-			if(LANDUSE == 0){
+			if(LANDUSE == 0 || LANDUSE==9){
 				f_luc = 0.0;
 			}else if(LANDUSE>=1 && LANDUSE<=5){
 				f_luc = grid->fcrop_sage[f - PIVOT_LUC] - grid->fcrop_sage[f - PIVOT_LUC - 1];
@@ -378,8 +376,6 @@ void f_luc_emit(
 				/* added 2010/01/07 (A.Ito) */
 				f_luc = (grid->fcrop_rk[f - PIVOT_LUC] - grid->fcrop_rk[f-PIVOT_LUC-1])
 						+ (grid->fpast_rk[f - PIVOT_LUC] - grid->fpast_rk[f-PIVOT_LUC-1]);
-			}else if(LANDUSE==9){
-				f_luc = 0.0;
 			}
 			
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
@@ -397,7 +393,7 @@ void f_luc_emit(
 		
 		for(f=(BGY_LUC-99);f<=BGY_LUC;f++){
 			/* senstivity analysis */
-			if(LANDUSE == 0){
+			if(LANDUSE == 0 || LANDUSE==9){
 				f_luc = 0.0;
 			}else if(LANDUSE>=1 && LANDUSE<=5){
 				f_luc = grid->fcrop_sage[f - PIVOT_LUC] - grid->fcrop_sage[f-PIVOT_LUC-1];
@@ -408,8 +404,6 @@ void f_luc_emit(
 				/* added 2010/01/07 (A.Ito) */
 				f_luc = (grid->fcrop_rk[f - PIVOT_LUC] - grid->fcrop_rk[f-PIVOT_LUC-1])
 						+ (grid->fpast_rk[f - PIVOT_LUC] - grid->fpast_rk[f-PIVOT_LUC-1]);
-			}else if(LANDUSE==9){
-				f_luc = 0.0;
 			}
 			
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
@@ -447,7 +441,7 @@ void f_luc_emit(
 		}
 		
 		/* annual land use change */
-		if(LANDUSE == 0){
+		if(LANDUSE == 0 || LANDUSE==9){
 			f_luc = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
 			f_luc = grid->f_deforest;
@@ -458,9 +452,7 @@ void f_luc_emit(
 		}else if(LANDUSE==7){
 			/* added 2010/01/07 (A.Ito) */
 			f_luc = grid->f_deforest;
-		}else if(LANDUSE==9){
-            f_luc = 0.0;
-        }
+		}
 		
 		if(f_luc > 0.0){ /* deforested */
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
