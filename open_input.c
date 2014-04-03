@@ -1396,7 +1396,7 @@ void open_input(
         }
     }
         
-    if(LANDUSE==10){
+    if(LANDUSE==9 || LANDUSE==10){
         if( (fp_s[78]=fopen("./data/luh_gvbh1_rcp45_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gvbh1_rcp45_2005_2100.txt\n");  
             exit(1); 
@@ -1417,7 +1417,7 @@ void open_input(
             printf("No luh_gsbh3_rcp45_2005_2100.txt\n");  
             exit(1); 
         }
-    }if(LANDUSE==11){
+    }else if(LANDUSE==11){
         if( (fp_s[78]=fopen("./data/luh_gvbh1_rcp26_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gvbh1_rcp26_2005_2100.txt\n");  
             exit(1); 
@@ -1438,7 +1438,7 @@ void open_input(
             printf("No luh_gsbh3_rcp26_2005_2100.txt\n");  
             exit(1); 
         }
-    }if(LANDUSE==12){
+    }else if(LANDUSE==12){
         if( (fp_s[78]=fopen("./data/luh_gvbh1_rcp60_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gvbh1_rcp60_2005_2100.txt\n");  
             exit(1); 
@@ -1459,7 +1459,7 @@ void open_input(
             printf("No luh_gsbh3_rcp60_2005_2100.txt\n");  
             exit(1); 
         }
-    }if(LANDUSE==13){
+    }else if(LANDUSE==13){
         if( (fp_s[78]=fopen("./data/luh_gvbh1_rcp85_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gvbh1_rcp85_2005_2100.txt\n");  
             exit(1); 

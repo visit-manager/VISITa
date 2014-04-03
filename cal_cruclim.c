@@ -35,6 +35,7 @@ void cal_historical(
 	for(g=0; g<PD_HIST; g++){
 		/* AD1901 - 2002 / 2008 / 2009 */
         /* ISIMIP: 1950-2099 */
+        /* GEOMIP: 1901-2005 */
 		
 		/* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
