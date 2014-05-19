@@ -139,7 +139,7 @@ void f_voc_emit_guenther97(
 		}
 	}
 	
-	switch(grid->veg_sage){
+	switch(idveg){
 		/* evergreen */
 		case 1: case 3: case 4: case 6: case 8: case 9: case 10: 
 		case 11: case 12: case 13: case 14: case 15: 
@@ -147,23 +147,27 @@ void f_voc_emit_guenther97(
 			f_phenology = 0.05 * laiage[0];
 			f_phenology += 0.5 * (laiage[1] + laiage[2]);
 			for(f=3;f<=24;f++){  /* changed f<=36 to f<=12 to f<=24: 2008/09/17 */
-				f_phenology += 1.1 * laiage[f];
+				/* f_phenology += 1.1 * laiage[f]; */
+				f_phenology += 1.2 * laiage[f]; /* 2014/04/04 by A.Ito */
 			}
 			for(f=25;f<=48;f++){  /* changed f=37 to f<=13 to f<=25: 2008/09/17 */
-				f_phenology += 0.4 * laiage[f];
+				/* f_phenology += 0.4 * laiage[f]; */ 
+				f_phenology += 0.5 * laiage[f]; /* 2014/04/04 by A.Ito */
 			}
 			
 			break;
 		/* deciduous */
-		case 2: case 5: case 7: 
+		case 2: case 5: case 7: case 16:
 
 			f_phenology = 0.05 * laiage[0];
 			f_phenology += 0.5 * laiage[1];
 			for(f=2;f<=10;f++){  /* changed f<=8 to f<=6: 080613 */
-				f_phenology += 1.1 * laiage[f];
+				/* f_phenology += 1.1 * laiage[f]; */
+				f_phenology += 1.2 * laiage[f]; /* 2014/04/04 by A.Ito */
 			}
 			for(f=11;f<=18;f++){  /* changed f=9 to f=7: 080613 */
-				f_phenology += 0.4 * laiage[f];
+				/* f_phenology += 0.4 * laiage[f]; */
+				f_phenology += 0.5 * laiage[f];
 			}
 			for(f=19;f<=48;f++){  /* changed f=9 to f=7: 080613 */
 				f_phenology += 0.1 * laiage[f];
@@ -171,7 +175,7 @@ void f_voc_emit_guenther97(
 
 			break;
 		default:
-			f_phenology = 0.5;
+			f_phenology = 0.75;
 			break;
 	}
 	

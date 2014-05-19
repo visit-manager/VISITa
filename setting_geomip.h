@@ -29,11 +29,11 @@
 #define INT_C 0.01
 
 /***********************************************************/
-#define ISIMIP_RUN 1
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 
-#define GEOMIP_RUN 0
+#define GEOMIP_RUN 1
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
@@ -145,7 +145,7 @@
 
 /* future projection *****************************/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_RUN 0
+#define GCM_RUN 1
 /* 0: no  1:yes */
 /* #define GCM_PD 100 */	/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
