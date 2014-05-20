@@ -41,6 +41,7 @@ void cal_historical(
 		grid->climy = PIVOT_CLIMY + g;
         
 		if(grid->flag_histdata == 1){
+            /* set climate variables  */
 			set_hist_clim(grid);
 		}
 		
@@ -60,10 +61,11 @@ void cal_historical(
             GCM==2025 ||GCM==2026 ||GCM==2027 ||GCM==2028 ||
             GCM==2035 ||GCM==2036 ||GCM==2037 ||GCM==2038 ||
             GCM==2045 ||GCM==2046 ||GCM==2047 ||GCM==2048) && grid->climy>=2000){
+            /* fixed to AD2000 level */
             grid->co2y = 2000;
         }
 		
-		/* historical change in fertilizer input: 2010/05/11 by A.Ito */
+		/*  Fertilizer input, historical change: 2010/05/11 by A.Ito */
 		if(grid->rank_nat==1){
 			/* developing countries */
 			f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - (double)grid->climy)))+0.0014929171;

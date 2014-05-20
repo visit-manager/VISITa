@@ -137,11 +137,11 @@ void f_ch4_emit_cao(
 			- (flux->soil).ch4oxy_paddy_cao[grid->m];
     
     /* 2014/01/22 for WSL output **********/
-    loct->xx1[grid->m] = grid->f_wetland;
+    /* loct->xx1[grid->m] = grid->f_wetland;
     loct->xx2[grid->m] = grid->f_wetland + 0.2*grid->f_lake + grid->f_paddy;
     loct->xx3[grid->m] = grid->inundation_ssmi[grid->m];
     loct->xx4[grid->m] = grid->inundation_ssmi[grid->m]*(-4.0) + (1.0-grid->inundation_ssmi[grid->m])*10.0;
-    loct->xx5[grid->m] = 0.333*grid->tmp10_soil[grid->m] + 0.667*grid->tmp200_soil[grid->m];
+    loct->xx5[grid->m] = 0.333*grid->tmp10_soil[grid->m] + 0.667*grid->tmp200_soil[grid->m]; */
 }
 
 /* aerobic CH4 emission ***********************************************************/

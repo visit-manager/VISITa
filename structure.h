@@ -320,9 +320,9 @@ struct Grid{
 
 /* grid conditions, derived from submodules *******************************************/
 struct Loct{ 
-	short	v_type;				/* vegetation classification types */
-								/* 1: Olson+SAGE natural vegetation */
-								/* 2: agricultural vegetation */
+	short	v_type;                     /* vegetation classification types */
+                                        /* 1: Olson+SAGE natural vegetation */
+                                        /* 2: agricultural vegetation */
 	
 	long 	time_hyd;					/* time to reach stabilization of water budget */
 	long 	time;						/* time to reach stabilization of carbon budget */
@@ -336,6 +336,8 @@ struct Loct{
 	double	c3ptn[ASTEP];				/* ground coverage of C3 plants, fraction */
 	long	gd[ASTEP], bbm;				/* vegetative growing period, days */
 	double	gdd[ASTEP];				 	/* cumulative growth degree days, degC days */
+    
+    double  est_maxlai;                 /* estimated max.LAI: 2014/05/20 by A.Ito */
 	
 	double	albedo_sfc[ASTEP];			/* land-surface albedo */
 	double	gl_rad_g[ASTEP];			/* global radiation under the canopy, W m-2 */

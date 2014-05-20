@@ -250,15 +250,18 @@ void f_net_rad(
 	struct Mass *mass, 
 	struct Echar *echar
 ){
+    short nn;
 	double aaa, bbb, ccc, ddd1, ddd2, eee, ee_c3, ee_c4, fff;
 	double net_long, rad_net_p, rad_net_g, c3_canopy, c4_canopy, kmono_c3, kmono_c4;
 	double transmittance, ground;
+    double albedo_base, albedo_var, rn_short_base, rn_short_var;
+    double tsfc, tsfc_base, tsfc_var,crit, tt1, tt2, latheat, snsheat, dtsfc;
 	
 	/* transmittance=0.1; */ /*2003-06-27*/
 	transmittance = 0.12;
-
+    
 	/** longwave budget : modified 2002/12/25, based on Budyko (1971) **/
-	aaa = pow((grid->tmp_2m[grid->m] + ZAT), 4.0) * 5.6703 / 100000000.0;
+	aaa = pow((grid->tmp_2m[grid->m] + ZAT), 4.0) * SBC;
 	if(loct->vp[grid->m]>0.1 && loct->vp[grid->m]<40.0){
 		bbb = 0.39 - 0.058*sqrt(loct->vp[grid->m]*760.0/1013.0 );
 	}else if(loct->vp[grid->m] <= 0.1){
@@ -282,36 +285,117 @@ void f_net_rad(
 	c4_canopy = (1.0 - ground)*loct->c4ptn[grid->m];
 	loct->albedo_sfc[grid->m] = (echar->soil).albedo[grid->m]*ground + 
 					(echar->c3).albedo*c3_canopy + (echar->c4).albedo*c4_canopy;
+    albedo_base = loct->albedo_sfc[grid->m];
 	
     /* albedo perturbation: 2012/12/29 by A.Ito */
-    if(EX_ALBEDO==1){
+    if(EX_ALBEDO == 1){
         loct->albedo_sfc[grid->m] += grid->albedo_pert[grid->m];
-    }else if(EX_ALBEDO==2){
+    }else if(EX_ALBEDO == 2){
         loct->albedo_sfc[grid->m] = grid->albedo_max[grid->m][grid->row/10][grid->col/10];
-    }else if(EX_ALBEDO==3){
+    }else if(EX_ALBEDO == 3){
         loct->albedo_sfc[grid->m] = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
-    }else if(EX_ALBEDO==4){
+    }else if(EX_ALBEDO == 4){
         loct->albedo_sfc[grid->m] = grid->albedo_av[grid->m][grid->row/10][grid->col/10];
-    }else if(EX_ALBEDO==5){
+    }else if(EX_ALBEDO == 5){
         loct->albedo_sfc[grid->m] = grid->glbalbedo[grid->m];
     }
     
-    if(loct->albedo_sfc[grid->m]>0.99){
+    if(loct->albedo_sfc[grid->m] > 0.99){
         loct->albedo_sfc[grid->m] = 0.99;
     }
-    if(loct->albedo_sfc[grid->m]<0.01){
+    if(loct->albedo_sfc[grid->m] < 0.01){
         loct->albedo_sfc[grid->m] = 0.01;
     }
+    albedo_var = loct->albedo_sfc[grid->m];
     
+    /* temperature change due to albedo: 2014/5/19 by A.Ito */
+    if(EX_TVAR == 1 && EX_ALBEDO>=1){
+        
+        /* latent heat, W m-2, approximated by the previous year's value */
+        latheat = (loct->incep[grid->m] + loct->trspr[grid->m] + loct->evpr[grid->m])
+                * (2.5*1000000.0) / 24.0 / 3600.0 / MDN[grid->m];
+        
+        /* net shortwave radiation, W m-2 */
+        rn_short_base = (1.0 - albedo_base) * grid->gl_rad[grid->m];
+        rn_short_var = (1.0 - albedo_var) * grid->gl_rad[grid->m];
+        
+        /* base temperature: default albedo */
+        nn = 0; crit = 0.0;
+        tsfc = grid->tmp_sfc[grid->m];
+        while(nn<10 && crit<0.2){
+        
+            aaa = pow((tsfc + ZAT), 4.0) * SBC;
+            snsheat = 1210.0 * (tsfc - grid->tmp_2m[grid->m]) / loct->r_aero[grid->m];
+            tt1 = (rn_short_base - latheat) - aaa*bbb*ccc - snsheat;
+            
+            aaa = pow(((tsfc+0.5) + ZAT), 4.0) * SBC;
+            snsheat = 1210.0 * ((tsfc+0.5) - grid->tmp_2m[grid->m]) / loct->r_aero[grid->m];
+            tt2 = (rn_short_base - latheat) - aaa*bbb*ccc - snsheat;
+            
+            tsfc = tsfc - tt1*0.2 / (tt2 - tt1);
+            
+            crit = fabs( tt1*0.2 / (tt2 - tt1) );
+            nn++;
+        }
+        tsfc_base = tsfc;
+        loct->xx1[grid->m] = tsfc;
+        
+        /* varied temperature: default albedo */
+        nn = 0; crit = 0.0;
+        tsfc = grid->tmp_sfc[grid->m];
+        while(nn<10 && crit<0.2){
+        
+            aaa = pow((tsfc + ZAT), 4.0) * SBC;
+            snsheat = 1210.0 * (tsfc - grid->tmp_2m[grid->m]) / loct->r_aero[grid->m];
+            tt1 = (rn_short_var - latheat) - aaa*bbb*ccc - snsheat;
+            
+            aaa = pow(((tsfc+0.5) + ZAT), 4.0) * SBC;
+            snsheat = 1210.0 * ((tsfc+0.5) - grid->tmp_2m[grid->m]) / loct->r_aero[grid->m];
+            tt2 = (rn_short_var - latheat) - aaa*bbb*ccc - snsheat;
+            
+            tsfc = tsfc - tt1*0.2 / (tt2 - tt1);
+            
+            crit = fabs( tt1*0.2 / (tt2 - tt1) );
+            nn++;
+        }
+        tsfc_var = tsfc;
+        loct->xx2[grid->m] = tsfc;
+        
+        /* temperature change */
+        dtsfc = tsfc_var - tsfc_base;
+        if(dtsfc < -5.0){
+            dtsfc = -5.0;
+        }
+        if(dtsfc > 5.0){
+            dtsfc = 5.0;
+        }
+        
+        loct->xx3[grid->m] = tsfc;
+        
+        grid->tmp_sfc[grid->m] += dtsfc;
+        grid->tmp10_soil[grid->m] += dtsfc;
+        grid->tmp200_soil[grid->m] += dtsfc;
+        
+        /* Assumption: this surface/sub-surface temperature change does not 
+                       affect air temperature and humidity */
+        
+        loct->rad_net_short[grid->m] = rn_short_var;
+        
+    }else{
+        loct->rad_net_short[grid->m] = (1.0 - loct->albedo_sfc[grid->m])*grid->gl_rad[grid->m];
+    }
+    
+    /****/
 	ddd1 = exp(-1.0 * eee * (1.0 - transmittance)); /*2003-06-27*/
 	ddd2 = exp(-1.0 * eee); /*2003-06-27*/
 	
-	loct->rad_net_short[grid->m] = (1.0 - loct->albedo_sfc[grid->m])*grid->gl_rad[grid->m];
+   
+    /*  */
 	kmono_c3 = irr_attn(grid, loct, &(echar->c3));
 	kmono_c4 = irr_attn(grid, loct, &(echar->c4));
-	loct->fapar_mono[grid->m] = loct->c3ptn[grid->m]*(1.0-(echar->c3).albedo)
-                    *(1.0-exp(-1.0*kmono_c3*(mass->c3).lai[grid->m]))+ loct->c4ptn[grid->m]
-                    *(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*kmono_c4*(mass->c4).lai[grid->m]));
+	loct->fapar_mono[grid->m] = loct->c3ptn[grid->m]*(1.0 - (echar->c3).albedo)
+                    *(1.0 - exp(-1.0*kmono_c3*(mass->c3).lai[grid->m])) + loct->c4ptn[grid->m]
+                    *(1.0 - (echar->c4).albedo)*(1.0 - exp(-1.0*kmono_c4*(mass->c4).lai[grid->m]));
     
     loct->apar_d[grid->m] = loct->grad_d[grid->m] * 
        ( loct->c3ptn[grid->m]*(1.0-(echar->c3).albedo)*(1.0-exp(-1.0*(echar->c3).eK[grid->m]*(mass->c3).lai[grid->m]))
@@ -326,15 +410,15 @@ void f_net_rad(
 	/** net radiation of plant canopy, W m-2 **/
 	fff = loct->c3ptn[grid->m]*(echar->c3).albedo + loct->c4ptn[grid->m]*(echar->c4).albedo;
     
-    if(EX_ALBEDO==1){
+    if(EX_ALBEDO == 1){
         fff += grid->albedo_pert[grid->m];
-    }else if(EX_ALBEDO==2){
+    }else if(EX_ALBEDO == 2){
         fff = grid->albedo_max[grid->m][grid->row/10][grid->col/10];
-    }else if(EX_ALBEDO==3){
+    }else if(EX_ALBEDO == 3){
         fff = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
-    }else if(EX_ALBEDO==4){
+    }else if(EX_ALBEDO == 4){
         fff = grid->albedo_av[grid->m][grid->row/10][grid->col/10];
-    }else if(EX_ALBEDO==5){
+    }else if(EX_ALBEDO == 5){
         fff = grid->glbalbedo[grid->m];
     }
     fff = (fff<0.99)?fff:0.99;
@@ -345,15 +429,15 @@ void f_net_rad(
 	
 	/** net radiation of soil surface, W m-2 **/
     fff = (echar->soil).albedo[grid->m];
-    if(EX_ALBEDO==1){
+    if(EX_ALBEDO == 1){
         fff += grid->albedo_pert[grid->m];
-    }else if(EX_ALBEDO==2){
+    }else if(EX_ALBEDO == 2){
         fff = grid->albedo_max[grid->m][grid->row/10][grid->col/10];
-    }else if(EX_ALBEDO==3){
+    }else if(EX_ALBEDO == 3){
         fff = grid->albedo_min[grid->m][grid->row/10][grid->col/10];
-    }else if(EX_ALBEDO==4){
+    }else if(EX_ALBEDO == 4){
         fff = grid->albedo_av[grid->m][grid->row/10][grid->col/10];
-    }else if(EX_ALBEDO==5){
+    }else if(EX_ALBEDO == 5){
         fff = grid->glbalbedo[grid->m];
     }
     fff = (fff<0.99)?fff:0.99;

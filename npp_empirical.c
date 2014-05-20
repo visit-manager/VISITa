@@ -19,6 +19,7 @@ void npp_empirical(
 	long f, n;
 	double lhvp, aet_ann, pet_ann, rn_ann, npp_tem, npp_pre;
 	double gdd, wsi, par, rdi;
+    double wi, mat, lll;
 	extern double MDN[ASTEP];
 	
 	/* annual climatology *********************************/
@@ -70,8 +71,8 @@ void npp_empirical(
 	Springer-Verlag, pp. 237-263.
 	*/
 	/* MIAMI model *************/
-	npp_tem = cTdm*30.0/(1.0 + exp(1.315 - 0.119*grid->tmp_sfc_am));
-	npp_pre = cTdm*30.0*(1.0 - exp(-0.000664*grid->prate_sfc_ann));
+	npp_tem = cTdm*30.0/(1.0 + exp(1.315 - 0.119 * grid->tmp_sfc_am));
+	npp_pre = cTdm*30.0*(1.0 - exp(-0.000664 * grid->prate_sfc_ann));
 	flux->npp_miami = (npp_tem<npp_pre)?npp_tem:npp_pre;
 	/*** MONTREAL model ***/
 	flux->npp_montreal = cTdm*30.0*(1.0 - exp(-0.0009695*(aet_ann - 20.0)));
@@ -81,8 +82,8 @@ void npp_empirical(
 	the sensitivity of tropical forest growth to precipitation. 
 	Ecology, 84:1165-1170.
 	*/
-	npp_tem = 17.6243/(1.0 + exp(1.3496-grid->tmp_sfc_am*0.071514));
-	npp_pre = 0.005212*pow(grid->prate_sfc_ann, 1.12363)/exp(0.000459532*grid->prate_sfc_ann);
+	npp_tem = 17.6243/(1.0 + exp(1.3496 - grid->tmp_sfc_am * 0.071514));
+	npp_pre = 0.005212*pow(grid->prate_sfc_ann, 1.12363)/exp(0.000459532 * grid->prate_sfc_ann);
 	flux->npp_schuur = (npp_tem<npp_pre)?npp_tem:npp_pre;
 	
 	/* ROSENZWEIG model ***********/
@@ -128,4 +129,31 @@ void npp_empirical(
 			flux->npp_nceas = (npp_tem<npp_pre)?npp_tem:npp_pre;
 			break;
 	}
+    
+    /* estimated max LAI: 2014/05/20 by A.Ito */
+    /* Iio, A., K. Hikosaka, N. P. R. Anten, Y. Nakagawa, and A. Ito. 2014. 
+    Global dependence of field-observed leaf area index on climate in woody 
+    species: Systematic review. Global Ecology and Biogeography 3:274–285. */
+    
+    if(pet_ann > 0.0){
+        wi = grid->prate_sfc_ann / pet_ann;
+    }else{
+        wi = 1.0;
+    }
+    if(wi < 0.01){
+        wi = 0.01;
+    }
+    wi = log10(wi);
+    
+    mat = grid->tmp_sfc_am;
+    
+    /* model4 */
+    lll = 0.571 + 0.637*wi - 0.498*wi*wi*wi - 0.254*wi*wi + 0.003*mat;
+    if(lll < -2.0){
+        lll = -2.0;
+    }
+    if(lll > 2.0){
+        lll = 2.0;
+    }
+    loct->est_maxlai = pow(10.0, lll);
 }

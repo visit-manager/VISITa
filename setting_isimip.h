@@ -17,6 +17,8 @@
 #define STCIR (0.0111/0.9889) /* standard stable carbon isotope ratio */
 #define UGC 8.314 /* universal gas constant */
 #define SLC 1367.0
+#define SBC (5.6703 / 100000000.0) /* Stephan-Boltzman Constant, W m-2 K-4 */
+#define GAC 9.8 /* gravity acceleration constant, m s-2 */
 
 /***********************************************************/
 /* annual time-step, 12=monthly */
@@ -29,7 +31,7 @@
 #define INT_C 0.01
 
 /***********************************************************/
-#define ISIMIP_RUN 0
+#define ISIMIP_RUN 1
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 
@@ -87,6 +89,8 @@
 /* total historical run: using CRU, NCEP, etc.*/
 #if ISIMIP_RUN==1
     #define PD_HIST 150  /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
+#elif GEOMIP_RUN==1
+    #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
 #else
     /* non-ISI-MIP: case dependent */
     /* #define PD_HIST 100  */	/* AD 1901 - 2000 */
@@ -97,7 +101,6 @@
     /* #define PD_HIST 111	*/	/* AD 1901 - 2011 */
     /* #define PD_HIST 112	*/	/* AD 1901 - 2012 */
     #define PD_HIST 113	/* */	/* AD 1901 - 2013 */
-    /* #define PD_HIST 105 */  /* AD 1901 - 2005 --GEOMIP */
 #endif
 
 /* start year (AD) of climate */
@@ -126,7 +129,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
@@ -184,7 +187,7 @@
 #define NECB_CROP 1
 
 /* land use setting */
-#define LANDUSE 10
+#define LANDUSE 9
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -232,6 +235,10 @@
 /* 4: CMIP5-mean */
 /* 5: GlobAlbedo */
 
+#define EX_TVAR 0
+/* 0: off */
+/* 1: albedo-induced temperature change */
+
 /* ozone impacts: 2013/02/25 by A.Ito *************/
 #define EX_OZONE 0
 /* 0: off */
@@ -257,7 +264,7 @@
 /* 0:off, 1:0n */
 
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 
@@ -315,13 +322,13 @@
 /* text output */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
-#define OUTPUT_GHG 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 0
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 
 /********************************************************/
 /* sensitivity analysis *****************/
@@ -394,7 +401,7 @@
 /* 6: +10% WHC30/WHC */
 /* 7: fixed LAI (1990s av) in 2000-2100 */
 
-/* climate change ********************************/
+/* climate change ************************/
 /* 0:off   1:on */
 /* temperature */
 #define CC_T 1

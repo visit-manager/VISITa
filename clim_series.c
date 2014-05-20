@@ -45,6 +45,7 @@ void set_hist_clim(
                 grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY][h];  
             }
         }else{
+            /* extention by NCEP/NCAR data */
             /* 2003-2008: extrapolation using NCEP/NCAR data: 2009/01/05 by A.Ito */
             /* 2006-2009: extrapolation using NCEP/NCAR data: 2010/01/04 by A.Ito */
             /* 2006-2010: extrapolation using NCEP/NCAR data: 2011/03/XX by A.Ito */

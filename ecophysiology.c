@@ -126,7 +126,7 @@ double lai_mass(
 	/** specific leaf area as a function of... what? **/
 	sla = pchar->sla;
 	
-	lai_est = sla*mass->fol*dmTc/100.0/2.0;
+	lai_est = sla * mass->fol * dmTc/100.0/2.0;
 	lai_est = (lai_est>=0.0)?lai_est:0.0;
 	
 	/* dmTc: dry-matter to carbon */
@@ -134,7 +134,7 @@ double lai_mass(
 	/* 2.0: single-sided leaf area */	
 	
 	/* sensitivity analysis: prescribed LAI **/
-	if(SENS == 7 && (grid->climy>=2000) ){
+	if(SENS == 7 && (grid->climy >= 2000) ){
 		lai_est = mass->lai0[grid->m];
 	}
 	
@@ -150,7 +150,7 @@ double irr_attn(
 	double aaa, bbb;
 	
 	/* a function of solar hight angle */
-	aaa = sin(grid->sl_hgt[grid->m]*dTr); 
+	aaa = sin(grid->sl_hgt[grid->m] * dTr);
 	aaa = (aaa<=1.0)?aaa:1.0; 
 	aaa = (aaa>=0.3)?aaa:0.3; /* to avoid extreme values*/
 	bbb = pchar->eK0/aaa;
@@ -171,7 +171,7 @@ void incel_cdc(
 	gs_co2 = plant->gs[grid->m]/1.56; 
 	/* 1.56: conversion from H2O to CO2 conductance */
 	
-	ci = loct->aco2[grid->m]-(plant->ptop/(gs_co2/1000.0));
+	ci = loct->aco2[grid->m] - (plant->ptop/(gs_co2/1000.0));
 	/* 1000.0: conbert from mmol to micro mol */
 	
 	ci = (ci>=0.0)?ci:0.0;

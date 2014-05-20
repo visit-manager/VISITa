@@ -116,13 +116,14 @@ void screenshow(
 	printf("M2R: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4_paddy_wh_release[h]);		ann+=(flux->soil).ch4_paddy_wh_release[h];	}		printf(": %.1lf\n",ann); */
 	
-	/* printf("XX1: ");
-	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx1[h]);		}			printf("\n"); 
+	printf("XX1: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",loct->xx1[h]);		}			printf("\n");
 	printf("XX2: ");
-	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx2[h]);		}			printf("\n"); 
+	for(h=0;h<12;h++){		printf("%6.2lf ",loct->xx2[h]);		}			printf("\n");
 	printf("XX3: ");
-	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx3[h]);		}			printf("\n"); 
-	printf("XX4: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",loct->xx3[h]);		}			printf("\n");
+    
+	/* printf("XX4: ");
 	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx4[h]);		}			printf("\n"); 
 	printf("XX5: ");
 	for(h=0;h<12;h++){		printf("%6.3lf ",loct->xx5[h]);		}			printf("\n"); */
@@ -339,4 +340,5 @@ void screenshow(
 	printf("Montreal	%10.3lf\n", flux->npp_montreal);
 	printf("Schuur		%10.3lf\n", flux->npp_schuur);
 	printf("NCEAS		%10.3lf\n", flux->npp_nceas);
+    printf("MAXLAI		%10.3lf\n", loct->est_maxlai);
 }
