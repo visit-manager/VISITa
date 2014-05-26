@@ -247,16 +247,16 @@ void f_n_deposit(
 		f_no3 = 0.5;
 		f_nh4 = 0.5;
 	}else{
-		f_no3 = (grid->ndepo_ann_dnoy+grid->ndepo_ann_wnoy) / ndepo_ann;
-		f_nh4 = (grid->ndepo_ann_dnhx+grid->ndepo_ann_wnhx) / ndepo_ann;
+		f_no3 = (grid->ndepo_ann_dnoy + grid->ndepo_ann_wnoy) / ndepo_ann;
+		f_nh4 = (grid->ndepo_ann_dnhx + grid->ndepo_ann_wnhx) / ndepo_ann;
 	}
 	
 	if(ndepo_ann <= 0.0){
 		f_wet = 0.5;
 		f_dry = 0.5;
 	}else{
-		f_wet = (grid->ndepo_ann_wnoy+grid->ndepo_ann_wnhx) / ndepo_ann;
-		f_dry = (grid->ndepo_ann_dnoy+grid->ndepo_ann_dnhx) / ndepo_ann;
+		f_wet = (grid->ndepo_ann_wnoy + grid->ndepo_ann_wnhx) / ndepo_ann;
+		f_dry = (grid->ndepo_ann_dnoy + grid->ndepo_ann_dnhx) / ndepo_ann;
 	}
 	
 	/* annual precipitation */

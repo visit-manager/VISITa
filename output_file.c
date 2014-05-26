@@ -383,6 +383,9 @@ void f_output_result(
         fprintf(fp_o[0],"%.4lf ", flux->erod_carbon); /* 2011/12/15 */
         fprintf(fp_o[0],"%.4lf ", flux->hvst_wood);
         
+        /* added: 2014/05/21 (A.Ito) */
+        fprintf(fp_o[0],"%.4lf ", loct->est_maxlai);
+        
         fprintf(fp_o[0],"\n");
     }
 	
@@ -590,13 +593,13 @@ void f_output_result(
             fprintf(fp_o[6],"%.4lf ", loct->apar_d[f]);
             
             /* 2014/01/22 for WSL output */
-            fprintf(fp_o[6],"%.3lf ", loct->xx1[f]);
+            /* fprintf(fp_o[6],"%.3lf ", loct->xx1[f]);
             fprintf(fp_o[6],"%.3lf ", loct->xx2[f]);
             fprintf(fp_o[6],"%.3lf ", loct->xx3[f]);
             fprintf(fp_o[6],"%.3lf ", loct->xx4[f]);
             fprintf(fp_o[6],"%.3lf ", loct->xx5[f]);
             fprintf(fp_o[6],"%.3lf ", loct->xx6[f]);
-            fprintf(fp_o[6],"%.3lf ", loct->xx7[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx7[f]); */
         }
         fprintf(fp_o[6],"\n");
     }

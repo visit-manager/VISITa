@@ -218,10 +218,10 @@ void f_after_deal(
 	}
 	
 	/* leaves */
-	if((flux->tpf[grid->m]-flux->rfg[grid->m])>0.0){
+	if((flux->tpf[grid->m]-flux->rfg[grid->m]) > 0.0){
 		mass->d14c_fol = (mass->d14c_fol*mass->fol + in_d14c*flux->tpf[grid->m]) 
 						/ (mass->fol + flux->tpf[grid->m]);
-	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<=0.0){
+	}else if((flux->tpf[grid->m]-flux->rfg[grid->m]) <= 0.0){
 		mass->d14c_fol = (mass->d14c_fol*mass->fol + in_d14c*pchar->malloc_f[grid->m]*flux->gpp[grid->m]) 
 						  / (mass->fol + pchar->malloc_f[grid->m]*flux->gpp[grid->m]);
 	}
@@ -231,10 +231,10 @@ void f_after_deal(
 	mass->d14c_mfol[grid->m] = mass->d14c_fol;
 	
 	/* stems */
-	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
+	if((flux->tpc[grid->m]-flux->rcg[grid->m]) > 0.0){
 		mass->d14c_stm = (mass->d14c_stm*mass->stm + in_d14c*flux->tpc[grid->m]) 
 						/ (mass->stm + flux->tpc[grid->m]);
-	}else if((flux->tpc[grid->m]-flux->rcg[grid->m])<=0.0){
+	}else if((flux->tpc[grid->m]-flux->rcg[grid->m]) <= 0.0){
 		mass->d14c_stm = (mass->d14c_stm*mass->stm +  in_d14c* pchar->malloc_c[grid->m]*flux->gpp[grid->m])
 						 / (mass->stm + pchar->malloc_c[grid->m]*flux->gpp[grid->m]);
 	}
@@ -244,10 +244,10 @@ void f_after_deal(
 	mass->d14c_mstm[grid->m] = mass->d14c_stm;
 	
 	/* roots */
-	if((flux->tpr[grid->m]-flux->rrg[grid->m])>0.0){
+	if((flux->tpr[grid->m]-flux->rrg[grid->m]) > 0.0){
 		mass->d14c_rot = (mass->d14c_rot*mass->rot + in_d14c*flux->tpr[grid->m]) 
 						/ (mass->rot + flux->tpr[grid->m]);
-	}else if((flux->tpr[grid->m]-flux->rrg[grid->m])<=0.0){
+	}else if((flux->tpr[grid->m]-flux->rrg[grid->m]) <= 0.0){
 		mass->d14c_rot = (mass->d14c_rot*mass->rot + in_d14c*pchar->malloc_r[grid->m]*flux->gpp[grid->m]) 
 						  / (mass->rot + pchar->malloc_r[grid->m]*flux->gpp[grid->m]);
 	}
@@ -281,10 +281,10 @@ double grid_area(
 	l_lat = PI/180.0*e_rad*(1.0 - e_exc*e_exc)/pow(aa, 1.5) * fabs(lat1 - lat2);
 	
 	/* bug fixed 2007/12/25 E.Kato and A.Ito */
-	aa = 1.0 - e_exc*e_exc*sin(lat1*PI/180.0)*sin(lat1*PI/180.0);
-	l_lon1 = PI/180.0*e_rad*cos(lat1*PI/180.0)/sqrt(aa) * fabs(lon1-lon2);
-	aa = 1.0 - e_exc*e_exc*sin(lat2*PI/180.0)*sin(lat2*PI/180.0);
-	l_lon2 = PI/180.0*e_rad*cos(lat2*PI/180.0)/sqrt(aa) * fabs(lon1-lon2);
+	aa = 1.0 - e_exc * e_exc * sin(lat1*PI/180.0)*sin(lat1*PI/180.0);
+	l_lon1 = PI/180.0 * e_rad * cos(lat1*PI/180.0)/sqrt(aa) * fabs(lon1 - lon2);
+	aa = 1.0 - e_exc * e_exc * sin(lat2*PI/180.0)*sin(lat2*PI/180.0);
+	l_lon2 = PI/180.0 * e_rad * cos(lat2*PI/180.0)/sqrt(aa) * fabs(lon1 - lon2);
 	
 	area = (l_lon1 + l_lon2)*l_lat/2.0 / 10000.0;
 	

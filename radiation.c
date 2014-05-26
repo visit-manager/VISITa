@@ -286,6 +286,7 @@ void f_net_rad(
 	loct->albedo_sfc[grid->m] = (echar->soil).albedo[grid->m]*ground + 
 					(echar->c3).albedo*c3_canopy + (echar->c4).albedo*c4_canopy;
     albedo_base = loct->albedo_sfc[grid->m];
+    loct->xx8[grid->m] = albedo_base; /* */
 	
     /* albedo perturbation: 2012/12/29 by A.Ito */
     if(EX_ALBEDO == 1){
@@ -307,6 +308,13 @@ void f_net_rad(
         loct->albedo_sfc[grid->m] = 0.01;
     }
     albedo_var = loct->albedo_sfc[grid->m];
+    /* loct->xx5[grid->m] = albedo_var; */
+    
+    if(grid->phase == 0){
+        grid->tmp_sfc[grid->m] = grid->tmp_sfc_a[grid->m];
+        grid->tmp10_soil[grid->m] = grid->tmp10_soil_a[grid->m];
+        grid->tmp200_soil[grid->m] = grid->tmp200_soil_a[grid->m];
+    }
     
     /* temperature change due to albedo: 2014/5/19 by A.Ito */
     if(EX_TVAR == 1 && EX_ALBEDO>=1){
@@ -320,64 +328,87 @@ void f_net_rad(
         rn_short_var = (1.0 - albedo_var) * grid->gl_rad[grid->m];
         
         /* base temperature: default albedo */
-        nn = 0; crit = 0.0;
+        nn = 0; crit = 10.0;
         tsfc = grid->tmp_sfc[grid->m];
-        while(nn<10 && crit<0.2){
+        if(grid->phase == 0){
+            tsfc = grid->tmp_sfc_a[grid->m];
+        }
+        while(nn<12 && crit>0.2){
         
             aaa = pow((tsfc + ZAT), 4.0) * SBC;
             snsheat = 1210.0 * (tsfc - grid->tmp_2m[grid->m]) / loct->r_aero[grid->m];
             tt1 = (rn_short_base - latheat) - aaa*bbb*ccc - snsheat;
             
-            aaa = pow(((tsfc+0.5) + ZAT), 4.0) * SBC;
+            aaa = pow(((tsfc + 0.5) + ZAT), 4.0) * SBC;
             snsheat = 1210.0 * ((tsfc+0.5) - grid->tmp_2m[grid->m]) / loct->r_aero[grid->m];
             tt2 = (rn_short_base - latheat) - aaa*bbb*ccc - snsheat;
             
-            tsfc = tsfc - tt1*0.2 / (tt2 - tt1);
-            
-            crit = fabs( tt1*0.2 / (tt2 - tt1) );
+            if( fabs(tt2 - tt1) >= 0.5){
+                tsfc = tsfc - tt1*0.5 / (tt2 - tt1);
+                crit = fabs( tt1*0.5 / (tt2 - tt1) );
+            }else{
+                break;
+            }
             nn++;
         }
         tsfc_base = tsfc;
         loct->xx1[grid->m] = tsfc;
+        loct->xx6[grid->m] = snsheat;
         
         /* varied temperature: default albedo */
-        nn = 0; crit = 0.0;
+        nn = 0; crit = 10.0;
         tsfc = grid->tmp_sfc[grid->m];
-        while(nn<10 && crit<0.2){
+        if(grid->phase == 0){
+            tsfc = grid->tmp_sfc_a[grid->m];
+        }
+        while(nn<12 && crit>0.2){
         
             aaa = pow((tsfc + ZAT), 4.0) * SBC;
             snsheat = 1210.0 * (tsfc - grid->tmp_2m[grid->m]) / loct->r_aero[grid->m];
             tt1 = (rn_short_var - latheat) - aaa*bbb*ccc - snsheat;
             
-            aaa = pow(((tsfc+0.5) + ZAT), 4.0) * SBC;
+            aaa = pow(((tsfc + 0.5) + ZAT), 4.0) * SBC;
             snsheat = 1210.0 * ((tsfc+0.5) - grid->tmp_2m[grid->m]) / loct->r_aero[grid->m];
             tt2 = (rn_short_var - latheat) - aaa*bbb*ccc - snsheat;
             
-            tsfc = tsfc - tt1*0.2 / (tt2 - tt1);
-            
-            crit = fabs( tt1*0.2 / (tt2 - tt1) );
+            if( fabs(tt2 - tt1) >= 0.5){
+                tsfc = tsfc - tt1*0.5 / (tt2 - tt1);
+                crit = fabs( tt1*0.5 / (tt2 - tt1) );
+            }else{
+                break;
+            }
             nn++;
         }
         tsfc_var = tsfc;
         loct->xx2[grid->m] = tsfc;
+        loct->xx7[grid->m] = snsheat;
         
         /* temperature change */
         dtsfc = tsfc_var - tsfc_base;
-        if(dtsfc < -5.0){
-            dtsfc = -5.0;
-        }
-        if(dtsfc > 5.0){
-            dtsfc = 5.0;
-        }
         
-        loct->xx3[grid->m] = tsfc;
-        
+        if(dtsfc>=-10.0 && dtsfc<=10.0){
+            ;
+        }else if(dtsfc < -10.0){
+            dtsfc = -10.0;
+        }else if(dtsfc > 10.0){
+            dtsfc = 10.0;
+        }else{
+            dtsfc = 0.0;
+        }        
+        loct->xx3[grid->m] = dtsfc;
+       
         grid->tmp_sfc[grid->m] += dtsfc;
         grid->tmp10_soil[grid->m] += dtsfc;
-        grid->tmp200_soil[grid->m] += dtsfc;
+        grid->tmp200_soil[grid->m] += dtsfc; /* */
         
-        /* Assumption: this surface/sub-surface temperature change does not 
+        loct->xx4[grid->m] = grid->tmp_sfc[grid->m];
+        loct->xx5[grid->m] = grid->tmp10_soil[grid->m];
+
+       /* Assumption: this surface/sub-surface temperature change does not
                        affect air temperature and humidity */
+        
+        aaa = pow(((grid->tmp_sfc[grid->m] + 0.5) + ZAT), 4.0) * SBC;
+        loct->rad_net_long[grid->m] = net_long = aaa*bbb*ccc;
         
         loct->rad_net_short[grid->m] = rn_short_var;
         
@@ -388,7 +419,6 @@ void f_net_rad(
     /****/
 	ddd1 = exp(-1.0 * eee * (1.0 - transmittance)); /*2003-06-27*/
 	ddd2 = exp(-1.0 * eee); /*2003-06-27*/
-	
    
     /*  */
 	kmono_c3 = irr_attn(grid, loct, &(echar->c3));

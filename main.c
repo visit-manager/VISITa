@@ -333,7 +333,8 @@ int main(
 				
 				/* initialize stable carbon isotope ****/
 				f_init_c_isotpes(&grid, &flux, &echar, &mass);
-
+                
+                grid.phase = 0;  /* confirmation */
 				/* spin-up: stabilization roop ***************************/
 				cal_spinup(&grid, &loct, &echar, &mass, &flux, fp_o1);
 
@@ -380,6 +381,7 @@ int main(
 				f_init_c_isotpes(&grid, &flux_agr, &echar_agr, &mass_agr);
 
 				/* spin-up: stabilization roop ***************************/
+                grid.phase = 0;  /* confirmation */
 				cal_spinup(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
 
 				/* snap shot for checking *****/

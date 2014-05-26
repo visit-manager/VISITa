@@ -110,8 +110,8 @@ void f_ch4_emit_cao(
     /* revised by A.Ito (2013/11/29) */
 	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * 4.0)
 						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -10.0));
-	if(f_wtable<0.0){
-		f_wtable = 0.0;
+	if(f_wtable < 0.0){
+        f_wtable = 0.0;
 	}
 	/* Mg C ha-1 month-1 */
 	/* assuming low decomposition at paddy field: 0.4, 2008/06/11 */
@@ -266,7 +266,7 @@ void f_ch4_emit_walter(
 	/* depth from the soil surface, m */
 	dpth[0] = -0.04;
 	for(f=1;f<=SOIL_LAYER;f++){
-		dpth[f] = 0.0 + ((double)f-0.5)*hh;
+		dpth[f] = 0.0 + ((double)f - 0.5)*hh;
 	}
 	
 	/* porosity */

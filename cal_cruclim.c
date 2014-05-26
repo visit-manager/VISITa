@@ -273,18 +273,18 @@ void cal_historical(
 		/* corrected: A.Ito and E.Kato (2009/08/16) */
 		if(g>=90 && g<=99){
 			for(f=0;f<ASTEP;f++){
-				m_bioburn_co2[f] += (flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]
-									 +flux->bb_co2_wood[f]+flux->bb_co2_root[f]) * grid->area / 10.0;
-				m_bioburn_co[f] += (flux->bb_co_litter[f]+flux->bb_co_leaf[f]
-									+flux->bb_co_wood[f]+flux->bb_co_root[f]) * grid->area / 10.0;
-				m_bioburn_ch4[f] += (flux->bb_ch4_litter[f]+flux->bb_ch4_leaf[f]
-									 +flux->bb_ch4_wood[f]+flux->bb_ch4_root[f]) * grid->area / 10.0;
-				m_bioburn_nmhc[f] += (flux->bb_nmhc_litter[f]+flux->bb_nmhc_leaf[f]
-									  +flux->bb_nmhc_wood[f]+flux->bb_nmhc_root[f]) * grid->area / 10.0;
-				m_bioburn_oc[f] += (flux->bb_oc_litter[f]+flux->bb_oc_leaf[f]
-									+flux->bb_oc_wood[f]+flux->bb_oc_root[f]) * grid->area / 10.0;
-				m_bioburn_bc[f] += (flux->bb_bc_litter[f]+flux->bb_bc_leaf[f]
-									+flux->bb_bc_wood[f]+flux->bb_bc_root[f]) * grid->area / 10.0;
+				m_bioburn_co2[f] += (flux->bb_co2_litter[f] + flux->bb_co2_leaf[f]
+									 +flux->bb_co2_wood[f] + flux->bb_co2_root[f]) * grid->area / 10.0;
+				m_bioburn_co[f] += (flux->bb_co_litter[f] + flux->bb_co_leaf[f]
+									+flux->bb_co_wood[f] + flux->bb_co_root[f]) * grid->area / 10.0;
+				m_bioburn_ch4[f] += (flux->bb_ch4_litter[f] + flux->bb_ch4_leaf[f]
+									 +flux->bb_ch4_wood[f] + flux->bb_ch4_root[f]) * grid->area / 10.0;
+				m_bioburn_nmhc[f] += (flux->bb_nmhc_litter[f] + flux->bb_nmhc_leaf[f]
+									  +flux->bb_nmhc_wood[f] + flux->bb_nmhc_root[f]) * grid->area / 10.0;
+				m_bioburn_oc[f] += (flux->bb_oc_litter[f] + flux->bb_oc_leaf[f]
+									+flux->bb_oc_wood[f] + flux->bb_oc_root[f]) * grid->area / 10.0;
+				m_bioburn_bc[f] += (flux->bb_bc_litter[f] + flux->bb_bc_leaf[f]
+									+flux->bb_bc_wood[f] + flux->bb_bc_root[f]) * grid->area / 10.0;
 			}
 		}
 		if(g>=80 && g<=89){
