@@ -102,7 +102,11 @@ void npp_empirical(
 		flux->npp_madison_parwsi = 0.0;
 	}
 	
-	flux->npp_madison_gddswsi = (3.96 / (1.0 + exp(6.33 - 1.5*gdd))) * (39.58 * wsi - 14.52) * 0.01;
+    if(gdd>0.0 && gdd<10.0){
+        flux->npp_madison_gddswsi = (3.96 / (1.0 + exp(6.33 - 1.5*gdd))) * (39.58 * wsi - 14.52) * 0.01;
+    }else{
+        flux->npp_madison_gddswsi = 3.96 * (39.58 * wsi - 14.52) * 0.01;
+    }
 	if(flux->npp_madison_gddswsi < 0.0){
 		flux->npp_madison_gddswsi = 0.0;
 	}
@@ -155,5 +159,15 @@ void npp_empirical(
     if(lll > 2.0){
         lll = 2.0;
     }
+    
+    /* model5 */
+    lll = 0.532191 + 0.593486*wi - 0.441269*wi*wi*wi - 0.245266*wi*wi + 0.0164922*mat - 0.000620463*mat*mat;
+    if(lll < -2.0){
+        lll = -2.0;
+    }
+    if(lll > 2.0){
+        lll = 2.0;
+    }
+    
     loct->est_maxlai = pow(10.0, lll);
 }

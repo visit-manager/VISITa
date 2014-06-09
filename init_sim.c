@@ -346,7 +346,7 @@ void f_init_sim(
 #endif	
 	
 	/* regional historical */
-	for(f=0;f<NREG;f++){
+	for(f=0;f<N_REG;f++){
 		rh_area[f] = 0.0;
 		for(g=0;g<PD_SIM;g++){
 			rh_temp[f][g] = rh_prec[f][g] = rh_dswrf[f][g] = 0.0;

@@ -87,6 +87,8 @@ void cal_historical(
 						
 			/* environmental condition *******************/
 			f_dyn_loct(grid, loct, mass, echar);
+            
+            printf("%5.1lf ", grid->tmp_sfc[f]);
 			
 			/* vegetation processes *********************/
 			f_biome_processes(grid, loct, echar, mass, flux);
@@ -264,6 +266,7 @@ void cal_historical(
 			/******************/
 			f_grid_av(grid, loct, echar, mass, flux);
 		}
+        printf("\n");
 		
 		/* empirical NPP models */
 		npp_empirical(grid, loct, flux);

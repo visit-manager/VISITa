@@ -76,7 +76,7 @@ void f_voc_emit_guenther97(
 	long f, idveg;
 	double foliar_dens, leaf_temp, parday;
 	double f_ppfd, f_temp_isopr, f_temp_monotrp, f_phenology;
-	double aa, bb, cc, laiage[49], t_lai, total_closs;
+	double aa, bb, cc, dd, laiage[49], t_lai, total_closs;
 	extern double MDN[ASTEP];
 	
 	/* veg_sage:
@@ -114,13 +114,22 @@ void f_voc_emit_guenther97(
 		sqrt(1.0 + 0.0027 * 0.0027 * parday * parday) * 0.5;
 	
 	/* temperature factor ***********/
+    /* leaf temperature in K */
 	leaf_temp = grid->tmp_sfc[grid->m] + ZAT;
-	/* isoprene */
-	aa = exp(95000.0*(leaf_temp - 303.15)/(8.314 * leaf_temp * 303.15));
-	bb = 0.961 + exp(230000.0*(leaf_temp - 314.0)/(8.314 * leaf_temp * 303.15));
-	f_temp_isopr = aa/bb;
-	/* monoterpene */
-	f_temp_monotrp = exp(0.09*(leaf_temp - 303.15)); 
+    if(leaf_temp > 150.0 && leaf_temp < 350.0){
+        /* isoprene */
+        dd = 95000.0*(leaf_temp - 303.15)/(8.314 * leaf_temp * 303.15);
+        aa = exp(dd);
+        dd = 230000.0*(leaf_temp - 314.0)/(8.314 * leaf_temp * 303.15);
+        bb = 0.961 + exp(dd);
+        f_temp_isopr = aa/bb;
+        /* monoterpene */
+        f_temp_monotrp = exp(0.09*(leaf_temp - 303.15));
+    }else{
+        /* exceptional leaf temperature */
+        f_temp_isopr = 0.0;
+        f_temp_monotrp = 0.0;
+    }
 	
 	/* leaf aging factor ***********/
 	/* f_phenology = 0.75; */ /* conventional value */

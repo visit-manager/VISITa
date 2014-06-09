@@ -36,23 +36,23 @@ void initVS(
 	parameterSoil(grid, &(echar->soil));
 
 	/* Sensitivity Analysis ***************************/
-	if(SENS==1){
+	if(SENS_PARA==1){
 		(echar->c3).gs_b1 *= 1.1;
 		(echar->c4).gs_b1 *= 1.1;
-	}else if(SENS==2){
+	}else if(SENS_PARA==2){
 		(echar->c3).pmax *= 1.1;
 		(echar->c4).pmax *= 1.1;
-	}else if(SENS==3){
+	}else if(SENS_PARA==3){
 		(echar->c3).eK0 *= 1.1;
 		(echar->c4).eK0 *= 1.1;
-	}else if(SENS==4){
+	}else if(SENS_PARA==4){
 		(echar->c3).lue0 *= 1.1;
 		(echar->c4).lue0 *= 1.1;
-	}else if(SENS==5){
+	}else if(SENS_PARA==5){
 		(echar->c3).albedo *= 1.1;
 		(echar->c4).albedo *= 1.1;
 		(echar->soil).albedo0 *= 1.1;
-	}else if(SENS==6){
+	}else if(SENS_PARA==6){
 		/* grid->whc30*=1.1;
 		grid->whc*=1.1; */
 	}

@@ -43,7 +43,8 @@ void soil_processes(
 		
 		mass->ltr = 0.0;
 		mass->msl = 0.0;
-
+        
+        /* DOC leaching */
 		flux->doc_boyer[grid->m] = 0.0;
 		mass->doc = 0.0;
 	}else{
@@ -52,7 +53,7 @@ void soil_processes(
 		/* soil respiration of mineral soil and humus */
 		flux->rh[grid->m] = nn*frh(grid, loct, schar, mass);
 		/* soil decomposition from upper litter to lower mineral soil */
-		flux->sf[grid->m] = fsf(grid, schar, flux );
+		flux->sf[grid->m] = fsf(grid, schar, flux);
 		/* stable carbon isotope */
 		flux->d13c_rl[grid->m] = mass->d13c_ltr;
 		flux->d13c_rh[grid->m] = mass->d13c_msl;
@@ -69,6 +70,7 @@ void soil_processes(
 		mass->ltr = (mass->ltr>=0.0)?mass->ltr:0.0;
 		mass->msl = (mass->msl>=0.0)?mass->msl:0.0;
 		
+        /* DOC leaching */
 		f_doc_boyer(grid, loct, mass, flux);
 	}
 	/* total soil respiration */

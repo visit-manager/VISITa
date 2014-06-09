@@ -1325,6 +1325,12 @@ void open_input(
 		printf("No SSMI inundation data\n");  
 		exit(1); 
 	}
+    
+     /* GCP-CH4 inundation data */
+	if( (fp_s[84]=fopen("./data/fw_swamp-biascor_1999-2013.txt","rt"))==NULL ){
+		printf("No GCP-CH4 inundation data\n");
+		exit(1); 
+	}
 	
     /* permafrost data */
 	if( (fp_s[49]=fopen("./data/permafrost_nsidc.dat","rt"))==NULL ){  

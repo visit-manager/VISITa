@@ -114,26 +114,26 @@ double hm_ch4_wh[PD_SIM][ASTEP];
 double hm_inund[PD_SIM][ASTEP];
 
 /* regional historical */
-double rh_area[NREG];
-double rh_temp[NREG][PD_SIM], rh_prec[NREG][PD_SIM], rh_dswrf[NREG][PD_SIM];
-double rh_rns[NREG][PD_SIM], rh_rnl[NREG][PD_SIM];
-double rh_ipar[NREG][PD_SIM], rh_apar[NREG][PD_SIM];
-double rh_gpp[NREG][PD_SIM], rh_npp[NREG][PD_SIM], rh_nep[NREG][PD_SIM];
-double rh_evpr[NREG][PD_SIM], rh_trsp[NREG][PD_SIM], rh_incp[NREG][PD_SIM], rh_rnof[NREG][PD_SIM];
+double rh_area[N_REG];
+double rh_temp[N_REG][PD_SIM], rh_prec[N_REG][PD_SIM], rh_dswrf[N_REG][PD_SIM];
+double rh_rns[N_REG][PD_SIM], rh_rnl[N_REG][PD_SIM];
+double rh_ipar[N_REG][PD_SIM], rh_apar[N_REG][PD_SIM];
+double rh_gpp[N_REG][PD_SIM], rh_npp[N_REG][PD_SIM], rh_nep[N_REG][PD_SIM];
+double rh_evpr[N_REG][PD_SIM], rh_trsp[N_REG][PD_SIM], rh_incp[N_REG][PD_SIM], rh_rnof[N_REG][PD_SIM];
 
 /* added by A.Ito (2009/11/15) */
-double rh_hvst[NREG][PD_SIM], rh_luc[NREG][PD_SIM];
-double rh_ch4ox_curry[NREG][PD_SIM], rh_ch4emit_wh_wet[NREG][PD_SIM], rh_ch4emit_wh_paddy[NREG][PD_SIM];
-double rh_n2o_emit_ngas[NREG][PD_SIM], rh_n2o_emitagr_ngas[NREG][PD_SIM];
+double rh_hvst[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
+double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
+double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
 
 /* added by A.Ito (2009/09/30) */
-double rh_ci_gpp[NREG][PD_SIM], rh_ci_gpp_d13c[NREG][PD_SIM], rh_ci_gpp_d14c[NREG][PD_SIM];
-double rh_ci_er[NREG][PD_SIM], rh_ci_er_d13c[NREG][PD_SIM], rh_ci_er_d14c[NREG][PD_SIM];
-double rh_ci_f[NREG][PD_SIM], rh_ci_f_d13c[NREG][PD_SIM], rh_ci_f_d14c[NREG][PD_SIM];
-double rh_ci_c[NREG][PD_SIM], rh_ci_c_d13c[NREG][PD_SIM], rh_ci_c_d14c[NREG][PD_SIM];
-double rh_ci_r[NREG][PD_SIM], rh_ci_r_d13c[NREG][PD_SIM], rh_ci_r_d14c[NREG][PD_SIM];
-double rh_ci_l[NREG][PD_SIM], rh_ci_l_d13c[NREG][PD_SIM], rh_ci_l_d14c[NREG][PD_SIM];
-double rh_ci_h[NREG][PD_SIM], rh_ci_h_d13c[NREG][PD_SIM], rh_ci_h_d14c[NREG][PD_SIM];
+double rh_ci_gpp[N_REG][PD_SIM], rh_ci_gpp_d13c[N_REG][PD_SIM], rh_ci_gpp_d14c[N_REG][PD_SIM];
+double rh_ci_er[N_REG][PD_SIM], rh_ci_er_d13c[N_REG][PD_SIM], rh_ci_er_d14c[N_REG][PD_SIM];
+double rh_ci_f[N_REG][PD_SIM], rh_ci_f_d13c[N_REG][PD_SIM], rh_ci_f_d14c[N_REG][PD_SIM];
+double rh_ci_c[N_REG][PD_SIM], rh_ci_c_d13c[N_REG][PD_SIM], rh_ci_c_d14c[N_REG][PD_SIM];
+double rh_ci_r[N_REG][PD_SIM], rh_ci_r_d13c[N_REG][PD_SIM], rh_ci_r_d14c[N_REG][PD_SIM];
+double rh_ci_l[N_REG][PD_SIM], rh_ci_l_d13c[N_REG][PD_SIM], rh_ci_l_d14c[N_REG][PD_SIM];
+double rh_ci_h[N_REG][PD_SIM], rh_ci_h_d13c[N_REG][PD_SIM], rh_ci_h_d14c[N_REG][PD_SIM];
 
 /* monthly mean results **********/
 double m_ch4ox1[ASTEP], m_ch4ox2[ASTEP], m_ch4ox3[ASTEP];
@@ -225,7 +225,7 @@ float gm_ch4ep_wh[12][N_ROW][N_COL];
 float gs_ipar_1[12][N_ROW][N_COL], gs_ipar_2[12][N_ROW][N_COL], gs_ipar_3[12][N_ROW][N_COL];
 float gs_ipard_1[12][N_ROW][N_COL], gs_ipard_2[12][N_ROW][N_COL], gs_ipard_3[12][N_ROW][N_COL]; */
 
-short RAD_SENS;
+short SENS_RAD;
 /* 0: control */
 /* 1: +10 diffuse PAR fraction */
 /* 2: -10 diffuse PAR fraction */

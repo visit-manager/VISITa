@@ -39,6 +39,22 @@
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
+/********************************************************/
+/* output text files */
+#define OUTPUT_CARBON1 1
+#define OUTPUT_CARBON2 1
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
+#define OUTPUT_HYDMET 1
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 0
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
+/* output binary */
+#define C13_GOUT 1
+#define C14_GOUT 1
+#define PHYS_GOUT 1
+
 /***********************************************************/
 /* total vegetation number */
 #define NVEG_OLSON 34	/* Olson veg (modified) */
@@ -55,7 +71,7 @@
 /* 0:off 1:on */
 
 /* number of geographical regions */
-#define NREG 23
+#define N_REG 23
 /* defined in region_giorgi() in vegetdeal.c */
 
 /* atmopsheric GHG data length */
@@ -226,8 +242,9 @@
 /* 0: conventional */
 /* 1: lai based */
 
+/***************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
-#define EX_ALBEDO 0
+#define EX_ALBEDO 5
 /* 0: off */
 /* 1: perturbation */
 /* 2: CMIP5-max */
@@ -235,7 +252,7 @@
 /* 4: CMIP5-mean */
 /* 5: GlobAlbedo */
 
-#define EX_TVAR 0
+#define EX_TVAR 1
 /* 0: off */
 /* 1: albedo-induced temperature change */
 
@@ -263,6 +280,7 @@
 #define DIF_SRB 1
 /* 0:off, 1:0n */
 
+/***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
 #define CH4_WH 0
 /* 0:off, 1:0n */
@@ -277,16 +295,27 @@
 /* 3: bubble 450 microM */
 /* 4: bubble 550 microM */
 
-/* specific scheme on permaforst */
-#define EX_PERFROST 0
-/* 0:off, 1:0n */
-
 /* Alternative land-cover data for CH4 */
 #define ALT_FWETLAND 0
 /* 0: not use alternative data */
 /* 1: use data */
 /* 2: use Peregon-san data: 2014/02/04 */
 
+/* inundation data */
+#define ALT_INUND 0
+/* 0: default (SSMI) */
+/* 1: GCP-CH4  */
+/* 2: IIS satellite observation */
+
+/* specific scheme on permaforst */
+#define EX_PERFROST 0
+/* 0:off, 1:0n */
+
+/* change in wetland extent due to permafrost melting: 2012/10/26 by A.Ito */
+#define VAR_PFMWET 0
+/* 0:off, 1:0n */
+
+/***************************************************/
 /* parameter perturbation */
 /* climate perturbation */
 #define PRT_CLIM 0
@@ -309,26 +338,6 @@
 /* sensitivity run of N deposition */
 #define SENS_N 0
 /* 0:off, 1:0n */
-
-/* change in wetland extent due to permafrost melting: 2012/10/26 by A.Ito */
-#define VAR_PFMWET 0
-/* 0:off, 1:0n */
-
-/********************************************************/
-/* binary output */
-#define C13_GOUT 1
-#define C14_GOUT 1
-#define PHYS_GOUT 1
-/* text output */
-#define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
-#define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
-#define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
 
 /********************************************************/
 /* sensitivity analysis *****************/
@@ -391,7 +400,7 @@
 /* 3: litter quantity */
 
 /* parameter sensitivity analysis */
-#define SENS 0
+#define SENS_PARA 0
 /* 0: control */
 /* 1: +10% gsmax */
 /* 2: +10% Pmax */
@@ -419,7 +428,7 @@
 /* 2: no CO2 rise */
 
 /* deforestation ************************************/
-#define DEFOREST 0
+#define EX_DEFOREST 0
 /* 0: as present */
 /* 1: entire deforestation, replaced by 19 */
 /* 2: entire deforestation, replaced by 13 */
@@ -623,7 +632,7 @@
 /* 1266: NCAR PCM + A2 3 */
 /* 1267: NCAR PCM + A2 4 */
 
-/*** ISI-MIP: 2012/06/27 by A.Ito ***/
+/*** ISI-MIP Phase 1: 2012/06/27 by A.Ito ***/
 /* 2001: HadGEM2-ES RCP 2.6 +co2 */
 /* 2002: HadGEM2-ES RCP 8.5 +co2 */
 /* 2003: HadGEM2-ES RCP 4.5 +co2 */

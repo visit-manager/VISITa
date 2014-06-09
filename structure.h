@@ -313,6 +313,9 @@ struct Grid{
 	double	inundation_ssmi[ASTEP];		/* inundation by SSM/I: added by A.Ito (2009/07/13) */
 	double	inundation_ssmi_av;
 	double	inundation_ssmi_max;
+    
+    double  inundation_gcp_av[ASTEP];
+    double  inundation_gcp_ts[15][ASTEP];
 	
 	long	type_permaforst;			/* permafrost type by NSIDC */
     double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
@@ -440,7 +443,8 @@ struct Loct{
 	double	xx6[ASTEP];
 	double	xx7[ASTEP];
 	double	xx8[ASTEP];
-};			
+	double	xx9[ASTEP];
+};
 
 /* vegetation characteristics ****************************************************/
 struct Pchar{ 

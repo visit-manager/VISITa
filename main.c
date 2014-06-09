@@ -94,7 +94,7 @@ int main(
 	/* config: 3 code for radiation sensitivity analysis */
 	fscanf(fp_setting,"%s %ld", s_config, &l_config);   
 	printf("config  3: %s %ld\n", s_config, l_config);
-	RAD_SENS = l_config;
+	SENS_RAD = l_config;
 	
 	/* config: 4 photosynthesis model 0(Monsi-Saeki) or 1(DePury-Farquhar) */
 	fscanf(fp_setting,"%s %ld", s_config, &l_config);
@@ -297,7 +297,7 @@ int main(
 			
 			/* selection of calculation grids ***************************************/
 			flag_calc = 0;
-			if(grid.veg_olson!=0 && grid.veg_olson!=33 
+			if(grid.veg_olson!=0 && grid.veg_olson!=33 && grid.flag_histdata==1
 					/* && (g+0)%10==0  */
 					&& (g+0)%1==0 /* */
 					&& grid.lat<=area_t&&grid.lat>=area_b && grid.lon>=area_l&&grid.lon<=area_r

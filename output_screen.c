@@ -31,7 +31,9 @@ void screenshow(
 	printf("CO2: ");
 	for(h=0;h<12;h++){		printf("%6.0lf ",grid->bco2[h]);		}		printf("\n"); 
 	printf("T2M: ");
-	for(h=0;h<12;h++){		printf("%6.0lf ",grid->tmp_2m[h]);		}		printf("\n"); 
+	for(h=0;h<12;h++){		printf("%6.0lf ",grid->tmp_2m[h]);		}		printf("\n");
+	printf("TSF: ");
+	for(h=0;h<12;h++){		printf("%6.0lf ",grid->tmp_sfc[h]);		}		printf("\n");
 	
 	printf("PRE: ");	ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.0lf ",grid->prate_sfc[h]);		ann+=grid->prate_sfc[h];	}		printf(" %.1lf\n",ann); 
@@ -43,7 +45,7 @@ void screenshow(
 	printf("SWU: ");
 	for(h=0;h<12;h++){		printf("%6.0lf ",loct->msw30[h]);	}			printf("\n"); 
 	printf("SWW: ");
-	for(h=0;h<12;h++){		printf("%6.0lf ",loct->msww[h]);	}			printf("\n"); 
+	for(h=0;h<12;h++){		printf("%6.0lf ",loct->msww[h]);	}			printf("\n");  /* */
 	
 	printf("PS3: ");
 	for(h=0;h<12;h++){		printf("%6.2lf ",(echar->c3).psat_df[h]);		}	printf("\n"); 
@@ -109,12 +111,12 @@ void screenshow(
     
     */
 
-	/* printf("M1P: ");		ann=0.0;
+	printf("M1P: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4flux_paddy_cao[h]);		ann+=(flux->soil).ch4flux_paddy_cao[h];	}		printf(": %.1lf\n",ann); 
 	printf("M1W: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4flux_wetland_cao[h]);		ann+=(flux->soil).ch4flux_wetland_cao[h];	}		printf(": %.1lf\n",ann);
 	
-	printf("M2D: ");		ann=0.0;
+	/* printf("M2D: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4_paddy_wh_diff[h]);		ann+=(flux->soil).ch4_paddy_wh_diff[h];	}		printf(": %.1lf\n",ann);
 	printf("M2P: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4_paddy_wh_plant[h]);		ann+=(flux->soil).ch4_paddy_wh_plant[h];	}		printf(": %.1lf\n",ann);
@@ -139,7 +141,10 @@ void screenshow(
 	for(h=0;h<12;h++){		printf("%6.2lf ",loct->xx7[h]);		}			printf("\n"); /* */
 	printf("XX8: ");
 	for(h=0;h<12;h++){		printf("%6.2lf ",loct->xx8[h]);		}			printf("\n"); /* */
-	
+	printf("XX9: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",loct->xx9[h]);		}			printf("\n"); /* */
+
+
 /*	printf("GP3: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->c3).gpp[h]);		ann+=(flux->c3).gpp[h];	}		printf(" %.1lf\n",ann); 
 	printf("GP4: ");		ann=0.0;

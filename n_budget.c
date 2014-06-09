@@ -219,6 +219,11 @@ void f_nh3_volatilization(
 	/* g NH3 ha-1 month-1 */
 	flux->n_nh3vlt[grid->m] = nh4_soil * 0.02/30.0 * f_ph * f_tmp * pow(f_sw, 20.0) 
 			* MDN[grid->m] * 17.0/14.0;
+    
+    /* safe guard: 2014/05/28 by A.Ito */
+    if(flux->n_nh3vlt[grid->m] > (0.5*mass->n_nh4)){
+        flux->n_nh3vlt[grid->m] = 0.5 * mass->n_nh4;
+    }
 }
 
 /* N deposition ********************************************************/
@@ -356,9 +361,12 @@ void f_n_leaching(
 	/* g N / kg H2O */
 	
 	aa = loct->ro2[grid->m] * ntr_conc;
-	if(aa > mass->n_no3 * 0.95){
+	if(aa > (mass->n_no3 * 0.95)){
 		aa = mass->n_no3 * 0.95;
 	}
+    if(aa < 0.0){
+        aa = 0.0;
+    }
 	
 	/* g NO3-N m-2 month-1 */
 	flux->n_leach[grid->m] = aa*10000.0;
@@ -372,7 +380,7 @@ void f_n_uptake(
 	struct Mass *mass, 
 	struct Flux *flux
 ){
-	double f_temp;
+	double f_temp, aa;
 	double n_max = 1.0;
 	double ks, navil;
 	double uptake_no3, uptake_nh4;
@@ -389,18 +397,33 @@ void f_n_uptake(
 	ks = 0.90 * pow(loct->sw30/grid->field_cap1, 3.0) + 0.1;
 	
 	/* NO3 uptake */
-	navil = (mass->soil).n_no3/10000.0;
-	uptake_no3 = navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+	navil = (mass->soil).n_no3;
+	aa = navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    if(aa>0.0 && aa<navil){
+        uptake_no3 = aa;
+    }else if(aa<0.0){
+        uptake_no3 = 0.0;
+    }else if(aa>=navil){
+        uptake_no3 = navil;
+    }
+    
 	/* g N ha-1 month-1 */
-	(flux->c3).uptake_no3[grid->m] = uptake_no3 * 10000.0;
-	(flux->c4).uptake_no3[grid->m] = uptake_no3 * 10000.0;
+	(flux->c3).uptake_no3[grid->m] = uptake_no3;
+	(flux->c4).uptake_no3[grid->m] = uptake_no3;
 	
 	/* NH4 uptake */
-	navil = (mass->soil).n_nh4/10000.0;
-	uptake_nh4 = navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+	navil = (mass->soil).n_nh4;
+    aa = navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    if(aa>0.0 && aa<navil){
+        uptake_nh4 = aa;
+    }else if(aa<0.0){
+        uptake_nh4 = 0.0;
+    }else if(aa>=navil){
+        uptake_nh4 = navil;
+    }
 	/* g N ha-1 month-1 */
-	(flux->c3).uptake_nh4[grid->m] = uptake_nh4 * 10000.0;
-	(flux->c4).uptake_nh4[grid->m] = uptake_nh4 * 10000.0;
+	(flux->c3).uptake_nh4[grid->m] = uptake_nh4;
+	(flux->c4).uptake_nh4[grid->m] = uptake_nh4;
 	
 	(flux->plant).uptake_no3[grid->m] = (flux->c3).uptake_no3[grid->m] 
 				+ (flux->c4).uptake_no3[grid->m];
@@ -559,6 +582,11 @@ void f_n_immoblz(
 	flux->n_immbl[grid->m] = 0.2 * flux->n_minerlz_lttr[grid->m] + 
 		0.4 * flux->n_minerlz_hums[grid->m] + 
 		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m];
+    
+    /* safe guard: 2014/05/28 by A.Ito */
+    if(flux->n_immbl[grid->m] > mass->n_mcrb){
+        flux->n_immbl[grid->m] = mass->n_mcrb;
+    }
 }
 
 /* N abandoned from microbes ******************************/
@@ -574,4 +602,9 @@ void f_n_mcrb_abdn(
 	f_temp = exp(log(2.0)/10.0 * (grid->tmp10_soil[grid->m]-10.0));
 
 	flux->n_mcrb_abdn[grid->m] = 0.1 * f_temp * mass->n_mcrb;
+    
+    /* safe guard: 2014/05/28 by A.Ito */
+    if(flux->n_mcrb_abdn[grid->m] > (0.5*mass->n_mcrb)){
+        flux->n_mcrb_abdn[grid->m] = (0.5*mass->n_mcrb);
+    }
 }

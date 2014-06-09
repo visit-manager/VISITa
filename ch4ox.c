@@ -61,7 +61,11 @@ void f_casa_moisture(
 		pc  = fc + 0.05;
 	}
 	
-	loct->m_rdr[grid->m] = (1.0 + grid->a_sw)/(1.0 + grid->a_sw * pow(loct->m_vmc[grid->m], grid->b_sw));
+    if(loct->m_vmc[grid->m] > 0.1){
+        loct->m_rdr[grid->m] = (1.0 + grid->a_sw)/(1.0 + grid->a_sw * pow(loct->m_vmc[grid->m], grid->b_sw));
+    }else{
+        loct->m_rdr[grid->m] = 0.0;
+    }
 	
 	/* m_m in meter */
 	if(grid->prate_sfc[grid->m] > loct->m_pet[grid->m]){
@@ -156,13 +160,17 @@ void f_ch4oxy_ridgewell(
 	}
 	
 	/* moisture factor */
-	if(((grid->prate_sfc[grid->m] + loct->m_sw[grid->m])/loct->m_pet[grid->m])>1.0){
-		/* Eq. (11a) in Ridgewell et al. (1999) */
-		r_sm = 1.0;
-	}else{
-		/* Eq. (11b) in Ridgewell et al. (1999) */
-		r_sm = (grid->prate_sfc[grid->m] + loct->m_sw[grid->m])/loct->m_pet[grid->m];
-	}
+    if(loct->m_pet[grid->m] > 0.0){
+        if(((grid->prate_sfc[grid->m] + loct->m_sw[grid->m])/loct->m_pet[grid->m])>1.0){
+            /* Eq. (11a) in Ridgewell et al. (1999) */
+            r_sm = 1.0;
+        }else{
+            /* Eq. (11b) in Ridgewell et al. (1999) */
+            r_sm = (grid->prate_sfc[grid->m] + loct->m_sw[grid->m])/loct->m_pet[grid->m];
+        }
+    }else{
+        r_sm = 0.0;
+    }
 	/* temperature factor */
 	if(grid->tmp10_soil[grid->m] < 0.0){
 		/* Eq. (9a) in Ridgewell et al. (1999) */
@@ -271,7 +279,7 @@ void f_ch4oxy_casa(
 	/* fc = aa = grid->whc30/300.0; */
 	fc = aa = grid->field_cap1/300.0;  
 	pc = grid->pore_cap1/300.0;
-	if(pc<fc){
+	if(pc < fc){
 		pc  = fc + 0.05;
 	}
 	pp = pc - aa;	/* inter-aggregate pore space */
@@ -305,14 +313,14 @@ void f_ch4oxy_casa(
 	hhh = (1.0 - pow(pp, 2.0 * xx));
 	iii = (aaa - pow(aaa, 2.0 * yy));
 	
-	ccc = fff * pow(jjj, 2.0 * zz) * hhh * iii; /*************/
-	ddd = fff * pow(jjj, 2.0) * hhh + iii;
-	eee = pow((1.0 - s_wp), 2.0) * pow(aaa, 2.0 * yy);
+	if(jjj>0.0){
+        ccc = fff * pow(jjj, 2.0 * zz) * hhh * iii; /*************/
+        ddd = fff * pow(jjj, 2.0) * hhh + iii;
+        eee = pow((1.0 - s_wp), 2.0) * pow(aaa, 2.0 * yy);
 	
-	if(jjj>0){
 		d_d0 = ccc / ddd + eee;
 	}else{  /*  if(jjj<=0) */
-		d_d0 = eee;
+		d_d0 = pow((1.0 - s_wp), 2.0) * pow(aaa, 2.0 * yy);
 	}
 	
 	/* Eq. 2 in Potter (1996) */
@@ -607,16 +615,24 @@ void f_ch4oxy_curry(
 	ps_sat = pow(10.0, -1.31*grid->pc_sand/100.0 + 1.88) / 10.0;
 	/* eq.8: water potential */
 	aaa = frac_water * loct->sw30 / grid->field_cap1;
-	ps = ps_sat * pow((aaa / phi), -b);
+    if(aaa>0.0 && phi>0.0){
+        if((aaa / phi) > 0.01){
+            ps = ps_sat * pow((aaa / phi), -b);
+        }else{
+            ps = 100.0;
+        }
+    }else{
+        ps = 100.0;
+    }
 	
 	/* eq.9: soil water factor */
 	if(ps < 0.2){
 		r_sm = 1.0;
-	}else if(ps >=0.2 && ps <=100.0){
+	}else if(ps >=0.2 && ps <100.0){
 		aaa = log10(ps) - log10(0.2);
 		bbb = log10(100.0) - log10(0.2);
 		r_sm = pow((1.0 - aaa/bbb), beta);
-	}else if(ps > 100.0){
+	}else if(ps >= 100.0){
 		r_sm = 0.0;
 	}
 	

@@ -12,7 +12,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-extern short RAD_SENS;
+extern short SENS_RAD;
 
 /* solar declination at the middle day (15th day) of month *********/
 double f_solar_decl(
@@ -195,10 +195,10 @@ double f_par(
 			dd = 0.958 - 0.982*kt;
 		}
 		
-		if(RAD_SENS==1){
+		if(SENS_RAD==1){
 			dd *= 1.1;
 		}
-		if(RAD_SENS==2){
+		if(SENS_RAD==2){
 			dd *= 0.9;
 		}
 		
@@ -267,7 +267,7 @@ void f_net_rad(
 	}else if(loct->vp[grid->m] <= 0.1){
 		bbb = 0.39 - 0.058*sqrt( 0.1*760.0/1013.0 );
 	}else if(loct->vp[grid->m] >= 40.0){
-		bbb = 0.39 - 0.058*sqrt( 40.0 );
+		bbb = 0.39 - 0.058*sqrt( 40.0*760.0/1013.0 );
 	}
 	ccc = 1.0 - 0.65*grid->tcdc_clm[grid->m];
 	net_long = aaa*bbb*ccc;
@@ -304,8 +304,8 @@ void f_net_rad(
     if(loct->albedo_sfc[grid->m] > 0.99){
         loct->albedo_sfc[grid->m] = 0.99;
     }
-    if(loct->albedo_sfc[grid->m] < 0.01){
-        loct->albedo_sfc[grid->m] = 0.01;
+    if(loct->albedo_sfc[grid->m] < 0.1){
+        loct->albedo_sfc[grid->m] = 0.1;
     }
     albedo_var = loct->albedo_sfc[grid->m];
     /* loct->xx5[grid->m] = albedo_var; */
@@ -324,8 +324,11 @@ void f_net_rad(
                 * (2.5*1000000.0) / 24.0 / 3600.0 / MDN[grid->m];
         
         /* net shortwave radiation, W m-2 */
-        rn_short_base = (1.0 - albedo_base) * grid->gl_rad[grid->m];
-        rn_short_var = (1.0 - albedo_var) * grid->gl_rad[grid->m];
+        //rn_short_base = (1.0 - albedo_base) * grid->gl_rad[grid->m];
+        //rn_short_var = (1.0 - albedo_var) * grid->gl_rad[grid->m];
+
+        rn_short_base = (1.0 - albedo_base) * loct->grad_d[grid->m];
+        rn_short_var = (1.0 - albedo_var) * loct->grad_d[grid->m];
         
         /* base temperature: default albedo */
         nn = 0; crit = 10.0;
@@ -383,6 +386,8 @@ void f_net_rad(
         loct->xx2[grid->m] = tsfc;
         loct->xx7[grid->m] = snsheat;
         
+        /* loct->xx8[grid->m] = loct->r_aero[grid->m];  */
+        
         /* temperature change */
         dtsfc = tsfc_var - tsfc_base;
         
@@ -394,6 +399,7 @@ void f_net_rad(
             dtsfc = 10.0;
         }else{
             dtsfc = 0.0;
+            /*  printf("*********************bad dtsfc %lf\n", dtsfc);  */
         }        
         loct->xx3[grid->m] = dtsfc;
        
@@ -403,6 +409,8 @@ void f_net_rad(
         
         loct->xx4[grid->m] = grid->tmp_sfc[grid->m];
         loct->xx5[grid->m] = grid->tmp10_soil[grid->m];
+
+        loct->xx9[grid->m] = latheat;
 
        /* Assumption: this surface/sub-surface temperature change does not
                        affect air temperature and humidity */
@@ -489,10 +497,10 @@ double albedo_soil(
     /* revised: 2012/12/29 by A.Ito */
 	albedo = schar->albedo0 + (0.95 - schar->albedo0)/(1.0 + exp(-0.05*(loct->snwa - 75.0)));
 	
-	if(RAD_SENS==3){
+	if(SENS_RAD==3){
 		albedo *= 1.1;
 	}
-	if(RAD_SENS==4){
+	if(SENS_RAD==4){
 		albedo *= 0.9;
 	}
     

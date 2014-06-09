@@ -11,7 +11,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-extern short RAD_SENS;
+extern short SENS_RAD;
 
 #define DSTEP 24
 /* leaf boundary conductance */
@@ -61,19 +61,19 @@ double f_df97_gpp(
 	
 	lai_t = pmas->lai[grid->m];
 	scttr = 0.15;
-	if(RAD_SENS==5){
+	if(SENS_RAD==5){
 		scttr *= 1.1;
 	}
-	if(RAD_SENS==6){
+	if(SENS_RAD==6){
 		scttr *= 0.9;
 	}
 	
 	rfl_d = 0.036;
 	ke_d = 0.719;
-	if(RAD_SENS==7){
+	if(SENS_RAD==7){
 		ke_d *= 1.1;
 	}
-	if(RAD_SENS==8){
+	if(SENS_RAD==8){
 		ke_d *= 0.9;
 	}
 
@@ -81,7 +81,7 @@ double f_df97_gpp(
 	temp = grid->tmp_sfc[grid->m];
 	
 	/* prescribed down regulation */
-	if(loct->aco2[grid->m]>400.0 && RAD_SENS==11){
+	if(loct->aco2[grid->m]>400.0 && SENS_RAD==11){
 		n_photocap = 1.16 - (loct->aco2[grid->m]-400.0)*0.00075;
 	}else{
 		n_photocap = 1.16;
@@ -201,11 +201,11 @@ double f_df97_gpp(
 			/* sun/shade canopy */
 			ke_b1 = 0.5 / h_sinh[h];
 			ke_b2 = 0.46 / h_sinh[h];
-			if(RAD_SENS==9){
+			if(SENS_RAD==9){
 				ke_b1 *= 1.1;
 				ke_b2 *= 1.1;
 			}
-			if(RAD_SENS==10){
+			if(SENS_RAD==10){
 				ke_b1 *= 0.9;
 				ke_b2 *= 0.9;
 			}

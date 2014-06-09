@@ -276,6 +276,7 @@ void f_dyn_loct(
             loct->xx6[h] = 0.0;
             loct->xx7[h] = 0.0;
             loct->xx8[h] = 0.0;
+            loct->xx9[h] = 0.0;
         }
         
         loct->est_maxlai = 0.0;

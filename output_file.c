@@ -389,7 +389,7 @@ void f_output_result(
         fprintf(fp_o[0],"\n");
     }
 	
-	/* nitrogen ***********************************************/
+	/* nitrogen ****************************************************/
 	/* parameter added by A.Ito (2009/12/22) */
     if(OUTPUT_NITROGEN==1){
         fprintf(fp_o[1],"%ld %lf ", year, grid->f_crop_con);
@@ -430,7 +430,7 @@ void f_output_result(
             fprintf(fp_o[1],"%.3lf ", loct->depo_no3[f]);
             fprintf(fp_o[1],"%.3lf ", loct->depo_nh4[f]);  
             
-            /* monitor: 2010/03/24 by A.Ito */
+            /* monitor: 2010/03/24 by A.Ito **************/
             /* fprintf(fp_o[1],"%.3lf ", loct->xx1[f]); 
             fprintf(fp_o[1],"%.3lf ", loct->xx2[f]);
             fprintf(fp_o[1],"%.3lf ", loct->xx3[f]);
@@ -600,6 +600,10 @@ void f_output_result(
             fprintf(fp_o[6],"%.3lf ", loct->xx5[f]);
             fprintf(fp_o[6],"%.3lf ", loct->xx6[f]);
             fprintf(fp_o[6],"%.3lf ", loct->xx7[f]); */
+            
+            /* 2014/06/07 */
+            fprintf(fp_o[6],"%.3lf ", grid->tmp10_soil[f]);
+            fprintf(fp_o[6],"%.3lf ", grid->tmp200_soil[f]);
         }
         fprintf(fp_o[6],"\n");
     }
@@ -781,9 +785,9 @@ void f_grid_av(
 		g_isopr[period][grid->row][grid->col] += fweight * flux->voc_isopr_g97[grid->m] /10.0;
 		g_sr[period][grid->row][grid->col] += fweight * ((flux->plant).rrm[grid->m] + (flux->plant).rrg[grid->m] 
 														 + (flux->soil).hr[grid->m]) /10.0;
-		g_er[period][grid->row][grid->col] += fweight * flux->er[grid->m] / 10.0;
-		g_snh4[period][grid->row][grid->col] += fweight * (mass->soil).n_nh4*MDN[grid->m]/365.0 /10.0;
-		g_sno3[period][grid->row][grid->col] += fweight * (mass->soil).n_no3*MDN[grid->m]/365.0 /10.0;
+		g_er[period][grid->row][grid->col] += (float)(fweight * flux->er[grid->m] / 10.0);
+		g_snh4[period][grid->row][grid->col] += (float)(fweight * (mass->soil).n_nh4*MDN[grid->m]/365.0 /10.0);
+		g_sno3[period][grid->row][grid->col] += (float)(fweight * (mass->soil).n_no3*MDN[grid->m]/365.0 /10.0);
 
 #if PHYS_GOUT==1
 		g_lai[period][grid->row][grid->col] += (loct->c3ptn[grid->m]*(mass->c3).lai[grid->m]+

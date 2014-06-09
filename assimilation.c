@@ -11,7 +11,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-extern short RAD_SENS;
+extern short SENS_RAD;
 
 /* formula of daily gross primary production ****************************/
 double fgpp(
@@ -110,7 +110,11 @@ void pc_sat(
     Indirect radiative forcing of climate change through ozone effects on the 
     land-carbon sink, Nature, 448, 791-794. */
     
-    fozone = (loct->ao3*1000.0/22.4) / (loct->r_aero[grid->m] + 1.67 / (pchar->gs[grid->m]*0.0224/1000.0));
+    if(loct->r_aero[grid->m]>0.0 && pchar->gs[grid->m]>0.0){
+        fozone = (loct->ao3*1000.0/22.4) / (loct->r_aero[grid->m] + 1.67 / (pchar->gs[grid->m]*0.0224/1000.0));
+    }else{
+        fozone = 0.0;
+    }
     
     fozone -= 3.0; /* biome-specific */
     if(fozone < 0.0){
@@ -134,7 +138,7 @@ void pc_sat(
 	}
 	
 	/* acclimation ************************************************ 2009/04/29 A.Ito */
-	if(loct->aco2[grid->m]>400.0 && RAD_SENS==11){
+	if(loct->aco2[grid->m]>400.0 && SENS_RAD==11){
 		f_acclim = (1.16 - (loct->aco2[grid->m] - 400.0)*0.00075)/1.16;
 	}else{
 		f_acclim = 1.0;

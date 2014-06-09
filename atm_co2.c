@@ -29,15 +29,15 @@ void f_co2_trend(
         if(time<1990.0){
             /* fitting curve from observational data */
             aa0 = 1904299.0;
-            aa1 = -3322.4242*pow(time, 1.0);
-            aa2 = 1.6541596*pow(time, 2.0);
-            aa3 = 1.3362655*pow(time, 3.0)/10000.0;
-            aa4 = -3.0828809*pow(time, 4.0)/10000000.0;
-            aa5 = 6.2121261*pow(time, 5.0)/100000000000.0;
-            base = aa0+aa1+aa2+aa3+aa4+aa5;
+            aa1 = -3322.4242 * pow(time, 1.0);
+            aa2 = 1.6541596 * pow(time, 2.0);
+            aa3 = 1.3362655 * pow(time, 3.0)/10000.0;
+            aa4 = -3.0828809 * pow(time, 4.0)/10000000.0;
+            aa5 = 6.2121261 * pow(time, 5.0)/100000000000.0;
+            base = aa0 + aa1 + aa2 + aa3 + aa4 + aa5;
 
             /** INC **/
-            inc = (-52.11 + 0.026984*time)*((double)(grid->m)-5.5)/12.0;
+            inc = (-52.11 + 0.026984 * time)*((double)(grid->m) - 5.5)/12.0;
             inc = (inc>=0.0)?inc:0.0;
         }else if(time>=1990.0 && time<=2100.0){
             /* IPCC SRES scenarios */

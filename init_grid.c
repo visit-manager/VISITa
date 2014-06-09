@@ -362,15 +362,15 @@ void f_init_grid(
 	*/
 	
 	/* sensitivity analysis for biome change by deforestation */
-	if(DEFOREST==1){
+	if(EX_DEFOREST==1){
 		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 19;
 		}
-	}else if(DEFOREST==2){
+	}else if(EX_DEFOREST==2){
 		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 13;
 		}
-	}else if(DEFOREST==3){
+	}else if(EX_DEFOREST==3){
 		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 31;
 		}
@@ -921,7 +921,8 @@ void f_init_grid(
 	fscanf(fp_s[47],"%lf", &grid->srb_dif_max_y);
 	
 	/* inundation ********************************************/
-	fscanf(fp_s[48],"%lf", &lat);
+	/* SSMI */
+    fscanf(fp_s[48],"%lf", &lat);
 	fscanf(fp_s[48],"%lf", &lon);
 	grid->inundation_ssmi_av = 0.0;
 	grid->inundation_ssmi_max = 0.0;
@@ -929,12 +930,30 @@ void f_init_grid(
 		fscanf(fp_s[48],"%ld", &aaa);
 		grid->inundation_ssmi[h] = (double)aaa/8.0;
 		
-		grid->inundation_ssmi_av += grid->inundation_ssmi[h] *MDN[h]/365.0;
+		grid->inundation_ssmi_av += grid->inundation_ssmi[h] * MDN[h]/365.0;
 		
 		if(grid->inundation_ssmi[h] > grid->inundation_ssmi_max){
 			grid->inundation_ssmi_max = grid->inundation_ssmi[h];
 		}
 	}
+    
+    /* GCP-CH4: 2014/05/28 by A.Ito */
+	fscanf(fp_s[84],"%lf", &lat);
+	fscanf(fp_s[84],"%lf", &lon);
+    /* average */
+    for(h=0;h<ASTEP;h++){
+        fscanf(fp_s[84],"%lf", &grid->inundation_gcp_av[h]);
+    }
+    /* 1999/07-2013/03 */
+    for(g=0;g<15;g++){
+        for(h=0;h<ASTEP;h++){
+            fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+            
+            if(grid->inundation_gcp_ts[g][h] < 0.0){
+                grid->inundation_gcp_ts[g][h] = 0.0;
+            }
+        }
+    }
 	
 	/* permafrost type **************************************/
 	/* from National Snow and Ice Data Center 

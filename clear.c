@@ -45,7 +45,8 @@ void f_clear(
 		loct->prsr[f] = loct->dnsa[f] = loct->dnsa[f] = 0.0;
 		loct->vp[f] = loct->vps[f] = loct->vpd[f] = 0.0;
 		loct->slope_vps[f] = loct->r_aero[f] = 0.0;
-		loct->pm_evp[f] = loct->pm_trn[f] = loct->evpr[f] = loct->trspr[f] = 0.0;
+		loct->pm_evp[f] = loct->pm_trn[f] = loct->pm_incep[f] = 0.0;
+        loct->evpr[f] = loct->trspr[f] = loct->incep[f] = 0.0;
 		loct->ro1[f] = loct->ro2[f] = loct->msnwa[f] = 0.0;
 		loct->msww[f] = loct->msw30[f] = loct->snp[f] = 0.0;
 		loct->snp[f] = loct->thaw[f] = 0.0;
