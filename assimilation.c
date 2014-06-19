@@ -11,7 +11,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-extern short RAD_SENS;
+extern short SENS_RAD;
 
 /* formula of daily gross primary production ****************************/
 double fgpp(
@@ -52,24 +52,24 @@ void pc_sat(
 	double f_acclim;
 	
 	/** optimum photosynthesis temperature **/
-	if(pchar->phototype==3){ /* C3 plants with change */
+	if(pchar->phototype == 3){ /* C3 plants with change */
 		pchar->topt = pchar->topt0 + 0.01*pchar->ci[grid->m];	
-	}else if(pchar->phototype==4){ /* C4 plants without change */
+	}else if(pchar->phototype == 4){ /* C4 plants without change */
 		pchar->topt = pchar->topt0;
 	}
 	
 	/** CO2 compensation point **/
-	if(pchar->phototype==3){ /* C3 plants with change: Brooks&Farquhar(1985) */
+	if(pchar->phototype == 3){ /* C3 plants with change: Brooks&Farquhar(1985) */
 		aa3 = 0.000347 * (grid->tmp_sfc[grid->m] - 20.0)*(grid->tmp_sfc[grid->m] - 20.0);
 		aa1 = 1.0 + 0.0451 * (grid->tmp_sfc[grid->m] - 20.0) + aa3;
 		aa1 = (aa1>0.0)?aa1:0.0;
 		pchar->cmpcd[grid->m] = pchar->cmpcd0*aa1;
-	}else if(pchar->phototype==4){ /* C4 plants without change */
+	}else if(pchar->phototype == 4){ /* C4 plants without change */
 		pchar->cmpcd[grid->m] = pchar->cmpcd0;
 	}
 		
 	/** temperature effect ******************************************************/
-	if(grid->tmp_sfc[grid->m]<=pchar->tmax && grid->tmp_sfc[grid->m]>=pchar->tmin){
+	if(grid->tmp_sfc[grid->m] <= pchar->tmax && grid->tmp_sfc[grid->m] >= pchar->tmin){
 		aa1 = (grid->tmp_sfc[grid->m] - pchar->tmax)*(grid->tmp_sfc[grid->m] - pchar->tmin);
 		aa2 = (grid->tmp_sfc[grid->m] - pchar->topt)*(grid->tmp_sfc[grid->m] - pchar->topt);
 		ftem = aa1/(aa1 - aa2);
@@ -83,9 +83,9 @@ void pc_sat(
 	
 	/** CO2 effect ***********************************************************/
 	/** stomatal limitation via intercellular CO2 concentration **/
-	if(pchar->phototype==3){ /* C3 plants */
+	if(pchar->phototype == 3){ /* C3 plants */
 		fstl = 0.05 + 0.95*(pchar->ci[grid->m] - pchar->cmpcd[grid->m])/(pchar->kmci + pchar->ci[grid->m]); 
-	}else if(pchar->phototype==4){ /* C4 plants */
+	}else if(pchar->phototype == 4){ /* C4 plants */
 		fstl = 0.60 + 0.40*(pchar->ci[grid->m] - pchar->cmpcd[grid->m])/(pchar->kmci + pchar->ci[grid->m]); 
 	}
 	fstl = (fstl<=1.0)?fstl:1.0; 
@@ -95,9 +95,9 @@ void pc_sat(
 
 	/** soil water effect ******************************************************/
 	/** non-stomatal limitation **/
-	if(pchar->phototype==3){ /* C3 plants */
+	if(pchar->phototype == 3){ /* C3 plants */
 		fnstl = 0.95*loct->sww / (loct->sww + grid->field_cap2*pchar->km_nstl) + 0.05;
-	}else if(pchar->phototype==4){ /* C4 plants */
+	}else if(pchar->phototype == 4){ /* C4 plants */
 		fnstl = 0.86*loct->sww / (loct->sww + grid->field_cap2*pchar->km_nstl) + 0.14;
 	}
 	fnstl = (fnstl<=1.0)?fnstl:1.0; fnstl=(fnstl>=0.0)?fnstl:0.0;
@@ -110,7 +110,11 @@ void pc_sat(
     Indirect radiative forcing of climate change through ozone effects on the 
     land-carbon sink, Nature, 448, 791-794. */
     
-    fozone = (loct->ao3*1000.0/22.4) / (loct->r_aero[grid->m] + 1.67 / (pchar->gs[grid->m]*0.0224/1000.0));
+    if(loct->r_aero[grid->m]>0.0 && pchar->gs[grid->m]>0.0){
+        fozone = (loct->ao3*1000.0/22.4) / (loct->r_aero[grid->m] + 1.67 / (pchar->gs[grid->m]*0.0224/1000.0));
+    }else{
+        fozone = 0.0;
+    }
     
     fozone -= 3.0; /* biome-specific */
     if(fozone < 0.0){
@@ -134,7 +138,7 @@ void pc_sat(
 	}
 	
 	/* acclimation ************************************************ 2009/04/29 A.Ito */
-	if(loct->aco2[grid->m]>400.0 && RAD_SENS==11){
+	if(loct->aco2[grid->m]>400.0 && SENS_RAD==11){
 		f_acclim = (1.16 - (loct->aco2[grid->m] - 400.0)*0.00075)/1.16;
 	}else{
 		f_acclim = 1.0;

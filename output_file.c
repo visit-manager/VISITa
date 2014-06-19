@@ -21,7 +21,7 @@ void f_output_file_open(
 	short zone,
 	char s_date[32], 
 	char s_case[32], 
-	char filename[100], 
+	char filename[128],
 	FILE *fp[OFILEN]
 ){
 	char num[4];
@@ -253,6 +253,11 @@ void publish_cbud(
 	fprintf(result,"%lf ", flux->npp_montreal); 
 	fprintf(result,"%lf ", flux->npp_schuur); /* added 2008/09/08 by A.Ito */
 	fprintf(result,"%lf ", flux->npp_nceas);  /* added 2008/09/08 by A.Ito */
+
+	fprintf(result,"%lf ", flux->npp_chikugo);  /* added 2014/02/14 by A.Ito */
+	fprintf(result,"%lf ", flux->npp_madison_parwsi);  /* added 2014/02/14 by A.Ito */
+	fprintf(result,"%lf ", flux->npp_madison_gddswsi);  /* added 2014/02/14 by A.Ito */
+	fprintf(result,"%lf ", flux->npp_madison_tp);  /* added 2014/02/14 by A.Ito */
 	
 	fprintf(result,"%.2lf ", flux->erod_soil);
 	fprintf(result,"%.2lf ", flux->erod_orgmat);
@@ -363,15 +368,28 @@ void f_output_result(
         fprintf(fp_o[0],"%.4lf ", flux->lu_ten);
         fprintf(fp_o[0],"%.4lf ", flux->lu_hund); /* */
         
+        /* added 2014/02/17 by A.Ito */
+        fprintf(fp_o[0],"%.4lf ", flux->npp_miami); 
+        fprintf(fp_o[0],"%.4lf ", flux->npp_montreal); 
+        fprintf(fp_o[0],"%.4lf ", flux->npp_schuur);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_nceas);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_chikugo);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_parwsi);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_gddswsi);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_tp);
+	
         /* added: 2011/04/19 (A.Ito) */
         fprintf(fp_o[0],"%.4lf ", flux->erod_carbon);
         fprintf(fp_o[0],"%.4lf ", flux->erod_carbon); /* 2011/12/15 */
         fprintf(fp_o[0],"%.4lf ", flux->hvst_wood);
         
+        /* added: 2014/05/21 (A.Ito) */
+        fprintf(fp_o[0],"%.4lf ", loct->est_maxlai);
+        
         fprintf(fp_o[0],"\n");
     }
 	
-	/* nitrogen ***********************************************/
+	/* nitrogen ****************************************************/
 	/* parameter added by A.Ito (2009/12/22) */
     if(OUTPUT_NITROGEN==1){
         fprintf(fp_o[1],"%ld %lf ", year, grid->f_crop_con);
@@ -412,7 +430,7 @@ void f_output_result(
             fprintf(fp_o[1],"%.3lf ", loct->depo_no3[f]);
             fprintf(fp_o[1],"%.3lf ", loct->depo_nh4[f]);  
             
-            /* monitor: 2010/03/24 by A.Ito */
+            /* monitor: 2010/03/24 by A.Ito **************/
             /* fprintf(fp_o[1],"%.3lf ", loct->xx1[f]); 
             fprintf(fp_o[1],"%.3lf ", loct->xx2[f]);
             fprintf(fp_o[1],"%.3lf ", loct->xx3[f]);
@@ -573,6 +591,19 @@ void f_output_result(
             fprintf(fp_o[6],"%.2lf ", grid->par_be[f]);
             fprintf(fp_o[6],"%.2lf ", grid->par_de[f]);
             fprintf(fp_o[6],"%.4lf ", loct->apar_d[f]);
+            
+            /* 2014/01/22 for WSL output */
+            /* fprintf(fp_o[6],"%.3lf ", loct->xx1[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx2[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx3[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx4[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx5[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx6[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx7[f]); */
+            
+            /* 2014/06/07 */
+            fprintf(fp_o[6],"%.3lf ", grid->tmp10_soil[f]);
+            fprintf(fp_o[6],"%.3lf ", grid->tmp200_soil[f]);
         }
         fprintf(fp_o[6],"\n");
     }
@@ -754,9 +785,9 @@ void f_grid_av(
 		g_isopr[period][grid->row][grid->col] += fweight * flux->voc_isopr_g97[grid->m] /10.0;
 		g_sr[period][grid->row][grid->col] += fweight * ((flux->plant).rrm[grid->m] + (flux->plant).rrg[grid->m] 
 														 + (flux->soil).hr[grid->m]) /10.0;
-		g_er[period][grid->row][grid->col] += fweight * flux->er[grid->m] / 10.0;
-		g_snh4[period][grid->row][grid->col] += fweight * (mass->soil).n_nh4*MDN[grid->m]/365.0 /10.0;
-		g_sno3[period][grid->row][grid->col] += fweight * (mass->soil).n_no3*MDN[grid->m]/365.0 /10.0;
+		g_er[period][grid->row][grid->col] += (float)(fweight * flux->er[grid->m] / 10.0);
+		g_snh4[period][grid->row][grid->col] += (float)(fweight * (mass->soil).n_nh4*MDN[grid->m]/365.0 /10.0);
+		g_sno3[period][grid->row][grid->col] += (float)(fweight * (mass->soil).n_no3*MDN[grid->m]/365.0 /10.0);
 
 #if PHYS_GOUT==1
 		g_lai[period][grid->row][grid->col] += (loct->c3ptn[grid->m]*(mass->c3).lai[grid->m]+

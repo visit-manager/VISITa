@@ -32,6 +32,7 @@ void set_hist_clim(
             /* 1901-2005:CRU TS3.0 */
             /* 1901-2009:CRU TS3.1 */
             /* 1901-2011:CRU TS3.2 */
+            /* 1901-2012:CRU TS3.21 */
             for(h=0;h<ASTEP;h++){
                 grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] 
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
@@ -44,10 +45,12 @@ void set_hist_clim(
                 grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY][h];  
             }
         }else{
+            /* extention by NCEP/NCAR data */
             /* 2003-2008: extrapolation using NCEP/NCAR data: 2009/01/05 by A.Ito */
             /* 2006-2009: extrapolation using NCEP/NCAR data: 2010/01/04 by A.Ito */
             /* 2006-2010: extrapolation using NCEP/NCAR data: 2011/03/XX by A.Ito */
             /* 2012-2012: extrapolation using NCEP/NCAR data: 2012/04/14 by A.Ito */
+            /* 2013-2013: extrapolation using NCEP/NCAR data: 2013/01/10 by A.Ito */
             for(h=0;h<ASTEP;h++){
                 /* temperature */
                 tmp_var = grid->ncep_tmp2m[grid->climy - PIVOT_NCEP][h][grid->ncep_lat][grid->ncep_lon] 

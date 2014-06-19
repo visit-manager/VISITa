@@ -202,6 +202,7 @@ void f_init_sim(
         h_rns[f] = h_rnl[f] = 0.0; /* added by A.Ito (2013/01/02) */
 		h_rnsd[f] = h_cld[f] = h_apar[f] = 0.0;
         h_parb[f] = h_pard[f] = 0.0;
+        h_arm[f] = 0.0;
         
 		h_agrarea[f] = h_paddyarea[f] = h_luc[f] = 0.0;
 		h_luc_1[f] = h_luc_2[f] = h_luc_3[f] = 0.0;
@@ -345,7 +346,7 @@ void f_init_sim(
 #endif	
 	
 	/* regional historical */
-	for(f=0;f<NREG;f++){
+	for(f=0;f<N_REG;f++){
 		rh_area[f] = 0.0;
 		for(g=0;g<PD_SIM;g++){
 			rh_temp[f][g] = rh_prec[f][g] = rh_dswrf[f][g] = 0.0;
@@ -366,4 +367,14 @@ void f_init_sim(
 			rh_ci_h[f][g] = rh_ci_h_d13c[f][g] = rh_ci_h_d14c[f][g] = 0.0;
 		}
 	}
+    
+    for(h=0;h<N_COL;h++){
+        glat_area[h] = 0.0;
+    }
+	for(g=0;g<ASTEP;g++){
+		for(h=0;h<N_COL;h++){
+            glat_gpp[g][h] = glat_npp[g][h] = glat_nep[g][h] = 0.0;
+            glat_ch4_cao[g][h] = glat_ch4_wh[g][h] = 0.0;
+        }
+    }
 }

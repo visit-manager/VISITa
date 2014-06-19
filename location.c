@@ -158,34 +158,34 @@ void f_init_loct(
 		ftmp10b=ftmp200b=ftmp10=ftmp200=0.0;
 		for(h=0;h<ASTEP;h++){
 			if(grid->tmp10_soil[h]>-20.0){
-				ftmp10b += 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02))); 
+				ftmp10b += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02))); 
 				if(T_D==0){
-					ftmp10 += 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02))); 
+					ftmp10 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02)));
 				}else if(T_D==1){
-					ftmp10 += 0.05+0.95*exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02)));
+					ftmp10 += 0.05 + 0.95*exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02)));
 				}else if(T_D==2){
-					ftmp10 += 0.05+0.95*exp(308.56*0.7*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02)));
+					ftmp10 += 0.05 + 0.95*exp(308.56*0.7*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02)));
 				}else if(T_D==3){
-					ftmp10 += 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02*1.3)));
+					ftmp10 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02*1.3)));
 				}else if(T_D==4){
-					ftmp10 += 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02*0.7)));
+					ftmp10 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02*0.7)));
 				}
 			}else{
 				ftmp10b += 0.05;
 				ftmp10 += 0.05;
 			}
 			if(grid->tmp200_soil[h]>-20.0){
-				ftmp200b += 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02))); 
+				ftmp200b += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
 				if(T_D==0){
-					ftmp200 += 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02))); 
+					ftmp200 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
 				}else if(T_D==1){
-					ftmp200 += 0.05+0.95*exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
+					ftmp200 += 0.05 + 0.95*exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
 				}else if(T_D==2){
-					ftmp200 += 0.05+0.95*exp(308.56*0.7*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
+					ftmp200 += 0.05 + 0.95*exp(308.56*0.7*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
 				}else if(T_D==3){
-					ftmp200 += 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02*1.3)));
+					ftmp200 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02*1.3)));
 				}else if(T_D==4){
-					ftmp200 += 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02*0.7)));
+					ftmp200 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02*0.7)));
 				}
 			}else{
 				ftmp200b += 0.05;
@@ -227,7 +227,7 @@ void f_init_loct(
 	}
 	
 	/* average fertilizer-N input for each county, kg N ha-1 yr-1 */
-	n_fertilizer_in(grid, loct);	
+	n_fertilizer_in(grid, loct);
 }
 
 /* dynamic estimation of environmnetal conditions (Secondary data2) *********************/
@@ -266,16 +266,21 @@ void f_dyn_loct(
 		grid->par[grid->m] = f_par(grid);
 	}
 	
-	for(h=0;h<ASTEP;h++){
-		loct->xx1[h] = 0.0;
-		loct->xx2[h] = 0.0;
-		loct->xx3[h] = 0.0;
-		loct->xx4[h] = 0.0;
-		loct->xx5[h] = 0.0;
-		loct->xx6[h] = 0.0;
-		loct->xx7[h] = 0.0;
-		loct->xx8[h] = 0.0;
-	}
+    if(grid->m == 0){
+        for(h=0;h<ASTEP;h++){
+            loct->xx1[h] = 0.0;
+            loct->xx2[h] = 0.0;
+            loct->xx3[h] = 0.0;
+            loct->xx4[h] = 0.0;
+            loct->xx5[h] = 0.0;
+            loct->xx6[h] = 0.0;
+            loct->xx7[h] = 0.0;
+            loct->xx8[h] = 0.0;
+            loct->xx9[h] = 0.0;
+        }
+        
+        loct->est_maxlai = 0.0;
+    }
 	
 	if(grid->m == 0){
 		grid->tmp_sfc_am = 0.0;
@@ -351,7 +356,7 @@ void f_dyn_loct(
 	/* altitude */
 	alt = (grid->topo>=0.0)?grid->topo:0.0; 
 	/* air pressure */
-	loct->prsr[grid->m] = 1013.25*exp(-1.0*(28.964*0.001)*9.8*alt/(8.3144*(grid->tmp_2m[grid->m]+ZAT))); 
+	loct->prsr[grid->m] = 1013.25*exp(-1.0*(28.964*0.001) * GAC * alt / (UGC*(grid->tmp_2m[grid->m] + ZAT)));
 	
 	/* saturated vapour pressure, hPa */
 	loct->vps[grid->m] = vap_pre_sat(grid); 
@@ -363,7 +368,7 @@ void f_dyn_loct(
 	/* initial soil CH4 concentration */
 	for(h=0;h<=(SOIL_LAYER+1);h++){
 		loct->prof_ch4[h] = ach4_a1[grid->co2y - 1750]/1000.0 
-			* loct->prsr[grid->m] / (8.3144*(grid->tmp10_soil[grid->m]+273.15));
+			* loct->prsr[grid->m] / (UGC * (grid->tmp10_soil[grid->m] + ZAT));
 	}
 
 	if(grid->flag_histdata == 1){
@@ -412,18 +417,19 @@ void f_dyn_loct(
 	loct->dnsa[grid->m] = air_density(grid, loct); 
 	
 	/** ecophysiology : ecophysiology.c **/
-	/* C3 */
+	/* C3 plants */
 	f_ecophysiology(grid, loct, &(echar->c3), &(mass->c3));
-	/* C4 */
+	/* C4 plants */
 	f_ecophysiology(grid, loct, &(echar->c4), &(mass->c4));
 	
 	/** net radiation **/
 	f_net_rad(grid, loct, mass, echar);
     	
-	/** hydrological water budget **/
 	(mass->plant).lai[grid->m] = (mass->c3).lai[grid->m]*loct->c3ptn[grid->m]
 					+ (mass->c4).lai[grid->m]*loct->c4ptn[grid->m];
 	loct->lai[grid->m] = (mass->plant).lai[grid->m];
+    
+	/** hydrological water budget **/
 	f_waterbudget(grid, loct, echar);
 	
 	/* fractional vegetation cover */

@@ -46,7 +46,7 @@ void cal_spinup(
 	
 	/* land-use change ***********/
 	f_cult_luc(grid);
-	if(LANDUSE==0){
+	if(LANDUSE == 0){
 		grid->f_crop_p = 0.0;
 		grid->f_pasture_p = 0.0;
 	}else if(LANDUSE>=1 && LANDUSE<=5){
@@ -59,9 +59,9 @@ void cal_spinup(
 		grid->f_crop_p = grid->fcrop_rk[199];
 		grid->f_pasture_p = grid->fpast_rk[199];
 	}else if(LANDUSE==9){
-		grid->f_crop_p = grid->fcrop_unh_hmnzed[200];
-		grid->f_pasture_p = grid->fpast_unh_hmnzed[200];
-	}else if(LANDUSE==10){
+		grid->f_crop_p = grid->fcrop_unh_hmnzed[2000-BGY_LUC];
+		grid->f_pasture_p = grid->fpast_unh_hmnzed[2000-BGY_LUC];
+	}else if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - PIVOT_LUC];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - PIVOT_LUC];
 	}
@@ -83,11 +83,6 @@ void cal_spinup(
 	while(ann_nep > TER_CON){ /*** acnep>TER_CON nn<10 ***/
 		grid->y = nn;
 				
-		/* empirical model NPP *****************/
-		if(grid->y==0){ /* for the first year */
-			npp_empirical(grid, loct, flux);
-		}
-        
         if(ISIMIP_RUN==1 && grid->flag_histdata == 1){
             ann_nep = 10.0;
             grid->climy = nn%30 +1951;
@@ -219,6 +214,11 @@ void cal_spinup(
 		/* erosion */
 		f_erosion(grid, loct, echar, mass, flux);
 		
+		/* empirical model NPP *****************/
+		//if(grid->y==0){ /* for the first year */
+			npp_empirical(grid, loct, flux);
+		//}
+        
 		if(NECB_ERSN==1){
 			(mass->soil).ltr -= flux->erod_carbon*0.20;
 			if((mass->soil).ltr < 0.0){
@@ -345,10 +345,10 @@ void cal_spinup(
 	if((mass->c3).v_type == 1 && NECB_WHVST == 1){
         /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
         
-        if(LANDUSE ==10){
-            dyr = 1900 - 1500;
+        if(LANDUSE ==9 || LANDUSE ==10 || LANDUSE ==11 || LANDUSE ==12 || LANDUSE ==13){
+            dyr = 1900 - PIVOT_LUC;
         }else{
-            dyr = 1900 - 1700;
+            dyr = 1900 - PIVOT_LUC;
         }
 		
         /* from total grid */

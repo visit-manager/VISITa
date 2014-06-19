@@ -25,23 +25,23 @@ void f_co2_trend(
 	time = (double)(grid->co2y);
 	
 	/** BASE **/
-    if(ISIMIP_RUN == 0){
+    if(ISIMIP_RUN == 0 && GEOMIP_RUN == 0){
         if(time<1990.0){
             /* fitting curve from observational data */
             aa0 = 1904299.0;
-            aa1 = -3322.4242*pow(time, 1.0);
-            aa2 = 1.6541596*pow(time, 2.0);
-            aa3 = 1.3362655*pow(time, 3.0)/10000.0;
-            aa4 = -3.0828809*pow(time, 4.0)/10000000.0;
-            aa5 = 6.2121261*pow(time, 5.0)/100000000000.0;
-            base = aa0+aa1+aa2+aa3+aa4+aa5;
+            aa1 = -3322.4242 * pow(time, 1.0);
+            aa2 = 1.6541596 * pow(time, 2.0);
+            aa3 = 1.3362655 * pow(time, 3.0)/10000.0;
+            aa4 = -3.0828809 * pow(time, 4.0)/10000000.0;
+            aa5 = 6.2121261 * pow(time, 5.0)/100000000000.0;
+            base = aa0 + aa1 + aa2 + aa3 + aa4 + aa5;
 
             /** INC **/
-            inc = (-52.11 + 0.026984*time)*((double)(grid->m)-5.5)/12.0;
+            inc = (-52.11 + 0.026984 * time)*((double)(grid->m) - 5.5)/12.0;
             inc = (inc>=0.0)?inc:0.0;
-        }else if(time>=1990.0 && time<=2100.0){
+        }else if(time >= 1990.0 && time <= 2100.0){
             /* IPCC SRES scenarios */
-            if(CC_CD==0 && time>=2001.0){
+            if(CC_CD == 0 && time >= 2001.0){
                 /* constant CO2 level */
                 base = sres_co2[11];
             }else{
@@ -50,7 +50,8 @@ void f_co2_trend(
             
             inc = 0.0;
         }
-    }else if(ISIMIP_RUN == 1){
+    }else if(ISIMIP_RUN == 1 || GEOMIP_RUN == 1){
+            
         switch(CO2S){
             case 1:
                 base = aco2_b1[grid->co2y-1765];
@@ -68,7 +69,7 @@ void f_co2_trend(
     }
 
 	/** latitudinal gradient **/
-	lgrd = 1.6*(grid->lat/85.0);
+	lgrd = 1.6*(grid->lat / 85.0);
 
 	/** seasonal change **/
 	amplitude = exp(0.04 * grid->lat);

@@ -22,7 +22,7 @@ void cal_historical(
 	FILE *fp_o[OFILEN]
 ){
 	long f, g, dyr;
-	double f_fert, total_hvst, f_nat, iweight, iweight3, avc3;
+	double f_fert, fweight, total_hvst, f_nat, iweight, iweight3, avc3;
 	extern double MDN[ASTEP];
 	
     /* phase: 1, historical simulation */
@@ -35,10 +35,13 @@ void cal_historical(
 	for(g=0; g<PD_HIST; g++){
 		/* AD1901 - 2002 / 2008 / 2009 */
         /* ISIMIP: 1950-2099 */
+        /* GEOMIP: 1901-2005 */
 		
 		/* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
+        
 		if(grid->flag_histdata == 1){
+            /* set climate variables  */
 			set_hist_clim(grid);
 		}
 		
@@ -58,10 +61,11 @@ void cal_historical(
             GCM==2025 ||GCM==2026 ||GCM==2027 ||GCM==2028 ||
             GCM==2035 ||GCM==2036 ||GCM==2037 ||GCM==2038 ||
             GCM==2045 ||GCM==2046 ||GCM==2047 ||GCM==2048) && grid->climy>=2000){
+            /* fixed to AD2000 level */
             grid->co2y = 2000;
         }
 		
-		/* historical change in fertilizer input: 2010/05/11 by A.Ito */
+		/*  Fertilizer input, historical change: 2010/05/11 by A.Ito */
 		if(grid->rank_nat==1){
 			/* developing countries */
 			f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - (double)grid->climy)))+0.0014929171;
@@ -83,6 +87,8 @@ void cal_historical(
 						
 			/* environmental condition *******************/
 			f_dyn_loct(grid, loct, mass, echar);
+            
+            //printf("%5.1lf ", grid->tmp_sfc[f]);
 			
 			/* vegetation processes *********************/
 			f_biome_processes(grid, loct, echar, mass, flux);
@@ -255,11 +261,33 @@ void cal_historical(
 				vs_rot[grid->veg_sage] += (mass->plant).mrot[f]*MDN[f]/365.0/10.0 * grid->area;
 				vs_ltr[grid->veg_sage] += (mass->soil).ltr_m[f]*MDN[f]/365.0/10.0 * grid->area;
 				vs_msl[grid->veg_sage] += (mass->soil).msl_m[f]*MDN[f]/365.0/10.0 * grid->area;
+                
+                if(loct->v_type == 1){
+                    fweight = 1.0 - grid->f_crop_con;
+                }else{
+                    fweight = grid->f_crop_con;
+                }
+                glat_gpp[f][grid->row] += fweight * grid->area * (flux->plant).gpp[f]/10.0;
+                glat_npp[f][grid->row] += fweight * grid->area * (flux->plant).npp[f]/10.0;
+                glat_nep[f][grid->row] += fweight * grid->area * flux->nep[f]/10.0;
+                
+                if(loct->v_type == 1){
+                    glat_ch4_cao[f][grid->row] += grid->area * (flux->soil).ch4flux_wetland_cao[f] / 10.0;
+                    glat_ch4_wh[f][grid->row] += grid->area * ((flux->soil).ch4_wetland_wh_plant[f]
+                                + (flux->soil).ch4_wetland_wh_ebull[f] + (flux->soil).ch4_wetland_wh_diff[f]
+								  + (flux->soil).ch4_wetland_wh_release[f]) / 10.0;
+                }else{
+                    glat_ch4_cao[f][grid->row] += grid->area * (flux->soil).ch4flux_paddy_cao[f] / 10.0;
+                    glat_ch4_wh[f][grid->row] += grid->area * ((flux->soil).ch4_paddy_wh_plant[f]
+                                + (flux->soil).ch4_paddy_wh_ebull[f] + (flux->soil).ch4_paddy_wh_diff[f]
+								  + (flux->soil).ch4_paddy_wh_release[f]) / 10.0;
+                }
 			}
 			
 			/******************/
 			f_grid_av(grid, loct, echar, mass, flux);
 		}
+        //printf("\n");
 		
 		/* empirical NPP models */
 		npp_empirical(grid, loct, flux);
@@ -269,18 +297,18 @@ void cal_historical(
 		/* corrected: A.Ito and E.Kato (2009/08/16) */
 		if(g>=90 && g<=99){
 			for(f=0;f<ASTEP;f++){
-				m_bioburn_co2[f] += (flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]
-									 +flux->bb_co2_wood[f]+flux->bb_co2_root[f]) * grid->area / 10.0;
-				m_bioburn_co[f] += (flux->bb_co_litter[f]+flux->bb_co_leaf[f]
-									+flux->bb_co_wood[f]+flux->bb_co_root[f]) * grid->area / 10.0;
-				m_bioburn_ch4[f] += (flux->bb_ch4_litter[f]+flux->bb_ch4_leaf[f]
-									 +flux->bb_ch4_wood[f]+flux->bb_ch4_root[f]) * grid->area / 10.0;
-				m_bioburn_nmhc[f] += (flux->bb_nmhc_litter[f]+flux->bb_nmhc_leaf[f]
-									  +flux->bb_nmhc_wood[f]+flux->bb_nmhc_root[f]) * grid->area / 10.0;
-				m_bioburn_oc[f] += (flux->bb_oc_litter[f]+flux->bb_oc_leaf[f]
-									+flux->bb_oc_wood[f]+flux->bb_oc_root[f]) * grid->area / 10.0;
-				m_bioburn_bc[f] += (flux->bb_bc_litter[f]+flux->bb_bc_leaf[f]
-									+flux->bb_bc_wood[f]+flux->bb_bc_root[f]) * grid->area / 10.0;
+				m_bioburn_co2[f] += (flux->bb_co2_litter[f] + flux->bb_co2_leaf[f]
+									 +flux->bb_co2_wood[f] + flux->bb_co2_root[f]) * grid->area / 10.0;
+				m_bioburn_co[f] += (flux->bb_co_litter[f] + flux->bb_co_leaf[f]
+									+flux->bb_co_wood[f] + flux->bb_co_root[f]) * grid->area / 10.0;
+				m_bioburn_ch4[f] += (flux->bb_ch4_litter[f] + flux->bb_ch4_leaf[f]
+									 +flux->bb_ch4_wood[f] + flux->bb_ch4_root[f]) * grid->area / 10.0;
+				m_bioburn_nmhc[f] += (flux->bb_nmhc_litter[f] + flux->bb_nmhc_leaf[f]
+									  +flux->bb_nmhc_wood[f] + flux->bb_nmhc_root[f]) * grid->area / 10.0;
+				m_bioburn_oc[f] += (flux->bb_oc_litter[f] + flux->bb_oc_leaf[f]
+									+flux->bb_oc_wood[f] + flux->bb_oc_root[f]) * grid->area / 10.0;
+				m_bioburn_bc[f] += (flux->bb_bc_litter[f] + flux->bb_bc_leaf[f]
+									+flux->bb_bc_wood[f] + flux->bb_bc_root[f]) * grid->area / 10.0;
 			}
 		}
 		if(g>=80 && g<=89){
@@ -330,12 +358,13 @@ void cal_historical(
 			dyr = grid->climy - PIVOT_LUC;
 			
 			/* assumption for the period later than 2004: A.Ito (2010/11/11) */
-			if(LANDUSE != 10 && dyr>304){
-				dyr = 304;	
+			if( (LANDUSE != 10 && LANDUSE != 11 && LANDUSE != 12 && LANDUSE != 13) &&
+                    grid->climy > (PIVOT_LUC+DL_LUH-1)){
+				dyr = (PIVOT_LUC+DL_LUH-1);
 			}
             
             /* from total grid */
-			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr] 
+			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
 						+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr];
 			
 			total_hvst *= 1.0/1000.0 * 1.0/grid->area;

@@ -126,7 +126,7 @@ double lai_mass(
 	/** specific leaf area as a function of... what? **/
 	sla = pchar->sla;
 	
-	lai_est = sla*mass->fol*dmTc/100.0/2.0;
+	lai_est = sla * mass->fol * dmTc/100.0/2.0;
 	lai_est = (lai_est>=0.0)?lai_est:0.0;
 	
 	/* dmTc: dry-matter to carbon */
@@ -134,7 +134,7 @@ double lai_mass(
 	/* 2.0: single-sided leaf area */	
 	
 	/* sensitivity analysis: prescribed LAI **/
-	if(SENS == 7 && (grid->climy>=2000) ){
+	if(SENS_PARA == 7 && (grid->climy >= 2000) ){
 		lai_est = mass->lai0[grid->m];
 	}
 	
@@ -150,7 +150,7 @@ double irr_attn(
 	double aaa, bbb;
 	
 	/* a function of solar hight angle */
-	aaa = sin(grid->sl_hgt[grid->m]*dTr); 
+	aaa = sin(grid->sl_hgt[grid->m] * dTr);
 	aaa = (aaa<=1.0)?aaa:1.0; 
 	aaa = (aaa>=0.3)?aaa:0.3; /* to avoid extreme values*/
 	bbb = pchar->eK0/aaa;
@@ -171,7 +171,7 @@ void incel_cdc(
 	gs_co2 = plant->gs[grid->m]/1.56; 
 	/* 1.56: conversion from H2O to CO2 conductance */
 	
-	ci = loct->aco2[grid->m]-(plant->ptop/(gs_co2/1000.0));
+	ci = loct->aco2[grid->m] - (plant->ptop/(gs_co2/1000.0));
 	/* 1000.0: conbert from mmol to micro mol */
 	
 	ci = (ci>=0.0)?ci:0.0;
@@ -248,19 +248,33 @@ double canopy_cond(
 	struct Pchar *pchar, 
 	struct Pmas *mass
 ){
-	double aaa, sss, ttt, uuu, vvv, lue_gs, canopy_cond;
+	double aaa, bbb, ccc, sss, ttt, uuu, vvv, lue_gs, canopy_cond;
 	
 	/* NOTE: integrate leaf stomatal conductance with considering light attenuation in the canopy */
 	/* aaa=plant->gs_b0+plant->gs_b1/(loct->aco2[grid->m]-plant->cmpcd[grid->m]); */
 	aaa = pchar->gs_b0 + pchar->gs_b1/(350.0 - 40.0);
-	lue_gs = pchar->lue[grid->m]*(aaa/pchar->pmax);
+    if(pchar->pmax > 0.0){
+        lue_gs = pchar->lue[grid->m] * (aaa / pchar->pmax);
+    }else{
+        lue_gs = 0.0;
+    }
 	
-	if(mass->lai[grid->m]>0.0){
-		sss = 2.0*pchar->gs[grid->m] / pchar->eK[grid->m]; 
-		ttt = 1.0 + sqrt(1.0 + pchar->eK[grid->m]*lue_gs*grid->par[grid->m]/pchar->gs[grid->m]);
-		vvv = -1.0*pchar->eK[grid->m]*mass->lai[grid->m];
-		uuu = 1.0 + sqrt(1.0 + pchar->eK[grid->m]*lue_gs*grid->par[grid->m]*exp(vvv)/pchar->gs[grid->m]);
-		canopy_cond = sss*log(ttt/uuu);
+	if(mass->lai[grid->m]>0.0 && pchar->gs[grid->m]>0.0){
+		sss = 2.0 * pchar->gs[grid->m] / pchar->eK[grid->m];
+        bbb = 1.0 + pchar->eK[grid->m]*lue_gs*grid->par[grid->m] / pchar->gs[grid->m];
+        if(bbb > 0.0){
+            ttt = 1.0 + sqrt(bbb);
+        }else{
+            ttt = 1.0;
+        }
+		vvv = -1.0 * pchar->eK[grid->m] * mass->lai[grid->m];
+        ccc = 1.0 + pchar->eK[grid->m]*lue_gs*grid->par[grid->m]*exp(vvv) / pchar->gs[grid->m];
+        if(ccc > 0.0){
+            uuu = 1.0 + sqrt(ccc);
+        }else{
+            uuu = 1.0;
+        }
+		canopy_cond = sss * log(ttt/uuu);
 	}else{
 		/* no leaf, no conductance*/
 		canopy_cond = 0.0;
@@ -287,8 +301,8 @@ void opt_lai(
 		lue = pchar->lue[grid->m];
 	}
 	
-	aaa = 1.0/pchar->eK[grid->m];
-	bbb = pchar->eK[grid->m]*lue*grid->par[grid->m]; 
+	aaa = 1.0 / pchar->eK[grid->m];
+	bbb = pchar->eK[grid->m] * lue * grid->par[grid->m];
 	
 	/* daily respiratory cost */
 	/* printf("%lf %lf\n", plant->qTc[grid->m], grid->tmp_sfc[grid->m]); */
@@ -303,7 +317,7 @@ void opt_lai(
 	if(ccc > 0.0){
 		ddd = bbb/ccc;
 		ddd = (ddd>1.0)?ddd:1.0;
-		pchar->opt_lai[grid->m] = aaa*log(ddd);
+		pchar->opt_lai[grid->m] = aaa * log(ddd);
 	}else{
 		pchar->opt_lai[grid->m] = 0.0;
 	}
@@ -348,13 +362,21 @@ void spcfc_res_mass(
 	powstm = 1.0 - 0.33334*mass->stm/(50.0 + mass->stm);
 	powrot = 1.0 - 0.33334*mass->rot/(50.0 + mass->rot);
 	
-	stm_sap = pow(mass->stm, powstm); /* sapwood mass in stem */
+    if(mass->stm > 0.0){
+        stm_sap = pow(mass->stm, powstm); /* sapwood mass in stem */
+    }else{
+        stm_sap = 0.0;
+    }
 	stm_hrt = mass->stm - stm_sap; /* heartwood mass in stem */
-	rot_sap = pow(mass->rot, powrot); /* sapwood mass in root */
+    if(mass->rot > 0.0){
+        rot_sap = pow(mass->rot, powrot); /* sapwood mass in root */
+    }else{
+        rot_sap = 0.0;
+    }
 	rot_hrt = mass->rot - rot_sap; /* heartwood mass in root */
 	
-	pchar->rmc = (pchar->rmc_s*stm_sap + pchar->rmc_h*stm_hrt)/(mass->stm + 0.00001);
-	pchar->rmr = (pchar->rmr_s*rot_sap + pchar->rmr_h*rot_hrt)/(mass->rot + 0.00001);
+	pchar->rmc = (pchar->rmc_s*stm_sap + pchar->rmc_h*stm_hrt)/(mass->stm + 0.0001);
+	pchar->rmr = (pchar->rmr_s*rot_sap + pchar->rmr_h*rot_hrt)/(mass->rot + 0.0001);
 }
 
 /* leaf N concentration ********************************************/

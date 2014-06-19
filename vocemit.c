@@ -64,7 +64,7 @@ void f_voc_emit_guenther97(
 		0.002, 0.002, 0.003, 0.006, 0.002, 0.006, 0.006, 0.006, 
 		0.003, 0.002, 0.002, 0.003, 0.002, 0.003, 0.002, 
 		0.0005, 0.0005};
-	/* Tao, Z. and A. K. Jain, 2005: Modeling of global biogenic emissions of 
+	/* CO: Tao, Z. and A. K. Jain, 2005: Modeling of global biogenic emissions of 
 	 key indirect greenhouse gases and their response to atmospheric CO2 increases
 	 and changes in land cover and climate. 
 	 Journal of Geophysical Research, 110, 10.1029/2005JD005874.
@@ -73,10 +73,10 @@ void f_voc_emit_guenther97(
 		0.3, 0.3, 0.3, 0.3, 0.3, 0.36, 0.3, 0.3, 
 		0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 
 		0.3, 0.3};
-	short f;
+	long f, idveg;
 	double foliar_dens, leaf_temp, parday;
 	double f_ppfd, f_temp_isopr, f_temp_monotrp, f_phenology;
-	double aa, bb, cc, laiage[49], t_lai, total_closs;
+	double aa, bb, cc, dd, laiage[49], t_lai, total_closs;
 	extern double MDN[ASTEP];
 	
 	/* veg_sage:
@@ -97,6 +97,12 @@ void f_voc_emit_guenther97(
 	14	Desert
 	15	Polar Desert/Rock/Ice
 	*/
+    /* revised by A.Ito: 2014/03/27 */
+    if(loct->v_type==1){
+        idveg = grid->veg_sage;
+    }else if(loct->v_type==2){
+        idveg = 16;
+    }
 
 	/* foliar density, g d.m. C / m2   *********************/
 	foliar_dens = ((mass->c3).fol*loct->c3ptn[grid->m] 
@@ -108,13 +114,22 @@ void f_voc_emit_guenther97(
 		sqrt(1.0 + 0.0027 * 0.0027 * parday * parday) * 0.5;
 	
 	/* temperature factor ***********/
+    /* leaf temperature in K */
 	leaf_temp = grid->tmp_sfc[grid->m] + ZAT;
-	/* isoprene */
-	aa = exp(95000.0*(leaf_temp - 303.15)/(8.314 * leaf_temp * 303.15));
-	bb = 0.961 + exp(230000.0*(leaf_temp - 314.0)/(8.314 * leaf_temp * 303.15));
-	f_temp_isopr = aa/bb;
-	/* monoterpene */
-	f_temp_monotrp = exp(0.09*(leaf_temp - 303.15)); 
+    if(leaf_temp > 150.0 && leaf_temp < 350.0){
+        /* isoprene */
+        dd = 95000.0*(leaf_temp - 303.15)/(8.314 * leaf_temp * 303.15);
+        aa = exp(dd);
+        dd = 230000.0*(leaf_temp - 314.0)/(8.314 * leaf_temp * 303.15);
+        bb = 0.961 + exp(dd);
+        f_temp_isopr = aa/bb;
+        /* monoterpene */
+        f_temp_monotrp = exp(0.09*(leaf_temp - 303.15));
+    }else{
+        /* exceptional leaf temperature */
+        f_temp_isopr = 0.0;
+        f_temp_monotrp = 0.0;
+    }
 	
 	/* leaf aging factor ***********/
 	/* f_phenology = 0.75; */ /* conventional value */
@@ -133,7 +148,7 @@ void f_voc_emit_guenther97(
 		}
 	}
 	
-	switch(grid->veg_sage){
+	switch(idveg){
 		/* evergreen */
 		case 1: case 3: case 4: case 6: case 8: case 9: case 10: 
 		case 11: case 12: case 13: case 14: case 15: 
@@ -141,23 +156,27 @@ void f_voc_emit_guenther97(
 			f_phenology = 0.05 * laiage[0];
 			f_phenology += 0.5 * (laiage[1] + laiage[2]);
 			for(f=3;f<=24;f++){  /* changed f<=36 to f<=12 to f<=24: 2008/09/17 */
-				f_phenology += 1.1 * laiage[f];
+				/* f_phenology += 1.1 * laiage[f]; */
+				f_phenology += 1.2 * laiage[f]; /* 2014/04/04 by A.Ito */
 			}
 			for(f=25;f<=48;f++){  /* changed f=37 to f<=13 to f<=25: 2008/09/17 */
-				f_phenology += 0.4 * laiage[f];
+				/* f_phenology += 0.4 * laiage[f]; */ 
+				f_phenology += 0.5 * laiage[f]; /* 2014/04/04 by A.Ito */
 			}
 			
 			break;
 		/* deciduous */
-		case 2: case 5: case 7: 
+		case 2: case 5: case 7: case 16:
 
 			f_phenology = 0.05 * laiage[0];
 			f_phenology += 0.5 * laiage[1];
 			for(f=2;f<=10;f++){  /* changed f<=8 to f<=6: 080613 */
-				f_phenology += 1.1 * laiage[f];
+				/* f_phenology += 1.1 * laiage[f]; */
+				f_phenology += 1.2 * laiage[f]; /* 2014/04/04 by A.Ito */
 			}
 			for(f=11;f<=18;f++){  /* changed f=9 to f=7: 080613 */
-				f_phenology += 0.4 * laiage[f];
+				/* f_phenology += 0.4 * laiage[f]; */
+				f_phenology += 0.5 * laiage[f];
 			}
 			for(f=19;f<=48;f++){  /* changed f=9 to f=7: 080613 */
 				f_phenology += 0.1 * laiage[f];
@@ -165,7 +184,7 @@ void f_voc_emit_guenther97(
 
 			break;
 		default:
-			f_phenology = 0.5;
+			f_phenology = 0.75;
 			break;
 	}
 	
@@ -173,15 +192,15 @@ void f_voc_emit_guenther97(
 	cc = foliar_dens * MDN[grid->m] * grid->dlen[grid->m];
 	
 	/* VOC emission, micro g C m-2 month-1  */
-	flux->voc_isopr_g97[grid->m] = emit_potent_isopr[grid->veg_sage] * cc * f_ppfd * f_temp_isopr * f_phenology;
-	flux->voc_monotrp_g97[grid->m] = emit_potent_monotrp[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_methanl_g97[grid->m] = emit_potent_methanl[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_acetone_g97[grid->m] = emit_potent_acetone[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_actaldhd_g97[grid->m] = emit_potent_actaldhd[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_frmardhd_g97[grid->m] = emit_potent_frmardhd[grid->veg_sage] * cc *f_temp_monotrp * f_phenology;
-	flux->voc_formacd_g97[grid->m] = emit_potent_formacd[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_acetacd_g97[grid->m] = emit_potent_acetacd[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_co_g97[grid->m] = emit_potent_co[grid->veg_sage] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_isopr_g97[grid->m] = emit_potent_isopr[idveg] * cc * f_ppfd * f_temp_isopr * f_phenology;
+	flux->voc_monotrp_g97[grid->m] = emit_potent_monotrp[idveg] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_methanl_g97[grid->m] = emit_potent_methanl[idveg] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_acetone_g97[grid->m] = emit_potent_acetone[idveg] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_actaldhd_g97[grid->m] = emit_potent_actaldhd[idveg] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_frmardhd_g97[grid->m] = emit_potent_frmardhd[idveg] * cc *f_temp_monotrp * f_phenology;
+	flux->voc_formacd_g97[grid->m] = emit_potent_formacd[idveg] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_acetacd_g97[grid->m] = emit_potent_acetacd[idveg] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_co_g97[grid->m] = emit_potent_co[idveg] * cc * f_temp_monotrp * f_phenology;
 	
 	/* carbon loss by BVOC emission: 2008/10/09 */
 	if(NECB_BVOC == 1){

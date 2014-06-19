@@ -12,7 +12,7 @@
 #include"setting.h"
 
 /* #define IFILEN 59 */  /* normal case */
-#define IFILEN 83 /* */  /* normal case */
+#define IFILEN 85 /* */  /* normal case */
 #define OFILEN 9
 
 extern short DF97;
@@ -20,6 +20,8 @@ extern double MDN[ASTEP];
 extern long GCM, CO2S, GCM_R, GCM_C;
 extern long PARAM_PTB; /* added by A.Ito (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
+extern long EX_SRM;
+
 extern double f_pert[20];
 extern double aco2_a1[DL_AGHG], aco2_a2[DL_AGHG], aco2_b1[DL_AGHG], aco2_b2[DL_AGHG];
 extern double ach4_a1[DL_AGHG], ach4_a2[DL_AGHG], ach4_b1[DL_AGHG], ach4_b2[DL_AGHG];
@@ -39,6 +41,7 @@ extern double h_sw1[PD_SIM], h_sw2[PD_SIM];
 extern double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
 extern double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM];
 extern double h_parb[PD_SIM], h_pard[PD_SIM];
+extern double h_arm[PD_SIM];
 
 extern double h_burnt_area[PD_SIM];
 extern double h_bioburn_co2[PD_SIM], h_bioburn_ch4[PD_SIM], h_bioburn_co[PD_SIM];
@@ -156,26 +159,30 @@ extern float g_ch4ep_wh[5][N_ROW][N_COL];
 extern float g_ch4ew_wh[5][N_ROW][N_COL]; 
 extern float gm_ch4ep_wh[12][N_ROW][N_COL];
 #endif
-extern float g_ch4ep_cao[5][N_ROW][N_COL]; 
+extern float g_ch4ep_cao[5][N_ROW][N_COL];
+
+extern double glat_area[N_ROW];
+extern double glat_gpp[ASTEP][N_ROW],glat_npp[ASTEP][N_ROW],glat_nep[ASTEP][N_ROW];
+extern double glat_ch4_cao[ASTEP][N_ROW], glat_ch4_wh[ASTEP][N_ROW];
 
 /* regional historical */
-extern double rh_area[NREG];
-extern double rh_temp[NREG][PD_SIM], rh_prec[NREG][PD_SIM], rh_dswrf[NREG][PD_SIM];
-extern double rh_rns[NREG][PD_SIM], rh_rnl[NREG][PD_SIM];
-extern double rh_ipar[NREG][PD_SIM], rh_apar[NREG][PD_SIM];
-extern double rh_gpp[NREG][PD_SIM], rh_npp[NREG][PD_SIM], rh_nep[NREG][PD_SIM];
-extern double rh_evpr[NREG][PD_SIM], rh_trsp[NREG][PD_SIM], rh_incp[NREG][PD_SIM], rh_rnof[NREG][PD_SIM];
-extern double rh_ci_gpp[NREG][PD_SIM], rh_ci_gpp_d13c[NREG][PD_SIM], rh_ci_gpp_d14c[NREG][PD_SIM];
-extern double rh_ci_er[NREG][PD_SIM], rh_ci_er_d13c[NREG][PD_SIM], rh_ci_er_d14c[NREG][PD_SIM];
-extern double rh_ci_f[NREG][PD_SIM], rh_ci_f_d13c[NREG][PD_SIM], rh_ci_f_d14c[NREG][PD_SIM];
-extern double rh_ci_c[NREG][PD_SIM], rh_ci_c_d13c[NREG][PD_SIM], rh_ci_c_d14c[NREG][PD_SIM];
-extern double rh_ci_r[NREG][PD_SIM], rh_ci_r_d13c[NREG][PD_SIM], rh_ci_r_d14c[NREG][PD_SIM];
-extern double rh_ci_l[NREG][PD_SIM], rh_ci_l_d13c[NREG][PD_SIM], rh_ci_l_d14c[NREG][PD_SIM];
-extern double rh_ci_h[NREG][PD_SIM], rh_ci_h_d13c[NREG][PD_SIM], rh_ci_h_d14c[NREG][PD_SIM];
+extern double rh_area[N_REG];
+extern double rh_temp[N_REG][PD_SIM], rh_prec[N_REG][PD_SIM], rh_dswrf[N_REG][PD_SIM];
+extern double rh_rns[N_REG][PD_SIM], rh_rnl[N_REG][PD_SIM];
+extern double rh_ipar[N_REG][PD_SIM], rh_apar[N_REG][PD_SIM];
+extern double rh_gpp[N_REG][PD_SIM], rh_npp[N_REG][PD_SIM], rh_nep[N_REG][PD_SIM];
+extern double rh_evpr[N_REG][PD_SIM], rh_trsp[N_REG][PD_SIM], rh_incp[N_REG][PD_SIM], rh_rnof[N_REG][PD_SIM];
+extern double rh_ci_gpp[N_REG][PD_SIM], rh_ci_gpp_d13c[N_REG][PD_SIM], rh_ci_gpp_d14c[N_REG][PD_SIM];
+extern double rh_ci_er[N_REG][PD_SIM], rh_ci_er_d13c[N_REG][PD_SIM], rh_ci_er_d14c[N_REG][PD_SIM];
+extern double rh_ci_f[N_REG][PD_SIM], rh_ci_f_d13c[N_REG][PD_SIM], rh_ci_f_d14c[N_REG][PD_SIM];
+extern double rh_ci_c[N_REG][PD_SIM], rh_ci_c_d13c[N_REG][PD_SIM], rh_ci_c_d14c[N_REG][PD_SIM];
+extern double rh_ci_r[N_REG][PD_SIM], rh_ci_r_d13c[N_REG][PD_SIM], rh_ci_r_d14c[N_REG][PD_SIM];
+extern double rh_ci_l[N_REG][PD_SIM], rh_ci_l_d13c[N_REG][PD_SIM], rh_ci_l_d14c[N_REG][PD_SIM];
+extern double rh_ci_h[N_REG][PD_SIM], rh_ci_h_d13c[N_REG][PD_SIM], rh_ci_h_d14c[N_REG][PD_SIM];
 
-extern double rh_hvst[NREG][PD_SIM], rh_luc[NREG][PD_SIM];
-extern double rh_ch4ox_curry[NREG][PD_SIM], rh_ch4emit_wh_wet[NREG][PD_SIM], rh_ch4emit_wh_paddy[NREG][PD_SIM];
-extern double rh_n2o_emit_ngas[NREG][PD_SIM], rh_n2o_emitagr_ngas[NREG][PD_SIM];
+extern double rh_hvst[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
+extern double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
+extern double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
 
 /* CLEARANCE *****************************************************/
 void f_clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 
@@ -187,7 +194,7 @@ void vlzero(struct Grid *grid, struct Pmas *mass, struct Pflx *flux);
 /* INITIALIZATION *********************************************/
 void open_input(FILE *fp_s[IFILEN], FILE *fp_c[4]);
 void f_output_file_open(short vtype, short zone, char s_date[32], char s_case[32], 
-	char filename[100], FILE *fp[OFILEN]);
+	char filename[128], FILE *fp[OFILEN]);
 void f_init_sim(struct Grid *grid);
 void f_init_grid(FILE *fp_r[IFILEN], struct Grid *grid); 
 void f_init_clim(struct Grid *grid);

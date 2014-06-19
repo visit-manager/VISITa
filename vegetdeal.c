@@ -218,10 +218,10 @@ void f_after_deal(
 	}
 	
 	/* leaves */
-	if((flux->tpf[grid->m]-flux->rfg[grid->m])>0.0){
+	if((flux->tpf[grid->m]-flux->rfg[grid->m]) > 0.0){
 		mass->d14c_fol = (mass->d14c_fol*mass->fol + in_d14c*flux->tpf[grid->m]) 
 						/ (mass->fol + flux->tpf[grid->m]);
-	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<=0.0){
+	}else if((flux->tpf[grid->m]-flux->rfg[grid->m]) <= 0.0){
 		mass->d14c_fol = (mass->d14c_fol*mass->fol + in_d14c*pchar->malloc_f[grid->m]*flux->gpp[grid->m]) 
 						  / (mass->fol + pchar->malloc_f[grid->m]*flux->gpp[grid->m]);
 	}
@@ -231,10 +231,10 @@ void f_after_deal(
 	mass->d14c_mfol[grid->m] = mass->d14c_fol;
 	
 	/* stems */
-	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
+	if((flux->tpc[grid->m]-flux->rcg[grid->m]) > 0.0){
 		mass->d14c_stm = (mass->d14c_stm*mass->stm + in_d14c*flux->tpc[grid->m]) 
 						/ (mass->stm + flux->tpc[grid->m]);
-	}else if((flux->tpc[grid->m]-flux->rcg[grid->m])<=0.0){
+	}else if((flux->tpc[grid->m]-flux->rcg[grid->m]) <= 0.0){
 		mass->d14c_stm = (mass->d14c_stm*mass->stm +  in_d14c* pchar->malloc_c[grid->m]*flux->gpp[grid->m])
 						 / (mass->stm + pchar->malloc_c[grid->m]*flux->gpp[grid->m]);
 	}
@@ -244,10 +244,10 @@ void f_after_deal(
 	mass->d14c_mstm[grid->m] = mass->d14c_stm;
 	
 	/* roots */
-	if((flux->tpr[grid->m]-flux->rrg[grid->m])>0.0){
+	if((flux->tpr[grid->m]-flux->rrg[grid->m]) > 0.0){
 		mass->d14c_rot = (mass->d14c_rot*mass->rot + in_d14c*flux->tpr[grid->m]) 
 						/ (mass->rot + flux->tpr[grid->m]);
-	}else if((flux->tpr[grid->m]-flux->rrg[grid->m])<=0.0){
+	}else if((flux->tpr[grid->m]-flux->rrg[grid->m]) <= 0.0){
 		mass->d14c_rot = (mass->d14c_rot*mass->rot + in_d14c*pchar->malloc_r[grid->m]*flux->gpp[grid->m]) 
 						  / (mass->rot + pchar->malloc_r[grid->m]*flux->gpp[grid->m]);
 	}
@@ -281,10 +281,10 @@ double grid_area(
 	l_lat = PI/180.0*e_rad*(1.0 - e_exc*e_exc)/pow(aa, 1.5) * fabs(lat1 - lat2);
 	
 	/* bug fixed 2007/12/25 E.Kato and A.Ito */
-	aa = 1.0 - e_exc*e_exc*sin(lat1*PI/180.0)*sin(lat1*PI/180.0);
-	l_lon1 = PI/180.0*e_rad*cos(lat1*PI/180.0)/sqrt(aa) * fabs(lon1-lon2);
-	aa = 1.0 - e_exc*e_exc*sin(lat2*PI/180.0)*sin(lat2*PI/180.0);
-	l_lon2 = PI/180.0*e_rad*cos(lat2*PI/180.0)/sqrt(aa) * fabs(lon1-lon2);
+	aa = 1.0 - e_exc * e_exc * sin(lat1*PI/180.0)*sin(lat1*PI/180.0);
+	l_lon1 = PI/180.0 * e_rad * cos(lat1*PI/180.0)/sqrt(aa) * fabs(lon1 - lon2);
+	aa = 1.0 - e_exc * e_exc * sin(lat2*PI/180.0)*sin(lat2*PI/180.0);
+	l_lon2 = PI/180.0 * e_rad * cos(lat2*PI/180.0)/sqrt(aa) * fabs(lon1 - lon2);
 	
 	area = (l_lon1 + l_lon2)*l_lat/2.0 / 10000.0;
 	
@@ -488,6 +488,9 @@ void set_rowcol_gcm(
 	}else if(GCM==3700 || GCM==3704){
 		GCM_R = 64;
 		GCM_C = 128;
+	}else if(GCM==3800 || GCM==3803){
+		GCM_R = 96;
+		GCM_C = 192;
 	}else{
 		GCM_R = 1;
 		GCM_C = 1;
@@ -699,24 +702,26 @@ void set_gcm_index(
 		case 3000:	strcpy(s_case,"GEOB0_"); break;
 		case 3003:	strcpy(s_case,"GEOB3_"); break;
 		case 3004:	strcpy(s_case,"GEOB4_"); break;
-		case 3100:	strcpy(s_case,"GEOC0_"); break;
-		case 3104:	strcpy(s_case,"GEOC4_"); break;
-		case 3200:	strcpy(s_case,"GEOG0_"); break;
-		case 3203:	strcpy(s_case,"GEOG3_"); break;
-		case 3204:	strcpy(s_case,"GEOG4_"); break;
+		case 3100:	strcpy(s_case,"GEOCS0_"); break;
+		case 3104:	strcpy(s_case,"GEOCS4_"); break;
+		case 3200:	strcpy(s_case,"GEOGI0_"); break;
+		case 3203:	strcpy(s_case,"GEOGI3_"); break;
+		case 3204:	strcpy(s_case,"GEOGI4_"); break;
  		case 3300:	strcpy(s_case,"GEOH0_"); break;
 		case 3303:	strcpy(s_case,"GEOH3_"); break;
 		case 3304:	strcpy(s_case,"GEOH4_"); break;
 		case 3313:	strcpy(s_case,"GEOH3S_"); break;
-		case 3400:	strcpy(s_case,"GEOI0_"); break;
-		case 3403:	strcpy(s_case,"GEOI3_"); break;
-		case 3405:	strcpy(s_case,"GEOI5_"); break;
+		case 3400:	strcpy(s_case,"GEOIP0_"); break;
+		case 3403:	strcpy(s_case,"GEOIP3_"); break;
+		case 3405:	strcpy(s_case,"GEOIP5_"); break;
 		case 3500:	strcpy(s_case,"GEOM0_"); break;
 		case 3504:	strcpy(s_case,"GEOM4_"); break;
 		case 3600:	strcpy(s_case,"GEOMC0_"); break;
 		case 3604:	strcpy(s_case,"GEOMC4_"); break;
 		case 3700:	strcpy(s_case,"GEOCC0_"); break;
 		case 3704:	strcpy(s_case,"GEOCC4_"); break;
+		case 3800:	strcpy(s_case,"GEOMP0_"); break;
+		case 3803:	strcpy(s_case,"GEOMP3_"); break;
 
 		default:
 			strcpy(s_case,"STCLIM_"); 

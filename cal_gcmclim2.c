@@ -68,6 +68,14 @@ void cal_projection(
 		if(TEMP_GC != 0){
 			grid->co2y = 2001;
 		}
+        
+        if(GEOMIP_RUN == 1 && CC_CD == 3){
+            /* assuming SRM + CDR : 2014/06/18 by A.Ito */
+            grid->co2y = g;
+            if(grid->co2y > 2020){
+                grid->co2y = 2020;
+            }
+        }
 		
 		/* historical change in fertilizer input: 2010/05/11 by A.Ito */
 		if(grid->rank_nat==1){
@@ -288,20 +296,21 @@ void cal_projection(
 		if((mass->c3).v_type == 1 && NECB_WHVST == 1){
 			dyr = grid->climy - PIVOT_LUC;
 			
-            if(LANDUSE != 10 && g>304){
-				dyr = 304;
+            if( (LANDUSE != 10 && LANDUSE != 11 && LANDUSE != 12 && LANDUSE != 13) &&
+                    g> (PIVOT_LUC+DL_LUH-1)){
+				dyr = (PIVOT_LUC+DL_LUH-1);
 			}
 			
-			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr] 
+			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
 						+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr];
 			
 			total_hvst *= 1.0/1000.0 * 1.0/grid->area;
 			
 			if((mass->c3).stm > (total_hvst + INT_C)){
         
-                if((mass->c3).stm > (total_hvst*iweight3 + INT_C)){
-                    (mass->c3).stm -= total_hvst*iweight3;
-                    flux->hvst_wood = total_hvst*iweight3;
+                if((mass->c3).stm > (total_hvst * iweight3 + INT_C)){
+                    (mass->c3).stm -= total_hvst * iweight3;
+                    flux->hvst_wood = total_hvst * iweight3;
                 }else{
                     (mass->c3).stm -= total_hvst;
                     flux->hvst_wood = total_hvst;

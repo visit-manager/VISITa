@@ -275,6 +275,9 @@ void f_init_grid(
 	}if(GCM==3700 || GCM==3704){ /* GEO-MIP CanESM2 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM==3800 || GCM==3803){ /* GEO-MIP MPI-ESM-LR */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}
     
 	/* input geography in the grid *************/	
@@ -362,15 +365,15 @@ void f_init_grid(
 	*/
 	
 	/* sensitivity analysis for biome change by deforestation */
-	if(DEFOREST==1){
+	if(EX_DEFOREST==1){
 		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 19;
 		}
-	}else if(DEFOREST==2){
+	}else if(EX_DEFOREST==2){
 		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 13;
 		}
-	}else if(DEFOREST==3){
+	}else if(EX_DEFOREST==3){
 		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 31;
 		}
@@ -653,7 +656,7 @@ void f_init_grid(
 	}
 	
 	/* wetland fraction: data by Global Lakes and Wetlands Database by WWF *****/
-	if(ALT_FWET==1){
+	if(ALT_FWETLAND==1){
 		/* Alternative data (NASA/GISS): 2011/03/30 by A.Ito */
 		fscanf(fp_s[21],"%lf", &wetland);
 		grid->f_wetland = wetland;
@@ -664,9 +667,17 @@ void f_init_grid(
 		/* revised wetland data: by A.Ito (2009/07/14) */
 		fscanf(fp_s[21],"%lf %lf %lf %lf %lf", &lat, &lon, &total, &lake, &wetland); 
 		grid->f_wetland = wetland/grid->area;
+        
+        /* WSL-Perogon welnad map: 2014/2/4 by A.Ito */
+        fscanf(fp_s[83],"%ld %lf", &aaa, &wetland); 
+        if(ALT_FWETLAND==2 && aaa==1){
+            grid->f_wetland = wetland;
+        }
+        
 		if(grid->f_wetland > 1.0){
 			grid->f_wetland = 1.0;
 		}
+
 	}
 	grid->f_lake = lake/grid->area;
 	if(grid->f_lake > 1.0){
@@ -677,7 +688,7 @@ void f_init_grid(
     grid->f_wetland0 = grid->f_wetland;
 	
 	/* paddy fraction *****************/
-	if(ALT_FWET==1){
+	if(ALT_FWETLAND==1){
 		/* Alternative data (IIS-UT + SAGE): 2011/03/30 by A.Ito */
 		fscanf(fp_s[22],"%lf", &paddy); 
 		if(paddy>0.0){
@@ -724,7 +735,7 @@ void f_init_grid(
 	 Global Change Biology, 12, 1-22.
 	 */
     /* revised by A.Ito (2013/12/20) */
-	if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10){
+	if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
         
 		for(h=0;h<DL_LUH;h++){
 			/* fractional cover */
@@ -771,7 +782,7 @@ void f_init_grid(
             }
 		}
         
-        if(LANDUSE==10){
+        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
             /* skip RCPXX - 2005 data */
             fscanf(fp_s[26],"%lf", &ddummy);
             fscanf(fp_s[27],"%lf", &ddummy);
@@ -818,12 +829,11 @@ void f_init_grid(
 		}
 	}
 	
-	
 	/* wood harvest based on RCP-harmonized data: LUHa.v1 */
 	/* added by A.Ito (2010/10/15) */
 	/* revised by A.Ito (2013/12/20, 24) */
     
-    if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10){
+    if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
         
         for(h=0;h<DL_LUH;h++){
             if(h<(BGY_GCM - PIVOT_LUC - 1)){
@@ -839,15 +849,14 @@ void f_init_grid(
                 fscanf(fp_s[81],"%lf", &grid->hvst_s2[h]);
                 fscanf(fp_s[82],"%lf", &grid->hvst_s3[h]);
             }
-            
-            if(LANDUSE==10){
-                fscanf(fp_s[53],"%lf", &ddummy);
-                fscanf(fp_s[54],"%lf", &ddummy);
-                fscanf(fp_s[55],"%lf", &ddummy);
-                fscanf(fp_s[56],"%lf", &ddummy);
-                fscanf(fp_s[57],"%lf", &ddummy);
-            }
-    
+        }
+        
+        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+            fscanf(fp_s[53],"%lf", &ddummy);
+            fscanf(fp_s[54],"%lf", &ddummy);
+            fscanf(fp_s[55],"%lf", &ddummy);
+            fscanf(fp_s[56],"%lf", &ddummy);
+            fscanf(fp_s[57],"%lf", &ddummy);
         }
     }else{
         for(h=0;h<DL_LUH;h++){
@@ -915,7 +924,8 @@ void f_init_grid(
 	fscanf(fp_s[47],"%lf", &grid->srb_dif_max_y);
 	
 	/* inundation ********************************************/
-	fscanf(fp_s[48],"%lf", &lat);
+	/* SSMI */
+    fscanf(fp_s[48],"%lf", &lat);
 	fscanf(fp_s[48],"%lf", &lon);
 	grid->inundation_ssmi_av = 0.0;
 	grid->inundation_ssmi_max = 0.0;
@@ -923,12 +933,30 @@ void f_init_grid(
 		fscanf(fp_s[48],"%ld", &aaa);
 		grid->inundation_ssmi[h] = (double)aaa/8.0;
 		
-		grid->inundation_ssmi_av += grid->inundation_ssmi[h] *MDN[h]/365.0;
+		grid->inundation_ssmi_av += grid->inundation_ssmi[h] * MDN[h]/365.0;
 		
 		if(grid->inundation_ssmi[h] > grid->inundation_ssmi_max){
 			grid->inundation_ssmi_max = grid->inundation_ssmi[h];
 		}
 	}
+    
+    /* GCP-CH4: 2014/05/28 by A.Ito */
+	fscanf(fp_s[84],"%lf", &lat);
+	fscanf(fp_s[84],"%lf", &lon);
+    /* average */
+    for(h=0;h<ASTEP;h++){
+        fscanf(fp_s[84],"%lf", &grid->inundation_gcp_av[h]);
+    }
+    /* 1999/07-2013/03 */
+    for(g=0;g<15;g++){
+        for(h=0;h<ASTEP;h++){
+            fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+            
+            if(grid->inundation_gcp_ts[g][h] < 0.0){
+                grid->inundation_gcp_ts[g][h] = 0.0;
+            }
+        }
+    }
 	
 	/* permafrost type **************************************/
 	/* from National Snow and Ice Data Center 
@@ -966,9 +994,9 @@ void f_init_grid(
 	
 	/* CHASE 2001 monthly, by A.Ito (2010/05/21) ******************************/
 	grid->chaser_row = grid->row/(360.0/64.0);
-	if(grid->col>=360){
+	if(grid->col >= 360){
 		grid->chaser_col = grid->col/(720.0/128.0) - 64;
-	}else if(grid->col<360){
+	}else if(grid->col < 360){
 		grid->chaser_col = grid->col/(720.0/128.0) + 64;
 	}
 		

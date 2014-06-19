@@ -45,7 +45,8 @@ void f_clear(
 		loct->prsr[f] = loct->dnsa[f] = loct->dnsa[f] = 0.0;
 		loct->vp[f] = loct->vps[f] = loct->vpd[f] = 0.0;
 		loct->slope_vps[f] = loct->r_aero[f] = 0.0;
-		loct->pm_evp[f] = loct->pm_trn[f] = loct->evpr[f] = loct->trspr[f] = 0.0;
+		loct->pm_evp[f] = loct->pm_trn[f] = loct->pm_incep[f] = 0.0;
+        loct->evpr[f] = loct->trspr[f] = loct->incep[f] = 0.0;
 		loct->ro1[f] = loct->ro2[f] = loct->msnwa[f] = 0.0;
 		loct->msww[f] = loct->msw30[f] = loct->snp[f] = 0.0;
 		loct->snp[f] = loct->thaw[f] = 0.0;
@@ -147,6 +148,10 @@ void ghg_flux_zero(
 	flux->npp_montreal = 0.0;
 	flux->npp_schuur = 0.0;
 	flux->npp_nceas = 0.0;
+	flux->npp_chikugo = 0.0;
+	flux->npp_madison_gddswsi = 0.0;
+	flux->npp_madison_parwsi = 0.0;
+	flux->npp_madison_tp = 0.0;
 	
 	flux->erod_soil = 0.0;
 	flux->erod_orgmat = 0.0;

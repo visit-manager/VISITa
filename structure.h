@@ -313,6 +313,9 @@ struct Grid{
 	double	inundation_ssmi[ASTEP];		/* inundation by SSM/I: added by A.Ito (2009/07/13) */
 	double	inundation_ssmi_av;
 	double	inundation_ssmi_max;
+    
+    double  inundation_gcp_av[ASTEP];
+    double  inundation_gcp_ts[15][ASTEP];
 	
 	long	type_permaforst;			/* permafrost type by NSIDC */
     double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
@@ -320,9 +323,9 @@ struct Grid{
 
 /* grid conditions, derived from submodules *******************************************/
 struct Loct{ 
-	short	v_type;				/* vegetation classification types */
-								/* 1: Olson+SAGE natural vegetation */
-								/* 2: agricultural vegetation */
+	short	v_type;                     /* vegetation classification types */
+                                        /* 1: Olson+SAGE natural vegetation */
+                                        /* 2: agricultural vegetation */
 	
 	long 	time_hyd;					/* time to reach stabilization of water budget */
 	long 	time;						/* time to reach stabilization of carbon budget */
@@ -336,6 +339,8 @@ struct Loct{
 	double	c3ptn[ASTEP];				/* ground coverage of C3 plants, fraction */
 	long	gd[ASTEP], bbm;				/* vegetative growing period, days */
 	double	gdd[ASTEP];				 	/* cumulative growth degree days, degC days */
+    
+    double  est_maxlai;                 /* estimated max.LAI: 2014/05/20 by A.Ito */
 	
 	double	albedo_sfc[ASTEP];			/* land-surface albedo */
 	double	gl_rad_g[ASTEP];			/* global radiation under the canopy, W m-2 */
@@ -438,7 +443,8 @@ struct Loct{
 	double	xx6[ASTEP];
 	double	xx7[ASTEP];
 	double	xx8[ASTEP];
-};			
+	double	xx9[ASTEP];
+};
 
 /* vegetation characteristics ****************************************************/
 struct Pchar{ 
@@ -897,6 +903,7 @@ struct Flux{
 	double	npp_madison_gddswsi;	/* NPP estimated by Zaks's Madison model 1: GDD & WSI */
 	double	npp_madison_tp;			/* NPP estimated by Zaks's Madison model 1: temp & prec */
 	double	npp_nceas;				/* NPP estimated by NCEAS */
+	double	npp_chikugo;			/* NPP estimated by Chikugo */
 
 	/* carbon flux, in  Mg C ha-1 yr-1 */ 
 	double	nep[ASTEP];				/* net ecosystem production */

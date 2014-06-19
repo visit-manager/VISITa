@@ -26,8 +26,8 @@ void f_waterbudget(
 	extern double MDN[12];
 	
 	/** snow/rain portions **/
-	loct->snp[grid->m] = 1.0/(1.0+exp(0.75*(grid->tmp_2m[grid->m]-2.0)));
-	snow = loct->snp[grid->m]*grid->prate_sfc[grid->m];
+	loct->snp[grid->m] = 1.0/(1.0 + exp(0.75*(grid->tmp_2m[grid->m]-2.0)));
+	snow = loct->snp[grid->m] * grid->prate_sfc[grid->m];
 	rain = (1.0-loct->snp[grid->m])*grid->prate_sfc[grid->m];
 	
 	/** thaw water **/
@@ -197,8 +197,8 @@ double slope_vps(
 		ccc = pow(10.0, (7.5*grid->tmp_2m[grid->m])/(237.3 + grid->tmp_2m[grid->m]));
 	}else{ /* at ice surface */  /* if(grid->tmp_2m[grid->m]<=0.0) */
 		aaa = 6.1078*2834.0;
-		bbb = 0.4615*(ZAT+grid->tmp_2m[grid->m])*(ZAT+grid->tmp_2m[grid->m]);
-		ccc = pow(10.0, (9.5*grid->tmp_2m[grid->m])/(265.3+grid->tmp_2m[grid->m]));
+		bbb = 0.4615*(ZAT + grid->tmp_2m[grid->m])*(ZAT + grid->tmp_2m[grid->m]);
+		ccc = pow(10.0, (9.5*grid->tmp_2m[grid->m])/(265.3 + grid->tmp_2m[grid->m]));
 	}
 	slope = (aaa/bbb)*ccc;
 	
@@ -216,9 +216,10 @@ double r_aero(
 	
 	grid->wnd_10m[grid->m] = (grid->wnd_10m[grid->m]>=0.1)?grid->wnd_10m[grid->m]:0.1;
 	
-	r_aero = (log(10.0)*log(10.0))/(k_con*k_con*grid->wnd_10m[grid->m]);
+	r_aero = (log(10.0)*log(10.0))/(k_con * k_con * grid->wnd_10m[grid->m]);
 	r_aero = (r_aero>=0.0)?r_aero:0.0;
 	
+    /* aerodynamic resistance: m s-1 */
 	return(r_aero);
 }
 
@@ -246,8 +247,8 @@ double pm_evaporation(
 				 (grid->field_cap1 + grid->field_cap2))+10.0; /*2003-06-27*/
 	rc_g = 1.0/(ggc*eta);
 	
-	aaa = (loct->slope_vps[grid->m]*loct->rad_net_g[grid->m])+(cp*spwt*loct->vpd[grid->m]/loct->r_aero[grid->m]);
-	bbb = loct->slope_vps[grid->m]+psycon*(1.0+rc_g/loct->r_aero[grid->m]);	
+	aaa = (loct->slope_vps[grid->m]*loct->rad_net_g[grid->m]) + (cp*spwt*loct->vpd[grid->m] / loct->r_aero[grid->m]);
+	bbb = loct->slope_vps[grid->m] + psycon*(1.0 + rc_g/loct->r_aero[grid->m]);
 	
 	evaporation = MDN[grid->m]*grid->dlen[grid->m]*aaa/bbb/lht;
 	evaporation = (evaporation>=0.0)?evaporation:0.0;
@@ -272,7 +273,7 @@ double pm_transpiration(
 	psycon = 0.667; /** psychlometer constant, in hPa K-1 **/
 	eta = 0.0224*1.0/1000.0; /** unit conversion of conductance from mmol H2O m-2 s-1 to m s-1 **/
 	
-	rn_transp = loct->rad_net_p[grid->m]-loct->incep[grid->m]/MDN[grid->m]/24.0*lht;
+	rn_transp = loct->rad_net_p[grid->m] - loct->incep[grid->m]/MDN[grid->m]/24.0*lht;
 
 	if(loct->canopy_con[grid->m] > 0.0 && rn_transp > 0.0){
 		/** canopy resistance **/

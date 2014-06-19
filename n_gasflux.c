@@ -28,7 +28,7 @@ void f_n2o_emit_ngas(
 	struct Mass *mass, 
 	struct Flux *flux
 ){
-	double aa, bb, cc;
+	double aa, bb, cc, dd, ee;
 	double n_h2o, n_t, n_ph, n_nh4, day_n_n2o;
 	double fd_wfps, fd_no3, fd_co2, dt;
 	double fr_wfps, fr_no3, fr_co2;
@@ -168,20 +168,26 @@ void f_n2o_emit_ngas(
 		fr_co2 = 0.0;
 	}
 	
-	loct->xx1[grid->m] = fd_wfps;
+	/* loct->xx1[grid->m] = fd_wfps;
 	loct->xx2[grid->m] = fd_no3;
 	loct->xx3[grid->m] = fd_co2;
 	loct->xx4[grid->m] = dt;
 	loct->xx5[grid->m] = fr_wfps;
 	loct->xx6[grid->m] = fr_no3;
 	loct->xx7[grid->m] = fr_co2;
-	loct->xx8[grid->m] = wfps_b;
+	loct->xx8[grid->m] = wfps_b; */
 		
 	/* N2O emission */
 	/* Eqs.(3+4) in Parton et al. (1996) */
 	day_d_n2o = dt / (1.0 + fr_wfps * ((fr_no3>fr_co2)?fr_co2:fr_no3));
 	/* Eqs.(3+5) in Parton et al. (1996) */
-	day_d_n2 = dt / (1.0 + 1.0/(fr_wfps * ((fr_no3>fr_co2)?fr_co2:fr_no3)));
+    dd = (fr_no3>fr_co2)?fr_co2:fr_no3;
+    if((fr_wfps * dd) > 0.0){
+        ee = 1.0 + 1.0/(fr_wfps * dd);
+        day_d_n2 = dt / ee;
+    }else{
+        day_d_n2 = 0.0;
+    }
 	
 	/* total ***************************************************/
 	/* g N20 ha-1 month-1 */
