@@ -22,7 +22,7 @@ void cal_historical(
 	FILE *fp_o[OFILEN]
 ){
 	long f, g, dyr;
-	double f_fert, total_hvst, f_nat, iweight, iweight3, avc3;
+	double f_fert, fweight, total_hvst, f_nat, iweight, iweight3, avc3;
 	extern double MDN[ASTEP];
 	
     /* phase: 1, historical simulation */
@@ -88,7 +88,7 @@ void cal_historical(
 			/* environmental condition *******************/
 			f_dyn_loct(grid, loct, mass, echar);
             
-            printf("%5.1lf ", grid->tmp_sfc[f]);
+            //printf("%5.1lf ", grid->tmp_sfc[f]);
 			
 			/* vegetation processes *********************/
 			f_biome_processes(grid, loct, echar, mass, flux);
@@ -261,12 +261,33 @@ void cal_historical(
 				vs_rot[grid->veg_sage] += (mass->plant).mrot[f]*MDN[f]/365.0/10.0 * grid->area;
 				vs_ltr[grid->veg_sage] += (mass->soil).ltr_m[f]*MDN[f]/365.0/10.0 * grid->area;
 				vs_msl[grid->veg_sage] += (mass->soil).msl_m[f]*MDN[f]/365.0/10.0 * grid->area;
+                
+                if(loct->v_type == 1){
+                    fweight = 1.0 - grid->f_crop_con;
+                }else{
+                    fweight = grid->f_crop_con;
+                }
+                glat_gpp[f][grid->row] += fweight * grid->area * (flux->plant).gpp[f]/10.0;
+                glat_npp[f][grid->row] += fweight * grid->area * (flux->plant).npp[f]/10.0;
+                glat_nep[f][grid->row] += fweight * grid->area * flux->nep[f]/10.0;
+                
+                if(loct->v_type == 1){
+                    glat_ch4_cao[f][grid->row] += grid->area * (flux->soil).ch4flux_wetland_cao[f] / 10.0;
+                    glat_ch4_wh[f][grid->row] += grid->area * ((flux->soil).ch4_wetland_wh_plant[f]
+                                + (flux->soil).ch4_wetland_wh_ebull[f] + (flux->soil).ch4_wetland_wh_diff[f]
+								  + (flux->soil).ch4_wetland_wh_release[f]) / 10.0;
+                }else{
+                    glat_ch4_cao[f][grid->row] += grid->area * (flux->soil).ch4flux_paddy_cao[f] / 10.0;
+                    glat_ch4_wh[f][grid->row] += grid->area * ((flux->soil).ch4_paddy_wh_plant[f]
+                                + (flux->soil).ch4_paddy_wh_ebull[f] + (flux->soil).ch4_paddy_wh_diff[f]
+								  + (flux->soil).ch4_paddy_wh_release[f]) / 10.0;
+                }
 			}
 			
 			/******************/
 			f_grid_av(grid, loct, echar, mass, flux);
 		}
-        printf("\n");
+        //printf("\n");
 		
 		/* empirical NPP models */
 		npp_empirical(grid, loct, flux);

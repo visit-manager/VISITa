@@ -488,6 +488,12 @@ void set_rowcol_gcm(
 	}else if(GCM==3700 || GCM==3704){
 		GCM_R = 64;
 		GCM_C = 128;
+	}else if(GCM==3800 || GCM==3803){
+		GCM_R = 96;
+		GCM_C = 192;
+	}else if(GCM==3900 || GCM==3913){
+		GCM_R = 192;
+		GCM_C = 288;
 	}else{
 		GCM_R = 1;
 		GCM_C = 1;
@@ -699,24 +705,28 @@ void set_gcm_index(
 		case 3000:	strcpy(s_case,"GEOB0_"); break;
 		case 3003:	strcpy(s_case,"GEOB3_"); break;
 		case 3004:	strcpy(s_case,"GEOB4_"); break;
-		case 3100:	strcpy(s_case,"GEOC0_"); break;
-		case 3104:	strcpy(s_case,"GEOC4_"); break;
-		case 3200:	strcpy(s_case,"GEOG0_"); break;
-		case 3203:	strcpy(s_case,"GEOG3_"); break;
-		case 3204:	strcpy(s_case,"GEOG4_"); break;
+		case 3100:	strcpy(s_case,"GEOCS0_"); break;
+		case 3104:	strcpy(s_case,"GEOCS4_"); break;
+		case 3200:	strcpy(s_case,"GEOGI0_"); break;
+		case 3203:	strcpy(s_case,"GEOGI3_"); break;
+		case 3204:	strcpy(s_case,"GEOGI4_"); break;
  		case 3300:	strcpy(s_case,"GEOH0_"); break;
 		case 3303:	strcpy(s_case,"GEOH3_"); break;
 		case 3304:	strcpy(s_case,"GEOH4_"); break;
 		case 3313:	strcpy(s_case,"GEOH3S_"); break;
-		case 3400:	strcpy(s_case,"GEOI0_"); break;
-		case 3403:	strcpy(s_case,"GEOI3_"); break;
-		case 3405:	strcpy(s_case,"GEOI5_"); break;
+		case 3400:	strcpy(s_case,"GEOIP0_"); break;
+		case 3403:	strcpy(s_case,"GEOIP3_"); break;
+		case 3405:	strcpy(s_case,"GEOIP5_"); break;
 		case 3500:	strcpy(s_case,"GEOM0_"); break;
 		case 3504:	strcpy(s_case,"GEOM4_"); break;
 		case 3600:	strcpy(s_case,"GEOMC0_"); break;
 		case 3604:	strcpy(s_case,"GEOMC4_"); break;
 		case 3700:	strcpy(s_case,"GEOCC0_"); break;
 		case 3704:	strcpy(s_case,"GEOCC4_"); break;
+		case 3800:	strcpy(s_case,"GEOMP0_"); break;
+		case 3803:	strcpy(s_case,"GEOMP3_"); break;
+		case 3900:	strcpy(s_case,"GEOCM0_"); break;
+		case 3913:	strcpy(s_case,"GEOCM3_"); break;
 
 		default:
 			strcpy(s_case,"STCLIM_"); 

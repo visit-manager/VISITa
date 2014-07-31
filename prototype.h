@@ -159,7 +159,11 @@ extern float g_ch4ep_wh[5][N_ROW][N_COL];
 extern float g_ch4ew_wh[5][N_ROW][N_COL]; 
 extern float gm_ch4ep_wh[12][N_ROW][N_COL];
 #endif
-extern float g_ch4ep_cao[5][N_ROW][N_COL]; 
+extern float g_ch4ep_cao[5][N_ROW][N_COL];
+
+extern double glat_area[N_ROW];
+extern double glat_gpp[ASTEP][N_ROW],glat_npp[ASTEP][N_ROW],glat_nep[ASTEP][N_ROW];
+extern double glat_ch4_cao[ASTEP][N_ROW], glat_ch4_wh[ASTEP][N_ROW];
 
 /* regional historical */
 extern double rh_area[N_REG];

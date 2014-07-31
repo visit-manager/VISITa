@@ -275,6 +275,12 @@ void f_init_grid(
 	}if(GCM==3700 || GCM==3704){ /* GEO-MIP CanESM2 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM==3800 || GCM==3803){ /* GEO-MIP MPI-ESM-LR */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM==3900 || GCM==3913){ /* GEO-MIP CCSM4 */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}
     
 	/* input geography in the grid *************/	

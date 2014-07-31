@@ -367,4 +367,14 @@ void f_init_sim(
 			rh_ci_h[f][g] = rh_ci_h_d13c[f][g] = rh_ci_h_d14c[f][g] = 0.0;
 		}
 	}
+    
+    for(h=0;h<N_COL;h++){
+        glat_area[h] = 0.0;
+    }
+	for(g=0;g<ASTEP;g++){
+		for(h=0;h<N_COL;h++){
+            glat_gpp[g][h] = glat_npp[g][h] = glat_nep[g][h] = 0.0;
+            glat_ch4_cao[g][h] = glat_ch4_wh[g][h] = 0.0;
+        }
+    }
 }

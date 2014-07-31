@@ -394,7 +394,7 @@ void f_n_uptake(
 	/* temperature factor */
 	f_temp = exp(0.0693 * grid->tmp10_soil[grid->m]);
 	/* soil diffusion parameter */
-	ks = 0.90 * pow(loct->sw30/grid->field_cap1, 3.0) + 0.1;
+	ks = 0.90 * pow(loct->sw30 / grid->field_cap1, 3.0) + 0.1;
 	
 	/* NO3 uptake */
 	navil = (mass->soil).n_no3;

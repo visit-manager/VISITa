@@ -23,7 +23,10 @@ struct Mass mass_agr;
 struct Flux flux_agr;
 
 /* global variables ********************************************/
-/* GCM variables ************/
+
+double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0};
+
+/* experimental variables ************/
 long GCM, CO2S, GCM_R, GCM_C; /* */
 long PARAM_PTB; /* added by A.Ito (2010/05/10) */
 long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
@@ -41,6 +44,7 @@ long EX_SRM;
 /* 13: surface radiation -6.0 W m-2 */
 /* 14: surface radiation -8.5 W m-2 */
 
+/* perturbation term */
 double f_pert[20];
 
 /* atm. GHG scenario */
@@ -144,15 +148,13 @@ double m_ch4p_cao[ASTEP], m_ch4p_wh[ASTEP];
 
 /* vegetation (olson) mean results */
 double go_landarea, gs_landarea;
-double vo_area[34];
-double vo_gpp[34], vo_npp[34], vo_nep[34];
-double vo_lai[34], vo_fol[34], vo_stm[34], vo_rot[34], vo_ltr[34], vo_msl[34];
+double vo_area[NVEG_OLSON];
+double vo_gpp[NVEG_OLSON], vo_npp[NVEG_OLSON], vo_nep[NVEG_OLSON];
+double vo_lai[NVEG_OLSON], vo_fol[NVEG_OLSON], vo_stm[NVEG_OLSON], vo_rot[NVEG_OLSON], vo_ltr[NVEG_OLSON], vo_msl[NVEG_OLSON];
 /* vegetation (SAGE) mean results */
-double vs_area[16];
-double vs_gpp[16], vs_npp[16], vs_nep[16];
-double vs_lai[16], vs_fol[16], vs_stm[16], vs_rot[16], vs_ltr[16], vs_msl[16];
-
-double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0};
+double vs_area[NVEG_SAGE];
+double vs_gpp[NVEG_SAGE], vs_npp[NVEG_SAGE], vs_nep[NVEG_SAGE];
+double vs_lai[NVEG_SAGE], vs_fol[NVEG_SAGE], vs_stm[NVEG_SAGE], vs_rot[NVEG_SAGE], vs_ltr[NVEG_SAGE], vs_msl[NVEG_SAGE];
 
 /* 0: 1950s */
 /* 1: 1990s */
@@ -220,6 +222,10 @@ float g_ch4ep_wh[5][N_ROW][N_COL];
 float g_ch4ew_wh[5][N_ROW][N_COL];
 float gm_ch4ep_wh[12][N_ROW][N_COL];
 #endif
+
+double glat_area[N_ROW];
+double glat_gpp[ASTEP][N_ROW],glat_npp[ASTEP][N_ROW],glat_nep[ASTEP][N_ROW];
+double glat_ch4_cao[ASTEP][N_ROW], glat_ch4_wh[ASTEP][N_ROW];
 
 /* float gs_gpp_1[12][N_ROW][N_COL], gs_gpp_2[12][N_ROW][N_COL], gs_gpp_3[12][N_ROW][N_COL];
 float gs_ipar_1[12][N_ROW][N_COL], gs_ipar_2[12][N_ROW][N_COL], gs_ipar_3[12][N_ROW][N_COL];

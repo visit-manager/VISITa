@@ -1297,7 +1297,7 @@ void open_input(
     }
     
     /* GEO-MIP */
-    if(GCM>=3000 && GCM<=3800){
+    if(GCM>=3000 && GCM<=3999){
         CO2S = 2; /* RCP4.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){

@@ -36,14 +36,14 @@
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 
-#define GEOMIP_RUN 1
+#define GEOMIP_RUN 0
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
 /********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 0
+#define OUTPUT_CARBON2 1
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
@@ -146,7 +146,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
@@ -164,7 +164,7 @@
 
 /* future projection *****************************/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_RUN 1
+#define GCM_RUN 0
 /* 0: no  1:yes */
 /* #define GCM_PD 100 */	/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
@@ -283,7 +283,7 @@
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 
@@ -303,7 +303,7 @@
 /* 2: use Peregon-san data: 2014/02/04 */
 
 /* inundation data */
-#define ALT_INUND 0
+#define ALT_INUND 1
 /* 0: default (SSMI) */
 /* 1: GCP-CH4  */
 /* 2: IIS satellite observation */
@@ -427,7 +427,6 @@
 #define CC_CD 1
 /* 1: actual CO2 rise */
 /* 2: no CO2 rise */
-/* 3: fix CO2 after 2020 for GeoMIP runs */
 
 /* deforestation ************************************/
 #define EX_DEFOREST 0
@@ -698,7 +697,7 @@
 /* 3313: HadGEM2-ES G3S */
 
 /* 3400: IPSL-CM54-LR RCP4.5 */
-/* 3403: IPSL-CM54-LR G3 */
+/* 3404: IPSL-CM54-LR G4 */
 /* 3405: IPSL-CM54-LR G5 */
 
 /* 3500: MIROC-ESM RCP4.5 */
@@ -712,6 +711,3 @@
 
 /* 3800: MPI-ESM-LR RCP4.5 */
 /* 3803: MPI-ESM-LR G3 */
-
-/* 3900: CCSM4 RCP4.5 */
-/* 3913: CCSM4 G3S */

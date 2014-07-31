@@ -68,6 +68,14 @@ void cal_projection(
 		if(TEMP_GC != 0){
 			grid->co2y = 2001;
 		}
+        
+        if(GEOMIP_RUN == 1 && CC_CD == 3){
+            /* assuming SRM + CDR : 2014/06/18 by A.Ito */
+            grid->co2y = g;
+            if(grid->co2y > 2020){
+                grid->co2y = 2020;
+            }
+        }
 		
 		/* historical change in fertilizer input: 2010/05/11 by A.Ito */
 		if(grid->rank_nat==1){
@@ -300,9 +308,9 @@ void cal_projection(
 			
 			if((mass->c3).stm > (total_hvst + INT_C)){
         
-                if((mass->c3).stm > (total_hvst*iweight3 + INT_C)){
-                    (mass->c3).stm -= total_hvst*iweight3;
-                    flux->hvst_wood = total_hvst*iweight3;
+                if((mass->c3).stm > (total_hvst * iweight3 + INT_C)){
+                    (mass->c3).stm -= total_hvst * iweight3;
+                    flux->hvst_wood = total_hvst * iweight3;
                 }else{
                     (mass->c3).stm -= total_hvst;
                     flux->hvst_wood = total_hvst;

@@ -82,7 +82,7 @@ void f_cult_luc(
 				- (grid->fcrop3_image[9]+grid->fcrop4_image[9]))/100.0;
 			grid->f_pasture_con = grid->fpast_unh_hmnzed[299] + 
 				((grid->fgrass3_image[grid->climy - 1990] + grid->fgrass4_image[grid->climy - 1990]) 
-				- (grid->fgrass3_image[9]+grid->fgrass4_image[9]))/100.0;
+				- (grid->fgrass3_image[9] + grid->fgrass4_image[9]))/100.0;
 		}
 	}else if(LANDUSE==7){
 		/* SAGE land-use data 1700-2007 (Revised: 2010/01/07):

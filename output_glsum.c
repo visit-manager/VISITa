@@ -1000,6 +1000,30 @@ void f_glosum_output(
 	for(h=0;h<20;h++){
 		fprintf(fp_glsum,"%ld %lf\n", h, f_pert[h]);
 	}
+    fprintf(fp_glsum,"\n");
+    
+    /* latitudinal */
+    for(h=0;h<N_ROW;h++){
+        fprintf(fp_glsum,"%lf ", glat_area[h]);
+        
+        for(i=0;i<ASTEP;i++){
+            fprintf(fp_glsum,"%lf ", glat_gpp[i][h]);
+        }
+        for(i=0;i<ASTEP;i++){
+            fprintf(fp_glsum,"%lf ", glat_npp[i][h]);
+        }
+        for(i=0;i<ASTEP;i++){
+            fprintf(fp_glsum,"%lf ", glat_nep[i][h]);
+        }
+        for(i=0;i<ASTEP;i++){
+            fprintf(fp_glsum,"%lf ", glat_ch4_cao[i][h]);
+        }
+        for(i=0;i<ASTEP;i++){
+            fprintf(fp_glsum,"%lf ", glat_ch4_wh[i][h]);
+        }
+        
+        fprintf(fp_glsum,"\n");
+    }
 	
 	fclose(fp_glsum);
 }
