@@ -364,7 +364,7 @@ long f_basin_id_trip(
 void set_rowcol_gcm(
 	void
 ){
-	if(GCM==0){
+	if(GCM == 0){
 		GCM_R = 1;
 		GCM_C = 1;
 	}else if(GCM==1 || GCM==2 || GCM==3 || GCM==4 || GCM==5 || GCM==6){
@@ -495,6 +495,7 @@ void set_rowcol_gcm(
 		GCM_R = 192;
 		GCM_C = 288;
 	}else{
+        /* ISI-MIP, PLUME (no stored GCM data) */
 		GCM_R = 1;
 		GCM_C = 1;
 	}
@@ -727,6 +728,9 @@ void set_gcm_index(
 		case 3803:	strcpy(s_case,"GEOMP3_"); break;
 		case 3900:	strcpy(s_case,"GEOCM0_"); break;
 		case 3913:	strcpy(s_case,"GEOCM3_"); break;
+
+		case 4201:	strcpy(s_case,"PLIP45_"); break;
+		case 4202:	strcpy(s_case,"PLIP85_"); break;
 
 		default:
 			strcpy(s_case,"STCLIM_"); 

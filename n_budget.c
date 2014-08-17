@@ -604,7 +604,7 @@ void f_n_mcrb_abdn(
 	flux->n_mcrb_abdn[grid->m] = 0.1 * f_temp * mass->n_mcrb;
     
     /* safe guard: 2014/05/28 by A.Ito */
-    if(flux->n_mcrb_abdn[grid->m] > (0.5*mass->n_mcrb)){
-        flux->n_mcrb_abdn[grid->m] = (0.5*mass->n_mcrb);
+    if(flux->n_mcrb_abdn[grid->m] > (0.5 * mass->n_mcrb)){
+        flux->n_mcrb_abdn[grid->m] = (0.5 * mass->n_mcrb);
     }
 }

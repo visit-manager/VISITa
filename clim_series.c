@@ -100,6 +100,26 @@ void set_hist_clim(
             grid->tcdc_clm[h] = grid->hist_cld[grid->climy - PIVOT_CLIMY + offset][h];
             grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY + offset][h];  
         }
+    }else if(ISIMIP_RUN == 2){
+
+        /* ISI-MIP climate data: 2014/07/31 by A.Ito */
+        if(grid->phase == 0){
+            offset = 0;
+        }else if(grid->phase == 1 || grid->phase == 2){
+            offset = 30;
+        }
+        
+        for(h=0;h<ASTEP;h++){
+            grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+                            + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
+            grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h];
+            grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+                            + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
+            grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+                            + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
+            grid->tcdc_clm[h] = grid->hist_cld[grid->climy - PIVOT_CLIMY + offset][h];
+            grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY + offset][h];  
+        }
     }
 	
 	/* perturbation for uncertainty analysis: 2010/05/17 (A.Ito) ***************/
@@ -131,141 +151,164 @@ void set_gcm_clim(
 	long h;
 	double tmp_var, pre_var, rad_var;
 	double alt, apres, rvap, est_cld;
-	
-	/***************************************************/
-	for(h=0;h<ASTEP;h++){
-		grid->m = h;
+    
+    /***************************************************/
+    for(h=0;h<ASTEP;h++){
+        grid->m = h;
         
-		/* temperature ***************************************************/
-		/* gradual temperature change: added by A.Ito (2009/06/15) */
-		if(TEMP_GC == 1){
-			tmp_var = -1.0/100.0 * (double)(grid->climy-2000);
-		}else if(TEMP_GC == 2){
-			tmp_var = 1.0/100.0 * (double)(grid->climy-2000);
-		}else if(TEMP_GC == 3){
-			tmp_var = -2.0/100.0 * (double)(grid->climy-2000);
-		}else if(TEMP_GC == 4){
-			tmp_var = 2.0/100.0 * (double)(grid->climy-2000);
-		}else if(TEMP_GC == 5){
-			tmp_var = -3.0/100.0 * (double)(grid->climy-2000);
-		}else if(TEMP_GC == 6){
-			tmp_var = 3.0/100.0 * (double)(grid->climy-2000);
-		}else if(TEMP_GC == 7){
-			tmp_var = -4.0/100.0 * (double)(grid->climy-2000);
-		}else if(TEMP_GC == 8){
-			tmp_var = 4.0/100.0 * (double)(grid->climy-2000);
-		}else if(TEMP_GC == 9){
-			tmp_var = -5.0/100.0 * (double)(grid->climy-2000);
-		}else if(TEMP_GC == 10){
-			tmp_var = 5.0/100.0 * (double)(grid->climy-2000);
-		}else if(TEMP_GC == 11){
-			tmp_var = -6.0/100.0 * (double)(grid->climy-2000);
-		}else if(TEMP_GC == 12){
-			tmp_var = 6.0/100.0 * (double)(grid->climy-2000);
-		}else if(TEMP_GC ==0){
-			if(CC_T == 1){
-				tmp_var = grid->proj_tmp2m[grid->climy-PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col] - 
-							grid->proj_tmp2m_b[h][grid->gcm_row][grid->gcm_col];
-			}else{
-				tmp_var = 0.0;
-			}
-		}
-		
-		if(CC_T_A == 1){
-			grid->tmp_sfc[h] = grid->tmp_sfc_a[h] + tmp_var;
-			grid->tmp_2m[h] = grid->tmp_2m_a[h] + tmp_var;
-		}else{
-			grid->tmp_sfc[h] = grid->tmp_sfc_a[h];
-			grid->tmp_2m[h] = grid->tmp_2m_a[h];
-		}
-		if(CC_T_B == 1){
-			grid->tmp10_soil[h] = grid->tmp10_soil_a[h] + tmp_var;
-			grid->tmp200_soil[h] = grid->tmp200_soil_a[h] + tmp_var;
-		}else{
-			grid->tmp10_soil[h] = grid->tmp10_soil_a[h];
-			grid->tmp200_soil[h] = grid->tmp200_soil_a[h];
-		}
-		
-		/* precipitation ***************************************************/
-		if(TEMP_GC != 0){
-			pre_var = 0.0;
-		}else{
-			if(CC_P==1){
-				pre_var = grid->proj_prec[grid->climy-PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col] - 
-				grid->proj_prec_b[h][grid->gcm_row][grid->gcm_col];
-			}else{
-				pre_var = 0.0;
-			}
-		}
-		
-		grid->prate_sfc[h] = grid->prate_sfc_a[h] + pre_var;
-		if(grid->prate_sfc[h]<=0.0){
-			/* carry over of negative precipitation */
-			grid->proj_prec_co += grid->prate_sfc[h];
-			grid->prate_sfc[h] = 0.0;
-		}else if(grid->prate_sfc[h]>0.0){
-			grid->prate_sfc[h] += grid->proj_prec_co;
-			grid->proj_prec_co = 0.0;
-			if(grid->prate_sfc[h] <= 0.0){
-				/* carry over of negative precipitation */
-				grid->proj_prec_co += grid->prate_sfc[h];
-				grid->prate_sfc[h] = 0.0;
-			}
-		}						
+        /* temperature ***************************************************/
+        /* gradual temperature change: added by A.Ito (2009/06/15) */
+        if(TEMP_GC == 1){
+            tmp_var = -1.0/100.0 * (double)(grid->climy-2000);
+        }else if(TEMP_GC == 2){
+            tmp_var = 1.0/100.0 * (double)(grid->climy-2000);
+        }else if(TEMP_GC == 3){
+            tmp_var = -2.0/100.0 * (double)(grid->climy-2000);
+        }else if(TEMP_GC == 4){
+            tmp_var = 2.0/100.0 * (double)(grid->climy-2000);
+        }else if(TEMP_GC == 5){
+            tmp_var = -3.0/100.0 * (double)(grid->climy-2000);
+        }else if(TEMP_GC == 6){
+            tmp_var = 3.0/100.0 * (double)(grid->climy-2000);
+        }else if(TEMP_GC == 7){
+            tmp_var = -4.0/100.0 * (double)(grid->climy-2000);
+        }else if(TEMP_GC == 8){
+            tmp_var = 4.0/100.0 * (double)(grid->climy-2000);
+        }else if(TEMP_GC == 9){
+            tmp_var = -5.0/100.0 * (double)(grid->climy-2000);
+        }else if(TEMP_GC == 10){
+            tmp_var = 5.0/100.0 * (double)(grid->climy-2000);
+        }else if(TEMP_GC == 11){
+            tmp_var = -6.0/100.0 * (double)(grid->climy-2000);
+        }else if(TEMP_GC == 12){
+            tmp_var = 6.0/100.0 * (double)(grid->climy-2000);
+        }else if(TEMP_GC ==0){
+            if(CC_T == 1){
+                tmp_var = grid->proj_tmp2m[grid->climy - PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col] -
+                            grid->proj_tmp2m_b[h][grid->gcm_row][grid->gcm_col];
+            }else{
+                tmp_var = 0.0;
+            }
+        }
+        
+        if(CC_T_A == 1){
+            grid->tmp_sfc[h] = grid->tmp_sfc_a[h] + tmp_var;
+            grid->tmp_2m[h] = grid->tmp_2m_a[h] + tmp_var;
+        }else{
+            grid->tmp_sfc[h] = grid->tmp_sfc_a[h];
+            grid->tmp_2m[h] = grid->tmp_2m_a[h];
+        }
+        if(CC_T_B == 1){
+            grid->tmp10_soil[h] = grid->tmp10_soil_a[h] + tmp_var;
+            grid->tmp200_soil[h] = grid->tmp200_soil_a[h] + tmp_var;
+        }else{
+            grid->tmp10_soil[h] = grid->tmp10_soil_a[h];
+            grid->tmp200_soil[h] = grid->tmp200_soil_a[h];
+        }
+        
+        if(ISIMIP_RUN == 2){
+            /* PLUME: 2014/07/31 by A.Ito */
+            grid->tmp_2m[h] = grid->proj_tmp2m[grid->climy - PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col];
+            grid->tmp_sfc[h] = grid->proj_tmp2m[grid->climy - PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col]
+                                + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
+            grid->tmp10_soil[h] = grid->proj_tmp2m[grid->climy - PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col]
+                                + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
+            grid->tmp200_soil[h] = grid->proj_tmp2m[grid->climy - PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col]
+                                + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
+       }
+        
+        /* precipitation ***************************************************/
+        if(TEMP_GC != 0){
+            pre_var = 0.0;
+        }else{
+            if(CC_P == 1){
+                pre_var = grid->proj_prec[grid->climy-PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col] - 
+                            grid->proj_prec_b[h][grid->gcm_row][grid->gcm_col];
+            }else{
+                pre_var = 0.0;
+            }
+        }
+        grid->prate_sfc[h] = grid->prate_sfc_a[h] + pre_var;
+       
+        if(ISIMIP_RUN == 2){
+            /* PLUME: 2014/07/31 by A.Ito */
+            grid->prate_sfc[h] = grid->proj_prec[grid->climy-PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col];
+        }
+        
+        if(grid->prate_sfc[h]<=0.0){
+            /* carry over of negative precipitation */
+            grid->proj_prec_co += grid->prate_sfc[h];
+            grid->prate_sfc[h] = 0.0;
+        }else if(grid->prate_sfc[h]>0.0){
+            grid->prate_sfc[h] += grid->proj_prec_co;
+            grid->proj_prec_co = 0.0;
+            if(grid->prate_sfc[h] <= 0.0){
+                /* carry over of negative precipitation */
+                grid->proj_prec_co += grid->prate_sfc[h];
+                grid->prate_sfc[h] = 0.0;
+            }
+        }						
 
-		/* air humidity ******************************************************************/
-		/* revised by A.Ito (2009/08/17) */
-		if(TEMP_GC != 0){
-			grid->spfh_2m[h] = grid->spfh_2m_a[h];
-		}else{
-			alt = (grid->topo>=0.0)?grid->topo:0.0; 
-			
-			apres = 1013.25*exp(-1.0*(28.964*0.001)*9.8*alt/(8.3144*(grid->tmp_2m[h]+ZAT)));
-			
-			if(CC_H==1){
-				rvap = grid->proj_hum[grid->climy-PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col] / apres;
-				grid->spfh_2m[h] = 0.622 * rvap / (1.0 + 0.378 * rvap);
-				
-				/* shm_var = grid->proj_hum[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
-							grid->proj_hum_b[h][grid->gcm_row][grid->gcm_col]; */
-			}else{
-				rvap = grid->proj_hum_b[h][grid->gcm_row][grid->gcm_col] / apres;
-				/* shm_var = 0.0; */
-			}
-			grid->spfh_2m[h] = 0.622 * rvap / (1.0 + 0.378 * rvap);
-		}
-		
-		/* grid->spfh_2m[h] = grid->spfh_2m_a[h] + shm_var; */
-		if(grid->spfh_2m[h]<0.0){
-			grid->spfh_2m[h] = 0.0;
-		}
-		
-		/* surface shortwave radiation ***************************************************/
-		/*  0: no change  */
-		/*  1: SW and PAR change  */
-		/*  2: PAR change but mean SW  */
-		/*  3: SW change but mean PAR  */
-		if(TEMP_GC != 0){
-			rad_var = 0.0;
-		}else{
-			if(CC_R==1||CC_R==2){
-				rad_var = grid->proj_rad[grid->climy-PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col] - 
-							grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
-			}else if(CC_R==0||CC_R==3){	
-				rad_var = 0.0;	/* mean SW & PAR */
-			}
-		}
+        /* air humidity ******************************************************************/
+        /* revised by A.Ito (2009/08/17) */
+        if(TEMP_GC != 0){
+            grid->spfh_2m[h] = grid->spfh_2m_a[h];
+        }else{
+            alt = (grid->topo>=0.0)?grid->topo:0.0; 
+            
+            /* atmospheric pressure, hPa */
+            apres = 1013.25*exp(-1.0 * (28.964*0.001) * GAC * alt/(UGC * (grid->tmp_2m[h]+  ZAT)));
+            
+            if(CC_H == 1){
+                rvap = grid->proj_hum[grid->climy - PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col] / apres;
+                grid->spfh_2m[h] = 0.622 * rvap / (1.0 - 0.378 * rvap);
+                
+                /* shm_var = grid->proj_hum[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
+                            grid->proj_hum_b[h][grid->gcm_row][grid->gcm_col]; */
+            }else{
+                rvap = grid->proj_hum_b[h][grid->gcm_row][grid->gcm_col] / apres;
+                /* shm_var = 0.0; */
+            }
+            grid->spfh_2m[h] = 0.622 * rvap / (1.0 - 0.378 * rvap);
+        }
         
+        /* grid->spfh_2m[h] = grid->spfh_2m_a[h] + shm_var; */
+        if(grid->spfh_2m[h]<0.0){
+            grid->spfh_2m[h] = 0.0;
+        }
+
+        /* surface shortwave radiation ***************************************************/
+        /*  0: no change  */
+        /*  1: SW and PAR change  */
+        /*  2: PAR change but mean SW  */
+        /*  3: SW change but mean PAR  */
+        if(TEMP_GC != 0){
+            rad_var = 0.0;
+        }else{
+            if(CC_R == 1 || CC_R == 2){
+                rad_var = grid->proj_rad[grid->climy-PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col] - 
+                            grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
+            }else if(CC_R == 0 || CC_R == 3){
+                rad_var = 0.0;	/* mean SW & PAR */
+            }
+        }
+
         /* experiment for SRM by reflector */
         /* added: 2014/07/06 by A.Ito     */
-        if(GCM==3313 || GCM==3913){
+        if(GCM == 3313 || GCM == 3913){
             grid->top_rad[h] = f_top_rad(grid, 0);
         }
         
-		grid->gl_rad[h] = grid->rad_a[h] + rad_var;
-		if(grid->gl_rad[h]<0.0){
-			grid->gl_rad[h] = 0.0;
-		}
+        grid->gl_rad[h] = grid->rad_a[h] + rad_var;
+        
+        if(ISIMIP_RUN == 2){
+            /* PLUME: 2014/07/31 by A.Ito */
+            grid->gl_rad[h] = grid->proj_rad[grid->climy-PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col];
+        }
+        
+        if(grid->gl_rad[h]<0.0){
+            grid->gl_rad[h] = 0.0;
+        }
         
         /* estimation of cloudiness: 2013/12/03 by A.Ito */
         if(grid->top_rad[h] > 0.0){
@@ -288,20 +331,20 @@ void set_gcm_clim(
         grid->tcdc_clm[h] = est_cld;
         
         /* PAR */
-		grid->par[h] = f_par(grid);
-		
-		if(CC_R == 2){
-			grid->gl_rad[h] = grid->rad_a[h];	/* mean SW */
-		}
-		if(CC_R == 3){
-			rad_var = grid->proj_rad[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
-					grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
-					
-			grid->gl_rad[h] = grid->rad_a[h] + rad_var;
-			if(grid->gl_rad[h]<0.0){
-				grid->gl_rad[h] = 0.0;	/* SW change */
-			}
-		}
-	}
+        grid->par[h] = f_par(grid);
+        
+        if(CC_R == 2){
+            grid->gl_rad[h] = grid->rad_a[h];	/* mean SW */
+        }
+        if(CC_R == 3){
+            rad_var = grid->proj_rad[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
+                    grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
+                    
+            grid->gl_rad[h] = grid->rad_a[h] + rad_var;
+            if(grid->gl_rad[h]<0.0){
+                grid->gl_rad[h] = 0.0;	/* SW change */
+            }
+        }
+    }
 }
 

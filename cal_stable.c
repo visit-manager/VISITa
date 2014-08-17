@@ -83,11 +83,16 @@ void cal_spinup(
 	while(ann_nep > TER_CON){ /*** acnep>TER_CON nn<10 ***/
 		grid->y = nn;
 				
-        if(ISIMIP_RUN==1 && grid->flag_histdata == 1){
+        if(ISIMIP_RUN == 1 && grid->flag_histdata == 1){
             ann_nep = 10.0;
             grid->climy = nn%30 +1951;
 			set_hist_clim(grid);
-		}
+		}else if(ISIMIP_RUN == 2 && grid->flag_histdata == 1){
+            /* PLUME: 2014/07/31 by A.Ito */
+            ann_nep = 10.0;
+            grid->climy = nn%30 +1901;
+			set_hist_clim(grid);
+        }
 		
 		plantmass = ann_nep = 0.0;
 		for(f=0;f<ASTEP;f++){

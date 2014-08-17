@@ -58,7 +58,7 @@ void initVS(
 	}
     
     /* albedo perturbation: 2012/12/29 by A.Ito ********/
-    if(EX_ALBEDO==1){
+    if(EX_ALBEDO == 1){
         p_scale = 0.0;
         for(f=0;f<12;f++){
             p_scale += (double)rand() / (double)RAND_MAX;
@@ -81,18 +81,18 @@ void initVS(
         }
     }
 	
-	if(M_D==1){
-		(echar->soil).kml*=1.3;
-		(echar->soil).kmh*=1.3;
-	}else if(M_D==2){
-		(echar->soil).kml*=0.7;
-		(echar->soil).kmh*=0.7;
-	}else if(M_D==3){
-		(echar->soil).kmsl*=1.3;
-		(echar->soil).kmsh*=1.3;
-	}else if(M_D==4){
-		(echar->soil).kmsl*=0.7;
-		(echar->soil).kmsh*=0.7;
+	if(M_D == 1){
+		(echar->soil).kml *= 1.3;
+		(echar->soil).kmh *= 1.3;
+	}else if(M_D == 2){
+		(echar->soil).kml *= 0.7;
+		(echar->soil).kmh *= 0.7;
+	}else if(M_D == 3){
+		(echar->soil).kmsl *= 1.3;
+		(echar->soil).kmsh *= 1.3;
+	}else if(M_D == 4){
+		(echar->soil).kmsl *= 0.7;
+		(echar->soil).kmsh *= 0.7;
 	}
 	
 	/* parameter perturbation: 2010/05/10 added by A.Ito */
