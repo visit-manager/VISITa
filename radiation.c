@@ -192,7 +192,7 @@ double f_par(
 		kt = grid->gl_rad[grid->m]/grid->top_rad[grid->m];
 		
 		/* new estimation of diffuse radiation: 2008/09/08 by A.Ito */
-		if(DIF_SRB==1){
+		if(DIF_SRB == 1){
 			if((grid->srb_dif_rr * grid->srb_dif_rr) > 0.25){
 				dd = grid->srb_dif_aa + grid->srb_dif_bb*kt;
 			}else{
@@ -203,10 +203,10 @@ double f_par(
 			dd = 0.958 - 0.982*kt;
 		}
 		
-		if(SENS_RAD==1){
+		if(SENS_RAD == 1){
 			dd *= 1.1;
 		}
-		if(SENS_RAD==2){
+		if(SENS_RAD == 2){
 			dd *= 0.9;
 		}
 		
@@ -223,7 +223,7 @@ double f_par(
 		diverse cloud conditions. Journal of Geophysical Research 
 		109, 10.1029/2003JD004251.
 		*/
-		if(D_PAR==1){
+		if(D_PAR == 1){
 			e2p_d = 4.5886*dd/(0.010773+dd);
 			e2p_d = (e2p_d>4.2)?e2p_d:4.2;
 			
@@ -271,7 +271,7 @@ void f_net_rad(
 	/** longwave budget : modified 2002/12/25, based on Budyko (1971) **/
 	aaa = pow((grid->tmp_2m[grid->m] + ZAT), 4.0) * SBC;
 	if(loct->vp[grid->m]>0.1 && loct->vp[grid->m]<40.0){
-		bbb = 0.39 - 0.058*sqrt(loct->vp[grid->m]*760.0/1013.0 );
+		bbb = 0.39 - 0.058*sqrt(loct->vp[grid->m]*  760.0/1013.0 );
 	}else if(loct->vp[grid->m] <= 0.1){
 		bbb = 0.39 - 0.058*sqrt( 0.1*760.0/1013.0 );
 	}else if(loct->vp[grid->m] >= 40.0){
@@ -284,8 +284,8 @@ void f_net_rad(
 	/** soil surface albedo **/
 	(echar->soil).albedo[grid->m] = albedo_soil(loct, &(echar->soil));
 	
-	ee_c3 = loct->c3ptn[grid->m]*(echar->c3).eK[grid->m]*(mass->c3).lai[grid->m];
-	ee_c4 = loct->c4ptn[grid->m]*(echar->c4).eK[grid->m]*(mass->c4).lai[grid->m];
+	ee_c3 = loct->c3ptn[grid->m] * (echar->c3).eK[grid->m] * (mass->c3).lai[grid->m];
+	ee_c4 = loct->c4ptn[grid->m] * (echar->c4).eK[grid->m] * (mass->c4).lai[grid->m];
 	
 	eee = ee_c3 + ee_c4;
 	ground = exp(-1.0*eee);

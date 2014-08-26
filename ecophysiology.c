@@ -77,8 +77,8 @@ void f_ecophysiology(
 		pc_sat(grid, loct, pchar);
 
 		/* canopy-top photosynthetic rate*/
-		aaa = pchar->psat[grid->m]*pchar->lue[grid->m]*grid->par[grid->m];
-		bbb = pchar->psat[grid->m] + pchar->lue[grid->m]*grid->par[grid->m];
+		aaa = pchar->psat[grid->m] * pchar->lue[grid->m] * grid->par[grid->m];
+		bbb = pchar->psat[grid->m] + pchar->lue[grid->m] * grid->par[grid->m];
 		if(bbb>0.0){
 			pchar->ptop = aaa/bbb;
 		}else{
@@ -153,7 +153,7 @@ double irr_attn(
 	aaa = sin(grid->sl_hgt[grid->m] * dTr);
 	aaa = (aaa<=1.0)?aaa:1.0; 
 	aaa = (aaa>=0.3)?aaa:0.3; /* to avoid extreme values*/
-	bbb = pchar->eK0/aaa;
+	bbb = pchar->eK0 / aaa;
 	
 	return (bbb);
 }
@@ -331,20 +331,20 @@ void f_qten_ar(
 	double aaa;
 	
 	/* larger at cool and smaller at warm */
-	aaa = exp(-0.009*(grid->tmp_sfc[grid->m]-15.0));
+	aaa = exp(-0.009 * (grid->tmp_sfc[grid->m] - 15.0));
 		
 	pchar->qTf[grid->m] = pchar->qTf0*aaa;
 	pchar->qTc[grid->m] = pchar->qTc0*aaa;
 	pchar->qTr[grid->m] = pchar->qTr0*aaa;
 	
 	if(T_R==1){
-		pchar->qTf[grid->m]*=0.9;
-		pchar->qTc[grid->m]*=0.9;
-		pchar->qTr[grid->m]*=0.9;
+		pchar->qTf[grid->m] *= 0.9;
+		pchar->qTc[grid->m] *= 0.9;
+		pchar->qTr[grid->m] *= 0.9;
 	}else if(T_R==2){
-		pchar->qTf[grid->m]*=1.1;
-		pchar->qTc[grid->m]*=1.1;
-		pchar->qTr[grid->m]*=1.1;
+		pchar->qTf[grid->m] *= 1.1;
+		pchar->qTc[grid->m] *= 1.1;
+		pchar->qTr[grid->m] *= 1.1;
 	}
 }
 
@@ -359,8 +359,8 @@ void spcfc_res_mass(
 	pchar->rmf = pchar->rmf0;
 	
 	/* specific respiration increasing in a power of 2/3 manner */
-	powstm = 1.0 - 0.33334*mass->stm/(50.0 + mass->stm);
-	powrot = 1.0 - 0.33334*mass->rot/(50.0 + mass->rot);
+	powstm = 1.0 - 0.33334 * mass->stm/(50.0 + mass->stm);
+	powrot = 1.0 - 0.33334 * mass->rot/(50.0 + mass->rot);
 	
     if(mass->stm > 0.0){
         stm_sap = pow(mass->stm, powstm); /* sapwood mass in stem */

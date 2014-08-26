@@ -32,7 +32,7 @@
 #define INT_C 0.01
 
 /***********************************************************/
-#define ISIMIP_RUN 2
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -48,10 +48,10 @@
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
-#define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
+#define OUTPUT_EROSION 1
+#define OUTPUT_GHG 1
+#define OUTPUT_BB 1
+#define OUTPUT_BVOC 1
 /* output binary */
 #define C13_GOUT 1
 #define C14_GOUT 1
@@ -63,6 +63,10 @@
 #define NVEG_SAGE 16		/* SAGE veg (modified) */
 #define NVEG_CROP 3		/* crop types */
 
+/* number of geographical regions */
+#define N_REG 23
+/* defined in region_giorgi() in vegetdeal.c */
+
 /* calculation for land covers */
 #define CALC_OLSON 1    /* matural vegetation */
 #define CALC_CROP 1     /* cropland */
@@ -72,10 +76,7 @@
 #define REPL_OLSON_CROP 1
 /* 0:off 1:on */
 
-/* number of geographical regions */
-#define N_REG 23
-/* defined in region_giorgi() in vegetdeal.c */
-
+/***********************************************************/
 /* atmopsheric GHG data length */
 #if ISIMIP_RUN==1
     /* ISI-MIP: 2012/06/27 by A.Ito */
@@ -160,7 +161,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
@@ -179,12 +180,12 @@
 #elif ISIMIP_RUN==2
     #define DL_ISIMIP 135  /* SU 30 + AD 1901 - 2005 */
 #else
-    #define DL_ISIMIP 0
+    #define DL_ISIMIP 1
 #endif
 
 /* future projection *****************************/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_RUN 1
+#define GCM_RUN 0
 /* 0: no  1:yes */
 /* #define GCM_PD 100 */	/* 100 : 2001-2100 */
 /* #define GCM_PD 99 */	/* 99 : 2001-2099 */
@@ -227,7 +228,7 @@
 #define NECB_CROP 1
 
 /* land use change setting ***********/
-#define LANDUSE 9
+#define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -258,6 +259,7 @@
     #define BGY_LUC 1900
 #endif
 
+/***************************************************/
 /* erosion: setting of soil conservation */
 #define SOIL_CONSV 0
 /* 0: OECD nations = 0.75, developing = 0.95 */
@@ -268,7 +270,6 @@
 /* 0: conventional */
 /* 1: lai based */
 
-/***************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
 #define EX_ALBEDO 0
 /* 0: off */
@@ -308,7 +309,7 @@
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 
@@ -330,8 +331,11 @@
 /* inundation data */
 #define ALT_INUND 0
 /* 0: default (SSMI) */
-/* 1: GCP-CH4  */
+/* 1: NASA-JPL (GCP-CH4) version 1  */
 /* 2: IIS satellite observation */
+/* 3: NASA-JPL smoothed */
+/* 4: NASA-JPL smoothed no water */
+/* 5: NASA-JPL smoothed no water no rice */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0

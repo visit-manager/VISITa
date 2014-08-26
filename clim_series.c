@@ -273,7 +273,7 @@ void set_gcm_clim(
         }
         
         /* grid->spfh_2m[h] = grid->spfh_2m_a[h] + shm_var; */
-        if(grid->spfh_2m[h]<0.0){
+        if(grid->spfh_2m[h] < 0.0){
             grid->spfh_2m[h] = 0.0;
         }
 

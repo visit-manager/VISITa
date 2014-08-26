@@ -281,16 +281,16 @@ int main(
 			/* head records of output files */
 			for(h=0;h<OFILEN;h++){
 				if(CALC_OLSON == 1){
-					fprintf(fp_o1[h],"%ld %ld %ld %ld\n", 
-							grid.row, grid.col, grid.veg_olson, grid.veg_sage); 
+					fprintf(fp_o1[h],"%ld %ld %ld %ld %ld\n",
+							grid.row, grid.col, grid.veg_olson, grid.veg_sage, grid.flag_histdata);
 					
 					fprintf(fp_o1[h],"%lf %lf %lf\n", 
 							grid.field_cap1, grid.field_cap2, grid.bulkdens);
 				}
 				if(CALC_CROP == 1){
 					/* modified: 2011/02/04 (A.Ito) */
-					fprintf(fp_o2[h],"%ld %ld %ld %ld %ld\n", 
-							grid.row, grid.col, grid.veg_olson, grid.veg_sage, grid.veg_crop); 
+					fprintf(fp_o2[h],"%ld %ld %ld %ld %ld %ld\n",
+							grid.row, grid.col, grid.veg_olson, grid.veg_sage, grid.veg_crop, grid.flag_histdata);
 					
 					fprintf(fp_o2[h],"%lf %lf %lf\n", 
 							grid.field_cap1, grid.field_cap2, grid.bulkdens);
