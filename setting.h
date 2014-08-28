@@ -151,7 +151,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
-    #define DL_CRU 112  /* CRU TS3.21: AD 1901 - 2012 */
+    #define DL_CRU 113  /* CRU TS3.21: AD 1901 - 2012 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */

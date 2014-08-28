@@ -45,7 +45,7 @@ void cal_projection(
 	
 		/* climate change ********************/
 		grid->climy = g;
-		if(GCM >= 1 && GCM <=3999){
+		if(GCM >= 1 && GCM <=9999){
 			set_gcm_clim(grid);
 		}
 		
@@ -57,9 +57,9 @@ void cal_projection(
 		}
 		
 		/* CO2 change ********************/
-		if(CO2S==0){
+		if(CO2S == 0){
 			grid->co2y = BGY_GCM; 
-		}else if(CO2S==7){
+		}else if(CO2S == 7){
 			grid->co2y = 2081;
 		}else{
 			grid->co2y = g; 

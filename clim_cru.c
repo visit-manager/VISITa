@@ -126,7 +126,7 @@ void read_cru_clim(
         /* 1901-1930-detrended: spi-up */
         /* 1901-2005:           historical */
         
-       /* ait tempetaure, deg-C */
+        /* ait tempetaure, deg-C */
         fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[0]);
         avtas = 0.0;
         for(h=0;h<DL_ISIMIP;h++){
@@ -155,10 +155,10 @@ void read_cru_clim(
             grid->flag_histdata = 0;
         }
         
+        fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[2]);
         if(grid->flag_histdata == 1){
         
             /* relative humidity (%) => vapor pressure (hPa) */
-            fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[2]);
             for(h=0;h<DL_ISIMIP;h++){
                 for(g=0;g<ASTEP;g++){
                 
@@ -177,9 +177,18 @@ void read_cru_clim(
                     grid->hist_vap[h][g] = (grid->hist_vap[h][g]>0.0)?grid->hist_vap[h][g]:0.0;
                 }
             }
+        }else{
+            for(h=0;h<DL_ISIMIP;h++){
+                for(g=0;g<ASTEP;g++){
+                    grid->hist_vap[h][g] = 0.0;
+                }
+            }
+        }
+        
+        fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[3]);
+        if(grid->flag_histdata == 1){
             
             /* radiation => cloudiness, fraction */
-            fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[3]);
             for(h=0;h<DL_ISIMIP;h++){
                 for(g=0;g<ASTEP;g++){
                     /* average downward-shortwave radiation */
@@ -211,7 +220,6 @@ void read_cru_clim(
         }else{
             for(h=0;h<DL_ISIMIP;h++){
                 for(g=0;g<ASTEP;g++){
-                    grid->hist_vap[h][g] = 0.0;
                     grid->hist_cld[h][g] = 0.0;
                 }
             }
@@ -236,7 +244,7 @@ void read_cru_clim(
         }
     }
     
-    /* projection data ****************************/
+    /* projection data ************************************************/
     if(ISIMIP_RUN == 2){
         /* PLUME (ISI-MIP2): 2014/07/31 by A.Ito ****************/
         /* 2006-2091:   future projection */
@@ -252,7 +260,7 @@ void read_cru_clim(
         }
         
         /* precipitation, mm month-1 */
-        fread(r_gcm_data,sizeof(float),ASTEP*DL_GCM, fp_c[1]);
+        fread(r_gcm_data,sizeof(float),ASTEP*DL_GCM, fp_c2[1]);
         avpr = 0.0;
         for(h=0;h<DL_GCM;h++){
             for(g=0;g<ASTEP;g++){
@@ -262,32 +270,48 @@ void read_cru_clim(
         }
         
         /* relative humidity (%) => vapor pressure (hPa) */
-        fread(r_gcm_data,sizeof(float),ASTEP*DL_GCM, fp_c[2]);
-        for(h=0;h<DL_GCM;h++){
-            for(g=0;g<ASTEP;g++){
-            
-                /* relative humidity to vapor pressure */
-                /* revided by A.Ito (2012/06/28) */
+        fread(r_gcm_data,sizeof(float),ASTEP*DL_GCM, fp_c2[2]);
+        if(grid->flag_histdata == 1){
+            for(h=0;h<DL_GCM;h++){
+                for(g=0;g<ASTEP;g++){
                 
-                /* saturated water vapor pressure */
-                if(grid->proj_tmp2m[h][g][0][0] > 0.0){ /* at water surface */
-                    vps = 6.1078*pow(10.0, (7.5*grid->proj_tmp2m[h][g][0][0])/(237.3 + grid->proj_tmp2m[h][g][0][0]));
-                }else{ /* at ice surface */  /*  if(grid->tmp_2m[grid->m]<=0.0) */
-                    vps = 6.1078*pow(10.0, (9.5*grid->proj_tmp2m[h][g][0][0])/(265.3 + grid->proj_tmp2m[h][g][0][0]));
+                    /* relative humidity to vapor pressure */
+                    /* revided by A.Ito (2012/06/28) */
+                    
+                    /* saturated water vapor pressure */
+                    if(grid->proj_tmp2m[h][g][0][0] > 0.0){ /* at water surface */
+                        vps = 6.1078*pow(10.0, (7.5*grid->proj_tmp2m[h][g][0][0])/(237.3 + grid->proj_tmp2m[h][g][0][0]));
+                    }else{ /* at ice surface */  /*  if(grid->tmp_2m[grid->m]<=0.0) */
+                        vps = 6.1078*pow(10.0, (9.5*grid->proj_tmp2m[h][g][0][0])/(265.3 + grid->proj_tmp2m[h][g][0][0]));
+                    }
+                    vps = (vps>=0.0)?vps:0.0;
+        
+                    grid->proj_hum[h][g][0][0] = vps * (double)r_gcm_data[h*ASTEP+g]/100.0;
+                    grid->proj_hum[h][g][0][0] = (grid->proj_hum[h][g][0][0]>0.0)?grid->proj_hum[h][g][0][0]:0.0;
                 }
-                vps = (vps>=0.0)?vps:0.0;
-    
-                grid->proj_hum[h][g][0][0] = vps * (double)r_gcm_data[h*ASTEP+g]/100.0;
-                grid->proj_hum[h][g][0][0] = (grid->proj_hum[h][g][0][0]>0.0)?grid->proj_hum[h][g][0][0]:0.0;
+            }
+        }else{
+            for(h=0;h<DL_GCM;h++){
+                for(g=0;g<ASTEP;g++){
+                    grid->proj_hum[h][g][0][0] = 0.0;
+                }
             }
         }
         
         /* radiation => cloudiness, fraction */
-        fread(r_gcm_data,sizeof(float),ASTEP*DL_GCM, fp_c[3]);
-        for(h=0;h<DL_GCM;h++){
-            for(g=0;g<ASTEP;g++){
-                grid->proj_rad[h][g][0][0] = (double)r_gcm_data[h*ASTEP+g];
-                grid->proj_rad[h][g][0][0] = (grid->proj_rad[h][g][0][0]>0.0)?grid->proj_rad[h][g][0][0]:0.0;
+        fread(r_gcm_data,sizeof(float),ASTEP*DL_GCM, fp_c2[3]);
+        if(grid->flag_histdata == 1){
+            for(h=0;h<DL_GCM;h++){
+                for(g=0;g<ASTEP;g++){
+                    grid->proj_rad[h][g][0][0] = (double)r_gcm_data[h*ASTEP+g];
+                    grid->proj_rad[h][g][0][0] = (grid->proj_rad[h][g][0][0]>0.0)?grid->proj_rad[h][g][0][0]:0.0;
+                }
+            }
+        }else{
+            for(h=0;h<DL_GCM;h++){
+                for(g=0;g<ASTEP;g++){
+                    grid->proj_rad[h][g][0][0] = 0.0;
+                }
             }
         }
         
