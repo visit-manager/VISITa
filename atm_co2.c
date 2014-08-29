@@ -50,7 +50,7 @@ void f_co2_trend(
             
             inc = 0.0;
         }
-    }else if(ISIMIP_RUN == 1 || GEOMIP_RUN == 1){
+    }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || GEOMIP_RUN == 1){
             
         switch(CO2S){
             case 1:
