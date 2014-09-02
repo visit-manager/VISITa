@@ -245,7 +245,7 @@ void f_dyn_loct(
 		grid->top_rad[grid->m] = f_top_rad(grid, 0); 	
 		grid->gl_rad[grid->m] = f_gl_rad(grid); 	
 		grid->par[grid->m] = f_par(grid); 
-	}else if(SC==5){
+	}else if(SC == 5){
 		grid->par[grid->m] = f_par(grid); 
 		grid->par[grid->m] += 10.0;
 	}
@@ -376,7 +376,7 @@ void f_dyn_loct(
 		if(grid->phase == 0){
 			/* spin-up */
 			loct->vp[grid->m] = grid->hist_vap_b[grid->m];
-		}else if(grid->phase==1){
+		}else if(grid->phase == 1){
 			if(grid->climy < (PIVOT_CLIMY + PD_HIST)){
 				/* based on UEA/CRU or ISI-MIP data */
 				loct->vp[grid->m] = grid->hist_vap[grid->climy - PIVOT_CLIMY][grid->m];	
@@ -387,15 +387,19 @@ void f_dyn_loct(
 				
 				loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;
 			}
-		}else if(grid->phase==2){
+		}else if(grid->phase == 2){
 			/* prediction using AOGCM */
 			/* loct->vp[grid->m] = loct->prsr[grid->m]*grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]);  */
 			
 			/* revided by A.Ito (2009/08/17) */
-			vpres_var = grid->proj_hum[grid->climy-PIVOT_GCMY-1][grid->m][grid->gcm_row][grid->gcm_col] - 
+			vpres_var = grid->proj_hum[grid->climy - PIVOT_GCMY-1][grid->m][grid->gcm_row][grid->gcm_col] -
 							grid->proj_hum_b[grid->m][grid->gcm_row][grid->gcm_col];
 			
 			loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;
+            
+            if(ISIMIP_RUN == 2){
+                loct->vp[grid->m] = grid->proj_hum[grid->climy - PIVOT_GCMY][grid->m][0][0];
+            }
 		}
 		if(loct->vp[grid->m] < 0.0){
 			loct->vp[grid->m] = 0.0;
@@ -408,7 +412,7 @@ void f_dyn_loct(
 		}
 	}else{
 		/* vapour pressure, hPa */
-		loct->vp[grid->m] = loct->prsr[grid->m]*grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]); 
+		loct->vp[grid->m] = loct->prsr[grid->m] * grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]);
 		/* vapour pressure deficit */
 		loct->vpd[grid->m] = (loct->vps[grid->m]>=loct->vp[grid->m])?loct->vps[grid->m]-loct->vp[grid->m]:0.0; 
 	}
@@ -446,7 +450,7 @@ void f_dyn_loct(
 	}
 
 	loct->f_vegcov[grid->m] = 1.0 - loct->c3ptn[grid->m] * exp(-((echar->c3).eK0 + k_c)*(mass->c3).lai[grid->m]) 
-								- loct->c4ptn[grid->m] * exp(-((echar->c4).eK0+0.001)*(mass->c4).lai[grid->m]);
+								- loct->c4ptn[grid->m] * exp(-((echar->c4).eK0 + 0.001)*(mass->c4).lai[grid->m]);
 	if(loct->f_vegcov[grid->m]<0.0){
 		loct->f_vegcov[grid->m] = 0.0;
 	}

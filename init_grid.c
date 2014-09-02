@@ -278,12 +278,15 @@ void f_init_grid(
 	}if(GCM==3800 || GCM==3803){ /* GEO-MIP MPI-ESM-LR */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM==3900 || GCM==3913){ /* GEO-MIP CCSM4 */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}
     
 	/* input geography in the grid *************/	
 	fscanf(fp_s[0],"%ld %ld", &country, &region); 
 	grid->country = country;	/* country code */
-	grid->region = region;		/* region code : note recommended to use Girogi region code */
+	grid->region = region;		/* region code : note recommended to use Giorgi region code */
 	
 	/* added: 2010/05/11 */
 	switch(grid->country){
@@ -540,7 +543,7 @@ void f_init_grid(
 	}
 	
 	/* experiment for biodiversity: 2011/01/15 (A.Ito) **********************************/
-	if(grid->veg_olson>=1 && grid->veg_olson<=12){
+	if(grid->veg_olson >= 1 && grid->veg_olson <= 12){
 		/* reduced biodiversity of forests */
 		/* grid->veg_olson = 1; */
 	}
@@ -639,15 +642,15 @@ void f_init_grid(
 	/* Saxton, K. E., et al. (1986), Estimating generalized soil-water characteristics 
 	from texture, Soil Science Society of America Journal, 50, 1031-1036. */
 	grid->a_sw = exp(-4.396 -0.0715*grid->pc_clay -4.488*0.0001*grid->pc_clay*grid->pc_clay 
-					- 4.285*0.00001*grid->pc_sand*grid->pc_sand*grid->pc_clay)*100;
-	grid->b_sw = -3.14 -0.00222*grid->pc_clay*grid->pc_clay 
-					-3.484*0.00001*grid->pc_sand*grid->pc_sand*grid->pc_clay;
+					- 4.285*0.00001*grid->pc_sand*grid->pc_sand*grid->pc_clay)*100.0;
+	grid->b_sw = -3.14 -0.00222 * grid->pc_clay * grid->pc_clay
+					-3.484 * 0.00001 * grid->pc_sand * grid->pc_sand * grid->pc_clay;
 	
 	/* field capacity */
 	grid->field_cap1 = pow(crit_tension/grid->a_sw, 1.0/grid->b_sw);
 	grid->field_cap1 *= 300.0;
 	/* pore space capacity */
-	grid->pore_cap1 = 0.332 -7.251*0.0001*grid->pc_sand + 0.1276*log10(grid->pc_clay);
+	grid->pore_cap1 = 0.332 - 7.251 * 0.0001 * grid->pc_sand + 0.1276 * log10(grid->pc_clay);
 	grid->pore_cap1 *= 300.0;
 	
 	grid->field_cap2 = grid->fc_150 - grid->field_cap1;
@@ -940,7 +943,7 @@ void f_init_grid(
 		}
 	}
     
-    /* GCP-CH4: 2014/05/28 by A.Ito */
+    /* NASA-JPL for GCP-CH4: 2014/05/28 (rev 2014/08/17) by A.Ito */
 	fscanf(fp_s[84],"%lf", &lat);
 	fscanf(fp_s[84],"%lf", &lon);
     /* average */

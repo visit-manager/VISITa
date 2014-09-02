@@ -160,10 +160,10 @@ double air_density(
 ){
 	double aaa, bbb, ccc, air_density;
 	
-	aaa = ZAT/(grid->tmp_2m[grid->m]+ZAT);
-	bbb = loct->prsr[grid->m]/1013.25;
-	ccc = 1.0-0.378*loct->vp[grid->m]/loct->prsr[grid->m];
-	air_density = 1.293*aaa*bbb*ccc;
+	aaa = ZAT / (grid->tmp_2m[grid->m] + ZAT);
+	bbb = loct->prsr[grid->m] / 1013.25;
+	ccc = 1.0 - 0.378*loct->vp[grid->m]/loct->prsr[grid->m];
+	air_density = 1.293 * aaa * bbb * ccc;
 	
 	return(air_density);
 }
@@ -176,9 +176,9 @@ double vap_pre_sat(
 	
 	/* printf("%ld %ld %lf\n", grid->climy, grid->m, grid->tmp_2m[grid->m]); */
 	if(grid->tmp_2m[grid->m]>0.0){ /* at water surface */
-		vps = 6.1078*pow(10.0, (7.5*grid->tmp_2m[grid->m])/(237.3+grid->tmp_2m[grid->m]));
+		vps = 6.1078 * pow(10.0, (7.5 * grid->tmp_2m[grid->m])/(237.3 + grid->tmp_2m[grid->m]));
 	}else{ /* at ice surface */  /*  if(grid->tmp_2m[grid->m]<=0.0) */
-		vps = 6.1078*pow(10.0, (9.5*grid->tmp_2m[grid->m])/(265.3+grid->tmp_2m[grid->m]));
+		vps = 6.1078 * pow(10.0, (9.5 * grid->tmp_2m[grid->m])/(265.3 + grid->tmp_2m[grid->m]));
 	}
 	vps = (vps>=0.0)?vps:0.0;
 	
@@ -192,12 +192,12 @@ double slope_vps(
 	double slope, aaa, bbb, ccc;
 	
 	if(grid->tmp_2m[grid->m] > 0.0){ /* at water surface */
-		aaa = 6.1078*(2500.0 - 2.4*grid->tmp_2m[grid->m]);
-		bbb = 0.4615*(ZAT + grid->tmp_2m[grid->m])*(ZAT + grid->tmp_2m[grid->m]);
+		aaa = 6.1078 * (2500.0 - 2.4*grid->tmp_2m[grid->m]);
+		bbb = 0.4615 * (ZAT + grid->tmp_2m[grid->m])*(ZAT + grid->tmp_2m[grid->m]);
 		ccc = pow(10.0, (7.5*grid->tmp_2m[grid->m])/(237.3 + grid->tmp_2m[grid->m]));
 	}else{ /* at ice surface */  /* if(grid->tmp_2m[grid->m]<=0.0) */
-		aaa = 6.1078*2834.0;
-		bbb = 0.4615*(ZAT + grid->tmp_2m[grid->m])*(ZAT + grid->tmp_2m[grid->m]);
+		aaa = 6.1078 * 2834.0;
+		bbb = 0.4615 * (ZAT + grid->tmp_2m[grid->m])*(ZAT + grid->tmp_2m[grid->m]);
 		ccc = pow(10.0, (9.5*grid->tmp_2m[grid->m])/(265.3 + grid->tmp_2m[grid->m]));
 	}
 	slope = (aaa/bbb)*ccc;
@@ -231,7 +231,7 @@ double pm_evaporation(
 	double cp, psycon, spwt, lht, eta;
 	double ggc, rc_g, evaporation;
 	double aaa,bbb;
-	extern double MDN[12];
+	extern double MDN[ASTEP];
 	
 	lht = 695.0; /** latent heat of water, in W h kg-1 **/
 	spwt = loct->dnsa[grid->m]; /** density of air, in kg m-3 **/
@@ -265,7 +265,7 @@ double pm_transpiration(
 	double rc_p, transpiration;
 	double aaa,bbb;
 	double rn_transp;
-	extern double MDN[12];
+	extern double MDN[ASTEP];
 	
 	lht = 695.0; /** latent heat of water, in W h kg-1 **/
 	spwt = loct->dnsa[grid->m]; /** density of air, in kg m-3 **/
@@ -298,7 +298,7 @@ double pm_interception(
 	double cp,psycon,spwt,lht,eta;
 	double rc_p, interception;
 	double aaa,bbb;
-	extern double MDN[12];
+	extern double MDN[ASTEP];
 	
 	lht = 695.0; /** latent heat of water, in W h kg-1 **/
 	spwt = loct->dnsa[grid->m]; /** density of air, in kg m-3 **/

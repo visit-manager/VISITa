@@ -364,7 +364,7 @@ long f_basin_id_trip(
 void set_rowcol_gcm(
 	void
 ){
-	if(GCM==0){
+	if(GCM == 0){
 		GCM_R = 1;
 		GCM_C = 1;
 	}else if(GCM==1 || GCM==2 || GCM==3 || GCM==4 || GCM==5 || GCM==6){
@@ -491,7 +491,11 @@ void set_rowcol_gcm(
 	}else if(GCM==3800 || GCM==3803){
 		GCM_R = 96;
 		GCM_C = 192;
+	}else if(GCM==3900 || GCM==3913){
+		GCM_R = 192;
+		GCM_C = 288;
 	}else{
+        /* ISI-MIP, PLUME (no stored GCM data) */
 		GCM_R = 1;
 		GCM_C = 1;
 	}
@@ -699,29 +703,34 @@ void set_gcm_index(
 		case 2048:	strcpy(s_case,"ISIN60N_"); break;
         
         /* GEO-MIP runs: 2013/11/26 by A.Ito */
-		case 3000:	strcpy(s_case,"GEOB0_"); break;
-		case 3003:	strcpy(s_case,"GEOB3_"); break;
-		case 3004:	strcpy(s_case,"GEOB4_"); break;
-		case 3100:	strcpy(s_case,"GEOCS0_"); break;
-		case 3104:	strcpy(s_case,"GEOCS4_"); break;
-		case 3200:	strcpy(s_case,"GEOGI0_"); break;
-		case 3203:	strcpy(s_case,"GEOGI3_"); break;
-		case 3204:	strcpy(s_case,"GEOGI4_"); break;
- 		case 3300:	strcpy(s_case,"GEOH0_"); break;
-		case 3303:	strcpy(s_case,"GEOH3_"); break;
-		case 3304:	strcpy(s_case,"GEOH4_"); break;
-		case 3313:	strcpy(s_case,"GEOH3S_"); break;
-		case 3400:	strcpy(s_case,"GEOIP0_"); break;
-		case 3403:	strcpy(s_case,"GEOIP3_"); break;
-		case 3405:	strcpy(s_case,"GEOIP5_"); break;
-		case 3500:	strcpy(s_case,"GEOM0_"); break;
-		case 3504:	strcpy(s_case,"GEOM4_"); break;
-		case 3600:	strcpy(s_case,"GEOMC0_"); break;
-		case 3604:	strcpy(s_case,"GEOMC4_"); break;
-		case 3700:	strcpy(s_case,"GEOCC0_"); break;
-		case 3704:	strcpy(s_case,"GEOCC4_"); break;
-		case 3800:	strcpy(s_case,"GEOMP0_"); break;
-		case 3803:	strcpy(s_case,"GEOMP3_"); break;
+		case 3000:	strcpy(s_case,"GEB0_"); break;
+		case 3003:	strcpy(s_case,"GEB3_"); break;
+		case 3004:	strcpy(s_case,"GEB4_"); break;
+		case 3100:	strcpy(s_case,"GECS0_"); break;
+		case 3104:	strcpy(s_case,"GECS4_"); break;
+		case 3200:	strcpy(s_case,"GEGI0_"); break;
+		case 3203:	strcpy(s_case,"GEGI3_"); break;
+		case 3204:	strcpy(s_case,"GEGI4_"); break;
+ 		case 3300:	strcpy(s_case,"GEH0_"); break;
+		case 3303:	strcpy(s_case,"GEH3_"); break;
+		case 3304:	strcpy(s_case,"GEH4_"); break;
+		case 3313:	strcpy(s_case,"GEH3S_"); break;
+		case 3400:	strcpy(s_case,"GEIP0_"); break;
+		case 3403:	strcpy(s_case,"GEIP3_"); break;
+		case 3405:	strcpy(s_case,"GEIP5_"); break;
+		case 3500:	strcpy(s_case,"GEM0_"); break;
+		case 3504:	strcpy(s_case,"GEM4_"); break;
+		case 3600:	strcpy(s_case,"GEMC0_"); break;
+		case 3604:	strcpy(s_case,"GEMC4_"); break;
+		case 3700:	strcpy(s_case,"GECC0_"); break;
+		case 3704:	strcpy(s_case,"GECC4_"); break;
+		case 3800:	strcpy(s_case,"GEMP0_"); break;
+		case 3803:	strcpy(s_case,"GEMP3_"); break;
+		case 3900:	strcpy(s_case,"GECM0_"); break;
+		case 3913:	strcpy(s_case,"GECM3S_"); break;
+
+		case 4201:	strcpy(s_case,"PLIP45_"); break;
+		case 4202:	strcpy(s_case,"PLIP85_"); break;
 
 		default:
 			strcpy(s_case,"STCLIM_"); 

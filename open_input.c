@@ -22,7 +22,7 @@ void open_input(
 	FILE *fp_c[4]
 ){
     if(ISIMIP_RUN==0){
-        if(DL_CRU==102){
+        if(DL_CRU == 102){
             /* UEA-CRU data from 1901 - 2002 */
             if( (fp_c[0]=fopen("./data/cru21_cld_1901-2002.dat","rt"))==NULL ){  
                 printf("No cru21_cld_1901-2002.dat\n");  
@@ -112,12 +112,30 @@ void open_input(
                 printf("No cru321_vap_1901-2012.txt\n");  
                 exit(1); 
             }
+        }else if(DL_CRU==113){
+            /* UEA-CRU data from 1901 - 2013: 2014/08/26 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/cru322_cld_1901-2013.txt","rt"))==NULL ){
+                printf("No cru322_cld_1901-2013.txt\n");
+                exit(1); 
+            }
+            if( (fp_c[1]=fopen("./data/cru322_pre_1901-2013.txt","rt"))==NULL ){
+                printf("No cru322_pre_1901-2013.txt\n");
+                exit(1); 
+            }
+            if( (fp_c[2]=fopen("./data/cru322_tmp_1901-2013.txt","rt"))==NULL ){
+                printf("No cru322_tmp_1901-2013.txt\n");
+                exit(1); 
+            }
+            if( (fp_c[3]=fopen("./data/cru322_vap_1901-2013.txt","rt"))==NULL ){
+                printf("No cru322_vap_1901-2013.txt\n");
+                exit(1); 
+            }
         }else{
             printf("No CRU data\n");
             exit(1);
         }
     }else /* ISI-MIP: 2012/06/27 by A.Ito */
-    if(ISIMIP_RUN==1){
+    if(ISIMIP_RUN == 1){
         switch(GCM){
             case 2001: case 2005:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
@@ -479,13 +497,57 @@ void open_input(
                     exit(1); 
                 }
                 break;
+            case 4201: case 4202:
+                if( (fp_c[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
+                    printf("No tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
+                    printf("No pr_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/hurs_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
+                    printf("No hurs_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
+                    printf("No rsds_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
+                    exit(1); 
+                }
+                break;
             default:
                 printf("No ISI-MIP scenario\n");
                 exit(1);
                 break;
         }
+    }else if(ISIMIP_RUN == 2){
+        switch(GCM){
+            case 4201: case 4202:
+                if( (fp_c[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
+                    printf("No tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
+                    printf("No pr_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/hurs_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
+                    printf("No hurs_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
+                    printf("No rsds_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
+                    exit(1); 
+                }
+                break;
+        default:
+            printf("No ISI-MIP scenario\n");
+            exit(1);
+            break;
+        }
     }
     
+    /*********************************************************************/
 	if( (fp_s[0]=fopen("./data/nat_reg_05.dat","rt"))==NULL ){  
 		printf("No nat_reg_05.dat\n");  
 		exit(1); 
@@ -593,7 +655,30 @@ void open_input(
         exit(1); 
     }
 	
-	if(ALT_FWETLAND==1){
+    /* GCP-CH4 inundation data: revised 2014/08/17 by A.Ito */
+    if(ALT_INUND == 3){
+        if( (fp_s[84]=fopen("./data/fw_00_swe_v1-2_smoothed_1999-2013.txt","rt"))==NULL ){
+            printf("No GCP-CH4 inundation data\n");
+            exit(1);
+        }
+    }else if(ALT_INUND == 4){
+        if( (fp_s[84]=fopen("./data/fw_00_swe_v1-2_smoothed_1999-2013_norice.txt","rt"))==NULL ){
+            printf("No GCP-CH4 inundation data\n");
+            exit(1);
+        }
+    }else if(ALT_INUND == 5){
+        if( (fp_s[84]=fopen("./data/fw_00_swe_v1-2_smoothed_1999-2013_norice-nowater.txt","rt"))==NULL ){
+            printf("No GCP-CH4 inundation data\n");
+            exit(1);
+        }
+    }else{
+        if( (fp_s[84]=fopen("./data/fw_swamp-biascor_1999-2013.txt","rt"))==NULL ){
+            printf("No GCP-CH4 inundation data\n");
+            exit(1);
+        }
+	}
+
+	if(ALT_FWETLAND == 1){
 		/* Alternative data (SAGE): 2011/03/30 by A.Ito */
 		if( (fp_s[22]=fopen("./data/fpaddy_iis_sage.txt","rt"))==NULL ){  
 			printf("No major_crps_rice_0.50x0.50.asc\n");  
@@ -1181,7 +1266,7 @@ void open_input(
 	/* 5: gradual rise (SRES B1) */
 	/* 6: gradual rise (SRES B2) */
 	/* 7: uniform rise */
-	if(GCM==0){
+	if(GCM == 0){
 		CO2S = 4;
 		fp_s[23]=fopen("./data/image_a2_fcrop.dat","rt");
 		fp_s[45]=fopen("./data/image_a2_fgrass.dat","rt");
@@ -1268,7 +1353,8 @@ void open_input(
 		}
 		fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt");
     }else if(GCM==2002 || GCM==2012 || GCM==2022 || GCM==2032 || GCM==2042
-        || GCM==2006 || GCM==2016 || GCM==2026 || GCM==2036 || GCM==2046){
+        || GCM==2006 || GCM==2016 || GCM==2026 || GCM==2036 || GCM==2046
+         || GCM==4202){
         CO2S = 4; /* RCP8.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a2_fcrop.dat","rt"))==NULL){
@@ -1277,7 +1363,8 @@ void open_input(
 		}
 		fp_s[45]=fopen("./data/image_a2_fgrass.dat","rt");
     }else if(GCM==2003 || GCM==2013 || GCM==2023 || GCM==2033 || GCM==2043
-        || GCM==2007 || GCM==2017 || GCM==2027 || GCM==2037 || GCM==2047){
+        || GCM==2007 || GCM==2017 || GCM==2027 || GCM==2037 || GCM==2047
+         || GCM==4201){
         CO2S = 2; /* RCP4.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
@@ -1326,12 +1413,6 @@ void open_input(
 		exit(1); 
 	}
     
-     /* GCP-CH4 inundation data */
-	if( (fp_s[84]=fopen("./data/fw_swamp-biascor_1999-2013.txt","rt"))==NULL ){
-		printf("No GCP-CH4 inundation data\n");
-		exit(1); 
-	}
-	
     /* permafrost data */
 	if( (fp_s[49]=fopen("./data/permafrost_nsidc.dat","rt"))==NULL ){  
 		printf("No permafrost data\n");  

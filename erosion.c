@@ -171,7 +171,7 @@ void f_erosion(
 
 			default:	consv = 0.95;	/** developing countries */
 		}
-	}else if(SOIL_CONSV==1){
+	}else if(SOIL_CONSV == 1){
 		/* Conventional assumption : before 070725 */
 		consv = 0.5;
 	}

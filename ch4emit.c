@@ -46,7 +46,7 @@ void f_ch4_emit_cao(
     if(ALT_INUND==0){
         f_inund_wet = grid->inundation_ssmi[grid->m];
         f_inund_pad = grid->inundation_ssmi[grid->m];
-    }else if(ALT_INUND==1){
+    }else if(ALT_INUND==1 || ALT_INUND==3 || ALT_INUND==4 || ALT_INUND==5){
     
         if(grid->climy>=1999 && grid->climy<=2013){
         
@@ -598,11 +598,12 @@ void f_ch4_emit_walter(
 		/* global */
         if(ALT_INUND==0){
             f_inundation = grid->inundation_ssmi[grid->m]; /* */
-        }else if(ALT_INUND==1){
+        }else if(ALT_INUND==1 || ALT_INUND==3 || ALT_INUND==4 || ALT_INUND==5){
             if(grid->climy>=1999 && grid->climy<=2013){
         
                 if(grid->f_wetland > 0.0){
                     f_inundation = grid->inundation_gcp_ts[grid->climy-1999][grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_gcp_ts[grid->climy-1999][grid->m] */;
                     
                     if(f_inundation > 1.0){
                         f_inundation = 0.0;
@@ -621,6 +622,7 @@ void f_ch4_emit_walter(
             }else{
                 if(grid->f_wetland > 0.0){
                     f_inundation = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_gcp_av[grid->m] */;
                     
                     if(f_inundation > 1.0){
                         f_inundation = 0.0;
@@ -686,7 +688,7 @@ void f_ch4_emit_walter(
 				fa_paddy = (1.0 - f_inundation)*grid->f_paddy; 
 				break;
 		}
-	}else if(EX_CH4_1==2){
+	}else if(EX_CH4_1 == 2){
 		/* experiment for Sasakawa-san: high sensitivity */
 		switch(smode){
 			case 1:

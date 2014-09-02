@@ -259,7 +259,7 @@ void f_ch4oxy_casa(
 			break;
 	}
     
-    if(ISIMIP_RUN==1){
+    if(ISIMIP_RUN==1 || ISIMIP_RUN==2){
         switch(CO2S){
             case 1:
                 c_ch4 = ach4_a1[grid->co2y - 1750]/1000.0/30.0;

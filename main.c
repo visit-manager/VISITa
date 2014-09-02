@@ -56,7 +56,7 @@ int main(
 	double area_t, area_b, area_r, area_l;
 	/* global land area */
 	/* file name strings */
-	char filename[100];
+	char filename[128];
 	char s_date[32];
 	char s_case[32];
 	char s_config[16];
@@ -64,6 +64,7 @@ int main(
 	/* file pointer */
 	FILE *fp_s[IFILEN];
 	FILE *fp_c[4];
+	FILE *fp_c2[4];
 	FILE *fp_o1[OFILEN], *fp_o2[OFILEN];
 	FILE *fp_binout;
 	FILE *fp_setting;
@@ -78,7 +79,7 @@ int main(
 	fscanf(fp_setting,"%s %ld", s_config, &l_config);
 	printf("config  1: %s %ld\n", s_config, l_config);
 	GCM = l_config;
-	   if(GCM>=0 && GCM<=3800){
+	   if(GCM>=0 && GCM<=9999){
 	   ;
 	}else{
 	   printf("Bad scenario ID specified !!!\n");
@@ -121,7 +122,7 @@ int main(
 	printf("config  7: %s %ld %ld\n", s_config, l_config, rpert);
     PARAM_PTB = l_config;
     
-    if(EX_ALBEDO==1){
+    if(EX_ALBEDO == 1){
         srand((long)atol(argv[1]) + clock()%1000);
     
         snprintf(num, 4, "%03d", (short)atol(argv[1]));
@@ -132,7 +133,7 @@ int main(
             f_pert[f] = 0.0;
         }
     }else{
-        if(PARAM_PTB==1){
+        if(PARAM_PTB == 1){
             snprintf(num, 4, "%03d", (short)rpert);
             strcat(s_date, "E");
             strcat(s_date, num);
@@ -226,6 +227,7 @@ int main(
 	(flux_agr.c4).v_type = 2;
 	(flux_agr.soil).v_type = 2;
 	
+    /* initilization of simulation */
 	f_init_sim(&grid);
 	printf("done\n");
 	
@@ -236,7 +238,7 @@ int main(
 	}
 	if(GCM_RUN == 1){
 		printf("Reading GCM climate projection...");
-		read_gcm_clim(&grid);
+		read_gcm_clim(fp_c2, &grid);
 	}
 	printf("done\n");
 	
@@ -270,7 +272,7 @@ int main(
 			f_init_grid(fp_s, &grid);
 			
 			/* read CRU TS2.X/TS3.X climate data */
-			read_cru_clim(fp_c, &grid);
+			read_cru_clim(fp_c, fp_c2, &grid);
 			
 			printf("%3ld %3ld: %7.2lf %7.2lf: %2ld %2ld %2ld: %1ld\n", 
 				grid.row, grid.col, grid.lat, grid.lon, grid.veg_olson, grid.veg_sage, 
@@ -279,16 +281,16 @@ int main(
 			/* head records of output files */
 			for(h=0;h<OFILEN;h++){
 				if(CALC_OLSON == 1){
-					fprintf(fp_o1[h],"%ld %ld %ld %ld\n", 
-							grid.row, grid.col, grid.veg_olson, grid.veg_sage); 
+					fprintf(fp_o1[h],"%ld %ld %ld %ld %ld\n",
+							grid.row, grid.col, grid.veg_olson, grid.veg_sage, grid.flag_histdata);
 					
 					fprintf(fp_o1[h],"%lf %lf %lf\n", 
 							grid.field_cap1, grid.field_cap2, grid.bulkdens);
 				}
 				if(CALC_CROP == 1){
 					/* modified: 2011/02/04 (A.Ito) */
-					fprintf(fp_o2[h],"%ld %ld %ld %ld %ld\n", 
-							grid.row, grid.col, grid.veg_olson, grid.veg_sage, grid.veg_crop); 
+					fprintf(fp_o2[h],"%ld %ld %ld %ld %ld %ld\n",
+							grid.row, grid.col, grid.veg_olson, grid.veg_sage, grid.veg_crop, grid.flag_histdata);
 					
 					fprintf(fp_o2[h],"%lf %lf %lf\n", 
 							grid.field_cap1, grid.field_cap2, grid.bulkdens);
@@ -491,7 +493,11 @@ int main(
 		fclose(fp_s[h]); 
 	}
 	for(h=0;h<4;h++){
-		fclose(fp_c[h]); 
+		fclose(fp_c[h]);
+        
+        if(GCM>=1){
+            fclose(fp_c2[h]);
+        }
 	}
 	
 	fclose(fp_binout);
