@@ -742,7 +742,7 @@ void f_init_grid(
         
 		for(h=0;h<DL_LUH;h++){
 			/* fractional cover */
-            if(h<(BGY_GCM - PIVOT_LUC -1)){  /* 1500-2005 */
+            if(h<(BGY_GCM - PIVOT_LUC -1)){  /* 1500-2004 */
                 fscanf(fp_s[26],"%lf", &grid->fcrop_unh_hmnzed[h]);
                 fscanf(fp_s[27],"%lf", &grid->fpast_unh_hmnzed[h]);
                 fscanf(fp_s[28],"%lf", &grid->fprim_unh_hmnzed[h]);
@@ -762,7 +762,7 @@ void f_init_grid(
                 fscanf(fp_s[42],"%lf", &grid->t_vp_unh_hmnzed[h]);
                 fscanf(fp_s[43],"%lf", &grid->t_vs1_unh_hmnzed[h]);
                 fscanf(fp_s[44],"%lf", &grid->t_vs2_unh_hmnzed[h]);
-            }else{  /* 2006-2100 */
+            }else{  /* 2005-2100 */
                 fscanf(fp_s[59],"%lf", &grid->fcrop_unh_hmnzed[h]);
                 fscanf(fp_s[60],"%lf", &grid->fpast_unh_hmnzed[h]);
                 fscanf(fp_s[61],"%lf", &grid->fprim_unh_hmnzed[h]);
@@ -786,7 +786,7 @@ void f_init_grid(
 		}
         
         if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
-            /* skip RCPXX - 2005 data */
+            /* skip Hist - 2005 data */
             fscanf(fp_s[26],"%lf", &ddummy);
             fscanf(fp_s[27],"%lf", &ddummy);
             fscanf(fp_s[28],"%lf", &ddummy);
@@ -831,6 +831,141 @@ void f_init_grid(
             grid->t_vs2_unh_hmnzed[h] = 0.0;
 		}
 	}
+    
+    if(LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
+    
+        for(h=2001;h<=2004;h++){
+            fscanf(fp_s[59],"%lf", &ddummy);
+            fscanf(fp_s[60],"%lf", &ddummy);
+            fscanf(fp_s[61],"%lf", &ddummy);
+            fscanf(fp_s[62],"%lf", &ddummy);
+            fscanf(fp_s[63],"%lf", &ddummy);
+            fscanf(fp_s[64],"%lf", &ddummy);
+            fscanf(fp_s[65],"%lf", &ddummy);
+            fscanf(fp_s[66],"%lf", &ddummy);
+            fscanf(fp_s[67],"%lf", &ddummy);
+            fscanf(fp_s[68],"%lf", &ddummy);
+            fscanf(fp_s[69],"%lf", &ddummy);
+            fscanf(fp_s[70],"%lf", &ddummy);
+            fscanf(fp_s[71],"%lf", &ddummy);
+            fscanf(fp_s[72],"%lf", &ddummy);
+            fscanf(fp_s[73],"%lf", &ddummy);
+            fscanf(fp_s[74],"%lf", &ddummy);
+            fscanf(fp_s[75],"%lf", &ddummy);
+            fscanf(fp_s[76],"%lf", &ddummy);
+            fscanf(fp_s[77],"%lf", &ddummy);
+        }
+    
+        for(h=PIVOT_LUC;h<(PIVOT_LUC+DL_LUH);h++){
+			/* fractional cover */
+            if(h < (BGY_GCM-1)){  /* 1500-2005 */
+                fscanf(fp_s[26],"%lf", &grid->fcrop_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[27],"%lf", &grid->fpast_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[28],"%lf", &grid->fprim_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[29],"%lf", &grid->fsecd_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[30],"%lf", &grid->ssma_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[31],"%lf", &grid->ssmb_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[32],"%lf", &grid->t_cp_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[33],"%lf", &grid->t_cs_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[34],"%lf", &grid->t_pc_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[35],"%lf", &grid->t_ps_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[36],"%lf", &grid->t_sc_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[37],"%lf", &grid->t_sp_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[38],"%lf", &grid->t_ss1_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[39],"%lf", &grid->t_ss2_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[40],"%lf", &grid->t_ss3_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[41],"%lf", &grid->t_vc_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[42],"%lf", &grid->t_vp_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[43],"%lf", &grid->t_vs1_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[44],"%lf", &grid->t_vs2_unh_hmnzed[h-PIVOT_LUC]);
+            }
+            
+            if(h >= (BGY_GCM-1)){  /* 2005-2100 */
+                fscanf(fp_s[59],"%lf", &grid->fcrop_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->fcrop_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->fcrop_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[60],"%lf", &grid->fpast_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->fpast_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->fpast_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[61],"%lf", &ddummy);
+                fscanf(fp_s[62],"%lf", &grid->fsecd_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->fsecd_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->fsecd_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[63],"%lf", &ddummy);
+                fscanf(fp_s[64],"%lf", &grid->fprim_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->fprim_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->fprim_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[65],"%lf", &grid->t_cp_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_cp_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_cp_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[66],"%lf", &grid->t_cs_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_cs_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_cs_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[67],"%lf", &ddummy);
+                fscanf(fp_s[68],"%lf", &grid->t_pc_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_pc_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_pc_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[69],"%lf", &grid->t_ps_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_ps_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_ps_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[70],"%lf", &ddummy);
+                fscanf(fp_s[71],"%lf", &grid->t_sc_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_sc_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_sc_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[72],"%lf", &grid->t_sp_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_sp_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_sp_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[73],"%lf", &ddummy);
+                fscanf(fp_s[74],"%lf", &grid->t_vc_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_vc_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_vc_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[75],"%lf", &grid->t_vp_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_vp_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_vp_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[76],"%lf", &ddummy);
+                fscanf(fp_s[77],"%lf", &ddummy);
+
+                grid->ssma_unh_hmnzed[h] = 0.0;
+                grid->ssmb_unh_hmnzed[h] = 0.0;
+                grid->t_ss1_unh_hmnzed[h] = 0.0;
+                grid->t_ss2_unh_hmnzed[h] = 0.0;
+                grid->t_ss3_unh_hmnzed[h] = 0.0;
+            }
+        }
+        
+        /* skip Hist - 2005 data */
+        fscanf(fp_s[26],"%lf", &ddummy);
+        fscanf(fp_s[27],"%lf", &ddummy);
+        fscanf(fp_s[28],"%lf", &ddummy);
+        fscanf(fp_s[29],"%lf", &ddummy);
+        fscanf(fp_s[30],"%lf", &ddummy);
+        fscanf(fp_s[31],"%lf", &ddummy);
+        fscanf(fp_s[32],"%lf", &ddummy);
+        fscanf(fp_s[33],"%lf", &ddummy);
+        fscanf(fp_s[34],"%lf", &ddummy);
+        fscanf(fp_s[35],"%lf", &ddummy);
+        fscanf(fp_s[36],"%lf", &ddummy);
+        fscanf(fp_s[37],"%lf", &ddummy);
+        fscanf(fp_s[38],"%lf", &ddummy);
+        fscanf(fp_s[39],"%lf", &ddummy);
+        fscanf(fp_s[40],"%lf", &ddummy);
+        fscanf(fp_s[41],"%lf", &ddummy);
+        fscanf(fp_s[42],"%lf", &ddummy);
+        fscanf(fp_s[43],"%lf", &ddummy);
+        fscanf(fp_s[44],"%lf", &ddummy);
+    }
 	
 	/* wood harvest based on RCP-harmonized data: LUHa.v1 */
 	/* added by A.Ito (2010/10/15) */
@@ -861,6 +996,43 @@ void f_init_grid(
             fscanf(fp_s[56],"%lf", &ddummy);
             fscanf(fp_s[57],"%lf", &ddummy);
         }
+        
+        
+    }else if(LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
+        for(h=2001;h<=2004;h++){
+            fscanf(fp_s[78],"%lf", &ddummy);
+        }
+        
+        for(h=PIVOT_LUC;h<(PIVOT_LUC+DL_LUH);h++){
+
+            if(h < (BGY_GCM-1)){ /* 1500-2004 */
+                fscanf(fp_s[53],"%lf", &grid->hvst_p1[h-PIVOT_LUC]);
+                fscanf(fp_s[54],"%lf", &grid->hvst_p2[h-PIVOT_LUC]);
+                fscanf(fp_s[55],"%lf", &grid->hvst_s1[h-PIVOT_LUC]);
+                fscanf(fp_s[56],"%lf", &grid->hvst_s2[h-PIVOT_LUC]);
+                fscanf(fp_s[57],"%lf", &grid->hvst_s3[h-PIVOT_LUC]);
+            }
+        
+            if(h >= (BGY_GCM-1)){ /* 2005-2100 */
+                fscanf(fp_s[78],"%lf", &grid->hvst_p1[h-PIVOT_LUC]);
+                if(grid->hvst_p1[h-PIVOT_LUC] < 0.0){
+                    grid->hvst_p1[h-PIVOT_LUC] = 0.0;
+                }
+                grid->hvst_p1[h-PIVOT_LUC] = grid->hvst_p1[h-PIVOT_LUC]/(grid->area) / 2.0 / 2.0;
+                
+                grid->hvst_p2[h-PIVOT_LUC] = 0.0;
+                grid->hvst_s1[h-PIVOT_LUC] = 0.0;
+                grid->hvst_s2[h-PIVOT_LUC] = 0.0;
+                grid->hvst_s3[h-PIVOT_LUC] = 0.0;
+            }
+        }
+        
+        fscanf(fp_s[53],"%lf", &ddummy);
+        fscanf(fp_s[54],"%lf", &ddummy);
+        fscanf(fp_s[55],"%lf", &ddummy);
+        fscanf(fp_s[56],"%lf", &ddummy);
+        fscanf(fp_s[57],"%lf", &ddummy);
+
     }else{
         for(h=0;h<DL_LUH;h++){
             grid->hvst_p1[h] = 0.0;
