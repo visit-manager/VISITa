@@ -318,7 +318,7 @@ void f_output_result(
 	}
 
 	/* carbon budget ***********************************************/
-    if(OUTPUT_CARBON1==1){
+    if(OUTPUT_CARBON1 == 1){
         fprintf(fp_o[0],"%ld %lf ", year, grid->f_crop_con);
         for(f=0;f<ASTEP;f++){
             /* added: 2011/02/04 (A.Ito) */
@@ -348,7 +348,7 @@ void f_output_result(
             fprintf(fp_o[0],"%.4lf ", (flux->plant).ar[f]);
             fprintf(fp_o[0],"%.4lf ", (flux->soil).hr[f]);
             fprintf(fp_o[0],"%.4lf ",  flux->nep[f]);
-            fprintf(fp_o[0],"%.4lf ",  flux->nbp[f]);	/* */ /* added by A.Ito (2010/01/20) */
+            fprintf(fp_o[0],"%.4lf ",  flux->nbp[f]); /* */ /* added by A.Ito (2010/01/20) */
             fprintf(fp_o[0],"%.4lf ",  flux->ncb[f]); /* */
             
             /* added: 2011/04/19 (A.Ito) */
@@ -362,6 +362,10 @@ void f_output_result(
             /* added: 2011/05/16 (A.Ito) */
             fprintf(fp_o[0],"%.4lf ", (flux->plant).spp[f]);
             fprintf(fp_o[0],"%.4lf ", flux->sr[f]);
+            
+            /* added: 2014/09/02 (A.Ito) */
+            fprintf(fp_o[0],"%.3lf ", flux->a_burnt[f]);
+            fprintf(fp_o[0],"%.3lf ", flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+flux->bb_co2_wood[f]+flux->bb_co2_root[f]);
         }
         fprintf(fp_o[0],"%.4lf ", flux->lu_detr);
         fprintf(fp_o[0],"%.4lf ", flux->lu_conv);
@@ -369,29 +373,29 @@ void f_output_result(
         fprintf(fp_o[0],"%.4lf ", flux->lu_hund); /* */
         
         /* added 2014/02/17 by A.Ito */
-        fprintf(fp_o[0],"%.4lf ", flux->npp_miami); 
+        /* fprintf(fp_o[0],"%.4lf ", flux->npp_miami);
         fprintf(fp_o[0],"%.4lf ", flux->npp_montreal); 
         fprintf(fp_o[0],"%.4lf ", flux->npp_schuur);
         fprintf(fp_o[0],"%.4lf ", flux->npp_nceas);
         fprintf(fp_o[0],"%.4lf ", flux->npp_chikugo);
         fprintf(fp_o[0],"%.4lf ", flux->npp_madison_parwsi);
         fprintf(fp_o[0],"%.4lf ", flux->npp_madison_gddswsi);
-        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_tp);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_tp); */
 	
         /* added: 2011/04/19 (A.Ito) */
         fprintf(fp_o[0],"%.4lf ", flux->erod_carbon);
-        fprintf(fp_o[0],"%.4lf ", flux->erod_carbon); /* 2011/12/15 */
+        /* fprintf(fp_o[0],"%.4lf ", flux->erod_carbon); */ /* 2011/12/15 */
         fprintf(fp_o[0],"%.4lf ", flux->hvst_wood);
         
         /* added: 2014/05/21 (A.Ito) */
-        fprintf(fp_o[0],"%.4lf ", loct->est_maxlai);
+        /* fprintf(fp_o[0],"%.4lf ", loct->est_maxlai); */
         
         fprintf(fp_o[0],"\n");
     }
 	
 	/* nitrogen ****************************************************/
 	/* parameter added by A.Ito (2009/12/22) */
-    if(OUTPUT_NITROGEN==1){
+    if(OUTPUT_NITROGEN == 1){
         fprintf(fp_o[1],"%ld %lf ", year, grid->f_crop_con);
         for(f=0;f<ASTEP;f++){
             fprintf(fp_o[1],"%.3lf ", (mass->c3).n_cnpy_m[f]);
@@ -449,7 +453,7 @@ void f_output_result(
     }
 
 	/* erosion & DOC ***********************************************/
-    if(OUTPUT_EROSION==1){
+    if(OUTPUT_EROSION == 1){
         fprintf(fp_o[2],"%ld ", year);
         fprintf(fp_o[2],"%lf ", pre_ann);
         fprintf(fp_o[2],"%lf ", grid->f_crop_con);
@@ -482,7 +486,7 @@ void f_output_result(
     }
 	
 	/* GHG & trace gases ***********************************************/
-    if(OUTPUT_GHG==1){
+    if(OUTPUT_GHG == 1){
         fprintf(fp_o[3],"%ld %lf ", year, grid->f_crop_con);
         for(f=0;f<ASTEP;f++){
             fprintf(fp_o[3],"%.3lf ", loct->msww[f]);
@@ -522,7 +526,7 @@ void f_output_result(
     }
 
 	/* biomass burning ***********************************************/
-    if(OUTPUT_BB==1){
+    if(OUTPUT_BB == 1){
         fprintf(fp_o[4],"%ld %lf ", year, grid->f_crop_con);
         for(f=0;f<ASTEP;f++){
             fprintf(fp_o[4],"%.3lf ", loct->msw30[f]);
@@ -544,7 +548,7 @@ void f_output_result(
     }
 
 	/* VOC ***********************************************/
-    if(OUTPUT_BVOC==1){
+    if(OUTPUT_BVOC == 1){
         fprintf(fp_o[5],"%ld %lf ", year, grid->f_crop_con);
         for(f=0;f<ASTEP;f++){
             fprintf(fp_o[5],"%.3lf ", flux->voc_isopr_g97[f]);
@@ -561,7 +565,7 @@ void f_output_result(
     }
 	
 	/* hydrometeorology ***********************************************/
-    if(OUTPUT_HYDMET==1){
+    if(OUTPUT_HYDMET == 1){
         fprintf(fp_o[6],"%ld %lf ", year, grid->f_crop_con);
         for(f=0;f<ASTEP;f++){
             fprintf(fp_o[6],"%.3lf ", grid->tmp_2m[f]);
@@ -609,7 +613,7 @@ void f_output_result(
     }
 	
 	/* carbon isotopes: added by A.Ito (2009/07/14) ************/
-    if(OUTPUT_ISOTOPE==1){
+    if(OUTPUT_ISOTOPE == 1){
         fprintf(fp_o[7],"%ld %lf ", year, grid->f_crop_con);
         for(f=0;f<ASTEP;f++){
             fprintf(fp_o[7],"%.4lf ", loct->c4ptn[f]);
@@ -651,7 +655,7 @@ void f_output_result(
     }
 	
 	/* carbon supplementary: added by A.Ito (2011/08/18) ***********/
-    if(OUTPUT_CARBON2==1){
+    if(OUTPUT_CARBON2 == 1){
         fprintf(fp_o[8],"%ld %lf ", year, grid->f_crop_con);
         for(f=0;f<ASTEP;f++){
             fprintf(fp_o[8],"%.3lf ", (flux->plant).tpf[f]);

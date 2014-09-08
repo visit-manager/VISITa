@@ -69,14 +69,6 @@ void cal_projection(
 			grid->co2y = 2001;
 		}
         
-        if(GEOMIP_RUN == 1 && CC_CD == 3){
-            /* assuming SRM + CDR : 2014/06/18 by A.Ito */
-            grid->co2y = g;
-            if(grid->co2y > 2020){
-                grid->co2y = 2020;
-            }
-        }
-		
 		/* historical change in fertilizer input: 2010/05/11 by A.Ito */
 		if(grid->rank_nat==1){
 			/* developing countries */

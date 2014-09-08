@@ -56,7 +56,7 @@ int main(
 	double area_t, area_b, area_r, area_l;
 	/* global land area */
 	/* file name strings */
-	char filename[100];
+	char filename[128];
 	char s_date[32];
 	char s_case[32];
 	char s_config[16];

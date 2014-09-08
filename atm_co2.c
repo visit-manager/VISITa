@@ -54,19 +54,42 @@ void f_co2_trend(
             
         switch(CO2S){
             case 1:
-                base = aco2_b1[grid->co2y-1765];
+                base = aco2_b1[grid->co2y - 1765];
                 break;
             case 2:
-                base = aco2_b2[grid->co2y-1765]; /* corercted: 2012/08/06 */
+                base = aco2_b2[grid->co2y - 1765]; /* corrected: 2012/08/06 */
                 break;
             case 3:
-                base = aco2_a1[grid->co2y-1765]; /* corercted: 2012/08/06 */
+                base = aco2_a1[grid->co2y - 1765]; /* corrected: 2012/08/06 */
                 break;
             case 4:
-                base = aco2_a2[grid->co2y-1765]; /* corercted: 2012/08/06 */
+                base = aco2_a2[grid->co2y - 1765]; /* corrected: 2012/08/06 */
                 break;
         }
     }
+    
+    /* assuming SRM + CDR : 2014/06/18 by A.Ito */
+    if(GEOMIP_RUN == 1 && CC_CD == 3){
+        if(grid->co2y > 2020){
+        
+            switch(CO2S){
+                case 1:
+                    base = aco2_b1[grid->co2y - 1765 - (long)((grid->co2y-2020)/5)];
+                    break;
+                case 2:
+                    base = aco2_b2[grid->co2y - 1765 - (long)((grid->co2y-2020)/5)];
+                    break;
+                case 3:
+                    base = aco2_a1[grid->co2y - 1765 - (long)((grid->co2y-2020)/5)];
+                    break;
+                case 4:
+                    base = aco2_a2[grid->co2y - 1765 - (long)((grid->co2y-2020)/5)];
+                    break;
+            }
+        }
+    }
+		
+
 
 	/** latitudinal gradient **/
 	lgrd = 1.6*(grid->lat / 85.0);

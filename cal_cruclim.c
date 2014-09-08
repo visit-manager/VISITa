@@ -51,7 +51,7 @@ void cal_historical(
 		/* CO2 year ********************/
 		grid->co2y = PIVOT_CO2Y + g; 
 		/* sensitivity analysis: no CO2 rise */
-		if(CC_CD==2){
+		if(CC_CD == 2){
 			grid->co2y = PIVOT_CO2Y;
 			/* PIVOT_CO2Y = 1901 (usual setting) */
 		}

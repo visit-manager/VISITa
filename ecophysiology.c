@@ -35,7 +35,7 @@ void f_ecophysiology(
 		ke_b1 = 0.5/sinb;
 		ke_b2 = 0.46/sinb;
 		irr_b = (1.0 - sqrt(1.0 - 0.15))/(1.0 + sqrt(1.0 - 0.15));
-		rfl_b = 1.0-exp(-2.0*irr_b*ke_b1)/(1.0 + ke_b1);
+		rfl_b = 1.0 - exp(-2.0*irr_b*ke_b1)/(1.0 + ke_b1);
 		
 		pchar->apar_bp[grid->m] = (1.0 - rfl_b)*grid->par_bp[grid->m]*(1.0 - exp(-ke_b2*mass->lai[grid->m]));
 		pchar->apar_dp[grid->m] = (1.0 - 0.036)*grid->par_dp[grid->m]*(1.0 - exp(-0.719*mass->lai[grid->m]));
@@ -57,7 +57,7 @@ void f_ecophysiology(
 	if(EFF_K == 0){
 		pchar->eK[grid->m] = irr_attn(grid, loct, pchar);
 		pchar->fapar[grid->m] = (1.0 - pchar->albedo)*(1.0 - exp(-pchar->eK[grid->m]*mass->lai[grid->m]));
-	}else if(EFF_K==1){
+	}else if(EFF_K == 1){
 		pchar->eK[grid->m] = eff_k;
 		pchar->fapar[grid->m] = fapar;
 	}
@@ -112,7 +112,7 @@ void f_ecophysiology(
 	}
 
 	/** optimum leaf area index **/	
-	opt_lai(grid,loct, pchar);
+	opt_lai(grid, loct, pchar);
 }
 
 /* leaf area index **********************************************/
@@ -192,7 +192,7 @@ void quantum_yield(
 		/* temperature dependence */
 		eftem = (52.0 - grid->tmp_sfc[grid->m])/(3.5 + 0.75*(52.0 - grid->tmp_sfc[grid->m])); 
 		/* CO2 dependence */
-		efci = pchar->ci[grid->m]/(90.0+0.6*pchar->ci[grid->m]); 
+		efci = pchar->ci[grid->m]/(90.0 + 0.6*pchar->ci[grid->m]);
 		/* 3.5, 52.0, etc.: empirical parameters */
 	}else if(pchar->phototype == 4){ 
 		/* insensitive QE of C4 species */
@@ -200,7 +200,7 @@ void quantum_yield(
 		efci = 1.0;
 	}
 	/* give quantum yield */
-	pchar->lue[grid->m] = pchar->lue0*eftem*efci;
+	pchar->lue[grid->m] = pchar->lue0 * eftem * efci;
 }
 
 /* stomatal conductance **********************************************/
@@ -306,9 +306,9 @@ void opt_lai(
 	
 	/* daily respiratory cost */
 	/* printf("%lf %lf\n", plant->qTc[grid->m], grid->tmp_sfc[grid->m]); */
-	eee = log(pchar->qTc[grid->m])/10.0*(grid->tmp_sfc[grid->m] - 15.0);
-	arm = pchar->rmf*exp(eee)/1000.0*dmTc*10000.0/(pchar->sla);
-	arg = pchar->lf[grid->m]*dmTc*10000.0/(pchar->sla)*(1.0 + pchar->rgf);
+	eee = log(pchar->qTc[grid->m]) / 10.0*(grid->tmp_sfc[grid->m] - 15.0);
+	arm = pchar->rmf*exp(eee) / 1000.0*dmTc*10000.0/(pchar->sla);
+	arg = pchar->lf[grid->m]*dmTc*10000.0 / (pchar->sla)*(1.0 + pchar->rgf);
 	ar = arm + arg;
 
 	cc4 = (psat*grid->dlen[grid->m])/(psat*grid->dlen[grid->m] - ar*24.0);

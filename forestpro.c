@@ -58,9 +58,9 @@ void greenperiod(
 	nn = MDN[grid->m];
 
 	/* litter */
-	flux->lf[grid->m] = nn*flf(grid, pchar, mass);
-	flux->lc[grid->m] = nn*flc(grid, pchar, mass);
-	flux->lr[grid->m] = nn*flr(grid, pchar, mass);
+	flux->lf[grid->m] = nn * flf(grid, pchar, mass);
+	flux->lc[grid->m] = nn * flc(grid, pchar, mass);
+	flux->lr[grid->m] = nn * flr(grid, pchar, mass);
 	/* stable carbon isotope */
 	flux->d13c_lf[grid->m] = mass->d13c_fol;
 	flux->d13c_lc[grid->m] = mass->d13c_stm;
@@ -432,9 +432,9 @@ void noleafperiod(
 	}
 
 	/* maintenance respirations */
-	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
-	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
-	flux->rrm[grid->m] = nn*frrm(grid, pchar, mass);
+	flux->rfm[grid->m] = nn * frfm(grid, pchar, mass);
+	flux->rcm[grid->m] = nn * frcm(grid, pchar, mass);
+	flux->rrm[grid->m] = nn * frrm(grid, pchar, mass);
 	flux->arm[grid->m] = flux->rfm[grid->m] + flux->rcm[grid->m] + flux->rrm[grid->m];
 	/* stable carbon isotope */
 	flux->d13c_rfm[grid->m] = mass->d13c_fol;
