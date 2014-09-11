@@ -27,7 +27,11 @@ void f_init_clim(
 	if(CO2S == 7){
 		grid->co2y = 2081; /* in 2081 : 700 ppmv*/
 	}
+    if(CC_CD == 5){
+        grid->co2y = 2000;
+    }
 	grid->climy = PIVOT_CLIMY;
+	grid->lucy = PIVOT_CLIMY;
 
 	for(h=0;h<ASTEP;h++){
 		grid->m = h;

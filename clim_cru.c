@@ -97,7 +97,7 @@ void read_cru_clim(
         /*  printf("********* %ld\n",cru_flag);  */
         
         /* if valid CRU climate data are all available **/
-        if(flag==4){
+        if(flag == 4){
             /* data available */
             grid->flag_histdata = 1;
             alt = (grid->topo>=0.0)?grid->topo:0.0; 

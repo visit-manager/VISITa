@@ -73,10 +73,29 @@ void f_voc_emit_guenther97(
 		0.3, 0.3, 0.3, 0.3, 0.3, 0.36, 0.3, 0.3, 
 		0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 
 		0.3, 0.3};
+    /* Sesquiterpenes: micro g/m2/h */
+    /* Guenther AB, Jiang X, Heald CL, Sakulyanontvittaya T, Duhl T, 
+    Emmons LK, Wang X (2012) The Model of Emissions of Gases and Aerosols from 
+    Nature version 2.1 (MEGAN2.1): an extended and updated framework for modeling 
+    biogenic emissions. Geoscientific Model Development 5: 1471–1492. 
+    doi: 10.5194/gmd-5-1471-2012    */
+    /* added 2014/9/11 by A.Ito */
+    double emit_potent_afarnesene[18] = {0.0,
+        60.0, 60.0, 40.0, 40.0, 40.0, 40.0, 40.0, 40.0,
+        3.0, 3.0, 40.0, 40.0, 3.0, 3.0, 3.0,
+        4.0, 40.0};
+    double emit_potent_bcaryophyllene[18] = {0.0,
+        60.0, 60.0, 40.0, 80.0, 40.0, 80.0, 80.0, 50.0,
+        1.0, 1.0, 50.0, 50.0, 1.0, 1.0, 1.0,
+        4.0, 50.0};
+    double emit_potent_othersesqui[18] = {0.0,
+        120.0, 20.0, 100.0, 120.0, 100.0, 120.0, 120.0, 100.0,
+        2.0, 2.0, 100.0, 100.0, 2.0, 2.0, 2.0,
+        2.0, 100.0};
 	long f, idveg;
 	double foliar_dens, leaf_temp, parday;
 	double f_ppfd, f_temp_isopr, f_temp_monotrp, f_phenology;
-	double aa, bb, cc, dd, laiage[49], t_lai, total_closs;
+	double aa, bb, cc, cc2, dd, laiage[49], t_lai, total_closs;
 	extern double MDN[ASTEP];
 	
 	/* veg_sage:
@@ -190,6 +209,7 @@ void f_voc_emit_guenther97(
 	
 	/***********************************************************************/
 	cc = foliar_dens * MDN[grid->m] * grid->dlen[grid->m];
+    cc2 = loct->lai[grid->m] * MDN[grid->m] * grid->dlen[grid->m];
 	
 	/* VOC emission, micro g C m-2 month-1  */
 	flux->voc_isopr_g97[grid->m] = emit_potent_isopr[idveg] * cc * f_ppfd * f_temp_isopr * f_phenology;
@@ -201,6 +221,10 @@ void f_voc_emit_guenther97(
 	flux->voc_formacd_g97[grid->m] = emit_potent_formacd[idveg] * cc * f_temp_monotrp * f_phenology;
 	flux->voc_acetacd_g97[grid->m] = emit_potent_acetacd[idveg] * cc * f_temp_monotrp * f_phenology;
 	flux->voc_co_g97[grid->m] = emit_potent_co[idveg] * cc * f_temp_monotrp * f_phenology;
+    /* added 2014/9/11 by A.Ito */
+	flux->voc_afarnesene[grid->m] = emit_potent_afarnesene[idveg] * cc2 * f_temp_monotrp * f_phenology;
+	flux->voc_bcaryophyllene[grid->m] = emit_potent_bcaryophyllene[idveg] * cc2 * f_temp_monotrp * f_phenology;
+	flux->voc_othersesqui[grid->m] = emit_potent_othersesqui[idveg] * cc2 * f_temp_monotrp * f_phenology;
 	
 	/* carbon loss by BVOC emission: 2008/10/09 */
 	if(NECB_BVOC == 1){
@@ -208,7 +232,8 @@ void f_voc_emit_guenther97(
          
 		total_closs = flux->voc_isopr_g97[grid->m] + flux->voc_monotrp_g97[grid->m] + flux->voc_methanl_g97[grid->m] + 
 			flux->voc_acetone_g97[grid->m] + flux->voc_actaldhd_g97[grid->m] + flux->voc_frmardhd_g97[grid->m] + 
-			flux->voc_formacd_g97[grid->m] + flux->voc_acetacd_g97[grid->m] + flux->voc_co_g97[grid->m];
+			flux->voc_formacd_g97[grid->m] + flux->voc_acetacd_g97[grid->m] + flux->voc_co_g97[grid->m] +
+            flux->voc_afarnesene[grid->m] + flux->voc_bcaryophyllene[grid->m] + flux->voc_othersesqui[grid->m];
 		
 		(mass->c3).fol -= loct->c3ptn[grid->m] * total_closs/100000000.0;
         (mass->c3).mfol[grid->m] = (mass->c3).fol;

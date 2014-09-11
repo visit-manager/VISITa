@@ -27,9 +27,9 @@ void f_cult_luc(
 		 Ramankutty, N., and J. A. Foley (1999), Estimating historical changes in global 
 		 land cover: croplands from 1700 to 1992, Global Biogeochemical Cycles, 13(4), 997-1027.
         */
-		if(grid->climy<=1990){
+		if(grid->lucy <= 1990){
 			/* SAGE, net land use, only cropland */
-			grid->f_crop_con = grid->fcrop_sage[grid->climy - PIVOT_LUC];
+			grid->f_crop_con = grid->fcrop_sage[grid->lucy - PIVOT_LUC];
 			grid->f_pasture_con = 0.0;
 		}else{
 			switch(LANDUSE){
@@ -44,21 +44,21 @@ void f_cult_luc(
 				case 3:
 					/* conventional scenario : ex b, d */
 					grid->f_crop_con = grid->fcrop_sage[290] + grid->f_crop_trend 
-										*(double)(grid->climy - 1990);
+										*(double)(grid->lucy - 1990);
 					break;
 				case 4:
 					/* high scenario : ex e */
 					if(grid->f_crop_trend>0.0){
 						grid->f_crop_con = grid->fcrop_sage[290] + grid->f_crop_trend*(1.0+0.01*
-								((double)(grid->climy - 1990))) *(double)(grid->climy - 1990);
+								((double)(grid->lucy - 1990))) *(double)(grid->lucy - 1990);
 					}else{
 						grid->f_crop_con = grid->fcrop_sage[290];
 					}
 					break;
 				case 5:
 					/* IMAGE-based scenario */
-					grid->f_crop_con = grid->fcrop_sage[290] + ((grid->fcrop3_image[grid->climy - 1990] 
-						+ grid->fcrop4_image[grid->climy - 1990]) 
+					grid->f_crop_con = grid->fcrop_sage[290] + ((grid->fcrop3_image[grid->lucy - 1990]
+						+ grid->fcrop4_image[grid->lucy - 1990])
 						- (grid->fcrop3_image[0] + grid->fcrop4_image[0]))/100.0;
 					break;
                 default:
@@ -73,15 +73,15 @@ void f_cult_luc(
 			S. W. Pacala, and R. A. Houghton. 2006. The underpinnings of land-use history: 
 			three centuries of global gridded land-use transitions, wood-harvest activity, 
 			and resulting secondary lands. Global Change Biology 12:1-22. */
-		if(grid->climy<=1999){
-			grid->f_crop_con = grid->fcrop_unh_hmnzed[grid->climy - PIVOT_LUC];
-			grid->f_pasture_con = grid->fpast_unh_hmnzed[grid->climy - PIVOT_LUC];
-		}else if(grid->climy>=2000){
+		if(grid->lucy <= 1999){
+			grid->f_crop_con = grid->fcrop_unh_hmnzed[grid->lucy - PIVOT_LUC];
+			grid->f_pasture_con = grid->fpast_unh_hmnzed[grid->lucy - PIVOT_LUC];
+		}else if(grid->lucy >= 2000){
 			grid->f_crop_con = grid->fcrop_unh_hmnzed[299] + 
-				((grid->fcrop3_image[grid->climy - 1990] + grid->fcrop4_image[grid->climy - 1990]) 
+				((grid->fcrop3_image[grid->lucy - 1990] + grid->fcrop4_image[grid->lucy - 1990])
 				- (grid->fcrop3_image[9]+grid->fcrop4_image[9]))/100.0;
 			grid->f_pasture_con = grid->fpast_unh_hmnzed[299] + 
-				((grid->fgrass3_image[grid->climy - 1990] + grid->fgrass4_image[grid->climy - 1990]) 
+				((grid->fgrass3_image[grid->lucy - 1990] + grid->fgrass4_image[grid->lucy - 1990])
 				- (grid->fgrass3_image[9] + grid->fgrass4_image[9]))/100.0;
 		}
 	}else if(LANDUSE == 7){
@@ -89,28 +89,28 @@ void f_cult_luc(
 		 Ramankutty, N., and J. A. Foley (1999), Estimating historical changes in global 
 		 land cover: croplands from 1700 to 1992, Global Biogeochemical Cycles, 13(4), 997-1027.
 		*/
-		if(grid->climy<=2007){
-			grid->f_crop_con = grid->fcrop_rk[grid->climy - PIVOT_LUC];
-			grid->f_pasture_con = grid->fpast_rk[grid->climy - PIVOT_LUC];
-		}else if(grid->climy>=2008){
+		if(grid->lucy <= 2007){
+			grid->f_crop_con = grid->fcrop_rk[grid->lucy - PIVOT_LUC];
+			grid->f_pasture_con = grid->fpast_rk[grid->lucy - PIVOT_LUC];
+		}else if(grid->lucy >= 2008){
 			grid->f_crop_con = grid->fcrop_rk[307] + 
-					((grid->fcrop3_image[grid->climy - 1990] + grid->fcrop4_image[grid->climy - 1990]) 
+					((grid->fcrop3_image[grid->lucy - 1990] + grid->fcrop4_image[grid->lucy - 1990])
 					- (grid->fcrop3_image[17] + grid->fcrop4_image[17]))/100.0;
 			grid->f_pasture_con = grid->fpast_rk[307] + 
-					((grid->fgrass3_image[grid->climy - 1990] + grid->fgrass4_image[grid->climy - 1990]) 
+					((grid->fgrass3_image[grid->lucy - 1990] + grid->fgrass4_image[grid->lucy - 1990])
 					 - (grid->fgrass3_image[17] + grid->fgrass4_image[17]))/100.0;
 		}
 	}else if(LANDUSE == 8){
 		/* UNH harmonized land-use change, 1700-2005 (added 2010/01/31) */
-		if(grid->climy<=2005){
-			grid->f_crop_con = grid->fcrop_unh_hmnzed[grid->climy - PIVOT_LUC];
-			grid->f_pasture_con = grid->fpast_unh_hmnzed[grid->climy - PIVOT_LUC];
-		}else if(grid->climy>=2006){
+		if(grid->lucy <= 2005){
+			grid->f_crop_con = grid->fcrop_unh_hmnzed[grid->lucy - PIVOT_LUC];
+			grid->f_pasture_con = grid->fpast_unh_hmnzed[grid->lucy - PIVOT_LUC];
+		}else if(grid->lucy >= 2006){
 			grid->f_crop_con = grid->fcrop_unh_hmnzed[305] + 
-				((grid->fcrop3_image[grid->climy - 1990] + grid->fcrop4_image[grid->climy - 1990]) 
+				((grid->fcrop3_image[grid->lucy - 1990] + grid->fcrop4_image[grid->lucy - 1990])
 				 - (grid->fcrop3_image[15]+grid->fcrop4_image[15]))/100.0;
 			grid->f_pasture_con = grid->fpast_unh_hmnzed[305] + 
-				((grid->fgrass3_image[grid->climy - 1990] + grid->fgrass4_image[grid->climy - 1990]) 
+				((grid->fgrass3_image[grid->lucy - 1990] + grid->fgrass4_image[grid->lucy - 1990])
 				 - (grid->fgrass3_image[15]+grid->fgrass4_image[15]))/100.0;
 		}
 	}else if(LANDUSE == 9){
@@ -120,8 +120,8 @@ void f_cult_luc(
     }else if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13
          || LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
 		/* UNH harmonized land-use change, 1500-2100 (added 2013/12/20) */
-			grid->f_crop_con = grid->fcrop_unh_hmnzed[grid->climy - PIVOT_LUC];
-			grid->f_pasture_con = grid->fpast_unh_hmnzed[grid->climy - PIVOT_LUC];
+			grid->f_crop_con = grid->fcrop_unh_hmnzed[grid->lucy - PIVOT_LUC];
+			grid->f_pasture_con = grid->fpast_unh_hmnzed[grid->lucy - PIVOT_LUC];
     }else{
 		printf("Wrong land-use setting ID\n");
 		exit(1);
@@ -173,15 +173,15 @@ void f_cult_luc(
 		}else if(LANDUSE>=1 && LANDUSE<=5){
 			grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
 		}else if(LANDUSE==6 || LANDUSE==8){
-			if(grid->climy<=1999){
-				grid->f_deforest = grid->t_vc_unh_hmnzed[grid->climy - PIVOT_LUC] 
-									+ grid->t_vp_unh_hmnzed[grid->climy - PIVOT_LUC]
-									+ grid->t_sc_unh_hmnzed[grid->climy - PIVOT_LUC] 
-									+ grid->t_sp_unh_hmnzed[grid->climy - PIVOT_LUC];
-				grid->f_deforest_v = grid->t_vc_unh_hmnzed[grid->climy - PIVOT_LUC] 
-									+ grid->t_vp_unh_hmnzed[grid->climy - PIVOT_LUC];
-				grid->f_deforest_s = grid->t_sc_unh_hmnzed[grid->climy - PIVOT_LUC] 
-									+ grid->t_sp_unh_hmnzed[grid->climy - PIVOT_LUC];
+			if(grid->lucy <= 1999){
+				grid->f_deforest = grid->t_vc_unh_hmnzed[grid->lucy - PIVOT_LUC]
+									+ grid->t_vp_unh_hmnzed[grid->lucy - PIVOT_LUC]
+									+ grid->t_sc_unh_hmnzed[grid->lucy - PIVOT_LUC]
+									+ grid->t_sp_unh_hmnzed[grid->lucy - PIVOT_LUC];
+				grid->f_deforest_v = grid->t_vc_unh_hmnzed[grid->lucy - PIVOT_LUC]
+									+ grid->t_vp_unh_hmnzed[grid->lucy - PIVOT_LUC];
+				grid->f_deforest_s = grid->t_sc_unh_hmnzed[grid->lucy - PIVOT_LUC]
+									+ grid->t_sp_unh_hmnzed[grid->lucy - PIVOT_LUC];
 			}else{
 				grid->f_deforest = (grid->f_crop_con - grid->f_crop_p) 
 									+ (grid->f_pasture_con - grid->f_pasture_p);
@@ -196,14 +196,14 @@ void f_cult_luc(
             grid->f_deforest = 0.0;
         }else if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13
             || LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
-            grid->f_deforest = grid->t_vc_unh_hmnzed[grid->climy - PIVOT_LUC]
-                                + grid->t_vp_unh_hmnzed[grid->climy - PIVOT_LUC]
-                                + grid->t_sc_unh_hmnzed[grid->climy - PIVOT_LUC] 
-                                + grid->t_sp_unh_hmnzed[grid->climy - PIVOT_LUC];
-            grid->f_deforest_v = grid->t_vc_unh_hmnzed[grid->climy - PIVOT_LUC] 
-                                + grid->t_vp_unh_hmnzed[grid->climy - PIVOT_LUC];
-            grid->f_deforest_s = grid->t_sc_unh_hmnzed[grid->climy - PIVOT_LUC] 
-                                + grid->t_sp_unh_hmnzed[grid->climy - PIVOT_LUC];
+            grid->f_deforest = grid->t_vc_unh_hmnzed[grid->lucy - PIVOT_LUC]
+                                + grid->t_vp_unh_hmnzed[grid->lucy - PIVOT_LUC]
+                                + grid->t_sc_unh_hmnzed[grid->lucy - PIVOT_LUC]
+                                + grid->t_sp_unh_hmnzed[grid->lucy - PIVOT_LUC];
+            grid->f_deforest_v = grid->t_vc_unh_hmnzed[grid->lucy - PIVOT_LUC]
+                                + grid->t_vp_unh_hmnzed[grid->lucy - PIVOT_LUC];
+            grid->f_deforest_s = grid->t_sc_unh_hmnzed[grid->lucy - PIVOT_LUC]
+                                + grid->t_sp_unh_hmnzed[grid->lucy - PIVOT_LUC];
         }
 	}
 	
@@ -216,12 +216,12 @@ void f_cult_luc(
 	if(LANDUSE == 0){
 		grid->f_paddy = 0.0;
 	}else if(LANDUSE == 7){
-		if(grid->climy <= 2005){
+		if(grid->lucy <= 2005){
 			if(grid->f_paddy_b > 0.0 && grid->fcrop_rk[2000 - PIVOT_LUC] > 0.0){
 				grid->f_paddy = grid->f_paddy_b * 
-					(grid->fcrop_rk[grid->climy - PIVOT_LUC] / grid->fcrop_rk[2000 - PIVOT_LUC]);
+					(grid->fcrop_rk[grid->lucy - PIVOT_LUC] / grid->fcrop_rk[2000 - PIVOT_LUC]);
 			}
-		}else if(grid->climy >= 2006){
+		}else if(grid->lucy >= 2006){
 			if(grid->f_paddy_b > 0.0 && grid->fcrop_rk[2000 - PIVOT_LUC] > 0.0){
 				grid->f_paddy = grid->f_paddy_b * 
 					(grid->fcrop_rk[2005 - PIVOT_LUC] / grid->fcrop_rk[2000 - PIVOT_LUC]);
@@ -235,13 +235,13 @@ void f_cult_luc(
 			grid->f_paddy = 0.0;
 		}
 	}else if(LANDUSE == 8){
-		if(grid->climy <= 2005){
+		if(grid->lucy <= 2005){
         
 			if(grid->f_paddy_b > 0.0 && grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC] > 0.0){
 				grid->f_paddy = grid->f_paddy_b * 
-                    (grid->fcrop_unh_hmnzed[grid->climy - PIVOT_LUC] / grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC]);
+                    (grid->fcrop_unh_hmnzed[grid->lucy - PIVOT_LUC] / grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC]);
 			}
-		}else if(grid->climy >= 2006){
+		}else if(grid->lucy >= 2006){
 			if(grid->f_paddy_b > 0.0 && grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC] > 0.0){
 				grid->f_paddy = grid->f_paddy_b * 
                     (grid->fcrop_unh_hmnzed[2005 - PIVOT_LUC] / grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC]);
@@ -261,7 +261,7 @@ void f_cult_luc(
         
         if(grid->f_paddy_b > 0.0 && grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC] > 0.0){
             grid->f_paddy = grid->f_paddy_b * 
-                (grid->fcrop_unh_hmnzed[grid->climy - PIVOT_LUC] / grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC]);
+                (grid->fcrop_unh_hmnzed[grid->lucy - PIVOT_LUC] / grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC]);
         }
         
         if(grid->f_paddy > 1.0){

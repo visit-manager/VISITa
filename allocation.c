@@ -24,12 +24,12 @@ void allocation(
 	double aaa, bbb, cc1, ccc, ddd;
 	double alloc_f, alloc_c, alloc_r; /* allocation ratios */
 						
-	if(flux->epp[grid->m]>0.0){ /* during growing-period */
+	if(flux->epp[grid->m] > 0.0){ /* during growing-period */
 		/* allocation ratios of EPP */
 		if(mass->lai[grid->m] > pchar->opt_lai[grid->m]){ 
 			/* if holding LAI is greater than the optimam one */
 			/**** avoid too high LAI under good condition: 2009/04/29 A.Ito ****/
-			aaa = mass->lai[grid->m] -  pchar->opt_lai[grid->m];
+			aaa = mass->lai[grid->m] - pchar->opt_lai[grid->m];
 			bbb = 1.0 - 0.5*aaa;
 			bbb = (bbb>0.0)?bbb:0.0;
 			
@@ -37,8 +37,8 @@ void allocation(
 			
 			ccc = pchar->alloc_ass*bbb;
 			alloc_f = ccc;
-			alloc_c = (1.0-ccc)*pchar->alloc_abg;
-			alloc_r = (1.0-ccc)*(1.0-pchar->alloc_abg);
+			alloc_c = (1.0 - ccc)*pchar->alloc_abg;
+			alloc_r = (1.0 - ccc)*(1.0-pchar->alloc_abg);
 		}else{     /* if(mass->lai[grid->m] <= pchar->opt_lai[grid->m]) */
 			/* if holding LAI is smaller than the optimam one */
 			aaa = (pchar->opt_lai[grid->m]-mass->lai[grid->m])*100.0*2.0/2.2/pchar->sla;
@@ -65,34 +65,34 @@ void allocation(
 				ddd = 1.0;
 			}
 			
-			alloc_f = ccc*ddd;
-			alloc_c = (1.0-ccc*ddd)*pchar->alloc_abg;
-			alloc_r = (1.0-ccc*ddd)*(1.0-pchar->alloc_abg);
+			alloc_f = ccc * ddd;
+			alloc_c = (1.0 - ccc*ddd) * pchar->alloc_abg;
+			alloc_r = (1.0 - ccc*ddd) * (1.0 - pchar->alloc_abg);
 		}
 				
 		/* monthly translocation fluxes */
-		flux->tpp[grid->m] = (alloc_f + alloc_c + alloc_r)*flux->epp[grid->m];
-		flux->tpf[grid->m] = alloc_f*flux->epp[grid->m];
-		flux->tpc[grid->m] = alloc_c*flux->epp[grid->m];
-		flux->tpr[grid->m] = alloc_r*flux->epp[grid->m];
+		flux->tpp[grid->m] = (alloc_f + alloc_c + alloc_r) * flux->epp[grid->m];
+		flux->tpf[grid->m] = alloc_f * flux->epp[grid->m];
+		flux->tpc[grid->m] = alloc_c * flux->epp[grid->m];
+		flux->tpr[grid->m] = alloc_r * flux->epp[grid->m];
 		
 	}else{ /* during NON growing-period */   /*  if(flux->epp[grid->m] <= 0.0) */
 		/* allocation ratios of GPP, not EPP */
 		alloc_f = pchar->alloc_ass;
-		alloc_c = (1.0 - pchar->alloc_ass)*pchar->alloc_abg;
-		alloc_r = (1.0 - pchar->alloc_ass)*(1.0 - pchar->alloc_abg);
+		alloc_c = (1.0 - pchar->alloc_ass) * pchar->alloc_abg;
+		alloc_r = (1.0 - pchar->alloc_ass) * (1.0 - pchar->alloc_abg);
 				
 		/* monthly translocation fluxes */
-		flux->tpp[grid->m] = (alloc_f+alloc_c+alloc_r)*flux->epp[grid->m];
+		flux->tpp[grid->m] = (alloc_f + alloc_c + alloc_r)*flux->epp[grid->m];
 		
 		if(DF97==1){
-			flux->tpf[grid->m] = alloc_f*flux->gpp_df97[grid->m]-flux->rfm[grid->m];
-			flux->tpc[grid->m] = alloc_c*flux->gpp_df97[grid->m]-flux->rcm[grid->m];
-			flux->tpr[grid->m] = alloc_r*flux->gpp_df97[grid->m]-flux->rrm[grid->m];
+			flux->tpf[grid->m] = alloc_f*flux->gpp_df97[grid->m] - flux->rfm[grid->m];
+			flux->tpc[grid->m] = alloc_c*flux->gpp_df97[grid->m] - flux->rcm[grid->m];
+			flux->tpr[grid->m] = alloc_r*flux->gpp_df97[grid->m] - flux->rrm[grid->m];
 		}else{
-			flux->tpf[grid->m] = alloc_f*flux->gpp[grid->m]-flux->rfm[grid->m];
-			flux->tpc[grid->m] = alloc_c*flux->gpp[grid->m]-flux->rcm[grid->m];
-			flux->tpr[grid->m] = alloc_r*flux->gpp[grid->m]-flux->rrm[grid->m];
+			flux->tpf[grid->m] = alloc_f*flux->gpp[grid->m] - flux->rfm[grid->m];
+			flux->tpc[grid->m] = alloc_c*flux->gpp[grid->m] - flux->rcm[grid->m];
+			flux->tpr[grid->m] = alloc_r*flux->gpp[grid->m] - flux->rrm[grid->m];
 		}
 	}
 	

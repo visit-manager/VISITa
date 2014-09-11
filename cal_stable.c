@@ -85,12 +85,12 @@ void cal_spinup(
 				
         if(ISIMIP_RUN == 1 && grid->flag_histdata == 1){
             ann_nep = 10.0;
-            grid->climy = nn%30 +1951;
+            grid->climy = grid->lucy = nn%30 +1951;
 			set_hist_clim(grid);
 		}else if(ISIMIP_RUN == 2 && grid->flag_histdata == 1){
             /* PLUME: 2014/07/31 by A.Ito */
             ann_nep = 10.0;
-            grid->climy = nn%30 +1901;
+            grid->climy = grid->lucy = nn%30 +1901;
 			set_hist_clim(grid);
         }
 		
@@ -98,7 +98,7 @@ void cal_spinup(
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;
 			
-			/* initialize N fluxes ************/
+			/* initialize GHG fluxes ************/
 			ghg_flux_zero(f, flux);
 			
 			/* atmospheric CO2 ****************/
@@ -439,7 +439,8 @@ void cal_spinup(
         
             flux->nbp[f] -= (flux->voc_isopr_g97[f] + flux->voc_monotrp_g97[f] + flux->voc_methanl_g97[f] +
                     flux->voc_acetone_g97[f] + flux->voc_actaldhd_g97[f] + flux->voc_frmardhd_g97[f] +
-                    flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f])*10000.0/1000000.0/1000000.0;
+                    flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f] +
+                    flux->voc_afarnesene[f] + flux->voc_bcaryophyllene[f] + flux->voc_othersesqui[f])*10000.0/1000000.0/1000000.0;
         }
         
         if(NECB_CROP == 1){

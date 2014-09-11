@@ -90,6 +90,8 @@
     #define DL_AGHG 553 /* default */
 #endif
 
+#define BGY_AGHG 1765
+
 /***********************************************************/
 /* simulation framework duration (years) */
 #define PD_SIM 201	
@@ -472,6 +474,8 @@
 /* 1: actual CO2 rise */
 /* 2: no CO2 rise */
 /* 3: fix CO2 after 2020 for GeoMIP runs */
+/* 4: 450ppmv cap */
+/* 5: fix at 2000 level */
 
 /****************************************************/
 /* 0: no GCM */
