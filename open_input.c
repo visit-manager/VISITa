@@ -522,7 +522,25 @@ void open_input(
         }
     }else if(ISIMIP_RUN == 2){
         switch(GCM){
-            case 4201: case 4202:
+            case 4011: case 4012:
+                if( (fp_c[0]=fopen("./data/tas_bced_1960_1999_gfdl-esm2m_spin_1901-1930_hist_1860-2005.flt","rb"))==NULL ){
+                    printf("No tas_bced_1960_1999_gfdl-esm2m_spin_1901-1930_hist_1860-2005.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_bced_1960_1999_gfdl-esm2m_hist_spin_1901-1930_hist_1860-2005.flt","rb"))==NULL ){
+                    printf("No pr_bced_1960_1999_gfdl-esm2m_hist_spin_1901-1930_hist_1860-2005.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/hurs_bced_1960_1999_gfdl-esm2m_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
+                    printf("No hurs_bced_1960_1999_gfdl-esm2m_spin_1901-1930_hist_1901-2005.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_bced_1960_1999_gfdl-esm2m_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
+                    printf("No rsds_bced_1960_1999_gfdl-esm2m_spin_1901-1930_hist_1901-2005.flt\n");
+                    exit(1); 
+                }
+                break;
+            case 4021: case 4022:
                 if( (fp_c[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
                     printf("No tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
                     exit(1); 
@@ -1596,7 +1614,7 @@ void open_input(
 		fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt");
     }else if(GCM==2002 || GCM==2012 || GCM==2022 || GCM==2032 || GCM==2042
         || GCM==2006 || GCM==2016 || GCM==2026 || GCM==2036 || GCM==2046
-         || GCM==4202){
+         || GCM==4012 || GCM==4022){
         CO2S = 4; /* RCP8.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a2_fcrop.dat","rt"))==NULL){
@@ -1606,7 +1624,7 @@ void open_input(
 		fp_s[45]=fopen("./data/image_a2_fgrass.dat","rt");
     }else if(GCM==2003 || GCM==2013 || GCM==2023 || GCM==2033 || GCM==2043
         || GCM==2007 || GCM==2017 || GCM==2027 || GCM==2037 || GCM==2047
-         || GCM==4201){
+         || GCM==4011|| GCM==4021){
         CO2S = 2; /* RCP4.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){

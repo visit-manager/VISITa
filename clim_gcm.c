@@ -974,12 +974,25 @@ void read_gcm_clim(
 		if( (fp_c2[1]=fopen("./data/pr_CCSM4_197001-210012_rcp45_g3s.txt","rt"))==NULL ){  printf("No pr_CCSM4_197001-210012_rcp45_g3s.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_CCSM4_197001-210012_rcp45_g3s.txt","rt"))==NULL ){  printf("No huss_CCSM4_197001-210012_rcp45_g3s.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_CCSM4_197001-210012_rcp45_g3s.txt","rt"))==NULL ){  printf("No rsds_CCSM4_197001-210012_rcp45_g3s.txt\n");  exit(1); }
-	}else if(GCM==4201){  /*  PLUME: IPSL-CM5A-LR RCP4.5  */
+	}
+    
+    if(GCM==4011){  /*  PLUME: GFDL-ESM2M RCP4.5  */
+		if( (fp_c2[0]=fopen("./data/tas_bced_1960_1999_gfdl-esm2m_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No tas_bced_1960_1999_gfdl-esm2m_rcp4p5_2006-2099.flt\n");  exit(1); }
+		if( (fp_c2[1]=fopen("./data/pr_bced_1960_1999_gfdl-esm2m_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No pr_bced_1960_1999_gfdl-esm2m_rcp4p5_2006-2099.flt\n");  exit(1); }
+		if( (fp_c2[2]=fopen("./data/hurs_gfdl-esm2m_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No hurs_gfdl-esm2m_rcp4p5_2006-2099.flt\n");  exit(1); }
+		if( (fp_c2[3]=fopen("./data/rsds_bced_1960_1999_gfdl-esm2m_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No rsds_bced_1960_1999_gfdl-esm2m_rcp4p5_2006-2099.flt\n");  exit(1); }
+	}else if(GCM==4012){  /*  PLUME: IPSL-CM5A-LR RCP8.5  */
+		if( (fp_c2[0]=fopen("./data/tas_bced_1960_1999_gfdl-esm2m_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No tas_bced_1960_1999_gfdl-esm2m_rcp8p5_2006-2099.flt\n");  exit(1); }
+		if( (fp_c2[1]=fopen("./data/pr_bced_1960_1999_gfdl-esm2m_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No pr_bced_1960_1999_gfdl-esm2m_rcp8p5_2006-2099.flt\n");  exit(1); }
+		if( (fp_c2[2]=fopen("./data/hurs_gfdl-esm2m_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No hurs_gfdl-esm2m_rcp8p5_2006-2099.flt\n");  exit(1); }
+		if( (fp_c2[3]=fopen("./data/rsds_bced_1960_1999_gfdl-esm2m_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No rsds_bced_1960_1999_gfdl-esm2m_rcp8p5_2006-2099.flt\n");  exit(1); }
+	}
+    if(GCM==4021){  /*  PLUME: IPSL-CM5A-LR RCP4.5  */
 		if( (fp_c2[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No tas_bced_1960_1999_ipsl-cm5a-lr_rcp4p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_bced_1960_1999_ipsl-cm5a-lr_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No pr_bced_1960_1999_ipsl-cm5a-lr_rcp4p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/hurs_ipsl-cm5a-lr_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No hurs_ipsl-cm5a-lr_rcp4p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_bced_1960_1999_ipsl-cm5a-lr_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No rsds_bced_1960_1999_ipsl-cm5a-lr_rcp4p5_2006-2099.flt\n");  exit(1); }
-	}else if(GCM==4202){  /*  PLUME: IPSL-CM5A-LR RCP8.5  */
+	}else if(GCM==4022){  /*  PLUME: IPSL-CM5A-LR RCP8.5  */
 		if( (fp_c2[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No tas_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No pr_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/hurs_ipsl-cm5a-lr_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No hurs_ipsl-cm5a-lr_rcp8p5_2006-2099.flt\n");  exit(1); }

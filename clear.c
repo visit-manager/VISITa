@@ -158,6 +158,19 @@ void ghg_flux_zero(
 	flux->erod_carbon = 0.0;
 	flux->hvst_wood = 0.0; 
 
+	flux->voc_acetacd_g97[month] = 0.0;
+	flux->voc_acetone_g97[month] = 0.0;
+	flux->voc_actaldhd_g97[month] = 0.0;
+	flux->voc_afarnesene[month] = 0.0;
+	flux->voc_bcaryophyllene[month] = 0.0;
+	flux->voc_co_g97[month] = 0.0;
+	flux->voc_formacd_g97[month] = 0.0;
+	flux->voc_frmardhd_g97[month] = 0.0;
+	flux->voc_isopr_g97[month] = 0.0;
+	flux->voc_methanl_g97[month] = 0.0;
+	flux->voc_monotrp_g97[month] = 0.0;
+	flux->voc_othersesqui[month] = 0.0;
+
 	(flux->c3).n_biofix[month] = 0.0;			
 	(flux->c3).uptake_no3[month] = 0.0;			
 	(flux->c3).uptake_nh4[month] = 0.0;	

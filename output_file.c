@@ -357,6 +357,7 @@ void f_output_result(
             fprintf(fp_o[0],"%.4lf ",  flux->voc_isopr_g97[f]+flux->voc_monotrp_g97[f]
                     +flux->voc_methanl_g97[f]+flux->voc_acetone_g97[f]+flux->voc_actaldhd_g97[f]
                     +flux->voc_frmardhd_g97[f]+flux->voc_formacd_g97[f]+flux->voc_acetacd_g97[f]
+                    +flux->voc_afarnesene[f]+flux->voc_bcaryophyllene[f]+flux->voc_othersesqui[f]
                     +flux->voc_co_g97[f]);
             
             /* added: 2011/05/16 (A.Ito) */
@@ -560,6 +561,10 @@ void f_output_result(
             fprintf(fp_o[5],"%.3lf ", flux->voc_formacd_g97[f]);
             fprintf(fp_o[5],"%.3lf ", flux->voc_acetacd_g97[f]);
             fprintf(fp_o[5],"%.3lf ", flux->voc_co_g97[f]); 
+
+            fprintf(fp_o[5],"%.3lf ", flux->voc_afarnesene[f]);
+            fprintf(fp_o[5],"%.3lf ", flux->voc_bcaryophyllene[f]);
+            fprintf(fp_o[5],"%.3lf ", flux->voc_othersesqui[f]);
         }
         fprintf(fp_o[5],"\n");
     }

@@ -54,7 +54,9 @@ void cal_historical(
 		if(CC_CD == 2){
 			grid->co2y = PIVOT_CO2Y;
 			/* PIVOT_CO2Y = 1901 (usual setting) */
-		}
+		}else if(CC_CD == 5){
+            grid->co2y = 2000;
+        }
         /* ISI-MIP no-co2 run: 2012/07/31 by A.Ito */
         if((GCM==2005 ||GCM==2006 ||GCM==2007 ||GCM==2008 ||
             GCM==2015 ||GCM==2016 ||GCM==2017 ||GCM==2018 ||
@@ -64,12 +66,14 @@ void cal_historical(
             /* fixed to AD2000 level */
             grid->co2y = 2000;
         }
+        
+        grid->lucy = PIVOT_CLIMY + g;
 		
 		/*  Fertilizer input, historical change: 2010/05/11 by A.Ito */
-		if(grid->rank_nat==1){
+		if(grid->rank_nat == 1){
 			/* developing countries */
 			f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - (double)grid->climy)))+0.0014929171;
-		}else if(grid->rank_nat==2){
+		}else if(grid->rank_nat == 2){
 			/* developed countries */
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
 		}
@@ -438,7 +442,8 @@ void cal_historical(
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
                 flux->nbp[f] -= (flux->voc_isopr_g97[f] + flux->voc_monotrp_g97[f] + flux->voc_methanl_g97[f] +
                     flux->voc_acetone_g97[f] + flux->voc_actaldhd_g97[f] + flux->voc_frmardhd_g97[f] +
-                    flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f])*10000.0/1000000.0/1000000.0;
+                    flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f] +
+                    flux->voc_afarnesene[f] + flux->voc_bcaryophyllene[f] + flux->voc_othersesqui[f])*10000.0/1000000.0/1000000.0;
             }
             
             if(NECB_CROP == 1){

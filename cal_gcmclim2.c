@@ -43,19 +43,6 @@ void cal_projection(
 	/* LOOP to dynamic stage ***************************************/
 	for(g=BGY_GCM;g<=ENY_GCM;g++){ 
 	
-		/* climate change ********************/
-		grid->climy = g;
-		if(GCM >= 1 && GCM <=9999){
-			set_gcm_clim(grid);
-		}
-		
-		/* land-use change */
-		if(TEMP_GC != 0){
-			;
-		}else{
-			f_cult_luc(grid);
-		}
-		
 		/* CO2 change ********************/
 		if(CO2S == 0){
 			grid->co2y = BGY_GCM; 
@@ -69,6 +56,20 @@ void cal_projection(
 			grid->co2y = 2001;
 		}
         
+		/* climate change ********************/
+		grid->climy = g;
+		if(GCM >= 1 && GCM <=9999){
+			set_gcm_clim(grid);
+		}
+		
+		/* land-use change ******************/
+        grid->lucy = g;
+		if(TEMP_GC != 0){
+			;
+		}else{
+			f_cult_luc(grid);
+		}
+		
 		/* historical change in fertilizer input: 2010/05/11 by A.Ito */
 		if(grid->rank_nat==1){
 			/* developing countries */
@@ -365,7 +366,8 @@ void cal_projection(
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
                  flux->nbp[f] -= (flux->voc_isopr_g97[f] + flux->voc_monotrp_g97[f] + flux->voc_methanl_g97[f] +
                     flux->voc_acetone_g97[f] + flux->voc_actaldhd_g97[f] + flux->voc_frmardhd_g97[f] +
-                    flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f])*10000.0/1000000.0/1000000.0;
+                    flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f] +
+                    flux->voc_afarnesene[f] + flux->voc_bcaryophyllene[f] + flux->voc_othersesqui[f])*10000.0/1000000.0/1000000.0;
             }
             
             if(NECB_CROP == 1){

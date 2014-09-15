@@ -729,8 +729,10 @@ void set_gcm_index(
 		case 3900:	strcpy(s_case,"GECM0_"); break;
 		case 3913:	strcpy(s_case,"GECM3S_"); break;
 
-		case 4201:	strcpy(s_case,"PLIP45_"); break;
-		case 4202:	strcpy(s_case,"PLIP85_"); break;
+		case 4011:	strcpy(s_case,"PLGF45_"); break;
+		case 4012:	strcpy(s_case,"PLGF85_"); break;
+		case 4021:	strcpy(s_case,"PLIP45_"); break;
+		case 4022:	strcpy(s_case,"PLIP85_"); break;
 
 		default:
 			strcpy(s_case,"STCLIM_"); 
