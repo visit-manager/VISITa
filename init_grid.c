@@ -889,12 +889,12 @@ void f_init_grid(
                 if(grid->fpast_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->fpast_unh_hmnzed[h-PIVOT_LUC] = 0.0;
                 }
-                fscanf(fp_s[61],"%lf", &ddummy);
+                fscanf(fp_s[61],"%lf", &ddummy); /* other */
                 fscanf(fp_s[62],"%lf", &grid->fsecd_unh_hmnzed[h-PIVOT_LUC]);
                 if(grid->fsecd_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->fsecd_unh_hmnzed[h-PIVOT_LUC] = 0.0;
                 }
-                fscanf(fp_s[63],"%lf", &ddummy);
+                fscanf(fp_s[63],"%lf", &ddummy); /* grass */
                 fscanf(fp_s[64],"%lf", &grid->fprim_unh_hmnzed[h-PIVOT_LUC]);
                 if(grid->fprim_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->fprim_unh_hmnzed[h-PIVOT_LUC] = 0.0;
@@ -902,46 +902,68 @@ void f_init_grid(
                 fscanf(fp_s[65],"%lf", &grid->t_cp_unh_hmnzed[h-PIVOT_LUC]);
                 if(grid->t_cp_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->t_cp_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }else{
+                    grid->t_cp_unh_hmnzed[h-PIVOT_LUC] *= 0.1;
                 }
                 fscanf(fp_s[66],"%lf", &grid->t_cs_unh_hmnzed[h-PIVOT_LUC]);
                 if(grid->t_cs_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->t_cs_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }else{
+                    grid->t_cs_unh_hmnzed[h-PIVOT_LUC] *= 0.1;
                 }
                 fscanf(fp_s[67],"%lf", &ddummy);
                 fscanf(fp_s[68],"%lf", &grid->t_pc_unh_hmnzed[h-PIVOT_LUC]);
                 if(grid->t_pc_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->t_pc_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }else{
+                    grid->t_pc_unh_hmnzed[h-PIVOT_LUC] *= 0.1;
                 }
                 fscanf(fp_s[69],"%lf", &grid->t_ps_unh_hmnzed[h-PIVOT_LUC]);
                 if(grid->t_ps_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->t_ps_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }else{
+                    grid->t_ps_unh_hmnzed[h-PIVOT_LUC] *= 0.1;
                 }
                 fscanf(fp_s[70],"%lf", &ddummy);
                 fscanf(fp_s[71],"%lf", &grid->t_sc_unh_hmnzed[h-PIVOT_LUC]);
                 if(grid->t_sc_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->t_sc_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }else{
+                    grid->t_sc_unh_hmnzed[h-PIVOT_LUC] *= 0.1;
                 }
                 fscanf(fp_s[72],"%lf", &grid->t_sp_unh_hmnzed[h-PIVOT_LUC]);
                 if(grid->t_sp_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->t_sp_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }else{
+                    grid->t_sp_unh_hmnzed[h-PIVOT_LUC] *= 0.1;
                 }
                 fscanf(fp_s[73],"%lf", &ddummy);
                 fscanf(fp_s[74],"%lf", &grid->t_vc_unh_hmnzed[h-PIVOT_LUC]);
                 if(grid->t_vc_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->t_vc_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }else{
+                    grid->t_vc_unh_hmnzed[h-PIVOT_LUC] *= 0.1;
                 }
                 fscanf(fp_s[75],"%lf", &grid->t_vp_unh_hmnzed[h-PIVOT_LUC]);
                 if(grid->t_vp_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->t_vp_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }else{
+                    grid->t_vp_unh_hmnzed[h-PIVOT_LUC] *= 0.1;
                 }
-                fscanf(fp_s[76],"%lf", &ddummy);
+                fscanf(fp_s[76],"%lf", &grid->t_vs1_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_vs1_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_vs1_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }else{
+                    grid->t_vs1_unh_hmnzed[h-PIVOT_LUC] *= 0.1;
+                }
                 fscanf(fp_s[77],"%lf", &ddummy);
-
-                grid->ssma_unh_hmnzed[h] = 0.0;
-                grid->ssmb_unh_hmnzed[h] = 0.0;
-                grid->t_ss1_unh_hmnzed[h] = 0.0;
-                grid->t_ss2_unh_hmnzed[h] = 0.0;
-                grid->t_ss3_unh_hmnzed[h] = 0.0;
+                
+                grid->t_vs2_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->ssma_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->ssmb_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->t_ss1_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->t_ss2_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->t_ss3_unh_hmnzed[h-PIVOT_LUC] = 0.0;
             }
         }
         

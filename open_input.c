@@ -1367,8 +1367,8 @@ void open_input(
             printf("No luc_pasture_ssp2_2001-2100.txt\n");
             exit(1); 
         }
-        if( (fp_s[61]=fopen("./data/luc_other_ssp1_2001-2100.txt","rt"))==NULL ){
-            printf("No luc_other_ssp1_2001-2100.txt\n");
+        if( (fp_s[61]=fopen("./data/luc_other_ssp2_2001-2100.txt","rt"))==NULL ){
+            printf("No luc_other_ssp2_2001-2100.txt\n");
             exit(1); 
         }
         if( (fp_s[62]=fopen("./data/luc_mf_ssp2_2001-2100.txt","rt"))==NULL ){
@@ -1487,8 +1487,8 @@ void open_input(
             printf("No luc_p2u_ssp3_2001-2100.txt\n");
             exit(1); 
         }
-        if( (fp_s[71]=fopen("./data/luc_s2c_ssp1_2001-2100.txt","rt"))==NULL ){
-            printf("No luc_s2c_ssp1_2001-2100.txt\n");
+        if( (fp_s[71]=fopen("./data/luc_s2c_ssp3_2001-2100.txt","rt"))==NULL ){
+            printf("No luc_s2c_ssp3_2001-2100.txt\n");
             exit(1); 
         }
         if( (fp_s[72]=fopen("./data/luc_s2p_ssp3_2001-2100.txt","rt"))==NULL ){
