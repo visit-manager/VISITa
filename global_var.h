@@ -102,7 +102,7 @@ double h_voc_acetone_g97[PD_SIM], h_voc_actaldhd_g97[PD_SIM], h_voc_frmardhd_g97
 double h_voc_formacd_g97[PD_SIM], h_voc_acetacd_g97[PD_SIM], h_voc_co_g97[PD_SIM];
 double h_voc_afarnesene[PD_SIM], h_voc_bcaryophyllene[PD_SIM], h_voc_othersesqui[PD_SIM];
 
-double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM];
+double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM], h_deforest[PD_SIM];
 
 double ci_aco2[PD_SIM], ci_aco2_d13c[PD_SIM], ci_aco2_d14c[PD_SIM];
 double ci_gpp[PD_SIM], ci_gpp_d13c[PD_SIM], ci_gpp_d14c[PD_SIM];

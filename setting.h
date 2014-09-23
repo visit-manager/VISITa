@@ -90,6 +90,8 @@
     #define DL_AGHG 553 /* default */
 #endif
 
+#define BGY_AGHG 1765
+
 /***********************************************************/
 /* simulation framework duration (years) */
 #define PD_SIM 201	
