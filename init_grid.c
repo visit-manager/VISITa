@@ -808,31 +808,7 @@ void f_init_grid(
             fscanf(fp_s[44],"%lf", &ddummy);
         }
     
-	}else{
-		for(h=0;h<DL_LUH;h++){
-			grid->fcrop_unh_hmnzed[h] = 0.0;
-			grid->fpast_unh_hmnzed[h] = 0.0;
-			grid->fprim_unh_hmnzed[h] = 0.0;
-			grid->fsecd_unh_hmnzed[h] = 0.0;
-			grid->ssma_unh_hmnzed[h] = 0.0;
-			grid->ssmb_unh_hmnzed[h] = 0.0;
-            grid->t_cp_unh_hmnzed[h] = 0.0;
-            grid->t_cs_unh_hmnzed[h] = 0.0;
-            grid->t_pc_unh_hmnzed[h] = 0.0;
-            grid->t_ps_unh_hmnzed[h] = 0.0;
-            grid->t_sc_unh_hmnzed[h] = 0.0;
-            grid->t_sp_unh_hmnzed[h] = 0.0;
-            grid->t_ss1_unh_hmnzed[h] = 0.0;
-            grid->t_ss2_unh_hmnzed[h] = 0.0;
-            grid->t_ss3_unh_hmnzed[h] = 0.0;
-            grid->t_vc_unh_hmnzed[h] = 0.0;
-            grid->t_vp_unh_hmnzed[h] = 0.0;
-            grid->t_vs1_unh_hmnzed[h] = 0.0;
-            grid->t_vs2_unh_hmnzed[h] = 0.0;
-		}
-	}
-    
-    if(LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
+	}else if(LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
     
         for(h=2001;h<=2004;h++){
             fscanf(fp_s[59],"%lf", &ddummy);
@@ -889,12 +865,12 @@ void f_init_grid(
                 if(grid->fpast_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->fpast_unh_hmnzed[h-PIVOT_LUC] = 0.0;
                 }
-                fscanf(fp_s[61],"%lf", &ddummy);
+                fscanf(fp_s[61],"%lf", &ddummy); /* other */
                 fscanf(fp_s[62],"%lf", &grid->fsecd_unh_hmnzed[h-PIVOT_LUC]);
                 if(grid->fsecd_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->fsecd_unh_hmnzed[h-PIVOT_LUC] = 0.0;
                 }
-                fscanf(fp_s[63],"%lf", &ddummy);
+                fscanf(fp_s[63],"%lf", &ddummy); /* grass */
                 fscanf(fp_s[64],"%lf", &grid->fprim_unh_hmnzed[h-PIVOT_LUC]);
                 if(grid->fprim_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->fprim_unh_hmnzed[h-PIVOT_LUC] = 0.0;
@@ -934,14 +910,18 @@ void f_init_grid(
                 if(grid->t_vp_unh_hmnzed[h-PIVOT_LUC] < 0.0){
                     grid->t_vp_unh_hmnzed[h-PIVOT_LUC] = 0.0;
                 }
-                fscanf(fp_s[76],"%lf", &ddummy);
+                fscanf(fp_s[76],"%lf", &grid->t_vs1_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_vs1_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_vs1_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
                 fscanf(fp_s[77],"%lf", &ddummy);
-
-                grid->ssma_unh_hmnzed[h] = 0.0;
-                grid->ssmb_unh_hmnzed[h] = 0.0;
-                grid->t_ss1_unh_hmnzed[h] = 0.0;
-                grid->t_ss2_unh_hmnzed[h] = 0.0;
-                grid->t_ss3_unh_hmnzed[h] = 0.0;
+                
+                grid->t_vs2_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->ssma_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->ssmb_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->t_ss1_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->t_ss2_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->t_ss3_unh_hmnzed[h-PIVOT_LUC] = 0.0;
             }
         }
         
@@ -965,7 +945,29 @@ void f_init_grid(
         fscanf(fp_s[42],"%lf", &ddummy);
         fscanf(fp_s[43],"%lf", &ddummy);
         fscanf(fp_s[44],"%lf", &ddummy);
-    }
+    }else{
+		for(h=0;h<DL_LUH;h++){
+			grid->fcrop_unh_hmnzed[h] = 0.0;
+			grid->fpast_unh_hmnzed[h] = 0.0;
+			grid->fprim_unh_hmnzed[h] = 0.0;
+			grid->fsecd_unh_hmnzed[h] = 0.0;
+			grid->ssma_unh_hmnzed[h] = 0.0;
+			grid->ssmb_unh_hmnzed[h] = 0.0;
+            grid->t_cp_unh_hmnzed[h] = 0.0;
+            grid->t_cs_unh_hmnzed[h] = 0.0;
+            grid->t_pc_unh_hmnzed[h] = 0.0;
+            grid->t_ps_unh_hmnzed[h] = 0.0;
+            grid->t_sc_unh_hmnzed[h] = 0.0;
+            grid->t_sp_unh_hmnzed[h] = 0.0;
+            grid->t_ss1_unh_hmnzed[h] = 0.0;
+            grid->t_ss2_unh_hmnzed[h] = 0.0;
+            grid->t_ss3_unh_hmnzed[h] = 0.0;
+            grid->t_vc_unh_hmnzed[h] = 0.0;
+            grid->t_vp_unh_hmnzed[h] = 0.0;
+            grid->t_vs1_unh_hmnzed[h] = 0.0;
+            grid->t_vs2_unh_hmnzed[h] = 0.0;
+		}
+	}
 	
 	/* wood harvest based on RCP-harmonized data: LUHa.v1 */
 	/* added by A.Ito (2010/10/15) */

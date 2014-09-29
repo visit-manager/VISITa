@@ -64,7 +64,10 @@ void cal_spinup(
 	}else if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - PIVOT_LUC];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - PIVOT_LUC];
-	}
+	}else if(LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
+		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - PIVOT_LUC];
+		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - PIVOT_LUC];
+    }
 	
     /* historical fertilizer */
 	if(grid->rank_nat==1){
@@ -350,7 +353,8 @@ void cal_spinup(
 	if((mass->c3).v_type == 1 && NECB_WHVST == 1){
         /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
         
-        if(LANDUSE ==9 || LANDUSE ==10 || LANDUSE ==11 || LANDUSE ==12 || LANDUSE ==13){
+        if(LANDUSE ==9 || LANDUSE ==10 || LANDUSE ==11 || LANDUSE ==12 || LANDUSE ==13
+                    || LANDUSE ==14 || LANDUSE ==15 || LANDUSE ==16){
             dyr = 1900 - PIVOT_LUC;
         }else{
             dyr = 1900 - PIVOT_LUC;

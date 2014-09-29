@@ -90,6 +90,8 @@
     #define DL_AGHG 553 /* default */
 #endif
 
+#define BGY_AGHG 1765
+
 /***********************************************************/
 /* simulation framework duration (years) */
 #define PD_SIM 201	
@@ -743,5 +745,8 @@
 /* 3913: CCSM4 G3S */
 
 /** PLUME: 2014/07/31 by A.Ito ***********/
-/* 4201: IPSL RCP 4.5 */
-/* 4202: IPSL RCP 8.5 */
+/* 4011: GFDL RCP 4.5 */
+/* 4012: GFDL RCP 8.5 */
+
+/* 4021: IPSL RCP 4.5 */
+/* 4022: IPSL RCP 8.5 */
