@@ -682,6 +682,19 @@ void f_output_result(
             fprintf(fp_o[8],"%.3lf ", (flux->soil).rl[f]);
             fprintf(fp_o[8],"%.3lf ", (flux->soil).rh[f]);
             fprintf(fp_o[8],"%.3lf ", (flux->soil).sf[f]);
+            
+            /* additional data for PLUME: 2014/10/09 by A.Ito */
+            if(ISIMIP_RUN == 2){
+                fprintf(fp_o[8],"%.3lf ", (flux->plant).epp[f]);
+                
+                fprintf(fp_o[8],"%.6lf ", (echar->soil).rl/1000.0);
+                fprintf(fp_o[8],"%.6lf ", (echar->soil).ft_l[f]);
+                fprintf(fp_o[8],"%.6lf ", (echar->soil).fm_l[f]);
+                
+                fprintf(fp_o[8],"%.6lf ", (echar->soil).rh/1000.0);
+                fprintf(fp_o[8],"%.6lf ", (echar->soil).ft_h[f]);
+                fprintf(fp_o[8],"%.6lf ", (echar->soil).fm_h[f]);
+            }
         }
         fprintf(fp_o[8],"\n");
     }

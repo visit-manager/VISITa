@@ -497,24 +497,6 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 4201: case 4202:
-                if( (fp_c[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
-                    printf("No tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
-                    exit(1); 
-                }
-                if( (fp_c[1]=fopen("./data/pr_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
-                    printf("No pr_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
-                    exit(1); 
-                }
-                if( (fp_c[2]=fopen("./data/hurs_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
-                    printf("No hurs_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
-                    exit(1); 
-                }
-                if( (fp_c[3]=fopen("./data/rsds_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
-                    printf("No rsds_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
-                    exit(1); 
-                }
-                break;
             default:
                 printf("No ISI-MIP scenario\n");
                 exit(1);
@@ -540,7 +522,7 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 4021: case 4022:
+            case 4021: case 4022: case 4023: case 4024:
                 if( (fp_c[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
                     printf("No tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
                     exit(1); 
@@ -1604,7 +1586,8 @@ void open_input(
     /* ISI-MIP: 2012/06/27 by A.Ito ***********************************/
     /* assumption: SRES data were used, instead of RCP data */
     if(GCM==2001 || GCM==2011 || GCM==2021 || GCM==2031 || GCM==2041
-        || GCM==2005 || GCM==2015 || GCM==2025 || GCM==2035 || GCM==2045){
+        || GCM==2005 || GCM==2015 || GCM==2025 || GCM==2035 || GCM==2045
+        || GCM==4023){
         CO2S = 1; /* RCP2.6 */
         /**/
         if((fp_s[23]=fopen("./data/image_b1_fcrop.dat","rt"))==NULL){
@@ -1633,7 +1616,8 @@ void open_input(
 		}
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
     }else if(GCM==2004 || GCM==2014 || GCM==2024 || GCM==2034 || GCM==2044
-        || GCM==2008 || GCM==2018 || GCM==2028 || GCM==2038 || GCM==2048){
+        || GCM==2008 || GCM==2018 || GCM==2028 || GCM==2038 || GCM==2048
+        || GCM==4024){
         CO2S = 3; /* RCP6.0 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){

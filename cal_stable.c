@@ -86,6 +86,13 @@ void cal_spinup(
 	while(ann_nep > TER_CON){ /*** acnep>TER_CON nn<10 ***/
 		grid->y = nn;
 				
+        /* for considering leap years: 2014/09/29 by A.Ito */
+        if(grid->y%4 == 0){
+            MDN[1] = 29.0;
+        }else{
+            MDN[1] = 28.0;
+        }
+			
         if(ISIMIP_RUN == 1 && grid->flag_histdata == 1){
             ann_nep = 10.0;
             grid->climy = grid->lucy = nn%30 +1951;
@@ -100,7 +107,7 @@ void cal_spinup(
 		plantmass = ann_nep = 0.0;
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;
-			
+            
 			/* initialize GHG fluxes ************/
 			ghg_flux_zero(f, flux);
 			

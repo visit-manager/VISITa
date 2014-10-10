@@ -79,6 +79,13 @@ void cal_projection(
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
 		}
 				
+        /* for considering leap years: 2014/09/29 by A.Ito */
+        if(grid->climy%4 == 0){
+            MDN[1] = 29.0;
+        }else{
+            MDN[1] = 28.0;
+        }
+
 		/* monthly loop *************************************/
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;

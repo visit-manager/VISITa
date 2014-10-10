@@ -997,6 +997,16 @@ void read_gcm_clim(
 		if( (fp_c2[1]=fopen("./data/pr_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No pr_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/hurs_ipsl-cm5a-lr_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No hurs_ipsl-cm5a-lr_rcp8p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No rsds_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt\n");  exit(1); }
+	}else if(GCM==4022){  /*  PLUME: IPSL-CM5A-LR RCP2.6  */
+		if( (fp_c2[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_rcp2p6_2006-2099.flt","rt"))==NULL ){  printf("No tas_bced_1960_1999_ipsl-cm5a-lr_rcp2p6_2006-2099.flt\n");  exit(1); }
+		if( (fp_c2[1]=fopen("./data/pr_bced_1960_1999_ipsl-cm5a-lr_rcp2p6_2006-2099.flt","rt"))==NULL ){  printf("No pr_bced_1960_1999_ipsl-cm5a-lr_rcp2p6_2006-2099.flt\n");  exit(1); }
+		if( (fp_c2[2]=fopen("./data/hurs_ipsl-cm5a-lr_rcp2p6_2006-2099.flt","rt"))==NULL ){  printf("No hurs_ipsl-cm5a-lr_rcp2p6_2006-2099.flt\n");  exit(1); }
+		if( (fp_c2[3]=fopen("./data/rsds_bced_1960_1999_ipsl-cm5a-lr_rcp2p6_2006-2099.flt","rt"))==NULL ){  printf("No rsds_bced_1960_1999_ipsl-cm5a-lr_rcp2p6_2006-2099.flt\n");  exit(1); }
+	}else if(GCM==4022){  /*  PLUME: IPSL-CM5A-LR RCP6.0  */
+		if( (fp_c2[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_rcp6p0_2006-2099.flt","rt"))==NULL ){  printf("No tas_bced_1960_1999_ipsl-cm5a-lr_rcp6p0_2006-2099.flt\n");  exit(1); }
+		if( (fp_c2[1]=fopen("./data/pr_bced_1960_1999_ipsl-cm5a-lr_rcp6p0_2006-2099.flt","rt"))==NULL ){  printf("No pr_bced_1960_1999_ipsl-cm5a-lr_rcp6p0_2006-2099.flt\n");  exit(1); }
+		if( (fp_c2[2]=fopen("./data/hurs_ipsl-cm5a-lr_rcp6p0_2006-2099.flt","rt"))==NULL ){  printf("No hurs_ipsl-cm5a-lr_rcp6p0_2006-2099.flt\n");  exit(1); }
+		if( (fp_c2[3]=fopen("./data/rsds_bced_1960_1999_ipsl-cm5a-lr_rcp6p0_2006-2099.flt","rt"))==NULL ){  printf("No rsds_bced_1960_1999_ipsl-cm5a-lr_rcp6p0_2006-2099.flt\n");  exit(1); }
 	}
 	
 	if(GCM >= 1 && GCM <=3999){

@@ -40,6 +40,13 @@ void cal_historical(
 		/* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
         
+        /* for considering leap years: 2014/09/29 by A.Ito */
+        if(grid->climy%4 == 0){
+            MDN[1] = 29.0;
+        }else{
+            MDN[1] = 28.0;
+        }
+
 		if(grid->flag_histdata == 1){
             /* set climate variables  */
 			set_hist_clim(grid);
