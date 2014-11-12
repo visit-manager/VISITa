@@ -211,6 +211,10 @@ void f_set_history_data(
 		h_voc_formacd_g97[year] += fweight * flux->voc_formacd_g97[f] * grid->area *10000.0/1000000.0;
 		h_voc_acetacd_g97[year] += fweight * flux->voc_acetacd_g97[f] * grid->area *10000.0/1000000.0;
 		h_voc_co_g97[year] += fweight * flux->voc_co_g97[f] * grid->area *10000.0/1000000.0;
+        /* added 2014/09/ */
+		h_voc_afarnesene[year] += fweight * flux->voc_afarnesene[f] * grid->area *10000.0/1000000.0;
+		h_voc_bcaryophyllene[year] += fweight * flux->voc_bcaryophyllene[f] * grid->area *10000.0/1000000.0;
+		h_voc_othersesqui[year] += fweight * flux->voc_othersesqui[f] * grid->area *10000.0/1000000.0;
 		
 		/* d13c & d14c : added by A.Ito (2009/07/15) ***************/
 		ci_aco2_d13c[year] = d13c_addition(loct->d13c_aco2[f],loct->aco2[f]*grid->area 
@@ -417,6 +421,8 @@ void f_set_history_data(
 		h_hvst_wood[year] += flux->hvst_wood * grid->area;
         
         h_wetarea[year] += grid->f_wetland * grid->area;
+
+        h_deforest[year] += grid->area * grid->f_deforest;
 	}
 	if(loct->v_type == 2){
 		h_agrersn_c[year] += fweight * grid->area * flux->erod_carbon;
@@ -558,6 +564,12 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_pard[h]); /* added by A.Ito (2013/12/24) */
 
 		fprintf(fp_glsum,"%lf ", h_arm[h]); /* added by A.Ito (2014/02/14) */
+
+		fprintf(fp_glsum,"%lf ", h_voc_afarnesene[h]); /* added 2014/9/11 by A.Ito */
+		fprintf(fp_glsum,"%lf ", h_voc_bcaryophyllene[h]);
+		fprintf(fp_glsum,"%lf ", h_voc_othersesqui[h]);
+
+		fprintf(fp_glsum,"%lf ", h_deforest[h]); /* added by A.Ito (2014/09/22) */
 
 		fprintf(fp_glsum,"\n");
 	}

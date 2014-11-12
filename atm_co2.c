@@ -26,7 +26,7 @@ void f_co2_trend(
 	
 	/** BASE **/
     if(ISIMIP_RUN == 0 && GEOMIP_RUN == 0){
-        if(time<1990.0){
+        if(time < 1990.0){
             /* fitting curve from observational data */
             aa0 = 1904299.0;
             aa1 = -3322.4242 * pow(time, 1.0);
@@ -54,16 +54,16 @@ void f_co2_trend(
             
         switch(CO2S){
             case 1:
-                base = aco2_b1[grid->co2y - 1765];
+                base = aco2_b1[grid->co2y - BGY_AGHG];
                 break;
             case 2:
-                base = aco2_b2[grid->co2y - 1765]; /* corrected: 2012/08/06 */
+                base = aco2_b2[grid->co2y - BGY_AGHG]; /* corrected: 2012/08/06 */
                 break;
             case 3:
-                base = aco2_a1[grid->co2y - 1765]; /* corrected: 2012/08/06 */
+                base = aco2_a1[grid->co2y - BGY_AGHG]; /* corrected: 2012/08/06 */
                 break;
             case 4:
-                base = aco2_a2[grid->co2y - 1765]; /* corrected: 2012/08/06 */
+                base = aco2_a2[grid->co2y - BGY_AGHG]; /* corrected: 2012/08/06 */
                 break;
         }
     }
@@ -74,22 +74,27 @@ void f_co2_trend(
         
             switch(CO2S){
                 case 1:
-                    base = aco2_b1[grid->co2y - 1765 - (long)((grid->co2y-2020)/5)];
+                    base = aco2_b1[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
                 case 2:
-                    base = aco2_b2[grid->co2y - 1765 - (long)((grid->co2y-2020)/5)];
+                    base = aco2_b2[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
                 case 3:
-                    base = aco2_a1[grid->co2y - 1765 - (long)((grid->co2y-2020)/5)];
+                    base = aco2_a1[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
                 case 4:
-                    base = aco2_a2[grid->co2y - 1765 - (long)((grid->co2y-2020)/5)];
+                    base = aco2_a2[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
             }
         }
     }
-		
-
+    
+    if(GEOMIP_RUN == 1 && CC_CD == 4){
+        /* cap at 450ppmv CO2: guardrail for ocean acidification */
+        if(base > 450.0){
+            base = 450.0;
+        }
+    }
 
 	/** latitudinal gradient **/
 	lgrd = 1.6*(grid->lat / 85.0);

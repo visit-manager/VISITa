@@ -64,7 +64,10 @@ void cal_spinup(
 	}else if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - PIVOT_LUC];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - PIVOT_LUC];
-	}
+	}else if(LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
+		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - PIVOT_LUC];
+		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - PIVOT_LUC];
+    }
 	
     /* historical fertilizer */
 	if(grid->rank_nat==1){
@@ -83,22 +86,29 @@ void cal_spinup(
 	while(ann_nep > TER_CON){ /*** acnep>TER_CON nn<10 ***/
 		grid->y = nn;
 				
+        /* for considering leap years: 2014/09/29 by A.Ito */
+        if(grid->y%4 == 0){
+            MDN[1] = 29.0;
+        }else{
+            MDN[1] = 28.0;
+        }
+			
         if(ISIMIP_RUN == 1 && grid->flag_histdata == 1){
             ann_nep = 10.0;
-            grid->climy = nn%30 +1951;
+            grid->climy = grid->lucy = nn%30 +1951;
 			set_hist_clim(grid);
 		}else if(ISIMIP_RUN == 2 && grid->flag_histdata == 1){
             /* PLUME: 2014/07/31 by A.Ito */
             ann_nep = 10.0;
-            grid->climy = nn%30 +1901;
+            grid->climy = grid->lucy = nn%30 +1901;
 			set_hist_clim(grid);
         }
 		
 		plantmass = ann_nep = 0.0;
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;
-			
-			/* initialize N fluxes ************/
+            
+			/* initialize GHG fluxes ************/
 			ghg_flux_zero(f, flux);
 			
 			/* atmospheric CO2 ****************/
@@ -350,7 +360,8 @@ void cal_spinup(
 	if((mass->c3).v_type == 1 && NECB_WHVST == 1){
         /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
         
-        if(LANDUSE ==9 || LANDUSE ==10 || LANDUSE ==11 || LANDUSE ==12 || LANDUSE ==13){
+        if(LANDUSE ==9 || LANDUSE ==10 || LANDUSE ==11 || LANDUSE ==12 || LANDUSE ==13
+                    || LANDUSE ==14 || LANDUSE ==15 || LANDUSE ==16){
             dyr = 1900 - PIVOT_LUC;
         }else{
             dyr = 1900 - PIVOT_LUC;
@@ -439,7 +450,8 @@ void cal_spinup(
         
             flux->nbp[f] -= (flux->voc_isopr_g97[f] + flux->voc_monotrp_g97[f] + flux->voc_methanl_g97[f] +
                     flux->voc_acetone_g97[f] + flux->voc_actaldhd_g97[f] + flux->voc_frmardhd_g97[f] +
-                    flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f])*10000.0/1000000.0/1000000.0;
+                    flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f] +
+                    flux->voc_afarnesene[f] + flux->voc_bcaryophyllene[f] + flux->voc_othersesqui[f])*10000.0/1000000.0/1000000.0;
         }
         
         if(NECB_CROP == 1){

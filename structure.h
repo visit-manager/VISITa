@@ -67,6 +67,8 @@ struct Grid{
 
 	/* climate condition: *[] means the transitional value */
 	long 	climy;					/* year of climate data */
+    
+    long    lucy;                   /* year of land-use data: 2014/09/11 by A.Ito */
 	
 	double 	tmp_sfc[ASTEP];			/* ground surface temperature, degree Celcius */
 	double 	tmp_2m[ASTEP];			/* 2m air temperature, degree Celcius */
@@ -992,6 +994,10 @@ struct Flux{
 	double	voc_formacd_g97[ASTEP];				/* formacid */
 	double	voc_acetacd_g97[ASTEP];				/* acetoacid */
 	double	voc_co_g97[ASTEP];					/* CO */
+    /* added 2014/09/11 by A.Ito */
+	double	voc_afarnesene[ASTEP];			/* alpha-Farnesene */
+	double	voc_bcaryophyllene[ASTEP];		/* beta-Caryophyllene */
+	double	voc_othersesqui[ASTEP];			/* other sesquiterpenes */
 	
 	/* stable carbon isotope composition, d13C, permille */
 	double	d13c_nep[ASTEP];					/* NEP */

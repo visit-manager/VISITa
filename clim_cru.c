@@ -97,7 +97,7 @@ void read_cru_clim(
         /*  printf("********* %ld\n",cru_flag);  */
         
         /* if valid CRU climate data are all available **/
-        if(flag==4){
+        if(flag == 4){
             /* data available */
             grid->flag_histdata = 1;
             alt = (grid->topo>=0.0)?grid->topo:0.0; 
@@ -320,7 +320,7 @@ void read_cru_clim(
             for(g=0;g<ASTEP;g++){
                 for(h=0;h<GCM_R;h++){
                     for(i=0;i<GCM_C;i++){
-                        if(f==0){
+                        if(f == 0){
                             grid->proj_tmp2m_b[g][h][i] = 0.0;
                             grid->proj_prec_b[g][h][i] = 0.0;
                             grid->proj_hum_b[g][h][i] = 0.0;

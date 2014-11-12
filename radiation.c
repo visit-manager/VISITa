@@ -75,8 +75,8 @@ double f_top_rad(
 	ge = 2.0 * PI / 365.0*doy[grid->m];
 	
 	aa = -0.399912*cos(ge) + 0.070257*sin(ge);
-	bb = -0.006758*cos(2.0*ge)+0.000907*sin(2.0*ge);
-	cc = -0.002697*cos(3.0*ge)+0.00148*sin(3.0*ge);
+	bb = -0.006758*cos(2.0*ge) + 0.000907*sin(2.0*ge);
+	cc = -0.002697*cos(3.0*ge) + 0.00148*sin(3.0*ge);
 	dlt = (0.006918 + aa + bb + cc);
 	
 	/** relative distance between the sun and the earth **/
@@ -104,7 +104,7 @@ double f_top_rad(
     
     /* experiment for SRM by reflector */
     /* added: 2014/07/06 by A.Ito     */
-    if(GCM==3313 || GCM==3913){
+    if(GCM == 3313 || GCM == 3913){
         if(grid->climy >= 2020){
             gg -= ((double)grid->climy-2020.0) * 4.5/50.0;
         }

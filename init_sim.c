@@ -229,11 +229,12 @@ void f_init_sim(
 		h_nh3_emit_agr[f] = 0.0;
 		h_no3_leach[f] = 0.0;
 		h_n_fertin[f] = h_n_depoin[f] = 0.0;
-		h_hvst_wood[f] = h_wetarea[f] = 0.0;
+		h_hvst_wood[f] = h_wetarea[f] = h_deforest[f] = 0.0;
 
 		h_voc_isopr_g97[f] = h_voc_monotrp_g97[f] = h_voc_methanl_g97[f] = 0.0;
 		h_voc_acetone_g97[f] = h_voc_actaldhd_g97[f] = h_voc_frmardhd_g97[f] = 0.0;
 		h_voc_formacd_g97[f] = h_voc_acetacd_g97[f] = h_voc_co_g97[f] = 0.0;
+		h_voc_afarnesene[f] = h_voc_bcaryophyllene[f] = h_voc_othersesqui[f] = 0.0;
 		
 		ci_aco2[f] = ci_aco2_d13c[f] = ci_aco2_d14c[f] = 0.0;
 		ci_gpp[f] = ci_gpp_d13c[f] = ci_gpp_d14c[f] = 0.0;
