@@ -229,6 +229,26 @@
 /* crop harvest */
 #define NECB_CROP 1
 
+/* climate change ********************************/
+/* 0:off   1:on */
+/* temperature */
+#define CC_T 1
+/* aboveground temperature */
+#define CC_T_A 1
+/* belowground temperature */
+#define CC_T_B 1
+/* precipitation */
+#define CC_P 1
+/* humidity */
+#define CC_H 1
+/* constant future CO2 level */
+#define CC_CD 1
+/* 1: actual CO2 rise */
+/* 2: no CO2 rise */
+/* 3: fix CO2 after 2020 for GeoMIP runs */
+/* 4: 450ppmv cap */
+/* 5: fix at 2000 level */
+
 /***************************************************/
 /* land use change setting ***********/
 #define LANDUSE 10
@@ -456,26 +476,6 @@
 /* 5: +10% Albedo */
 /* 6: +10% WHC30/WHC */
 /* 7: fixed LAI (1990s av) in 2000-2100 */
-
-/* climate change ********************************/
-/* 0:off   1:on */
-/* temperature */
-#define CC_T 1
-/* aboveground temperature */
-#define CC_T_A 1
-/* belowground temperature */
-#define CC_T_B 1
-/* precipitation */
-#define CC_P 1
-/* humidity */
-#define CC_H 1
-/* constant future CO2 level */
-#define CC_CD 1
-/* 1: actual CO2 rise */
-/* 2: no CO2 rise */
-/* 3: fix CO2 after 2020 for GeoMIP runs */
-/* 4: 450ppmv cap */
-/* 5: fix at 2000 level */
 
 /****************************************************/
 /* 0: no GCM */
