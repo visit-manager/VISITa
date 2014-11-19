@@ -494,6 +494,28 @@ void f_ch4_emit_walter(
 	}else if(EX_CH4_2 == 2){
 		q10_ch4prod = 9.0;
 	}
+    
+    /* parameter ensemble: 2014/11/19 by A.Ito */
+    if(PARAM_PTB == 5){
+        if(PARAM_ENS==1){
+            r0 *= 0.7;
+        }
+        if(PARAM_ENS==2){
+            r0 *= 0.8;
+        }
+        if(PARAM_ENS==3){
+            r0 *= 0.9;
+        }
+        if(PARAM_ENS==4){
+            r0 *= 1.1;
+        }
+        if(PARAM_PTB==5){
+            r0 *= 1.2;
+        }
+        if(PARAM_PTB==6){
+            r0 *= 1.3;
+        }
+    }
 		
 	release = 0.0;
 	for(g=1;g<=cumtime;g++){ 

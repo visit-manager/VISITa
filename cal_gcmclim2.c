@@ -24,7 +24,7 @@ void cal_projection(
 	FILE *fp_o[OFILEN]
 ){
 	long f, g, simyr, dyr;
-	double rl_a, f_fert, total_hvst, f_nat, iweight, iweight3, avc3;
+	double rl_a, f_fert, total_hvst, f_nat, iweight, iweight3, avc3, prm_ensen;
 	
 	/* phase: prediction */
 	grid->phase = 2; 
@@ -303,8 +303,31 @@ void cal_projection(
 			
 			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
 						+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr];
+            
+            /* parameter ensemble: 2014/11/19 by A.Ito */
+            prm_ensen = 1.0;
+            if(PARAM_PTB == 9){
+                if(PARAM_ENS==1){
+                    prm_ensen *= 0.7;
+                }
+                if(PARAM_ENS==2){
+                    prm_ensen *= 0.8;
+                }
+                if(PARAM_ENS==3){
+                    prm_ensen *= 0.9;
+                }
+                if(PARAM_ENS==4){
+                    prm_ensen *= 1.1;
+                }
+                if(PARAM_ENS==5){
+                    prm_ensen *= 1.2;
+                }
+                if(PARAM_ENS==6){
+                    prm_ensen *= 1.3;
+                }
+            }
 			
-			total_hvst *= 1.0/1000.0 * 1.0/grid->area;
+			total_hvst *= 1.0/1000.0 * 1.0/grid->area * prm_ensen;
 			
 			if((mass->c3).stm > (total_hvst + INT_C)){
         

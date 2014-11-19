@@ -299,7 +299,7 @@ void read_cru_clim(
         }
         
         /* radiation => cloudiness, fraction */
-        fread(r_gcm_data,sizeof(float), ASTEP*DL_GCM, fp_c2[3]);
+        fread(r_gcm_data, sizeof(float), ASTEP*DL_GCM, fp_c2[3]);
         if(grid->flag_histdata == 1){
             for(h=0;h<DL_GCM;h++){
                 for(g=0;g<ASTEP;g++){

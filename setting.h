@@ -229,6 +229,9 @@
 /* crop harvest */
 #define NECB_CROP 1
 
+/* parameter ensemble *************************************/
+#define NPERT 20
+
 /* climate change ********************************/
 /* 0:off   1:on */
 /* temperature */
@@ -249,7 +252,7 @@
 /* 4: 450ppmv cap */
 /* 5: fix at 2000 level */
 
-/***************************************************/
+/*******************************************************/
 /* land use change setting ***********/
 #define LANDUSE 10
 /* 0: natural vegetation */
@@ -288,7 +291,7 @@
     #define BGY_LUC 1900
 #endif
 
-/***************************************************/
+/*******************************************************/
 /* setting for sensitivity experiments */
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
 #define EX_ALBEDO 0
@@ -303,7 +306,7 @@
 /* 0: off */
 /* 1: albedo-induced temperature change */
 
-/* ozone impacts: 2013/02/25 by A.Ito *************/
+/* ozone impacts: 2013/02/25 by A.Ito *****************/
 #define EX_OZONE 0
 /* 0: off */
 /* 1: on */
@@ -331,7 +334,7 @@
 /* 2: entire deforestation, replaced by 13 */
 /* 3: entire deforestation, replaced by 31 */
 
-/***************************************************/
+/*******************************************************/
 /* PAR conversion */
 #define D_PAR 1
 /* 0: constant conversion factor */
@@ -344,7 +347,7 @@
 #define DIF_SRB 1
 /* 0:off, 1:0 */
 
-/***************************************************/
+/*******************************************************/
 /* CH4 emission by Walter-Heimann scheme */
 #define CH4_WH 1
 /* 0:off, 1:0n */
@@ -382,7 +385,7 @@
 #define VAR_PFMWET 0
 /* 0:off, 1:0n */
 
-/***************************************************/
+/*******************************************************/
 /* parameter perturbation */
 /* climate perturbation */
 #define PRT_CLIM 0
@@ -405,6 +408,7 @@
 /* sensitivity run of N deposition */
 #define SENS_N 0
 /* 0:off, 1:0n */
+/* 2: CHASER4 data (preindustrial and present): 2014/11/19 by A.Ito */
 
 /********************************************************/
 /* sensitivity analysis *****************/

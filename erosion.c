@@ -33,7 +33,7 @@ void f_erosion(
 				1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 
 				1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
 			};
-	double c_factor_paddy, c_factor_upcrop, f_paddy, f_upcrop;
+	double c_factor_paddy, c_factor_upcrop, f_paddy, f_upcrop, prm_ensen;
 	extern double MDN[12];
 	
 	/* C and P factors for paddy field */
@@ -189,12 +189,35 @@ void f_erosion(
 	if(grid->f_erosion_p < 0.0){
 		grid->f_erosion_p = 0.0;
 	}
+    
+    /* parameter ensemble: 2014/11/19 by A.Ito */
+    prm_ensen = 1.0;
+    if(PARAM_PTB == 10){
+        if(PARAM_ENS==1){
+            prm_ensen *= 0.7;
+        }
+        if(PARAM_ENS==2){
+            prm_ensen *= 0.8;
+        }
+        if(PARAM_ENS==3){
+            prm_ensen *= 0.9;
+        }
+        if(PARAM_ENS==4){
+            prm_ensen *= 1.1;
+        }
+        if(PARAM_ENS==5){
+            prm_ensen *= 1.2;
+        }
+        if(PARAM_ENS==6){
+            prm_ensen *= 1.3;
+        }
+    }
 	
 	/* Erosion *************************************************************/
 	/* case natural: 2011/12/15 (A.Ito) */
 	if(loct->v_type == 1){
 		flux->erod_soil = grid->f_erosion_r * grid->f_erosion_k * grid->f_erosion_ls * 
-				grid->f_erosion_c * grid->f_erosion_p;  /* t/ha/yr */
+				grid->f_erosion_c * grid->f_erosion_p * prm_ensen;  /* t/ha/yr */
 		
 		if(flux->erod_soil<0.0){
 			flux->erod_soil = 0.0;
@@ -209,7 +232,7 @@ void f_erosion(
 	/* case cropland: 2011/12/15 (A.Ito) */
 	if(loct->v_type == 2){	
 		flux->erod_soil = grid->f_erosion_r * grid->f_erosion_k * grid->f_erosion_ls * 
-					grid->f_erosion_c * grid->f_erosion_p;  /* t/ha/yr */
+					grid->f_erosion_c * grid->f_erosion_p * prm_ensen;  /* t/ha/yr */
 		
 		if(flux->erod_soil < 0.0){
 			flux->erod_soil = 0.0;

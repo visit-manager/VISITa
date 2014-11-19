@@ -120,7 +120,12 @@ int main(
     /* note: no perturbation for PARAM_PTB<=0 */
 	fscanf(fp_setting,"%s %ld %ld", s_config, &l_config, &rpert);
 	printf("config  7: %s %ld %ld\n", s_config, l_config, rpert);
-    PARAM_PTB = l_config;
+    /* PARAM_PTB = l_config; */
+
+    PARAM_PTB = 0;
+    PARAM_PTB = (long)atol(argv[1]);
+    PARAM_ENS = 0;
+    PARAM_ENS = (long)atol(argv[2]);
     
     if(EX_ALBEDO == 1){
         srand((long)atol(argv[1]) + clock()%1000);
@@ -129,19 +134,14 @@ int main(
 		strcat(s_date, "E");
 		strcat(s_date, num);
 		strcat(s_date, "_");
-        for(f=0;f<20;f++){
+        for(f=0;f<NPERT;f++){
             f_pert[f] = 0.0;
         }
     }else{
-        if(PARAM_PTB == 1){
-            snprintf(num, 4, "%03d", (short)rpert);
-            strcat(s_date, "E");
-            strcat(s_date, num);
-            strcat(s_date, "_");
-            
+        if(PARAM_PTB >= 1){
             srand(rpert + clock()%1000);
             rand();
-            for(f=0;f<20;f++){
+            for(f=0;f<NPERT;f++){
                 f_pert[f] = 0.0;
                 for(g=0;g<12;g++){
                     f_pert[f] += (double)rand() / (double)RAND_MAX;
@@ -155,8 +155,26 @@ int main(
                     f_pert[f] = -3.0;
                 }
             }
+            strcat(s_date, "E");
+            switch(PARAM_PTB){
+                case 2: strcat(s_date, "02"); break;
+                case 3: strcat(s_date, "03"); break;
+                case 4: strcat(s_date, "04"); break;
+                case 5: strcat(s_date, "05"); break;
+                case 6: strcat(s_date, "06"); break;
+                case 7: strcat(s_date, "07"); break;
+                case 8: strcat(s_date, "08"); break;
+                case 9: strcat(s_date, "09"); break;
+                case 10: strcat(s_date, "10"); break;
+                case 11: strcat(s_date, "11"); break;
+                default: break;
+            }
+            strcat(s_date, "_");
+            snprintf(num, 4, "%03d", (short)PARAM_ENS);
+            strcat(s_date, num);
+            
         }else{
-            for(f=0;f<20;f++){
+            for(f=0;f<NPERT;f++){
                 f_pert[f] = 0.0;
             }
         }
@@ -181,17 +199,6 @@ int main(
 	printf("Open input files...");
 	open_input(fp_s, fp_c);	/* -> open_input.c */
 	printf("done\n");
-	
-	for(h=0;h<64;h++){
-		for(g=0;g<128;g++){
-			for(f=0;f<12;f++){
-				fscanf(fp_s[52],"%lf", &grid.ndepo_chaser_dnhx[f][h][g]);
-				fscanf(fp_s[52],"%lf", &grid.ndepo_chaser_dnoy[f][h][g]);
-				fscanf(fp_s[52],"%lf", &grid.ndepo_chaser_wnhx[f][h][g]);
-				fscanf(fp_s[52],"%lf", &grid.ndepo_chaser_wnoy[f][h][g]);
-			}
-		}
-	}	
 	
 	/* open result file **************************************************/
 	printf("Create output binary file...");
@@ -240,6 +247,10 @@ int main(
 		printf("Reading GCM climate projection...");
 		read_gcm_clim(fp_c2, &grid);
 	}
+    
+    /* N deposition by CHASER: 2014/11/19 */
+    f_read_chaser_ndepo(fp_s, &grid);
+    
 	printf("done\n");
 	
 	/*************************************************************************/
@@ -312,7 +323,7 @@ int main(
 			}
 			
 			/* calculation for lands *******************************************/
-            if(flag_calc==1){
+            if(flag_calc == 1){
                 glat_area[f] += grid.area;  /* latitudinal */
                 
                 /* Olson map */

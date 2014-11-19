@@ -18,6 +18,8 @@
 void f_cult_luc(
 	struct Grid *grid
 ){
+    double prm_ensen;
+
 	if(LANDUSE == 0){
 		/* Natural condition *************/
 		grid->f_crop_con = 0.0;
@@ -206,6 +208,32 @@ void f_cult_luc(
                                 + grid->t_sp_unh_hmnzed[grid->lucy - PIVOT_LUC];
         }
 	}
+    
+    /* parameter ensemble: 2014/11/19 by A.Ito */
+    prm_ensen = 1.0;
+    if(PARAM_PTB == 7){
+        if(PARAM_PTB==1){
+            prm_ensen *= 0.7;
+        }
+        if(PARAM_PTB==2){
+            prm_ensen *= 0.8;
+        }
+        if(PARAM_PTB==3){
+            prm_ensen *= 0.9;
+        }
+        if(PARAM_PTB==4){
+            prm_ensen *= 1.1;
+        }
+        if(PARAM_PTB==5){
+            prm_ensen *= 1.2;
+        }
+        if(PARAM_PTB==6){
+            prm_ensen *= 1.3;
+        }
+        grid->f_deforest *= prm_ensen;
+        grid->f_deforest_v *= prm_ensen;
+        grid->f_deforest_s *= prm_ensen;
+    }
 	
 	/* abandonment */
 	if(grid->f_deforest < 0.0){

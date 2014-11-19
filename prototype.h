@@ -12,13 +12,13 @@
 #include"setting.h"
 
 /* #define IFILEN 59 */  /* normal case */
-#define IFILEN 85 /* */  /* normal case */
+#define IFILEN 87 /* */  /* normal case */
 #define OFILEN 9
 
 extern short DF97;
 extern double MDN[ASTEP];
 extern long GCM, CO2S, GCM_R, GCM_C;
-extern long PARAM_PTB; /* added by A.Ito (2010/05/10) */
+extern long PARAM_PTB, PARAM_ENS; /* added by A.Ito (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
 extern long EX_SRM;
 
@@ -213,6 +213,7 @@ void read_cru_clim(FILE *fp_c[4], FILE *fp_c2[4], struct Grid *grid);
 void f_cult_luc(struct Grid *grid);
 long f_basin_id_trip(long original);
 long region_giorgi(double lat, double lon);
+void f_read_chaser_ndepo(FILE *fp_s[IFILEN],struct Grid  *grid);
 
 void f_parameter_perturbation(long iseed,struct Grid *grid,struct Loct *loct,struct Echar *echar,
 	double f_prtrb[20]);

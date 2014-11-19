@@ -30,7 +30,7 @@ void f_doc_boyer(
 	struct Sflx *flux
 ){
 	double aa, kk;
-	double stemp, doc_est;
+	double stemp, doc_est, prm_ensen;
 	
 	aa = 0.11;
 	kk = 0.002;
@@ -51,9 +51,32 @@ void f_doc_boyer(
 		doc_est = 0.0;
 		flux->doc_boyer[grid->m] = 0.0;
 	}
+    
+    /* parameter ensemble: 2014/11/19 by A.Ito */
+    prm_ensen = 1.0;
+    if(PARAM_PTB == 11){
+        if(PARAM_ENS==1){
+            prm_ensen *= 0.7;
+        }
+        if(PARAM_ENS==2){
+            prm_ensen *= 0.8;
+        }
+        if(PARAM_ENS==3){
+            prm_ensen *= 0.9;
+        }
+        if(PARAM_ENS==4){
+            prm_ensen *= 1.1;
+        }
+        if(PARAM_ENS==5){
+            prm_ensen *= 1.2;
+        }
+        if(PARAM_ENS==6){
+            prm_ensen *= 1.3;
+        }
+    }
 	
 	/* DOC mass, mg/L */
-	mass->doc = doc_est;
+	mass->doc = doc_est * prm_ensen;
 	mass->doc_m[grid->m] = mass->doc;
 	
 	/* runoff DOC, mg/L -> gC/ha/month */

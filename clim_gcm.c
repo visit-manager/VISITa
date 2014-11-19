@@ -1117,3 +1117,44 @@ void read_gcm_clim(
 		}
 	}
 }
+
+/****************************************/
+void f_read_chaser_ndepo(
+    FILE *fp_s[IFILEN],
+	struct Grid  *grid
+){
+    long f,g,h;
+    
+	for(h=0;h<64;h++){
+		for(g=0;g<128;g++){
+			for(f=0;f<12;f++){
+				fscanf(fp_s[52],"%lf", &(grid->ndepo_chaser_dnhx[f][h][g]));
+				fscanf(fp_s[52],"%lf", &(grid->ndepo_chaser_dnoy[f][h][g]));
+				fscanf(fp_s[52],"%lf", &(grid->ndepo_chaser_wnhx[f][h][g]));
+				fscanf(fp_s[52],"%lf", &(grid->ndepo_chaser_wnoy[f][h][g]));
+			}
+            
+            /* preindustrial */
+            for(f=0;f<12;f++){
+                fscanf(fp_s[85],"%lf", &(grid->ndepo_chaser4_nhx_h[f][h][g]));
+            }
+            for(f=0;f<12;f++){
+                fscanf(fp_s[85],"%lf", &(grid->ndepo_chaser4_noy_h[f][h][g]));
+            }
+            for(f=0;f<12;f++){
+                fscanf(fp_s[85],"%lf", &(grid->ndepo_chaser4_ont_h[f][h][g]));
+            }
+            /* contemporary */
+            for(f=0;f<12;f++){
+                fscanf(fp_s[86],"%lf", &(grid->ndepo_chaser4_nhx_p[f][h][g]));
+            }
+            for(f=0;f<12;f++){
+                fscanf(fp_s[86],"%lf", &(grid->ndepo_chaser4_noy_p[f][h][g]));
+            }
+            for(f=0;f<12;f++){
+                fscanf(fp_s[86],"%lf", &(grid->ndepo_chaser4_ont_p[f][h][g]));
+            }
+		}
+	}	
+    
+}

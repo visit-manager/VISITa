@@ -695,10 +695,6 @@ void open_input(
 		printf("No soil_n_1m.dat\n");  
 		exit(1); 
 	}
-	if( (fp_s[25]=fopen("./data/N-deposition.dat","rt"))==NULL ){  
-		printf("No N-deposition.dat\n");  
-		exit(1); 
-	}
 	
 	/* Land use change: Hurtt et al. (2006) */
 	if(LANDUSE==6){
@@ -1675,9 +1671,23 @@ void open_input(
 		exit(1); 
 	}
 	
-	/* N deposition by CHASER */
+    /* N deposition **************************************************/
+	/* by Galloway & Dentener */
+    if( (fp_s[25]=fopen("./data/N-deposition.dat","rt"))==NULL ){
+		printf("No N-deposition.dat\n");  
+		exit(1); 
+	}
+	/* by CHASER */
 	if( (fp_s[52]=fopen("./data/chaser_ndepo_2001mon.txt","rt"))==NULL ){  
-		printf("No CHASER N deposition data\n");  
+		printf("No CHASER N deposition data: chaser_ndepo_2001mon.txt\n");
+		exit(1); 
+	}
+	if( (fp_s[85]=fopen("./data/CHASER_V4.0+HTAP2_preind-1851-1855.txt","rt"))==NULL ){
+		printf("No CHASER N deposition data: CHASER_V4.0+HTAP2_preind-1851-1855.txt\n");
+		exit(1); 
+	}
+	if( (fp_s[86]=fopen("./data/CHASER_V4.0+CCMI_REFC1SD_2006-2010.txt","rt"))==NULL ){
+		printf("No CHASER N deposition data: CHASER_V4.0+CCMI_REFC1SD_2006-2010.txt\n");
 		exit(1); 
 	}
 	

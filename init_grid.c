@@ -94,6 +94,9 @@ void f_init_grid(
 	double bulkdens, field_cap;
 	double x, xx, y, yy, xy;
 	
+    /* added: A. Ito (with Hamada-san's comment) 2012/01/30 */
+    grid->phase = 0;
+    
 	/* grid latitude and longitude ******************/
 	grid->lat = 89.75 - 0.5*(double)grid->row;
 	grid->lon = -179.75 + 0.5*(double)grid->col;
@@ -724,7 +727,8 @@ void f_init_grid(
 		grid->total_n_1m = 0.0;
 	}
 	
-	/* N deposition */
+	/* N deposition: Gallway & Dentener */
+    /* URL  daac.ornl.gov/CLIMATE/guides/global_N_deposition_maps.html */
 	fscanf(fp_s[25],"%lf", &lat); 
 	fscanf(fp_s[25],"%lf", &lon); 
 	fscanf(fp_s[25],"%lf", &grid->ndepo[0]); 
@@ -1169,7 +1173,7 @@ void f_init_grid(
 	 25: Land
 	*/
 	
-	/* CHASE 2001 monthly, by A.Ito (2010/05/21) ******************************/
+	/* CHASER 2001 monthly, by A.Ito (2010/05/21) ******************************/
 	grid->chaser_row = grid->row/(360.0/64.0);
 	if(grid->col >= 360){
 		grid->chaser_col = grid->col/(720.0/128.0) - 64;
@@ -1177,18 +1181,7 @@ void f_init_grid(
 		grid->chaser_col = grid->col/(720.0/128.0) + 64;
 	}
 		
-	grid->ndepo_ann_dnhx = grid->ndepo_ann_dnoy = grid->ndepo_ann_wnhx = grid->ndepo_ann_wnoy = 0.0;
-	for(e=0;e<ASTEP;e++){
-		grid->ndepo_ann_dnhx += grid->ndepo_chaser_dnhx[e][grid->chaser_row][grid->chaser_col] * MDN[e];
-		grid->ndepo_ann_dnoy += grid->ndepo_chaser_dnoy[e][grid->chaser_row][grid->chaser_col] * MDN[e];
-		grid->ndepo_ann_wnhx += grid->ndepo_chaser_wnhx[e][grid->chaser_row][grid->chaser_col] * MDN[e];
-		grid->ndepo_ann_wnoy += grid->ndepo_chaser_wnoy[e][grid->chaser_row][grid->chaser_col] * MDN[e];
-	}
-    
-    /* added: A. Ito (with Hamada-san's comment) 2012/01/30 */
-    grid->phase = 0;
-    
-    /* GlobAlbedo: 2013/01/16 ************/
+    /* GlobAlbedo: 2013/01/16 **************************/
     fread(rfdat,sizeof(float),12, fp_s[58]);
     for(e=0;e<ASTEP;e++){
         grid->glbalbedo[e] = rfdat[e];
