@@ -148,7 +148,7 @@ void cal_spinup(
 						loct->c4ptn[f]*((flux->c4).rrm[f]+(flux->c4).rrg[f]) + 
 						(flux->soil).hr[f];
 			
-			if(NECB_DOC==1){
+			if(NECB_DOC == 1 && (EX_CCPL != 7 && EX_CCPL != 8)){
 				(mass->soil).msl -= (flux->soil).doc_boyer[f]/1000000.0;
 				if((mass->soil).msl < 0.0){
 					(mass->soil).msl = 0.0;
@@ -234,7 +234,7 @@ void cal_spinup(
 			npp_empirical(grid, loct, flux);
 		//}
         
-		if(NECB_ERSN==1){
+		if(NECB_ERSN == 1 && (EX_CCPL != 6 && EX_CCPL != 8)){
 			(mass->soil).ltr -= flux->erod_carbon*0.20;
 			if((mass->soil).ltr < 0.0){
 				(mass->soil).ltr = 0.0;
@@ -319,7 +319,7 @@ void cal_spinup(
 		}
 	}
 		
-	if(NECB_CH4 == 1){
+	if(NECB_CH4 == 1 && (EX_CCPL != 1 && EX_CCPL != 8)){
 		for(f=0;f<ASTEP;f++){
 			(mass->soil).msl += grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
 					- grid->f_paddy * ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] + 
@@ -357,7 +357,7 @@ void cal_spinup(
 
 	/* wood harvest: 2010/10/15 by A.Ito *****************/
 	total_hvst = 0.0;
-	if((mass->c3).v_type == 1 && NECB_WHVST == 1){
+	if((mass->c3).v_type == 1 && NECB_WHVST == 1 && (EX_CCPL != 5 && EX_CCPL != 8)){
         /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
         
         if(LANDUSE ==9 || LANDUSE ==10 || LANDUSE ==11 || LANDUSE ==12 || LANDUSE ==13
@@ -422,15 +422,15 @@ void cal_spinup(
 	for(f=0;f<ASTEP;f++){
 		flux->nbp[f] = flux->nep[f];
 		
-		if((mass->c3).v_type == 1 && NECB_LUC == 1){
+		if((mass->c3).v_type == 1 && NECB_LUC == 1 && (EX_CCPL != 3 && EX_CCPL != 8)){
             flux->nbp[f] -= iweight * (flux->lu_ten/12.0 + flux->lu_hund/12.0);
         }
         
-        if(NECB_WHVST == 1){
+        if(NECB_WHVST == 1 && (EX_CCPL != 5 && EX_CCPL != 8)){
             flux->nbp[f] -= flux->hvst_wood;
         }
 		
-		if(NECB_BB == 1){
+		if(NECB_BB == 1 && (EX_CCPL != 2 && EX_CCPL != 8)){
             /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
             
 			flux->nbp[f] -= (flux->bb_co2_litter[f] + flux->bb_co2_leaf[f] 
@@ -446,13 +446,13 @@ void cal_spinup(
 							 + flux->bb_bc_wood[f] + flux->bb_bc_root[f])/1000.0;
 		}
         
-        if(NECB_DOC == 1){
+        if(NECB_DOC == 1 && (EX_CCPL != 7 && EX_CCPL != 8)){
             /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
             
             flux->nbp[f] -= (flux->soil).doc_boyer[f]/1000000.0;
         }
         
-        if(NECB_CH4 == 1){
+        if(NECB_CH4 == 1 && (EX_CCPL != 1 && EX_CCPL != 8)){
             /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
             
             flux->nbp[f] += 12.0/16.0 * (grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
@@ -462,13 +462,13 @@ void cal_spinup(
                                 (flux->soil).ch4_wetland_wh_diff[f] + (flux->soil).ch4_wetland_wh_release[f]) * 0.00001);
         }
         
-        if(NECB_ERSN == 1){
+        if(NECB_ERSN == 1 && (EX_CCPL != 6 && EX_CCPL != 8)){
             /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
         
             flux->nbp[f] -= flux->erod_carbon*0.20 / 12.0;
         }
         
-        if(NECB_BVOC == 1){
+        if(NECB_BVOC == 1 && (EX_CCPL != 4 && EX_CCPL != 8)){
             /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
         
             flux->nbp[f] -= (flux->voc_isopr_g97[f] + flux->voc_monotrp_g97[f] + flux->voc_methanl_g97[f] +
@@ -477,7 +477,7 @@ void cal_spinup(
                     flux->voc_afarnesene[f] + flux->voc_bcaryophyllene[f] + flux->voc_othersesqui[f])*10000.0/1000000.0/1000000.0;
         }
         
-        if(NECB_CROP == 1){
+        if(NECB_CROP == 1 && (EX_CCPL != 5 && EX_CCPL != 8)){
             /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
             flux->nbp[f] += (flux->plant).hvst[f]; /* ! hvst is negative */
         }

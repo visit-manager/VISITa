@@ -43,15 +43,15 @@
 
 /********************************************************/
 /* output text files */
-#define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
-#define OUTPUT_EROSION 1
-#define OUTPUT_GHG 1
-#define OUTPUT_HYDMET 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_CARBON1 0
+#define OUTPUT_CARBON2 0
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 0
+#define OUTPUT_HYDMET 0
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 /* output binary */
 #define C13_GOUT 1
 #define C14_GOUT 1
@@ -153,7 +153,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
-    #define DL_CRU 113  /* CRU TS3.21: AD 1901 - 2012 */
+    #define DL_CRU 113  /* CRU TS3.22: AD 1901 - 2013 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */

@@ -117,9 +117,9 @@ void f_voc_emit_guenther97(
 	15	Polar Desert/Rock/Ice
 	*/
     /* revised by A.Ito: 2014/03/27 */
-    if(loct->v_type==1){
+    if(loct->v_type == 1){
         idveg = grid->veg_sage;
-    }else if(loct->v_type==2){
+    }else if(loct->v_type == 2){
         idveg = 16;
     }
 
@@ -214,22 +214,22 @@ void f_voc_emit_guenther97(
     /* parameter ensemble: 2014/11/19 by A.Ito */
     prm_ensen = 1.0;
     if(PARAM_PTB == 8){
-        if(PARAM_ENS==1){
+        if(PARAM_ENS == 1){
             prm_ensen *= 0.7;
         }
-        if(PARAM_ENS==2){
+        if(PARAM_ENS == 2){
             prm_ensen *= 0.8;
         }
-        if(PARAM_ENS==3){
+        if(PARAM_ENS == 3){
             prm_ensen *= 0.9;
         }
-        if(PARAM_ENS==4){
+        if(PARAM_ENS == 4){
             prm_ensen *= 1.1;
         }
-        if(PARAM_ENS==5){
+        if(PARAM_ENS == 5){
             prm_ensen *= 1.2;
         }
-        if(PARAM_ENS==6){
+        if(PARAM_ENS == 6){
             prm_ensen *= 1.3;
         }
     }
@@ -250,7 +250,7 @@ void f_voc_emit_guenther97(
 	flux->voc_othersesqui[grid->m] = emit_potent_othersesqui[idveg] * cc2 * f_temp_monotrp * f_phenology * prm_ensen;
 	
 	/* carbon loss by BVOC emission: 2008/10/09 */
-	if(NECB_BVOC == 1){
+	if(NECB_BVOC == 1 && (EX_CCPL != 4 && EX_CCPL != 8)){
         /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
          
 		total_closs = flux->voc_isopr_g97[grid->m] + flux->voc_monotrp_g97[grid->m] + flux->voc_methanl_g97[grid->m] + 

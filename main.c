@@ -52,7 +52,7 @@ int main(
 	char *argv[]
 ){
 	short zone;
-	long f, g, h, l_config, rpert, flag_calc;
+	long f, g, h, l_config, rpert, flag_calc, ccpl;
 	double area_t, area_b, area_r, area_l;
 	/* global land area */
 	/* file name strings */
@@ -118,14 +118,15 @@ int main(
 		
 	/* config: 7 parameter perturbation */
     /* note: no perturbation for PARAM_PTB<=0 */
-	fscanf(fp_setting,"%s %ld %ld", s_config, &l_config, &rpert);
-	printf("config  7: %s %ld %ld\n", s_config, l_config, rpert);
+	fscanf(fp_setting,"%s %ld %ld %ld", s_config, &l_config, &rpert, &ccpl);
+	printf("config  7: %s %ld %ld %ld\n", s_config, l_config, rpert, ccpl);
     /* PARAM_PTB = l_config; */
 
     PARAM_PTB = 0;
     PARAM_PTB = (long)atol(argv[1]);
     PARAM_ENS = 0;
     PARAM_ENS = (long)atol(argv[2]);
+    EX_CCPL = (long)ccpl;
     
     if(EX_ALBEDO == 1){
         srand((long)atol(argv[1]) + clock()%1000);
@@ -172,7 +173,7 @@ int main(
             strcat(s_date, "_");
             snprintf(num, 4, "%03d", (short)PARAM_ENS);
             strcat(s_date, num);
-            
+            strcat(s_date, "_");
         }else{
             for(f=0;f<NPERT;f++){
                 f_pert[f] = 0.0;
