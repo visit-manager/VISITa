@@ -32,7 +32,7 @@
 #define INT_C 0.01
 
 /***********************************************************/
-#define ISIMIP_RUN 0
+#define ISIMIP_RUN 1
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -44,14 +44,14 @@
 /********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
-#define OUTPUT_EROSION 1
-#define OUTPUT_GHG 1
+#define OUTPUT_CARBON2 0
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 0
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 /* output binary */
 #define C13_GOUT 1
 #define C14_GOUT 1
@@ -70,7 +70,7 @@
 
 /* Olson croplands replaced by SAGE natural vegetation */
 #define REPL_OLSON_CROP 1
-/* 0:off  1:on */
+/* 0:off 1:on */
 
 /* number of geographical regions */
 #define N_REG 23
@@ -163,7 +163,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
@@ -231,7 +231,7 @@
 
 /***************************************************/
 /* land use change setting ***********/
-#define LANDUSE 10
+#define LANDUSE 14
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -326,7 +326,7 @@
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 
@@ -348,11 +348,8 @@
 /* inundation data */
 #define ALT_INUND 0
 /* 0: default (SSMI) */
-/* 1: NASA-JPL (GCP-CH4) version 1  */
+/* 1: GCP-CH4  */
 /* 2: IIS satellite observation */
-/* 3: NASA-JPL smoothed */
-/* 4: NASA-JPL smoothed no water */
-/* 5: NASA-JPL smoothed no water no rice */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0
@@ -474,8 +471,6 @@
 /* 1: actual CO2 rise */
 /* 2: no CO2 rise */
 /* 3: fix CO2 after 2020 for GeoMIP runs */
-/* 4: 450ppmv cap */
-/* 5: fix at 2000 level */
 
 /****************************************************/
 /* 0: no GCM */
@@ -758,10 +753,5 @@
 /* 3913: CCSM4 G3S */
 
 /** PLUME: 2014/07/31 by A.Ito ***********/
-/* 4011: GFDL RCP 4.5 */
-/* 4012: GFDL RCP 8.5 */
-
-/* 4021: IPSL RCP 4.5 */
-/* 4022: IPSL RCP 8.5 */
-
-
+/* 4201: IPSL RCP 4.5 */
+/* 4202: IPSL RCP 8.5 */

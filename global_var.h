@@ -28,9 +28,9 @@ double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0,
 
 /* experimental variables ************/
 long GCM, CO2S, GCM_R, GCM_C; /* */
-long PARAM_PTB; /* added by A.Ito (2010/05/10) */
+long PARAM_PTB, PARAM_ENS; /* added by A.Ito (2010/05/10) */
 long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
-long EX_SRM;
+long EX_SRM, EX_CCPL;
 /* experiment: geoengeneering, solar radiation management *********/
 /* EX SRM: 2013/06/04 by A.Ito *******************/
 /* 0: off */
@@ -45,7 +45,7 @@ long EX_SRM;
 /* 14: surface radiation -8.5 W m-2 */
 
 /* perturbation term */
-double f_pert[20];
+double f_pert[NPERT];
 
 /* atm. GHG scenario */
 double aco2_a1[DL_AGHG], aco2_a2[DL_AGHG], aco2_b1[DL_AGHG], aco2_b2[DL_AGHG];

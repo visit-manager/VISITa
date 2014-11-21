@@ -49,7 +49,7 @@ double flc(
 	double lc;
 	
 	/* constant fraction of senescence organ, abandoned as litter */
-	lc = veg->lc[grid->m]*mass->stm;
+	lc = veg->lc[grid->m] * mass->stm;
 	
 	return(lc);
 }
@@ -63,7 +63,7 @@ double flr(
 	double lr;
 	
 	/* constant fraction of senescence organ, abandoned as litter */
-	lr = veg->lr[grid->m]*mass->rot;
+	lr = veg->lr[grid->m] * mass->rot;
 	
 	return(lr);
 }

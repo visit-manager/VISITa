@@ -281,53 +281,61 @@ void f_ch4_emit_walter(
     
     /* vegetation factor: 2014/06/09 by A.Ito *********************************/
     /* last calibrated 2014/06/12 */
+    /* last calibrated 2014/11/17 */
+    /* last calibrated 2014/11/21 */
     switch(smode){
         case 1:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 15.0;
-                r0 = 1.0;
+                t_veg = 17.0;
+                r0 = 1.17;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 11.0;
-                r0 = 0.9;
+                t_veg = 13.0;
+                r0 = 1.03;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
                 t_veg = 9.0;
                 r0 = 0.7;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 7.0;
-                r0 = 0.5;
-            }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 3.0;
-                r0 = 0.3;
-            }else if(grid->veg_olson==23){
                 t_veg = 5.0;
-                r0 = 0.5;
+                r0 = 0.35;
+            }else if(grid->veg_olson==11 || grid->veg_olson==12){
+                t_veg = 2.0;
+                r0 = 0.2;
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){
+                t_veg = 1.5;
+                r0 = 0.15;
+            }else if(grid->veg_olson==23){
+                t_veg = 2.0;
+                r0 = 0.2;
             }else{
                 t_veg = 3.0;
-                r0 = 0.3;
+                r0 = 0.30;
             }
             break;
         case 2:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 10.0;
-                r0 = 0.7;
+                t_veg = 9.0;
+                r0 = 0.72;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 7.0;
-                r0 = 0.6;
+                t_veg = 6.0;
+                r0 = 0.52;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 5.5;
-                r0 = 0.35;
+                t_veg = 3.2;
+                r0 = 0.24;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 4.0;
-                r0 = 0.35;
+                t_veg = 2.4;
+                r0 = 0.18;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 2.0;
-                r0 = 0.125;
+                t_veg = 0.9;
+                r0 = 0.075;
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){
+                t_veg = 1.0;
+                r0 = 0.08;
             }else if(grid->veg_olson==23){
-                t_veg = 4.0;
-                r0 = 0.4;
+                t_veg = 1.2;
+                r0 = 0.12;
             }else{
-                t_veg = 2.0;
-                r0 = 0.125;
+                t_veg = 1.5;
+                r0 = 0.12;
             }
             break;
         case 3: /*  */
@@ -373,7 +381,7 @@ void f_ch4_emit_walter(
 	}else if(smode == 2){	/* drainage wetlands */
 		//t_veg = 4.0;	/* vegetation factor */
 		/* rdepth = 0.15; */		/* rooting depth, m */
-		rdepth = 0.25;		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
+		rdepth = 0.20;		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
 		
 		/* water-table depth, m from surface */
 		/* loct->water_table_depth = 0.25; */
@@ -487,6 +495,28 @@ void f_ch4_emit_walter(
 	}else if(EX_CH4_2 == 2){
 		q10_ch4prod = 9.0;
 	}
+    
+    /* parameter ensemble: 2014/11/19 by A.Ito */
+    if(PARAM_PTB == 5){
+        if(PARAM_ENS==1){
+            r0 *= 0.7;
+        }
+        if(PARAM_ENS==2){
+            r0 *= 0.8;
+        }
+        if(PARAM_ENS==3){
+            r0 *= 0.9;
+        }
+        if(PARAM_ENS==4){
+            r0 *= 1.1;
+        }
+        if(PARAM_PTB==5){
+            r0 *= 1.2;
+        }
+        if(PARAM_PTB==6){
+            r0 *= 1.3;
+        }
+    }
 		
 	release = 0.0;
 	for(g=1;g<=cumtime;g++){ 
@@ -599,7 +629,7 @@ void f_ch4_emit_walter(
         if(ALT_INUND==0){
             f_inundation = grid->inundation_ssmi[grid->m]; /* */
         }else if(ALT_INUND==1 || ALT_INUND==3 || ALT_INUND==4 || ALT_INUND==5){
-            if(grid->climy>=1999 && grid->climy<=2013){
+            if(grid->climy >= 1999 && grid->climy <= 2013){
         
                 if(grid->f_wetland > 0.0){
                     f_inundation = grid->inundation_gcp_ts[grid->climy-1999][grid->m] / grid->f_wetland;
@@ -659,7 +689,7 @@ void f_ch4_emit_walter(
 				if(f_inundation<0.05){
 					f_inundation = 0.05;
 				}else{
-					f_inundation *= 1.0 + loct->cum_dprec*0.001;
+					f_inundation *= 1.0 + loct->cum_dprec * 0.001;
 				}
 				
 				fa_wetland = f_inundation*grid->f_wetland;
@@ -672,7 +702,7 @@ void f_ch4_emit_walter(
 				if(f_inundation<0.05){
 					f_inundation = 0.05;
 				}else{
-					f_inundation *= 1.0 + loct->cum_dprec*0.001;
+					f_inundation *= 1.0 + loct->cum_dprec * 0.001;
 				}
 
 				fa_wetland = (1.0 - f_inundation) * grid->f_wetland;
@@ -695,7 +725,7 @@ void f_ch4_emit_walter(
 				if(f_inundation < 0.05){
 					f_inundation = 0.05;
 				}else{
-					f_inundation *= 1.0 + loct->cum_dprec*0.003;
+					f_inundation *= 1.0 + loct->cum_dprec * 0.003;
 				}
 				
 				fa_wetland = f_inundation * grid->f_wetland;
@@ -708,7 +738,7 @@ void f_ch4_emit_walter(
 				if(f_inundation < 0.05){
 					f_inundation = 0.05;
 				}else{
-					f_inundation *= 1.0 + loct->cum_dprec*0.003;
+					f_inundation *= 1.0 + loct->cum_dprec * 0.003;
 				}
 				
 				fa_wetland = (1.0 - f_inundation) * grid->f_wetland;

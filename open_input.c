@@ -497,24 +497,6 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 4201: case 4202:
-                if( (fp_c[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
-                    printf("No tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
-                    exit(1); 
-                }
-                if( (fp_c[1]=fopen("./data/pr_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
-                    printf("No pr_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
-                    exit(1); 
-                }
-                if( (fp_c[2]=fopen("./data/hurs_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
-                    printf("No hurs_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
-                    exit(1); 
-                }
-                if( (fp_c[3]=fopen("./data/rsds_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
-                    printf("No rsds_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
-                    exit(1); 
-                }
-                break;
             default:
                 printf("No ISI-MIP scenario\n");
                 exit(1);
@@ -540,7 +522,7 @@ void open_input(
                     exit(1); 
                 }
                 break;
-            case 4021: case 4022:
+            case 4021: case 4022: case 4023: case 4024:
                 if( (fp_c[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt","rb"))==NULL ){
                     printf("No tas_bced_1960_1999_ipsl-cm5a-lr_spin_1901-1930_hist_1901-2005.flt\n");
                     exit(1); 
@@ -711,10 +693,6 @@ void open_input(
 	
 	if( (fp_s[24]=fopen("./data/soil_n_1m.dat","rt"))==NULL ){  
 		printf("No soil_n_1m.dat\n");  
-		exit(1); 
-	}
-	if( (fp_s[25]=fopen("./data/N-deposition.dat","rt"))==NULL ){  
-		printf("No N-deposition.dat\n");  
 		exit(1); 
 	}
 	
@@ -1604,7 +1582,8 @@ void open_input(
     /* ISI-MIP: 2012/06/27 by A.Ito ***********************************/
     /* assumption: SRES data were used, instead of RCP data */
     if(GCM==2001 || GCM==2011 || GCM==2021 || GCM==2031 || GCM==2041
-        || GCM==2005 || GCM==2015 || GCM==2025 || GCM==2035 || GCM==2045){
+        || GCM==2005 || GCM==2015 || GCM==2025 || GCM==2035 || GCM==2045
+        || GCM==4023){
         CO2S = 1; /* RCP2.6 */
         /**/
         if((fp_s[23]=fopen("./data/image_b1_fcrop.dat","rt"))==NULL){
@@ -1633,7 +1612,8 @@ void open_input(
 		}
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
     }else if(GCM==2004 || GCM==2014 || GCM==2024 || GCM==2034 || GCM==2044
-        || GCM==2008 || GCM==2018 || GCM==2028 || GCM==2038 || GCM==2048){
+        || GCM==2008 || GCM==2018 || GCM==2028 || GCM==2038 || GCM==2048
+        || GCM==4024){
         CO2S = 3; /* RCP6.0 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
@@ -1691,9 +1671,23 @@ void open_input(
 		exit(1); 
 	}
 	
-	/* N deposition by CHASER */
+    /* N deposition **************************************************/
+	/* by Galloway & Dentener */
+    if( (fp_s[25]=fopen("./data/N-deposition.dat","rt"))==NULL ){
+		printf("No N-deposition.dat\n");  
+		exit(1); 
+	}
+	/* by CHASER */
 	if( (fp_s[52]=fopen("./data/chaser_ndepo_2001mon.txt","rt"))==NULL ){  
-		printf("No CHASER N deposition data\n");  
+		printf("No CHASER N deposition data: chaser_ndepo_2001mon.txt\n");
+		exit(1); 
+	}
+	if( (fp_s[85]=fopen("./data/CHASER_V4.0+HTAP2_preind-1851-1855.txt","rt"))==NULL ){
+		printf("No CHASER N deposition data: CHASER_V4.0+HTAP2_preind-1851-1855.txt\n");
+		exit(1); 
+	}
+	if( (fp_s[86]=fopen("./data/CHASER_V4.0+CCMI_REFC1SD_2006-2010.txt","rt"))==NULL ){
+		printf("No CHASER N deposition data: CHASER_V4.0+CCMI_REFC1SD_2006-2010.txt\n");
 		exit(1); 
 	}
 	

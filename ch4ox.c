@@ -512,7 +512,7 @@ void f_ch4oxy_curry(
 	struct Loct *loct,  
 	struct Flux *flux
 ){
-	double aaa, bbb;	/* intermediate values */
+	double aaa, bbb, prm_ensen;	/* intermediate values */
 	double c_0;		/* atmospheric CH4, ppmv */
 	double f_i;		/* fraction of inundation */
 	double r_w;		/* fraction of upland */
@@ -637,12 +637,36 @@ void f_ch4oxy_curry(
 	}
 	
 	/* first-order oxidation constant */
+    
+    /* parameter ensemble: 2014/11/19 by A.Ito */
+    prm_ensen = 1.0;
+    if(PARAM_PTB == 5){
+        if(PARAM_ENS==1){
+            prm_ensen = 0.7;
+        }
+        if(PARAM_ENS==2){
+            prm_ensen = 0.8;
+        }
+        if(PARAM_ENS==3){
+            prm_ensen = 0.9;
+        }
+        if(PARAM_ENS==4){
+            prm_ensen = 1.1;
+        }
+        if(PARAM_ENS==5){
+            prm_ensen = 1.2;
+        }
+        if(PARAM_ENS==6){
+            prm_ensen = 1.3;
+        }
+    }
+    
 	/* eq.6 */
 	k = k_0 * r_t * r_sm;
 	
 	/* surface CH4 flux, mg CH4 m-2 day-1 ********************/
 	/* eq.10 */
-	j_0 = g_0 * c_0 * r_c * r_w * pow((d_soil*k), 0.5);
+	j_0 = g_0 * c_0 * r_c * r_w * pow((d_soil*k), 0.5) * prm_ensen;
 	
 	/* mg CH4 m-2 month-1 */
 	(flux->soil).ch4oxy_curry[grid->m] = j_0 * MDN[grid->m];
