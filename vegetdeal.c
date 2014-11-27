@@ -473,7 +473,7 @@ void set_rowcol_gcm(
 	}else if(GCM==3200 || GCM==3203 || GCM==3204){
 		GCM_R = 90;
 		GCM_C = 144;
-	}else if(GCM==3300 || GCM==3303 || GCM==3304 || GCM==3313){
+	}else if(GCM==3300 || GCM==3303 || GCM==3304 || GCM==3313 || GCM==3314 || GCM==3315){
 		GCM_R = 145;
 		GCM_C = 192;
 	}else if(GCM==3400 || GCM==3403 || GCM==3405){
@@ -715,6 +715,8 @@ void set_gcm_index(
 		case 3303:	strcpy(s_case,"GEH3_"); break;
 		case 3304:	strcpy(s_case,"GEH4_"); break;
 		case 3313:	strcpy(s_case,"GEH3S_"); break;
+		case 3314:	strcpy(s_case,"GEH4C_"); break;
+		case 3315:	strcpy(s_case,"GEH4S_"); break;
 		case 3400:	strcpy(s_case,"GEIP0_"); break;
 		case 3403:	strcpy(s_case,"GEIP3_"); break;
 		case 3405:	strcpy(s_case,"GEIP5_"); break;

@@ -909,6 +909,16 @@ void read_gcm_clim(
 		if( (fp_c2[1]=fopen("./data/pr_HadGEM2-ES_197001-210012_rcp45_g3s.txt","rt"))==NULL ){  printf("No pr_HadGEM2-ES_197001-210012_rcp45_g3s.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_HadGEM2-ES_197001-210012_rcp45_g3s.txt","rt"))==NULL ){  printf("No huss_HadGEM2-ES_197001-210012_rcp45_g3s.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_HadGEM2-ES_197001-210012_rcp45_g3s.txt","rt"))==NULL ){  printf("No rsds_HadGEM2-ES_197001-210012_rcp45_g3s.txt\n");  exit(1); }
+	}else if(GCM==3314){  /*  GEOMIP: HadGEM2-ES G4cdcn */
+		if( (fp_c2[0]=fopen("./data/tas_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt","rt"))==NULL ){  printf("No tas_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt\n");  exit(1); }
+		if( (fp_c2[1]=fopen("./data/pr_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt","rt"))==NULL ){  printf("No pr_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt\n");  exit(1); }
+		if( (fp_c2[2]=fopen("./data/huss_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt","rt"))==NULL ){  printf("No huss_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt\n");  exit(1); }
+		if( (fp_c2[3]=fopen("./data/rsds_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt","rt"))==NULL ){  printf("No rsds_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt\n");  exit(1); }
+	}else if(GCM==3315){  /*  GEOMIP: HadGEM2-ES G4seaSalt */
+		if( (fp_c2[0]=fopen("./data/tas_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt","rt"))==NULL ){  printf("No tas_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt\n");  exit(1); }
+		if( (fp_c2[1]=fopen("./data/pr_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt","rt"))==NULL ){  printf("No pr_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt\n");  exit(1); }
+		if( (fp_c2[2]=fopen("./data/huss_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt","rt"))==NULL ){  printf("No huss_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt\n");  exit(1); }
+		if( (fp_c2[3]=fopen("./data/rsds_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt","rt"))==NULL ){  printf("No rsds_HadGEM2-ES_197001-210012_rcp45_G4seaSalts.txt\n");  exit(1); }
 	}else if(GCM==3400){  /*  GEOMIP: IPSL-CM5A-LR base (RCP4.5) */
 		if( (fp_c2[0]=fopen("./data/tas_IPSL-CM5A-LR_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No tas_IPSL-CM5A-LR_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_IPSL-CM5A-LR_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No pr_IPSL-CM5A-LR_197001-210012_rcp45_base.txt\n");  exit(1); }

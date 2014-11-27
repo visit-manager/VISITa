@@ -165,7 +165,7 @@ void phenology_grass(
 	struct Loct *loct, 
 	struct Pchar *pchar
 ){
-	if(pchar->phototype==3){
+	if(pchar->phototype == 3){
 		if(loct->msww[grid->m]/grid->field_cap2<0.1 || grid->tmp_sfc[grid->m] < 4.0){
 			/* dormancy */
 			pchar->season[grid->m] = 0;
@@ -185,7 +185,7 @@ void phenology_grass(
 				pchar->frag_dcd = 0;
 			}
 		}
-	}else if(pchar->phototype==4){
+	}else if(pchar->phototype == 4){
 		if(loct->msww[grid->m]/grid->field_cap2<0.1 || grid->tmp_sfc[grid->m] < 8.0){
 			/* dormancy */
 			pchar->season[grid->m] = 0;

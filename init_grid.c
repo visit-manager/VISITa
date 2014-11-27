@@ -257,7 +257,7 @@ void f_init_grid(
 	}if(GCM==3200 || GCM==3203 || GCM==3204){ /* GEO-MIP GISS */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM==3300 || GCM==3303 || GCM==3304 || GCM==3313){ /* GEO-MIP HadGEM */
+	}if(GCM==3300 || GCM==3303 || GCM==3304 || GCM==3313 || GCM==3314 || GCM==3315){ /* GEO-MIP HadGEM */
 		if(grid->lat>=89.379){
 			grid->gcm_row = 0;
 		}else if(grid->lat<=-89.379){

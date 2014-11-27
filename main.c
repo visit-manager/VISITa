@@ -118,15 +118,19 @@ int main(
 		
 	/* config: 7 parameter perturbation */
     /* note: no perturbation for PARAM_PTB<=0 */
-	fscanf(fp_setting,"%s %ld %ld %ld", s_config, &l_config, &rpert, &ccpl);
-	printf("config  7: %s %ld %ld %ld\n", s_config, l_config, rpert, ccpl);
-    /* PARAM_PTB = l_config; */
+	//fscanf(fp_setting,"%s %ld %ld %ld", s_config, &l_config, &rpert, &ccpl);
+	//printf("config  7: %s %ld %ld %ld\n", s_config, l_config, rpert, ccpl);
+	fscanf(fp_setting,"%s %ld", s_config, &l_config);
+	printf("config  7: %s %ld\n", s_config, l_config);
+    PARAM_PTB = l_config; /* */
+    rpert = ccpl = 0;
 
-    PARAM_PTB = 0;
-    PARAM_PTB = (long)atol(argv[1]);
+    //PARAM_PTB = 0;
+    //PARAM_PTB = (long)atol(argv[1]);
     PARAM_ENS = 0;
-    PARAM_ENS = (long)atol(argv[2]);
-    EX_CCPL = (long)ccpl;
+    //PARAM_ENS = (long)atol(argv[2]);
+    EX_CCPL = 0;
+    //EX_CCPL = (long)ccpl;
     
     if(EX_ALBEDO == 1){
         srand((long)atol(argv[1]) + clock()%1000);
@@ -179,6 +183,18 @@ int main(
                 f_pert[f] = 0.0;
             }
         }
+    }
+    
+    switch(EX_CCPL){
+        case 1: strcat(s_date, "UC1_"); break;
+        case 2: strcat(s_date, "UC2_"); break;
+        case 3: strcat(s_date, "UC3_"); break;
+        case 4: strcat(s_date, "UC4_"); break;
+        case 5: strcat(s_date, "UC5_"); break;
+        case 6: strcat(s_date, "UC6_"); break;
+        case 7: strcat(s_date, "UC7_"); break;
+        case 8: strcat(s_date, "UC8_"); break;
+        default: break;
     }
 	
 	/* config: 8 CH4 experiment */

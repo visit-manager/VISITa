@@ -37,21 +37,21 @@
 /* 1: ISI-MIP runs */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
 
-#define GEOMIP_RUN 1
+#define GEOMIP_RUN 0
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
 /********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 0
-#define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
-#define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
+#define OUTPUT_CARBON2 1
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 1
+#define OUTPUT_HYDMET 1
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 /* output binary */
 #define C13_GOUT 1
 #define C14_GOUT 1
@@ -70,7 +70,7 @@
 
 /* Olson croplands replaced by SAGE natural vegetation */
 #define REPL_OLSON_CROP 1
-/* 0:off 1:on */
+/* 0:off  1:on */
 
 /* number of geographical regions */
 #define N_REG 23
@@ -90,10 +90,12 @@
     #define DL_AGHG 553 /* default */
 #endif
 
+#define BGY_AGHG 1765
+
 /***********************************************************/
 /* simulation framework duration (years) */
 #define PD_SIM 201	
-/* only for memory preparation; not actual period */
+/* only for memory holding; not actual period */
 
 /* start year (AD) of CO2 time series */
 /* #define PIVOT_CO2Y 1901 */
@@ -151,7 +153,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
-    #define DL_CRU 113  /* CRU TS3.21: AD 1901 - 2012 */
+    #define DL_CRU 113  /* CRU TS3.22: AD 1901 - 2013 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -161,7 +163,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
@@ -185,7 +187,7 @@
 
 /* future projection *****************************/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_RUN 1
+#define GCM_RUN 0
 /* 0: no  1:yes */
 /* note: in case ISI-MIP1, GCM_RUN=0  */
 
@@ -227,7 +229,30 @@
 /* crop harvest */
 #define NECB_CROP 1
 
-/***************************************************/
+/* parameter ensemble *************************************/
+#define NPERT 20
+
+/* climate change ********************************/
+/* 0:off   1:on */
+/* temperature */
+#define CC_T 1
+/* aboveground temperature */
+#define CC_T_A 1
+/* belowground temperature */
+#define CC_T_B 1
+/* precipitation */
+#define CC_P 1
+/* humidity */
+#define CC_H 1
+/* constant future CO2 level */
+#define CC_CD 1
+/* 1: actual CO2 rise */
+/* 2: no CO2 rise */
+/* 3: fix CO2 after 2020 for GeoMIP runs */
+/* 4: 450ppmv cap */
+/* 5: fix at 2000 level */
+
+/*******************************************************/
 /* land use change setting ***********/
 #define LANDUSE 10
 /* 0: natural vegetation */
@@ -248,7 +273,8 @@
 /* 15: Historical (LUH) 1500-2000 + ICARUS SSP2 2001-2100 */
 /* 16: Historical (LUH) 1500-2000 + ICARUS SSP3 2001-2100 */
 
-//#define DL_LUH 306 /* 1700-2000/2005 */
+//#define DL_LUH 301 /* 1700-2000 */
+//#define DL_LUH 306 /* 1700-2005 */
 #define DL_LUH 601 /* 1500-2100 */
 
 /* begin year of land-use data */
@@ -257,14 +283,15 @@
 
 /* land-use during spin-up phase */
 #if ISIMIP_RUN==1
-    #define BGY_LUC 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
+    /* #define BGY_LUC 2000 */    /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define BGY_LUC 1950    /* ICARUS: 2014/09/05 by A.Ito */
 #elif ISIMIP_RUN==2
     #define BGY_LUC 2000    /* PLUME: 2014/07/31 by A.Ito */
 #else
     #define BGY_LUC 1900
 #endif
 
-/***************************************************/
+/*******************************************************/
 /* setting for sensitivity experiments */
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
 #define EX_ALBEDO 0
@@ -279,7 +306,7 @@
 /* 0: off */
 /* 1: albedo-induced temperature change */
 
-/* ozone impacts: 2013/02/25 by A.Ito *************/
+/* ozone impacts: 2013/02/25 by A.Ito *****************/
 #define EX_OZONE 0
 /* 0: off */
 /* 1: on */
@@ -307,7 +334,7 @@
 /* 2: entire deforestation, replaced by 13 */
 /* 3: entire deforestation, replaced by 31 */
 
-/***************************************************/
+/*******************************************************/
 /* PAR conversion */
 #define D_PAR 1
 /* 0: constant conversion factor */
@@ -320,9 +347,9 @@
 #define DIF_SRB 1
 /* 0:off, 1:0 */
 
-/***************************************************/
+/*******************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 
@@ -344,8 +371,11 @@
 /* inundation data */
 #define ALT_INUND 0
 /* 0: default (SSMI) */
-/* 1: GCP-CH4  */
+/* 1: NASA-JPL (GCP-CH4) version 1  */
 /* 2: IIS satellite observation */
+/* 3: NASA-JPL smoothed */
+/* 4: NASA-JPL smoothed no water */
+/* 5: NASA-JPL smoothed no water no rice */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0
@@ -355,7 +385,7 @@
 #define VAR_PFMWET 0
 /* 0:off, 1:0n */
 
-/***************************************************/
+/*******************************************************/
 /* parameter perturbation */
 /* climate perturbation */
 #define PRT_CLIM 0
@@ -378,6 +408,7 @@
 /* sensitivity run of N deposition */
 #define SENS_N 0
 /* 0:off, 1:0n */
+/* 2: CHASER4 data (preindustrial and present): 2014/11/19 by A.Ito */
 
 /********************************************************/
 /* sensitivity analysis *****************/
@@ -449,24 +480,6 @@
 /* 5: +10% Albedo */
 /* 6: +10% WHC30/WHC */
 /* 7: fixed LAI (1990s av) in 2000-2100 */
-
-/* climate change ********************************/
-/* 0:off   1:on */
-/* temperature */
-#define CC_T 1
-/* aboveground temperature */
-#define CC_T_A 1
-/* belowground temperature */
-#define CC_T_B 1
-/* precipitation */
-#define CC_P 1
-/* humidity */
-#define CC_H 1
-/* constant future CO2 level */
-#define CC_CD 1
-/* 1: actual CO2 rise */
-/* 2: no CO2 rise */
-/* 3: fix CO2 after 2020 for GeoMIP runs */
 
 /****************************************************/
 /* 0: no GCM */
@@ -749,5 +762,11 @@
 /* 3913: CCSM4 G3S */
 
 /** PLUME: 2014/07/31 by A.Ito ***********/
-/* 4201: IPSL RCP 4.5 */
-/* 4202: IPSL RCP 8.5 */
+/* 4011: GFDL RCP 4.5 */
+/* 4012: GFDL RCP 8.5 */
+
+/* 4021: IPSL RCP 4.5 */
+/* 4022: IPSL RCP 8.5 */
+/* 4023: IPSL RCP 2.6 */
+/* 4024: IPSL RCP 6.0 */
+

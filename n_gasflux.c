@@ -40,7 +40,7 @@ void f_n2o_emit_ngas(
 	extern double MDN[12];
 	double vmw_b, wfps_b;
 	
-	vmw_b = (loct->sw30+loct->sww) / 1500.0;
+	vmw_b = (loct->sw30 + loct->sww) / 1500.0;
 	wfps_b = vmw_b / (1.0 - grid->bulkdens/2.65);
 	if(wfps_b>0.9){
 		wfps_b = 0.9;
@@ -50,7 +50,9 @@ void f_n2o_emit_ngas(
 	}
 	
 	/* added by A.Ito (2009/06/16) */
-	if(CALC_OLSON == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32)){ 
+	/* revised 2014/11/27 by A.Ito */
+	/* if(CALC_OLSON == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32)){ */
+	if(CALC_OLSON == 1 && (loct->v_type == 2)){
 		/* kmax = 28.6; */
 		kmax = 22.5; /* 2010/04/06 (A.Ito) */
 		nmax = 30.0;
