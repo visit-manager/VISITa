@@ -286,26 +286,26 @@ void f_ch4_emit_walter(
     switch(smode){
         case 1:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 17.0;
-                r0 = 1.17;
+                t_veg = 19.0;
+                r0 = 1.3;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
                 t_veg = 13.0;
-                r0 = 1.03;
+                r0 = 1.05;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 9.0;
-                r0 = 0.7;
-            }else if(grid->veg_olson==9 || grid->veg_olson==10){
                 t_veg = 5.0;
-                r0 = 0.35;
+                r0 = 0.5;
+            }else if(grid->veg_olson==9 || grid->veg_olson==10){
+                t_veg = 4.0;
+                r0 = 0.25;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 2.0;
-                r0 = 0.2;
-            }else if(grid->veg_olson==21 || grid->veg_olson==22){
                 t_veg = 1.5;
                 r0 = 0.15;
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){
+                t_veg = 1.2;
+                r0 = 0.12;
             }else if(grid->veg_olson==23){
-                t_veg = 2.0;
-                r0 = 0.2;
+                t_veg = 1.3;
+                r0 = 0.13;
             }else{
                 t_veg = 3.0;
                 r0 = 0.30;
@@ -313,29 +313,29 @@ void f_ch4_emit_walter(
             break;
         case 2:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 9.0;
-                r0 = 0.72;
+                t_veg = 8.5;
+                r0 = 0.7;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 6.0;
-                r0 = 0.52;
+                t_veg = 5.0;
+                r0 = 0.5;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 3.2;
-                r0 = 0.24;
+                t_veg = 2.0;
+                r0 = 0.20;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 2.4;
-                r0 = 0.18;
-            }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 0.9;
-                r0 = 0.075;
-            }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 1.0;
-                r0 = 0.08;
-            }else if(grid->veg_olson==23){
-                t_veg = 1.2;
-                r0 = 0.12;
-            }else{
                 t_veg = 1.5;
-                r0 = 0.12;
+                r0 = 0.15;
+            }else if(grid->veg_olson==11 || grid->veg_olson==12){
+                t_veg = 0.5;
+                r0 = 0.05;
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){
+                t_veg = 0.5;
+                r0 = 0.05;
+            }else if(grid->veg_olson==23){
+                t_veg = 0.6;
+                r0 = 0.06;
+            }else{
+                t_veg = 1.3;
+                r0 = 0.11;
             }
             break;
         case 3: /*  */
@@ -360,6 +360,15 @@ void f_ch4_emit_walter(
 		//t_veg = 6.0;	/* vegetation factor */
 		/* rdepth = 0.20; */		/* rooting depth, m */
 		rdepth = 0.25;		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
+        
+        if(grid->veg_olson==9 || grid->veg_olson==10){
+            
+            rdepth = 0.20;
+        }else if(grid->veg_olson==11 || grid->veg_olson==12 || grid->veg_olson==21 || grid->veg_olson==22
+             || grid->veg_olson==23){
+            
+            rdepth = 0.15;
+        }
 		
 		/* water-table depth, m from surface */
 		/* loct->water_table_depth = 0.00; */
@@ -383,6 +392,15 @@ void f_ch4_emit_walter(
 		/* rdepth = 0.15; */		/* rooting depth, m */
 		rdepth = 0.20;		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
 		
+        if(grid->veg_olson==9 || grid->veg_olson==10){
+            
+            rdepth = 0.15;
+        }else if(grid->veg_olson==11 || grid->veg_olson==12 || grid->veg_olson==21 || grid->veg_olson==22
+             || grid->veg_olson==23){
+            
+            rdepth = 0.1;
+        }
+
 		/* water-table depth, m from surface */
 		/* loct->water_table_depth = 0.25; */
 		/* loct->water_table_depth = 0.20; */
@@ -489,7 +507,8 @@ void f_ch4_emit_walter(
 	/* sensitivity of Q10 of CH4 production: A.Ito (2010/08/02) */
 	/* q10_ch4prod = 6.0; */
 	/* q10_ch4prod = 4.0; */
-	q10_ch4prod = 3.0;
+	/* q10_ch4prod = 3.0; */
+	q10_ch4prod = 3.2;
 	if(EX_CH4_2 == 1){
 		q10_ch4prod = 3.0;
 	}else if(EX_CH4_2 == 2){

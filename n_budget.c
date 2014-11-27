@@ -178,14 +178,17 @@ void f_nh3_volatilization(
 	/* if(schar->v_type==1 && (grid->veg_olson==29 || grid->veg_olson==30
 							|| grid->veg_olson==31 || grid->veg_olson==32)){ */
     /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
-	if(schar->v_type==2){
-		if(grid->soil_ph >= 6.0){
-			ph_soil = grid->soil_ph;
+    /* revised: 2014/11/27 by A.Ito */
+	if(schar->v_type == 2){
+        /* cropland */
+		if((grid->soil_ph+0.5) >= 6.5){ /* 6.0=>6.5 */
+			ph_soil = grid->soil_ph + 0.5;
 		}else{
-			ph_soil = 6.0;
+			ph_soil = 6.5;
 		}
 	}else{
-		ph_soil = grid->soil_ph;
+        /* natural */
+		ph_soil = grid->soil_ph - 0.25;
 	}
 	
 	/* base_ph = 6.5; */ /* 2010/03/28 (A.Ito) */
