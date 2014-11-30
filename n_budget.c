@@ -182,13 +182,13 @@ void f_nh3_volatilization(
 	if(schar->v_type == 2){
         /* cropland */
 		if((grid->soil_ph+0.5) >= 6.5){ /* 6.0=>6.5 */
-			ph_soil = grid->soil_ph + 0.5;
+			ph_soil = grid->soil_ph + 1.0;
 		}else{
 			ph_soil = 6.5;
 		}
 	}else{
         /* natural */
-		ph_soil = grid->soil_ph - 0.25;
+		ph_soil = grid->soil_ph - 0.4;
 	}
 	
 	/* base_ph = 6.5; */ /* 2010/03/28 (A.Ito) */

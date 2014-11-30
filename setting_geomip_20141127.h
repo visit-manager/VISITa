@@ -90,6 +90,8 @@
     #define DL_AGHG 553 /* default */
 #endif
 
+#define BGY_AGHG 1765
+
 /***********************************************************/
 /* simulation framework duration (years) */
 #define PD_SIM 201	
@@ -226,6 +228,9 @@
 #define NECB_LUC 1
 /* crop harvest */
 #define NECB_CROP 1
+
+/* parameter ensemble *************************************/
+#define NPERT 20
 
 /***************************************************/
 /* land use change setting ***********/
@@ -728,6 +733,8 @@
 /* 3303: HadGEM2-ES G3 */
 /* 3304: HadGEM2-ES G4 */
 /* 3313: HadGEM2-ES G3S */
+/* 3314: HadGEM2-ES G3cdcn */
+/* 3315: HadGEM2-ES G3seaSalt */
 
 /* 3400: IPSL-CM54-LR RCP4.5 */
 /* 3403: IPSL-CM54-LR G3 */
