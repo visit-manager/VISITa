@@ -36,6 +36,7 @@ void cal_historical(
 		/* AD1901 - 2002 / 2008 / 2009 */
         /* ISIMIP: 1950-2099 */
         /* GEOMIP: 1901-2005 */
+        /* ISIMIP2 (hist): 1901-2010 */
 		
 		/* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
@@ -65,11 +66,11 @@ void cal_historical(
             grid->co2y = 2000;
         }
         /* ISI-MIP no-co2 run: 2012/07/31 by A.Ito */
-        if((GCM==2005 ||GCM==2006 ||GCM==2007 ||GCM==2008 ||
-            GCM==2015 ||GCM==2016 ||GCM==2017 ||GCM==2018 ||
-            GCM==2025 ||GCM==2026 ||GCM==2027 ||GCM==2028 ||
-            GCM==2035 ||GCM==2036 ||GCM==2037 ||GCM==2038 ||
-            GCM==2045 ||GCM==2046 ||GCM==2047 ||GCM==2048) && grid->climy>=2000){
+        if((GCM_ID==2005 ||GCM_ID==2006 ||GCM_ID==2007 ||GCM_ID==2008 ||
+            GCM_ID==2015 ||GCM_ID==2016 ||GCM_ID==2017 ||GCM_ID==2018 ||
+            GCM_ID==2025 ||GCM_ID==2026 ||GCM_ID==2027 ||GCM_ID==2028 ||
+            GCM_ID==2035 ||GCM_ID==2036 ||GCM_ID==2037 ||GCM_ID==2038 ||
+            GCM_ID==2045 ||GCM_ID==2046 ||GCM_ID==2047 ||GCM_ID==2048) && grid->climy>=2000){
             /* fixed to AD2000 level */
             grid->co2y = 2000;
         }

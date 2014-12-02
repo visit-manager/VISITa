@@ -95,10 +95,14 @@ void cal_spinup(
 			
         if(ISIMIP_RUN == 1 && grid->flag_histdata == 1){
             ann_nep = 10.0;
-            grid->climy = grid->lucy = nn%30 +1951;
+            grid->climy = grid->lucy = nn%30 +1950;
 			set_hist_clim(grid);
 		}else if(ISIMIP_RUN == 2 && grid->flag_histdata == 1){
             /* PLUME: 2014/07/31 by A.Ito */
+            ann_nep = 10.0;
+            grid->climy = grid->lucy = nn%30 +1901;
+			set_hist_clim(grid);
+        }else if(ISIMIP_RUN == 3 && grid->flag_histdata == 1){
             ann_nep = 10.0;
             grid->climy = grid->lucy = nn%30 +1901;
 			set_hist_clim(grid);
@@ -251,7 +255,7 @@ void cal_spinup(
             }else{  /*  if(nn>=term_time) */
                 break; /**** 3. stop by 2000 years ****/	
             }
-        }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2){
+        }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3){
             /* spin-up 3000 years (30 x 100 times): 2012/07/02 by A.Ito */
             ann_nep = 10.0;
             if(nn == 3000){

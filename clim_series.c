@@ -85,8 +85,9 @@ void set_hist_clim(
         
         /* ISI-MIP climate data: 2012/06/28 by A.Ito */
         if(grid->phase == 0){
-            offset = -1;
+            offset = 0;
         }else if(grid->phase == 1 || grid->phase == 2){
+            /* skip spin-up data */
             offset = 30;
         }
         
@@ -107,6 +108,27 @@ void set_hist_clim(
         if(grid->phase == 0){
             offset = 0;
         }else if(grid->phase == 1 || grid->phase == 2){
+            offset = 30;
+        }
+        
+        for(h=0;h<ASTEP;h++){
+            grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+                            + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
+            grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h];
+            grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+                            + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
+            grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+                            + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
+            grid->tcdc_clm[h] = grid->hist_cld[grid->climy - PIVOT_CLIMY + offset][h];
+            grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY + offset][h];  
+        }
+    }else if(ISIMIP_RUN == 3){
+        
+        /* ISI-MIP2 climate data: 2014/11/30 by A.Ito */
+        if(grid->phase == 0){
+            offset = 0;
+        }else if(grid->phase == 1 || grid->phase == 2){
+            /* skip spin-up data */
             offset = 30;
         }
         
@@ -296,7 +318,7 @@ void set_gcm_clim(
 
         /* experiment for SRM by reflector */
         /* added: 2014/07/06 by A.Ito     */
-        if(GCM == 3313 || GCM == 3913){
+        if(GCM_ID == 3313 || GCM_ID == 3913){
             grid->top_rad[h] = f_top_rad(grid, 0);
         }
         

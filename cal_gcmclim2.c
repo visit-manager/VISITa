@@ -58,7 +58,7 @@ void cal_projection(
         
 		/* climate change ********************/
 		grid->climy = g;
-		if(GCM >= 1 && GCM <=9999){
+		if(GCM_ID >= 1 && GCM_ID <=9999){
 			set_gcm_clim(grid);
 		}
 		

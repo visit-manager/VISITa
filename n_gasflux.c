@@ -53,9 +53,10 @@ void f_n2o_emit_ngas(
 	/* revised 2014/11/27 by A.Ito */
 	/* if(CALC_OLSON == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32)){ */
 	if(CALC_OLSON == 1 && (loct->v_type == 2)){
+        /* cropland */
 		/* kmax = 28.6; */
-		kmax = 22.5; /* 2010/04/06 (A.Ito) */
-		nmax = 30.0;
+		kmax = 18.0; /* 22.5=>20.0=>18.0 2014/12/02 by A.Ito */
+		nmax = 23.0; /* 30.0=>25.0=>23.0 2014/11/30 by A.Ito */
 		/* 2009/06/15 by A.Ito */
 		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
 		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
@@ -65,8 +66,8 @@ void f_n2o_emit_ngas(
 	}else{
 		/* natural */
 		/* kmax = 3.8; */ 
-		kmax = 3.8;
-		nmax = 30.0;
+		kmax = 3.3;   /* 3.8=>3.4=>3.3 2014/11/30 by A.Ito */
+		nmax = 23.0;  /* 30.0=>25.0=>23.0 2014/11/30 by A.Ito */
 		/* 2009/06/15 by A.Ito */
 		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
 		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
@@ -97,7 +98,7 @@ void f_n2o_emit_ngas(
 	
 	/* temperature factor*/
 	/* Fig.(2b) in Parton et al. (1996) */
-	n_t = -0.06 + 0.13 * exp(0.07*grid->tmp10_soil[grid->m]);
+	n_t = -0.06 + 0.13 * exp(0.07 * grid->tmp10_soil[grid->m]);
 	if(n_t < 0.0){
 		n_t = 0.0;
 	}
@@ -118,7 +119,7 @@ void f_n2o_emit_ngas(
 	
 	/* N2O emission through nitrification	*/
 	/* Eq.(1) in Parton et al. (1996)		*/
-	day_n_n2o = n_h2o * n_ph * n_t * (kmax + nmax*n_nh4);
+	day_n_n2o = n_h2o * n_ph * n_t * (kmax + nmax * n_nh4);
 	
 	/* DENITRIFICATION ************************************************/
 	/* Fig.(3a) in Parton et al. (1996) */
