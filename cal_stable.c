@@ -95,10 +95,14 @@ void cal_spinup(
 			
         if(ISIMIP_RUN == 1 && grid->flag_histdata == 1){
             ann_nep = 10.0;
-            grid->climy = grid->lucy = nn%30 +1951;
+            grid->climy = grid->lucy = nn%30 +1950;
 			set_hist_clim(grid);
 		}else if(ISIMIP_RUN == 2 && grid->flag_histdata == 1){
             /* PLUME: 2014/07/31 by A.Ito */
+            ann_nep = 10.0;
+            grid->climy = grid->lucy = nn%30 +1901;
+			set_hist_clim(grid);
+        }else if(ISIMIP_RUN == 3 && grid->flag_histdata == 1){
             ann_nep = 10.0;
             grid->climy = grid->lucy = nn%30 +1901;
 			set_hist_clim(grid);

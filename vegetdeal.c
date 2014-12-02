@@ -364,134 +364,134 @@ long f_basin_id_trip(
 void set_rowcol_gcm(
 	void
 ){
-	if(GCM == 0){
+	if(GCM_ID == 0){
 		GCM_R = 1;
 		GCM_C = 1;
-	}else if(GCM==1 || GCM==2 || GCM==3 || GCM==4 || GCM==5 || GCM==6){
+	}else if(GCM_ID==1 || GCM_ID==2 || GCM_ID==3 || GCM_ID==4 || GCM_ID==5 || GCM_ID==6){
 		GCM_R = 32;
 		GCM_C = 64;
-	}else if(GCM==11 || GCM==12 || GCM==13 || GCM==14 || GCM==15 || GCM==16 || GCM==17 || GCM==18){
+	}else if(GCM_ID==11 || GCM_ID==12 || GCM_ID==13 || GCM_ID==14 || GCM_ID==15 || GCM_ID==16 || GCM_ID==17 || GCM_ID==18){
 		GCM_R = 48;
 		GCM_C = 96;
-	}else if(GCM==21 || GCM==22 || GCM==23 || GCM==24){
+	}else if(GCM_ID==21 || GCM_ID==22 || GCM_ID==23 || GCM_ID==24){
 		GCM_R = 73;
 		GCM_C = 96;
-	}else if(GCM==31 || GCM==32){
+	}else if(GCM_ID==31 || GCM_ID==32){
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==41 || GCM==42 || GCM==43 || GCM==44){
+	}else if(GCM_ID==41 || GCM_ID==42 || GCM_ID==43 || GCM_ID==44){
 		GCM_R = 56;
 		GCM_C = 64;
-	}else if(GCM==51 || GCM==52){
+	}else if(GCM_ID==51 || GCM_ID==52){
 		GCM_R = 80;
 		GCM_C = 96;
-	}else if(GCM==61 || GCM==62 || GCM==63){
+	}else if(GCM_ID==61 || GCM_ID==62 || GCM_ID==63){
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==71){
+	}else if(GCM_ID==71){
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==1000 || GCM==1001){ /* MIROC-HIGH */
+	}else if(GCM_ID==1000 || GCM_ID==1001){ /* MIROC-HIGH */
 		GCM_R = 160;
 		GCM_C = 320;
-	}else if(GCM==1010 || GCM==1011 || GCM==1012 || GCM==1013 || GCM==1014 || 
-			GCM==1015 || GCM==1016 || GCM==1017 || GCM==1018){ /* MIROC-MED */
+	}else if(GCM_ID==1010 || GCM_ID==1011 || GCM_ID==1012 || GCM_ID==1013 || GCM_ID==1014 || 
+			GCM_ID==1015 || GCM_ID==1016 || GCM_ID==1017 || GCM_ID==1018){ /* MIROC-MED */
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==1050 || GCM==1051 ||GCM==1052){ /* BCCR */
+	}else if(GCM_ID==1050 || GCM_ID==1051 ||GCM_ID==1052){ /* BCCR */
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==1060 || GCM==1061 ||GCM==1062){ /* INM-CM3 : error-fixed 2009/04/26 A.Ito */
+	}else if(GCM_ID==1060 || GCM_ID==1061 ||GCM_ID==1062){ /* INM-CM3 : error-fixed 2009/04/26 A.Ito */
 		GCM_R = 45;
 		GCM_C = 72;
-	}else if(GCM==1070 || GCM==1071 || GCM==1072){ /* IPSL */
+	}else if(GCM_ID==1070 || GCM_ID==1071 || GCM_ID==1072){ /* IPSL */
 		GCM_R = 72;
 		GCM_C = 96;
-	}else if(GCM==1080 || GCM==1081 || GCM==1082){ /* GFDL CM2-1 */
+	}else if(GCM_ID==1080 || GCM_ID==1081 || GCM_ID==1082){ /* GFDL CM2-1 */
 		GCM_R = 90;
 		GCM_C = 144;
-	}else if(GCM==1090 || GCM==1091 || GCM==1092){ /* HadCM3 */
+	}else if(GCM_ID==1090 || GCM_ID==1091 || GCM_ID==1092){ /* HadCM3 */
 		GCM_R = 73;
 		GCM_C = 96;
-	}else if(GCM==1100 || GCM==1101 || GCM==1102 || GCM==1103){ /* GISS AOM */
+	}else if(GCM_ID==1100 || GCM_ID==1101 || GCM_ID==1102 || GCM_ID==1103){ /* GISS AOM */
 		GCM_R = 60;
 		GCM_C = 90;
-	}else if(GCM==1110 || GCM==1111 || GCM==1112){ /* CCCma-T63 */
+	}else if(GCM_ID==1110 || GCM_ID==1111 || GCM_ID==1112){ /* CCCma-T63 */
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==1120 || GCM==1121 || GCM==1122 || GCM==1270 || GCM==1271 || GCM==1272){ /* CSIRO */
+	}else if(GCM_ID==1120 || GCM_ID==1121 || GCM_ID==1122 || GCM_ID==1270 || GCM_ID==1271 || GCM_ID==1272){ /* CSIRO */
 		GCM_R = 96;
 		GCM_C = 192;
-	}else if(GCM==1130 || GCM==1131 || GCM==1132 || GCM==1133 || GCM==1134
-			 || GCM==1135 || GCM==1136 || GCM==1137 || GCM==1138 || GCM==1139
-			  || GCM==1140 || GCM==1141 || GCM==1142 || GCM==1143 || GCM==1144){ /* MRI */
+	}else if(GCM_ID==1130 || GCM_ID==1131 || GCM_ID==1132 || GCM_ID==1133 || GCM_ID==1134
+			 || GCM_ID==1135 || GCM_ID==1136 || GCM_ID==1137 || GCM_ID==1138 || GCM_ID==1139
+			  || GCM_ID==1140 || GCM_ID==1141 || GCM_ID==1142 || GCM_ID==1143 || GCM_ID==1144){ /* MRI */
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==1150 ||GCM==1151 ||GCM==1152 ||GCM==1153 ||GCM==1154 ||
-			GCM==1155 ||GCM==1156 ||GCM==1157 ||GCM==1158 ||GCM==1159){ /* MPI ECHAM */
+	}else if(GCM_ID==1150 ||GCM_ID==1151 ||GCM_ID==1152 ||GCM_ID==1153 ||GCM_ID==1154 ||
+			GCM_ID==1155 ||GCM_ID==1156 ||GCM_ID==1157 ||GCM_ID==1158 ||GCM_ID==1159){ /* MPI ECHAM */
 		GCM_R = 96;
 		GCM_C = 192;
-	}else if(GCM==1160 || GCM==1161 || GCM==1162 || GCM==1163 || GCM==1164 || GCM==1165){ /* IAP */
+	}else if(GCM_ID==1160 || GCM_ID==1161 || GCM_ID==1162 || GCM_ID==1163 || GCM_ID==1164 || GCM_ID==1165){ /* IAP */
 		GCM_R = 60;
 		GCM_C = 128;
-	}else if(GCM==1170 || GCM==1171){ /* HadGEM */
+	}else if(GCM_ID==1170 || GCM_ID==1171){ /* HadGEM */
 		GCM_R = 145;
 		GCM_C = 192;
-	}else if(GCM==1180 || GCM==1181 || GCM==1182){ /* GFDL CM 2.0 */
+	}else if(GCM_ID==1180 || GCM_ID==1181 || GCM_ID==1182){ /* GFDL CM 2.0 */
 		GCM_R = 90;
 		GCM_C = 144;
-	}else if(GCM==1190 || GCM==1191 || GCM==1192){ /* CNRM */
+	}else if(GCM_ID==1190 || GCM_ID==1191 || GCM_ID==1192){ /* CNRM */
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==1200 || GCM==1201 || GCM==1202 || GCM==1203 || GCM==1204
-			 || GCM==1205 || GCM==1206 || GCM==1207 || GCM==1208 || GCM==1209
-			 || GCM==1210 || GCM==1211 || GCM==1212 || GCM==1213 || GCM==1214){ /* CCC47 */
+	}else if(GCM_ID==1200 || GCM_ID==1201 || GCM_ID==1202 || GCM_ID==1203 || GCM_ID==1204
+			 || GCM_ID==1205 || GCM_ID==1206 || GCM_ID==1207 || GCM_ID==1208 || GCM_ID==1209
+			 || GCM_ID==1210 || GCM_ID==1211 || GCM_ID==1212 || GCM_ID==1213 || GCM_ID==1214){ /* CCC47 */
 		GCM_R = 48;
 		GCM_C = 96;
-	}else if(GCM==1220 || GCM==1221 || GCM==1222 || GCM==1223 || GCM==1224
-			 || GCM==1225 || GCM==1226 || GCM==1227 || GCM==1228 || GCM==1229
-			  || GCM==1230 || GCM==1231 || GCM==1232 || GCM==1233 || GCM==1234
-			   || GCM==1235 || GCM==1236 || GCM==1237 || GCM==1238 || GCM==1239){ /* NCAR CCSM */
+	}else if(GCM_ID==1220 || GCM_ID==1221 || GCM_ID==1222 || GCM_ID==1223 || GCM_ID==1224
+			 || GCM_ID==1225 || GCM_ID==1226 || GCM_ID==1227 || GCM_ID==1228 || GCM_ID==1229
+			  || GCM_ID==1230 || GCM_ID==1231 || GCM_ID==1232 || GCM_ID==1233 || GCM_ID==1234
+			   || GCM_ID==1235 || GCM_ID==1236 || GCM_ID==1237 || GCM_ID==1238 || GCM_ID==1239){ /* NCAR CCSM */
 		GCM_R = 128;
 		GCM_C = 256;
-	}else if(GCM==1240 || GCM==1241 || GCM==1242){ /* GISS E */
+	}else if(GCM_ID==1240 || GCM_ID==1241 || GCM_ID==1242){ /* GISS E */
 		GCM_R = 46;
 		GCM_C = 72;
-	}else if(GCM==1250 || GCM==1251 || GCM==1252 || GCM==1253){ /* GISS R */
+	}else if(GCM_ID==1250 || GCM_ID==1251 || GCM_ID==1252 || GCM_ID==1253){ /* GISS R */
 		GCM_R = 46;
 		GCM_C = 72;
-	}else if(GCM==1260 || GCM==1261 || GCM==1262 || GCM==1263 || GCM==1264
-			 || GCM==1265 || GCM==1266 || GCM==1267){ /* NCAR PCM */
+	}else if(GCM_ID==1260 || GCM_ID==1261 || GCM_ID==1262 || GCM_ID==1263 || GCM_ID==1264
+			 || GCM_ID==1265 || GCM_ID==1266 || GCM_ID==1267){ /* NCAR PCM */
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==3000 || GCM==3003 || GCM==3004){
+	}else if(GCM_ID==3000 || GCM_ID==3003 || GCM_ID==3004){
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==3100 || GCM==3104){
+	}else if(GCM_ID==3100 || GCM_ID==3104){
 		GCM_R = 56;
 		GCM_C = 64;
-	}else if(GCM==3200 || GCM==3203 || GCM==3204){
+	}else if(GCM_ID==3200 || GCM_ID==3203 || GCM_ID==3204){
 		GCM_R = 90;
 		GCM_C = 144;
-	}else if(GCM==3300 || GCM==3303 || GCM==3304 || GCM==3313 || GCM==3314 || GCM==3315){
+	}else if(GCM_ID==3300 || GCM_ID==3303 || GCM_ID==3304 || GCM_ID==3313 || GCM_ID==3314 || GCM_ID==3315){
 		GCM_R = 145;
 		GCM_C = 192;
-	}else if(GCM==3400 || GCM==3403 || GCM==3405){
+	}else if(GCM_ID==3400 || GCM_ID==3403 || GCM_ID==3405){
 		GCM_R = 96;
 		GCM_C = 96;
-	}else if(GCM==3500 || GCM==3504){
+	}else if(GCM_ID==3500 || GCM_ID==3504){
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==3600 || GCM==3604){
+	}else if(GCM_ID==3600 || GCM_ID==3604){
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==3700 || GCM==3704){
+	}else if(GCM_ID==3700 || GCM_ID==3704){
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM==3800 || GCM==3803){
+	}else if(GCM_ID==3800 || GCM_ID==3803){
 		GCM_R = 96;
 		GCM_C = 192;
-	}else if(GCM==3900 || GCM==3913){
+	}else if(GCM_ID==3900 || GCM_ID==3913){
 		GCM_R = 192;
 		GCM_C = 288;
 	}else{
@@ -505,7 +505,7 @@ void set_rowcol_gcm(
 void set_gcm_index(
 	char s_case[]
 ){
-	switch(GCM){
+	switch(GCM_ID){
 		case 1000:	strcpy(s_case,"MHA11_"); break;
 		case 1001:	strcpy(s_case,"MHB11_"); break;
 
@@ -737,6 +737,8 @@ void set_gcm_index(
 		case 4022:	strcpy(s_case,"PLIP85_"); break;
 		case 4023:	strcpy(s_case,"PLIP26_"); break;
 		case 4024:	strcpy(s_case,"PLIP60_"); break;
+
+		case 5001:	strcpy(s_case,"ISIM2H1_"); break;
 
 		default:
 			strcpy(s_case,"STCLIM_"); 

@@ -115,17 +115,21 @@ void read_cru_clim(
             /* unavailable CRU TS data, for example on ocean */
             grid->flag_histdata = 0;
         }
-    }else if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2){
+    }else if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2 ||ISIMIP_RUN == 3){
         
         /* ISI-MIP: 2012/06/27 by A.Ito ****************/
-        /* 1951-1980-detrended: spi-up */
-        /* 1951-2005:           historical */
+        /* 1950-1979-detrended: spi-up */
+        /* 1950-2005:           historical */
         /* 2006-2099:           future projection */
         
         /* PLUME (ISI-MIP2): 2014/07/31 by A.Ito ****************/
         /* 1901-1930-detrended: spi-up */
         /* 1901-2005:           historical */
         
+        /* ISI-MIP2: 2014/11/30 by A.Ito ****************/
+        /* 1901-1930-detrended: spi-up */
+        /* 1901-2010:           historical */
+
         /* ait tempetaure, deg-C */
         fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[0]);
         avtas = 0.0;
@@ -228,7 +232,8 @@ void read_cru_clim(
         /* climatology */
         for(f=0;f<30;f++){
             for(g=0;g<ASTEP;g++){
-                /* average of 1951–1980 (historial detrended) data */
+                /* ISI-MIP1: average of 1951–1980 (historial detrended) data */
+                /* ISI-MIP2: average of 1901–1930 (historial detrended) data */
                 grid->hist_cld_b[g] += grid->hist_cld[f][g] / 30.0;
                 grid->hist_pre_b[g] += grid->hist_pre[f][g] / 30.0;
                 grid->hist_vap_b[g] += grid->hist_vap[f][g] / 30.0;

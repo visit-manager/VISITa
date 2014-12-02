@@ -290,7 +290,7 @@ void f_ch4_emit_walter(
                 t_veg = 18.0;
                 r0 = 1.3;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 13.0;
+                t_veg = 12.0;
                 r0 = 1.05;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
                 t_veg = 5.0;
@@ -304,7 +304,7 @@ void f_ch4_emit_walter(
             }else if(grid->veg_olson==21 || grid->veg_olson==22){
                 t_veg = 1.15;
                 r0 = 0.115;
-            }else if(grid->veg_olson==23){
+            }else if(grid->veg_olson==23 || grid->veg_olson==24){
                 t_veg = 1.2;
                 r0 = 0.12;
             }else{
@@ -317,8 +317,8 @@ void f_ch4_emit_walter(
                 t_veg = 8.0;
                 r0 = 0.67;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 4.5;
-                r0 = 0.45;
+                t_veg = 4.0;
+                r0 = 0.40;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
                 t_veg = 1.8;
                 r0 = 0.18;
@@ -331,7 +331,7 @@ void f_ch4_emit_walter(
             }else if(grid->veg_olson==21 || grid->veg_olson==22){
                 t_veg = 0.45;
                 r0 = 0.045;
-            }else if(grid->veg_olson==23){
+            }else if(grid->veg_olson==23 || grid->veg_olson==24){
                 t_veg = 0.55;
                 r0 = 0.055;
             }else{
