@@ -139,15 +139,15 @@ double frl(
 	/* ftl=exp(log(soil->qTl)/10.0*(grid->tmp10_soil[grid->m]-to)); */
 	if(grid->tmp10_soil[grid->m]>-20.0){
 		if(T_D == 0){
-			ftl = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02))); /* control */
+			ftl = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m] + 46.02))); /* control */
 		}else if(T_D == 1){
-			ftl = 0.05 + 0.95*exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02)));
+			ftl = 0.05 + 0.95*exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m] + 46.02)));
 		}else if(T_D == 2){
-			ftl = 0.05 + 0.95*exp(308.56*0.7*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02)));
+			ftl = 0.05 + 0.95*exp(308.56*0.7*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m] + 46.02)));
 		}else if(T_D == 3){
-			ftl = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02*1.3)));
+			ftl = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m] + 46.02*1.3)));
 		}else if(T_D == 4){
-			ftl = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02*0.7)));
+			ftl = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m] + 46.02*0.7)));
 		}
 	}else{
 		ftl=0.05;
@@ -221,15 +221,15 @@ double frh(
 	/* fth=exp(log(soil->qTh)/10.0*(grid->tmp200_soil[grid->m]-to)); */
 	if(grid->tmp200_soil[grid->m] > -20.0){
 		if(T_D == 0){
-			fth = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[grid->m]+46.02))); /* control */
+			fth = 0.05 + 0.95*exp(308.56*(1.0/56.02 - 1.0/(grid->tmp200_soil[grid->m] + 46.02))); /* control */
 		}else if(T_D == 1){
-			fth = 0.05 + 0.95*exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp200_soil[grid->m]+46.02)));
+			fth = 0.05 + 0.95*exp(308.56*1.3*(1.0/56.02 - 1.0/(grid->tmp200_soil[grid->m] + 46.02)));
 		}else if(T_D == 2){
-			fth = 0.05 + 0.95*exp(308.56*0.7*(1.0/56.02-1.0/(grid->tmp200_soil[grid->m]+46.02)));
+			fth = 0.05 + 0.95*exp(308.56*0.7*(1.0/56.02 - 1.0/(grid->tmp200_soil[grid->m] + 46.02)));
 		}else if(T_D == 3){
-			fth = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[grid->m]+46.02*1.3)));
+			fth = 0.05 + 0.95*exp(308.56*(1.0/56.02 - 1.0/(grid->tmp200_soil[grid->m] + 46.02*1.3)));
 		}else if(T_D == 4){
-			fth = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[grid->m]+46.02*0.7)));
+			fth = 0.05 + 0.95*exp(308.56*(1.0/56.02 - 1.0/(grid->tmp200_soil[grid->m] + 46.02*0.7)));
 		}
 	}else{
 		fth = 0.05;

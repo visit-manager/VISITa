@@ -718,7 +718,7 @@ void open_input(
 	}
 	
 	/* Land use change: Hurtt et al. (2006) */
-	if(LANDUSE==6){
+	if(LANDUSE == 6){
 		if( (fp_s[26]=fopen("./data/EOS_SAGEHYDE_1D_crop.dat","rt"))==NULL ){  
 			printf("No EOS_SAGEHYDE_1D_crop.dat\n");  
 			exit(1); 
@@ -1646,6 +1646,17 @@ void open_input(
     
     /* GEO-MIP */
     if(GCM_ID>=3000 && GCM_ID<=3999){
+        CO2S = 2; /* RCP4.5 */
+        /**/
+        if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
+			printf("NO image_a1b_fcrop.dat !!\n");
+			exit(1);
+		}
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+    }
+    
+    /* ISI-MIP 2 (historical) */
+    if(GCM_ID>=5000 && GCM_ID<=5999){
         CO2S = 2; /* RCP4.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){

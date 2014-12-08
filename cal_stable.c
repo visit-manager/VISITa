@@ -225,6 +225,10 @@ void cal_spinup(
 			(echar->soil).fm0_l[f] = (echar->soil).fm_l[f];
 			(echar->soil).fm0_h[f] = (echar->soil).fm_h[f];
 			flux->lL0[f] = (flux->plant).lL[f];
+            
+            /* baseline soil water: 2014/12/08 by A.Ito */
+            loct->b_sw30[f] = loct->sw30;
+            loct->b_sww[f] = loct->sww;
 		}
 		
 		/* biomass burning */
@@ -255,7 +259,7 @@ void cal_spinup(
             }else{  /*  if(nn>=term_time) */
                 break; /**** 3. stop by 2000 years ****/	
             }
-        }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2){
+        }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3){
             /* spin-up 3000 years (30 x 100 times): 2012/07/02 by A.Ito */
             ann_nep = 10.0;
             if(nn == 3000){

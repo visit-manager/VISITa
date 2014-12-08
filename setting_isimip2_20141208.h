@@ -81,17 +81,23 @@
 #if ISIMIP_RUN==1
     /* ISI-MIP: 2012/06/27 by A.Ito */
     #define DL_AGHG 736
+    #define BGY_AGHG 1765
 #elif ISIMIP_RUN==2
     /* PLUME: 2014/07/31 by A.Ito */
     #define DL_AGHG 736
+    #define BGY_AGHG 1765
+#elif ISIMIP_RUN==3
+    /* ISI-MIP2: 2014/12/02 by A.Ito */
+    #define DL_AGHG 736
+    #define BGY_AGHG 1765
 #elif GEOMIP_RUN==1
     /* GEO-MIP: 2012/06/27 by A.Ito */
     #define DL_AGHG 736
+    #define BGY_AGHG 1765
 #else
     #define DL_AGHG 553 /* default */
+    #define BGY_AGHG 1750
 #endif
-
-#define BGY_AGHG 1765
 
 /***********************************************************/
 /* simulation framework duration (years) */
@@ -772,4 +778,5 @@
 
 /** ISI-MIP2: 2014/11/30 by A.Ito ***********/
 /* 5001: historical GSWP3 */
+/* 5002: historical PGFv2 */
 

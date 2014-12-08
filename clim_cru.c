@@ -169,15 +169,31 @@ void read_cru_clim(
                     /* relative humidity to vapor pressure */
                     /* revided by A.Ito (2012/06/28) */
                     
-                    /* saturated water vapor pressure */
-                    if(grid->hist_tmp[h][g] > 0.0){ /* at water surface */
-                        vps = 6.1078*pow(10.0, (7.5 * grid->hist_tmp[h][g])/(237.3 + grid->hist_tmp[h][g]));
-                    }else{ /* at ice surface */  /*  if(grid->tmp_2m[grid->m]<=0.0) */
-                        vps = 6.1078*pow(10.0, (9.5 * grid->hist_tmp[h][g])/(265.3 + grid->hist_tmp[h][g]));
+                    if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2){
+                        /* saturated water vapor pressure */
+                        if(grid->hist_tmp[h][g] > 0.0){ /* at water surface */
+                            vps = 6.1078*pow(10.0, (7.5 * grid->hist_tmp[h][g])/(237.3 + grid->hist_tmp[h][g]));
+                        }else{ /* at ice surface */  /*  if(grid->tmp_2m[grid->m]<=0.0) */
+                            vps = 6.1078*pow(10.0, (9.5 * grid->hist_tmp[h][g])/(265.3 + grid->hist_tmp[h][g]));
+                        }
+                        vps = (vps>=0.0)?vps:0.0;
+                        
+                        grid->hist_vap[h][g] = vps * (double)r_isimip_data[h*ASTEP+g] / 100.0;
+                    }else if(ISIMIP_RUN == 3){
+                        /* altitude */
+                        alt = (grid->topo>=0.0)?grid->topo:0.0;
+                        
+                        /* air pressure, hPa */
+                        apres = 1013.25*exp(-1.0*(28.964*0.001) * GAC * alt / (UGC*(grid->hist_tmp[h][g] + ZAT)));
+
+                        /* vapour pressure, hPa */
+                        shum = (double)r_isimip_data[h*ASTEP+g];
+                        if(shum < 0.0){
+                            shum = 0.0;
+                        }
+                        grid->hist_vap[h][g] = apres * shum /(0.622 + 0.378 * shum);
                     }
-                    vps = (vps>=0.0)?vps:0.0;
-        
-                    grid->hist_vap[h][g] = vps * (double)r_isimip_data[h*ASTEP+g] / 100.0;
+                    
                     grid->hist_vap[h][g] = (grid->hist_vap[h][g]>0.0)?grid->hist_vap[h][g]:0.0;
                 }
             }
@@ -229,7 +245,7 @@ void read_cru_clim(
             }
         }
         
-        /* climatology */
+        /* climatology *************************************/
         for(f=0;f<30;f++){
             for(g=0;g<ASTEP;g++){
                 /* ISI-MIP1: average of 1951–1980 (historial detrended) data */

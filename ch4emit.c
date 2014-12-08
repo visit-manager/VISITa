@@ -220,7 +220,7 @@ void f_ch4_emit_walter(
 	double f_in, f_org[SOIL_LAYER+2], f_t[SOIL_LAYER+2], f_grow, t_gr, t_mat;
 	double t_veg, flux_ebull, flux_plant, release, f_sand, f_clay;
 	double hh, rr, kk, df_dry, fa_paddy, fa_wetland, day_produc, day_oxid;
-	double r0, f_inundation;
+	double r0, f_inundation, diff_wtd;
 	double q10_ch4prod;
 	
 	/*
@@ -379,10 +379,19 @@ void f_ch4_emit_walter(
 		}else if(EX_CH4_1 == 2){
 			loct->water_table_depth = 0.0 - loct->cum_dprec*0.001;
 		}
-		if(loct->water_table_depth > 0.0){
-			loct->water_table_depth = 0.0;
-		}
-		wtdepth = loct->water_table_depth;	
+        /* 2014/12/08 by A.Ito */
+        if(VAR_WTD == 1){
+            diff_wtd = (loct->sw30+loct->sww) - (loct->b_sw30[grid->m]+loct->b_sww[grid->m]);
+            loct->water_table_depth -= diff_wtd/1000.0;
+            if(loct->water_table_depth > 0.3){
+                loct->water_table_depth = 0.3;
+            }
+        }else{
+            if(loct->water_table_depth > 0.0){
+                loct->water_table_depth = 0.0;
+            }
+        }
+		wtdepth = loct->water_table_depth;
 		
 		/* tuning parameter (cf. Table 2) */
 		/* r0 = 0.4; */  /* 1.0 => 0.7: 2009/08/20 */
@@ -410,10 +419,19 @@ void f_ch4_emit_walter(
 		}else if(EX_CH4_1 == 2){
 			loct->water_table_depth = 0.25 - loct->cum_dprec*0.001;
 		}
-		if(loct->water_table_depth < 0.0){
-			loct->water_table_depth = 0.0;
-		}
-		wtdepth = loct->water_table_depth;	
+        /* 2014/12/08 by A.Ito */
+        if(VAR_WTD == 1){
+            diff_wtd = (loct->sw30+loct->sww) - (loct->b_sw30[grid->m]+loct->b_sww[grid->m]);
+            loct->water_table_depth -= diff_wtd/1000.0;
+            if(loct->water_table_depth > 0.5){
+                loct->water_table_depth = 0.5;
+            }
+        }else{
+            if(loct->water_table_depth > 0.3){
+                loct->water_table_depth = 0.3;
+            }
+        }
+		wtdepth = loct->water_table_depth;
 		
 		/* tuning parameter (cf. Table 2) */
 		/* r0 = 0.25; */  /* 1.0 => 0.7: 2009/08/20 */

@@ -386,8 +386,8 @@ void f_init_grid(
 		}
 	}
 	
-	/** input soil properties ************************************/
-	fscanf(fp_s[3],"%lf", &geo_prop); 
+	/* input soil properties *************************************/
+	fscanf(fp_s[3],"%lf", &geo_prop);
 		geo_prop = (geo_prop>0.0)?geo_prop:0.0;
 		grid->topo = geo_prop; /* topography, m ASL */
 	fscanf(fp_s[3],"%lf", &geo_prop); 
@@ -408,7 +408,7 @@ void f_init_grid(
 		grid->hyd_cond = geo_prop; /* k_s */
 	fscanf(fp_s[3],"%lf",&geo_prop); /* b */
 	
-	/* input monthly climate ***********************************/	
+	/* input monthly climate *************************************/
 	/* long-term average, from NCEP/NCAR reanalysis */
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp_sfc); 
@@ -459,7 +459,7 @@ void f_init_grid(
 		grid->vgrd_10m_a[e] = vgrd_10m;
 	}
 	
-	/* set CRU TS2.1 ****************************************/
+	/* set CRU TS2.1 *******************************************/
 	/* set CRU TS3.0 *************** 2010/01/04 (A.Ito) ********/
 	/* New, M., D. Lister, et al. (2002). "A high-resolution data set of 
 	surface climate over global land areas." Climate Research 21: 1-25. */

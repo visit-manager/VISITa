@@ -238,11 +238,11 @@ double f_par(
 		
 		/* conversion from W/m2 to micro-mol photon /m2/s */
 		/* beam */
-		grid->par_bp[grid->m] = grid->par_be[grid->m]*e2p_b; 
+		grid->par_bp[grid->m] = grid->par_be[grid->m] * e2p_b;
 		/* diffuse */
-		grid->par_dp[grid->m] = grid->par_de[grid->m]*e2p_d; 
+		grid->par_dp[grid->m] = grid->par_de[grid->m] * e2p_d; 
 		
-		/* total */
+		/* total: W/m2 */
 		par = 0.43*(grid->gl_rad[grid->m]-hd)*e2p_b + 0.57*hd*e2p_d;
 	}else{
 		par = 0.0;

@@ -385,6 +385,10 @@
 #define VAR_PFMWET 0
 /* 0:off, 1:0n */
 
+/* variable water-table depth: 2014/12/08 by A.Ito */
+#define VAR_WTD 1
+/* 0:off, 1:0n */
+
 /*******************************************************/
 /* parameter perturbation */
 /* climate perturbation */
