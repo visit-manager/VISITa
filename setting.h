@@ -45,13 +45,13 @@
 /* output text files */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 1
-#define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
-#define OUTPUT_EROSION 0
+#define OUTPUT_BB 1
+#define OUTPUT_BVOC 1
+#define OUTPUT_EROSION 1
 #define OUTPUT_GHG 1
 #define OUTPUT_HYDMET 1
-#define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
+#define OUTPUT_ISOTOPE 1
+#define OUTPUT_NITROGEN 1
 /* output binary */
 #define C13_GOUT 1
 #define C14_GOUT 1

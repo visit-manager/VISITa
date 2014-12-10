@@ -418,7 +418,9 @@ void f_set_history_data(
 		
 		rh_luc[grid->reg_g][year] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
 		
-		h_hvst_wood[year] += flux->hvst_wood * grid->area;
+        /* 2014/12/10 by A.Ito */
+		/* h_hvst_wood[year] += flux->hvst_wood * grid->area; */
+		h_hvst_wood[year] += fweight * flux->hvst_wood * grid->area;
         
         h_wetarea[year] += grid->f_wetland * grid->area;
 

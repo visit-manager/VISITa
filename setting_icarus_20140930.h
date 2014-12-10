@@ -229,6 +229,9 @@
 /* crop harvest */
 #define NECB_CROP 1
 
+/* parameter ensemble *************************************/
+#define NPERT 20
+
 /***************************************************/
 /* land use change setting ***********/
 #define LANDUSE 14
@@ -357,6 +360,10 @@
 
 /* change in wetland extent due to permafrost melting: 2012/10/26 by A.Ito */
 #define VAR_PFMWET 0
+/* 0:off, 1:0n */
+
+/* variable water-table depth: 2014/12/08 by A.Ito */
+#define VAR_WTD 1
 /* 0:off, 1:0n */
 
 /***************************************************/

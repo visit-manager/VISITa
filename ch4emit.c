@@ -26,18 +26,18 @@ void f_ch4_emit_cao(
 ){
 	double f_inund_wet, f_inund_pad, wtable;	/* water table, cm */
 	double f_temp, f_wtable, f_wtable_lake;
-	double hr_decomp, gpp_factor;
+	double hr_decomp, gpp_factor, diff_wtd;
 	
 	/* soil decomposition rate. Mg C ha-1 month-1 */
 	hr_decomp = (flux->soil).hr[grid->m];
-	if(hr_decomp<0.0){
+	if(hr_decomp < 0.0){
 		hr_decomp = 0.0;
 	}
 	
 	/* temperature (deg C) coefficient */
 	/* eq.7 */
 	f_temp = exp(grid->tmp10_soil[grid->m] * 0.0693) / 7.996;
-	if(f_temp<0.0){
+	if(f_temp < 0.0){
 		f_temp = 0.0;
 	}
 	
@@ -103,13 +103,23 @@ void f_ch4_emit_cao(
 						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -25.0)); */
 	/* 2013/11/29 by A.Ito */
     wtable = 4.0;
+    
+    /* 2014/12/10 by A.Ito */
+    if(VAR_WTD == 1){
+        diff_wtd = (loct->sw30+loct->sww) - (loct->b_sw30[grid->m]+loct->b_sww[grid->m]);
+        wtable -= diff_wtd;
+        if(wtable > 30.0){
+            wtable = 30.0;
+        }
+    }
+    
 	f_wtable = 0.383 * (f_inund_wet * exp(0.096 * wtable)
-						+ (1.0 - f_inund_wet)*exp(0.096 * -10.0));
+						+ (1.0 - f_inund_wet)*exp(0.096 * (wtable-14.0)));
 	/* if(ALT_FWETLAND == 1){
 		f_wtable = 0.383 * (grid->f_wetland*exp(0.096 * wtable) 
 							+ (1.0-grid->f_wetland)*exp(0.096 * -25.0));
 	} */
-	if(f_wtable<0.0){
+	if(f_wtable < 0.0){
 		f_wtable = 0.0;
 	}
      
@@ -163,8 +173,13 @@ void f_ch4_emit_cao(
 	/* f_wtable = 0.383 * (f_inund * exp(0.096 * 3.0)
 						+ (1.0 - f_inund)*exp(0.096 * -50.0));	 */
     /* revised by A.Ito (2013/11/29) */
-	f_wtable = 0.383 * (f_inund_pad * exp(0.096 * 4.0)
-						+ (1.0 - f_inund_pad)*exp(0.096 * -10.0));
+
+    /* 2014/12/10 by A.Ito */
+    wtable = 4.0;
+    
+	f_wtable = 0.383 * (f_inund_pad * exp(0.096 * wtable)
+						+ (1.0 - f_inund_pad)*exp(0.096 * (wtable - 14.0)));
+    
 	if(f_wtable < 0.0){
         f_wtable = 0.0;
 	}
@@ -526,7 +541,13 @@ void f_ch4_emit_walter(
 	/* q10_ch4prod = 6.0; */
 	/* q10_ch4prod = 4.0; */
 	/* q10_ch4prod = 3.0; */
-	q10_ch4prod = 3.2;
+	/* q10_ch4prod = 3.2; */
+	q10_ch4prod = 3.85;
+    /* 2014/12/10 by A.Ito
+    Yvon-Durocher, G., A. P. Allen, D. Bastviken, R. Conrad, C. Gudasz, A. St-Pierre, 
+    N. Thanh-Duc, and P. A. del Giorgio (2014), 
+    Methane fluxes show consistent temperature dependence across microbial to 
+    ecosystem scales, Nature, 507, 488–491, doi:10.1038/nature13164.  */
 	if(EX_CH4_2 == 1){
 		q10_ch4prod = 3.0;
 	}else if(EX_CH4_2 == 2){
