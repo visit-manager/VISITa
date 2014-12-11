@@ -241,7 +241,7 @@ void f_dyn_loct(
 	struct Mass *mass, 
 	struct Echar *echar
 ){
-	long h;
+	long h, offset;
 	double alt, k_c, vpres_var, tmp_ann, tmp_var, wet_var;
 	
 	/* solar constant sensitivity */
@@ -374,6 +374,16 @@ void f_dyn_loct(
 		loct->prof_ch4[h] = ach4_a1[grid->co2y - 1750]/1000.0 
 			* loct->prsr[grid->m] / (UGC * (grid->tmp10_soil[grid->m] + ZAT));
 	}
+    
+    offset = 0;
+    if(ISIMIP_RUN == 3){
+        if(grid->phase == 0){
+            offset = 0;
+        }else if(grid->phase == 1){
+            /* skip spin-up data */
+            offset = 30;
+        }
+    }
 
 	if(grid->flag_histdata == 1){
 		/* vapour pressure, hPa */
@@ -383,7 +393,7 @@ void f_dyn_loct(
 		}else if(grid->phase == 1){
 			if(grid->climy < (PIVOT_CLIMY + PD_HIST)){
 				/* based on UEA/CRU or ISI-MIP data */
-				loct->vp[grid->m] = grid->hist_vap[grid->climy - PIVOT_CLIMY][grid->m];	
+				loct->vp[grid->m] = grid->hist_vap[grid->climy - PIVOT_CLIMY + offset][grid->m];
 			}else{
 				/* based on NCEP/NCAR */
 				vpres_var = grid->ncep_vpres[grid->climy - PIVOT_NCEP][grid->m][grid->ncep_lat][grid->ncep_lon] 

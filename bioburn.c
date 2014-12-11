@@ -96,7 +96,7 @@ void f_biomassburning(
 		0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
 		0.85, 0.85, 0.6, 0.6, 0.5, 0.85, 0.85};
 		
-	double closs_leaf, closs_wood, closs_root, closs_litter;
+	double closs_leaf, closs_wood, closs_root, closs_litter, prm_ensen;
 	
 	extern double MDN[ASTEP];
 	
@@ -190,6 +190,29 @@ void f_biomassburning(
 	}else{
 		fa_burnt = 0.0;
 	}
+    
+    /* parameter ensemble: 2014/11/19 by A.Ito */
+    prm_ensen = 1.0;
+    if(PARAM_PTB == 6){
+        if(PARAM_ENS==1){
+            prm_ensen *= 0.7;
+        }
+        if(PARAM_ENS==2){
+            prm_ensen *= 0.8;
+        }
+        if(PARAM_ENS==3){
+            prm_ensen *= 0.9;
+        }
+        if(PARAM_ENS==4){
+            prm_ensen *= 1.1;
+        }
+        if(PARAM_ENS==5){
+            prm_ensen *= 1.2;
+        }
+        if(PARAM_ENS==6){
+            prm_ensen *= 1.3;
+        }
+    }
 	
 	/******************************/
 	flux->f_burnt = fa_burnt;
@@ -209,116 +232,116 @@ void f_biomassburning(
 		/* g/kg = kg/Mg, per ha */
 		/* CO2 emission */
 		flux->bb_co2_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_litter[grid->veg_sage] * ef_co2[grid->veg_sage];
+			* f_burnt_litter[grid->veg_sage] * ef_co2[grid->veg_sage] * prm_ensen;
 		flux->bb_co2_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_leaf[grid->veg_sage] * ef_co2[grid->veg_sage];
+			* f_burnt_leaf[grid->veg_sage] * ef_co2[grid->veg_sage] * prm_ensen;
 		flux->bb_co2_wood[f] = flux->a_burnt[f] * (mass->plant).mstm[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_wood[grid->veg_sage] * ef_co2[grid->veg_sage];
+			* f_burnt_wood[grid->veg_sage] * ef_co2[grid->veg_sage] * prm_ensen;
 		flux->bb_co2_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_root[grid->veg_sage] * ef_co2[grid->veg_sage];
+			* f_burnt_root[grid->veg_sage] * ef_co2[grid->veg_sage] * prm_ensen;
 
 		/* CO emission */
 		flux->bb_co_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_litter[grid->veg_sage] * ef_co[grid->veg_sage];
+			* f_burnt_litter[grid->veg_sage] * ef_co[grid->veg_sage] * prm_ensen;
 		flux->bb_co_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_leaf[grid->veg_sage] * ef_co[grid->veg_sage];
+			* f_burnt_leaf[grid->veg_sage] * ef_co[grid->veg_sage] * prm_ensen;
 		flux->bb_co_wood[f] = flux->a_burnt[f] * (mass->plant).mstm[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_wood[grid->veg_sage] * ef_co[grid->veg_sage];
+			* f_burnt_wood[grid->veg_sage] * ef_co[grid->veg_sage] * prm_ensen;
 		flux->bb_co_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_root[grid->veg_sage] * ef_co[grid->veg_sage];
+			* f_burnt_root[grid->veg_sage] * ef_co[grid->veg_sage] * prm_ensen;
 
 		/* CH4 emission */
 		flux->bb_ch4_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_litter[grid->veg_sage] * ef_ch4[grid->veg_sage];
+			* f_burnt_litter[grid->veg_sage] * ef_ch4[grid->veg_sage] * prm_ensen;
 		flux->bb_ch4_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_leaf[grid->veg_sage] * ef_ch4[grid->veg_sage];
+			* f_burnt_leaf[grid->veg_sage] * ef_ch4[grid->veg_sage] * prm_ensen;
 		flux->bb_ch4_wood[f] = flux->a_burnt[f] * (mass->plant).mstm[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_wood[grid->veg_sage] * ef_ch4[grid->veg_sage];
+			* f_burnt_wood[grid->veg_sage] * ef_ch4[grid->veg_sage] * prm_ensen;
 		flux->bb_ch4_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_root[grid->veg_sage] * ef_ch4[grid->veg_sage];
+			* f_burnt_root[grid->veg_sage] * ef_ch4[grid->veg_sage] * prm_ensen;
 
 		/* NMHC emission */
 		flux->bb_nmhc_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_litter[grid->veg_sage] * ef_nmhc[grid->veg_sage];
+			* f_burnt_litter[grid->veg_sage] * ef_nmhc[grid->veg_sage] * prm_ensen;
 		flux->bb_nmhc_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_leaf[grid->veg_sage] * ef_nmhc[grid->veg_sage];
+			* f_burnt_leaf[grid->veg_sage] * ef_nmhc[grid->veg_sage] * prm_ensen;
 		flux->bb_nmhc_wood[f] = flux->a_burnt[f] * (mass->plant).mstm[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_wood[grid->veg_sage] * ef_nmhc[grid->veg_sage];
+			* f_burnt_wood[grid->veg_sage] * ef_nmhc[grid->veg_sage] * prm_ensen;
 		flux->bb_nmhc_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_root[grid->veg_sage] * ef_nmhc[grid->veg_sage];
+			* f_burnt_root[grid->veg_sage] * ef_nmhc[grid->veg_sage] * prm_ensen;
 
 		/* OC emission */
 		flux->bb_oc_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_litter[grid->veg_sage] * ef_oc[grid->veg_sage];
+			* f_burnt_litter[grid->veg_sage] * ef_oc[grid->veg_sage] * prm_ensen;
 		flux->bb_oc_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_leaf[grid->veg_sage] * ef_oc[grid->veg_sage];
+			* f_burnt_leaf[grid->veg_sage] * ef_oc[grid->veg_sage] * prm_ensen;
 		flux->bb_oc_wood[f] = flux->a_burnt[f] * (mass->plant).mstm[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_wood[grid->veg_sage] * ef_oc[grid->veg_sage];
+			* f_burnt_wood[grid->veg_sage] * ef_oc[grid->veg_sage] * prm_ensen;
 		flux->bb_oc_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_root[grid->veg_sage] * ef_oc[grid->veg_sage];
+			* f_burnt_root[grid->veg_sage] * ef_oc[grid->veg_sage] * prm_ensen;
 
 		/* BC emission */
 		flux->bb_bc_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_litter[grid->veg_sage] * ef_bc[grid->veg_sage];
+			* f_burnt_litter[grid->veg_sage] * ef_bc[grid->veg_sage] * prm_ensen;
 		flux->bb_bc_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_leaf[grid->veg_sage] * ef_bc[grid->veg_sage];
+			* f_burnt_leaf[grid->veg_sage] * ef_bc[grid->veg_sage] * prm_ensen;
 		flux->bb_bc_wood[f] = flux->a_burnt[f] * (mass->plant).mstm[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_wood[grid->veg_sage] * ef_bc[grid->veg_sage];
+			* f_burnt_wood[grid->veg_sage] * ef_bc[grid->veg_sage] * prm_ensen;
 		flux->bb_bc_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_root[grid->veg_sage] * ef_bc[grid->veg_sage];
+			* f_burnt_root[grid->veg_sage] * ef_bc[grid->veg_sage] * prm_ensen;
 
 		/* NOx emission */
 		flux->bb_nox_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_litter[grid->veg_sage] * ef_nox[grid->veg_sage];
+			* f_burnt_litter[grid->veg_sage] * ef_nox[grid->veg_sage] * prm_ensen;
 		flux->bb_nox_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_leaf[grid->veg_sage] * ef_nox[grid->veg_sage];
+			* f_burnt_leaf[grid->veg_sage] * ef_nox[grid->veg_sage] * prm_ensen;
 		flux->bb_nox_wood[f] = flux->a_burnt[f] * (mass->plant).mstm[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_wood[grid->veg_sage] * ef_nox[grid->veg_sage];
+			* f_burnt_wood[grid->veg_sage] * ef_nox[grid->veg_sage] * prm_ensen;
 		flux->bb_nox_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_root[grid->veg_sage] * ef_nox[grid->veg_sage];
+			* f_burnt_root[grid->veg_sage] * ef_nox[grid->veg_sage] * prm_ensen;
 
 		/* SO2 emission */
 		flux->bb_so2_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_litter[grid->veg_sage] * ef_so2[grid->veg_sage];
+			* f_burnt_litter[grid->veg_sage] * ef_so2[grid->veg_sage] * prm_ensen;
 		flux->bb_so2_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_leaf[grid->veg_sage] * ef_so2[grid->veg_sage];
+			* f_burnt_leaf[grid->veg_sage] * ef_so2[grid->veg_sage] * prm_ensen;
 		flux->bb_so2_wood[f] = flux->a_burnt[f] * (mass->plant).mstm[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_wood[grid->veg_sage] * ef_so2[grid->veg_sage];
+			* f_burnt_wood[grid->veg_sage] * ef_so2[grid->veg_sage] * prm_ensen;
 		flux->bb_so2_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_root[grid->veg_sage] * ef_so2[grid->veg_sage];
+			* f_burnt_root[grid->veg_sage] * ef_so2[grid->veg_sage] * prm_ensen;
 
 		/* PM2.5 emission */
 		flux->bb_pm25_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_litter[grid->veg_sage] * ef_pm25[grid->veg_sage];
+			* f_burnt_litter[grid->veg_sage] * ef_pm25[grid->veg_sage] * prm_ensen;
 		flux->bb_pm25_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_leaf[grid->veg_sage] * ef_pm25[grid->veg_sage];
+			* f_burnt_leaf[grid->veg_sage] * ef_pm25[grid->veg_sage] * prm_ensen;
 		flux->bb_pm25_wood[f] = flux->a_burnt[f] * (mass->plant).mstm[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_wood[grid->veg_sage] * ef_pm25[grid->veg_sage];
+			* f_burnt_wood[grid->veg_sage] * ef_pm25[grid->veg_sage] * prm_ensen;
 		flux->bb_pm25_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_root[grid->veg_sage] * ef_pm25[grid->veg_sage];
+			* f_burnt_root[grid->veg_sage] * ef_pm25[grid->veg_sage] * prm_ensen;
 
 		/* TPM (total particulate matter) emission */
 		flux->bb_tpm_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_litter[grid->veg_sage] * ef_tpm[grid->veg_sage];
+			* f_burnt_litter[grid->veg_sage] * ef_tpm[grid->veg_sage] * prm_ensen;
 		flux->bb_tpm_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_leaf[grid->veg_sage] * ef_tpm[grid->veg_sage];
+			* f_burnt_leaf[grid->veg_sage] * ef_tpm[grid->veg_sage] * prm_ensen;
 		flux->bb_tpm_wood[f] = flux->a_burnt[f] * (mass->plant).mstm[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_wood[grid->veg_sage] * ef_tpm[grid->veg_sage];
+			* f_burnt_wood[grid->veg_sage] * ef_tpm[grid->veg_sage] * prm_ensen;
 		flux->bb_tpm_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_root[grid->veg_sage] * ef_tpm[grid->veg_sage];
+			* f_burnt_root[grid->veg_sage] * ef_tpm[grid->veg_sage] * prm_ensen;
 
 		/* TEC emission */
 		flux->bb_tec_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_litter[grid->veg_sage] * ef_tec[grid->veg_sage];
+			* f_burnt_litter[grid->veg_sage] * ef_tec[grid->veg_sage] * prm_ensen;
 		flux->bb_tec_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_leaf[grid->veg_sage] * ef_tec[grid->veg_sage];
+			* f_burnt_leaf[grid->veg_sage] * ef_tec[grid->veg_sage] * prm_ensen;
 		flux->bb_tec_wood[f] = flux->a_burnt[f] * (mass->plant).mstm[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_wood[grid->veg_sage] * ef_tec[grid->veg_sage];
+			* f_burnt_wood[grid->veg_sage] * ef_tec[grid->veg_sage] * prm_ensen;
 		flux->bb_tec_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
-			* f_burnt_root[grid->veg_sage] * ef_tec[grid->veg_sage];
+			* f_burnt_root[grid->veg_sage] * ef_tec[grid->veg_sage] * prm_ensen;
 		
 		/* carbon budget ****************************************/
-		if(NECB_BB == 1){
+		if(NECB_BB == 1 && EX_CCPL != 2){
 			closs_leaf = flux->bb_co2_leaf[f]*12.0/44.0/1000.0 + flux->bb_co_leaf[f]*12.0/28.0/1000.0 
 				+ flux->bb_ch4_leaf[f]*12.0/16.0/1000.0 + flux->bb_bc_leaf[f]/1000.0;
 			closs_wood = flux->bb_co2_wood[f]*12.0/44.0/1000.0 + flux->bb_co_wood[f]*12.0/28.0/1000.0 

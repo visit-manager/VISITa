@@ -374,14 +374,14 @@ void f_output_result(
         fprintf(fp_o[0],"%.4lf ", flux->lu_hund); /* */
         
         /* added 2014/02/17 by A.Ito */
-        /* fprintf(fp_o[0],"%.4lf ", flux->npp_miami);
+        fprintf(fp_o[0],"%.4lf ", flux->npp_miami);
         fprintf(fp_o[0],"%.4lf ", flux->npp_montreal); 
         fprintf(fp_o[0],"%.4lf ", flux->npp_schuur);
         fprintf(fp_o[0],"%.4lf ", flux->npp_nceas);
         fprintf(fp_o[0],"%.4lf ", flux->npp_chikugo);
         fprintf(fp_o[0],"%.4lf ", flux->npp_madison_parwsi);
         fprintf(fp_o[0],"%.4lf ", flux->npp_madison_gddswsi);
-        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_tp); */
+        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_tp); /* */
 	
         /* added: 2011/04/19 (A.Ito) */
         fprintf(fp_o[0],"%.4lf ", flux->erod_carbon);
@@ -389,7 +389,7 @@ void f_output_result(
         fprintf(fp_o[0],"%.4lf ", flux->hvst_wood);
         
         /* added: 2014/05/21 (A.Ito) */
-        /* fprintf(fp_o[0],"%.4lf ", loct->est_maxlai); */
+        fprintf(fp_o[0],"%.4lf ", loct->est_maxlai); /* */
         
         fprintf(fp_o[0],"\n");
     }
@@ -663,19 +663,19 @@ void f_output_result(
     if(OUTPUT_CARBON2 == 1){
         fprintf(fp_o[8],"%ld %lf ", year, grid->f_crop_con);
         for(f=0;f<ASTEP;f++){
-            fprintf(fp_o[8],"%.3lf ", (flux->plant).tpf[f]);
+            fprintf(fp_o[8],"%.3lf ", (flux->plant).tpf[f]); //0
             fprintf(fp_o[8],"%.3lf ", (flux->plant).tpc[f]);
             fprintf(fp_o[8],"%.3lf ", (flux->plant).tpr[f]);
             fprintf(fp_o[8],"%.3lf ", (flux->plant).tpp[f]);
             
-            fprintf(fp_o[8],"%.3lf ", (flux->plant).rfg[f]);
+            fprintf(fp_o[8],"%.3lf ", (flux->plant).rfg[f]); //4
             fprintf(fp_o[8],"%.3lf ", (flux->plant).rfm[f]);
             fprintf(fp_o[8],"%.3lf ", (flux->plant).rcg[f]);
             fprintf(fp_o[8],"%.3lf ", (flux->plant).rcm[f]);
             fprintf(fp_o[8],"%.3lf ", (flux->plant).rrg[f]);
             fprintf(fp_o[8],"%.3lf ", (flux->plant).rrm[f]);
 
-            fprintf(fp_o[8],"%.3lf ", (flux->plant).lf[f]);
+            fprintf(fp_o[8],"%.3lf ", (flux->plant).lf[f]); //10
             fprintf(fp_o[8],"%.3lf ", (flux->plant).lc[f]);
             fprintf(fp_o[8],"%.3lf ", (flux->plant).lr[f]);
 
@@ -685,13 +685,13 @@ void f_output_result(
             
             /* additional data for PLUME: 2014/10/09 by A.Ito */
             if(ISIMIP_RUN == 2){
-                fprintf(fp_o[8],"%.3lf ", (flux->plant).epp[f]);
+                fprintf(fp_o[8],"%.3lf ", (flux->plant).epp[f]); //16
                 
-                fprintf(fp_o[8],"%.6lf ", (echar->soil).rl/1000.0);
+                fprintf(fp_o[8],"%.6lf ", (echar->soil).rl/1000.0); //17
                 fprintf(fp_o[8],"%.6lf ", (echar->soil).ft_l[f]);
                 fprintf(fp_o[8],"%.6lf ", (echar->soil).fm_l[f]);
                 
-                fprintf(fp_o[8],"%.6lf ", (echar->soil).rh/1000.0);
+                fprintf(fp_o[8],"%.6lf ", (echar->soil).rh/1000.0); //20
                 fprintf(fp_o[8],"%.6lf ", (echar->soil).ft_h[f]);
                 fprintf(fp_o[8],"%.6lf ", (echar->soil).fm_h[f]);
             }

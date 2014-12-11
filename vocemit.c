@@ -93,7 +93,7 @@ void f_voc_emit_guenther97(
         2.0, 2.0, 100.0, 100.0, 2.0, 2.0, 2.0,
         2.0, 100.0};
 	long f, idveg;
-	double foliar_dens, leaf_temp, parday;
+	double foliar_dens, leaf_temp, parday, prm_ensen;
 	double f_ppfd, f_temp_isopr, f_temp_monotrp, f_phenology;
 	double aa, bb, cc, cc2, dd, laiage[49], t_lai, total_closs;
 	extern double MDN[ASTEP];
@@ -117,9 +117,9 @@ void f_voc_emit_guenther97(
 	15	Polar Desert/Rock/Ice
 	*/
     /* revised by A.Ito: 2014/03/27 */
-    if(loct->v_type==1){
+    if(loct->v_type == 1){
         idveg = grid->veg_sage;
-    }else if(loct->v_type==2){
+    }else if(loct->v_type == 2){
         idveg = 16;
     }
 
@@ -210,24 +210,47 @@ void f_voc_emit_guenther97(
 	/***********************************************************************/
 	cc = foliar_dens * MDN[grid->m] * grid->dlen[grid->m];
     cc2 = loct->lai[grid->m] * MDN[grid->m] * grid->dlen[grid->m];
+    
+    /* parameter ensemble: 2014/11/19 by A.Ito */
+    prm_ensen = 1.0;
+    if(PARAM_PTB == 8){
+        if(PARAM_ENS == 1){
+            prm_ensen *= 0.7;
+        }
+        if(PARAM_ENS == 2){
+            prm_ensen *= 0.8;
+        }
+        if(PARAM_ENS == 3){
+            prm_ensen *= 0.9;
+        }
+        if(PARAM_ENS == 4){
+            prm_ensen *= 1.1;
+        }
+        if(PARAM_ENS == 5){
+            prm_ensen *= 1.2;
+        }
+        if(PARAM_ENS == 6){
+            prm_ensen *= 1.3;
+        }
+    }
 	
 	/* VOC emission, micro g C m-2 month-1  */
-	flux->voc_isopr_g97[grid->m] = emit_potent_isopr[idveg] * cc * f_ppfd * f_temp_isopr * f_phenology;
-	flux->voc_monotrp_g97[grid->m] = emit_potent_monotrp[idveg] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_methanl_g97[grid->m] = emit_potent_methanl[idveg] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_acetone_g97[grid->m] = emit_potent_acetone[idveg] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_actaldhd_g97[grid->m] = emit_potent_actaldhd[idveg] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_frmardhd_g97[grid->m] = emit_potent_frmardhd[idveg] * cc *f_temp_monotrp * f_phenology;
-	flux->voc_formacd_g97[grid->m] = emit_potent_formacd[idveg] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_acetacd_g97[grid->m] = emit_potent_acetacd[idveg] * cc * f_temp_monotrp * f_phenology;
-	flux->voc_co_g97[grid->m] = emit_potent_co[idveg] * cc * f_temp_monotrp * f_phenology;
+	flux->voc_isopr_g97[grid->m] = emit_potent_isopr[idveg] * cc * f_ppfd * f_temp_isopr * f_phenology * prm_ensen;
+	flux->voc_monotrp_g97[grid->m] = emit_potent_monotrp[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;
+	flux->voc_methanl_g97[grid->m] = emit_potent_methanl[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;
+	flux->voc_acetone_g97[grid->m] = emit_potent_acetone[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;
+	flux->voc_actaldhd_g97[grid->m] = emit_potent_actaldhd[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;
+	flux->voc_frmardhd_g97[grid->m] = emit_potent_frmardhd[idveg] * cc *f_temp_monotrp * f_phenology * prm_ensen;
+	flux->voc_formacd_g97[grid->m] = emit_potent_formacd[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;
+	flux->voc_acetacd_g97[grid->m] = emit_potent_acetacd[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;
+	flux->voc_co_g97[grid->m] = emit_potent_co[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;
     /* added 2014/9/11 by A.Ito */
-	flux->voc_afarnesene[grid->m] = emit_potent_afarnesene[idveg] * cc2 * f_temp_monotrp * f_phenology;
-	flux->voc_bcaryophyllene[grid->m] = emit_potent_bcaryophyllene[idveg] * cc2 * f_temp_monotrp * f_phenology;
-	flux->voc_othersesqui[grid->m] = emit_potent_othersesqui[idveg] * cc2 * f_temp_monotrp * f_phenology;
+	flux->voc_afarnesene[grid->m] = emit_potent_afarnesene[idveg] * cc2 * f_temp_monotrp * f_phenology * prm_ensen;
+	flux->voc_bcaryophyllene[grid->m] = emit_potent_bcaryophyllene[idveg] * cc2 * f_temp_monotrp * f_phenology * prm_ensen;
+	flux->voc_othersesqui[grid->m] = emit_potent_othersesqui[idveg] * cc2 * f_temp_monotrp * f_phenology * prm_ensen;
 	
 	/* carbon loss by BVOC emission: 2008/10/09 */
-	if(NECB_BVOC == 1){
+	if(NECB_BVOC == 1 && (EX_CCPL != 4 && EX_CCPL != 8)){
         /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
          
 		total_closs = flux->voc_isopr_g97[grid->m] + flux->voc_monotrp_g97[grid->m] + flux->voc_methanl_g97[grid->m] + 

@@ -65,7 +65,7 @@ void read_ncep_clim(
 	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4813.dat","rt"))==NULL ){  
 		printf("No tcdc.eatm.gauss.mon4813.dat\n");  exit(1); }
 	
-	for(f=0;f<DL_NCEP;f++){   /*  1948-2011 */
+	for(f=0;f<DL_NCEP;f++){   /*  1948-20XX */
 		for(g=0;g<ASTEP;g++){
 			fscanf(fp_t,"%ld %ld", &yr, &mon);
 			fscanf(fp_p,"%ld %ld", &yr, &mon);
@@ -85,7 +85,7 @@ void read_ncep_clim(
 		}
 	}
 	
-	/* average 1970-1999 */
+	/* average climatology 1970-1999 */
 	for(f=0;f<30;f++){
 		for(g=0;g<ASTEP;g++){
 			for(h=0;h<94;h++){

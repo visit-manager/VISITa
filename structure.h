@@ -296,12 +296,19 @@ struct Grid{
 	/* nitrogen deposition */
 	double 	ndepo[3];					/* N deposition by Galloway et al. (2004) */
 	
-	/* CHASE 2001 monthly, by A.Ito (2010/05/21) */
+	/* CHASER 2001 monthly, by A.Ito (2010/05/21) */
 	double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
 	double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
 	double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
 	double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
-	double	ndepo_ann_dnhx, ndepo_ann_dnoy, ndepo_ann_wnhx, ndepo_ann_wnoy;
+
+	/* CHASER4.0 monthly, by A.Ito (2014/11/19) */
+	double	ndepo_chaser4_nhx_h[ASTEP][64][128];		/* NHx */
+	double	ndepo_chaser4_noy_h[ASTEP][64][128];		/* NOy */
+	double	ndepo_chaser4_ont_h[ASTEP][64][128];		/* Org NOx */
+	double	ndepo_chaser4_nhx_p[ASTEP][64][128];		/* NHx */
+	double	ndepo_chaser4_noy_p[ASTEP][64][128];		/* NOy */
+	double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
 	
 	/* radiation conversion model using SRB data */
 	double	srb_dif_aa;					/* linear regression a */
@@ -385,6 +392,9 @@ struct Loct{
 	double	msw30[ASTEP];				/* monthly */
 	double	sww;						/* whole soil water content, mm */
 	double	msww[ASTEP];				/* monthly */
+    
+    double  b_sw30[ASTEP];              /* baseline soil water, 0-30cm */
+    double  b_sww[ASTEP];               /* baseline soil water, 30-cm */
 
 	/* water fluxes, mm / month */
 	double	pm_evp[ASTEP];				/* potential soil evaporation rate, mm */

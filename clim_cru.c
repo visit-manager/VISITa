@@ -115,17 +115,21 @@ void read_cru_clim(
             /* unavailable CRU TS data, for example on ocean */
             grid->flag_histdata = 0;
         }
-    }else if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2){
+    }else if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2 ||ISIMIP_RUN == 3){
         
         /* ISI-MIP: 2012/06/27 by A.Ito ****************/
-        /* 1951-1980-detrended: spi-up */
-        /* 1951-2005:           historical */
+        /* 1950-1979-detrended: spi-up */
+        /* 1950-2005:           historical */
         /* 2006-2099:           future projection */
         
         /* PLUME (ISI-MIP2): 2014/07/31 by A.Ito ****************/
         /* 1901-1930-detrended: spi-up */
         /* 1901-2005:           historical */
         
+        /* ISI-MIP2: 2014/11/30 by A.Ito ****************/
+        /* 1901-1930-detrended: spi-up */
+        /* 1901-2010:           historical */
+
         /* ait tempetaure, deg-C */
         fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[0]);
         avtas = 0.0;
@@ -165,15 +169,31 @@ void read_cru_clim(
                     /* relative humidity to vapor pressure */
                     /* revided by A.Ito (2012/06/28) */
                     
-                    /* saturated water vapor pressure */
-                    if(grid->hist_tmp[h][g] > 0.0){ /* at water surface */
-                        vps = 6.1078*pow(10.0, (7.5 * grid->hist_tmp[h][g])/(237.3 + grid->hist_tmp[h][g]));
-                    }else{ /* at ice surface */  /*  if(grid->tmp_2m[grid->m]<=0.0) */
-                        vps = 6.1078*pow(10.0, (9.5 * grid->hist_tmp[h][g])/(265.3 + grid->hist_tmp[h][g]));
+                    if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2){
+                        /* saturated water vapor pressure */
+                        if(grid->hist_tmp[h][g] > 0.0){ /* at water surface */
+                            vps = 6.1078*pow(10.0, (7.5 * grid->hist_tmp[h][g])/(237.3 + grid->hist_tmp[h][g]));
+                        }else{ /* at ice surface */  /*  if(grid->tmp_2m[grid->m]<=0.0) */
+                            vps = 6.1078*pow(10.0, (9.5 * grid->hist_tmp[h][g])/(265.3 + grid->hist_tmp[h][g]));
+                        }
+                        vps = (vps>=0.0)?vps:0.0;
+                        
+                        grid->hist_vap[h][g] = vps * (double)r_isimip_data[h*ASTEP+g] / 100.0;
+                    }else if(ISIMIP_RUN == 3){
+                        /* altitude */
+                        alt = (grid->topo>=0.0)?grid->topo:0.0;
+                        
+                        /* air pressure, hPa */
+                        apres = 1013.25*exp(-1.0*(28.964*0.001) * GAC * alt / (UGC*(grid->hist_tmp[h][g] + ZAT)));
+
+                        /* vapour pressure, hPa */
+                        shum = (double)r_isimip_data[h*ASTEP+g];
+                        if(shum < 0.0){
+                            shum = 0.0;
+                        }
+                        grid->hist_vap[h][g] = apres * shum /(0.622 + 0.378 * shum);
                     }
-                    vps = (vps>=0.0)?vps:0.0;
-        
-                    grid->hist_vap[h][g] = vps * (double)r_isimip_data[h*ASTEP+g] / 100.0;
+                    
                     grid->hist_vap[h][g] = (grid->hist_vap[h][g]>0.0)?grid->hist_vap[h][g]:0.0;
                 }
             }
@@ -225,10 +245,11 @@ void read_cru_clim(
             }
         }
         
-        /* climatology */
+        /* climatology *************************************/
         for(f=0;f<30;f++){
             for(g=0;g<ASTEP;g++){
-                /* average of 1951–1980 (historial detrended) data */
+                /* ISI-MIP1: average of 1951–1980 (historial detrended) data */
+                /* ISI-MIP2: average of 1901–1930 (historial detrended) data */
                 grid->hist_cld_b[g] += grid->hist_cld[f][g] / 30.0;
                 grid->hist_pre_b[g] += grid->hist_pre[f][g] / 30.0;
                 grid->hist_vap_b[g] += grid->hist_vap[f][g] / 30.0;
@@ -299,7 +320,7 @@ void read_cru_clim(
         }
         
         /* radiation => cloudiness, fraction */
-        fread(r_gcm_data,sizeof(float), ASTEP*DL_GCM, fp_c2[3]);
+        fread(r_gcm_data, sizeof(float), ASTEP*DL_GCM, fp_c2[3]);
         if(grid->flag_histdata == 1){
             for(h=0;h<DL_GCM;h++){
                 for(g=0;g<ASTEP;g++){

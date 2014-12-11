@@ -247,7 +247,7 @@ void f_ch4oxy_casa(
 	/* CH4 concentration gradient */
 	/* from CHEM96_Potter */
 	/* c_ch4 = 0.04; */ /* default */
-	switch(GCM){
+	switch(GCM_ID){
 		case 1000: case 1010: case 1070: case 1080: case 1090: case 1110:
 			c_ch4 = ach4_a1[grid->co2y-1750]/1000.0/30.0;
 			break;
@@ -259,7 +259,7 @@ void f_ch4oxy_casa(
 			break;
 	}
     
-    if(ISIMIP_RUN==1 || ISIMIP_RUN==2){
+    if(ISIMIP_RUN==1 || ISIMIP_RUN==2 || ISIMIP_RUN==3){
         switch(CO2S){
             case 1:
                 c_ch4 = ach4_a1[grid->co2y - BGY_AGHG]/1000.0/30.0;
@@ -512,7 +512,7 @@ void f_ch4oxy_curry(
 	struct Loct *loct,  
 	struct Flux *flux
 ){
-	double aaa, bbb;	/* intermediate values */
+	double aaa, bbb, prm_ensen;	/* intermediate values */
 	double c_0;		/* atmospheric CH4, ppmv */
 	double f_i;		/* fraction of inundation */
 	double r_w;		/* fraction of upland */
@@ -637,12 +637,36 @@ void f_ch4oxy_curry(
 	}
 	
 	/* first-order oxidation constant */
+    
+    /* parameter ensemble: 2014/11/19 by A.Ito */
+    prm_ensen = 1.0;
+    if(PARAM_PTB == 5){
+        if(PARAM_ENS==1){
+            prm_ensen = 0.7;
+        }
+        if(PARAM_ENS==2){
+            prm_ensen = 0.8;
+        }
+        if(PARAM_ENS==3){
+            prm_ensen = 0.9;
+        }
+        if(PARAM_ENS==4){
+            prm_ensen = 1.1;
+        }
+        if(PARAM_ENS==5){
+            prm_ensen = 1.2;
+        }
+        if(PARAM_ENS==6){
+            prm_ensen = 1.3;
+        }
+    }
+    
 	/* eq.6 */
 	k = k_0 * r_t * r_sm;
 	
 	/* surface CH4 flux, mg CH4 m-2 day-1 ********************/
 	/* eq.10 */
-	j_0 = g_0 * c_0 * r_c * r_w * pow((d_soil*k), 0.5);
+	j_0 = g_0 * c_0 * r_c * r_w * pow((d_soil*k), 0.5) * prm_ensen;
 	
 	/* mg CH4 m-2 month-1 */
 	(flux->soil).ch4oxy_curry[grid->m] = j_0 * MDN[grid->m];
