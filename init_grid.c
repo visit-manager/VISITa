@@ -1004,7 +1004,6 @@ void f_init_grid(
             fscanf(fp_s[57],"%lf", &ddummy);
         }
         
-        
     }else if(LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
         for(h=2001;h<=2004;h++){
             fscanf(fp_s[78],"%lf", &ddummy);
@@ -1025,7 +1024,9 @@ void f_init_grid(
                 if(grid->hvst_p1[h-PIVOT_LUC] < 0.0){
                     grid->hvst_p1[h-PIVOT_LUC] = 0.0;
                 }
-                grid->hvst_p1[h-PIVOT_LUC] = grid->hvst_p1[h-PIVOT_LUC]/(grid->area) / 2.0 / 2.0;
+                
+                /* m3/grid/yr => MgC/grid/yr */
+                grid->hvst_p1[h-PIVOT_LUC] = grid->hvst_p1[h-PIVOT_LUC] / 2.0 / 2.0;
                 
                 grid->hvst_p2[h-PIVOT_LUC] = 0.0;
                 grid->hvst_s1[h-PIVOT_LUC] = 0.0;

@@ -392,6 +392,9 @@ struct Loct{
 	double	msw30[ASTEP];				/* monthly */
 	double	sww;						/* whole soil water content, mm */
 	double	msww[ASTEP];				/* monthly */
+    
+    double  b_sw30[ASTEP];              /* baseline soil water, 0-30cm */
+    double  b_sww[ASTEP];               /* baseline soil water, 30-cm */
 
 	/* water fluxes, mm / month */
 	double	pm_evp[ASTEP];				/* potential soil evaporation rate, mm */

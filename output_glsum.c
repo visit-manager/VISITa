@@ -366,7 +366,7 @@ void f_set_history_data(
 		/* MASS */
 		if((mass->plant).mfol[f] > 0.0){
 			rh_ci_f_d13c[grid->reg_g][year] = d13c_addition((mass->plant).d13c_mfol[f], (mass->plant).mfol[f] * 
-											grid->area * MDN[f]/365.0, rh_ci_f_d13c[grid->reg_g][year], rh_ci_f[grid->reg_g][year]);
+								grid->area * MDN[f]/365.0, rh_ci_f_d13c[grid->reg_g][year], rh_ci_f[grid->reg_g][year]);
 			rh_ci_f_d14c[grid->reg_g][year] = ((mass->plant).d14c_mfol[f]*(mass->plant).mfol[f] * grid->area * 
 							   MDN[f] /365.0 + rh_ci_f_d14c[grid->reg_g][year]*rh_ci_f[grid->reg_g][year]) / 
 								((mass->plant).mfol[f] * grid->area * MDN[f]/365.0 + rh_ci_f[grid->reg_g][year]);
@@ -374,7 +374,7 @@ void f_set_history_data(
 		}
 		if((mass->plant).mstm[f] > 0.0){
 			rh_ci_c_d13c[grid->reg_g][year] = d13c_addition((mass->plant).d13c_mstm[f], (mass->plant).mstm[f] * 
-											grid->area * MDN[f]/365.0, rh_ci_c_d13c[grid->reg_g][year], rh_ci_c[grid->reg_g][year]);
+								grid->area * MDN[f]/365.0, rh_ci_c_d13c[grid->reg_g][year], rh_ci_c[grid->reg_g][year]);
 			rh_ci_c_d14c[grid->reg_g][year] = ((mass->plant).d14c_mstm[f]*(mass->plant).mstm[f] * grid->area * 
 							   MDN[f] /365.0 + rh_ci_c_d14c[grid->reg_g][year]*rh_ci_c[grid->reg_g][year]) / 
 								((mass->plant).mstm[f] * grid->area * MDN[f]/365.0 + rh_ci_c[grid->reg_g][year]);
@@ -382,7 +382,7 @@ void f_set_history_data(
 		}
 		if((mass->plant).mrot[f] > 0.0){
 			rh_ci_r_d13c[grid->reg_g][year] = d13c_addition((mass->plant).d13c_mrot[f], (mass->plant).mrot[f] * 
-											grid->area * MDN[f]/365.0, rh_ci_r_d13c[grid->reg_g][year], rh_ci_r[grid->reg_g][year]);
+                                grid->area * MDN[f]/365.0, rh_ci_r_d13c[grid->reg_g][year], rh_ci_r[grid->reg_g][year]);
 			rh_ci_r_d14c[grid->reg_g][year] = ((mass->plant).d14c_mrot[f]*(mass->plant).mrot[f] * grid->area * 
 							   MDN[f] /365.0 + rh_ci_r_d14c[grid->reg_g][year]*rh_ci_r[grid->reg_g][year]) / 
 								((mass->plant).mrot[f] * grid->area * MDN[f]/365.0 + rh_ci_r[grid->reg_g][year]);
@@ -391,7 +391,7 @@ void f_set_history_data(
 		
 		if((mass->soil).ltr_m[f] > 0.0){
 			rh_ci_l_d13c[grid->reg_g][year] = d13c_addition((mass->soil).d13c_ltr_m[f], (mass->soil).ltr_m[f] * 
-											grid->area * MDN[f]/365.0, rh_ci_l_d13c[grid->reg_g][year], rh_ci_l[grid->reg_g][year]);
+								grid->area * MDN[f]/365.0, rh_ci_l_d13c[grid->reg_g][year], rh_ci_l[grid->reg_g][year]);
 			rh_ci_l_d14c[grid->reg_g][year] = ((mass->soil).d14c_ltr_m[f]*(mass->soil).ltr_m[f] * 
 							   grid->area * MDN[f] /365.0 + rh_ci_l_d14c[grid->reg_g][year]*rh_ci_l[grid->reg_g][year]) / 
 								((mass->soil).ltr_m[f] * grid->area * MDN[f]/365.0 + rh_ci_l[grid->reg_g][year]);
@@ -399,7 +399,7 @@ void f_set_history_data(
 		}
 		if((mass->soil).msl_m[f] > 0.0){
 			rh_ci_h_d13c[grid->reg_g][year] = d13c_addition((mass->soil).d13c_msl_m[f], (mass->soil).msl_m[f] * 
-											grid->area * MDN[f]/365.0, rh_ci_h_d13c[grid->reg_g][year], rh_ci_h[grid->reg_g][year]);
+								grid->area * MDN[f]/365.0, rh_ci_h_d13c[grid->reg_g][year], rh_ci_h[grid->reg_g][year]);
 			rh_ci_h_d14c[grid->reg_g][year] = ((mass->soil).d14c_msl_m[f]*(mass->soil).msl_m[f] * 
 							   grid->area * MDN[f] /365.0 + rh_ci_h_d14c[grid->reg_g][year]*rh_ci_h[grid->reg_g][year]) / 
 								((mass->soil).msl_m[f] * grid->area * MDN[f]/365.0 + rh_ci_h[grid->reg_g][year]);
@@ -418,7 +418,9 @@ void f_set_history_data(
 		
 		rh_luc[grid->reg_g][year] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
 		
-		h_hvst_wood[year] += flux->hvst_wood * grid->area;
+        /* 2014/12/10 by A.Ito */
+		/* h_hvst_wood[year] += flux->hvst_wood * grid->area; */
+		h_hvst_wood[year] += fweight * flux->hvst_wood * grid->area;
         
         h_wetarea[year] += grid->f_wetland * grid->area;
 

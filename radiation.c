@@ -194,13 +194,13 @@ double f_par(
 		/* new estimation of diffuse radiation: 2008/09/08 by A.Ito */
 		if(DIF_SRB == 1){
 			if((grid->srb_dif_rr * grid->srb_dif_rr) > 0.25){
-				dd = grid->srb_dif_aa + grid->srb_dif_bb*kt;
+				dd = grid->srb_dif_aa + grid->srb_dif_bb * kt;
 			}else{
 				/* global average */
-				dd = 1.306833 - 1.250070*kt;
+				dd = 1.306833 - 1.250070 * kt;
 			}
 		}else{
-			dd = 0.958 - 0.982*kt;
+			dd = 0.958 - 0.982 * kt;
 		}
 		
 		if(SENS_RAD == 1){
@@ -214,7 +214,7 @@ double f_par(
 		dd = (dd<=1.0)?dd:1.0;
 		
 		/** diffused radiation**/
-		hd = grid->gl_rad[grid->m]*dd; 
+		hd = grid->gl_rad[grid->m] * dd;
 		
 		/* variable conversion factor after Dye et al. (2004) */
 		/*
@@ -224,26 +224,26 @@ double f_par(
 		109, 10.1029/2003JD004251.
 		*/
 		if(D_PAR == 1){
-			e2p_d = 4.5886*dd/(0.010773+dd);
+			e2p_d = 4.5886 * dd / (0.010773 + dd);
 			e2p_d = (e2p_d>4.2)?e2p_d:4.2;
 			
-			e2p_b = 4.576 - 0.033144*dd;		/* 050409 */
+			e2p_b = 4.576 - 0.033144 * dd;		/* 050409 */
 		}
 		
 		/* fraction of PAR ******/
 		/* beam */
-		grid->par_be[grid->m] = 0.43*(grid->gl_rad[grid->m] - hd); 
+		grid->par_be[grid->m] = 0.43 * (grid->gl_rad[grid->m] - hd);
 		/* diffuse */
-		grid->par_de[grid->m] = 0.57*hd; 
+		grid->par_de[grid->m] = 0.57 * hd;
 		
 		/* conversion from W/m2 to micro-mol photon /m2/s */
 		/* beam */
-		grid->par_bp[grid->m] = grid->par_be[grid->m]*e2p_b; 
+		grid->par_bp[grid->m] = grid->par_be[grid->m] * e2p_b;
 		/* diffuse */
-		grid->par_dp[grid->m] = grid->par_de[grid->m]*e2p_d; 
+		grid->par_dp[grid->m] = grid->par_de[grid->m] * e2p_d; 
 		
-		/* total */
-		par = 0.43*(grid->gl_rad[grid->m]-hd)*e2p_b + 0.57*hd*e2p_d;
+		/* total: W/m2 */
+		par = 0.43*(grid->gl_rad[grid->m] - hd) * e2p_b + 0.57 * hd * e2p_d;
 	}else{
 		par = 0.0;
 	}

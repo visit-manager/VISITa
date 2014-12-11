@@ -225,6 +225,10 @@ void cal_spinup(
 			(echar->soil).fm0_l[f] = (echar->soil).fm_l[f];
 			(echar->soil).fm0_h[f] = (echar->soil).fm_h[f];
 			flux->lL0[f] = (flux->plant).lL[f];
+            
+            /* baseline soil water: 2014/12/08 by A.Ito */
+            loct->b_sw30[f] = loct->sw30;
+            loct->b_sww[f] = loct->sww;
 		}
 		
 		/* biomass burning */

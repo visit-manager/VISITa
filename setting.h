@@ -50,7 +50,7 @@
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
+#define OUTPUT_GHG 1
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
@@ -365,6 +365,10 @@
 
 /* change in wetland extent due to permafrost melting: 2012/10/26 by A.Ito */
 #define VAR_PFMWET 0
+/* 0:off, 1:0n */
+
+/* variable water-table depth: 2014/12/08 by A.Ito */
+#define VAR_WTD 1
 /* 0:off, 1:0n */
 
 /***************************************************/
@@ -778,4 +782,5 @@
 
 /** ISI-MIP2: 2014/11/30 by A.Ito ***********/
 /* 5001: historical GSWP3 */
+/* 5002: historical PGFv2 */
 

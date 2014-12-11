@@ -352,9 +352,12 @@ void cal_historical(
 			flux->lu_hund = 0.0;
 		}
 		
+        /* fraction of natural vegetation area */
         f_nat = 1.0 - grid->f_crop_con;
+        
         if(f_nat > 0.0){
             iweight = 1.0 / f_nat;
+            /* factor from natural to whole grid */
         }
         avc3 = 0.0;
         for(f=0;f<ASTEP;f++){
@@ -362,6 +365,7 @@ void cal_historical(
         }
         if(avc3 > 0.0){
             iweight3 = iweight * (1.0 / avc3);
+            /* factor from C3-dominated natural to whole grid */
         }
         
 		/* wood harvest: 2010/10/15 by A.Ito ***************/
@@ -403,12 +407,13 @@ void cal_historical(
             }
 			
 			total_hvst *= 1.0/1000.0 * 1.0/grid->area * prm_ensen;
-			
+            
+            /* Note: only C3 tree species */
 			if((mass->c3).stm > (total_hvst + INT_C)){
         
-                if((mass->c3).stm > (total_hvst*iweight3 + INT_C)){
-                    (mass->c3).stm -= total_hvst*iweight3;
-                    flux->hvst_wood = total_hvst*iweight3;
+                if((mass->c3).stm > (total_hvst * iweight3 + INT_C)){
+                    (mass->c3).stm -= total_hvst * iweight3;
+                    flux->hvst_wood = total_hvst * iweight3;
                 }else{
                     (mass->c3).stm -= total_hvst;
                     flux->hvst_wood = total_hvst;
