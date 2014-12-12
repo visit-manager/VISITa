@@ -106,7 +106,8 @@ void f_ch4_emit_cao(
     
     /* 2014/12/10 by A.Ito */
     if(VAR_WTD == 1){
-        diff_wtd = (loct->sw30+loct->sww) - (loct->b_sw30[grid->m]+loct->b_sww[grid->m]);
+        /* mm => cm */
+        diff_wtd = (loct->sw30+loct->sww) - (loct->b_sw30[grid->m]+loct->b_sww[grid->m]) / 10.0;
         wtable -= diff_wtd;
         if(wtable > 30.0){
             wtable = 30.0;
