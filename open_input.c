@@ -564,8 +564,26 @@ void open_input(
                     printf("No rsds_gswp3_1901_1930_1901_2010.flt\n");
                     exit(1); 
                 }
-            break;
-        }
+                break;
+             case 5002:
+                if( (fp_c[0]=fopen("./data/tas_pgfv2_1901_1930_1901_2010.flt","rb"))==NULL ){
+                    printf("No tas_pgfv2_1901_1930_1901_2010.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_pgfv2_1901_1930_1901_2010.flt","rb"))==NULL ){
+                    printf("No pr_pgfv2_1901_1930_1901_2010.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/huss_pgfv2_1901_1930_1901_2010.flt","rb"))==NULL ){
+                    printf("No huss_pgfv2_1901_1930_1901_2010.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_pgfv2_1901_1930_1901_2010.flt","rb"))==NULL ){
+                    printf("No rsds_pgfv2_1901_1930_1901_2010.flt\n");
+                    exit(1); 
+                }
+                break;
+       }
     }
     
     /*********************************************************************/
@@ -1853,9 +1871,10 @@ void open_input(
             printf("No luh_gsbh3_rcp85_2005_2100.txt\n");  
             exit(1); 
         }
-    }else{
-        if( (fp_s[78]=fopen("./data/luh_gvbh1_rcp45_2005_2100.txt","rt"))==NULL ){
-            printf("No luh_gvbh1_rcp45_2005_2100.txt\n");  
+    }else if(LANDUSE==14){
+        /* ICARUS SSP data by T.Kinoshita: 2014/09/04 => 09/18 ******************/
+        if( (fp_s[78]=fopen("./data/luc_wh_ssp1_2001-2100.txt","rt"))==NULL ){
+            printf("No luc_wh_ssp1_2001-2100.txt\n");
             exit(1); 
         }
         if( (fp_s[79]=fopen("./data/luh_gvbh2_rcp45_2005_2100.txt","rt"))==NULL ){
@@ -1874,29 +1893,55 @@ void open_input(
             printf("No luh_gsbh3_rcp45_2005_2100.txt\n");  
             exit(1); 
         }
-    }
-    
-    /* ICARUS SSP by T.Kinoshita: 2014/09/04 ******************/
-    if(LANDUSE==14){
-        fclose(fp_s[78]);
-        if( (fp_s[78]=fopen("./data/luc_wh_ssp1_2001-2100.txt","rt"))==NULL ){
-            printf("No luc_wh_ssp1_2001-2100.txt\n");
-            exit(1); 
-        }
     }else if(LANDUSE==15){
-        fclose(fp_s[78]);
+        /* ICARUS SSP data by T.Kinoshita: 2014/09/04 => 09/18 ******************/
         if( (fp_s[78]=fopen("./data/luc_wh_ssp2_2001-2100.txt","rt"))==NULL ){
             printf("No luc_wh_ssp2_2001-2100.txt\n");
             exit(1); 
         }
+        if( (fp_s[79]=fopen("./data/luh_gvbh2_rcp45_2005_2100.txt","rt"))==NULL ){
+            printf("No luh_gvbh2_rcp45_2005_2100.txt\n");  
+            exit(1); 
+        }
+        if( (fp_s[80]=fopen("./data/luh_gsbh1_rcp45_2005_2100.txt","rt"))==NULL ){
+            printf("No luh_gsbh1_rcp45_2005_2100.txt\n");  
+            exit(1); 
+        }
+        if( (fp_s[81]=fopen("./data/luh_gsbh2_rcp45_2005_2100.txt","rt"))==NULL ){
+            printf("No luh_gsbh2_rcp45_2005_2100.txt\n");  
+            exit(1); 
+        }
+        if( (fp_s[82]=fopen("./data/luh_gsbh3_rcp45_2005_2100.txt","rt"))==NULL ){
+            printf("No luh_gsbh3_rcp45_2005_2100.txt\n");  
+            exit(1); 
+        }
     }else if(LANDUSE==16){
-        fclose(fp_s[78]);
+        /* ICARUS SSP data by T.Kinoshita: 2014/09/04 => 09/18 ******************/
         if( (fp_s[78]=fopen("./data/luc_wh_ssp3_2001-2100.txt","rt"))==NULL ){
             printf("No luc_wh_ssp3_2001-2100.txt\n");
             exit(1); 
         }
-    }
-    if(LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
+        if( (fp_s[79]=fopen("./data/luh_gvbh2_rcp45_2005_2100.txt","rt"))==NULL ){
+            printf("No luh_gvbh2_rcp45_2005_2100.txt\n");  
+            exit(1); 
+        }
+        if( (fp_s[80]=fopen("./data/luh_gsbh1_rcp45_2005_2100.txt","rt"))==NULL ){
+            printf("No luh_gsbh1_rcp45_2005_2100.txt\n");  
+            exit(1); 
+        }
+        if( (fp_s[81]=fopen("./data/luh_gsbh2_rcp45_2005_2100.txt","rt"))==NULL ){
+            printf("No luh_gsbh2_rcp45_2005_2100.txt\n");  
+            exit(1); 
+        }
+        if( (fp_s[82]=fopen("./data/luh_gsbh3_rcp45_2005_2100.txt","rt"))==NULL ){
+            printf("No luh_gsbh3_rcp45_2005_2100.txt\n");  
+            exit(1); 
+        }
+    }else{
+        if( (fp_s[78]=fopen("./data/luh_gvbh1_rcp45_2005_2100.txt","rt"))==NULL ){
+            printf("No luh_gvbh1_rcp45_2005_2100.txt\n");  
+            exit(1); 
+        }
         if( (fp_s[79]=fopen("./data/luh_gvbh2_rcp45_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gvbh2_rcp45_2005_2100.txt\n");  
             exit(1); 

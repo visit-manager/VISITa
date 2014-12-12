@@ -121,15 +121,15 @@ void npp_empirical(
 	*/
 	switch(grid->veg_sage){
 		case 9: case 10: case 11: case 12: case 13: case 14: case 15: 
-			if(grid->prate_sfc_ann>=0.0){
-				flux->npp_nceas = 61.160 * (1.0 - exp(-6.05*0.00001*grid->prate_sfc_ann));
+			if(grid->prate_sfc_ann >= 0.0){
+				flux->npp_nceas = 61.160 * (1.0 - exp(-6.05*0.00001 * grid->prate_sfc_ann));
 			}else{
 				flux->npp_nceas = 0.0;
 			}
 			break;
 		case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8:
 			npp_tem = 25.4 / (1.0 + exp(1.584 - 0.0622*grid->tmp_sfc_am));
-			npp_pre = 0.551 * pow(grid->prate_sfc_ann, 1.055) / exp(0.000306*grid->prate_sfc_ann)/100.0;
+			npp_pre = 0.551 * pow(grid->prate_sfc_ann, 1.055) / exp(0.000306 * grid->prate_sfc_ann)/100.0;
 			flux->npp_nceas = (npp_tem<npp_pre)?npp_tem:npp_pre;
 			break;
 	}

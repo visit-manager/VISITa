@@ -407,7 +407,7 @@ void cal_historical(
             }
 			
 			total_hvst *= 1.0/1000.0 * 1.0/grid->area * prm_ensen;
-			
+            
             /* Note: only C3 tree species */
 			if((mass->c3).stm > (total_hvst + INT_C)){
         
