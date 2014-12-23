@@ -52,7 +52,7 @@ int main(
 	char *argv[]
 ){
 	short zone;
-	long f, g, h, l_config, rpert, flag_calc, ccpl;
+	long f, g, h, l_config, rpert, flag_calc;
 	double area_t, area_b, area_r, area_l;
 	/* global land area */
 	/* file name strings */
@@ -118,19 +118,21 @@ int main(
 		
 	/* config: 7 parameter perturbation */
     /* note: no perturbation for PARAM_PTB<=0 */
-	//fscanf(fp_setting,"%s %ld %ld %ld", s_config, &l_config, &rpert, &ccpl);
-	//printf("config  7: %s %ld %ld %ld\n", s_config, l_config, rpert, ccpl);
-	fscanf(fp_setting,"%s %ld", s_config, &l_config);
-	printf("config  7: %s %ld\n", s_config, l_config);
-    PARAM_PTB = l_config; /* */
-    rpert = ccpl = 0;
-
-    //PARAM_PTB = 0;
-    //PARAM_PTB = (long)atol(argv[1]);
-    PARAM_ENS = 0;
-    //PARAM_ENS = (long)atol(argv[2]);
-    EX_CCPL = 0;
-    //EX_CCPL = (long)ccpl;
+    if(ENSEMBLE_RUN==1){
+        fscanf(fp_setting,"%s %ld %ld", s_config, &l_config, &rpert);
+        printf("config  7: %s %ld %ld\n", s_config, l_config, rpert);
+        PARAM_PTB = (long)atol(argv[1]);
+        PARAM_ENS = (long)atol(argv[2]);
+        EX_CCPL = (long)atol(argv[3]);
+    }else{
+        fscanf(fp_setting,"%s %ld", s_config, &l_config);
+        printf("config  7: %s %ld\n", s_config, l_config);
+        //PARAM_PTB = 0;
+        PARAM_PTB = l_config;
+        PARAM_ENS = 0;
+        EX_CCPL = 0;
+        rpert = 0;
+    }
     
     if(EX_ALBEDO == 1){
         srand((long)atol(argv[1]) + clock()%1000);
