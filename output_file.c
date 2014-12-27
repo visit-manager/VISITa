@@ -530,7 +530,7 @@ void f_output_result(
     if(OUTPUT_BB == 1){
         fprintf(fp_o[4],"%ld %lf ", year, grid->f_crop_con);
         for(f=0;f<ASTEP;f++){
-            fprintf(fp_o[4],"%.3lf ", loct->msw30[f]);
+            /* fprintf(fp_o[4],"%.3lf ", loct->msw30[f]);
             fprintf(fp_o[4],"%.3lf ", flux->day_fire[f]);
             fprintf(fp_o[4],"%.3lf ", flux->a_burnt[f]);
             fprintf(fp_o[4],"%.3lf ", flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+flux->bb_co2_wood[f]+flux->bb_co2_root[f]);
@@ -543,8 +543,13 @@ void f_output_result(
             fprintf(fp_o[4],"%.3lf ", flux->bb_so2_litter[f]+flux->bb_so2_leaf[f]+flux->bb_so2_wood[f]+flux->bb_so2_root[f]);
             fprintf(fp_o[4],"%.3lf ", flux->bb_pm25_litter[f]+flux->bb_pm25_leaf[f]+flux->bb_pm25_wood[f]+flux->bb_pm25_root[f]);
             fprintf(fp_o[4],"%.3lf ", flux->bb_tpm_litter[f]+flux->bb_tpm_leaf[f]+flux->bb_tpm_wood[f]+flux->bb_tpm_root[f]);
-            fprintf(fp_o[4],"%.3lf ", flux->bb_tec_litter[f]+flux->bb_tec_leaf[f]+flux->bb_tec_wood[f]+flux->bb_tec_root[f]);
+            fprintf(fp_o[4],"%.3lf ", flux->bb_tec_litter[f]+flux->bb_tec_leaf[f]+flux->bb_tec_wood[f]+flux->bb_tec_root[f]); */
         }
+        
+        fprintf(fp_o[4],"%lf ", grid->hvst_p1[grid->climy - PIVOT_LUC]);
+        fprintf(fp_o[4],"%lf ", grid->hvst_p2[grid->climy - PIVOT_LUC]);
+        fprintf(fp_o[4],"%lf ", flux->hvst_wood);
+        
         fprintf(fp_o[4],"\n");
     }
 

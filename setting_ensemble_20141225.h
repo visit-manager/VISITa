@@ -41,19 +41,19 @@
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
-#define ENSEMBLE_RUN 0
+#define ENSEMBLE_RUN 1
 
 /********************************************************/
 /* output text files */
-#define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
-#define OUTPUT_EROSION 1
-#define OUTPUT_GHG 1
-#define OUTPUT_HYDMET 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_CARBON1 0
+#define OUTPUT_CARBON2 0
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 0
+#define OUTPUT_HYDMET 0
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 /* output binary */
 #define C13_GOUT 1
 #define C14_GOUT 1
@@ -413,8 +413,7 @@
 
 /* sensitivity run of N deposition */
 #define SENS_N 0
-/* 0: CHASER data (previous one) */
-/* 1: Dentener N deposition */
+/* 0:off, 1:0n */
 /* 2: CHASER4 data (preindustrial and present): 2014/11/19 by A.Ito */
 
 /********************************************************/

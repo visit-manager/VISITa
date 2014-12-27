@@ -327,14 +327,20 @@ void f_n_deposit(
         loct->depo_nh4[grid->m] = f_nh4 * (ndepo_dry + ndepo_wet) *10.0;
 	}else if(SENS_N == 2){
         
+        /* 2014/12/27 revised by A.Ito: add organic N deposition*/
         if(grid->climy<1850){
-            ndepo_no3 = grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col];
+            ndepo_no3 = grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
+                    + grid->ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col];
             ndepo_nh4 = grid->ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col];
         }else if(grid->climy>=1850 && grid->climy<=2010){
             
             ndepo_no3 = grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
                 + (grid->ndepo_chaser4_noy_p[grid->m][grid->chaser_row][grid->chaser_col]
                         - grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col])
+                * ((double)(grid->climy) - 1850.0)/160.0;
+            ndepo_no3 += grid->ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col]
+                + (grid->ndepo_chaser4_ont_p[grid->m][grid->chaser_row][grid->chaser_col]
+                        - grid->ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col])
                 * ((double)(grid->climy) - 1850.0)/160.0;
             
             ndepo_nh4 = grid->ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col]
@@ -343,7 +349,8 @@ void f_n_deposit(
                 * ((double)(grid->climy) - 1850.0)/160.0;
             
         }else if(grid->climy>2010){
-            ndepo_no3 = grid->ndepo_chaser4_noy_p[grid->m][grid->chaser_row][grid->chaser_col];
+            ndepo_no3 = grid->ndepo_chaser4_noy_p[grid->m][grid->chaser_row][grid->chaser_col]
+                + grid->ndepo_chaser4_ont_p[grid->m][grid->chaser_row][grid->chaser_col];
             ndepo_nh4 = grid->ndepo_chaser4_nhx_p[grid->m][grid->chaser_row][grid->chaser_col];
         }
         
