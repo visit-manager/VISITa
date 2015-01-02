@@ -129,7 +129,8 @@
     /* #define PD_HIST 110	*/	/* AD 1901 - 2010 */
     /* #define PD_HIST 111	*/	/* AD 1901 - 2011 */
     /* #define PD_HIST 112	*/	/* AD 1901 - 2012 */
-    #define PD_HIST 113	/* */	/* AD 1901 - 2013 */
+    /* #define PD_HIST 113	*/	/* AD 1901 - 2013 */
+    #define PD_HIST 114	/* */	/* AD 1901 - 2014 */
 #endif
 
 /* start year (AD) of climate ***/
@@ -173,7 +174,8 @@
 /* extension to 2011: 2012/01/26 by A.Ito */
 /* extension to 2012: 2013/04/14 by A.Ito */
 /* extension to 2013: 2014/01/02 by A.Ito */
-#define DL_NCEP 66   /* 1948-2013 */
+/* #define DL_NCEP 66   1948-2013 */
+#define DL_NCEP 67   /* 1948-2014 */
 
 /* Simulation using ISI-MIP data (yr) */
 /* spinup 1951-1980 */

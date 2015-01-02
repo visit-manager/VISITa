@@ -187,6 +187,7 @@ int main(
         }
     }
     
+    /* small carbon flow coupling/decoupling runs */
     switch(EX_CCPL){
         case 1: strcat(s_date, "UC1_"); break;
         case 2: strcat(s_date, "UC2_"); break;
