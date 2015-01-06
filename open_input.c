@@ -583,6 +583,24 @@ void open_input(
                     exit(1); 
                 }
                 break;
+             case 5003:
+                if( (fp_c[0]=fopen("./data/tas_watch_1901_1930_1901_2001.flt","rb"))==NULL ){
+                    printf("No tas_watch_1901_1930_1901_2001.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_watch_1901_1930_1901_2001.flt","rb"))==NULL ){
+                    printf("No pr_watch_1901_1930_1901_2001.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/huss_watch_1901_1930_1901_2001.flt","rb"))==NULL ){
+                    printf("No huss_watch_1901_1930_1901_2001.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_watch_1901_1930_1901_2001.flt","rb"))==NULL ){
+                    printf("No rsds_watch_1901_1930_1901_2001.flt\n");
+                    exit(1); 
+                }
+                break;
        }
     }
     

@@ -52,6 +52,7 @@ void set_hist_clim(
             /* 2006-2010: extrapolation using NCEP/NCAR data: 2011/03/XX by A.Ito */
             /* 2012-2012: extrapolation using NCEP/NCAR data: 2012/04/14 by A.Ito */
             /* 2013-2013: extrapolation using NCEP/NCAR data: 2013/01/10 by A.Ito */
+            /* 2014-2014: extrapolation using NCEP/NCAR data: 2015/01/05 by A.Ito */
             for(h=0;h<ASTEP;h++){
                 /* temperature */
                 tmp_var = grid->ncep_tmp2m[grid->climy - PIVOT_NCEP][h][grid->ncep_lat][grid->ncep_lon] 

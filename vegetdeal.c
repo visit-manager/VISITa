@@ -740,6 +740,7 @@ void set_gcm_index(
 
 		case 5001:	strcpy(s_case,"ISIM2H1_"); break;
 		case 5002:	strcpy(s_case,"ISIM2H2_"); break;
+		case 5003:	strcpy(s_case,"ISIM2H3_"); break;
 
 		default:
 			strcpy(s_case,"STCLIM_"); 
