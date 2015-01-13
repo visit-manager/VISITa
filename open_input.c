@@ -601,6 +601,24 @@ void open_input(
                     exit(1); 
                 }
                 break;
+             case 5004:
+                if( (fp_c[0]=fopen("./data/tas_watch+wfdei_1901_1930_1901_2010.flt","rb"))==NULL ){
+                    printf("No tas_watch+wfdei_1901_1930_1901_2010.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_watch+wfdei_1901_1930_1901_2010.flt","rb"))==NULL ){
+                    printf("No pr_watch+wfdei_1901_1930_1901_2010.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/huss_watch+wfdei_1901_1930_1901_2010.flt","rb"))==NULL ){
+                    printf("No huss_watch+wfdei_1901_1930_1901_2010.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_watch+wfdei_1901_1930_1901_2010.flt","rb"))==NULL ){
+                    printf("No rsds_watch+wfdei_1901_1930_1901_2010.flt\n");
+                    exit(1); 
+                }
+                break;
        }
     }
     
