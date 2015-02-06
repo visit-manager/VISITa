@@ -110,7 +110,7 @@ void cal_historical(
 			/* Plant CH4 emission *****************/
 			f_ch4_emit_veg(grid, loct, echar, mass, flux);
 
-			f_plant_stand_budget(grid, loct,mass,flux);
+			f_plant_stand_budget(grid, loct, mass, flux);
 			
 			if(BACC==3){
 				(flux->plant).lL[f] = flux->lL0[f];

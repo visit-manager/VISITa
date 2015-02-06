@@ -583,6 +583,42 @@ void open_input(
                     exit(1); 
                 }
                 break;
+             case 5003:
+                if( (fp_c[0]=fopen("./data/tas_watch_1901_1930_1901_2001.flt","rb"))==NULL ){
+                    printf("No tas_watch_1901_1930_1901_2001.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_watch_1901_1930_1901_2001.flt","rb"))==NULL ){
+                    printf("No pr_watch_1901_1930_1901_2001.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/huss_watch_1901_1930_1901_2001.flt","rb"))==NULL ){
+                    printf("No huss_watch_1901_1930_1901_2001.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_watch_1901_1930_1901_2001.flt","rb"))==NULL ){
+                    printf("No rsds_watch_1901_1930_1901_2001.flt\n");
+                    exit(1); 
+                }
+                break;
+             case 5004:
+                if( (fp_c[0]=fopen("./data/tas_watch+wfdei_1901_1930_1901_2010.flt","rb"))==NULL ){
+                    printf("No tas_watch+wfdei_1901_1930_1901_2010.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_watch+wfdei_1901_1930_1901_2010.flt","rb"))==NULL ){
+                    printf("No pr_watch+wfdei_1901_1930_1901_2010.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/huss_watch+wfdei_1901_1930_1901_2010.flt","rb"))==NULL ){
+                    printf("No huss_watch+wfdei_1901_1930_1901_2010.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_watch+wfdei_1901_1930_1901_2010.flt","rb"))==NULL ){
+                    printf("No rsds_watch+wfdei_1901_1930_1901_2010.flt\n");
+                    exit(1); 
+                }
+                break;
        }
     }
     
@@ -708,6 +744,11 @@ void open_input(
     }else if(ALT_INUND == 5){
         if( (fp_s[84]=fopen("./data/fw_00_swe_v1-2_smoothed_1999-2013_norice-nowater.txt","rt"))==NULL ){
             printf("No GCP-CH4 inundation data\n");
+            exit(1);
+        }
+    }else if(ALT_INUND == 6){
+        if( (fp_s[84]=fopen("./data/fw_swamps-glwd_2000-2012.txt","rt"))==NULL ){
+            printf("No fw_swamps-glwd_2000-2012.txt data\n");
             exit(1);
         }
     }else{

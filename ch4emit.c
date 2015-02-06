@@ -87,6 +87,49 @@ void f_ch4_emit_cao(
                 }
             }
         }
+    }else if(ALT_INUND == 6){
+        /* for GCP-CH4 fw_swamps-glwd_2000-2012.txt */
+        /* added: 2015/02/06 by A.Ito */
+    
+        if(grid->climy>=2000 && grid->climy<=2012){
+        
+            if(grid->f_wetland > 0.0){
+                f_inund_wet = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_wetland;
+                
+                if(f_inund_wet > 1.0){
+                    f_inund_wet = 1.0;
+                }
+            }
+            if(grid->f_paddy > 0.0){
+                //f_inund_pad = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_paddy;
+                
+                f_inund_pad = grid->inundation_ssmi[grid->m];
+                
+                if(f_inund_pad > 1.0){
+                    f_inund_pad = 1.0;
+                }
+            }
+        
+        }else{
+            if(grid->f_wetland > 0.0){
+                f_inund_wet = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
+                
+                if(f_inund_wet > 1.0){
+                    f_inund_wet = 1.0;
+                }else{
+                
+                }
+            }
+            if(grid->f_paddy > 0.0){
+                //f_inund_pad = grid->inundation_gcp_av[grid->m] / grid->f_paddy;
+                
+                f_inund_pad = grid->inundation_ssmi[grid->m];
+                
+                if(f_inund_pad > 1.0){
+                    f_inund_pad = 1.0;
+                }
+            }
+        }
     }else{
         f_inund_wet = grid->inundation_ssmi[grid->m];
         f_inund_pad = grid->inundation_ssmi[grid->m];
@@ -607,7 +650,7 @@ void f_ch4_emit_walter(
 			}
 			
 			/* plant flux above rooting depth */
-			if(dpth[f]<=rdepth){
+			if(dpth[f] <= rdepth){
 				q_plant[f] = -0.01 * t_veg * 2.0*(rdepth - dpth[f])/rdepth * f_grow * loct->prof_ch4[f];
 				flux_plant += -1000.0*hh * q_plant[f] * (1.0 - 0.5);
 			}else{
@@ -615,7 +658,7 @@ void f_ch4_emit_walter(
 			}
 			
 			/* CH4 production and oxidation */
-			if(dpth[f]>=wtdepth){
+			if(dpth[f] >= wtdepth){
 				/* below water table: eq.5 */
 				q_prod[f] = r0 * f_org[f] * f_in * f_t[f] * pow(q10_ch4prod, (tmp[f]-t_mean)/10.0);
 				day_produc += q_prod[f];
@@ -703,6 +746,46 @@ void f_ch4_emit_walter(
                 }
                 if(grid->f_paddy > 0.0){
                     //f_inundation = grid->inundation_gcp_ts[grid->climy-1999][grid->m] / grid->f_paddy;
+                    
+                    f_inundation = grid->inundation_ssmi[grid->m];
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 0.0;
+                    }
+                }
+            
+            }else{
+                if(grid->f_wetland > 0.0){
+                    f_inundation = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_gcp_av[grid->m] */;
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 0.0;
+                    }
+                }
+                if(grid->f_paddy > 0.0){
+                    //f_inundation = grid->inundation_gcp_av[grid->m] / grid->f_paddy;
+                    
+                    f_inundation = grid->inundation_ssmi[grid->m];
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 0.0;
+                    }
+                }
+            }
+        }else if(ALT_INUND==6){
+            if(grid->climy >= 2000 && grid->climy <= 2012){
+        
+                if(grid->f_wetland > 0.0){
+                    f_inundation = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_gcp_ts[grid->climy-2000][grid->m] */;
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 0.0;
+                    }
+                }
+                if(grid->f_paddy > 0.0){
+                    //f_inundation = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_paddy;
                     
                     f_inundation = grid->inundation_ssmi[grid->m];
                     

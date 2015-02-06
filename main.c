@@ -118,7 +118,7 @@ int main(
 		
 	/* config: 7 parameter perturbation */
     /* note: no perturbation for PARAM_PTB<=0 */
-    if(ENSEMBLE_RUN==1){
+    if(ENSEMBLE_RUN == 1){
         fscanf(fp_setting,"%s %ld %ld", s_config, &l_config, &rpert);
         printf("config  7: %s %ld %ld\n", s_config, l_config, rpert);
         PARAM_PTB = (long)atol(argv[1]);

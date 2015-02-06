@@ -1126,17 +1126,35 @@ void f_init_grid(
     /* NASA-JPL for GCP-CH4: 2014/05/28 (rev 2014/08/17) by A.Ito */
 	fscanf(fp_s[84],"%lf", &lat);
 	fscanf(fp_s[84],"%lf", &lon);
-    /* average */
-    for(h=0;h<ASTEP;h++){
-        fscanf(fp_s[84],"%lf", &grid->inundation_gcp_av[h]);
-    }
-    /* 1999/07-2013/03 */
-    for(g=0;g<15;g++){
+    if(ALT_FWETLAND == 6){
+        /* 2000/01-2012/12 */
         for(h=0;h<ASTEP;h++){
-            fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
-            
-            if(grid->inundation_gcp_ts[g][h] < 0.0){
-                grid->inundation_gcp_ts[g][h] = 0.0;
+            grid->inundation_gcp_av[h] = 0.0;
+        }
+        for(g=0;g<13;g++){
+            for(h=0;h<ASTEP;h++){
+                fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+                
+                if(grid->inundation_gcp_ts[g][h] < 0.0){
+                    grid->inundation_gcp_ts[g][h] = 0.0;
+                }
+                
+                grid->inundation_gcp_av[h] += grid->inundation_gcp_ts[g][h] / 13.0;
+            }
+        }
+    }else{
+        /* 1999/07-2013/03 */
+        /* average */
+        for(h=0;h<ASTEP;h++){
+            fscanf(fp_s[84],"%lf", &grid->inundation_gcp_av[h]);
+        }
+        for(g=0;g<15;g++){
+            for(h=0;h<ASTEP;h++){
+                fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+                
+                if(grid->inundation_gcp_ts[g][h] < 0.0){
+                    grid->inundation_gcp_ts[g][h] = 0.0;
+                }
             }
         }
     }
