@@ -606,18 +606,20 @@ void f_output_result(
             fprintf(fp_o[6],"%.2lf ", grid->par_de[f]);
             fprintf(fp_o[6],"%.4lf ", loct->apar_d[f]);
             
-            /* 2014/01/22 for WSL output */
-            /* fprintf(fp_o[6],"%.3lf ", loct->xx1[f]);
-            fprintf(fp_o[6],"%.3lf ", loct->xx2[f]);
-            fprintf(fp_o[6],"%.3lf ", loct->xx3[f]);
-            fprintf(fp_o[6],"%.3lf ", loct->xx4[f]);
-            fprintf(fp_o[6],"%.3lf ", loct->xx5[f]);
-            fprintf(fp_o[6],"%.3lf ", loct->xx6[f]);
-            fprintf(fp_o[6],"%.3lf ", loct->xx7[f]); */
-            
             /* 2014/06/07 */
             fprintf(fp_o[6],"%.3lf ", grid->tmp10_soil[f]);
             fprintf(fp_o[6],"%.3lf ", grid->tmp200_soil[f]);
+
+            /* 2014/01/22 for WSL output */
+            /* 2015/02/18 for WTD check */
+            fprintf(fp_o[6],"%.3lf ", loct->xx1[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx2[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx3[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx4[f]);
+            /* fprintf(fp_o[6],"%.3lf ", loct->xx5[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx6[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx7[f]); */
+            
         }
         fprintf(fp_o[6],"\n");
     }

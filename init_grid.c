@@ -1126,7 +1126,7 @@ void f_init_grid(
     /* NASA-JPL for GCP-CH4: 2014/05/28 (rev 2014/08/17) by A.Ito */
 	fscanf(fp_s[84],"%lf", &lat);
 	fscanf(fp_s[84],"%lf", &lon);
-    if(ALT_FWETLAND == 6){
+    if(ALT_INUND == 6){
         /* 2000/01-2012/12 */
         for(h=0;h<ASTEP;h++){
             grid->inundation_gcp_av[h] = 0.0;

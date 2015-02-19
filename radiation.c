@@ -363,8 +363,8 @@ void f_net_rad(
             nn++;
         }
         tsfc_base = tsfc;
-        loct->xx1[grid->m] = tsfc;
-        loct->xx6[grid->m] = snsheat;
+        /* loct->xx1[grid->m] = tsfc;
+        loct->xx6[grid->m] = snsheat; */
         
         /* varied temperature: default albedo */
         nn = 0; crit = 10.0;
@@ -391,8 +391,8 @@ void f_net_rad(
             nn++;
         }
         tsfc_var = tsfc;
-        loct->xx2[grid->m] = tsfc;
-        loct->xx7[grid->m] = snsheat;
+        /* loct->xx2[grid->m] = tsfc;
+        loct->xx7[grid->m] = snsheat; */
         
         /* loct->xx8[grid->m] = loct->r_aero[grid->m];  */
         
@@ -409,16 +409,16 @@ void f_net_rad(
             dtsfc = 0.0;
             /*  printf("*********************bad dtsfc %lf\n", dtsfc);  */
         }        
-        loct->xx3[grid->m] = dtsfc;
+        /* loct->xx3[grid->m] = dtsfc; */
        
         grid->tmp_sfc[grid->m] += dtsfc;
         grid->tmp10_soil[grid->m] += dtsfc;
         grid->tmp200_soil[grid->m] += dtsfc; /* */
         
-        loct->xx4[grid->m] = grid->tmp_sfc[grid->m];
+        /* loct->xx4[grid->m] = grid->tmp_sfc[grid->m];
         loct->xx5[grid->m] = grid->tmp10_soil[grid->m];
 
-        loct->xx9[grid->m] = latheat;
+        loct->xx9[grid->m] = latheat; */
 
        /* Assumption: this surface/sub-surface temperature change does not
                        affect air temperature and humidity */
