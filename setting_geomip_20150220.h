@@ -41,6 +41,8 @@
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
+#define ENSEMBLE_RUN 0
+
 /********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
@@ -358,6 +360,10 @@
 
 /* change in wetland extent due to permafrost melting: 2012/10/26 by A.Ito */
 #define VAR_PFMWET 0
+/* 0:off, 1:0n */
+
+/* variable water-table depth: 2014/12/08 by A.Ito */
+#define VAR_WTD 1
 /* 0:off, 1:0n */
 
 /***************************************************/

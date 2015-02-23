@@ -708,6 +708,7 @@ void set_gcm_index(
 		case 3004:	strcpy(s_case,"GEB4_"); break;
 		case 3100:	strcpy(s_case,"GECS0_"); break;
 		case 3104:	strcpy(s_case,"GECS4_"); break;
+		case 3105:	strcpy(s_case,"GECS3S_"); break;
 		case 3200:	strcpy(s_case,"GEGI0_"); break;
 		case 3203:	strcpy(s_case,"GEGI3_"); break;
 		case 3204:	strcpy(s_case,"GEGI4_"); break;
@@ -730,7 +731,11 @@ void set_gcm_index(
 		case 3803:	strcpy(s_case,"GEMP3_"); break;
 		case 3900:	strcpy(s_case,"GECM0_"); break;
 		case 3913:	strcpy(s_case,"GECM3S_"); break;
-
+        
+        case 3050:	strcpy(s_case,"GEN0_"); break;
+        case 3051:	strcpy(s_case,"GEN4C_"); break;
+        
+        /**/
 		case 4011:	strcpy(s_case,"PLGF45_"); break;
 		case 4012:	strcpy(s_case,"PLGF85_"); break;
 		case 4021:	strcpy(s_case,"PLIP45_"); break;

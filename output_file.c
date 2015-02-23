@@ -616,9 +616,10 @@ void f_output_result(
             fprintf(fp_o[6],"%.3lf ", loct->xx2[f]);
             fprintf(fp_o[6],"%.3lf ", loct->xx3[f]);
             fprintf(fp_o[6],"%.3lf ", loct->xx4[f]);
-            /* fprintf(fp_o[6],"%.3lf ", loct->xx5[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx5[f]);
             fprintf(fp_o[6],"%.3lf ", loct->xx6[f]);
-            fprintf(fp_o[6],"%.3lf ", loct->xx7[f]); */
+            fprintf(fp_o[6],"%.3lf ", loct->xx7[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->xx8[f]); /* */
             
         }
         fprintf(fp_o[6],"\n");
