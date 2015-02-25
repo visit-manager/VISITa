@@ -746,6 +746,11 @@ void open_input(
             printf("No GCP-CH4 inundation data\n");
             exit(1);
         }
+    }else if(ALT_INUND == 6){
+        if( (fp_s[84]=fopen("./data/fw_swamps-glwd_2000-2012.txt","rt"))==NULL ){
+            printf("No fw_swamps-glwd_2000-2012.txt data\n");
+            exit(1);
+        }
     }else{
         if( (fp_s[84]=fopen("./data/fw_swamp-biascor_1999-2013.txt","rt"))==NULL ){
             printf("No GCP-CH4 inundation data\n");

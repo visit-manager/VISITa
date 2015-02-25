@@ -18,30 +18,62 @@ void f_ecophysiology(
 	struct Pchar *pchar, 
 	struct Pmas *mass
 ){
-	long g;
+	long f, g;
 	double aaa, bbb;
 	double sinb, ke_b1, ke_b2, irr_b, rfl_b, apar, fapar, eff_k;
+    double appfdb, appfdd, hangle;
 	
 	/* give leaf area index (LAI), m2 m-2*/
 	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
-	
-	/* canopy radiation absorption */
+    
+    /* for GEOMIP fapar estimation: 2015/02/25 by A.Ito */
+    pchar->ppfd_db[grid->m] = pchar->appfd_db[grid->m] = 0.0;
+    for(f=0;f<DSTEP;f++){
+        hangle = -180.0 + ((double)f+0.5)*15.0;
+    
+        /* canopy radiation absorption */
+        sinb = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr) 
+                + cos(grid->lat*dTr)*cos(grid->sl_dec[grid->m]*dTr)* cos(hangle*dTr);
+        sinb = (sinb<=1.0)?sinb:1.0; 
+        sinb = (sinb>=-1.0)?sinb:-1.0;
+        
+        if(sinb>0.0 && loct->ppfd_h[f]>0.0 && mass->lai[grid->m]>0.0){
+            ke_b1 = 0.5 / sinb;
+            ke_b2 = 0.46 / sinb;
+            irr_b = (1.0 - sqrt(1.0 - 0.15))/(1.0 + sqrt(1.0 - 0.15));
+            rfl_b = 1.0 - exp(-2.0 * irr_b * ke_b1)/(1.0 + ke_b1);
+            
+            appfdb = (1.0 - rfl_b)* loct->ppfdb_h[f] * (1.0 - exp(-ke_b2*mass->lai[grid->m]));
+            appfdd = (1.0 - 0.036)* loct->ppfdd_h[f] * (1.0 - exp(-0.719*mass->lai[grid->m]));
+            
+            apar = appfdb + appfdd;
+            fapar = apar / loct->ppfd_h[f];
+        }else{
+            apar = fapar = 0.0;
+        }
+        
+        pchar->ppfd_db[grid->m] += loct->ppfd_h[f] * 3600.0 / 1000000.0;
+        pchar->appfd_db[grid->m] += apar * 3600.0 / 1000000.0;
+    }
+    
+	/* for monthly simulation ***********************/
+	/* midday canopy radiation absorption  */
 	sinb = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr) 
 			+ cos(grid->lat*dTr)*cos(grid->sl_dec[grid->m]*dTr)*1.0;
 	sinb = (sinb<=1.0)?sinb:1.0; 
 	sinb = (sinb>=-1.0)?sinb:-1.0;
 	
 	if(sinb>0.0 && grid->par[grid->m]>0.0 && mass->lai[grid->m]>0.0){
-		ke_b1 = 0.5/sinb;
-		ke_b2 = 0.46/sinb;
+		ke_b1 = 0.5 / sinb;
+		ke_b2 = 0.46 / sinb;
 		irr_b = (1.0 - sqrt(1.0 - 0.15))/(1.0 + sqrt(1.0 - 0.15));
-		rfl_b = 1.0 - exp(-2.0*irr_b*ke_b1)/(1.0 + ke_b1);
+		rfl_b = 1.0 - exp(-2.0 * irr_b * ke_b1)/(1.0 + ke_b1);
 		
-		pchar->apar_bp[grid->m] = (1.0 - rfl_b)*grid->par_bp[grid->m]*(1.0 - exp(-ke_b2*mass->lai[grid->m]));
-		pchar->apar_dp[grid->m] = (1.0 - 0.036)*grid->par_dp[grid->m]*(1.0 - exp(-0.719*mass->lai[grid->m]));
+		pchar->apar_bp[grid->m] = (1.0 - rfl_b)*grid->par_bp[grid->m] * (1.0 - exp(-ke_b2*mass->lai[grid->m]));
+		pchar->apar_dp[grid->m] = (1.0 - 0.036)*grid->par_dp[grid->m] * (1.0 - exp(-0.719*mass->lai[grid->m]));
 		
 		apar = pchar->apar_bp[grid->m] + pchar->apar_dp[grid->m];
-		fapar = apar/grid->par[grid->m];
+		fapar = apar / grid->par[grid->m];
 				
 		eff_k = -1.0*log(1.0 - fapar)/mass->lai[grid->m];
 		eff_k = (eff_k>=0.46)?eff_k:0.1;
@@ -58,6 +90,7 @@ void f_ecophysiology(
 		pchar->eK[grid->m] = irr_attn(grid, loct, pchar);
 		pchar->fapar[grid->m] = (1.0 - pchar->albedo)*(1.0 - exp(-pchar->eK[grid->m]*mass->lai[grid->m]));
 	}else if(EFF_K == 1){
+        /* default */
 		pchar->eK[grid->m] = eff_k;
 		pchar->fapar[grid->m] = fapar;
 	}

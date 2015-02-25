@@ -24,8 +24,8 @@ void f_co2_trend(
 	/** time of CO2 level  **/
 	time = (double)(grid->co2y);
 	
-	/** BASE **/
     if(ISIMIP_RUN == 0 && GEOMIP_RUN == 0){
+        /** BASE **/
         if(time < 1990.0){
             /* fitting curve from observational data */
             aa0 = 1904299.0;
@@ -51,7 +51,7 @@ void f_co2_trend(
             inc = 0.0;
         }
     }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3 || GEOMIP_RUN == 1){
-            
+        /** ISI-MIP or GeoMIP runs **/
         switch(CO2S){
             case 1:
                 base = aco2_b1[grid->co2y - BGY_AGHG];
@@ -66,6 +66,8 @@ void f_co2_trend(
                 base = aco2_a2[grid->co2y - BGY_AGHG]; /* corrected: 2012/08/06 */
                 break;
         }
+    }else{
+        printf("BAD experimental setting!!\n");
     }
     
     /* assuming SRM + CDR : 2014/06/18 by A.Ito */
@@ -102,9 +104,9 @@ void f_co2_trend(
 	/** seasonal change **/
 	amplitude = exp(0.04 * grid->lat);
 	if(grid->lat >= 0.0){
-		season = amplitude/2.0*sin(((double)(grid->m) - 0.0)/12.0*2.0*PI);
+		season = amplitude/2.0 * sin(((double)(grid->m) - 0.0)/12.0*2.0*PI);
 	}else{   /*  if(grid->lat<0.0) */
-		season = amplitude/2.0*sin(((double)(grid->m) + 6.0)/12.0*2.0*PI);
+		season = amplitude/2.0 * sin(((double)(grid->m) + 6.0)/12.0*2.0*PI);
 	}
 	
 	/*  grid->bco2[grid->m]=base+lgrd+season;   */
@@ -136,10 +138,10 @@ void co2_in_canopy(
 	/* CO2 concentration */
 	loct->aco2[grid->m] = grid->bco2[grid->m];
 	/* d13C - CO2 */
-	closure_factor = 1.5 * 0.75*mass->lai_p/(1.5 + 0.75*mass->lai_p);
-	source_factor = 2.0 * 0.5*flux->efflux_p/(2.0 + 0.5*flux->efflux_p);
+	closure_factor = 1.5 * 0.75 * mass->lai_p/(1.5 + 0.75 * mass->lai_p);
+	source_factor = 2.0 * 0.5 * flux->efflux_p/(2.0 + 0.5 * flux->efflux_p);
 	
-	loct->cnpy_co2_recyc = 0.2*closure_factor*source_factor;  
+	loct->cnpy_co2_recyc = 0.2 * closure_factor * source_factor;
 	/*  0.3  011017  */  /*  0.1  011020  */  /*  0.5  011022  */
 	
 	if(loct->cnpy_co2_recyc>=0.0 && loct->cnpy_co2_recyc<=0.3){

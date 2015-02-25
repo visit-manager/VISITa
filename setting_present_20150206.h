@@ -373,13 +373,14 @@
 /* 2: use Peregon-san data: 2014/02/04 */
 
 /* inundation data */
-#define ALT_INUND 0
+#define ALT_INUND 6
 /* 0: default (SSMI) */
 /* 1: NASA-JPL (GCP-CH4) version 1  */
 /* 2: IIS satellite observation */
 /* 3: NASA-JPL smoothed */
 /* 4: NASA-JPL smoothed no water */
 /* 5: NASA-JPL smoothed no water no rice */
+/* 6: SWAMP-GLWD */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0

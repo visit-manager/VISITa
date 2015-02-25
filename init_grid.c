@@ -249,16 +249,16 @@ void f_init_grid(
 	}
     
     /* GEO-MIP: 2013/11/26 by A.Ito */
-    if(GCM_ID==3000 || GCM_ID==3003 || GCM_ID==3004){ /* GEO-MIP BNU-ESM */
+    if(GCM_ID==3000 || GCM_ID==3001 || GCM_ID==3002){ /* GEO-MIP BNU-ESM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM_ID==3100 || GCM_ID==3104){ /* GEO-MIP CSIRO */
+	}if(GCM_ID==3010 || GCM_ID==3011 || GCM_ID==3012){ /* GEO-MIP CSIRO */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM_ID==3200 || GCM_ID==3203 || GCM_ID==3204){ /* GEO-MIP GISS */
+	}if(GCM_ID==3020 || GCM_ID==3021 || GCM_ID==3022){ /* GEO-MIP GISS */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM_ID==3300 || GCM_ID==3303 || GCM_ID==3304 || GCM_ID==3313 || GCM_ID==3314 || GCM_ID==3315){ /* GEO-MIP HadGEM */
+	}if(GCM_ID==3030 || GCM_ID==3031 || GCM_ID==3032 || GCM_ID==3033 || GCM_ID==3034 || GCM_ID==3035){ /* GEO-MIP HadGEM */
 		if(grid->lat>=89.379){
 			grid->gcm_row = 0;
 		}else if(grid->lat<=-89.379){
@@ -267,22 +267,25 @@ void f_init_grid(
 			grid->gcm_row = (long)((89.379-grid->lat)/(180.0/(double)GCM_R));
 		}
         grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM_ID==3400 || GCM_ID==3403 || GCM_ID==3405){ /* GEO-MIP IPSL */
+	}if(GCM_ID==3040 || GCM_ID==3041 || GCM_ID==3042){ /* GEO-MIP IPSL */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM_ID==3500 || GCM_ID==3504){ /* GEO-MIP MIROC-ESM */
+	}if(GCM_ID==3050 || GCM_ID==3051 || GCM_ID==3052){ /* GEO-MIP MIROC-ESM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM_ID==3600 || GCM_ID==3604){ /* GEO-MIP MIROC-ESM-CHEM */
+	}if(GCM_ID==3060 || GCM_ID==3061){ /* GEO-MIP MIROC-ESM-CHEM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM_ID==3700 || GCM_ID==3704){ /* GEO-MIP CanESM2 */
+	}if(GCM_ID==3070 || GCM_ID==3071 || GCM_ID==3072){ /* GEO-MIP CanESM2 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM_ID==3800 || GCM_ID==3803){ /* GEO-MIP MPI-ESM-LR */
+	}if(GCM_ID==3080 || GCM_ID==3801){ /* GEO-MIP MPI-ESM-LR */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM_ID==3900 || GCM_ID==3913){ /* GEO-MIP CCSM4 */
+	}if(GCM_ID==3090 || GCM_ID==3091){ /* GEO-MIP CCSM4 */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM_ID==3100 || GCM_ID==3101){ /* GEO-MIP NorESM1-M */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}
@@ -1126,17 +1129,35 @@ void f_init_grid(
     /* NASA-JPL for GCP-CH4: 2014/05/28 (rev 2014/08/17) by A.Ito */
 	fscanf(fp_s[84],"%lf", &lat);
 	fscanf(fp_s[84],"%lf", &lon);
-    /* average */
-    for(h=0;h<ASTEP;h++){
-        fscanf(fp_s[84],"%lf", &grid->inundation_gcp_av[h]);
-    }
-    /* 1999/07-2013/03 */
-    for(g=0;g<15;g++){
+    if(ALT_INUND == 6){
+        /* 2000/01-2012/12 */
         for(h=0;h<ASTEP;h++){
-            fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
-            
-            if(grid->inundation_gcp_ts[g][h] < 0.0){
-                grid->inundation_gcp_ts[g][h] = 0.0;
+            grid->inundation_gcp_av[h] = 0.0;
+        }
+        for(g=0;g<13;g++){
+            for(h=0;h<ASTEP;h++){
+                fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+                
+                if(grid->inundation_gcp_ts[g][h] < 0.0){
+                    grid->inundation_gcp_ts[g][h] = 0.0;
+                }
+                
+                grid->inundation_gcp_av[h] += grid->inundation_gcp_ts[g][h] / 13.0;
+            }
+        }
+    }else{
+        /* 1999/07-2013/03 */
+        /* average */
+        for(h=0;h<ASTEP;h++){
+            fscanf(fp_s[84],"%lf", &grid->inundation_gcp_av[h]);
+        }
+        for(g=0;g<15;g++){
+            for(h=0;h<ASTEP;h++){
+                fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+                
+                if(grid->inundation_gcp_ts[g][h] < 0.0){
+                    grid->inundation_gcp_ts[g][h] = 0.0;
+                }
             }
         }
     }
