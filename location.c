@@ -244,32 +244,7 @@ void f_dyn_loct(
 	long h, offset;
 	double alt, k_c, vpres_var, tmp_ann, tmp_var, wet_var;
 	
-	/* solar constant sensitivity */
-	if(SC==3 || SC==4){
-		grid->top_rad[grid->m] = f_top_rad(grid, 0); 	
-		grid->gl_rad[grid->m] = f_gl_rad(grid); 	
-		grid->par[grid->m] = f_par(grid); 
-	}else if(SC == 5){
-		grid->par[grid->m] = f_par(grid); 
-		grid->par[grid->m] += 10.0;
-	}
-    
-	/* radiatin for cal_historical: 1901-2000 */
-	if(grid->flag_histdata == 1){
-        
-        /* added: 2013/01/10 by A.Ito */
-        loct->grad_d[grid->m] = 0.0;
-        for(h=0;h<24;h++){
-            grid->top_rad[grid->m] = f_top_rad(grid, -180+h*15);
-            loct->grad_d[grid->m] += f_gl_rad(grid)/24.0;
-        }
-        
-        /* midday */
-        grid->top_rad[grid->m] = f_top_rad(grid, 0);
-		grid->gl_rad[grid->m] = f_gl_rad(grid); 
-		grid->par[grid->m] = f_par(grid);
-	}
-	
+    /* initialization */
     if(grid->m == 0){
         for(h=0;h<ASTEP;h++){
             loct->xx1[h] = 0.0;
@@ -282,9 +257,46 @@ void f_dyn_loct(
             loct->xx8[h] = 0.0;
             loct->xx9[h] = 0.0;
         }
-        
         loct->est_maxlai = 0.0;
     }
+    for(h=0;h<DSTEP;h++){
+        loct->ppfd_h[h] = 0.0;
+        loct->ppfdb_h[h] = 0.0;
+        loct->ppfdd_h[h] = 0.0;
+    }
+
+	/* solar constant sensitivity */
+	if(SC==3 || SC==4){
+		grid->top_rad[grid->m] = f_top_rad(grid, 0); 	
+		grid->gl_rad[grid->m] = f_gl_rad(grid); 	
+		grid->par[grid->m] = f_par(grid); 
+	}else if(SC == 5){
+		grid->par[grid->m] = f_par(grid); 
+		grid->par[grid->m] += 10.0;
+	}
+    
+	/* radiatin for cal_historical: 1901-2000 */
+	if(grid->flag_histdata == 1){
+    
+        /* daily-mean and hourly: added: 2013/01/10 by A.Ito */
+        loct->grad_d[grid->m] = 0.0;
+        for(h=0;h<24;h++){
+            /* atmosphere-top, hourly */
+            grid->top_rad[grid->m] = f_top_rad(grid, -180 + h*15);
+            /* daily mean */
+            loct->grad_d[grid->m] += f_gl_rad(grid)/24.0;
+            
+            /* hourly PAR, micro mol photon m-2 s-1 */
+            loct->ppfd_h[h] = f_par(grid);
+            loct->ppfdb_h[h] = grid->par_bp[h];
+            loct->ppfdd_h[h] = grid->par_dp[h];
+        }
+        
+        /* midday */
+        grid->top_rad[grid->m] = f_top_rad(grid, 0);
+		grid->gl_rad[grid->m] = f_gl_rad(grid); 
+		grid->par[grid->m] = f_par(grid);
+	}
 	
 	if(grid->m == 0){
 		grid->tmp_sfc_am = 0.0;

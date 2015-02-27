@@ -83,14 +83,14 @@ void npp_empirical(
 	Ecology, 84:1165-1170.
 	*/
 	npp_tem = 17.6243/(1.0 + exp(1.3496 - grid->tmp_sfc_am * 0.071514));
-	npp_pre = 0.005212*pow(grid->prate_sfc_ann, 1.12363)/exp(0.000459532 * grid->prate_sfc_ann);
+	npp_pre = 0.005212 * pow(grid->prate_sfc_ann, 1.12363)/exp(0.000459532 * grid->prate_sfc_ann);
 	flux->npp_schuur = (npp_tem<npp_pre)?npp_tem:npp_pre;
 	
 	/* ROSENZWEIG model ***********/
 	/* Rosenzweig, M., 1968. Net primary productivity of terrestrial environments: 
 	predictions from climatological data. American Naturalist, 102:67-74.
 	*/
-	flux->npp_rosenzweig = cTdm*0.219*pow(aet_ann, 1.66);
+	flux->npp_rosenzweig = cTdm * 0.219 * pow(aet_ann, 1.66);
 	
 	/* Madison model */
 	/* Zaks, D. P. M., et al. (2007), From Miami to Madison: Investigating the 

@@ -23,7 +23,7 @@ double f_solar_decl(
 	double doy[ASTEP] = {15.0, 46.0, 74.0, 105.0, 135.0, 166.0, 
 				196.0, 227.0, 258.0, 288.0, 319.0, 349.0}; 
 
-	sl_dec = 23.45*sin((doy[grid->m] - 80.0)*360.0/370.0*dTr); /** **/
+	sl_dec = 23.45 * sin((doy[grid->m] - 80.0)*360.0/370.0*dTr); /** **/
 	
 	return (sl_dec);	
 }
@@ -34,8 +34,8 @@ double f_solar_hgt(
 ){
 	double aaa, bbb;
 	
-	aaa = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr) 
-			+ cos(grid->lat*dTr)*cos(grid->sl_dec[grid->m]*dTr);
+	aaa = sin(grid->lat*dTr) * sin(grid->sl_dec[grid->m]*dTr)
+			+ cos(grid->lat*dTr) * cos(grid->sl_dec[grid->m]*dTr);
 	aaa = (aaa<=1.0)?aaa:1.0; 
 	aaa = (aaa>=-1.0)?aaa:-1.0;
 	bbb = asin(aaa)*rTd;
@@ -50,8 +50,8 @@ double f_day_length(
 	double ho, sr, ss, dl, ha;
 	
 	/** hour-angle when the sun-angle equals to zero **/
-	ho = -sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr)/
-			cos(grid->lat*dTr)/cos(grid->sl_dec[grid->m]*dTr); 
+	ho = -sin(grid->lat*dTr) * sin(grid->sl_dec[grid->m]*dTr)/
+			cos(grid->lat*dTr) / cos(grid->sl_dec[grid->m]*dTr);
 	ho = (ho<=1.0)?ho:1.0; ho=(ho>=-1.0)?ho:-1.0;
 	ha = acos(ho);
 	
@@ -72,7 +72,7 @@ double f_top_rad(
 	double ge, dlt, dtc, ho;
 	double aa, bb, cc, dd, ee, gg, hh, ii;
 	
-	ge = 2.0 * PI / 365.0*doy[grid->m];
+	ge = 2.0 * PI / 365.0 * doy[grid->m];
 	
 	aa = -0.399912*cos(ge) + 0.070257*sin(ge);
 	bb = -0.006758*cos(2.0*ge) + 0.000907*sin(2.0*ge);
@@ -104,11 +104,11 @@ double f_top_rad(
     
     /* experiment for SRM by reflector */
     /* added: 2014/07/06 by A.Ito     */
-    if(GCM_ID == 3313 || GCM_ID == 3913){
+    /* if(GCM_ID == 3012 || GCM_ID == 3033 || GCM_ID == 3091){
         if(grid->climy >= 2020){
             gg -= ((double)grid->climy-2020.0) * 4.5/50.0;
         }
-    }
+    } */
     
 	if(SC == 1){
 		gg *= 1.01;
@@ -213,7 +213,7 @@ double f_par(
 		dd = (dd>0.01)?dd:0.01;
 		dd = (dd<=1.0)?dd:1.0;
 		
-		/** diffused radiation**/
+		/** diffused radiation **/
 		hd = grid->gl_rad[grid->m] * dd;
 		
 		/* variable conversion factor after Dye et al. (2004) */
@@ -242,8 +242,8 @@ double f_par(
 		/* diffuse */
 		grid->par_dp[grid->m] = grid->par_de[grid->m] * e2p_d; 
 		
-		/* total: W/m2 */
-		par = 0.43*(grid->gl_rad[grid->m] - hd) * e2p_b + 0.57 * hd * e2p_d;
+		/* total: micro-mol photon /m2/s */
+		par = grid->par_bp[grid->m] + grid->par_dp[grid->m];
 	}else{
 		par = 0.0;
 	}
@@ -261,7 +261,7 @@ void f_net_rad(
     short nn;
 	double aaa, bbb, ccc, ddd1, ddd2, eee, ee_c3, ee_c4, fff;
 	double net_long, rad_net_p, rad_net_g, c3_canopy, c4_canopy, kmono_c3, kmono_c4;
-	double transmittance, ground;
+	double transmittance, ground, inppfd;
     double albedo_base, albedo_var, rn_short_base, rn_short_var;
     double tsfc, tsfc_base, tsfc_var,crit, tt1, tt2, latheat, snsheat, dtsfc;
 	
@@ -271,13 +271,13 @@ void f_net_rad(
 	/** longwave budget : modified 2002/12/25, based on Budyko (1971) **/
 	aaa = pow((grid->tmp_2m[grid->m] + ZAT), 4.0) * SBC;
 	if(loct->vp[grid->m]>0.1 && loct->vp[grid->m]<40.0){
-		bbb = 0.39 - 0.058*sqrt(loct->vp[grid->m]*  760.0/1013.0 );
+		bbb = 0.39 - 0.058 * sqrt(loct->vp[grid->m]*  760.0/1013.0 );
 	}else if(loct->vp[grid->m] <= 0.1){
-		bbb = 0.39 - 0.058*sqrt( 0.1*760.0/1013.0 );
+		bbb = 0.39 - 0.058 * sqrt( 0.1*760.0/1013.0 );
 	}else if(loct->vp[grid->m] >= 40.0){
-		bbb = 0.39 - 0.058*sqrt( 40.0*760.0/1013.0 );
+		bbb = 0.39 - 0.058 * sqrt( 40.0*760.0/1013.0 );
 	}
-	ccc = 1.0 - 0.65*grid->tcdc_clm[grid->m];
+	ccc = 1.0 - 0.65 * grid->tcdc_clm[grid->m];
 	net_long = aaa*bbb*ccc;
 	loct->rad_net_long[grid->m] = net_long;
 	
@@ -289,10 +289,10 @@ void f_net_rad(
 	
 	eee = ee_c3 + ee_c4;
 	ground = exp(-1.0*eee);
-	c3_canopy = (1.0 - ground)*loct->c3ptn[grid->m];
-	c4_canopy = (1.0 - ground)*loct->c4ptn[grid->m];
-	loct->albedo_sfc[grid->m] = (echar->soil).albedo[grid->m]*ground + 
-					(echar->c3).albedo*c3_canopy + (echar->c4).albedo*c4_canopy;
+	c3_canopy = (1.0 - ground) * loct->c3ptn[grid->m];
+	c4_canopy = (1.0 - ground) * loct->c4ptn[grid->m];
+	loct->albedo_sfc[grid->m] = (echar->soil).albedo[grid->m] * ground +
+					(echar->c3).albedo * c3_canopy + (echar->c4).albedo * c4_canopy;
     albedo_base = loct->albedo_sfc[grid->m];
     loct->xx8[grid->m] = albedo_base; /* */
 	
@@ -424,31 +424,33 @@ void f_net_rad(
                        affect air temperature and humidity */
         
         aaa = pow(((grid->tmp_sfc[grid->m] + 0.5) + ZAT), 4.0) * SBC;
-        loct->rad_net_long[grid->m] = net_long = aaa*bbb*ccc;
+        loct->rad_net_long[grid->m] = net_long = aaa * bbb * ccc;
         
         loct->rad_net_short[grid->m] = rn_short_var;
-        
     }else{
-        loct->rad_net_short[grid->m] = (1.0 - loct->albedo_sfc[grid->m])*grid->gl_rad[grid->m];
+        loct->rad_net_short[grid->m] = (1.0 - loct->albedo_sfc[grid->m]) * grid->gl_rad[grid->m];
     }
     
     /****/
 	ddd1 = exp(-1.0 * eee * (1.0 - transmittance)); /*2003-06-27*/
 	ddd2 = exp(-1.0 * eee); /*2003-06-27*/
    
-    /*  */
-	kmono_c3 = irr_attn(grid, loct, &(echar->c3));
-	kmono_c4 = irr_attn(grid, loct, &(echar->c4));
-	loct->fapar_mono[grid->m] = loct->c3ptn[grid->m]*(1.0 - (echar->c3).albedo)
-                    *(1.0 - exp(-1.0*kmono_c3*(mass->c3).lai[grid->m])) + loct->c4ptn[grid->m]
-                    *(1.0 - (echar->c4).albedo)*(1.0 - exp(-1.0*kmono_c4*(mass->c4).lai[grid->m]));
-    
-    loct->apar_d[grid->m] = loct->grad_d[grid->m] * 
-       ( loct->c3ptn[grid->m]*(1.0-(echar->c3).albedo)*(1.0-exp(-1.0*(echar->c3).eK[grid->m]*(mass->c3).lai[grid->m]))
-        + loct->c4ptn[grid->m]*(1.0-(echar->c4).albedo)*(1.0-exp(-1.0*(echar->c4).eK[grid->m]*(mass->c4).lai[grid->m])) );
+    /* absorbed PAR */
+    loct->appfd_g[grid->m] = loct->c3ptn[grid->m] * (echar->c3).appfd_db[grid->m]
+                           + loct->c4ptn[grid->m] * (echar->c4).appfd_db[grid->m];
+ 
+    inppfd = loct->c3ptn[grid->m] * (echar->c3).ppfd_db[grid->m]
+           + loct->c4ptn[grid->m] * (echar->c4).ppfd_db[grid->m];
 
+    /* fapar */
+    if(inppfd > 0.0){
+        loct->fappfd_g[grid->m] = loct->appfd_g[grid->m] / inppfd;
+    }else{
+        loct->fappfd_g[grid->m] = 0.0;
+    }
+ 
     /* added: 2013/01/10 by A.Ito */
-    loct->nrad_d[grid->m] = (1.0 - loct->albedo_sfc[grid->m]) * loct->grad_d[grid->m];
+    loct->nsw_d[grid->m] = (1.0 - loct->albedo_sfc[grid->m]) * loct->grad_d[grid->m];
 	
 	/** global radiation under the canopy or at the soil surface **/
 	loct->gl_rad_g[grid->m] = grid->gl_rad[grid->m]*ddd1;
@@ -503,7 +505,7 @@ double albedo_soil(
 	/* a function of snow accumulation */
 	/* albedo = schar->albedo0 + (0.7 - schar->albedo0)/(1.0 + exp(-0.05*(loct->snwa - 70.0))); */
     /* revised: 2012/12/29 by A.Ito */
-	albedo = schar->albedo0 + (0.95 - schar->albedo0)/(1.0 + exp(-0.05*(loct->snwa - 75.0)));
+	albedo = schar->albedo0 + (0.95 - schar->albedo0)/(1.0 + exp(-0.05 * (loct->snwa - 75.0)));
 	
 	if(SENS_RAD==3){
 		albedo *= 1.1;

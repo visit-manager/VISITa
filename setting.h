@@ -23,6 +23,8 @@
 /***********************************************************/
 /* annual time-step, 12=monthly */
 #define ASTEP 12
+/* annual daily-step, 24=hourly */
+#define DSTEP 24
 
 /* grid configulation */
 #define N_ROW 360
@@ -373,7 +375,7 @@
 /* 2: use Peregon-san data: 2014/02/04 */
 
 /* inundation data */
-#define ALT_INUND 6
+#define ALT_INUND 0
 /* 0: default (SSMI) */
 /* 1: NASA-JPL (GCP-CH4) version 1  */
 /* 2: IIS satellite observation */
@@ -392,6 +394,8 @@
 
 /* variable water-table depth: 2014/12/08 by A.Ito */
 #define VAR_WTD 1
+/* 0:off, 1:0n */
+#define FIX_STMP 1
 /* 0:off, 1:0n */
 
 /*******************************************************/

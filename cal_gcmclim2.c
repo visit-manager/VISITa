@@ -60,7 +60,10 @@ void cal_projection(
 		grid->climy = g;
 		if(GCM_ID >= 1 && GCM_ID <=9999){
 			set_gcm_clim(grid);
-		}
+		}else{
+            printf("BAD GCM_ID!!\n");
+            exit(1);
+        }
 		
 		/* land-use change ******************/
         grid->lucy = g;

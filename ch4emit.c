@@ -432,7 +432,7 @@ void f_ch4_emit_walter(
 		}
         /* 2014/12/08 by A.Ito */
         if(VAR_WTD == 1){
-            diff_wtd = (loct->sw30+loct->sww) - (loct->b_sw30[grid->m]+loct->b_sww[grid->m]);
+            diff_wtd = (loct->sw30+loct->sww) - (loct->b_sw30[grid->m] + loct->b_sww[grid->m]);
             loct->water_table_depth -= diff_wtd/1000.0;
             if(loct->water_table_depth > 0.3){
                 loct->water_table_depth = 0.3;
@@ -552,8 +552,13 @@ void f_ch4_emit_walter(
 	}
 	t_mat = t_gr + 10.0;
 	for(f=1;f<=SOIL_LAYER;f++){
-		tmp[f] = grid->tmp10_soil[grid->m] * (double)(SOIL_LAYER - f)/(double)SOIL_LAYER
-				+ (double)f/(double)SOIL_LAYER * grid->tmp200_soil[grid->m];
+        if(FIX_STMP == 1){
+            tmp[f] = grid->tmp10_soil_a[grid->m] * (double)(SOIL_LAYER - f)/(double)SOIL_LAYER
+                    + (double)f/(double)SOIL_LAYER * grid->tmp200_soil_a[grid->m];
+        }else{
+            tmp[f] = grid->tmp10_soil[grid->m] * (double)(SOIL_LAYER - f)/(double)SOIL_LAYER
+                    + (double)f/(double)SOIL_LAYER * grid->tmp200_soil[grid->m];
+        }
 	}
 	/* fgow: Eq. 20 */
 	if(tmp[5] < t_gr){
@@ -577,7 +582,7 @@ void f_ch4_emit_walter(
 		}
 	}
 	
-	/* soil temperature profile *******************/
+	/* soil-temperature coefficient profile *******************/
 	tmp[0] = grid->tmp_sfc[grid->m];
 	for(f=1;f<=SOIL_LAYER;f++){		
 		if(tmp[f] > 0.0){
@@ -741,7 +746,7 @@ void f_ch4_emit_walter(
 		}
 	}else{
 		/* global */
-        if(ALT_INUND==0){
+        if(ALT_INUND == 0){
             f_inundation = grid->inundation_ssmi[grid->m]; /* */
         }else if(ALT_INUND==1 || ALT_INUND==3 || ALT_INUND==4 || ALT_INUND==5){
             if(grid->climy >= 1999 && grid->climy <= 2013){

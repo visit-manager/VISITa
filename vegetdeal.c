@@ -464,36 +464,39 @@ void set_rowcol_gcm(
 			 || GCM_ID==1265 || GCM_ID==1266 || GCM_ID==1267){ /* NCAR PCM */
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM_ID==3000 || GCM_ID==3003 || GCM_ID==3004){
+	}else if(GCM_ID==3000 || GCM_ID==3001 || GCM_ID==3002){
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM_ID==3100 || GCM_ID==3104){
+	}else if(GCM_ID==3010 || GCM_ID==3011 || GCM_ID==3012){
 		GCM_R = 56;
 		GCM_C = 64;
-	}else if(GCM_ID==3200 || GCM_ID==3203 || GCM_ID==3204){
+	}else if(GCM_ID==3020 || GCM_ID==3021 || GCM_ID==3022){
 		GCM_R = 90;
 		GCM_C = 144;
-	}else if(GCM_ID==3300 || GCM_ID==3303 || GCM_ID==3304 || GCM_ID==3313 || GCM_ID==3314 || GCM_ID==3315){
+	}else if(GCM_ID==3030 || GCM_ID==3031 || GCM_ID==3032 || GCM_ID==3033 || GCM_ID==3034 || GCM_ID==3035){
 		GCM_R = 145;
 		GCM_C = 192;
-	}else if(GCM_ID==3400 || GCM_ID==3403 || GCM_ID==3405){
+	}else if(GCM_ID==3040 || GCM_ID==3041 || GCM_ID==3042){
 		GCM_R = 96;
 		GCM_C = 96;
-	}else if(GCM_ID==3500 || GCM_ID==3504){
+	}else if(GCM_ID==3050 || GCM_ID==3051 || GCM_ID==3052){
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM_ID==3600 || GCM_ID==3604){
+	}else if(GCM_ID==3060 || GCM_ID==3061){
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM_ID==3700 || GCM_ID==3704){
+	}else if(GCM_ID==3070 || GCM_ID==3071 || GCM_ID==3072){
 		GCM_R = 64;
 		GCM_C = 128;
-	}else if(GCM_ID==3800 || GCM_ID==3803){
+	}else if(GCM_ID==3080 || GCM_ID==3081){
 		GCM_R = 96;
 		GCM_C = 192;
-	}else if(GCM_ID==3900 || GCM_ID==3913){
+	}else if(GCM_ID==3090 || GCM_ID==3091){
 		GCM_R = 192;
 		GCM_C = 288;
+	}else if(GCM_ID==3100 || GCM_ID==3101){
+		GCM_R = 96;
+		GCM_C = 144;
 	}else{
         /* ISI-MIP, PLUME (no stored GCM data) */
 		GCM_R = 1;
@@ -703,37 +706,48 @@ void set_gcm_index(
 		case 2048:	strcpy(s_case,"ISIN60N_"); break;
         
         /* GEO-MIP runs: 2013/11/26 by A.Ito */
-		case 3000:	strcpy(s_case,"GEB0_"); break;
-		case 3003:	strcpy(s_case,"GEB3_"); break;
-		case 3004:	strcpy(s_case,"GEB4_"); break;
-		case 3100:	strcpy(s_case,"GECS0_"); break;
-		case 3104:	strcpy(s_case,"GECS4_"); break;
-		case 3105:	strcpy(s_case,"GECS3S_"); break;
-		case 3200:	strcpy(s_case,"GEGI0_"); break;
-		case 3203:	strcpy(s_case,"GEGI3_"); break;
-		case 3204:	strcpy(s_case,"GEGI4_"); break;
- 		case 3300:	strcpy(s_case,"GEH0_"); break;
-		case 3303:	strcpy(s_case,"GEH3_"); break;
-		case 3304:	strcpy(s_case,"GEH4_"); break;
-		case 3313:	strcpy(s_case,"GEH3S_"); break;
-		case 3314:	strcpy(s_case,"GEH4C_"); break;
-		case 3315:	strcpy(s_case,"GEH4S_"); break;
-		case 3400:	strcpy(s_case,"GEIP0_"); break;
-		case 3403:	strcpy(s_case,"GEIP3_"); break;
-		case 3405:	strcpy(s_case,"GEIP5_"); break;
-		case 3500:	strcpy(s_case,"GEM0_"); break;
-		case 3504:	strcpy(s_case,"GEM4_"); break;
-		case 3600:	strcpy(s_case,"GEMC0_"); break;
-		case 3604:	strcpy(s_case,"GEMC4_"); break;
-		case 3700:	strcpy(s_case,"GECC0_"); break;
-		case 3704:	strcpy(s_case,"GECC4_"); break;
-		case 3800:	strcpy(s_case,"GEMP0_"); break;
-		case 3803:	strcpy(s_case,"GEMP3_"); break;
-		case 3900:	strcpy(s_case,"GECM0_"); break;
-		case 3913:	strcpy(s_case,"GECM3S_"); break;
+		case 3000:	strcpy(s_case,"GEBN45_"); break;
+		case 3001:	strcpy(s_case,"GEBNG3_"); break;
+		case 3002:	strcpy(s_case,"GEBNG4_"); break;
         
-        case 3050:	strcpy(s_case,"GEN0_"); break;
-        case 3051:	strcpy(s_case,"GEN4C_"); break;
+ 		case 3010:	strcpy(s_case,"GECS45_"); break;
+		case 3011:	strcpy(s_case,"GECSG4_"); break;
+		case 3012:	strcpy(s_case,"GECSG3S_"); break;
+       
+		case 3020:	strcpy(s_case,"GEGI45_"); break;
+		case 3021:	strcpy(s_case,"GEGIG3_"); break;
+		case 3022:	strcpy(s_case,"GEGIG4_"); break;
+        
+		case 3030:	strcpy(s_case,"GEHD45_"); break;
+		case 3031:	strcpy(s_case,"GEHDG3_"); break;
+		case 3032:	strcpy(s_case,"GEHDG4_"); break;
+		case 3033:	strcpy(s_case,"GEHDG3S_"); break;
+		case 3034:	strcpy(s_case,"GEHDG4C_"); break;
+		case 3035:	strcpy(s_case,"GEHDG4S_"); break;
+        
+		case 3041:	strcpy(s_case,"GEIP45_"); break;
+		case 3042:	strcpy(s_case,"GEIPG3_"); break;
+		case 3043:	strcpy(s_case,"GEIPG5_"); break;
+        
+		case 3050:	strcpy(s_case,"GEMR45_"); break;
+		case 3051:	strcpy(s_case,"GEMRG4_"); break;
+		case 3052:	strcpy(s_case,"GEMRG4C_"); break;
+        
+		case 3060:	strcpy(s_case,"GEMC45_"); break;
+		case 3061:	strcpy(s_case,"GEMCG4_"); break;
+
+		case 3070:	strcpy(s_case,"GECC45_"); break;
+		case 3071:	strcpy(s_case,"GECCG4_"); break;
+		case 3072:	strcpy(s_case,"GECCG4C_"); break;
+
+		case 3080:	strcpy(s_case,"GEMP45_"); break;
+		case 3081:	strcpy(s_case,"GEMPG3_"); break;
+
+		case 3090:	strcpy(s_case,"GECM45_"); break;
+		case 3091:	strcpy(s_case,"GECMG3S_"); break;
+        
+        case 3100:	strcpy(s_case,"GENE45_"); break;
+        case 3101:	strcpy(s_case,"GENEG4C_"); break;
         
         /**/
 		case 4011:	strcpy(s_case,"PLGF45_"); break;

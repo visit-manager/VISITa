@@ -23,6 +23,8 @@
 /***********************************************************/
 /* annual time-step, 12=monthly */
 #define ASTEP 12
+/* annual daily-step, 24=hourly */
+#define DSTEP 24
 
 /* grid configulation */
 #define N_ROW 360
@@ -725,41 +727,47 @@
 
 /** GEO-MIP: 2013/11/26 by A.Ito ***********/
 /* 3000: BNU-ESM RCP4.5 */
-/* 3003: BNU-ESM G3 */
-/* 3004: BNU-ESM G4 */
+/* 3001: BNU-ESM G3 */
+/* 3002: BNU-ESM G4 */
 
-/* 3100: CSIRO-mk3L-1-2 RCP4.5 */
-/* 3104: CSIRO-mk3L-1-2 G4 */
+/* 3010: CSIRO-mk3L-1-2 RCP4.5 */
+/* 3011: CSIRO-mk3L-1-2 G4 */
+/* 3012: CSIRO-mk3L-1-2 G3S */
 
-/* 3200: GISS-EL-R RCP4.5 */
-/* 3203: GISS-EL-R G3 */
-/* 3204: GISS-EL-R G4 */
+/* 3020: GISS-EL-R RCP4.5 */
+/* 3021: GISS-EL-R G3 */
+/* 3022: GISS-EL-R G4 */
 
-/* 3300: HadGEM2-ES RCP4.5 */
-/* 3303: HadGEM2-ES G3 */
-/* 3304: HadGEM2-ES G4 */
-/* 3313: HadGEM2-ES G3S */
-/* 3314: HadGEM2-ES G3cdcn */
-/* 3315: HadGEM2-ES G3seaSalt */
+/* 3030: HadGEM2-ES RCP4.5 */
+/* 3031: HadGEM2-ES G3 */
+/* 3032: HadGEM2-ES G4 */
+/* 3033: HadGEM2-ES G3S */
+/* 3034: HadGEM2-ES G4cdcn */
+/* 3035: HadGEM2-ES G4seaSalt */
 
-/* 3400: IPSL-CM54-LR RCP4.5 */
-/* 3403: IPSL-CM54-LR G3 */
-/* 3405: IPSL-CM54-LR G5 */
+/* 3040: IPSL-CM54-LR RCP4.5 */
+/* 3041: IPSL-CM54-LR G3 */
+/* 3042: IPSL-CM54-LR G5 */
 
-/* 3500: MIROC-ESM RCP4.5 */
-/* 3504: MIROC-ESM G4 */
+/* 3050: MIROC-ESM RCP4.5 */
+/* 3051: MIROC-ESM G4 */
+/* 3052: MIROC-ESM G4cdcn */
 
-/* 3600: MIROC-ESM-CHEM RCP4.5 */
-/* 3604: MIROC-ESM-CHEM G4 */
+/* 3060: MIROC-ESM-CHEM RCP4.5 */
+/* 3061: MIROC-ESM-CHEM G4 */
 
-/* 3700: CCCma RCP4.5 */
-/* 3704: CCCma G4 */
+/* 3070: CCCma RCP4.5 */
+/* 3071: CCCma G4 */
+/* 3072: CCCma G4ndcn */
 
-/* 3800: MPI-ESM-LR RCP4.5 */
-/* 3803: MPI-ESM-LR G3 */
+/* 3080: MPI-ESM-LR RCP4.5 */
+/* 3081: MPI-ESM-LR G3 */
 
-/* 3900: CCSM4 RCP4.5 */
-/* 3913: CCSM4 G3S */
+/* 3090: CCSM4 RCP4.5 */
+/* 3091: CCSM4 G3S */
+
+/* 3100: NorESM RCP4.5 */
+/* 3101: NorESM G4cdcn */
 
 /** PLUME: 2014/07/31 by A.Ito ***********/
 /* 4201: IPSL RCP 4.5 */
