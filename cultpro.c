@@ -125,7 +125,7 @@ void planting(
 	}
 	
 	/* translocation of photosynthate */
-	allocation(grid, pchar, mass, flux);
+	allocation(grid, loct, pchar, mass, flux);
 	/* stable carbon isotope */
 	flux->d13c_tpf[grid->m] = flux->d13c_gpp[grid->m];
 	flux->d13c_tpc[grid->m] = flux->d13c_gpp[grid->m];
@@ -242,7 +242,7 @@ void harvesting(
 	}
 	
 	/* translocation of photosynthate */
-	allocation(grid, pchar, mass, flux);
+	allocation(grid, loct, pchar, mass, flux);
 	/* stable carbon isotope */
 	flux->d13c_tpf[grid->m] = flux->d13c_gpp[grid->m];
 	flux->d13c_tpc[grid->m] = flux->d13c_gpp[grid->m];
@@ -348,7 +348,7 @@ void interval(
 	}
 	
 	/* translocation of photosynthate */
-	allocation(grid, pchar, mass, flux);
+	allocation(grid, loct, pchar, mass, flux);
 	/* stable carbon isotope */
 	flux->d13c_tpf[grid->m] = flux->d13c_gpp[grid->m];
 	flux->d13c_tpc[grid->m] = flux->d13c_gpp[grid->m];

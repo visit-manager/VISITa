@@ -330,7 +330,7 @@ double flf(struct Grid *grid, struct Pchar *pchar, struct Pmas *pmas);
 double flc(struct Grid *grid, struct Pchar *pchar, struct Pmas *pmas);
 double flr(struct Grid *grid, struct Pchar *pchar, struct Pmas *pmas);
 /* allocation */
-void allocation(struct Grid *grid, struct Pchar *pchar, struct Pmas *mass, struct Pflx *flux);
+void allocation(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, struct Pmas *mass, struct Pflx *flux);
 void recluit(struct Grid *grid, struct Pchar *pchar, struct Pmas *mass);
 void reallocation_survival(struct Grid *grid, struct Pchar *pchar, struct Pmas *mass);
 /* soil */

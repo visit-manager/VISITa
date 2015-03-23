@@ -141,6 +141,7 @@ void cal_spinup(
 			if((flux->plant).npp[f] > loct->npp_max){
 				loct->npp_max = (flux->plant).npp[f];
 			}
+            loct->npp_av[f] = (flux->plant).npp[f];
 			
 			(flux->soil).lL[f] = (flux->plant).lL[f];			
 			(flux->soil).d13c_lL[f] = (flux->plant).d13c_lL[f];

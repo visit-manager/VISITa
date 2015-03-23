@@ -340,6 +340,11 @@
 /* 2: entire deforestation, replaced by 13 */
 /* 3: entire deforestation, replaced by 31 */
 
+/* constraint on maximum LAI by meta-analysis: 2015/03/23 by A.Ito */
+#define CONSTRAIN_LAIMAX 0
+/* 0: off */
+/* 1: on */
+
 /*******************************************************/
 /* PAR conversion */
 #define D_PAR 1
@@ -393,9 +398,13 @@
 /* 0:off, 1:0n */
 
 /* variable water-table depth: 2014/12/08 by A.Ito */
-#define VAR_WTD 1
+#define VAR_WTD 0
 /* 0:off, 1:0n */
+/* fix soil temperature by A.Ito */
 #define FIX_STMP 1
+/* 0:off, 1:0n */
+/* fix NPP carbon input to wetland: 2015/03/23 by A.Ito */
+#define FIX_NPP 1
 /* 0:off, 1:0n */
 
 /*******************************************************/
@@ -429,11 +438,11 @@
 /* temperature */
 #define TM 0
 /* 0: as it is */
-/* 1: uniform warming by 1degｰC */
+/* 1: uniform warming by 1degC */
 /* 2: gradual rise */
 /* 3: descrete warming */
 /* 4: spike rise */
-/* 5: uniform cooling by 1degｰC */
+/* 5: uniform cooling by 1degC */
 /* 6: descrete cooling */
 
 /* precipitation */

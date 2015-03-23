@@ -51,6 +51,7 @@ void f_clear(
 		loct->msww[f] = loct->msw30[f] = loct->snp[f] = 0.0;
 		loct->snp[f] = loct->thaw[f] = 0.0;
 		loct->vmc30[f] = loct->vmc[f] = 0.0;
+		loct->npp_av[f] = 0.0;
 		
 		(echar->c3).mgdd[f] = (echar->c4).mgdd[f] = 0.0;
 		(echar->c3).season[f] = (echar->c4).season[f] = 0;

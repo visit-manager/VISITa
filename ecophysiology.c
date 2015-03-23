@@ -354,6 +354,15 @@ void opt_lai(
 	}else{
 		pchar->opt_lai[grid->m] = 0.0;
 	}
+    
+    /* 2015/03/23 by A.Ito *********/
+    if(CONSTRAIN_LAIMAX == 1){
+        if(grid->veg_olson >=1 && grid->veg_olson <= 18){
+            if(pchar->opt_lai[grid->m] > loct->est_maxlai){
+                pchar->opt_lai[grid->m] = loct->est_maxlai;
+            }
+        }
+    }
 }
 
 /* Q10 of autotrophic respiration **********************************************/
@@ -366,9 +375,9 @@ void f_qten_ar(
 	/* larger at cool and smaller at warm */
 	aaa = exp(-0.009 * (grid->tmp_sfc[grid->m] - 15.0));
 		
-	pchar->qTf[grid->m] = pchar->qTf0*aaa;
-	pchar->qTc[grid->m] = pchar->qTc0*aaa;
-	pchar->qTr[grid->m] = pchar->qTr0*aaa;
+	pchar->qTf[grid->m] = pchar->qTf0 * aaa;
+	pchar->qTc[grid->m] = pchar->qTc0 * aaa;
+	pchar->qTr[grid->m] = pchar->qTr0 * aaa;
 	
 	if(T_R==1){
 		pchar->qTf[grid->m] *= 0.9;
@@ -408,8 +417,8 @@ void spcfc_res_mass(
     }
 	rot_hrt = mass->rot - rot_sap; /* heartwood mass in root */
 	
-	pchar->rmc = (pchar->rmc_s*stm_sap + pchar->rmc_h*stm_hrt)/(mass->stm + 0.0001);
-	pchar->rmr = (pchar->rmr_s*rot_sap + pchar->rmr_h*rot_hrt)/(mass->rot + 0.0001);
+	pchar->rmc = (pchar->rmc_s * stm_sap + pchar->rmc_h * stm_hrt)/(mass->stm + 0.0001);
+	pchar->rmr = (pchar->rmr_s * rot_sap + pchar->rmr_h * rot_hrt)/(mass->rot + 0.0001);
 }
 
 /* leaf N concentration ********************************************/

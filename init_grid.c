@@ -423,11 +423,11 @@ void f_init_grid(
 	}	
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp10_soil); 
-		grid->tmp10_soil_a[e] = tmp10_soil-ZAT;
+		grid->tmp10_soil_a[e] = tmp10_soil - ZAT;
 	}	
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp200_soil); 
-		grid->tmp200_soil_a[e] = tmp200_soil-ZAT;
+		grid->tmp200_soil_a[e] = tmp200_soil - ZAT;
 	}	
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &dswrf_toa); 
