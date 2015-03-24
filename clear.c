@@ -92,6 +92,7 @@ void f_clear(
 	}
     
     grid->tmp_base_permaforst = 0.0;
+    grid->tmp_soil_am = 0.0;
 }
 
 /* make plant fluxes vacant ***************************/

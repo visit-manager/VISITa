@@ -72,6 +72,8 @@ void f_init_clim(
 		aaa = grid->ugrd_10m_a[h]*grid->ugrd_10m_a[h];
 		bbb = grid->vgrd_10m_a[h]*grid->vgrd_10m_a[h];
 		grid->wnd_10m[h] = sqrt(aaa+bbb);
+        
+        grid->tmp_soil_am += grid->tmp200_soil_a[h] * MDN[h] / 365.0;
 
 		/* alternative precipitation data *************************/
 		if(grid->prec_sub_a[h]>=0.0){

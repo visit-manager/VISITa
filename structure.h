@@ -100,6 +100,8 @@ struct Grid{
 	double	vgrd_10m_a[ASTEP];		/* meridional wind velocity, m s-1 */
 	double 	rad_a[ASTEP];			/* solar radiation, W m-2 */
 	double 	par_a[ASTEP];			/* PAR, micro mol m-2 s-1 */
+    
+    double 	tmp_soil_am;
 	
 	double 	prec_sub_a[ASTEP];		/* precipitation from substitute data (UEA/CRU), mm mon-1 */
 
