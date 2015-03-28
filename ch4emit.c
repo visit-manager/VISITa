@@ -329,68 +329,70 @@ void f_ch4_emit_walter(
 		dpth[f] = 0.0 + ((double)f - 0.5)*hh;
 	}
 	
-	t_mean = grid->tmp_soil_mean;
-    if(FIX_STMP == 1){
+	/* t_mean = grid->tmp_soil_mean; */
+    t_mean = grid->tmp_soil_am;  /* lont-term mean soil temperature */
+    /* if(FIX_STMP == 1){
         t_mean = grid->tmp_soil_am;
-    }
+    } */
 	
     /* vegetation factor: 2014/06/09 by A.Ito *********************************/
     /* last calibrated 2014/06/12 */
     /* last calibrated 2014/11/17 */
     /* last calibrated 2014/11/21 */
     /* last calibrated 2014/11/30 */
+    /* last calibrated 2015/03/30 */
     switch(smode){
         case 1:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 18.0;
+                t_veg = 17.0;
                 r0 = 1.3;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 12.0;
+                t_veg = 11.0;
                 r0 = 1.05;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
                 t_veg = 5.0;
-                r0 = 0.5;
+                r0 = 0.4;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 2.5;
-                r0 = 0.25;
+                t_veg = 2.4;
+                r0 = 0.24;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
                 t_veg = 1.4;
                 r0 = 0.14;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 1.15;
-                r0 = 0.115;
+                t_veg = 1.1;
+                r0 = 0.10;
             }else if(grid->veg_olson==23 || grid->veg_olson==24){
                 t_veg = 1.2;
                 r0 = 0.12;
             }else{
-                t_veg = 3.0;
-                r0 = 0.30;
+                t_veg = 2.0;
+                r0 = 0.20;
             }
             break;
         case 2:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 8.0;
-                r0 = 0.67;
+                t_veg = 6.0;
+                r0 = 0.6;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 4.0;
-                r0 = 0.40;
+                t_veg = 3.0;
+                r0 = 0.30;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 1.8;
-                r0 = 0.18;
+                t_veg = 1.3;
+                r0 = 0.13;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 1.4;
-                r0 = 0.14;
+                t_veg = 1.2;
+                r0 = 0.12;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 0.45;
-                r0 = 0.045;
+                t_veg = 0.4;
+                r0 = 0.04;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 0.45;
-                r0 = 0.045;
+                t_veg = 0.4;
+                r0 = 0.04;
             }else if(grid->veg_olson==23 || grid->veg_olson==24){
-                t_veg = 0.55;
-                r0 = 0.055;
+                t_veg = 0.4;
+                r0 = 0.04;
             }else{
-                t_veg = 1.25;
+                t_veg = 1.0;
                 r0 = 0.10;
             }
             break;
@@ -410,7 +412,7 @@ void f_ch4_emit_walter(
 	/* TIME */
 	cumtime = 600;
 	
-	/* characteristics ***************************/
+	/* characteristics ***************************************/
 	if(smode == 1){	/* water-logged wetlands */
 		/* t_veg = 6.0; */  /* vegetation factor */
 		/* rdepth = 0.20; */		/* rooting depth, m */
@@ -456,7 +458,7 @@ void f_ch4_emit_walter(
 	}else if(smode == 2){	/* drainage wetlands */
 		/* t_veg = 4.0; */ /* vegetation factor */
 		/* rdepth = 0.15; */  /* rooting depth, m */
-		rdepth = 0.20;		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
+		rdepth = 0.15;		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
 		
         if(grid->veg_olson==9 || grid->veg_olson==10){
             
@@ -578,7 +580,7 @@ void f_ch4_emit_walter(
 	f_org[0] = 1.0;
 	for(f=1;f<=SOIL_LAYER;f++){
 		/* vegetated soil */
-		if(dpth[f]<rdepth){
+		if(dpth[f] < rdepth){
 			f_org[f] = 1.0;
 		}else{
 			f_org[f] = exp(-fabs(dpth[f]*100.0 - rdepth*100.0)/10.0);

@@ -380,7 +380,7 @@
 /* 2: use Peregon-san data: 2014/02/04 */
 
 /* inundation data */
-#define ALT_INUND 0
+#define ALT_INUND 6
 /* 0: default (SSMI) */
 /* 1: NASA-JPL (GCP-CH4) version 1  */
 /* 2: IIS satellite observation */
@@ -398,13 +398,13 @@
 /* 0:off, 1:0n */
 
 /* variable water-table depth: 2014/12/08 by A.Ito */
-#define VAR_WTD 0
+#define VAR_WTD 1
 /* 0:off, 1:0n */
 /* fix soil temperature by A.Ito */
-#define FIX_STMP 1
+#define FIX_STMP 0
 /* 0:off, 1:0n */
 /* fix NPP carbon input to wetland: 2015/03/23 by A.Ito */
-#define FIX_NPP 1
+#define FIX_NPP 0
 /* 0:off, 1:0n */
 
 /*******************************************************/
