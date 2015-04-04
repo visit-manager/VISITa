@@ -51,7 +51,7 @@ void f_ch4_emit_cao(
         if(grid->climy>=1999 && grid->climy<=2013){
         
             if(grid->f_wetland > 0.0){
-                f_inund_wet = grid->inundation_gcp_ts[grid->climy-1999][grid->m] / grid->f_wetland;
+                f_inund_wet = grid->inundation_gcp_ts[grid->climy - 1999][grid->m] / grid->f_wetland;
                 
                 if(f_inund_wet > 1.0){
                     f_inund_wet = 1.0;
@@ -94,7 +94,7 @@ void f_ch4_emit_cao(
         if(grid->climy>=2000 && grid->climy<=2012){
         
             if(grid->f_wetland > 0.0){
-                f_inund_wet = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_wetland;
+                f_inund_wet = grid->inundation_gcp_ts[grid->climy - 2000][grid->m] / grid->f_wetland;
                 
                 if(f_inund_wet > 1.0){
                     f_inund_wet = 1.0;
@@ -150,7 +150,7 @@ void f_ch4_emit_cao(
     /* 2014/12/10 by A.Ito */
     if(VAR_WTD == 1){
         /* mm => cm */
-        diff_wtd = ((loct->sw30+loct->sww) - (loct->b_sw30[grid->m]+loct->b_sww[grid->m])) / 10.0;
+        diff_wtd = ((loct->sw30 + loct->sww) - (loct->b_sw30[grid->m] + loct->b_sww[grid->m])) / 10.0;
         wtable += diff_wtd;
         if(wtable < -30.0){
             wtable = -30.0;
@@ -161,7 +161,7 @@ void f_ch4_emit_cao(
     }
     
 	f_wtable = 0.383 * (f_inund_wet * exp(0.096 * wtable)
-						+ (1.0 - f_inund_wet)*exp(0.096 * (wtable-14.0)));
+						+ (1.0 - f_inund_wet)*exp(0.096 * (wtable-12.0)));
 	/* if(ALT_FWETLAND == 1){
 		f_wtable = 0.383 * (grid->f_wetland*exp(0.096 * wtable) 
 							+ (1.0-grid->f_wetland)*exp(0.096 * -25.0));
@@ -173,11 +173,11 @@ void f_ch4_emit_cao(
 	/* lake: added by A.Ito (2009/07/14) */
 	/* f_wtable_lake = 0.383 * exp(0.096 * 5.0); */
 	/* lake: revised by A.Ito (2013/11/29) */
-	f_wtable_lake = 0.383 * exp(0.096 * 8.0);
+	f_wtable_lake = 0.383 * exp(0.096 * 9.0);
 	
 	/* Mg C ha-1 month-1 */
 	(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * 
-					(f_wtable*grid->f_wetland + f_wtable_lake*0.2*grid->f_lake); /* 0.2: 090717 */
+					(f_wtable*grid->f_wetland + f_wtable_lake * 0.2 * grid->f_lake); /* 0.2: 090717 */
 	if(ALT_FWETLAND == 1){
 		(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * 
 			(f_wtable*grid->f_wetland + f_wtable_lake * 0.2*grid->f_lake);
@@ -344,20 +344,20 @@ void f_ch4_emit_walter(
     switch(smode){
         case 1:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 14.0;
-                r0 = 1.3;
+                t_veg = 14.5;
+                r0 = 1.45;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 10.0;
-                r0 = 1.00;
+                t_veg = 11.0;
+                r0 = 1.1;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 4.0;
-                r0 = 0.4;
+                t_veg = 4.4;
+                r0 = 0.44;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 2.0;
-                r0 = 0.20;
+                t_veg = 2.1;
+                r0 = 0.21;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 1.2;
-                r0 = 0.12;
+                t_veg = 1.25;
+                r0 = 0.125;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){
                 t_veg = 1.0;
                 r0 = 0.10;
@@ -371,26 +371,26 @@ void f_ch4_emit_walter(
             break;
         case 2:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 3.5;
-                r0 = 0.35;
+                t_veg = 3.7;
+                r0 = 0.37;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 2.5;
-                r0 = 0.25;
+                t_veg = 2.6;
+                r0 = 0.26;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 0.8;
-                r0 = 0.08;
+                t_veg = 0.85;
+                r0 = 0.085;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 0.4;
-                r0 = 0.04;
+                t_veg = 0.42;
+                r0 = 0.042;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 0.3;
-                r0 = 0.03;
+                t_veg = 0.32;
+                r0 = 0.032;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 0.2;
-                r0 = 0.02;
+                t_veg = 0.22;
+                r0 = 0.022;
             }else if(grid->veg_olson==23 || grid->veg_olson==24){
-                t_veg = 0.2;
-                r0 = 0.02;
+                t_veg = 0.22;
+                r0 = 0.022;
             }else{
                 t_veg = 0.3;
                 r0 = 0.03;
