@@ -100,6 +100,8 @@ struct Grid{
 	double	vgrd_10m_a[ASTEP];		/* meridional wind velocity, m s-1 */
 	double 	rad_a[ASTEP];			/* solar radiation, W m-2 */
 	double 	par_a[ASTEP];			/* PAR, micro mol m-2 s-1 */
+    
+    double 	tmp_soil_am;
 	
 	double 	prec_sub_a[ASTEP];		/* precipitation from substitute data (UEA/CRU), mm mon-1 */
 
@@ -362,12 +364,16 @@ struct Loct{
     
     /* added: 2013/01/10 by A.Ito */
     double  grad_d[ASTEP];              /* daily average downward SW radiation, W m-2 */
-    double  nrad_d[ASTEP];              /* daily average net SW radiation, W m-2 */
-	
-	double	fapar_mono[ASTEP];			
+    double  nsw_d[ASTEP];               /* daily average net SW radiation, W m-2 */
+ 	
+    double  ppfd_h[DSTEP];
+    double  ppfdb_h[DSTEP];
+    double  ppfdd_h[DSTEP];
+
+    double  appfd_g[ASTEP];
+	double	fappfd_g[ASTEP];
+    
 	double	fapar_df[ASTEP];
-    double  apar_d[ASTEP];
-    double  appfd_d[ASTEP];
 
 	double	pet_prty[ASTEP];			/* Priestley-Taylor potential evapotranspiration, mm month-1 */
 	double	pet_prty_ann;				/* annual Priestley-Taylor potential evapotranspiration, mm yr-1 */
@@ -437,6 +443,7 @@ struct Loct{
 	
 	/* maximum GPP for Cao CH4 scheme */
 	double	gpp_max;						/* maximum GPP */
+    double  npp_av[ASTEP];
 	
 	/* CH4 emission by Walter & Heimann: added by A.Ito (2009/08/05) */
 	double	water_table_depth;				/* current time-step */
@@ -469,6 +476,9 @@ struct Pchar{
 	double	apar_bp[ASTEP];			/* absorbed PAR photon, beam, micro mol photon m-2 s-1 */
 	double	apar_dp[ASTEP];			/* absorbed PAR photon, diffuse, micro mol photon m-2 s-1 */
 	double	fapar[ASTEP];			/* fraction of absorbed PAR */
+
+    double  ppfd_db[ASTEP];
+    double  appfd_db[ASTEP];
 
 	/* allocation *********/
 	double	opt_lai[ASTEP];			/* optimum leaf area index */
@@ -507,7 +517,7 @@ struct Pchar{
 	/* critical temperature condiction for bur burst and leaf shedding */
 	double	crit_temp;
 	double	crit_gdd;
-	
+    
 	/* photosynthesis *******/
 	short	phototype;				/** photosynthetic metabolic pathway, 3=C3, 4=C4, 5=CAM **/
 	/*  veg->psat[grid->m] = veg->pmax*ftem*fstl*fnstl   */

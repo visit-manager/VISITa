@@ -15,7 +15,8 @@ extern short DF97;
 
 /* allocation of photosynthate ********************************************/
 void allocation(
-	struct Grid *grid, 
+	struct Grid *grid,
+    struct Loct *loct,
 	struct Pchar *pchar, 
 	struct Pmas *mass, 
 	struct Pflx *flux
@@ -25,30 +26,40 @@ void allocation(
 	double alloc_f, alloc_c, alloc_r; /* allocation ratios */
 						
 	if(flux->epp[grid->m] > 0.0){ /* during growing-period */
+    
 		/* allocation ratios of EPP */
 		if(mass->lai[grid->m] > pchar->opt_lai[grid->m]){ 
 			/* if holding LAI is greater than the optimam one */
 			/**** avoid too high LAI under good condition: 2009/04/29 A.Ito ****/
 			aaa = mass->lai[grid->m] - pchar->opt_lai[grid->m];
-			bbb = 1.0 - 0.5*aaa;
+			bbb = 1.0 - 0.5 * aaa;
 			bbb = (bbb>0.0)?bbb:0.0;
 			
 			/* formar: bbb = 1.0; */
+            
+            /* 2015/03/23 by A.Ito */
+            if(CONSTRAIN_LAIMAX == 1){
+                if(grid->veg_olson >=1 && grid->veg_olson <= 18){
+                    if(mass->lai[grid->m] > loct->est_maxlai){
+                        bbb = 0.01;
+                    }
+                }
+            }
 			
-			ccc = pchar->alloc_ass*bbb;
+			ccc = pchar->alloc_ass * bbb;
 			alloc_f = ccc;
-			alloc_c = (1.0 - ccc)*pchar->alloc_abg;
-			alloc_r = (1.0 - ccc)*(1.0-pchar->alloc_abg);
+			alloc_c = (1.0 - ccc) * pchar->alloc_abg;
+			alloc_r = (1.0 - ccc) * (1.0 - pchar->alloc_abg);
 		}else{     /* if(mass->lai[grid->m] <= pchar->opt_lai[grid->m]) */
-			/* if holding LAI is smaller than the optimam one */
-			aaa = (pchar->opt_lai[grid->m]-mass->lai[grid->m])*100.0*2.0/2.2/pchar->sla;
-			bbb = flux->epp[grid->m]*pchar->alloc_ass;
+			/* if holding LAI is smaller than the optimum one */
+			aaa = (pchar->opt_lai[grid->m] - mass->lai[grid->m])*100.0*2.0/2.2/pchar->sla;
+			bbb = flux->epp[grid->m] * pchar->alloc_ass;
 			
 			/* allocate photosyntahte to foliage to attain the optimum one */
 			if(aaa <= bbb){
 				ccc = pchar->alloc_ass;
 				
-			}else if(aaa>bbb){
+			}else if(aaa > bbb){
 				cc1 = aaa/bbb;
 				
 				/* maximum allocation ratio to foliage is 40 %: 2008/08/25 by A.Ito */
@@ -153,8 +164,8 @@ void reallocation_survival(
 	/* to fliage: critical reallocation for survival */
 	aaa = 0.075 * 100.0 * 2.0 / 2.2 / pchar->sla;
 	if(mass->fol < aaa){
-		bbb = mass->stm*ral_cap_stf;
-		ccc = mass->rot*ral_cap_rtf;
+		bbb = mass->stm * ral_cap_stf;
+		ccc = mass->rot * ral_cap_rtf;
 		
 		ral_stf = aaa * pchar->alloc_abg * (bbb/aaa)/(0.5 + (bbb/aaa));
 		ral_rtf = aaa * (1.0 - pchar->alloc_abg)*(ccc / aaa)/(0.5 + (ccc/aaa));
@@ -173,7 +184,7 @@ void reallocation_survival(
 		ccc = mass->rot * ral_cap_rtf;
 		
 		ral_stf = aaa*pchar->alloc_abg * (bbb/aaa)/(1.5 + (bbb/aaa));
-		ral_rtf = aaa*(1.0 - pchar->alloc_abg)*(ccc/aaa)/(1.5+(ccc/aaa));
+		ral_rtf = aaa*(1.0 - pchar->alloc_abg)*(ccc/aaa)/(1.5 + (ccc/aaa));
 
 		mass->fol += ral_stf + ral_rtf;
 		mass->stm -= ral_stf;

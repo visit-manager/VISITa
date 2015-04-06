@@ -32,7 +32,7 @@ double fgpp(
 		cc1 = 2.0 * pchar->psat[grid->m]*grid->dlen[grid->m]*lTs/pchar->eK[grid->m]; 
 		bb = pchar->eK[grid->m]*pchar->lue[grid->m]*grid->par[grid->m]/pchar->psat[grid->m];
 		cc2 = 1.0 + sqrt(1.0 + bb);
-		cc3 = 1.0 + sqrt(1.0 + bb*exp(-1.0*pchar->eK[grid->m]*mass->lai[grid->m]));
+		cc3 = 1.0 + sqrt(1.0 + bb*exp(-1.0 * pchar->eK[grid->m] * mass->lai[grid->m]));
 		gpp = cc1 * log(cc2 / cc3);
 	}else{
 		gpp = 0.0;
@@ -96,9 +96,9 @@ void pc_sat(
 	/** soil water effect ******************************************************/
 	/** non-stomatal limitation **/
 	if(pchar->phototype == 3){ /* C3 plants */
-		fnstl = 0.95*loct->sww / (loct->sww + grid->field_cap2*pchar->km_nstl) + 0.05;
+		fnstl = 0.95 * loct->sww / (loct->sww + grid->field_cap2*pchar->km_nstl) + 0.05;
 	}else if(pchar->phototype == 4){ /* C4 plants */
-		fnstl = 0.86*loct->sww / (loct->sww + grid->field_cap2*pchar->km_nstl) + 0.14;
+		fnstl = 0.86 * loct->sww / (loct->sww + grid->field_cap2*pchar->km_nstl) + 0.14;
 	}
 	fnstl = (fnstl<=1.0)?fnstl:1.0; fnstl=(fnstl>=0.0)?fnstl:0.0;
 		
@@ -111,7 +111,7 @@ void pc_sat(
     land-carbon sink, Nature, 448, 791-794. */
     
     if(loct->r_aero[grid->m]>0.0 && pchar->gs[grid->m]>0.0){
-        fozone = (loct->ao3*1000.0/22.4) / (loct->r_aero[grid->m] + 1.67 / (pchar->gs[grid->m]*0.0224/1000.0));
+        fozone = (loct->ao3 * 1000.0/22.4) / (loct->r_aero[grid->m] + 1.67 / (pchar->gs[grid->m] * 0.0224/1000.0));
     }else{
         fozone = 0.0;
     }

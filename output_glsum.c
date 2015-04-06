@@ -79,10 +79,10 @@ void f_set_history_data(
         
         h_rns[year] += fweight * loct->rad_net_short[f]* MDN[f]/365.0 * grid->area;
         h_rnl[year] += fweight * loct->rad_net_long[f]* MDN[f]/365.0 * grid->area;
-        h_rnsd[year] += fweight * loct->nrad_d[f]* MDN[f]/365.0 * grid->area;
+        h_rnsd[year] += fweight * loct->nsw_d[f]* MDN[f]/365.0 * grid->area;
         h_cld[year] += fweight * grid->tcdc_clm[f]* MDN[f]/365.0 * grid->area;
         
-        h_apar[year] += fweight * loct->apar_d[f]* MDN[f]/365.0 * grid->area;
+        h_apar[year] += fweight * loct->appfd_g[f]* MDN[f]/365.0 * grid->area;
         h_parb[year] += fweight * grid->par_bp[f]* MDN[f]/365.0 * grid->area;
         h_pard[year] += fweight * grid->par_dp[f]* MDN[f]/365.0 * grid->area;
         
@@ -301,8 +301,7 @@ void f_set_history_data(
 		rh_rns[grid->reg_g][year] += loct->rad_net_long[f] * MDN[f]/365.0 * grid->area;
 		rh_rnl[grid->reg_g][year] += loct->rad_net_short[f] * MDN[f]/365.0 * grid->area;
 		rh_ipar[grid->reg_g][year] += grid->dlen[f] * 0.5 * grid->par[f] * MDN[f]/365.0 * grid->area;
-		rh_apar[grid->reg_g][year] += grid->dlen[f] * 0.5 * loct->fapar_mono[f]* 
-									grid->par[f] * MDN[f]/365.0 * grid->area;
+		rh_apar[grid->reg_g][year] += loct->appfd_g[f] * MDN[f]/365.0 * grid->area;
 		
 		if(DF97==1){
 			rh_gpp[grid->reg_g][year] += (flux->plant).gpp_df97[f] * grid->area;

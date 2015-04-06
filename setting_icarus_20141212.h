@@ -32,12 +32,12 @@
 #define INT_C 0.01
 
 /***********************************************************/
-#define ISIMIP_RUN 0
+#define ISIMIP_RUN 1
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP runs */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
 
-#define GEOMIP_RUN 1
+#define GEOMIP_RUN 0
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
@@ -95,7 +95,7 @@
 /***********************************************************/
 /* simulation framework duration (years) */
 #define PD_SIM 201	
-/* only for memory preparation; not actual period */
+/* only for memory holding; not actual period */
 
 /* start year (AD) of CO2 time series */
 /* #define PIVOT_CO2Y 1901 */
@@ -187,7 +187,7 @@
 
 /* future projection *****************************/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_RUN 1
+#define GCM_RUN 0
 /* 0: no  1:yes */
 /* note: in case ISI-MIP1, GCM_RUN=0  */
 
@@ -234,7 +234,7 @@
 
 /***************************************************/
 /* land use change setting ***********/
-#define LANDUSE 10
+#define LANDUSE 14
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -253,7 +253,8 @@
 /* 15: Historical (LUH) 1500-2000 + ICARUS SSP2 2001-2100 */
 /* 16: Historical (LUH) 1500-2000 + ICARUS SSP3 2001-2100 */
 
-//#define DL_LUH 306 /* 1700-2000/2005 */
+//#define DL_LUH 301 /* 1700-2000 */
+//#define DL_LUH 306 /* 1700-2005 */
 #define DL_LUH 601 /* 1500-2100 */
 
 /* begin year of land-use data */
@@ -262,7 +263,8 @@
 
 /* land-use during spin-up phase */
 #if ISIMIP_RUN==1
-    #define BGY_LUC 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
+    /* #define BGY_LUC 2000 */    /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define BGY_LUC 1950    /* ICARUS: 2014/09/05 by A.Ito */
 #elif ISIMIP_RUN==2
     #define BGY_LUC 2000    /* PLUME: 2014/07/31 by A.Ito */
 #else
@@ -358,6 +360,10 @@
 
 /* change in wetland extent due to permafrost melting: 2012/10/26 by A.Ito */
 #define VAR_PFMWET 0
+/* 0:off, 1:0n */
+
+/* variable water-table depth: 2014/12/08 by A.Ito */
+#define VAR_WTD 1
 /* 0:off, 1:0n */
 
 /***************************************************/
@@ -733,8 +739,6 @@
 /* 3303: HadGEM2-ES G3 */
 /* 3304: HadGEM2-ES G4 */
 /* 3313: HadGEM2-ES G3S */
-/* 3314: HadGEM2-ES G3cdcn */
-/* 3315: HadGEM2-ES G3seaSalt */
 
 /* 3400: IPSL-CM54-LR RCP4.5 */
 /* 3403: IPSL-CM54-LR G3 */

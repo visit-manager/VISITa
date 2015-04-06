@@ -38,7 +38,7 @@ void f_clear(
 		
 		loct->gl_rad_g[f] = 0.0;
 		loct->rad_net_g[f] = loct->rad_net_p[f] = 0.0;
-        loct->fapar_mono[f] = loct->fapar_df[f] = loct->apar_d[f] = loct->appfd_d[f] = 0.0;
+        loct->appfd_g[f] = loct->fappfd_g[f] = 0.0;
 		loct->rad_net_long[f] = loct->albedo_sfc[f] = 0.0;
 		loct->gd[f] = 0;
 		loct->gdd[f] = 0.0;
@@ -51,6 +51,7 @@ void f_clear(
 		loct->msww[f] = loct->msw30[f] = loct->snp[f] = 0.0;
 		loct->snp[f] = loct->thaw[f] = 0.0;
 		loct->vmc30[f] = loct->vmc[f] = 0.0;
+		loct->npp_av[f] = 0.0;
 		
 		(echar->c3).mgdd[f] = (echar->c4).mgdd[f] = 0.0;
 		(echar->c3).season[f] = (echar->c4).season[f] = 0;
@@ -91,6 +92,7 @@ void f_clear(
 	}
     
     grid->tmp_base_permaforst = 0.0;
+    grid->tmp_soil_am = 0.0;
 }
 
 /* make plant fluxes vacant ***************************/

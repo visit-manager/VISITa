@@ -13,7 +13,6 @@
 
 extern short SENS_RAD;
 
-#define DSTEP 24
 /* leaf boundary conductance */
 #define GB 250.0
 
@@ -49,9 +48,9 @@ double f_df97_gpp(
 	double gpp_df;
 	extern double MDN[ASTEP];
 	
-	ge = 2.0*PI/365.0*doy[grid->m];
-	aa = 0.034221*cos(ge) + 0.00128*sin(ge);
-	bb = 0.000719*cos(2.0*ge) + 0.000077*sin(2.0*ge);
+	ge = 2.0 * PI/365.0 * doy[grid->m];
+	aa = 0.034221 * cos(ge) + 0.00128*sin(ge);
+	bb = 0.000719 * cos(2.0 * ge) + 0.000077*sin(2.0 * ge);
 	dtc = 1.00011 + aa + bb;
 	
 	f_cloud = grid->tcdc_clm[grid->m];
@@ -105,17 +104,17 @@ double f_df97_gpp(
 	/* Michaelis constant of carboxylation and oxygenation rates */
 	/* Eq.8 in De Pury and Farquhar (1997) */
 	/* Rubisco carboxylation */
-	kc = 40.4*exp(59400.0*(temp-25.0)/(298.15*UGC*(temp+ZAT)));
+	kc = 40.4 * exp(59400.0*(temp-25.0)/(298.15*UGC*(temp+ZAT)));
 	/* Rubisco oxygenation */
-	ko = 24800.0*exp(36000.0*(temp-25.0)/(298.15*UGC*(temp+ZAT)));
+	ko = 24800.0 * exp(36000.0*(temp-25.0)/(298.15*UGC*(temp+ZAT)));
 	/* effective Michaelis constant of Rubisco */
 	k_effc = kc*(1.0 + o2_i / ko);
 	
 	/* temperature coefficient of electron transport */
 	/* Eq.10 in De Pury and Farquhar (1997) */
-	ft_et = exp(((temp+ZAT)-298.15)*37000.0/(UGC*(temp+ZAT)*298.15))*
+	ft_et = exp(((temp + ZAT)-298.15)*37000.0/(UGC*(temp + ZAT)*298.15))*
 		(1.0 + exp((710.0*298.15 - 220000.0)/(UGC*298.15)))/
-		(1.0 + exp((710.0*(temp+ZAT) - 220000.0)/(UGC*(temp+ZAT))));
+		(1.0 + exp((710.0*(temp + ZAT) - 220000.0)/(UGC*(temp + ZAT))));
 	
 	/* temperature coefficient of dark respiration */
 	ft_rd = exp(66400.0*(temp-25.0)/(UGC*298.0*(ZAT+temp)));
@@ -320,11 +319,11 @@ double f_df97_gpp(
 				&debug1, &debug2, &debug3);
 			
 			/* total CO2 assimilation */
-			if(mode==1){
+			if(mode == 1){
 				gpp_df += (assim_sn + assim_sd) * 3600.0 * 12.0 / 100000000.0;
-			}else if(mode==2){
+			}else if(mode == 2){
 				pchar->lue_df[grid->m] = (assim_sn + assim_sd) / 100.0;
-			}else if(mode==3){
+			}else if(mode == 3){
 				pchar->psat_df[grid->m] = (assim_sn + assim_sd) / lai_t;
 			}
 			
@@ -333,18 +332,18 @@ double f_df97_gpp(
 			monitor3[h] += lai_sd; */
 		}else{
 			/* dark condition or no leaf period **/
-			if(mode==1){
+			if(mode == 1){
 				gpp_df += 0.0;
-			}else if(mode==2){
+			}else if(mode == 2){
 				pchar->lue_df[grid->m] = 0.05;
-			}else if(mode==3){
+			}else if(mode == 3){
 				pchar->psat_df[grid->m] = 0.0;
 			}
 			monitor1[h] = monitor2[h] = monitor3[h] = monitor4[h] = monitor5[h] = 0.0;
 		}
 	}
 	
-	if(mode==1){
+	if(mode == 1){
 		gpp_df *= MDN[grid->m];
 	}
 	
@@ -437,7 +436,7 @@ void leaf_ansolv(
 	 	/***************************************************************/
 		qqq = (pp*pp - 3.0*qq)/9.0;
 		rrr = (2.0*pp*pp*pp - 9.0*pp*qq + 27.0*rr)/54.0;
-		theta = acos(rrr/sqrt(qqq*qqq*qqq));
+		theta = acos(rrr / sqrt(qqq*qqq*qqq));
 		 	
 	 	xx1 = -2.0*sqrt(qqq) * cos(theta / 3.0) - pp/3.0;
 	 	xx2 = -2.0*sqrt(qqq) * cos((theta + 2.0*PI)/3.0) - pp/3.0;
@@ -450,14 +449,14 @@ void leaf_ansolv(
 
  	/* RUBP-limited ***************************************************/
 	aa = j_et;
- 	bb = 8.0*comp_co2;
+ 	bb = 8.0 * comp_co2;
  	dd = comp_co2;
  	ee = 4.0;
  	
 	/******************************************************************/
- 	alpha = 1.0+bd/gb - m*rh;
+ 	alpha = 1.0 + bd/gb - m*rh;
  	beta = ca * (gb * m * rh - 2.0*bd - gb);
- 	gamma = ca*ca * bd * gb;
+ 	gamma = ca * ca * bd * gb;
  	theta = gb * m * rh - bd;
  	
  	/******************************************************************/
@@ -465,13 +464,13 @@ void leaf_ansolv(
 	qq = (ee*gamma + bb*gamma/ca - aa*beta + aa*dd*theta + ee*rd*beta 
 		+ rd*bb*theta)/(ee * alpha);
 	rr = (-aa*gamma + aa*dd*gamma/ca + ee*rd*gamma 
-		+ rd*bb*gamma/ca)/(ee * alpha);
+		+ rd*bb*gamma/ca) / (ee * alpha);
 
- 	f_pp = (pp/3.0)*(pp/3.0) - qq/3.0;
- 	f_qq = ((pp/3.0)*qq - 2.0*(pp/3.0)*(pp/3.0)*(pp/3.0) - rr)/2.0;
+ 	f_pp = (pp/3.0) * (pp/3.0) - qq/3.0;
+ 	f_qq = ((pp/3.0) * qq - 2.0*(pp/3.0)*(pp/3.0)*(pp/3.0) - rr)/2.0;
  	f_cube = f_qq*f_qq - f_pp*f_pp*f_pp;
  	
- 	if(f_cube<0.0){
+ 	if(f_cube < 0.0){
 		/******************************************************************/
 		qqq = (pp*pp - 3.0*qq)/9.0;
 		rrr = (2.0*pp*pp*pp - 9.0*pp*qq + 27.0*rr)/54.0;
@@ -504,12 +503,12 @@ void leaf_ansolv(
 	a_net = p_gross - rd;
 	
 	/* substomatal cavity CO2 */
-	cs = ca - a_net/gb;
+	cs = ca - a_net / gb;
 	
-	gs = bd + m*a_net*rh/cs;		
+	gs = bd + m * a_net * rh/cs;
 	if(FIX_GSCO2 == 1){
 		/* non-CO2-responsive */
-		gs = bd + m*a_net*rh/(35.0 * 0.7);
+		gs = bd + m * a_net * rh/(35.0 * 0.7);
 	}
 	
 	ci = cs - a_net/gs;
