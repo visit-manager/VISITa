@@ -341,7 +341,7 @@
 /* 3: entire deforestation, replaced by 31 */
 
 /* constraint on maximum LAI by meta-analysis: 2015/03/23 by A.Ito */
-#define CONSTRAIN_LAIMAX 1s
+#define CONSTRAIN_LAIMAX 1
 /* 0: off */
 /* 1: on */
 

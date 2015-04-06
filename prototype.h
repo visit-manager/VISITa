@@ -281,7 +281,7 @@ void soil_processes(struct Grid *grid, struct Loct *loct, struct Schar *schar,
 void set_rowcol_gcm(void);
 void set_gcm_index(char gcmindex[]);
 void f_before_deal(struct Grid *grid, struct Pflx *flux);
-void f_after_deal(struct Grid *grid, struct Pchar *pchar, struct Pmas *pmas, struct Pflx *flux);
+void f_after_deal(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, struct Pmas *pmas, struct Pflx *flux);
 void f_plant_stand_budget(struct Grid *grid,struct Loct *loct,struct Mass *mass, struct Flux *flux);
 double grid_area(double lat1, double lat2, double lon1, double lon2);
 

@@ -41,7 +41,7 @@ void forest_process(
 	}
 	
 	/* post-processing */
-	f_after_deal(grid, pchar, mass, flux);
+	f_after_deal(grid, loct, pchar, mass, flux);
 }
 
 /* green period, while plants grow up actively *********************/

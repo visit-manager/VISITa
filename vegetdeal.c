@@ -164,12 +164,27 @@ void f_before_deal(
 
 /* dealings after calculating carbon budget *******************************/
 void f_after_deal(
-	struct Grid *grid, 
+	struct Grid *grid,
+    struct Loct *loct,
 	struct Pchar *pchar, 
 	struct Pmas *mass, 
 	struct Pflx *flux
-){	
+){
+    double aaa = 0.0;
 	double in_d14c;
+    
+    /* constrain max LAI: 2015/04/06 */
+    if(CONSTRAIN_LAIMAX == 1 && (grid->veg_olson >=1 && grid->veg_olson <= 30)){
+        
+        if(mass->lai[grid->m] > loct->est_maxlai){
+            aaa = (mass->lai[grid->m] - loct->est_maxlai) *100.0*2.0/2.2/pchar->sla;
+            
+            mass->fol -= aaa*0.5;
+            flux->lf[grid->m] += aaa*0.5;
+        }else{
+            ;
+        }
+    }
 	
 	/* LAI update */
 	mass->lai[grid->m] = lai_mass(grid, mass, pchar);

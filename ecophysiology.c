@@ -357,7 +357,7 @@ void opt_lai(
     
     /* 2015/03/23 by A.Ito *********/
     if(CONSTRAIN_LAIMAX == 1){
-        if(grid->veg_olson >=1 && grid->veg_olson <= 18){
+        if(grid->veg_olson >=1 && grid->veg_olson <= 30){
             if(pchar->opt_lai[grid->m] > loct->est_maxlai){
                 pchar->opt_lai[grid->m] = loct->est_maxlai;
             }

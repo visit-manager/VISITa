@@ -234,6 +234,9 @@ void f_init_loct(
 	
 	/* average fertilizer-N input for each county, kg N ha-1 yr-1 */
 	n_fertilizer_in(grid, loct);
+    
+    /* empirical NPP and meta-analysis-based optimal LAI */
+    npp_empirical(grid, loct, flux);
 }
 
 /* dynamic estimation of environmnetal conditions (Secondary data2) *********************/
