@@ -54,6 +54,7 @@ void allocation(
             alloc_f = ccc;
             alloc_c = (1.0 - ccc) * pchar->alloc_abg;
             alloc_r = (1.0 - ccc) * (1.0 - pchar->alloc_abg);
+            
         }else{     /* if(mass->lai[grid->m] <= pchar->opt_lai[grid->m]) */
             /* if holding LAI is smaller than the optimum one */
             aaa = (pchar->opt_lai[grid->m] - mass->lai[grid->m])*100.0*2.0/2.2/pchar->sla;
@@ -98,9 +99,9 @@ void allocation(
 		alloc_r = (1.0 - pchar->alloc_ass) * (1.0 - pchar->alloc_abg);
 				
 		/* monthly translocation fluxes */
-		flux->tpp[grid->m] = (alloc_f + alloc_c + alloc_r)*flux->epp[grid->m];
+		flux->tpp[grid->m] = (alloc_f + alloc_c + alloc_r) * flux->epp[grid->m];
 		
-		if(DF97==1){
+		if(DF97 == 1){
 			flux->tpf[grid->m] = alloc_f*flux->gpp_df97[grid->m] - flux->rfm[grid->m];
 			flux->tpc[grid->m] = alloc_c*flux->gpp_df97[grid->m] - flux->rcm[grid->m];
 			flux->tpr[grid->m] = alloc_r*flux->gpp_df97[grid->m] - flux->rrm[grid->m];
