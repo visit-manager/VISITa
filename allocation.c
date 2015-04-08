@@ -59,7 +59,7 @@ void allocation(
             aaa = (pchar->opt_lai[grid->m] - mass->lai[grid->m])*100.0*2.0/2.2/pchar->sla;
             bbb = flux->epp[grid->m] * pchar->alloc_ass;
             
-            /* allocate photosyntahte to foliage to attain the optimum one */
+            /* allocate photosyntahte to foliage to attain the optimum LAI */
             if(aaa <= bbb){
                 ccc = pchar->alloc_ass;
                 
