@@ -332,7 +332,7 @@ int main(
 			flag_calc = 0;
 			if(grid.veg_olson!=0 && grid.veg_olson!=33 && grid.flag_histdata==1
 					/* && (g+5)%10==0  */
-					&& (g+3)%10==0 /* */
+					&& (g+4)%10==0 /* */
 					&& grid.lat<=area_t&&grid.lat>=area_b && grid.lon>=area_l&&grid.lon<=area_r
 					/* && grid.lat<90.0&&grid.lat>-90.0 && grid.lon>-180.0&&grid.lon<180.0 */
 					/* && grid.lat<65.0&&grid.lat>55.0 && grid.lon>65.0&&grid.lon<85.0 */

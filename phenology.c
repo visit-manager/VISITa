@@ -21,17 +21,17 @@ void growthperiod(
 
 	/** cumulative temperature, degree days**/
 	if(grid->lat >= 0.0){
-		if(grid->m==0){
+		if(grid->m == 0){
 			pchar->gdd = 0.0;
-			if(grid->y==0){
+			if(grid->y == 0){
 				pchar->frag_dcd = 1;
 				pchar->frag_emg = 0;
 			}
 		}
 	}else{  /* if(grid->lat<0.0) */
-		if(grid->m==6){
+		if(grid->m == 6){
 			pchar->gdd = 0.0;
-			if(grid->y==0){
+			if(grid->y == 0){
 				pchar->frag_dcd = 0;
 				pchar->frag_emg = 1;
 			}
@@ -43,13 +43,15 @@ void growthperiod(
 	pchar->mgdd[grid->m] = pchar->gdd;
 	
 	/** growing period, days **/
-	if(grid->m==0) pchar->grw_pd = 0.0;
+	if(grid->m == 0){
+        pchar->grw_pd = 0.0;
+    }
 	if(grid->tmp_sfc[grid->m] > 5.0){
 		pchar->grw_pd += MDN[grid->m];
 	}	
 
 	/* phenology *****************************************/
-	if(pchar->v_type==1){
+	if(pchar->v_type == 1){
 		switch(grid->veg_olson){
 			case 0: case 33:
 				phenology_bareland(grid, pchar);
@@ -71,7 +73,7 @@ void growthperiod(
 				phenology_agriculture(grid, loct, pchar);
 				break;
 		}
-	}else if(pchar->v_type==2){
+	}else if(pchar->v_type == 2){
 		phenology_agriculture(grid, loct, pchar);
 	}
 }

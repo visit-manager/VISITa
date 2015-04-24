@@ -84,7 +84,9 @@ void cal_spinup(
     /* corrected: A. Ito (with Hamada-san's comment) 2012/01/30 */
 	loct->gpp_max = loct->npp_max = 0.0; 
 	while(ann_nep > TER_CON){ /*** acnep>TER_CON nn<10 ***/
-		grid->y = nn;
+		
+        /* AGE: years */
+        grid->y = nn;
 				
         /* for considering leap years: 2014/09/29 by A.Ito */
         if(grid->y%4 == 0){

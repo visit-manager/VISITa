@@ -76,6 +76,13 @@
 #define REPL_OLSON_CROP 1
 /* 0:off  1:on */
 
+/* change crop types: 2015/04/24 by A.Ito */
+#define EX_CROP 0
+/* 0: off (control) */
+/* 1: all C3 (e.g. wheat) */
+/* 2: all rice */
+/* 3: all C4 (e.g. maize) */
+
 /* number of geographical regions */
 #define N_REG 23
 /* defined in region_giorgi() in vegetdeal.c */
@@ -360,7 +367,7 @@
 
 /*******************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 

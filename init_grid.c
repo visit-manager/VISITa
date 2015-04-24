@@ -1096,6 +1096,17 @@ void f_init_grid(
 	if(grid->fmaize>grid->fwheat && grid->fmaize>grid->frice){
 		grid->veg_crop = 3;
 	}
+    
+    /* change crop types: 2015/04/24 by A.Ito */
+    if(EX_CROP == 1){
+        grid->veg_crop = 1;  /* C3:wheat */
+    }
+    if(EX_CROP == 2){
+        grid->veg_crop = 2;  /* rice */
+    }
+    if(EX_CROP == 3){
+        grid->veg_crop = 3;  /* C4:maize */
+    }
 	
 	/* diffuse radiation estimation using SRB data ************/
 	/* intercept */
