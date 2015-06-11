@@ -72,6 +72,8 @@ void f_init_clim(
 		aaa = grid->ugrd_10m_a[h]*grid->ugrd_10m_a[h];
 		bbb = grid->vgrd_10m_a[h]*grid->vgrd_10m_a[h];
 		grid->wnd_10m[h] = sqrt(aaa+bbb);
+        
+        grid->tmp_soil_am += grid->tmp200_soil_a[h] * MDN[h] / 365.0;
 
 		/* alternative precipitation data *************************/
 		if(grid->prec_sub_a[h]>=0.0){
@@ -158,10 +160,10 @@ void f_init_loct(
 	c34composition((echar->c3).v_type, grid, loct);
 	
 	/* sensitivity analysis */
-	if(T_D==1||T_D==2||T_D==3||T_D==4){
-		ftmp10b=ftmp200b=ftmp10=ftmp200=0.0;
+	if(T_D==1 || T_D==2 || T_D==3 || T_D==4){
+		ftmp10b = ftmp200b = ftmp10 = ftmp200 = 0.0;
 		for(h=0;h<ASTEP;h++){
-			if(grid->tmp10_soil[h]>-20.0){
+			if(grid->tmp10_soil[h] > -20.0){
 				ftmp10b += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02))); 
 				if(T_D==0){
 					ftmp10 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02)));
@@ -178,7 +180,7 @@ void f_init_loct(
 				ftmp10b += 0.05;
 				ftmp10 += 0.05;
 			}
-			if(grid->tmp200_soil[h]>-20.0){
+			if(grid->tmp200_soil[h] > -20.0){
 				ftmp200b += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
 				if(T_D==0){
 					ftmp200 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
@@ -232,6 +234,9 @@ void f_init_loct(
 	
 	/* average fertilizer-N input for each county, kg N ha-1 yr-1 */
 	n_fertilizer_in(grid, loct);
+    
+    /* empirical NPP and meta-analysis-based optimal LAI */
+    npp_empirical(grid, loct, flux);
 }
 
 /* dynamic estimation of environmnetal conditions (Secondary data2) *********************/
@@ -372,7 +377,7 @@ void f_dyn_loct(
 	/* altitude */
 	alt = (grid->topo>=0.0)?grid->topo:0.0; 
 	/* air pressure */
-	loct->prsr[grid->m] = 1013.25*exp(-1.0*(28.964*0.001) * GAC * alt / (UGC*(grid->tmp_2m[grid->m] + ZAT)));
+	loct->prsr[grid->m] = 1013.25 * exp(-1.0 * (28.964 * 0.001) * GAC * alt / (UGC * (grid->tmp_2m[grid->m] + ZAT)));
 	
 	/* saturated vapour pressure, hPa */
 	loct->vps[grid->m] = vap_pre_sat(grid); 
@@ -440,7 +445,7 @@ void f_dyn_loct(
 		/* vapour pressure, hPa */
 		loct->vp[grid->m] = loct->prsr[grid->m] * grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]);
 		/* vapour pressure deficit */
-		loct->vpd[grid->m] = (loct->vps[grid->m]>=loct->vp[grid->m])?loct->vps[grid->m]-loct->vp[grid->m]:0.0; 
+		loct->vpd[grid->m] = (loct->vps[grid->m] >= loct->vp[grid->m])?loct->vps[grid->m] - loct->vp[grid->m]:0.0;
 	}
 
 	/* air density */
@@ -455,8 +460,8 @@ void f_dyn_loct(
 	/** net radiation **/
 	f_net_rad(grid, loct, mass, echar);
     	
-	(mass->plant).lai[grid->m] = (mass->c3).lai[grid->m]*loct->c3ptn[grid->m]
-					+ (mass->c4).lai[grid->m]*loct->c4ptn[grid->m];
+	(mass->plant).lai[grid->m] = (mass->c3).lai[grid->m] * loct->c3ptn[grid->m]
+					+ (mass->c4).lai[grid->m] * loct->c4ptn[grid->m];
 	loct->lai[grid->m] = (mass->plant).lai[grid->m];
     
 	/** hydrological water budget **/
@@ -469,7 +474,7 @@ void f_dyn_loct(
 	non-photosynthetic organs on canopy photosynthetic production. 
 	Ecological Research 4:187-197.
 	*/
-	if(grid->veg_sage>=1 && grid->veg_sage<=8){
+	if(grid->veg_sage >= 1 && grid->veg_sage <= 8){
 		k_c = 0.221;	/* Kurachi and Hagihara */
 	}else{
 		k_c = 0.001;

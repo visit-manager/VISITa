@@ -423,11 +423,11 @@ void f_init_grid(
 	}	
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp10_soil); 
-		grid->tmp10_soil_a[e] = tmp10_soil-ZAT;
+		grid->tmp10_soil_a[e] = tmp10_soil - ZAT;
 	}	
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp200_soil); 
-		grid->tmp200_soil_a[e] = tmp200_soil-ZAT;
+		grid->tmp200_soil_a[e] = tmp200_soil - ZAT;
 	}	
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &dswrf_toa); 
@@ -1096,6 +1096,17 @@ void f_init_grid(
 	if(grid->fmaize>grid->fwheat && grid->fmaize>grid->frice){
 		grid->veg_crop = 3;
 	}
+    
+    /* force change crop types: 2015/04/24 by A.Ito */
+    if(EX_CROP == 1){
+        grid->veg_crop = 1;  /* C3:wheat */
+    }
+    if(EX_CROP == 2){
+        grid->veg_crop = 2;  /* rice */
+    }
+    if(EX_CROP == 3){
+        grid->veg_crop = 3;  /* C4:maize */
+    }
 	
 	/* diffuse radiation estimation using SRB data ************/
 	/* intercept */

@@ -84,7 +84,9 @@ void cal_spinup(
     /* corrected: A. Ito (with Hamada-san's comment) 2012/01/30 */
 	loct->gpp_max = loct->npp_max = 0.0; 
 	while(ann_nep > TER_CON){ /*** acnep>TER_CON nn<10 ***/
-		grid->y = nn;
+		
+        /* AGE: years */
+        grid->y = nn;
 				
         /* for considering leap years: 2014/09/29 by A.Ito */
         if(grid->y%4 == 0){
@@ -141,6 +143,7 @@ void cal_spinup(
 			if((flux->plant).npp[f] > loct->npp_max){
 				loct->npp_max = (flux->plant).npp[f];
 			}
+            loct->npp_av[f] = (flux->plant).npp[f];
 			
 			(flux->soil).lL[f] = (flux->plant).lL[f];			
 			(flux->soil).d13c_lL[f] = (flux->plant).d13c_lL[f];

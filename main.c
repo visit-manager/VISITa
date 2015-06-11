@@ -497,17 +497,17 @@ int main(
 #endif
 
 #if PHYS_GOUT==1
-	fwrite(g_lai, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 160
+	fwrite(g_lai, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 160
 	fwrite(g_parb, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 165
 	fwrite(g_pard, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 170
 	fwrite(g_apar, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 175
 	fwrite(g_apar2, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 180
-	fwrite(g_aet, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 185
-	fwrite(g_rof, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 190
-	fwrite(g_rns, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 195
-	fwrite(g_rnl, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 200
-	fwrite(g_sw1, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 205
-	fwrite(g_sw2, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 210
+	fwrite(g_aet, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 185
+	fwrite(g_rof, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 190
+	fwrite(g_rns, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 195
+	fwrite(g_rnl, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 200
+	fwrite(g_sw1, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 205
+	fwrite(g_sw2, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 210
 	fwrite(g_snh4, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 215
 	fwrite(g_sno3, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 220
 	fwrite(g_rnsd, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 221 added: 2013/01/10 by A.Ito

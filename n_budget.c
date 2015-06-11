@@ -210,8 +210,8 @@ void f_nh3_volatilization(
 	/* soil water potential Eq.(6.2g) */
 	if(loct->sw30 > 1.0){
 		/* modified by A.Ito (2009/06/05) */
-		swp = -10.0 * pow(1.0/(loct->sw30/grid->field_cap1), 5.0);
-		f_sw = exp((18.0 * swp)/(8314.0*(grid->tmp10_soil[grid->m] + ZAT)));
+		swp = -10.0 * pow(1.0 / (loct->sw30 / grid->field_cap1), 5.0);
+		f_sw = exp((18.0 * swp) / (8314.0 * (grid->tmp10_soil[grid->m] + ZAT)));
 	}else{
 		f_sw = 0.0;
 	}
