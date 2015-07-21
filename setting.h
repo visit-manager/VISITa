@@ -34,18 +34,25 @@
 #define INT_C 0.01
 
 /***********************************************************/
-#define ISIMIP_RUN 3
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
 /* 3: ISI-MIP 2.1 historical runs */
 /* 4: ISI-MIP 2.2 */
 
-#define GEOMIP_RUN 0
+#define GEOMIP_RUN 1
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
+#define IMPRESSIONS_RUN 0
+/* 0: off */
+/* 1: sensitivity run (for IRS) */
+
+/* parameter ensemble experiment ****/
 #define ENSEMBLE_RUN 0
+/* 0: off */
+/* 1: on */
 
 /********************************************************/
 /* output text files */
@@ -54,9 +61,9 @@
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
+#define OUTPUT_EROSION 1
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 0
+#define OUTPUT_BB 1
 #define OUTPUT_BVOC 0
 /* output binary */
 #define C13_GOUT 1
@@ -75,7 +82,7 @@
 /* 0:off 1:on */
 
 /* Olson croplands replaced by SAGE natural vegetation */
-#define REPL_OLSON_CROP 1
+#define REPLACE_OLSON_CROP 1
 /* 0:off 1:on */
 
 /* change crop types: 2015/04/24 by A.Ito */
@@ -215,30 +222,29 @@
     #define DL_ISIMIP 140  /* SU 30 + AD 1901 - 2010 */
     /* #define DL_ISIMIP 131 */ /* SU 30 + AD 1901 - 2001 */
 #else
-    #define DL_ISIMIP 0
+    #define DL_ISIMIP 1
 #endif
 
 /* future projection *****************************/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_RUN 0
+#define GCM_RUN 1
 /* 0: no  1:yes */
-/* #define GCM_PD 100 */	/* 100 : 2001-2100 */
-/* #define GCM_PD 99 */	/* 99 : 2001-2099 */
-/* year of data beginning (AD) */
-/* #define BGY_GCM 2001 */
-#define BGY_GCM 2006  /* --GEOMIP PLUME */
-/* #define ENY_GCM 2100 */
-#define ENY_GCM 2099  /* --PLUME */
 
-/* GCM data length */
-/* #define DL_GCM 131 */ /* 1970-2100 --GEOMIP */
-#define DL_GCM 94 /* */ /* 2006-2099 --GEOMIP */
+/* year of GCM data (AD) */
+#if GEOMIP_RUN==1
+    #define BGY_GCM 2006  /* --GEOMIP PLUME */
+    #define ENY_GCM 2100
+    #define DL_GCM 131 /* 1970-2100 --GEOMIP */
+    /* start year of GCM data (AD) */
+    #define PIVOT_GCMY 1970  /* --GEOMIP */
+#else
+    #define BGY_GCM 2006  /* --PLUME */
+    #define ENY_GCM 2099
+    #define DL_GCM 94 /* 2006-2099 --ISI-MIP2 */
+    #define PIVOT_GCMY 2006   /* --PLUME */
+#endif
 /* #define DL_GCM 241 */ /* 1860-2100 */
-
-/* start year of GCM data (AD) */
 /* #define PIVOT_GCMY 2001 */
-/* #define PIVOT_GCMY 1970 */  /* --GEOMIP */
-#define PIVOT_GCMY 2006   /* --PLUME */
 /* #define PIVOT_GCMY 1860 */
 
 /***************************************************/
@@ -266,7 +272,7 @@
 #define NPERT 20
 
 /* land use change setting ***********/
-#define LANDUSE 9
+#define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -763,40 +769,49 @@
 /* 2048: NorESM1-M RCP 6.0 +noco2 */
 
 /** GEO-MIP: 2013/11/26 by A.Ito ***********/
+/* revised 2015/07/21 */
 /* 3000: BNU-ESM RCP4.5 */
-/* 3003: BNU-ESM G3 */
-/* 3004: BNU-ESM G4 */
+/* 3001: BNU-ESM G3 */
+/* 3002: BNU-ESM G4 */
 
-/* 3100: CSIRO-mk3L-1-2 RCP4.5 */
-/* 3104: CSIRO-mk3L-1-2 G4 */
+/* 3010: CSIRO-mk3L-1-2 RCP4.5 */
+/* 3011: CSIRO-mk3L-1-2 G4 */
+/* 3012: CSIRO-mk3L-1-2 G3S */
 
-/* 3200: GISS-EL-R RCP4.5 */
-/* 3203: GISS-EL-R G3 */
-/* 3204: GISS-EL-R G4 */
+/* 3020: GISS-EL-R RCP4.5 */
+/* 3021: GISS-EL-R G3 */
+/* 3022: GISS-EL-R G4 */
 
-/* 3300: HadGEM2-ES RCP4.5 */
-/* 3303: HadGEM2-ES G3 */
-/* 3304: HadGEM2-ES G4 */
-/* 3313: HadGEM2-ES G3S */
+/* 3030: HadGEM2-ES RCP4.5 */
+/* 3031: HadGEM2-ES G3 */
+/* 3032: HadGEM2-ES G4 */
+/* 3033: HadGEM2-ES G3S */
+/* 3034: HadGEM2-ES G4cdcn */
+/* 3035: HadGEM2-ES G4seaSalt */
 
-/* 3400: IPSL-CM54-LR RCP4.5 */
-/* 3403: IPSL-CM54-LR G3 */
-/* 3405: IPSL-CM54-LR G5 */
+/* 3040: IPSL-CM54-LR RCP4.5 */
+/* 3041: IPSL-CM54-LR G3 */
+/* 3042: IPSL-CM54-LR G5 */
 
-/* 3500: MIROC-ESM RCP4.5 */
-/* 3504: MIROC-ESM G4 */
+/* 3050: MIROC-ESM RCP4.5 */
+/* 3051: MIROC-ESM G4 */
+/* 3052: MIROC-ESM G4cdcn */
 
-/* 3600: MIROC-ESM-CHEM RCP4.5 */
-/* 3604: MIROC-ESM-CHEM G4 */
+/* 3060: MIROC-ESM-CHEM RCP4.5 */
+/* 3061: MIROC-ESM-CHEM G4 */
 
-/* 3700: CCCma RCP4.5 */
-/* 3704: CCCma G3 */
+/* 3070: CCCma RCP4.5 */
+/* 3071: CCCma G4 */
+/* 3072: CCCma G4ndcn */
 
-/* 3800: MPI-ESM-LR RCP4.5 */
-/* 3803: MPI-ESM-LR G3 */
+/* 3080: MPI-ESM-LR RCP4.5 */
+/* 3081: MPI-ESM-LR G3 */
 
-/* 3900: CCSM4 RCP4.5 */
-/* 3913: CCSM4 G3S */
+/* 3090: CCSM4 RCP4.5 */
+/* 3091: CCSM4 G3S */
+
+/* 3100: NorESM RCP4.5 */
+/* 3101: NorESM G4cdcn */
 
 /** PLUME: 2014/07/31 by A.Ito ***********/
 /* 4011: GFDL RCP 4.5 */
@@ -812,4 +827,35 @@
 /* 5002: historical PGFv2 */
 /* 5003: historical WATCH */
 /* 5004: historical WATCH+WFDEI */
+
+/** IMPRESSIONS: 2015/07/17 **/
+/* 6001-6050: precipitation -60% */
+/* 6051-6100: precipitation -50% */
+/* 6101-6150: precipitation -40% */
+/* 6151-6200: precipitation -30% */
+/* 6201-6250: precipitation -20% */
+/* 6251-6300: precipitation -10% */
+/* 6301-6350: precipitation   0% */
+/* 6351-6400: precipitation +10% */
+/* 6401-6450: precipitation +20% */
+/* 6451-6500: precipitation +30% */
+/* 6501-6550: precipitation +40% */
+/* 6551-6600: precipitation +50% */
+/* 6601-6650: precipitation +60% */
+
+/* 6X01 6X51: temperature -3 K */
+/* 6X02 6X52: temperature -2 K */
+/* 6X03 6X53: temperature -1 K */
+/* 6X04 6X54: temperature  0 K */
+/* 6X05 6X55: temperature +1 K */
+/* 6X06 6X56: temperature +2 K */
+/* 6X07 6X57: temperature +3 K */
+/* 6X08 6X58: temperature +4 K */
+/* 6X09 6X59: temperature +5 K */
+/* 6X10 6X60: temperature +6 K */
+/* 6X11 6X61: temperature +7 K */
+/* 6X12 6X62: temperature +8 K */
+/* 6X13 6X63: temperature +9 K */
+/* 6X14 6X64: temperature +10 K */
+/* 6X15 6X65: temperature +11 K */
 

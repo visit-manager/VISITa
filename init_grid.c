@@ -524,7 +524,7 @@ void f_init_grid(
 	
 	/* Olson croplands replaced by SAGE natural vegetation */
 	/* 2010/04/27 by A.Ito */
-	if(REPL_OLSON_CROP == 1){
+	if(REPLACE_OLSON_CROP == 1){
 		if(grid->veg_olson==29 ||grid->veg_olson==30 ||grid->veg_olson==31 
 		   ||grid->veg_olson==32){
 			

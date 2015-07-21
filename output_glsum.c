@@ -31,7 +31,7 @@ void f_set_history_data(
 	/* 2010/04/27 by A.Ito ***********/
 	/* natural */
 	if(loct->v_type == 1){
-		if(REPL_OLSON_CROP == 1){
+		if(REPLACE_OLSON_CROP == 1){
 			fweight = 1.0 - grid->f_crop_con;
 			
 			if(NECB_LUC == 0 && (EX_CCPL != 3 && EX_CCPL != 8)){
@@ -163,7 +163,7 @@ void f_set_history_data(
 		/* corrected by A.Ito (2013/11/07) */
 		h_n_depoin[year] += fweight * (loct->depo_nh4[f] + loct->depo_no3[f]) * grid->area;
 		
-		if(loct->v_type == 1 && REPL_OLSON_CROP == 0){ /* added by A.Ito (2009/06/16) */
+		if(loct->v_type == 1 && REPLACE_OLSON_CROP == 0){ /* added by A.Ito (2009/06/16) */
 			if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32){
 				h_n2o_emit_ngas_agr[year] += (flux->soil).d_n2o_ngas[f] * grid->area;
 				h_n2o_emit_casa_agr[year] += (flux->soil).d_n2o_casa[f] * grid->area;

@@ -18,8 +18,8 @@
 void f_init_clim(
 	struct Grid *grid
 ){
-	short h;
-	double aaa, bbb;
+	short h, impex_p, impex_t;
+	double aaa, bbb, tmp_var, pre_var;
 	
 	/* in 1950 :311 ppmv*/
 	/* in 1990 : 352.7 ppmv*/
@@ -67,18 +67,77 @@ void f_init_clim(
 			grid->prate_sfc_a[h] = grid->hist_pre_b[h];
 		}
 		
+        /*******************************************/
+        /* IMPRESSIONS IRS: 2015/07/17 by A.Ito */
+        if(IMPRESSIONS_RUN == 1){
+        
+            if(GCM_ID<6001 || GCM_ID>7000){
+                printf("BAD experimental ID\n");
+                exit(1);
+            }
+            
+            /*******/
+            impex_t = (short)(GCM_ID%50);
+            
+            switch(impex_t){
+                case 0: tmp_var = -3.0; break;
+                case 1: tmp_var = -2.0; break;
+                case 2: tmp_var = -1.0; break;
+                case 3: tmp_var = 0.0; break;
+                case 4: tmp_var = +1.0; break;
+                case 5: tmp_var = +2.0; break;
+                case 6: tmp_var = +3.0; break;
+                case 7: tmp_var = +4.0; break;
+                case 8: tmp_var = +5.0; break;
+                case 9: tmp_var = +6.0; break;
+                case 10: tmp_var = +7.0; break;
+                case 11: tmp_var = +8.0; break;
+                case 12: tmp_var = +9.0; break;
+                case 13: tmp_var = +10.0; break;
+                case 14: tmp_var = +11.0; break;
+                default: tmp_var = 0.0; break;
+            }
+            
+            grid->tmp_sfc[h] += tmp_var;
+            grid->tmp_2m[h] += tmp_var;
+            grid->tmp10_soil[h] += tmp_var;
+            grid->tmp200_soil[h] += tmp_var;
+            
+            /*******/
+            impex_p = (short)((GCM_ID - 6000)/50);
+            
+            switch(impex_p){
+                case 0: pre_var = 0.4; break;
+                case 1: pre_var = 0.5; break;
+                case 2: pre_var = 0.6; break;
+                case 3: pre_var = 0.7; break;
+                case 4: pre_var = 0.8; break;
+                case 5: pre_var = 0.9; break;
+                case 6: pre_var = 1.0; break;
+                case 7: pre_var = 1.1; break;
+                case 8: pre_var = 1.2; break;
+                case 9: pre_var = 1.3; break;
+                case 10: pre_var = 1.4; break;
+                case 11: pre_var = 1.5; break;
+                case 12: pre_var = 1.6; break;
+                default: pre_var = 1.0; break;
+            }
+            
+            grid->prate_sfc[h] *= pre_var;
+        }
+
 		grid->spfh_2m[h] = grid->spfh_2m_a[h];
 		
-		aaa = grid->ugrd_10m_a[h]*grid->ugrd_10m_a[h];
-		bbb = grid->vgrd_10m_a[h]*grid->vgrd_10m_a[h];
-		grid->wnd_10m[h] = sqrt(aaa+bbb);
+		aaa = grid->ugrd_10m_a[h] * grid->ugrd_10m_a[h];
+		bbb = grid->vgrd_10m_a[h] * grid->vgrd_10m_a[h];
+		grid->wnd_10m[h] = sqrt(aaa + bbb);
         
         grid->tmp_soil_am += grid->tmp200_soil_a[h] * MDN[h] / 365.0;
 
 		/* alternative precipitation data *************************/
-		if(grid->prec_sub_a[h]>=0.0){
+		if(grid->prec_sub_a[h] >= 0.0){
 			grid->prate_sfc[h] = grid->prec_sub_a[h];
-		}else if(grid->prec_sub_a[h]<0.0){
+		}else if(grid->prec_sub_a[h] < 0.0){
 			grid->prate_sfc[h] = grid->prate_sfc_a[h];
 		}
 		
@@ -113,7 +172,7 @@ void f_init_clim(
 		}else if(PR==5){
 			grid->prate_sfc[h] *= 0.9;
 		}
-	}	
+	}
 }
 
 /* location conditions derived from the primary data (Secondary data1) *******************/
