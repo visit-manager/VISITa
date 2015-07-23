@@ -57,6 +57,7 @@ struct Grid{
 	long 	phase;					/* simulation phase: 0-spinup, 1-past, 2-future */
 	long 	y;						/* calculation time from the simulation onset, in year */
 	long 	m;						/* month of the year, from Jan. to Dec., 0 to 11 */
+    long    h;
 	
 	/* atmospheric condition ***********/
 	long 	co2y;					/* year for CO2 level estimation */

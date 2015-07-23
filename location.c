@@ -344,16 +344,18 @@ void f_dyn_loct(
     
         /* daily-mean and hourly: added: 2013/01/10 by A.Ito */
         loct->grad_d[grid->m] = 0.0;
-        for(h=0;h<24;h++){
+        for(h=0;h<DSTEP;h++){
+            grid->h = h;
+        
             /* atmosphere-top, hourly */
             grid->top_rad[grid->m] = f_top_rad(grid, -180 + h*15);
+            /* surface, hourly */
+            grid->gl_rad[grid->m] = f_gl_rad(grid);
             /* daily mean */
-            loct->grad_d[grid->m] += f_gl_rad(grid)/24.0;
+            loct->grad_d[grid->m] += f_gl_rad(grid)/(double)DSTEP;
             
             /* hourly PAR, micro mol photon m-2 s-1 */
-            loct->ppfd_h[h] = f_par(grid);
-            loct->ppfdb_h[h] = grid->par_bp[h];
-            loct->ppfdd_h[h] = grid->par_dp[h];
+            f_par_h(grid, loct);
         }
         
         /* midday */

@@ -101,7 +101,12 @@ void screenshow(
 	printf("NP4: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->c4).npp[h]);		ann+=(flux->c4).npp[h];	}		printf(" %.1lf\n",ann); 
 	printf("NEP: ");		ann=0.0;
-	for(h=0;h<12;h++){		printf("%6.1lf ",flux->nep[h]);		ann+=flux->nep[h];	}		printf(" %.1lf\n",ann); 
+	for(h=0;h<12;h++){		printf("%6.1lf ",flux->nep[h]);		ann+=flux->nep[h];	}		printf(" %.1lf\n",ann);
+    
+    
+    printf("PAR: ");		ann=0.0;
+	for(h=0;h<24;h++){		printf("%6.1lf ",loct->ppfd_h[h]);	}
+    
 	
     /*
 	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->c3).gpp_df97[h]);		ann+=(flux->c3).gpp_df97[h];	}		printf(" %.1lf\n",ann); 
@@ -111,10 +116,10 @@ void screenshow(
     
     */
 
-	printf("M1P: ");		ann=0.0;
+	/* printf("M1P: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4flux_paddy_cao[h]);		ann+=(flux->soil).ch4flux_paddy_cao[h];	}		printf(": %.1lf\n",ann); 
 	printf("M1W: ");		ann=0.0;
-	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4flux_wetland_cao[h]);		ann+=(flux->soil).ch4flux_wetland_cao[h];	}		printf(": %.1lf\n",ann);
+	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4flux_wetland_cao[h]);		ann+=(flux->soil).ch4flux_wetland_cao[h];	}		printf(": %.1lf\n",ann); */
 	
 	/* printf("M2D: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4_paddy_wh_diff[h]);		ann+=(flux->soil).ch4_paddy_wh_diff[h];	}		printf(": %.1lf\n",ann);
