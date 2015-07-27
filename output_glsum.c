@@ -83,6 +83,7 @@ void f_set_history_data(
         h_cld[year] += fweight * grid->tcdc_clm[f]* MDN[f]/365.0 * grid->area;
         
         h_apar[year] += fweight * loct->appfd_g[f]* MDN[f]/365.0 * grid->area;
+        h_ipar[year] += fweight * loct->ippfd_g[f]* MDN[f]/365.0 * grid->area;
         h_parb[year] += fweight * grid->par_bp[f]* MDN[f]/365.0 * grid->area;
         h_pard[year] += fweight * grid->par_dp[f]* MDN[f]/365.0 * grid->area;
         
@@ -571,6 +572,8 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_voc_othersesqui[h]);
 
 		fprintf(fp_glsum,"%lf ", h_deforest[h]); /* added by A.Ito (2014/09/22) */
+
+		fprintf(fp_glsum,"%lf ", h_ipar[h]); /* added by A.Ito (2015/07/27) */
 
 		fprintf(fp_glsum,"\n");
 	}

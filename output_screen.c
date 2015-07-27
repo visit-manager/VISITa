@@ -104,8 +104,10 @@ void screenshow(
 	for(h=0;h<12;h++){		printf("%6.1lf ",flux->nep[h]);		ann+=flux->nep[h];	}		printf(" %.1lf\n",ann);
     
     
-    printf("PAR: ");		ann=0.0;
-	for(h=0;h<24;h++){		printf("%6.1lf ",loct->ppfd_h[h]);	}
+    printf("IPR: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%6.1lf ",(echar->c3).ppfd_db[h]);	} printf("\n");
+    printf("APR: ");		ann=0.0;
+	for(h=0;h<12;h++){		printf("%6.1lf ",(echar->c3).appfd_db[h]);	} printf("\n");
     
 	
     /*

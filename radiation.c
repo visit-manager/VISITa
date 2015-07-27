@@ -344,7 +344,7 @@ void f_net_rad(
     short nn;
 	double aaa, bbb, ccc, ddd1, ddd2, eee, ee_c3, ee_c4, fff;
 	double net_long, rad_net_p, rad_net_g, c3_canopy, c4_canopy, kmono_c3, kmono_c4;
-	double transmittance, ground, inppfd;
+	double transmittance, ground;
     double albedo_base, albedo_var, rn_short_base, rn_short_var;
     double tsfc, tsfc_base, tsfc_var,crit, tt1, tt2, latheat, snsheat, dtsfc;
 	
@@ -522,12 +522,12 @@ void f_net_rad(
     loct->appfd_g[grid->m] = loct->c3ptn[grid->m] * (echar->c3).appfd_db[grid->m]
                            + loct->c4ptn[grid->m] * (echar->c4).appfd_db[grid->m];
  
-    inppfd = loct->c3ptn[grid->m] * (echar->c3).ppfd_db[grid->m]
+    loct->ippfd_g[grid->m] = loct->c3ptn[grid->m] * (echar->c3).ppfd_db[grid->m]
            + loct->c4ptn[grid->m] * (echar->c4).ppfd_db[grid->m];
 
     /* fapar */
-    if(inppfd > 0.0){
-        loct->fappfd_g[grid->m] = loct->appfd_g[grid->m] / inppfd;
+    if(loct->ippfd_g[grid->m] > 0.0){
+        loct->fappfd_g[grid->m] = loct->appfd_g[grid->m] / loct->ippfd_g[grid->m];
     }else{
         loct->fappfd_g[grid->m] = 0.0;
     }

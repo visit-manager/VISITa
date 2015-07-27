@@ -371,9 +371,9 @@ struct Loct{
     double  ppfdb_h[DSTEP];
     double  ppfdd_h[DSTEP];
 
+    double  ippfd_g[ASTEP];
     double  appfd_g[ASTEP];
 	double	fappfd_g[ASTEP];
-    
 	double	fapar_df[ASTEP];
 
 	double	pet_prty[ASTEP];			/* Priestley-Taylor potential evapotranspiration, mm month-1 */
