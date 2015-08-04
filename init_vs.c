@@ -36,29 +36,29 @@ void initVS(
 	parameterSoil(grid, &(echar->soil));
 
 	/* Sensitivity Analysis ***************************/
-	if(SENS==1){
+	if(SENS_PARA == 1){
 		(echar->c3).gs_b1 *= 1.1;
 		(echar->c4).gs_b1 *= 1.1;
-	}else if(SENS==2){
+	}else if(SENS_PARA == 2){
 		(echar->c3).pmax *= 1.1;
 		(echar->c4).pmax *= 1.1;
-	}else if(SENS==3){
+	}else if(SENS_PARA == 3){
 		(echar->c3).eK0 *= 1.1;
 		(echar->c4).eK0 *= 1.1;
-	}else if(SENS==4){
+	}else if(SENS_PARA == 4){
 		(echar->c3).lue0 *= 1.1;
 		(echar->c4).lue0 *= 1.1;
-	}else if(SENS==5){
+	}else if(SENS_PARA == 5){
 		(echar->c3).albedo *= 1.1;
 		(echar->c4).albedo *= 1.1;
 		(echar->soil).albedo0 *= 1.1;
-	}else if(SENS==6){
+	}else if(SENS_PARA == 6){
 		/* grid->whc30*=1.1;
 		grid->whc*=1.1; */
 	}
     
     /* albedo perturbation: 2012/12/29 by A.Ito ********/
-    if(EX_ALBEDO==1){
+    if(EX_ALBEDO == 1){
         p_scale = 0.0;
         for(f=0;f<12;f++){
             p_scale += (double)rand() / (double)RAND_MAX;
@@ -81,18 +81,18 @@ void initVS(
         }
     }
 	
-	if(M_D==1){
-		(echar->soil).kml*=1.3;
-		(echar->soil).kmh*=1.3;
-	}else if(M_D==2){
-		(echar->soil).kml*=0.7;
-		(echar->soil).kmh*=0.7;
-	}else if(M_D==3){
-		(echar->soil).kmsl*=1.3;
-		(echar->soil).kmsh*=1.3;
-	}else if(M_D==4){
-		(echar->soil).kmsl*=0.7;
-		(echar->soil).kmsh*=0.7;
+	if(M_D == 1){
+		(echar->soil).kml *= 1.3;
+		(echar->soil).kmh *= 1.3;
+	}else if(M_D == 2){
+		(echar->soil).kml *= 0.7;
+		(echar->soil).kmh *= 0.7;
+	}else if(M_D == 3){
+		(echar->soil).kmsl *= 1.3;
+		(echar->soil).kmsh *= 1.3;
+	}else if(M_D == 4){
+		(echar->soil).kmsl *= 0.7;
+		(echar->soil).kmsh *= 0.7;
 	}
 	
 	/* parameter perturbation: 2010/05/10 added by A.Ito */
@@ -134,6 +134,72 @@ void initVS(
         (echar->soil).rl0 *= 1.0 + p_scale*f_pert[9];
         /**/
         (echar->soil).rh0 *= 1.0 + p_scale*f_pert[10];
+    }
+    
+    /* parameter ensemble: 2014/11/19 by A.Ito */
+    if(PARAM_PTB == 2){
+        p_scale = 0.1;
+        /**/
+        (echar->c3).pmax *= 1.0 + p_scale*f_pert[0];
+        (echar->c4).pmax *= 1.0 + p_scale*f_pert[0];
+        /**/
+        (echar->c3).lue0 *= 1.0 + p_scale*f_pert[1];
+        (echar->c4).lue0 *= 1.0 + p_scale*f_pert[1];
+        /**/
+        (echar->c3).sla *= 1.0 + p_scale*f_pert[2];
+        (echar->c4).sla *= 1.0 + p_scale*f_pert[2];
+        /**/
+        (echar->c3).topt0 += 0.3333*f_pert[3];
+        (echar->c4).topt0 += 0.3333*f_pert[3];
+        /**/
+        (echar->c3).tmin += 0.3333*f_pert[4];
+        (echar->c4).tmin += 0.3333*f_pert[4];
+        /**/
+        (echar->c3).kmci *= 1.0 + p_scale*f_pert[5];
+        (echar->c4).kmci *= 1.0 + p_scale*f_pert[5];
+        /**/
+        (echar->c3).km_nstl *= 1.0 + p_scale*f_pert[6];
+        (echar->c4).km_nstl *= 1.0 + p_scale*f_pert[6];
+    }
+    
+    if(PARAM_PTB == 3){
+        p_scale = 0.1;
+        /**/
+        (echar->c3).qTf0 *= 1.0 + p_scale*f_pert[7];
+        (echar->c4).qTf0 *= 1.0 + p_scale*f_pert[7];
+        (echar->c3).qTc0 *= 1.0 + p_scale*f_pert[7];
+        (echar->c4).qTc0 *= 1.0 + p_scale*f_pert[7];
+        (echar->c3).qTr0 *= 1.0 + p_scale*f_pert[7];
+        (echar->c4).qTr0 *= 1.0 + p_scale*f_pert[7];
+        /**/
+        (echar->c3).rmf0 *= 1.0 + p_scale*f_pert[8];
+        (echar->c4).rmf0 *= 1.0 + p_scale*f_pert[8];
+        (echar->c3).rmc_s *= 1.0 + p_scale*f_pert[8];
+        (echar->c4).rmc_s *= 1.0 + p_scale*f_pert[8];
+        (echar->c3).rmc_h *= 1.0 + p_scale*f_pert[8];
+        (echar->c4).rmc_h *= 1.0 + p_scale*f_pert[8];
+        (echar->c3).rmr_s *= 1.0 + p_scale*f_pert[8];
+        (echar->c4).rmr_s *= 1.0 + p_scale*f_pert[8];
+        (echar->c3).rmr_h *= 1.0 + p_scale*f_pert[8];
+        (echar->c4).rmr_h *= 1.0 + p_scale*f_pert[8];
+        /**/
+        (echar->c3).rgf *= 1.0 + p_scale*f_pert[9];
+        (echar->c4).rgf *= 1.0 + p_scale*f_pert[9];
+        (echar->c3).rgc *= 1.0 + p_scale*f_pert[9];
+        (echar->c4).rgc *= 1.0 + p_scale*f_pert[9];
+        (echar->c3).rgr *= 1.0 + p_scale*f_pert[9];
+        (echar->c4).rgr *= 1.0 + p_scale*f_pert[9];
+    }
+    
+    if(PARAM_PTB == 4){
+        p_scale = 0.1;
+        /**/
+        (echar->soil).rl0 *= 1.0 + p_scale*f_pert[10];
+        /**/
+        (echar->soil).rh0 *= 1.0 + p_scale*f_pert[11];
+        /**/
+        (echar->soil).kml *= 1.0 + p_scale*f_pert[12];
+        (echar->soil).kmh *= 1.0 + p_scale*f_pert[12];
     }
 	
 	/* growing period **********************/

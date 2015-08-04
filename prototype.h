@@ -12,15 +12,15 @@
 #include"setting.h"
 
 /* #define IFILEN 59 */  /* normal case */
-#define IFILEN 84 /* */  /* normal case */
+#define IFILEN 87 /* */  /* normal case */
 #define OFILEN 9
 
 extern short DF97;
 extern double MDN[ASTEP];
-extern long GCM, CO2S, GCM_R, GCM_C;
-extern long PARAM_PTB; /* added by A.Ito (2010/05/10) */
-extern long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
-extern long EX_SRM;
+extern long GCM_ID, CO2S, GCM_R, GCM_C;
+extern long PARAM_PTB, PARAM_ENS;   /* added by A.Ito (2010/05/10) */
+extern long EX_CH4_1, EX_CH4_2, EX_CH4_3;   /* added by A.Ito (2010/07/02) */
+extern long EX_SRM, EX_CCPL;
 
 extern double f_pert[20];
 extern double aco2_a1[DL_AGHG], aco2_a2[DL_AGHG], aco2_b1[DL_AGHG], aco2_b2[DL_AGHG];
@@ -39,7 +39,7 @@ extern double h_trnsp[PD_SIM], h_incepev[PD_SIM], h_ssurfev[PD_SIM];
 extern double h_nbp[PD_SIM], h_hvst[PD_SIM], h_abgm[PD_SIM];
 extern double h_sw1[PD_SIM], h_sw2[PD_SIM];
 extern double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
-extern double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM];
+extern double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
 extern double h_parb[PD_SIM], h_pard[PD_SIM];
 extern double h_arm[PD_SIM];
 
@@ -69,7 +69,9 @@ extern double h_n_fertin[PD_SIM], h_n_depoin[PD_SIM]; /* added by A.Ito (2010/05
 extern double h_voc_isopr_g97[PD_SIM], h_voc_monotrp_g97[PD_SIM], h_voc_methanl_g97[PD_SIM];
 extern double h_voc_acetone_g97[PD_SIM], h_voc_actaldhd_g97[PD_SIM], h_voc_frmardhd_g97[PD_SIM];
 extern double h_voc_formacd_g97[PD_SIM], h_voc_acetacd_g97[PD_SIM], h_voc_co_g97[PD_SIM];
-extern double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM];
+extern double h_voc_afarnesene[PD_SIM], h_voc_bcaryophyllene[PD_SIM], h_voc_othersesqui[PD_SIM];
+
+extern double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM], h_deforest[PD_SIM];
 
 extern double ci_aco2[PD_SIM], ci_aco2_d13c[PD_SIM], ci_aco2_d14c[PD_SIM];
 extern double ci_gpp[PD_SIM], ci_gpp_d13c[PD_SIM], ci_gpp_d14c[PD_SIM];
@@ -159,26 +161,30 @@ extern float g_ch4ep_wh[5][N_ROW][N_COL];
 extern float g_ch4ew_wh[5][N_ROW][N_COL]; 
 extern float gm_ch4ep_wh[12][N_ROW][N_COL];
 #endif
-extern float g_ch4ep_cao[5][N_ROW][N_COL]; 
+extern float g_ch4ep_cao[5][N_ROW][N_COL];
+
+extern double glat_area[N_ROW];
+extern double glat_gpp[ASTEP][N_ROW],glat_npp[ASTEP][N_ROW],glat_nep[ASTEP][N_ROW];
+extern double glat_ch4_cao[ASTEP][N_ROW], glat_ch4_wh[ASTEP][N_ROW];
 
 /* regional historical */
-extern double rh_area[NREG];
-extern double rh_temp[NREG][PD_SIM], rh_prec[NREG][PD_SIM], rh_dswrf[NREG][PD_SIM];
-extern double rh_rns[NREG][PD_SIM], rh_rnl[NREG][PD_SIM];
-extern double rh_ipar[NREG][PD_SIM], rh_apar[NREG][PD_SIM];
-extern double rh_gpp[NREG][PD_SIM], rh_npp[NREG][PD_SIM], rh_nep[NREG][PD_SIM];
-extern double rh_evpr[NREG][PD_SIM], rh_trsp[NREG][PD_SIM], rh_incp[NREG][PD_SIM], rh_rnof[NREG][PD_SIM];
-extern double rh_ci_gpp[NREG][PD_SIM], rh_ci_gpp_d13c[NREG][PD_SIM], rh_ci_gpp_d14c[NREG][PD_SIM];
-extern double rh_ci_er[NREG][PD_SIM], rh_ci_er_d13c[NREG][PD_SIM], rh_ci_er_d14c[NREG][PD_SIM];
-extern double rh_ci_f[NREG][PD_SIM], rh_ci_f_d13c[NREG][PD_SIM], rh_ci_f_d14c[NREG][PD_SIM];
-extern double rh_ci_c[NREG][PD_SIM], rh_ci_c_d13c[NREG][PD_SIM], rh_ci_c_d14c[NREG][PD_SIM];
-extern double rh_ci_r[NREG][PD_SIM], rh_ci_r_d13c[NREG][PD_SIM], rh_ci_r_d14c[NREG][PD_SIM];
-extern double rh_ci_l[NREG][PD_SIM], rh_ci_l_d13c[NREG][PD_SIM], rh_ci_l_d14c[NREG][PD_SIM];
-extern double rh_ci_h[NREG][PD_SIM], rh_ci_h_d13c[NREG][PD_SIM], rh_ci_h_d14c[NREG][PD_SIM];
+extern double rh_area[N_REG];
+extern double rh_temp[N_REG][PD_SIM], rh_prec[N_REG][PD_SIM], rh_dswrf[N_REG][PD_SIM];
+extern double rh_rns[N_REG][PD_SIM], rh_rnl[N_REG][PD_SIM];
+extern double rh_ipar[N_REG][PD_SIM], rh_apar[N_REG][PD_SIM];
+extern double rh_gpp[N_REG][PD_SIM], rh_npp[N_REG][PD_SIM], rh_nep[N_REG][PD_SIM];
+extern double rh_evpr[N_REG][PD_SIM], rh_trsp[N_REG][PD_SIM], rh_incp[N_REG][PD_SIM], rh_rnof[N_REG][PD_SIM];
+extern double rh_ci_gpp[N_REG][PD_SIM], rh_ci_gpp_d13c[N_REG][PD_SIM], rh_ci_gpp_d14c[N_REG][PD_SIM];
+extern double rh_ci_er[N_REG][PD_SIM], rh_ci_er_d13c[N_REG][PD_SIM], rh_ci_er_d14c[N_REG][PD_SIM];
+extern double rh_ci_f[N_REG][PD_SIM], rh_ci_f_d13c[N_REG][PD_SIM], rh_ci_f_d14c[N_REG][PD_SIM];
+extern double rh_ci_c[N_REG][PD_SIM], rh_ci_c_d13c[N_REG][PD_SIM], rh_ci_c_d14c[N_REG][PD_SIM];
+extern double rh_ci_r[N_REG][PD_SIM], rh_ci_r_d13c[N_REG][PD_SIM], rh_ci_r_d14c[N_REG][PD_SIM];
+extern double rh_ci_l[N_REG][PD_SIM], rh_ci_l_d13c[N_REG][PD_SIM], rh_ci_l_d14c[N_REG][PD_SIM];
+extern double rh_ci_h[N_REG][PD_SIM], rh_ci_h_d13c[N_REG][PD_SIM], rh_ci_h_d14c[N_REG][PD_SIM];
 
-extern double rh_hvst[NREG][PD_SIM], rh_luc[NREG][PD_SIM];
-extern double rh_ch4ox_curry[NREG][PD_SIM], rh_ch4emit_wh_wet[NREG][PD_SIM], rh_ch4emit_wh_paddy[NREG][PD_SIM];
-extern double rh_n2o_emit_ngas[NREG][PD_SIM], rh_n2o_emitagr_ngas[NREG][PD_SIM];
+extern double rh_hvst[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
+extern double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
+extern double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
 
 /* CLEARANCE *****************************************************/
 void f_clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 
@@ -199,14 +205,15 @@ void f_init_loct(struct Grid *grid, struct Loct *loct, struct Mass *mass,
 void f_dyn_loct(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Echar *echar);
 
 void f_co2_trend(struct Grid *grid);
-void read_gcm_clim(struct Grid *grid);
+void read_gcm_clim(FILE *fp_c2[4], struct Grid *grid);
 void read_ncep_clim(struct Grid *grid);
 void set_gcm_clim(struct Grid *grid);
 void set_hist_clim(struct Grid *grid);
-void read_cru_clim(FILE *fp_c[4], struct Grid *grid);
+void read_cru_clim(FILE *fp_c[4], FILE *fp_c2[4], struct Grid *grid);
 void f_cult_luc(struct Grid *grid);
 long f_basin_id_trip(long original);
 long region_giorgi(double lat, double lon);
+void f_read_chaser_ndepo(FILE *fp_s[IFILEN],struct Grid  *grid);
 
 void f_parameter_perturbation(long iseed,struct Grid *grid,struct Loct *loct,struct Echar *echar,
 	double f_prtrb[20]);
@@ -238,6 +245,7 @@ double f_day_length(struct Grid *grid);
 double f_top_rad(struct Grid *grid, short ha);
 double f_gl_rad(struct Grid *grid);
 double f_par(struct Grid *grid);
+void f_par_h(struct Grid *grid, struct Loct *loct);
 void f_net_rad(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Echar *echar);
 double albedo_soil(struct Loct *loct, struct Schar *schar);
 
@@ -274,7 +282,7 @@ void soil_processes(struct Grid *grid, struct Loct *loct, struct Schar *schar,
 void set_rowcol_gcm(void);
 void set_gcm_index(char gcmindex[]);
 void f_before_deal(struct Grid *grid, struct Pflx *flux);
-void f_after_deal(struct Grid *grid, struct Pchar *pchar, struct Pmas *pmas, struct Pflx *flux);
+void f_after_deal(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, struct Pmas *pmas, struct Pflx *flux);
 void f_plant_stand_budget(struct Grid *grid,struct Loct *loct,struct Mass *mass, struct Flux *flux);
 double grid_area(double lat1, double lat2, double lon1, double lon2);
 
@@ -323,7 +331,7 @@ double flf(struct Grid *grid, struct Pchar *pchar, struct Pmas *pmas);
 double flc(struct Grid *grid, struct Pchar *pchar, struct Pmas *pmas);
 double flr(struct Grid *grid, struct Pchar *pchar, struct Pmas *pmas);
 /* allocation */
-void allocation(struct Grid *grid, struct Pchar *pchar, struct Pmas *mass, struct Pflx *flux);
+void allocation(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, struct Pmas *mass, struct Pflx *flux);
 void recluit(struct Grid *grid, struct Pchar *pchar, struct Pmas *mass);
 void reallocation_survival(struct Grid *grid, struct Pchar *pchar, struct Pmas *mass);
 /* soil */

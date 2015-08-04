@@ -24,7 +24,7 @@ void cal_projection(
 	FILE *fp_o[OFILEN]
 ){
 	long f, g, simyr, dyr;
-	double rl_a, f_fert, total_hvst, f_nat, iweight, iweight3, avc3;
+	double rl_a, f_fert, total_hvst, f_nat, iweight, iweight3, avc3, prm_ensen;
 	
 	/* phase: prediction */
 	grid->phase = 2; 
@@ -43,23 +43,10 @@ void cal_projection(
 	/* LOOP to dynamic stage ***************************************/
 	for(g=BGY_GCM;g<=ENY_GCM;g++){ 
 	
-		/* climate change ********************/
-		grid->climy = g;
-		if(GCM != 0){			
-			set_gcm_clim(grid);
-		}
-		
-		/* land-use change */
-		if(TEMP_GC != 0){
-			;
-		}else{
-			f_cult_luc(grid);
-		}
-		
 		/* CO2 change ********************/
-		if(CO2S==0){
+		if(CO2S == 0){
 			grid->co2y = BGY_GCM; 
-		}else if(CO2S==7){
+		}else if(CO2S == 7){
 			grid->co2y = 2081;
 		}else{
 			grid->co2y = g; 
@@ -67,6 +54,23 @@ void cal_projection(
         
 		if(TEMP_GC != 0){
 			grid->co2y = 2001;
+		}
+        
+		/* climate change ********************/
+		grid->climy = g;
+		if(GCM_ID >= 1 && GCM_ID <=9999){
+			set_gcm_clim(grid);
+		}else{
+            printf("BAD GCM_ID!!\n");
+            exit(1);
+        }
+		
+		/* land-use change ******************/
+        grid->lucy = g;
+		if(TEMP_GC != 0){
+			;
+		}else{
+			f_cult_luc(grid);
 		}
 		
 		/* historical change in fertilizer input: 2010/05/11 by A.Ito */
@@ -78,6 +82,13 @@ void cal_projection(
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
 		}
 				
+        /* for considering leap years: 2014/09/29 by A.Ito */
+        if(grid->climy%4 == 0){
+            MDN[1] = 29.0;
+        }else{
+            MDN[1] = 28.0;
+        }
+
 		/* monthly loop *************************************/
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;
@@ -155,7 +166,7 @@ void cal_projection(
 						loct->c4ptn[f]*((flux->c4).rrm[f]+(flux->c4).rrg[f]) + 
 						(flux->soil).hr[f];
 			
-			if(NECB_DOC==1){
+			if(NECB_DOC == 1 && (EX_CCPL != 7 && EX_CCPL != 8)){
 				(mass->soil).msl -= (flux->soil).doc_boyer[f]/1000000.0;
 				if((mass->soil).msl < INT_C){
 					(mass->soil).msl = INT_C;
@@ -209,7 +220,7 @@ void cal_projection(
 				(flux->soil).ch4_paddy_wh_diff[f] = 0.0;
 				(flux->soil).ch4_paddy_wh_release[f] = 0.0;
 			}
-			if(NECB_CH4==1){
+			if(NECB_CH4==1 && (EX_CCPL != 1 && EX_CCPL != 8)){
 				(mass->soil).msl += grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
 					- grid->f_paddy * ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] + 
 								   (flux->soil).ch4_paddy_wh_diff[f] + (flux->soil).ch4_paddy_wh_release[f]) * 0.00001
@@ -254,7 +265,7 @@ void cal_projection(
 		/* erosion */
 		f_erosion(grid, loct, echar, mass, flux);
 				
-		if(NECB_ERSN==1){
+		if(NECB_ERSN == 1 && (EX_CCPL != 6 && EX_CCPL != 8)){
 			(mass->soil).ltr -= flux->erod_carbon*0.20;
 			if((mass->soil).ltr < INT_C){
 				(mass->soil).ltr = INT_C;
@@ -285,7 +296,7 @@ void cal_projection(
 		
 		/* wood harvest: 2010/10/15 by A.Ito ***********/
 		total_hvst = 0.0;
-		if((mass->c3).v_type == 1 && NECB_WHVST == 1){
+		if((mass->c3).v_type == 1 && NECB_WHVST == 1 && (EX_CCPL != 5 && EX_CCPL != 8)){
 			dyr = grid->climy - PIVOT_LUC;
 			
             if( (LANDUSE != 10 && LANDUSE != 11 && LANDUSE != 12 && LANDUSE != 13) &&
@@ -295,14 +306,37 @@ void cal_projection(
 			
 			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
 						+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr];
+            
+            /* parameter ensemble: 2014/11/19 by A.Ito */
+            prm_ensen = 1.0;
+            if(PARAM_PTB == 9){
+                if(PARAM_ENS==1){
+                    prm_ensen *= 0.7;
+                }
+                if(PARAM_ENS==2){
+                    prm_ensen *= 0.8;
+                }
+                if(PARAM_ENS==3){
+                    prm_ensen *= 0.9;
+                }
+                if(PARAM_ENS==4){
+                    prm_ensen *= 1.1;
+                }
+                if(PARAM_ENS==5){
+                    prm_ensen *= 1.2;
+                }
+                if(PARAM_ENS==6){
+                    prm_ensen *= 1.3;
+                }
+            }
 			
-			total_hvst *= 1.0/1000.0 * 1.0/grid->area;
+			total_hvst *= 1.0/1000.0 * 1.0/grid->area * prm_ensen;
 			
 			if((mass->c3).stm > (total_hvst + INT_C)){
         
-                if((mass->c3).stm > (total_hvst*iweight3 + INT_C)){
-                    (mass->c3).stm -= total_hvst*iweight3;
-                    flux->hvst_wood = total_hvst*iweight3;
+                if((mass->c3).stm > (total_hvst * iweight3 + INT_C)){
+                    (mass->c3).stm -= total_hvst * iweight3;
+                    flux->hvst_wood = total_hvst * iweight3;
                 }else{
                     (mass->c3).stm -= total_hvst;
                     flux->hvst_wood = total_hvst;
@@ -323,11 +357,11 @@ void cal_projection(
 		for(f=0;f<ASTEP;f++){
 			flux->nbp[f] = flux->nep[f];
 			
-			if(NECB_LUC == 1 && (mass->c3).v_type == 1){
+			if(NECB_LUC == 1 && (mass->c3).v_type == 1 && (EX_CCPL != 3 && EX_CCPL != 8)){
 				flux->nbp[f] -= iweight * (flux->lu_ten/12.0 + flux->lu_hund/12.0);
 			}
 			
-			if(NECB_BB == 1){
+			if(NECB_BB == 1 && (EX_CCPL != 2 && EX_CCPL != 8)){
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
 				flux->nbp[f] -= (flux->bb_co2_litter[f] + flux->bb_co2_leaf[f] 
 								 + flux->bb_co2_wood[f] + flux->bb_co2_root[f])/1000.0*12.0/44.0;
@@ -342,12 +376,12 @@ void cal_projection(
                                  + flux->bb_bc_wood[f] + flux->bb_bc_root[f])/1000.0;
 			}
             
-            if(NECB_DOC==1){
+            if(NECB_DOC == 1 && (EX_CCPL != 7 && EX_CCPL != 8)){
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
                 flux->nbp[f] -= (flux->soil).doc_boyer[f]/1000000.0;
             }
             
-            if(NECB_CH4 == 1){
+            if(NECB_CH4 == 1 && (EX_CCPL != 1 && EX_CCPL != 8)){
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
                 flux->nbp[f] += 12.0/16.0 * (grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
 						- grid->f_paddy * ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] + 
@@ -356,19 +390,20 @@ void cal_projection(
 									(flux->soil).ch4_wetland_wh_diff[f] + (flux->soil).ch4_wetland_wh_release[f]) * 0.00001);
             }
             
-            if(NECB_ERSN == 1){
+            if(NECB_ERSN == 1 && (EX_CCPL != 6 && EX_CCPL != 8)){
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
                 flux->nbp[f] -= flux->erod_carbon*0.20 / 12.0;
             }
             
-            if(NECB_BVOC == 1){
+            if(NECB_BVOC == 1 && (EX_CCPL != 4 && EX_CCPL != 8)){
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
                  flux->nbp[f] -= (flux->voc_isopr_g97[f] + flux->voc_monotrp_g97[f] + flux->voc_methanl_g97[f] +
                     flux->voc_acetone_g97[f] + flux->voc_actaldhd_g97[f] + flux->voc_frmardhd_g97[f] +
-                    flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f])*10000.0/1000000.0/1000000.0;
+                    flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f] +
+                    flux->voc_afarnesene[f] + flux->voc_bcaryophyllene[f] + flux->voc_othersesqui[f])*10000.0/1000000.0/1000000.0;
             }
             
-            if(NECB_CROP == 1){
+            if(NECB_CROP == 1 && (EX_CCPL != 5 && EX_CCPL != 8)){
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
                 flux->nbp[f] += (flux->plant).hvst[f]; /* ! hvst is negative */
             }

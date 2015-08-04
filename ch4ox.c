@@ -61,7 +61,11 @@ void f_casa_moisture(
 		pc  = fc + 0.05;
 	}
 	
-	loct->m_rdr[grid->m] = (1.0 + grid->a_sw)/(1.0 + grid->a_sw * pow(loct->m_vmc[grid->m], grid->b_sw));
+    if(loct->m_vmc[grid->m] > 0.1){
+        loct->m_rdr[grid->m] = (1.0 + grid->a_sw)/(1.0 + grid->a_sw * pow(loct->m_vmc[grid->m], grid->b_sw));
+    }else{
+        loct->m_rdr[grid->m] = 0.0;
+    }
 	
 	/* m_m in meter */
 	if(grid->prate_sfc[grid->m] > loct->m_pet[grid->m]){
@@ -137,16 +141,16 @@ void f_ch4oxy_ridgewell(
 	/*Atmospheric CH4 */
 	switch(CO2S){
 		case 1:
-			co_ch4 = ach4_a1[grid->co2y-1750]/1000.0;
+			co_ch4 = ach4_a1[grid->co2y - BGY_AGHG]/1000.0;
 			break;
 		case 4:
-			co_ch4 = ach4_a2[grid->co2y-1750]/1000.0;
+			co_ch4 = ach4_a2[grid->co2y - BGY_AGHG]/1000.0;
 			break;
 		case 5:
-			co_ch4 = ach4_b1[grid->co2y-1750]/1000.0;
+			co_ch4 = ach4_b1[grid->co2y - BGY_AGHG]/1000.0;
 			break;
 		default:
-			co_ch4 = ach4_a1[grid->co2y-1750]/1000.0;
+			co_ch4 = ach4_a1[grid->co2y - BGY_AGHG]/1000.0;
 			break;
 	}
 	
@@ -156,13 +160,17 @@ void f_ch4oxy_ridgewell(
 	}
 	
 	/* moisture factor */
-	if(((grid->prate_sfc[grid->m] + loct->m_sw[grid->m])/loct->m_pet[grid->m])>1.0){
-		/* Eq. (11a) in Ridgewell et al. (1999) */
-		r_sm = 1.0;
-	}else{
-		/* Eq. (11b) in Ridgewell et al. (1999) */
-		r_sm = (grid->prate_sfc[grid->m] + loct->m_sw[grid->m])/loct->m_pet[grid->m];
-	}
+    if(loct->m_pet[grid->m] > 0.0){
+        if(((grid->prate_sfc[grid->m] + loct->m_sw[grid->m])/loct->m_pet[grid->m])>1.0){
+            /* Eq. (11a) in Ridgewell et al. (1999) */
+            r_sm = 1.0;
+        }else{
+            /* Eq. (11b) in Ridgewell et al. (1999) */
+            r_sm = (grid->prate_sfc[grid->m] + loct->m_sw[grid->m])/loct->m_pet[grid->m];
+        }
+    }else{
+        r_sm = 0.0;
+    }
 	/* temperature factor */
 	if(grid->tmp10_soil[grid->m] < 0.0){
 		/* Eq. (9a) in Ridgewell et al. (1999) */
@@ -239,7 +247,7 @@ void f_ch4oxy_casa(
 	/* CH4 concentration gradient */
 	/* from CHEM96_Potter */
 	/* c_ch4 = 0.04; */ /* default */
-	switch(GCM){
+	switch(GCM_ID){
 		case 1000: case 1010: case 1070: case 1080: case 1090: case 1110:
 			c_ch4 = ach4_a1[grid->co2y-1750]/1000.0/30.0;
 			break;
@@ -249,21 +257,24 @@ void f_ch4oxy_casa(
 		case 1001: case 1016: case 1072: case 1082: case 1092: case 1112:
 			c_ch4 = ach4_b1[grid->co2y-1750]/1000.0/30.0;
 			break;
+        default:
+            c_ch4 = ach4_a1[grid->co2y-1750]/1000.0/30.0;
+            break;
 	}
     
-    if(ISIMIP_RUN==1){
+    if(ISIMIP_RUN==1 || ISIMIP_RUN==2 || ISIMIP_RUN==3){
         switch(CO2S){
             case 1:
-                c_ch4 = ach4_a1[grid->co2y - 1750]/1000.0/30.0;
+                c_ch4 = ach4_a1[grid->co2y - BGY_AGHG]/1000.0/30.0;
                 break;
             case 4:
-                c_ch4 = ach4_a2[grid->co2y - 1750]/1000.0/30.0;
+                c_ch4 = ach4_a2[grid->co2y - BGY_AGHG]/1000.0/30.0;
                 break;
             case 5:
-                c_ch4 = ach4_b1[grid->co2y - 1750]/1000.0/30.0;
+                c_ch4 = ach4_b1[grid->co2y - BGY_AGHG]/1000.0/30.0;
                 break;
             default:
-                c_ch4 = ach4_a1[grid->co2y - 1750]/1000.0/30.0;
+                c_ch4 = ach4_a1[grid->co2y - BGY_AGHG]/1000.0/30.0;
                 break;
         }
     }
@@ -271,7 +282,7 @@ void f_ch4oxy_casa(
 	/* fc = aa = grid->whc30/300.0; */
 	fc = aa = grid->field_cap1/300.0;  
 	pc = grid->pore_cap1/300.0;
-	if(pc<fc){
+	if(pc < fc){
 		pc  = fc + 0.05;
 	}
 	pp = pc - aa;	/* inter-aggregate pore space */
@@ -305,14 +316,14 @@ void f_ch4oxy_casa(
 	hhh = (1.0 - pow(pp, 2.0 * xx));
 	iii = (aaa - pow(aaa, 2.0 * yy));
 	
-	ccc = fff * pow(jjj, 2.0 * zz) * hhh * iii; /*************/
-	ddd = fff * pow(jjj, 2.0) * hhh + iii;
-	eee = pow((1.0 - s_wp), 2.0) * pow(aaa, 2.0 * yy);
+	if(jjj>0.0){
+        ccc = fff * pow(jjj, 2.0 * zz) * hhh * iii; /*************/
+        ddd = fff * pow(jjj, 2.0) * hhh + iii;
+        eee = pow((1.0 - s_wp), 2.0) * pow(aaa, 2.0 * yy);
 	
-	if(jjj>0){
 		d_d0 = ccc / ddd + eee;
 	}else{  /*  if(jjj<=0) */
-		d_d0 = eee;
+		d_d0 = pow((1.0 - s_wp), 2.0) * pow(aaa, 2.0 * yy);
 	}
 	
 	/* Eq. 2 in Potter (1996) */
@@ -504,7 +515,7 @@ void f_ch4oxy_curry(
 	struct Loct *loct,  
 	struct Flux *flux
 ){
-	double aaa, bbb;	/* intermediate values */
+	double aaa, bbb, prm_ensen;	/* intermediate values */
 	double c_0;		/* atmospheric CH4, ppmv */
 	double f_i;		/* fraction of inundation */
 	double r_w;		/* fraction of upland */
@@ -532,16 +543,16 @@ void f_ch4oxy_curry(
 	/*Atmospheric CH4 */
 	switch(CO2S){
 		case 1:
-			c_0 = ach4_a1[grid->co2y - 1750]/1000.0;
+			c_0 = ach4_a1[grid->co2y - BGY_AGHG]/1000.0;
 			break;
 		case 4:
-			c_0 = ach4_a2[grid->co2y - 1750]/1000.0;
+			c_0 = ach4_a2[grid->co2y - BGY_AGHG]/1000.0;
 			break;
 		case 5:
-			c_0 = ach4_b1[grid->co2y - 1750]/1000.0;
+			c_0 = ach4_b1[grid->co2y - BGY_AGHG]/1000.0;
 			break;
 		default:
-			c_0 = ach4_a1[grid->co2y - 1750]/1000.0;
+			c_0 = ach4_a1[grid->co2y - BGY_AGHG]/1000.0;
 			break;
 	}
 
@@ -607,26 +618,58 @@ void f_ch4oxy_curry(
 	ps_sat = pow(10.0, -1.31*grid->pc_sand/100.0 + 1.88) / 10.0;
 	/* eq.8: water potential */
 	aaa = frac_water * loct->sw30 / grid->field_cap1;
-	ps = ps_sat * pow((aaa / phi), -b);
+    if(aaa>0.0 && phi>0.0){
+        if((aaa / phi) > 0.01){
+            ps = ps_sat * pow((aaa / phi), -b);
+        }else{
+            ps = 100.0;
+        }
+    }else{
+        ps = 100.0;
+    }
 	
 	/* eq.9: soil water factor */
 	if(ps < 0.2){
 		r_sm = 1.0;
-	}else if(ps >=0.2 && ps <=100.0){
+	}else if(ps >=0.2 && ps <100.0){
 		aaa = log10(ps) - log10(0.2);
 		bbb = log10(100.0) - log10(0.2);
 		r_sm = pow((1.0 - aaa/bbb), beta);
-	}else if(ps > 100.0){
+	}else if(ps >= 100.0){
 		r_sm = 0.0;
 	}
 	
 	/* first-order oxidation constant */
+    
+    /* parameter ensemble: 2014/11/19 by A.Ito */
+    prm_ensen = 1.0;
+    if(PARAM_PTB == 5){
+        if(PARAM_ENS==1){
+            prm_ensen = 0.7;
+        }
+        if(PARAM_ENS==2){
+            prm_ensen = 0.8;
+        }
+        if(PARAM_ENS==3){
+            prm_ensen = 0.9;
+        }
+        if(PARAM_ENS==4){
+            prm_ensen = 1.1;
+        }
+        if(PARAM_ENS==5){
+            prm_ensen = 1.2;
+        }
+        if(PARAM_ENS==6){
+            prm_ensen = 1.3;
+        }
+    }
+    
 	/* eq.6 */
 	k = k_0 * r_t * r_sm;
 	
 	/* surface CH4 flux, mg CH4 m-2 day-1 ********************/
 	/* eq.10 */
-	j_0 = g_0 * c_0 * r_c * r_w * pow((d_soil*k), 0.5);
+	j_0 = g_0 * c_0 * r_c * r_w * pow((d_soil*k), 0.5) * prm_ensen;
 	
 	/* mg CH4 m-2 month-1 */
 	(flux->soil).ch4oxy_curry[grid->m] = j_0 * MDN[grid->m];

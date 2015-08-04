@@ -56,16 +56,26 @@ void read_ncep_clim(
 	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4812.dat","rt"))==NULL ){  
 		printf("No tcdc.eatm.gauss.mon4812.dat\n");  exit(1); } */
 	
-	if( (fp_t=fopen("./data/air.2m.gauss.mon4813.dat","rt"))==NULL ){  
+	/* if( (fp_t=fopen("./data/air.2m.gauss.mon4813.dat","rt"))==NULL ){
 		printf("No air.2m.gauss.mon4813.dat\n");  exit(1); }
 	if( (fp_p=fopen("./data/prate.sfc.gauss.mon4813.dat","rt"))==NULL ){  
 		printf("No prate.sfc.gauss.mon4813.dat\n");  exit(1); }
 	if( (fp_h=fopen("./data/vpres.sfc.gauss.mon4813.dat","rt"))==NULL ){  
 		printf("No vpres.sfc.gauss.mon4813.dat\n");  exit(1); }
 	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4813.dat","rt"))==NULL ){  
-		printf("No tcdc.eatm.gauss.mon4813.dat\n");  exit(1); }
+		printf("No tcdc.eatm.gauss.mon4813.dat\n");  exit(1); } */
 	
-	for(f=0;f<DL_NCEP;f++){   /*  1948-2011 */
+    /* added 2014: 2015/01/02 by A.Ito */
+	if( (fp_t=fopen("./data/air.2m.gauss.mon4814.dat","rt"))==NULL ){
+		printf("No air.2m.gauss.mon4814.dat\n");  exit(1); }
+	if( (fp_p=fopen("./data/prate.sfc.gauss.mon4814.dat","rt"))==NULL ){
+		printf("No prate.sfc.gauss.mon4814.dat\n");  exit(1); }
+	if( (fp_h=fopen("./data/vpres.sfc.gauss.mon4814.dat","rt"))==NULL ){
+		printf("No vpres.sfc.gauss.mon4814.dat\n");  exit(1); }
+	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4814.dat","rt"))==NULL ){
+		printf("No tcdc.eatm.gauss.mon4814.dat\n");  exit(1); }
+	
+	for(f=0;f<DL_NCEP;f++){   /*  1948-20XX */
 		for(g=0;g<ASTEP;g++){
 			fscanf(fp_t,"%ld %ld", &yr, &mon);
 			fscanf(fp_p,"%ld %ld", &yr, &mon);
@@ -85,7 +95,7 @@ void read_ncep_clim(
 		}
 	}
 	
-	/* average 1970-1999 */
+	/* average climatology 1970-1999 */
 	for(f=0;f<30;f++){
 		for(g=0;g<ASTEP;g++){
 			for(h=0;h<94;h++){

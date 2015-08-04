@@ -94,6 +94,9 @@ void f_init_grid(
 	double bulkdens, field_cap;
 	double x, xx, y, yy, xy;
 	
+    /* added: A. Ito (with Hamada-san's comment) 2012/01/30 */
+    grid->phase = 0;
+    
 	/* grid latitude and longitude ******************/
 	grid->lat = 89.75 - 0.5*(double)grid->row;
 	grid->lon = -179.75 + 0.5*(double)grid->col;
@@ -114,13 +117,14 @@ void f_init_grid(
 	grid->gcm_col = 0;
     
 	/* AR3 ****************/
-	if(GCM==1 || GCM==2 || GCM==3 || GCM==4 || GCM==5 || GCM==6){ /* CCSR/NIES */
+	if(GCM_ID==1 || GCM_ID==2 || GCM_ID==3 || GCM_ID==4 || GCM_ID==5 || GCM_ID==6){ /* CCSR/NIES */
 		grid->gcm_row = grid->row/11.25;	
 		grid->gcm_col = grid->col/11.25;
-	}else if(GCM==11 || GCM==12 || GCM==13 || GCM==14 || GCM==15 || GCM==16 || GCM==17 || GCM==18){ /* CCCma */
+	}else if(GCM_ID==11 || GCM_ID==12 || GCM_ID==13 || GCM_ID==14 || GCM_ID==15 ||
+            GCM_ID==16 || GCM_ID==17 || GCM_ID==18){ /* CCCma */
 		grid->gcm_row = grid->row/7.5;
 		grid->gcm_col = grid->col/7.5;
-	}else if(GCM==21 || GCM==22 || GCM==23 || GCM==24){ /* HadCM3 */
+	}else if(GCM_ID==21 || GCM_ID==22 || GCM_ID==23 || GCM_ID==24){ /* HadCM3 */
 		if(grid->lat>=88.75){
 			grid->gcm_row = 0;
 		}else if(grid->lat<=-88.75){
@@ -129,39 +133,39 @@ void f_init_grid(
 			grid->gcm_row = (long)((88.75-grid->lat)/2.5);
 		}
 		grid->gcm_col = grid->col/7.5;
-	}else if(GCM==31 || GCM==32){ /* ECHAM */
+	}else if(GCM_ID==31 || GCM_ID==32){ /* ECHAM */
 		grid->gcm_row = grid->row/5.625;	
 		grid->gcm_col = grid->col/5.625;
-	}else if(GCM==41 || GCM==42 || GCM==43 || GCM==44){ /* CSIRO */
+	}else if(GCM_ID==41 || GCM_ID==42 || GCM_ID==43 || GCM_ID==44){ /* CSIRO */
 		for(e=0;e<55;e++){
 			if(grid->lat>(csiro_lat[e]+csiro_lat[e+1])/2.0){
 				grid->gcm_row = e;
 			}
 		}
 		grid->gcm_col = grid->col/11.25;
-	}else if(GCM==51 || GCM==52){ /* GFDL */
+	}else if(GCM_ID==51 || GCM_ID==52){ /* GFDL */
 		grid->gcm_row = grid->row/4.5;
 		grid->gcm_col = grid->col/7.5;
-	}else if(GCM==61 || GCM==62 || GCM==63){ /* NCAR-PCM */
+	}else if(GCM_ID==61 || GCM_ID==62 || GCM_ID==63){ /* NCAR-PCM */
 		grid->gcm_row = grid->row/5.625;	
 		grid->gcm_col = grid->col/5.625;
-	}else if(GCM==71){ /* NCAR-CSM */
+	}else if(GCM_ID==71){ /* NCAR-CSM */
 		grid->gcm_row = grid->row/5.625;	
 		grid->gcm_col = grid->col/5.625;
 	}
 	
 	/* AR4 ****************/
-	if(GCM==1000 || GCM==1001){ /* MIROC-HIGH */
+	if(GCM_ID==1000 || GCM_ID==1001){ /* MIROC-HIGH */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1010 || GCM==1011 || GCM==1012 || GCM==1013 || GCM==1014 || 
-			GCM==1015 || GCM==1016 || GCM==1017 || GCM==1018){ /* MIROC-MED */
+	}else if(GCM_ID==1010 || GCM_ID==1011 || GCM_ID==1012 || GCM_ID==1013 || GCM_ID==1014 || 
+			GCM_ID==1015 || GCM_ID==1016 || GCM_ID==1017 || GCM_ID==1018){ /* MIROC-MED */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1050 || GCM==1051 ||GCM==1052){ /* BCCR */
+	}else if(GCM_ID==1050 || GCM_ID==1051 ||GCM_ID==1052){ /* BCCR */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1060 || GCM==1061 ||GCM==1062){ /* INM-CM3 : error-fixed 2009/04/26 A.Ito */
+	}else if(GCM_ID==1060 || GCM_ID==1061 ||GCM_ID==1062){ /* INM-CM3 : error-fixed 2009/04/26 A.Ito */
 		if(grid->lat>=88.0){
 			grid->gcm_row = 0;
 		}else if(grid->lat<=-88.0){
@@ -170,13 +174,13 @@ void f_init_grid(
 			grid->gcm_row = (long)((88.0-grid->lat)/4.0);
 		}
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1070 || GCM==1071 || GCM==1072){ /* IPSL */
+	}else if(GCM_ID==1070 || GCM_ID==1071 || GCM_ID==1072){ /* IPSL */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1080 || GCM==1081 || GCM==1082){ /* GFDL CM2-1 */
+	}else if(GCM_ID==1080 || GCM_ID==1081 || GCM_ID==1082){ /* GFDL CM2-1 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1090 || GCM==1091 || GCM==1092){ /* HadCM3 */
+	}else if(GCM_ID==1090 || GCM_ID==1091 || GCM_ID==1092){ /* HadCM3 */
 		if(grid->lat>=88.75){
 			grid->gcm_row = 0;
 		}else if(grid->lat<=-88.75){
@@ -185,28 +189,28 @@ void f_init_grid(
 			grid->gcm_row = (long)((88.75-grid->lat)/2.5);
 		}
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1100 || GCM==1101 || GCM==1102 || GCM==1103){ /* GISS AOM */
+	}else if(GCM_ID==1100 || GCM_ID==1101 || GCM_ID==1102 || GCM_ID==1103){ /* GISS AOM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1110 || GCM==1111 || GCM==1112){ /* CCCma-T63 */
+	}else if(GCM_ID==1110 || GCM_ID==1111 || GCM_ID==1112){ /* CCCma-T63 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1120 || GCM==1121 || GCM==1122 || GCM==1270 || GCM==1271 || GCM==1272){ /* CSIRO 3.0 & 3.5 */
+	}else if(GCM_ID==1120 || GCM_ID==1121 || GCM_ID==1122 || GCM_ID==1270 || GCM_ID==1271 || GCM_ID==1272){ /* CSIRO 3.0 & 3.5 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1130 || GCM==1131 || GCM==1132 || GCM==1133 || GCM==1134
-			 || GCM==1135 || GCM==1136 || GCM==1137 || GCM==1138 || GCM==1139
-			  || GCM==1140 || GCM==1141 || GCM==1142 || GCM==1143 || GCM==1144){ /* MRI */
+	}else if(GCM_ID==1130 || GCM_ID==1131 || GCM_ID==1132 || GCM_ID==1133 || GCM_ID==1134
+			 || GCM_ID==1135 || GCM_ID==1136 || GCM_ID==1137 || GCM_ID==1138 || GCM_ID==1139
+			  || GCM_ID==1140 || GCM_ID==1141 || GCM_ID==1142 || GCM_ID==1143 || GCM_ID==1144){ /* MRI */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1150 ||GCM==1151 ||GCM==1152 ||GCM==1153 ||GCM==1154 ||
-			GCM==1155 ||GCM==1156 ||GCM==1157 ||GCM==1158 ||GCM==1159){ /* MPI ECHAM */
+	}else if(GCM_ID==1150 ||GCM_ID==1151 ||GCM_ID==1152 ||GCM_ID==1153 ||GCM_ID==1154 ||
+			GCM_ID==1155 ||GCM_ID==1156 ||GCM_ID==1157 ||GCM_ID==1158 ||GCM_ID==1159){ /* MPI ECHAM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1160 || GCM==1161 || GCM==1162 || GCM==1163 || GCM==1164 || GCM==1165){ /* IAP */
+	}else if(GCM_ID==1160 || GCM_ID==1161 || GCM_ID==1162 || GCM_ID==1163 || GCM_ID==1164 || GCM_ID==1165){ /* IAP */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1170 || GCM==1171){ /* HadGEM */
+	}else if(GCM_ID==1170 || GCM_ID==1171){ /* HadGEM */
 		if(grid->lat>=89.379){
 			grid->gcm_row = 0;
 		}else if(grid->lat<=-89.379){
@@ -215,46 +219,46 @@ void f_init_grid(
 			grid->gcm_row = (long)((89.379-grid->lat)/(180.0/(double)GCM_R));
 		}
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1180 || GCM==1181 || GCM==1182){ /* GFDL CM 2.0 */
+	}else if(GCM_ID==1180 || GCM_ID==1181 || GCM_ID==1182){ /* GFDL CM 2.0 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1190 || GCM==1191 || GCM==1192){ /* CNRM */
+	}else if(GCM_ID==1190 || GCM_ID==1191 || GCM_ID==1192){ /* CNRM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1200 || GCM==1201 || GCM==1202 || GCM==1203 || GCM==1204
-			 || GCM==1205 || GCM==1206 || GCM==1207 || GCM==1208 || GCM==1209
-			 || GCM==1210 || GCM==1211 || GCM==1212 || GCM==1213 || GCM==1214){ /* CCC47 */
+	}else if(GCM_ID==1200 || GCM_ID==1201 || GCM_ID==1202 || GCM_ID==1203 || GCM_ID==1204
+			 || GCM_ID==1205 || GCM_ID==1206 || GCM_ID==1207 || GCM_ID==1208 || GCM_ID==1209
+			 || GCM_ID==1210 || GCM_ID==1211 || GCM_ID==1212 || GCM_ID==1213 || GCM_ID==1214){ /* CCC47 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1220 || GCM==1221 || GCM==1222 || GCM==1223 || GCM==1224
-			 || GCM==1225 || GCM==1226 || GCM==1227 || GCM==1228 || GCM==1229
-			  || GCM==1230 || GCM==1231 || GCM==1232 || GCM==1233 || GCM==1234
-			   || GCM==1235 || GCM==1236 || GCM==1237 || GCM==1238 || GCM==1239){ /* NCAR CCSM */
+	}else if(GCM_ID==1220 || GCM_ID==1221 || GCM_ID==1222 || GCM_ID==1223 || GCM_ID==1224
+			 || GCM_ID==1225 || GCM_ID==1226 || GCM_ID==1227 || GCM_ID==1228 || GCM_ID==1229
+			  || GCM_ID==1230 || GCM_ID==1231 || GCM_ID==1232 || GCM_ID==1233 || GCM_ID==1234
+			   || GCM_ID==1235 || GCM_ID==1236 || GCM_ID==1237 || GCM_ID==1238 || GCM_ID==1239){ /* NCAR CCSM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1240 || GCM==1241 || GCM==1242){ /* GISS E */
+	}else if(GCM_ID==1240 || GCM_ID==1241 || GCM_ID==1242){ /* GISS E */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1250 || GCM==1251 || GCM==1252 || GCM==1253){ /* GISS R */
+	}else if(GCM_ID==1250 || GCM_ID==1251 || GCM_ID==1252 || GCM_ID==1253){ /* GISS R */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(GCM==1260 || GCM==1261 || GCM==1262 || GCM==1263 || GCM==1264
-			 || GCM==1265 || GCM==1266 || GCM==1267){ /* NCAR PCM */
+	}else if(GCM_ID==1260 || GCM_ID==1261 || GCM_ID==1262 || GCM_ID==1263 || GCM_ID==1264
+			 || GCM_ID==1265 || GCM_ID==1266 || GCM_ID==1267){ /* NCAR PCM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}
     
     /* GEO-MIP: 2013/11/26 by A.Ito */
-    if(GCM==3000 || GCM==3003 || GCM==3004){ /* GEO-MIP BNU-ESM */
+    if(GCM_ID==3000 || GCM_ID==3001 || GCM_ID==3002){ /* GEO-MIP BNU-ESM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM==3100 || GCM==3104){ /* GEO-MIP CSIRO */
+	}if(GCM_ID==3010 || GCM_ID==3011 || GCM_ID==3012){ /* GEO-MIP CSIRO */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM==3200 || GCM==3203 || GCM==3204){ /* GEO-MIP GISS */
+	}if(GCM_ID==3020 || GCM_ID==3021 || GCM_ID==3022){ /* GEO-MIP GISS */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM==3300 || GCM==3303 || GCM==3304 || GCM==3313){ /* GEO-MIP HadGEM */
+	}if(GCM_ID==3030 || GCM_ID==3031 || GCM_ID==3032 || GCM_ID==3033 || GCM_ID==3034 || GCM_ID==3035){ /* GEO-MIP HadGEM */
 		if(grid->lat>=89.379){
 			grid->gcm_row = 0;
 		}else if(grid->lat<=-89.379){
@@ -263,16 +267,25 @@ void f_init_grid(
 			grid->gcm_row = (long)((89.379-grid->lat)/(180.0/(double)GCM_R));
 		}
         grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM==3400 || GCM==3403 || GCM==3405){ /* GEO-MIP IPSL */
+	}if(GCM_ID==3040 || GCM_ID==3041 || GCM_ID==3042){ /* GEO-MIP IPSL */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM==3500 || GCM==3504){ /* GEO-MIP MIROC-ESM */
+	}if(GCM_ID==3050 || GCM_ID==3051 || GCM_ID==3052){ /* GEO-MIP MIROC-ESM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM==3600 || GCM==3604){ /* GEO-MIP MIROC-ESM-CHEM */
+	}if(GCM_ID==3060 || GCM_ID==3061){ /* GEO-MIP MIROC-ESM-CHEM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM==3700 || GCM==3704){ /* GEO-MIP CanESM2 */
+	}if(GCM_ID==3070 || GCM_ID==3071 || GCM_ID==3072){ /* GEO-MIP CanESM2 */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM_ID==3080 || GCM_ID==3801){ /* GEO-MIP MPI-ESM-LR */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM_ID==3090 || GCM_ID==3091){ /* GEO-MIP CCSM4 */
+		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
+		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
+	}if(GCM_ID==3100 || GCM_ID==3101){ /* GEO-MIP NorESM1-M */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}
@@ -280,7 +293,7 @@ void f_init_grid(
 	/* input geography in the grid *************/	
 	fscanf(fp_s[0],"%ld %ld", &country, &region); 
 	grid->country = country;	/* country code */
-	grid->region = region;		/* region code : note recommended to use Girogi region code */
+	grid->region = region;		/* region code : note recommended to use Giorgi region code */
 	
 	/* added: 2010/05/11 */
 	switch(grid->country){
@@ -362,22 +375,22 @@ void f_init_grid(
 	*/
 	
 	/* sensitivity analysis for biome change by deforestation */
-	if(DEFOREST==1){
+	if(EX_DEFOREST==1){
 		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 19;
 		}
-	}else if(DEFOREST==2){
+	}else if(EX_DEFOREST==2){
 		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 13;
 		}
-	}else if(DEFOREST==3){
+	}else if(EX_DEFOREST==3){
 		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 31;
 		}
 	}
 	
-	/** input soil properties ************************************/
-	fscanf(fp_s[3],"%lf", &geo_prop); 
+	/* input soil properties *************************************/
+	fscanf(fp_s[3],"%lf", &geo_prop);
 		geo_prop = (geo_prop>0.0)?geo_prop:0.0;
 		grid->topo = geo_prop; /* topography, m ASL */
 	fscanf(fp_s[3],"%lf", &geo_prop); 
@@ -398,7 +411,7 @@ void f_init_grid(
 		grid->hyd_cond = geo_prop; /* k_s */
 	fscanf(fp_s[3],"%lf",&geo_prop); /* b */
 	
-	/* input monthly climate ***********************************/	
+	/* input monthly climate *************************************/
 	/* long-term average, from NCEP/NCAR reanalysis */
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp_sfc); 
@@ -410,11 +423,11 @@ void f_init_grid(
 	}	
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp10_soil); 
-		grid->tmp10_soil_a[e] = tmp10_soil-ZAT;
+		grid->tmp10_soil_a[e] = tmp10_soil - ZAT;
 	}	
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp200_soil); 
-		grid->tmp200_soil_a[e] = tmp200_soil-ZAT;
+		grid->tmp200_soil_a[e] = tmp200_soil - ZAT;
 	}	
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &dswrf_toa); 
@@ -449,7 +462,7 @@ void f_init_grid(
 		grid->vgrd_10m_a[e] = vgrd_10m;
 	}
 	
-	/* set CRU TS2.1 ****************************************/
+	/* set CRU TS2.1 *******************************************/
 	/* set CRU TS3.0 *************** 2010/01/04 (A.Ito) ********/
 	/* New, M., D. Lister, et al. (2002). "A high-resolution data set of 
 	surface climate over global land areas." Climate Research 21: 1-25. */
@@ -511,7 +524,7 @@ void f_init_grid(
 	
 	/* Olson croplands replaced by SAGE natural vegetation */
 	/* 2010/04/27 by A.Ito */
-	if(REPL_OLSON_CROP == 1){
+	if(REPLACE_OLSON_CROP == 1){
 		if(grid->veg_olson==29 ||grid->veg_olson==30 ||grid->veg_olson==31 
 		   ||grid->veg_olson==32){
 			
@@ -537,7 +550,7 @@ void f_init_grid(
 	}
 	
 	/* experiment for biodiversity: 2011/01/15 (A.Ito) **********************************/
-	if(grid->veg_olson>=1 && grid->veg_olson<=12){
+	if(grid->veg_olson >= 1 && grid->veg_olson <= 12){
 		/* reduced biodiversity of forests */
 		/* grid->veg_olson = 1; */
 	}
@@ -636,15 +649,15 @@ void f_init_grid(
 	/* Saxton, K. E., et al. (1986), Estimating generalized soil-water characteristics 
 	from texture, Soil Science Society of America Journal, 50, 1031-1036. */
 	grid->a_sw = exp(-4.396 -0.0715*grid->pc_clay -4.488*0.0001*grid->pc_clay*grid->pc_clay 
-					- 4.285*0.00001*grid->pc_sand*grid->pc_sand*grid->pc_clay)*100;
-	grid->b_sw = -3.14 -0.00222*grid->pc_clay*grid->pc_clay 
-					-3.484*0.00001*grid->pc_sand*grid->pc_sand*grid->pc_clay;
+					- 4.285*0.00001*grid->pc_sand*grid->pc_sand*grid->pc_clay)*100.0;
+	grid->b_sw = -3.14 -0.00222 * grid->pc_clay * grid->pc_clay
+					-3.484 * 0.00001 * grid->pc_sand * grid->pc_sand * grid->pc_clay;
 	
 	/* field capacity */
 	grid->field_cap1 = pow(crit_tension/grid->a_sw, 1.0/grid->b_sw);
 	grid->field_cap1 *= 300.0;
 	/* pore space capacity */
-	grid->pore_cap1 = 0.332 -7.251*0.0001*grid->pc_sand + 0.1276*log10(grid->pc_clay);
+	grid->pore_cap1 = 0.332 - 7.251 * 0.0001 * grid->pc_sand + 0.1276 * log10(grid->pc_clay);
 	grid->pore_cap1 *= 300.0;
 	
 	grid->field_cap2 = grid->fc_150 - grid->field_cap1;
@@ -653,7 +666,7 @@ void f_init_grid(
 	}
 	
 	/* wetland fraction: data by Global Lakes and Wetlands Database by WWF *****/
-	if(ALT_FWET==1){
+	if(ALT_FWETLAND==1){
 		/* Alternative data (NASA/GISS): 2011/03/30 by A.Ito */
 		fscanf(fp_s[21],"%lf", &wetland);
 		grid->f_wetland = wetland;
@@ -667,7 +680,7 @@ void f_init_grid(
         
         /* WSL-Perogon welnad map: 2014/2/4 by A.Ito */
         fscanf(fp_s[83],"%ld %lf", &aaa, &wetland); 
-        if(ALT_FWET==2 && aaa==1){
+        if(ALT_FWETLAND==2 && aaa==1){
             grid->f_wetland = wetland;
         }
         
@@ -685,7 +698,7 @@ void f_init_grid(
     grid->f_wetland0 = grid->f_wetland;
 	
 	/* paddy fraction *****************/
-	if(ALT_FWET==1){
+	if(ALT_FWETLAND==1){
 		/* Alternative data (IIS-UT + SAGE): 2011/03/30 by A.Ito */
 		fscanf(fp_s[22],"%lf", &paddy); 
 		if(paddy>0.0){
@@ -718,7 +731,8 @@ void f_init_grid(
 		grid->total_n_1m = 0.0;
 	}
 	
-	/* N deposition */
+	/* N deposition: Gallway & Dentener */
+    /* URL  daac.ornl.gov/CLIMATE/guides/global_N_deposition_maps.html */
 	fscanf(fp_s[25],"%lf", &lat); 
 	fscanf(fp_s[25],"%lf", &lon); 
 	fscanf(fp_s[25],"%lf", &grid->ndepo[0]); 
@@ -736,7 +750,7 @@ void f_init_grid(
         
 		for(h=0;h<DL_LUH;h++){
 			/* fractional cover */
-            if(h<(BGY_GCM - PIVOT_LUC -1)){  /* 1500-2005 */
+            if(h<(BGY_GCM - PIVOT_LUC -1)){  /* 1500-2004 */
                 fscanf(fp_s[26],"%lf", &grid->fcrop_unh_hmnzed[h]);
                 fscanf(fp_s[27],"%lf", &grid->fpast_unh_hmnzed[h]);
                 fscanf(fp_s[28],"%lf", &grid->fprim_unh_hmnzed[h]);
@@ -756,7 +770,7 @@ void f_init_grid(
                 fscanf(fp_s[42],"%lf", &grid->t_vp_unh_hmnzed[h]);
                 fscanf(fp_s[43],"%lf", &grid->t_vs1_unh_hmnzed[h]);
                 fscanf(fp_s[44],"%lf", &grid->t_vs2_unh_hmnzed[h]);
-            }else{  /* 2006-2100 */
+            }else{  /* 2005-2100 */
                 fscanf(fp_s[59],"%lf", &grid->fcrop_unh_hmnzed[h]);
                 fscanf(fp_s[60],"%lf", &grid->fpast_unh_hmnzed[h]);
                 fscanf(fp_s[61],"%lf", &grid->fprim_unh_hmnzed[h]);
@@ -779,8 +793,8 @@ void f_init_grid(
             }
 		}
         
-        if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
-            /* skip RCPXX - 2005 data */
+        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+            /* skip Hist - 2005 data */
             fscanf(fp_s[26],"%lf", &ddummy);
             fscanf(fp_s[27],"%lf", &ddummy);
             fscanf(fp_s[28],"%lf", &ddummy);
@@ -802,7 +816,144 @@ void f_init_grid(
             fscanf(fp_s[44],"%lf", &ddummy);
         }
     
-	}else{
+	}else if(LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
+    
+        for(h=2001;h<=2004;h++){
+            fscanf(fp_s[59],"%lf", &ddummy);
+            fscanf(fp_s[60],"%lf", &ddummy);
+            fscanf(fp_s[61],"%lf", &ddummy);
+            fscanf(fp_s[62],"%lf", &ddummy);
+            fscanf(fp_s[63],"%lf", &ddummy);
+            fscanf(fp_s[64],"%lf", &ddummy);
+            fscanf(fp_s[65],"%lf", &ddummy);
+            fscanf(fp_s[66],"%lf", &ddummy);
+            fscanf(fp_s[67],"%lf", &ddummy);
+            fscanf(fp_s[68],"%lf", &ddummy);
+            fscanf(fp_s[69],"%lf", &ddummy);
+            fscanf(fp_s[70],"%lf", &ddummy);
+            fscanf(fp_s[71],"%lf", &ddummy);
+            fscanf(fp_s[72],"%lf", &ddummy);
+            fscanf(fp_s[73],"%lf", &ddummy);
+            fscanf(fp_s[74],"%lf", &ddummy);
+            fscanf(fp_s[75],"%lf", &ddummy);
+            fscanf(fp_s[76],"%lf", &ddummy);
+            fscanf(fp_s[77],"%lf", &ddummy);
+        }
+    
+        for(h=PIVOT_LUC;h<(PIVOT_LUC+DL_LUH);h++){
+			/* fractional cover */
+            if(h < (BGY_GCM-1)){  /* 1500-2005 */
+                fscanf(fp_s[26],"%lf", &grid->fcrop_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[27],"%lf", &grid->fpast_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[28],"%lf", &grid->fprim_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[29],"%lf", &grid->fsecd_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[30],"%lf", &grid->ssma_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[31],"%lf", &grid->ssmb_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[32],"%lf", &grid->t_cp_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[33],"%lf", &grid->t_cs_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[34],"%lf", &grid->t_pc_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[35],"%lf", &grid->t_ps_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[36],"%lf", &grid->t_sc_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[37],"%lf", &grid->t_sp_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[38],"%lf", &grid->t_ss1_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[39],"%lf", &grid->t_ss2_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[40],"%lf", &grid->t_ss3_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[41],"%lf", &grid->t_vc_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[42],"%lf", &grid->t_vp_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[43],"%lf", &grid->t_vs1_unh_hmnzed[h-PIVOT_LUC]);
+                fscanf(fp_s[44],"%lf", &grid->t_vs2_unh_hmnzed[h-PIVOT_LUC]);
+            }
+            
+            if(h >= (BGY_GCM-1)){  /* 2005-2100 */
+                fscanf(fp_s[59],"%lf", &grid->fcrop_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->fcrop_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->fcrop_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[60],"%lf", &grid->fpast_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->fpast_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->fpast_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[61],"%lf", &ddummy); /* other */
+                fscanf(fp_s[62],"%lf", &grid->fsecd_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->fsecd_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->fsecd_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[63],"%lf", &ddummy); /* grass */
+                fscanf(fp_s[64],"%lf", &grid->fprim_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->fprim_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->fprim_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[65],"%lf", &grid->t_cp_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_cp_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_cp_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[66],"%lf", &grid->t_cs_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_cs_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_cs_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[67],"%lf", &ddummy);
+                fscanf(fp_s[68],"%lf", &grid->t_pc_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_pc_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_pc_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[69],"%lf", &grid->t_ps_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_ps_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_ps_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[70],"%lf", &ddummy);
+                fscanf(fp_s[71],"%lf", &grid->t_sc_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_sc_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_sc_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[72],"%lf", &grid->t_sp_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_sp_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_sp_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[73],"%lf", &ddummy);
+                fscanf(fp_s[74],"%lf", &grid->t_vc_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_vc_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_vc_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[75],"%lf", &grid->t_vp_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_vp_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_vp_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[76],"%lf", &grid->t_vs1_unh_hmnzed[h-PIVOT_LUC]);
+                if(grid->t_vs1_unh_hmnzed[h-PIVOT_LUC] < 0.0){
+                    grid->t_vs1_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                }
+                fscanf(fp_s[77],"%lf", &ddummy);
+                
+                grid->t_vs2_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->ssma_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->ssmb_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->t_ss1_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->t_ss2_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+                grid->t_ss3_unh_hmnzed[h-PIVOT_LUC] = 0.0;
+            }
+        }
+        
+        /* skip Hist - 2005 data */
+        fscanf(fp_s[26],"%lf", &ddummy);
+        fscanf(fp_s[27],"%lf", &ddummy);
+        fscanf(fp_s[28],"%lf", &ddummy);
+        fscanf(fp_s[29],"%lf", &ddummy);
+        fscanf(fp_s[30],"%lf", &ddummy);
+        fscanf(fp_s[31],"%lf", &ddummy);
+        fscanf(fp_s[32],"%lf", &ddummy);
+        fscanf(fp_s[33],"%lf", &ddummy);
+        fscanf(fp_s[34],"%lf", &ddummy);
+        fscanf(fp_s[35],"%lf", &ddummy);
+        fscanf(fp_s[36],"%lf", &ddummy);
+        fscanf(fp_s[37],"%lf", &ddummy);
+        fscanf(fp_s[38],"%lf", &ddummy);
+        fscanf(fp_s[39],"%lf", &ddummy);
+        fscanf(fp_s[40],"%lf", &ddummy);
+        fscanf(fp_s[41],"%lf", &ddummy);
+        fscanf(fp_s[42],"%lf", &ddummy);
+        fscanf(fp_s[43],"%lf", &ddummy);
+        fscanf(fp_s[44],"%lf", &ddummy);
+    }else{
 		for(h=0;h<DL_LUH;h++){
 			grid->fcrop_unh_hmnzed[h] = 0.0;
 			grid->fpast_unh_hmnzed[h] = 0.0;
@@ -848,13 +999,51 @@ void f_init_grid(
             }
         }
         
-        if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
             fscanf(fp_s[53],"%lf", &ddummy);
             fscanf(fp_s[54],"%lf", &ddummy);
             fscanf(fp_s[55],"%lf", &ddummy);
             fscanf(fp_s[56],"%lf", &ddummy);
             fscanf(fp_s[57],"%lf", &ddummy);
         }
+        
+    }else if(LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
+        for(h=2001;h<=2004;h++){
+            fscanf(fp_s[78],"%lf", &ddummy);
+        }
+        
+        for(h=PIVOT_LUC;h<(PIVOT_LUC+DL_LUH);h++){
+
+            if(h < (BGY_GCM-1)){ /* 1500-2004 */
+                fscanf(fp_s[53],"%lf", &grid->hvst_p1[h-PIVOT_LUC]);
+                fscanf(fp_s[54],"%lf", &grid->hvst_p2[h-PIVOT_LUC]);
+                fscanf(fp_s[55],"%lf", &grid->hvst_s1[h-PIVOT_LUC]);
+                fscanf(fp_s[56],"%lf", &grid->hvst_s2[h-PIVOT_LUC]);
+                fscanf(fp_s[57],"%lf", &grid->hvst_s3[h-PIVOT_LUC]);
+            }
+        
+            if(h >= (BGY_GCM-1)){ /* 2005-2100 */
+                fscanf(fp_s[78],"%lf", &grid->hvst_p1[h-PIVOT_LUC]);
+                if(grid->hvst_p1[h-PIVOT_LUC] < 0.0){
+                    grid->hvst_p1[h-PIVOT_LUC] = 0.0;
+                }
+                
+                /* m3/grid/yr => MgC/grid/yr */
+                grid->hvst_p1[h-PIVOT_LUC] = grid->hvst_p1[h-PIVOT_LUC] / 2.0 / 2.0;
+                
+                grid->hvst_p2[h-PIVOT_LUC] = 0.0;
+                grid->hvst_s1[h-PIVOT_LUC] = 0.0;
+                grid->hvst_s2[h-PIVOT_LUC] = 0.0;
+                grid->hvst_s3[h-PIVOT_LUC] = 0.0;
+            }
+        }
+        
+        fscanf(fp_s[53],"%lf", &ddummy);
+        fscanf(fp_s[54],"%lf", &ddummy);
+        fscanf(fp_s[55],"%lf", &ddummy);
+        fscanf(fp_s[56],"%lf", &ddummy);
+        fscanf(fp_s[57],"%lf", &ddummy);
+
     }else{
         for(h=0;h<DL_LUH;h++){
             grid->hvst_p1[h] = 0.0;
@@ -907,6 +1096,17 @@ void f_init_grid(
 	if(grid->fmaize>grid->fwheat && grid->fmaize>grid->frice){
 		grid->veg_crop = 3;
 	}
+    
+    /* force change crop types: 2015/04/24 by A.Ito */
+    if(EX_CROP == 1){
+        grid->veg_crop = 1;  /* C3:wheat */
+    }
+    if(EX_CROP == 2){
+        grid->veg_crop = 2;  /* rice */
+    }
+    if(EX_CROP == 3){
+        grid->veg_crop = 3;  /* C4:maize */
+    }
 	
 	/* diffuse radiation estimation using SRB data ************/
 	/* intercept */
@@ -921,7 +1121,8 @@ void f_init_grid(
 	fscanf(fp_s[47],"%lf", &grid->srb_dif_max_y);
 	
 	/* inundation ********************************************/
-	fscanf(fp_s[48],"%lf", &lat);
+	/* SSMI */
+    fscanf(fp_s[48],"%lf", &lat);
 	fscanf(fp_s[48],"%lf", &lon);
 	grid->inundation_ssmi_av = 0.0;
 	grid->inundation_ssmi_max = 0.0;
@@ -929,12 +1130,48 @@ void f_init_grid(
 		fscanf(fp_s[48],"%ld", &aaa);
 		grid->inundation_ssmi[h] = (double)aaa/8.0;
 		
-		grid->inundation_ssmi_av += grid->inundation_ssmi[h] *MDN[h]/365.0;
+		grid->inundation_ssmi_av += grid->inundation_ssmi[h] * MDN[h]/365.0;
 		
 		if(grid->inundation_ssmi[h] > grid->inundation_ssmi_max){
 			grid->inundation_ssmi_max = grid->inundation_ssmi[h];
 		}
 	}
+    
+    /* NASA-JPL for GCP-CH4: 2014/05/28 (rev 2014/08/17) by A.Ito */
+	fscanf(fp_s[84],"%lf", &lat);
+	fscanf(fp_s[84],"%lf", &lon);
+    if(ALT_INUND == 6){
+        /* 2000/01-2012/12 */
+        for(h=0;h<ASTEP;h++){
+            grid->inundation_gcp_av[h] = 0.0;
+        }
+        for(g=0;g<13;g++){
+            for(h=0;h<ASTEP;h++){
+                fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+                
+                if(grid->inundation_gcp_ts[g][h] < 0.0){
+                    grid->inundation_gcp_ts[g][h] = 0.0;
+                }
+                
+                grid->inundation_gcp_av[h] += grid->inundation_gcp_ts[g][h] / 13.0;
+            }
+        }
+    }else{
+        /* 1999/07-2013/03 */
+        /* average */
+        for(h=0;h<ASTEP;h++){
+            fscanf(fp_s[84],"%lf", &grid->inundation_gcp_av[h]);
+        }
+        for(g=0;g<15;g++){
+            for(h=0;h<ASTEP;h++){
+                fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+                
+                if(grid->inundation_gcp_ts[g][h] < 0.0){
+                    grid->inundation_gcp_ts[g][h] = 0.0;
+                }
+            }
+        }
+    }
 	
 	/* permafrost type **************************************/
 	/* from National Snow and Ice Data Center 
@@ -970,7 +1207,7 @@ void f_init_grid(
 	 25: Land
 	*/
 	
-	/* CHASE 2001 monthly, by A.Ito (2010/05/21) ******************************/
+	/* CHASER 2001 monthly, by A.Ito (2010/05/21) ******************************/
 	grid->chaser_row = grid->row/(360.0/64.0);
 	if(grid->col >= 360){
 		grid->chaser_col = grid->col/(720.0/128.0) - 64;
@@ -978,18 +1215,7 @@ void f_init_grid(
 		grid->chaser_col = grid->col/(720.0/128.0) + 64;
 	}
 		
-	grid->ndepo_ann_dnhx = grid->ndepo_ann_dnoy = grid->ndepo_ann_wnhx = grid->ndepo_ann_wnoy = 0.0;
-	for(e=0;e<ASTEP;e++){
-		grid->ndepo_ann_dnhx += grid->ndepo_chaser_dnhx[e][grid->chaser_row][grid->chaser_col] * MDN[e];
-		grid->ndepo_ann_dnoy += grid->ndepo_chaser_dnoy[e][grid->chaser_row][grid->chaser_col] * MDN[e];
-		grid->ndepo_ann_wnhx += grid->ndepo_chaser_wnhx[e][grid->chaser_row][grid->chaser_col] * MDN[e];
-		grid->ndepo_ann_wnoy += grid->ndepo_chaser_wnoy[e][grid->chaser_row][grid->chaser_col] * MDN[e];
-	}
-    
-    /* added: A. Ito (with Hamada-san's comment) 2012/01/30 */
-    grid->phase = 0;
-    
-    /* GlobAlbedo: 2013/01/16 ************/
+    /* GlobAlbedo: 2013/01/16 **************************/
     fread(rfdat,sizeof(float),12, fp_s[58]);
     for(e=0;e<ASTEP;e++){
         grid->glbalbedo[e] = rfdat[e];

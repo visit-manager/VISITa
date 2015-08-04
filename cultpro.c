@@ -40,7 +40,7 @@ void agri_process(
 	}
 	
 	/* settlement */
-	f_after_deal(grid, pchar, mass, flux);
+	f_after_deal(grid, loct, pchar, mass, flux);
 }
 
 /* planting of new crops **********************************************/
@@ -57,13 +57,13 @@ void planting(
 	nn = MDN[grid->m];
 	
 	/* leaf emergence: perennial crops */
-	aaa = mass->stm*0.5;
-	bbb = mass->rot*0.5;
+	aaa = mass->stm * 0.5;
+	bbb = mass->rot * 0.5;
 	emerge = aaa + bbb;
 	
-	if(emerge>0.5){
-		aaa = 0.5/emerge*aaa;
-		bbb = 0.5/emerge*bbb;
+	if(emerge > 0.5){
+		aaa = 0.5 / emerge * aaa;
+		bbb = 0.5 / emerge * bbb;
 		emerge = aaa + bbb;
 	}
 	mass->fol += emerge;
@@ -98,9 +98,9 @@ void planting(
 	f_leaf_age(0, pchar, mass, -flux->lf[grid->m]);
 
 	/* photosynthesis, gross primary production */
-	flux->gpp[grid->m] = nn*fgpp(grid, loct, pchar, mass);
+	flux->gpp[grid->m] = nn * fgpp(grid, loct, pchar, mass);
 	/* stable carbon isotope */
-	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m]-pchar->photo_13c_frac[grid->m];
+	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m] - pchar->photo_13c_frac[grid->m];
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
@@ -119,13 +119,13 @@ void planting(
 	
 	/* tentative primary production */	
 	if(DF97==1){
-		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->arm[grid->m];
+		flux->epp[grid->m] = flux->gpp_df97[grid->m] - flux->arm[grid->m];
 	}else{
-		flux->epp[grid->m] = flux->gpp[grid->m]-flux->arm[grid->m];
+		flux->epp[grid->m] = flux->gpp[grid->m] - flux->arm[grid->m];
 	}
 	
 	/* translocation of photosynthate */
-	allocation(grid, pchar, mass, flux);
+	allocation(grid, loct, pchar, mass, flux);
 	/* stable carbon isotope */
 	flux->d13c_tpf[grid->m] = flux->d13c_gpp[grid->m];
 	flux->d13c_tpc[grid->m] = flux->d13c_gpp[grid->m];
@@ -153,21 +153,21 @@ void planting(
 	f_leaf_age(0, pchar, mass, (flux->tpf[grid->m]-flux->rfg[grid->m]));
 	
 	/* stable carbon isotope */
-	if((flux->tpf[grid->m]-flux->rfg[grid->m])>0.0){
+	if((flux->tpf[grid->m] - flux->rfg[grid->m]) > 0.0){
 		mass->d13c_fol = d13c_addition(mass->d13c_fol, mass->fol, 
-			flux->d13c_tpf[grid->m], (flux->tpf[grid->m]-flux->rfg[grid->m]));
+			flux->d13c_tpf[grid->m], (flux->tpf[grid->m] - flux->rfg[grid->m]));
 	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
 		mass->d13c_fol = mass->d13c_fol;
 	}
-	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
+	if((flux->tpc[grid->m] - flux->rcg[grid->m]) > 0.0){
 		mass->d13c_stm = d13c_addition(mass->d13c_stm, mass->stm, 
-			flux->d13c_tpc[grid->m], (flux->tpc[grid->m]-flux->rcg[grid->m]));
+			flux->d13c_tpc[grid->m], (flux->tpc[grid->m] - flux->rcg[grid->m]));
 	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
 		mass->d13c_stm = mass->d13c_stm;
 	}
-	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
+	if((flux->tpc[grid->m] - flux->rcg[grid->m]) > 0.0){
 		mass->d13c_rot = d13c_addition(mass->d13c_rot, mass->rot, 
-			flux->d13c_tpr[grid->m], (flux->tpr[grid->m]-flux->rrg[grid->m]));
+			flux->d13c_tpr[grid->m], (flux->tpr[grid->m] - flux->rrg[grid->m]));
 	}else if((flux->tpr[grid->m]-flux->rrg[grid->m])<0.0){
 		mass->d13c_rot = mass->d13c_rot;
 	}
@@ -190,17 +190,17 @@ void harvesting(
 	hvst_index = -0.45; /* harvest index -> 45% of biomass */
 	flux->hvst[grid->m] = hvst_index*(mass->fol + mass->stm + mass->rot);
 
-	mass->fol += (hvst_index*mass->fol);
-	mass->stm += (hvst_index*mass->stm);
-	mass->rot += (hvst_index*mass->rot);
+	mass->fol += (hvst_index * mass->fol);
+	mass->stm += (hvst_index * mass->stm);
+	mass->rot += (hvst_index * mass->rot);
 	
 	f_leaf_age(1, pchar, mass, hvst_index*mass->fol);
 
 	/* litter */
 	clear = 0.9 + hvst_index;
-	flux->lf[grid->m] = clear*mass->fol; 
-	flux->lc[grid->m] = clear*mass->stm;
-	flux->lr[grid->m] = clear*mass->rot;
+	flux->lf[grid->m] = clear * mass->fol;
+	flux->lc[grid->m] = clear * mass->stm;
+	flux->lr[grid->m] = clear * mass->rot;
 	/* stable carbon isotope */
 	flux->d13c_lf[grid->m] = mass->d13c_fol;
 	flux->d13c_lc[grid->m] = mass->d13c_stm;
@@ -215,9 +215,9 @@ void harvesting(
 	f_leaf_age(0, pchar, mass, -flux->lf[grid->m]);
 
 	/* photosynthesis, gross primary production */
-	flux->gpp[grid->m] = nn*fgpp(grid, loct, pchar, mass);
+	flux->gpp[grid->m] = nn * fgpp(grid, loct, pchar, mass);
 	/* stable carbon isotope */
-	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m]-pchar->photo_13c_frac[grid->m];
+	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m] - pchar->photo_13c_frac[grid->m];
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
@@ -242,7 +242,7 @@ void harvesting(
 	}
 	
 	/* translocation of photosynthate */
-	allocation(grid, pchar, mass, flux);
+	allocation(grid, loct, pchar, mass, flux);
 	/* stable carbon isotope */
 	flux->d13c_tpf[grid->m] = flux->d13c_gpp[grid->m];
 	flux->d13c_tpc[grid->m] = flux->d13c_gpp[grid->m];
@@ -264,29 +264,29 @@ void harvesting(
 	flux->d13c_rrg[grid->m] = flux->d13c_tpr[grid->m];
 	
 	/* partitioning of photosynthate */
-	mass->fol += (flux->tpf[grid->m]-flux->rfg[grid->m]);
-	mass->stm += (flux->tpc[grid->m]-flux->rcg[grid->m]);
-	mass->rot += (flux->tpr[grid->m]-flux->rrg[grid->m]);
+	mass->fol += (flux->tpf[grid->m] - flux->rfg[grid->m]);
+	mass->stm += (flux->tpc[grid->m] - flux->rcg[grid->m]);
+	mass->rot += (flux->tpr[grid->m] - flux->rrg[grid->m]);
 	
 	f_leaf_age(0, pchar, mass, flux->tpf[grid->m]-flux->rfg[grid->m]);
 	
 	/* stable carbon isotope */
-	if((flux->tpf[grid->m]-flux->rfg[grid->m])>0.0){
+	if((flux->tpf[grid->m]-flux->rfg[grid->m]) > 0.0){
 		mass->d13c_fol = d13c_addition(mass->d13c_fol, mass->fol, 
-			flux->d13c_tpf[grid->m], (flux->tpf[grid->m]-flux->rfg[grid->m]));
-	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
+			flux->d13c_tpf[grid->m], (flux->tpf[grid->m] - flux->rfg[grid->m]));
+	}else if((flux->tpf[grid->m]-flux->rfg[grid->m]) < 0.0){
 		mass->d13c_fol = mass->d13c_fol;
 	}
-	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
+	if((flux->tpc[grid->m]-flux->rcg[grid->m]) > 0.0){
 		mass->d13c_stm = d13c_addition(mass->d13c_stm, mass->stm, 
-			flux->d13c_tpc[grid->m], (flux->tpc[grid->m]-flux->rcg[grid->m]));
-	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
+			flux->d13c_tpc[grid->m], (flux->tpc[grid->m] - flux->rcg[grid->m]));
+	}else if((flux->tpf[grid->m]-flux->rfg[grid->m]) < 0.0){
 		mass->d13c_stm = mass->d13c_stm;
 	}
-	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
+	if((flux->tpc[grid->m]-flux->rcg[grid->m]) > 0.0){
 		mass->d13c_rot = d13c_addition(mass->d13c_rot, mass->rot, 
-			flux->d13c_tpr[grid->m], (flux->tpr[grid->m]-flux->rrg[grid->m]));
-	}else if((flux->tpr[grid->m]-flux->rrg[grid->m])<0.0){
+			flux->d13c_tpr[grid->m], (flux->tpr[grid->m] - flux->rrg[grid->m]));
+	}else if((flux->tpr[grid->m]-flux->rrg[grid->m]) < 0.0){
 		mass->d13c_rot = mass->d13c_rot;
 	}
 }
@@ -323,7 +323,7 @@ void interval(
 	/* photosynthesis, gross primary production */
 	flux->gpp[grid->m] = nn*fgpp(grid, loct, pchar, mass);
 	/* stable carbon isotope */
-	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m]-pchar->photo_13c_frac[grid->m];
+	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m] - pchar->photo_13c_frac[grid->m];
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
@@ -334,7 +334,7 @@ void interval(
 	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
 	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
 	flux->rrm[grid->m] = nn*frrm(grid, pchar, mass);
-	flux->arm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m]+flux->rrm[grid->m];
+	flux->arm[grid->m] = flux->rfm[grid->m] + flux->rcm[grid->m] + flux->rrm[grid->m];
 	/* stable carbon isotope */
 	flux->d13c_rfm[grid->m] = mass->d13c_fol;
 	flux->d13c_rcm[grid->m] = mass->d13c_stm;
@@ -342,20 +342,20 @@ void interval(
 	
 	/* tentative primary production */	
 	if(DF97==1){
-		flux->epp[grid->m] = flux->gpp_df97[grid->m]-flux->arm[grid->m];
+		flux->epp[grid->m] = flux->gpp_df97[grid->m] - flux->arm[grid->m];
 	}else{
-		flux->epp[grid->m] = flux->gpp[grid->m]-flux->arm[grid->m];
+		flux->epp[grid->m] = flux->gpp[grid->m] - flux->arm[grid->m];
 	}
 	
 	/* translocation of photosynthate */
-	allocation(grid, pchar, mass, flux);
+	allocation(grid, loct, pchar, mass, flux);
 	/* stable carbon isotope */
 	flux->d13c_tpf[grid->m] = flux->d13c_gpp[grid->m];
 	flux->d13c_tpc[grid->m] = flux->d13c_gpp[grid->m];
 	flux->d13c_tpr[grid->m] = flux->d13c_gpp[grid->m];
 	flux->d13c_tpp[grid->m] = flux->d13c_gpp[grid->m];
 
-	if(flux->epp[grid->m]>0.0){
+	if(flux->epp[grid->m] > 0.0){
 		/* growth construction respiration */
 		flux->rfg[grid->m] = frfg(grid, pchar, flux);
 		flux->rcg[grid->m] = frcg(grid, pchar, flux);
@@ -379,19 +379,19 @@ void interval(
 	if((flux->tpf[grid->m]-flux->rfg[grid->m])>0.0){
 		mass->d13c_fol = d13c_addition(mass->d13c_fol, mass->fol, 
 			flux->d13c_tpf[grid->m], (flux->tpf[grid->m]-flux->rfg[grid->m]));
-	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
+	}else if((flux->tpf[grid->m]-flux->rfg[grid->m]) < 0.0){
 		mass->d13c_fol = mass->d13c_fol;
 	}
 	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
 		mass->d13c_stm = d13c_addition(mass->d13c_stm, mass->stm, 
 			flux->d13c_tpc[grid->m], (flux->tpc[grid->m]-flux->rcg[grid->m]));
-	}else if((flux->tpf[grid->m]-flux->rfg[grid->m])<0.0){
+	}else if((flux->tpf[grid->m]-flux->rfg[grid->m]) < 0.0){
 		mass->d13c_stm = mass->d13c_stm;
 	}
 	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
 		mass->d13c_rot = d13c_addition(mass->d13c_rot, mass->rot, 
 			flux->d13c_tpr[grid->m], (flux->tpr[grid->m]-flux->rrg[grid->m]));
-	}else if((flux->tpr[grid->m]-flux->rrg[grid->m])<0.0){
+	}else if((flux->tpr[grid->m]-flux->rrg[grid->m]) < 0.0){
 		mass->d13c_rot = mass->d13c_rot;
 	}
 }

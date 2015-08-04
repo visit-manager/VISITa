@@ -52,12 +52,12 @@ void c34composition(
 					loct->c3ptn[f] = 1.0;
 			}
 		}
-	}else if(v_type==2){ /* crop */
+	}else if(v_type == 2){ /* crop */
 		for(f=0;f<ASTEP;f++){
-			if(grid->veg_crop==1 || grid->veg_crop==2){
+			if(grid->veg_crop == 1 || grid->veg_crop == 2){
 				loct->c4ptn[f] = 0.0;
 				loct->c3ptn[f] = 1.0;
-			}else if(grid->veg_crop==3){
+			}else if(grid->veg_crop == 3){
 				loct->c4ptn[f] = 1.0;
 				loct->c3ptn[f] = 0.0;
 			}

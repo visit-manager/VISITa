@@ -21,9 +21,9 @@ void mortality(
 	/* larger at warm, and smaller at cool */
 	bbb = 1.0 + (grid->tmp_sfc[grid->m] - grid->tmp_sfc_am)/100.0;
 	
-	pchar->lf[grid->m] = pchar->lf0*bbb; /* leaf */
-	pchar->lc[grid->m] = pchar->lc0*bbb; /* stem */
-	pchar->lr[grid->m] = pchar->lr0*bbb; /* root */
+	pchar->lf[grid->m] = pchar->lf0 * bbb; /* leaf */
+	pchar->lc[grid->m] = pchar->lc0 * bbb; /* stem */
+	pchar->lr[grid->m] = pchar->lr0 * bbb; /* root */
 }
 
 /* from foliage *******************************************************/
@@ -35,7 +35,7 @@ double flf(
 	double lf;
 	
 	/* constant fraction of senescence organ, abandoned as litter */
-	lf = veg->lf[grid->m]*mass->fol;
+	lf = veg->lf[grid->m] * mass->fol;
 	
 	return(lf);
 }
@@ -49,7 +49,7 @@ double flc(
 	double lc;
 	
 	/* constant fraction of senescence organ, abandoned as litter */
-	lc = veg->lc[grid->m]*mass->stm;
+	lc = veg->lc[grid->m] * mass->stm;
 	
 	return(lc);
 }
@@ -63,7 +63,7 @@ double flr(
 	double lr;
 	
 	/* constant fraction of senescence organ, abandoned as litter */
-	lr = veg->lr[grid->m]*mass->rot;
+	lr = veg->lr[grid->m] * mass->rot;
 	
 	return(lr);
 }

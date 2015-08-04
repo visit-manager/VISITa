@@ -38,18 +38,20 @@ void f_clear(
 		
 		loct->gl_rad_g[f] = 0.0;
 		loct->rad_net_g[f] = loct->rad_net_p[f] = 0.0;
-        loct->fapar_mono[f] = loct->fapar_df[f] = loct->apar_d[f] = loct->appfd_d[f] = 0.0;
+        loct->appfd_g[f] = loct->fappfd_g[f] = 0.0;
 		loct->rad_net_long[f] = loct->albedo_sfc[f] = 0.0;
 		loct->gd[f] = 0;
 		loct->gdd[f] = 0.0;
 		loct->prsr[f] = loct->dnsa[f] = loct->dnsa[f] = 0.0;
 		loct->vp[f] = loct->vps[f] = loct->vpd[f] = 0.0;
 		loct->slope_vps[f] = loct->r_aero[f] = 0.0;
-		loct->pm_evp[f] = loct->pm_trn[f] = loct->evpr[f] = loct->trspr[f] = 0.0;
+		loct->pm_evp[f] = loct->pm_trn[f] = loct->pm_incep[f] = 0.0;
+        loct->evpr[f] = loct->trspr[f] = loct->incep[f] = 0.0;
 		loct->ro1[f] = loct->ro2[f] = loct->msnwa[f] = 0.0;
 		loct->msww[f] = loct->msw30[f] = loct->snp[f] = 0.0;
 		loct->snp[f] = loct->thaw[f] = 0.0;
 		loct->vmc30[f] = loct->vmc[f] = 0.0;
+		loct->npp_av[f] = 0.0;
 		
 		(echar->c3).mgdd[f] = (echar->c4).mgdd[f] = 0.0;
 		(echar->c3).season[f] = (echar->c4).season[f] = 0;
@@ -90,6 +92,7 @@ void f_clear(
 	}
     
     grid->tmp_base_permaforst = 0.0;
+    grid->tmp_soil_am = 0.0;
 }
 
 /* make plant fluxes vacant ***************************/
@@ -156,6 +159,19 @@ void ghg_flux_zero(
 	flux->erod_orgmat = 0.0;
 	flux->erod_carbon = 0.0;
 	flux->hvst_wood = 0.0; 
+
+	flux->voc_acetacd_g97[month] = 0.0;
+	flux->voc_acetone_g97[month] = 0.0;
+	flux->voc_actaldhd_g97[month] = 0.0;
+	flux->voc_afarnesene[month] = 0.0;
+	flux->voc_bcaryophyllene[month] = 0.0;
+	flux->voc_co_g97[month] = 0.0;
+	flux->voc_formacd_g97[month] = 0.0;
+	flux->voc_frmardhd_g97[month] = 0.0;
+	flux->voc_isopr_g97[month] = 0.0;
+	flux->voc_methanl_g97[month] = 0.0;
+	flux->voc_monotrp_g97[month] = 0.0;
+	flux->voc_othersesqui[month] = 0.0;
 
 	(flux->c3).n_biofix[month] = 0.0;			
 	(flux->c3).uptake_no3[month] = 0.0;			

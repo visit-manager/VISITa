@@ -57,6 +57,7 @@ struct Grid{
 	long 	phase;					/* simulation phase: 0-spinup, 1-past, 2-future */
 	long 	y;						/* calculation time from the simulation onset, in year */
 	long 	m;						/* month of the year, from Jan. to Dec., 0 to 11 */
+    long    h;
 	
 	/* atmospheric condition ***********/
 	long 	co2y;					/* year for CO2 level estimation */
@@ -67,6 +68,8 @@ struct Grid{
 
 	/* climate condition: *[] means the transitional value */
 	long 	climy;					/* year of climate data */
+    
+    long    lucy;                   /* year of land-use data: 2014/09/11 by A.Ito */
 	
 	double 	tmp_sfc[ASTEP];			/* ground surface temperature, degree Celcius */
 	double 	tmp_2m[ASTEP];			/* 2m air temperature, degree Celcius */
@@ -98,6 +101,8 @@ struct Grid{
 	double	vgrd_10m_a[ASTEP];		/* meridional wind velocity, m s-1 */
 	double 	rad_a[ASTEP];			/* solar radiation, W m-2 */
 	double 	par_a[ASTEP];			/* PAR, micro mol m-2 s-1 */
+    
+    double 	tmp_soil_am;
 	
 	double 	prec_sub_a[ASTEP];		/* precipitation from substitute data (UEA/CRU), mm mon-1 */
 
@@ -294,12 +299,19 @@ struct Grid{
 	/* nitrogen deposition */
 	double 	ndepo[3];					/* N deposition by Galloway et al. (2004) */
 	
-	/* CHASE 2001 monthly, by A.Ito (2010/05/21) */
+	/* CHASER 2001 monthly, by A.Ito (2010/05/21) */
 	double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
 	double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
 	double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
 	double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
-	double	ndepo_ann_dnhx, ndepo_ann_dnoy, ndepo_ann_wnhx, ndepo_ann_wnoy;
+
+	/* CHASER4.0 monthly, by A.Ito (2014/11/19) */
+	double	ndepo_chaser4_nhx_h[ASTEP][64][128];		/* NHx */
+	double	ndepo_chaser4_noy_h[ASTEP][64][128];		/* NOy */
+	double	ndepo_chaser4_ont_h[ASTEP][64][128];		/* Org NOx */
+	double	ndepo_chaser4_nhx_p[ASTEP][64][128];		/* NHx */
+	double	ndepo_chaser4_noy_p[ASTEP][64][128];		/* NOy */
+	double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
 	
 	/* radiation conversion model using SRB data */
 	double	srb_dif_aa;					/* linear regression a */
@@ -313,6 +325,9 @@ struct Grid{
 	double	inundation_ssmi[ASTEP];		/* inundation by SSM/I: added by A.Ito (2009/07/13) */
 	double	inundation_ssmi_av;
 	double	inundation_ssmi_max;
+    
+    double  inundation_gcp_av[ASTEP];
+    double  inundation_gcp_ts[15][ASTEP];
 	
 	long	type_permaforst;			/* permafrost type by NSIDC */
     double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
@@ -320,9 +335,9 @@ struct Grid{
 
 /* grid conditions, derived from submodules *******************************************/
 struct Loct{ 
-	short	v_type;				/* vegetation classification types */
-								/* 1: Olson+SAGE natural vegetation */
-								/* 2: agricultural vegetation */
+	short	v_type;                     /* vegetation classification types */
+                                        /* 1: Olson+SAGE natural vegetation */
+                                        /* 2: agricultural vegetation */
 	
 	long 	time_hyd;					/* time to reach stabilization of water budget */
 	long 	time;						/* time to reach stabilization of carbon budget */
@@ -336,6 +351,8 @@ struct Loct{
 	double	c3ptn[ASTEP];				/* ground coverage of C3 plants, fraction */
 	long	gd[ASTEP], bbm;				/* vegetative growing period, days */
 	double	gdd[ASTEP];				 	/* cumulative growth degree days, degC days */
+    
+    double  est_maxlai;                 /* estimated max.LAI: 2014/05/20 by A.Ito */
 	
 	double	albedo_sfc[ASTEP];			/* land-surface albedo */
 	double	gl_rad_g[ASTEP];			/* global radiation under the canopy, W m-2 */
@@ -348,12 +365,16 @@ struct Loct{
     
     /* added: 2013/01/10 by A.Ito */
     double  grad_d[ASTEP];              /* daily average downward SW radiation, W m-2 */
-    double  nrad_d[ASTEP];              /* daily average net SW radiation, W m-2 */
-	
-	double	fapar_mono[ASTEP];			
+    double  nsw_d[ASTEP];               /* daily average net SW radiation, W m-2 */
+ 	
+    double  ppfd_h[DSTEP];
+    double  ppfdb_h[DSTEP];
+    double  ppfdd_h[DSTEP];
+
+    double  ippfd_g[ASTEP];
+    double  appfd_g[ASTEP];
+	double	fappfd_g[ASTEP];
 	double	fapar_df[ASTEP];
-    double  apar_d[ASTEP];
-    double  appfd_d[ASTEP];
 
 	double	pet_prty[ASTEP];			/* Priestley-Taylor potential evapotranspiration, mm month-1 */
 	double	pet_prty_ann;				/* annual Priestley-Taylor potential evapotranspiration, mm yr-1 */
@@ -378,6 +399,9 @@ struct Loct{
 	double	msw30[ASTEP];				/* monthly */
 	double	sww;						/* whole soil water content, mm */
 	double	msww[ASTEP];				/* monthly */
+    
+    double  b_sw30[ASTEP];              /* baseline soil water, 0-30cm */
+    double  b_sww[ASTEP];               /* baseline soil water, 30-cm */
 
 	/* water fluxes, mm / month */
 	double	pm_evp[ASTEP];				/* potential soil evaporation rate, mm */
@@ -420,6 +444,7 @@ struct Loct{
 	
 	/* maximum GPP for Cao CH4 scheme */
 	double	gpp_max;						/* maximum GPP */
+    double  npp_av[ASTEP];
 	
 	/* CH4 emission by Walter & Heimann: added by A.Ito (2009/08/05) */
 	double	water_table_depth;				/* current time-step */
@@ -438,7 +463,8 @@ struct Loct{
 	double	xx6[ASTEP];
 	double	xx7[ASTEP];
 	double	xx8[ASTEP];
-};			
+	double	xx9[ASTEP];
+};
 
 /* vegetation characteristics ****************************************************/
 struct Pchar{ 
@@ -451,6 +477,9 @@ struct Pchar{
 	double	apar_bp[ASTEP];			/* absorbed PAR photon, beam, micro mol photon m-2 s-1 */
 	double	apar_dp[ASTEP];			/* absorbed PAR photon, diffuse, micro mol photon m-2 s-1 */
 	double	fapar[ASTEP];			/* fraction of absorbed PAR */
+
+    double  ppfd_db[ASTEP];
+    double  appfd_db[ASTEP];
 
 	/* allocation *********/
 	double	opt_lai[ASTEP];			/* optimum leaf area index */
@@ -489,7 +518,7 @@ struct Pchar{
 	/* critical temperature condiction for bur burst and leaf shedding */
 	double	crit_temp;
 	double	crit_gdd;
-	
+    
 	/* photosynthesis *******/
 	short	phototype;				/** photosynthetic metabolic pathway, 3=C3, 4=C4, 5=CAM **/
 	/*  veg->psat[grid->m] = veg->pmax*ftem*fstl*fnstl   */
@@ -986,6 +1015,10 @@ struct Flux{
 	double	voc_formacd_g97[ASTEP];				/* formacid */
 	double	voc_acetacd_g97[ASTEP];				/* acetoacid */
 	double	voc_co_g97[ASTEP];					/* CO */
+    /* added 2014/09/11 by A.Ito */
+	double	voc_afarnesene[ASTEP];			/* alpha-Farnesene */
+	double	voc_bcaryophyllene[ASTEP];		/* beta-Caryophyllene */
+	double	voc_othersesqui[ASTEP];			/* other sesquiterpenes */
 	
 	/* stable carbon isotope composition, d13C, permille */
 	double	d13c_nep[ASTEP];					/* NEP */

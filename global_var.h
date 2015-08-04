@@ -23,11 +23,14 @@ struct Mass mass_agr;
 struct Flux flux_agr;
 
 /* global variables ********************************************/
-/* GCM variables ************/
-long GCM, CO2S, GCM_R, GCM_C; /* */
-long PARAM_PTB; /* added by A.Ito (2010/05/10) */
+
+double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0};
+
+/* experimental variables ************/
+long GCM_ID, CO2S, GCM_R, GCM_C; /* */
+long PARAM_PTB, PARAM_ENS; /* added by A.Ito (2010/05/10) */
 long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
-long EX_SRM;
+long EX_SRM, EX_CCPL;
 /* experiment: geoengeneering, solar radiation management *********/
 /* EX SRM: 2013/06/04 by A.Ito *******************/
 /* 0: off */
@@ -41,7 +44,8 @@ long EX_SRM;
 /* 13: surface radiation -6.0 W m-2 */
 /* 14: surface radiation -8.5 W m-2 */
 
-double f_pert[20];
+/* perturbation term */
+double f_pert[NPERT];
 
 /* atm. GHG scenario */
 double aco2_a1[DL_AGHG], aco2_a2[DL_AGHG], aco2_b1[DL_AGHG], aco2_b2[DL_AGHG];
@@ -66,7 +70,7 @@ double h_trnsp[PD_SIM], h_incepev[PD_SIM], h_ssurfev[PD_SIM];
 double h_nbp[PD_SIM], h_hvst[PD_SIM], h_abgm[PD_SIM];
 double h_sw1[PD_SIM], h_sw2[PD_SIM];
 double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
-double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM];
+double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
 double h_parb[PD_SIM], h_pard[PD_SIM];
 double h_arm[PD_SIM];
 
@@ -96,8 +100,9 @@ double h_n_fertin[PD_SIM], h_n_depoin[PD_SIM]; /* added by A.Ito (2010/05/02) */
 double h_voc_isopr_g97[PD_SIM], h_voc_monotrp_g97[PD_SIM], h_voc_methanl_g97[PD_SIM];
 double h_voc_acetone_g97[PD_SIM], h_voc_actaldhd_g97[PD_SIM], h_voc_frmardhd_g97[PD_SIM];
 double h_voc_formacd_g97[PD_SIM], h_voc_acetacd_g97[PD_SIM], h_voc_co_g97[PD_SIM];
+double h_voc_afarnesene[PD_SIM], h_voc_bcaryophyllene[PD_SIM], h_voc_othersesqui[PD_SIM];
 
-double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM];
+double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM], h_deforest[PD_SIM];
 
 double ci_aco2[PD_SIM], ci_aco2_d13c[PD_SIM], ci_aco2_d14c[PD_SIM];
 double ci_gpp[PD_SIM], ci_gpp_d13c[PD_SIM], ci_gpp_d14c[PD_SIM];
@@ -114,26 +119,26 @@ double hm_ch4_wh[PD_SIM][ASTEP];
 double hm_inund[PD_SIM][ASTEP];
 
 /* regional historical */
-double rh_area[NREG];
-double rh_temp[NREG][PD_SIM], rh_prec[NREG][PD_SIM], rh_dswrf[NREG][PD_SIM];
-double rh_rns[NREG][PD_SIM], rh_rnl[NREG][PD_SIM];
-double rh_ipar[NREG][PD_SIM], rh_apar[NREG][PD_SIM];
-double rh_gpp[NREG][PD_SIM], rh_npp[NREG][PD_SIM], rh_nep[NREG][PD_SIM];
-double rh_evpr[NREG][PD_SIM], rh_trsp[NREG][PD_SIM], rh_incp[NREG][PD_SIM], rh_rnof[NREG][PD_SIM];
+double rh_area[N_REG];
+double rh_temp[N_REG][PD_SIM], rh_prec[N_REG][PD_SIM], rh_dswrf[N_REG][PD_SIM];
+double rh_rns[N_REG][PD_SIM], rh_rnl[N_REG][PD_SIM];
+double rh_ipar[N_REG][PD_SIM], rh_apar[N_REG][PD_SIM];
+double rh_gpp[N_REG][PD_SIM], rh_npp[N_REG][PD_SIM], rh_nep[N_REG][PD_SIM];
+double rh_evpr[N_REG][PD_SIM], rh_trsp[N_REG][PD_SIM], rh_incp[N_REG][PD_SIM], rh_rnof[N_REG][PD_SIM];
 
 /* added by A.Ito (2009/11/15) */
-double rh_hvst[NREG][PD_SIM], rh_luc[NREG][PD_SIM];
-double rh_ch4ox_curry[NREG][PD_SIM], rh_ch4emit_wh_wet[NREG][PD_SIM], rh_ch4emit_wh_paddy[NREG][PD_SIM];
-double rh_n2o_emit_ngas[NREG][PD_SIM], rh_n2o_emitagr_ngas[NREG][PD_SIM];
+double rh_hvst[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
+double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
+double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
 
 /* added by A.Ito (2009/09/30) */
-double rh_ci_gpp[NREG][PD_SIM], rh_ci_gpp_d13c[NREG][PD_SIM], rh_ci_gpp_d14c[NREG][PD_SIM];
-double rh_ci_er[NREG][PD_SIM], rh_ci_er_d13c[NREG][PD_SIM], rh_ci_er_d14c[NREG][PD_SIM];
-double rh_ci_f[NREG][PD_SIM], rh_ci_f_d13c[NREG][PD_SIM], rh_ci_f_d14c[NREG][PD_SIM];
-double rh_ci_c[NREG][PD_SIM], rh_ci_c_d13c[NREG][PD_SIM], rh_ci_c_d14c[NREG][PD_SIM];
-double rh_ci_r[NREG][PD_SIM], rh_ci_r_d13c[NREG][PD_SIM], rh_ci_r_d14c[NREG][PD_SIM];
-double rh_ci_l[NREG][PD_SIM], rh_ci_l_d13c[NREG][PD_SIM], rh_ci_l_d14c[NREG][PD_SIM];
-double rh_ci_h[NREG][PD_SIM], rh_ci_h_d13c[NREG][PD_SIM], rh_ci_h_d14c[NREG][PD_SIM];
+double rh_ci_gpp[N_REG][PD_SIM], rh_ci_gpp_d13c[N_REG][PD_SIM], rh_ci_gpp_d14c[N_REG][PD_SIM];
+double rh_ci_er[N_REG][PD_SIM], rh_ci_er_d13c[N_REG][PD_SIM], rh_ci_er_d14c[N_REG][PD_SIM];
+double rh_ci_f[N_REG][PD_SIM], rh_ci_f_d13c[N_REG][PD_SIM], rh_ci_f_d14c[N_REG][PD_SIM];
+double rh_ci_c[N_REG][PD_SIM], rh_ci_c_d13c[N_REG][PD_SIM], rh_ci_c_d14c[N_REG][PD_SIM];
+double rh_ci_r[N_REG][PD_SIM], rh_ci_r_d13c[N_REG][PD_SIM], rh_ci_r_d14c[N_REG][PD_SIM];
+double rh_ci_l[N_REG][PD_SIM], rh_ci_l_d13c[N_REG][PD_SIM], rh_ci_l_d14c[N_REG][PD_SIM];
+double rh_ci_h[N_REG][PD_SIM], rh_ci_h_d13c[N_REG][PD_SIM], rh_ci_h_d14c[N_REG][PD_SIM];
 
 /* monthly mean results **********/
 double m_ch4ox1[ASTEP], m_ch4ox2[ASTEP], m_ch4ox3[ASTEP];
@@ -144,15 +149,13 @@ double m_ch4p_cao[ASTEP], m_ch4p_wh[ASTEP];
 
 /* vegetation (olson) mean results */
 double go_landarea, gs_landarea;
-double vo_area[34];
-double vo_gpp[34], vo_npp[34], vo_nep[34];
-double vo_lai[34], vo_fol[34], vo_stm[34], vo_rot[34], vo_ltr[34], vo_msl[34];
+double vo_area[NVEG_OLSON];
+double vo_gpp[NVEG_OLSON], vo_npp[NVEG_OLSON], vo_nep[NVEG_OLSON];
+double vo_lai[NVEG_OLSON], vo_fol[NVEG_OLSON], vo_stm[NVEG_OLSON], vo_rot[NVEG_OLSON], vo_ltr[NVEG_OLSON], vo_msl[NVEG_OLSON];
 /* vegetation (SAGE) mean results */
-double vs_area[16];
-double vs_gpp[16], vs_npp[16], vs_nep[16];
-double vs_lai[16], vs_fol[16], vs_stm[16], vs_rot[16], vs_ltr[16], vs_msl[16];
-
-double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0};
+double vs_area[NVEG_SAGE];
+double vs_gpp[NVEG_SAGE], vs_npp[NVEG_SAGE], vs_nep[NVEG_SAGE];
+double vs_lai[NVEG_SAGE], vs_fol[NVEG_SAGE], vs_stm[NVEG_SAGE], vs_rot[NVEG_SAGE], vs_ltr[NVEG_SAGE], vs_msl[NVEG_SAGE];
 
 /* 0: 1950s */
 /* 1: 1990s */
@@ -221,11 +224,15 @@ float g_ch4ew_wh[5][N_ROW][N_COL];
 float gm_ch4ep_wh[12][N_ROW][N_COL];
 #endif
 
+double glat_area[N_ROW];
+double glat_gpp[ASTEP][N_ROW],glat_npp[ASTEP][N_ROW],glat_nep[ASTEP][N_ROW];
+double glat_ch4_cao[ASTEP][N_ROW], glat_ch4_wh[ASTEP][N_ROW];
+
 /* float gs_gpp_1[12][N_ROW][N_COL], gs_gpp_2[12][N_ROW][N_COL], gs_gpp_3[12][N_ROW][N_COL];
 float gs_ipar_1[12][N_ROW][N_COL], gs_ipar_2[12][N_ROW][N_COL], gs_ipar_3[12][N_ROW][N_COL];
 float gs_ipard_1[12][N_ROW][N_COL], gs_ipard_2[12][N_ROW][N_COL], gs_ipard_3[12][N_ROW][N_COL]; */
 
-short RAD_SENS;
+short SENS_RAD;
 /* 0: control */
 /* 1: +10 diffuse PAR fraction */
 /* 2: -10 diffuse PAR fraction */

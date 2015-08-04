@@ -24,24 +24,24 @@ void f_co2_trend(
 	/** time of CO2 level  **/
 	time = (double)(grid->co2y);
 	
-	/** BASE **/
-    if(ISIMIP_RUN == 0){
-        if(time<1990.0){
+    if(ISIMIP_RUN == 0 && GEOMIP_RUN == 0){
+        /** BASE **/
+        if(time < 1990.0){
             /* fitting curve from observational data */
             aa0 = 1904299.0;
-            aa1 = -3322.4242*pow(time, 1.0);
-            aa2 = 1.6541596*pow(time, 2.0);
-            aa3 = 1.3362655*pow(time, 3.0)/10000.0;
-            aa4 = -3.0828809*pow(time, 4.0)/10000000.0;
-            aa5 = 6.2121261*pow(time, 5.0)/100000000000.0;
-            base = aa0+aa1+aa2+aa3+aa4+aa5;
+            aa1 = -3322.4242 * pow(time, 1.0);
+            aa2 = 1.6541596 * pow(time, 2.0);
+            aa3 = 1.3362655 * pow(time, 3.0)/10000.0;
+            aa4 = -3.0828809 * pow(time, 4.0)/10000000.0;
+            aa5 = 6.2121261 * pow(time, 5.0)/100000000000.0;
+            base = aa0 + aa1 + aa2 + aa3 + aa4 + aa5;
 
             /** INC **/
-            inc = (-52.11 + 0.026984*time)*((double)(grid->m)-5.5)/12.0;
+            inc = (-52.11 + 0.026984 * time)*((double)(grid->m) - 5.5)/12.0;
             inc = (inc>=0.0)?inc:0.0;
-        }else if(time>=1990.0 && time<=2100.0){
+        }else if(time >= 1990.0 && time <= 2100.0){
             /* IPCC SRES scenarios */
-            if(CC_CD==0 && time>=2001.0){
+            if(CC_CD == 0 && time >= 2001.0){
                 /* constant CO2 level */
                 base = sres_co2[11];
             }else{
@@ -50,32 +50,63 @@ void f_co2_trend(
             
             inc = 0.0;
         }
-    }else if(ISIMIP_RUN == 1){
+    }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3 || GEOMIP_RUN == 1){
+        /** ISI-MIP or GeoMIP runs **/
         switch(CO2S){
             case 1:
-                base = aco2_b1[grid->co2y-1765];
+                base = aco2_b1[grid->co2y - BGY_AGHG];
                 break;
             case 2:
-                base = aco2_b2[grid->co2y-1765]; /* corercted: 2012/08/06 */
+                base = aco2_b2[grid->co2y - BGY_AGHG]; /* corrected: 2012/08/06 */
                 break;
             case 3:
-                base = aco2_a1[grid->co2y-1765]; /* corercted: 2012/08/06 */
+                base = aco2_a1[grid->co2y - BGY_AGHG]; /* corrected: 2012/08/06 */
                 break;
             case 4:
-                base = aco2_a2[grid->co2y-1765]; /* corercted: 2012/08/06 */
+                base = aco2_a2[grid->co2y - BGY_AGHG]; /* corrected: 2012/08/06 */
                 break;
+        }
+    }else{
+        printf("BAD experimental setting!!\n");
+    }
+    
+    /* assuming SRM + CDR : 2014/06/18 by A.Ito */
+    if(GEOMIP_RUN == 1 && CC_CD == 3){
+        if(grid->co2y > 2020){
+        
+            switch(CO2S){
+                case 1:
+                    base = aco2_b1[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
+                    break;
+                case 2:
+                    base = aco2_b2[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
+                    break;
+                case 3:
+                    base = aco2_a1[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
+                    break;
+                case 4:
+                    base = aco2_a2[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
+                    break;
+            }
+        }
+    }
+    
+    if(GEOMIP_RUN == 1 && CC_CD == 4){
+        /* cap at 450ppmv CO2: guardrail for ocean acidification */
+        if(base > 450.0){
+            base = 450.0;
         }
     }
 
 	/** latitudinal gradient **/
-	lgrd = 1.6*(grid->lat/85.0);
+	lgrd = 1.6*(grid->lat / 85.0);
 
 	/** seasonal change **/
 	amplitude = exp(0.04 * grid->lat);
 	if(grid->lat >= 0.0){
-		season = amplitude/2.0*sin(((double)(grid->m) - 0.0)/12.0*2.0*PI);
+		season = amplitude/2.0 * sin(((double)(grid->m) - 0.0)/12.0*2.0*PI);
 	}else{   /*  if(grid->lat<0.0) */
-		season = amplitude/2.0*sin(((double)(grid->m) + 6.0)/12.0*2.0*PI);
+		season = amplitude/2.0 * sin(((double)(grid->m) + 6.0)/12.0*2.0*PI);
 	}
 	
 	/*  grid->bco2[grid->m]=base+lgrd+season;   */
@@ -107,10 +138,10 @@ void co2_in_canopy(
 	/* CO2 concentration */
 	loct->aco2[grid->m] = grid->bco2[grid->m];
 	/* d13C - CO2 */
-	closure_factor = 1.5 * 0.75*mass->lai_p/(1.5 + 0.75*mass->lai_p);
-	source_factor = 2.0 * 0.5*flux->efflux_p/(2.0 + 0.5*flux->efflux_p);
+	closure_factor = 1.5 * 0.75 * mass->lai_p/(1.5 + 0.75 * mass->lai_p);
+	source_factor = 2.0 * 0.5 * flux->efflux_p/(2.0 + 0.5 * flux->efflux_p);
 	
-	loct->cnpy_co2_recyc = 0.2*closure_factor*source_factor;  
+	loct->cnpy_co2_recyc = 0.2 * closure_factor * source_factor;
 	/*  0.3  011017  */  /*  0.1  011020  */  /*  0.5  011022  */
 	
 	if(loct->cnpy_co2_recyc>=0.0 && loct->cnpy_co2_recyc<=0.3){

@@ -18,30 +18,62 @@ void f_ecophysiology(
 	struct Pchar *pchar, 
 	struct Pmas *mass
 ){
-	long g;
+	long f, g;
 	double aaa, bbb;
 	double sinb, ke_b1, ke_b2, irr_b, rfl_b, apar, fapar, eff_k;
+    double appfdb, appfdd, hangle;
 	
 	/* give leaf area index (LAI), m2 m-2*/
 	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
-	
-	/* canopy radiation absorption */
+    
+    /* for GEOMIP fapar estimation: 2015/02/25 by A.Ito */
+    pchar->ppfd_db[grid->m] = pchar->appfd_db[grid->m] = 0.0;
+    for(f=0;f<DSTEP;f++){
+        hangle = -180.0 + ((double)f+0.5)*15.0;
+    
+        /* canopy radiation absorption */
+        sinb = sin(grid->lat*dTr) * sin(grid->sl_dec[grid->m]*dTr)
+                + cos(grid->lat*dTr) * cos(grid->sl_dec[grid->m]*dTr) * cos(hangle*dTr);
+        sinb = (sinb<=1.0)?sinb:1.0; 
+        sinb = (sinb>=-1.0)?sinb:-1.0;
+        
+        if(sinb>0.0 && loct->ppfd_h[f]>0.0 && mass->lai[grid->m]>0.0){
+            ke_b1 = 0.5 / sinb;
+            ke_b2 = 0.46 / sinb;
+            irr_b = (1.0 - sqrt(1.0 - 0.15))/(1.0 + sqrt(1.0 - 0.15));
+            rfl_b = 1.0 - exp(-2.0 * irr_b * ke_b1)/(1.0 + ke_b1);
+            
+            appfdb = (1.0 - rfl_b)* loct->ppfdb_h[f] * (1.0 - exp(-ke_b2 * mass->lai[grid->m]));
+            appfdd = (1.0 - 0.036)* loct->ppfdd_h[f] * (1.0 - exp(-0.719 * mass->lai[grid->m]));
+            
+            apar = appfdb + appfdd;
+            fapar = apar / loct->ppfd_h[f];
+        }else{
+            apar = fapar = 0.0;
+        }
+        
+        pchar->ppfd_db[grid->m] += loct->ppfd_h[f] * 3600.0 / 1000000.0;
+        pchar->appfd_db[grid->m] += apar * 3600.0 / 1000000.0;
+    }
+    
+	/* for monthly simulation ***********************/
+	/* midday canopy radiation absorption  */
 	sinb = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr) 
 			+ cos(grid->lat*dTr)*cos(grid->sl_dec[grid->m]*dTr)*1.0;
 	sinb = (sinb<=1.0)?sinb:1.0; 
 	sinb = (sinb>=-1.0)?sinb:-1.0;
 	
 	if(sinb>0.0 && grid->par[grid->m]>0.0 && mass->lai[grid->m]>0.0){
-		ke_b1 = 0.5/sinb;
-		ke_b2 = 0.46/sinb;
+		ke_b1 = 0.5 / sinb;
+		ke_b2 = 0.46 / sinb;
 		irr_b = (1.0 - sqrt(1.0 - 0.15))/(1.0 + sqrt(1.0 - 0.15));
-		rfl_b = 1.0-exp(-2.0*irr_b*ke_b1)/(1.0 + ke_b1);
+		rfl_b = 1.0 - exp(-2.0 * irr_b * ke_b1)/(1.0 + ke_b1);
 		
-		pchar->apar_bp[grid->m] = (1.0 - rfl_b)*grid->par_bp[grid->m]*(1.0 - exp(-ke_b2*mass->lai[grid->m]));
-		pchar->apar_dp[grid->m] = (1.0 - 0.036)*grid->par_dp[grid->m]*(1.0 - exp(-0.719*mass->lai[grid->m]));
+		pchar->apar_bp[grid->m] = (1.0 - rfl_b)*grid->par_bp[grid->m] * (1.0 - exp(-ke_b2*mass->lai[grid->m]));
+		pchar->apar_dp[grid->m] = (1.0 - 0.036)*grid->par_dp[grid->m] * (1.0 - exp(-0.719*mass->lai[grid->m]));
 		
 		apar = pchar->apar_bp[grid->m] + pchar->apar_dp[grid->m];
-		fapar = apar/grid->par[grid->m];
+		fapar = apar / grid->par[grid->m];
 				
 		eff_k = -1.0*log(1.0 - fapar)/mass->lai[grid->m];
 		eff_k = (eff_k>=0.46)?eff_k:0.1;
@@ -57,7 +89,8 @@ void f_ecophysiology(
 	if(EFF_K == 0){
 		pchar->eK[grid->m] = irr_attn(grid, loct, pchar);
 		pchar->fapar[grid->m] = (1.0 - pchar->albedo)*(1.0 - exp(-pchar->eK[grid->m]*mass->lai[grid->m]));
-	}else if(EFF_K==1){
+	}else if(EFF_K == 1){
+        /* default */
 		pchar->eK[grid->m] = eff_k;
 		pchar->fapar[grid->m] = fapar;
 	}
@@ -77,8 +110,8 @@ void f_ecophysiology(
 		pc_sat(grid, loct, pchar);
 
 		/* canopy-top photosynthetic rate*/
-		aaa = pchar->psat[grid->m]*pchar->lue[grid->m]*grid->par[grid->m];
-		bbb = pchar->psat[grid->m] + pchar->lue[grid->m]*grid->par[grid->m];
+		aaa = pchar->psat[grid->m] * pchar->lue[grid->m] * grid->par[grid->m];
+		bbb = pchar->psat[grid->m] + pchar->lue[grid->m] * grid->par[grid->m];
 		if(bbb>0.0){
 			pchar->ptop = aaa/bbb;
 		}else{
@@ -112,7 +145,7 @@ void f_ecophysiology(
 	}
 
 	/** optimum leaf area index **/	
-	opt_lai(grid,loct, pchar);
+	opt_lai(grid, loct, pchar);
 }
 
 /* leaf area index **********************************************/
@@ -126,7 +159,7 @@ double lai_mass(
 	/** specific leaf area as a function of... what? **/
 	sla = pchar->sla;
 	
-	lai_est = sla*mass->fol*dmTc/100.0/2.0;
+	lai_est = sla * mass->fol * dmTc/100.0/2.0;
 	lai_est = (lai_est>=0.0)?lai_est:0.0;
 	
 	/* dmTc: dry-matter to carbon */
@@ -134,7 +167,7 @@ double lai_mass(
 	/* 2.0: single-sided leaf area */	
 	
 	/* sensitivity analysis: prescribed LAI **/
-	if(SENS == 7 && (grid->climy>=2000) ){
+	if(SENS_PARA == 7 && (grid->climy >= 2000) ){
 		lai_est = mass->lai0[grid->m];
 	}
 	
@@ -150,10 +183,10 @@ double irr_attn(
 	double aaa, bbb;
 	
 	/* a function of solar hight angle */
-	aaa = sin(grid->sl_hgt[grid->m]*dTr); 
+	aaa = sin(grid->sl_hgt[grid->m] * dTr);
 	aaa = (aaa<=1.0)?aaa:1.0; 
 	aaa = (aaa>=0.3)?aaa:0.3; /* to avoid extreme values*/
-	bbb = pchar->eK0/aaa;
+	bbb = pchar->eK0 / aaa;
 	
 	return (bbb);
 }
@@ -171,7 +204,7 @@ void incel_cdc(
 	gs_co2 = plant->gs[grid->m]/1.56; 
 	/* 1.56: conversion from H2O to CO2 conductance */
 	
-	ci = loct->aco2[grid->m]-(plant->ptop/(gs_co2/1000.0));
+	ci = loct->aco2[grid->m] - (plant->ptop/(gs_co2/1000.0));
 	/* 1000.0: conbert from mmol to micro mol */
 	
 	ci = (ci>=0.0)?ci:0.0;
@@ -192,7 +225,7 @@ void quantum_yield(
 		/* temperature dependence */
 		eftem = (52.0 - grid->tmp_sfc[grid->m])/(3.5 + 0.75*(52.0 - grid->tmp_sfc[grid->m])); 
 		/* CO2 dependence */
-		efci = pchar->ci[grid->m]/(90.0+0.6*pchar->ci[grid->m]); 
+		efci = pchar->ci[grid->m]/(90.0 + 0.6*pchar->ci[grid->m]);
 		/* 3.5, 52.0, etc.: empirical parameters */
 	}else if(pchar->phototype == 4){ 
 		/* insensitive QE of C4 species */
@@ -200,7 +233,7 @@ void quantum_yield(
 		efci = 1.0;
 	}
 	/* give quantum yield */
-	pchar->lue[grid->m] = pchar->lue0*eftem*efci;
+	pchar->lue[grid->m] = pchar->lue0 * eftem * efci;
 }
 
 /* stomatal conductance **********************************************/
@@ -248,19 +281,33 @@ double canopy_cond(
 	struct Pchar *pchar, 
 	struct Pmas *mass
 ){
-	double aaa, sss, ttt, uuu, vvv, lue_gs, canopy_cond;
+	double aaa, bbb, ccc, sss, ttt, uuu, vvv, lue_gs, canopy_cond;
 	
 	/* NOTE: integrate leaf stomatal conductance with considering light attenuation in the canopy */
 	/* aaa=plant->gs_b0+plant->gs_b1/(loct->aco2[grid->m]-plant->cmpcd[grid->m]); */
 	aaa = pchar->gs_b0 + pchar->gs_b1/(350.0 - 40.0);
-	lue_gs = pchar->lue[grid->m]*(aaa/pchar->pmax);
+    if(pchar->pmax > 0.0){
+        lue_gs = pchar->lue[grid->m] * (aaa / pchar->pmax);
+    }else{
+        lue_gs = 0.0;
+    }
 	
-	if(mass->lai[grid->m]>0.0){
-		sss = 2.0*pchar->gs[grid->m] / pchar->eK[grid->m]; 
-		ttt = 1.0 + sqrt(1.0 + pchar->eK[grid->m]*lue_gs*grid->par[grid->m]/pchar->gs[grid->m]);
-		vvv = -1.0*pchar->eK[grid->m]*mass->lai[grid->m];
-		uuu = 1.0 + sqrt(1.0 + pchar->eK[grid->m]*lue_gs*grid->par[grid->m]*exp(vvv)/pchar->gs[grid->m]);
-		canopy_cond = sss*log(ttt/uuu);
+	if(mass->lai[grid->m]>0.0 && pchar->gs[grid->m]>0.0){
+		sss = 2.0 * pchar->gs[grid->m] / pchar->eK[grid->m];
+        bbb = 1.0 + pchar->eK[grid->m]*lue_gs*grid->par[grid->m] / pchar->gs[grid->m];
+        if(bbb > 0.0){
+            ttt = 1.0 + sqrt(bbb);
+        }else{
+            ttt = 1.0;
+        }
+		vvv = -1.0 * pchar->eK[grid->m] * mass->lai[grid->m];
+        ccc = 1.0 + pchar->eK[grid->m]*lue_gs*grid->par[grid->m]*exp(vvv) / pchar->gs[grid->m];
+        if(ccc > 0.0){
+            uuu = 1.0 + sqrt(ccc);
+        }else{
+            uuu = 1.0;
+        }
+		canopy_cond = sss * log(ttt/uuu);
 	}else{
 		/* no leaf, no conductance*/
 		canopy_cond = 0.0;
@@ -287,14 +334,14 @@ void opt_lai(
 		lue = pchar->lue[grid->m];
 	}
 	
-	aaa = 1.0/pchar->eK[grid->m];
-	bbb = pchar->eK[grid->m]*lue*grid->par[grid->m]; 
+	aaa = 1.0 / pchar->eK[grid->m];
+	bbb = pchar->eK[grid->m] * lue * grid->par[grid->m];
 	
 	/* daily respiratory cost */
 	/* printf("%lf %lf\n", plant->qTc[grid->m], grid->tmp_sfc[grid->m]); */
-	eee = log(pchar->qTc[grid->m])/10.0*(grid->tmp_sfc[grid->m] - 15.0);
-	arm = pchar->rmf*exp(eee)/1000.0*dmTc*10000.0/(pchar->sla);
-	arg = pchar->lf[grid->m]*dmTc*10000.0/(pchar->sla)*(1.0 + pchar->rgf);
+	eee = log(pchar->qTc[grid->m]) / 10.0*(grid->tmp_sfc[grid->m] - 15.0);
+	arm = pchar->rmf*exp(eee) / 1000.0*dmTc*10000.0/(pchar->sla);
+	arg = pchar->lf[grid->m]*dmTc*10000.0 / (pchar->sla)*(1.0 + pchar->rgf);
 	ar = arm + arg;
 
 	cc4 = (psat*grid->dlen[grid->m])/(psat*grid->dlen[grid->m] - ar*24.0);
@@ -303,10 +350,19 @@ void opt_lai(
 	if(ccc > 0.0){
 		ddd = bbb/ccc;
 		ddd = (ddd>1.0)?ddd:1.0;
-		pchar->opt_lai[grid->m] = aaa*log(ddd);
+		pchar->opt_lai[grid->m] = aaa * log(ddd);
 	}else{
 		pchar->opt_lai[grid->m] = 0.0;
 	}
+    
+    /* 2015/03/23 by A.Ito *********/
+    if(CONSTRAIN_LAIMAX == 1){
+        /* if(grid->veg_olson >=1 && grid->veg_olson <= 30 && grid->y >= 30){
+            if(pchar->opt_lai[grid->m] > loct->est_maxlai){
+                pchar->opt_lai[grid->m] = loct->est_maxlai;
+            }
+        } */
+    }
 }
 
 /* Q10 of autotrophic respiration **********************************************/
@@ -317,20 +373,20 @@ void f_qten_ar(
 	double aaa;
 	
 	/* larger at cool and smaller at warm */
-	aaa = exp(-0.009*(grid->tmp_sfc[grid->m]-15.0));
+	aaa = exp(-0.009 * (grid->tmp_sfc[grid->m] - 15.0));
 		
-	pchar->qTf[grid->m] = pchar->qTf0*aaa;
-	pchar->qTc[grid->m] = pchar->qTc0*aaa;
-	pchar->qTr[grid->m] = pchar->qTr0*aaa;
+	pchar->qTf[grid->m] = pchar->qTf0 * aaa;
+	pchar->qTc[grid->m] = pchar->qTc0 * aaa;
+	pchar->qTr[grid->m] = pchar->qTr0 * aaa;
 	
 	if(T_R==1){
-		pchar->qTf[grid->m]*=0.9;
-		pchar->qTc[grid->m]*=0.9;
-		pchar->qTr[grid->m]*=0.9;
+		pchar->qTf[grid->m] *= 0.9;
+		pchar->qTc[grid->m] *= 0.9;
+		pchar->qTr[grid->m] *= 0.9;
 	}else if(T_R==2){
-		pchar->qTf[grid->m]*=1.1;
-		pchar->qTc[grid->m]*=1.1;
-		pchar->qTr[grid->m]*=1.1;
+		pchar->qTf[grid->m] *= 1.1;
+		pchar->qTc[grid->m] *= 1.1;
+		pchar->qTr[grid->m] *= 1.1;
 	}
 }
 
@@ -345,16 +401,24 @@ void spcfc_res_mass(
 	pchar->rmf = pchar->rmf0;
 	
 	/* specific respiration increasing in a power of 2/3 manner */
-	powstm = 1.0 - 0.33334*mass->stm/(50.0 + mass->stm);
-	powrot = 1.0 - 0.33334*mass->rot/(50.0 + mass->rot);
+	powstm = 1.0 - 0.33334 * mass->stm/(50.0 + mass->stm);
+	powrot = 1.0 - 0.33334 * mass->rot/(50.0 + mass->rot);
 	
-	stm_sap = pow(mass->stm, powstm); /* sapwood mass in stem */
+    if(mass->stm > 0.0){
+        stm_sap = pow(mass->stm, powstm); /* sapwood mass in stem */
+    }else{
+        stm_sap = 0.0;
+    }
 	stm_hrt = mass->stm - stm_sap; /* heartwood mass in stem */
-	rot_sap = pow(mass->rot, powrot); /* sapwood mass in root */
+    if(mass->rot > 0.0){
+        rot_sap = pow(mass->rot, powrot); /* sapwood mass in root */
+    }else{
+        rot_sap = 0.0;
+    }
 	rot_hrt = mass->rot - rot_sap; /* heartwood mass in root */
 	
-	pchar->rmc = (pchar->rmc_s*stm_sap + pchar->rmc_h*stm_hrt)/(mass->stm + 0.00001);
-	pchar->rmr = (pchar->rmr_s*rot_sap + pchar->rmr_h*rot_hrt)/(mass->rot + 0.00001);
+	pchar->rmc = (pchar->rmc_s * stm_sap + pchar->rmc_h * stm_hrt)/(mass->stm + 0.0001);
+	pchar->rmr = (pchar->rmr_s * rot_sap + pchar->rmr_h * rot_hrt)/(mass->rot + 0.0001);
 }
 
 /* leaf N concentration ********************************************/

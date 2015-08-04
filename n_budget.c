@@ -178,20 +178,24 @@ void f_nh3_volatilization(
 	/* if(schar->v_type==1 && (grid->veg_olson==29 || grid->veg_olson==30
 							|| grid->veg_olson==31 || grid->veg_olson==32)){ */
     /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
-	if(schar->v_type==2){
-		if(grid->soil_ph >= 6.0){
-			ph_soil = grid->soil_ph;
+    /* revised: 2014/11/27 by A.Ito */
+	if(schar->v_type == 2){
+        /* cropland */
+		if((grid->soil_ph+0.5) >= 6.5){ /* 6.0=>6.5 */
+			ph_soil = grid->soil_ph + 1.5;
 		}else{
-			ph_soil = 6.0;
+			ph_soil = 6.5;
 		}
 	}else{
-		ph_soil = grid->soil_ph;
+        /* natural */
+		ph_soil = grid->soil_ph - 0.4;
 	}
 	
 	/* base_ph = 6.5; */ /* 2010/03/28 (A.Ito) */
-	base_ph = 5.5; /* 2010/03/30 (A.Ito) */
+	/* base_ph = 5.5; */ /* 2010/03/30 (A.Ito) */
+	base_ph = 5.4; /* 2014/12/02 (A.Ito) */
 	f_ph = pow(10.0, ph_soil - 10.0) / pow(10.0, base_ph - 10.0);
-	if(f_ph<0.0){
+	if(f_ph < 0.0){
 		f_ph = 0.0;
 	}
 	
@@ -206,8 +210,8 @@ void f_nh3_volatilization(
 	/* soil water potential Eq.(6.2g) */
 	if(loct->sw30 > 1.0){
 		/* modified by A.Ito (2009/06/05) */
-		swp = -10.0 * pow(1.0/(loct->sw30/grid->field_cap1), 5.0);
-		f_sw = exp((18.0 * swp)/(8314.0*(grid->tmp10_soil[grid->m] + ZAT)));
+		swp = -10.0 * pow(1.0 / (loct->sw30 / grid->field_cap1), 5.0);
+		f_sw = exp((18.0 * swp) / (8314.0 * (grid->tmp10_soil[grid->m] + ZAT)));
 	}else{
 		f_sw = 0.0;
 	}
@@ -219,6 +223,11 @@ void f_nh3_volatilization(
 	/* g NH3 ha-1 month-1 */
 	flux->n_nh3vlt[grid->m] = nh4_soil * 0.02/30.0 * f_ph * f_tmp * pow(f_sw, 20.0) 
 			* MDN[grid->m] * 17.0/14.0;
+    
+    /* safe guard: 2014/05/28 by A.Ito */
+    if(flux->n_nh3vlt[grid->m] > (0.5*mass->n_nh4)){
+        flux->n_nh3vlt[grid->m] = 0.5 * mass->n_nh4;
+    }
 }
 
 /* N deposition ********************************************************/
@@ -231,8 +240,8 @@ void f_n_deposit(
 	struct Grid *grid, 
 	struct Loct *loct
 ){
-	double pre_ann, ndepo_ann, ndepo_dry, ndepo_wet, aa;
-	double f_no3, f_nh4;
+	double pre_ann, ndepo_total, ndepo_dry, ndepo_wet, aa;
+	double f_no3, f_nh4, ndepo_no3, ndepo_nh4;
 	double f_wet, f_dry;
 	extern double MDN[12];
 	
@@ -240,64 +249,106 @@ void f_n_deposit(
 	/*f_no3 = 0.47; */ /* revised by CHASER data: 2010/03/28 (A.Ito) */
 	/* f_nh4 = 1.0 - f_no3; */
 	
-	/* CHASER-derived spatial and monthly NH4+/NO3- fraction */
-	ndepo_ann = grid->ndepo_ann_dnhx+grid->ndepo_ann_dnoy+grid->ndepo_ann_wnhx+grid->ndepo_ann_wnoy;
-	
-	if(ndepo_ann <= 0.0){
-		f_no3 = 0.5;
-		f_nh4 = 0.5;
-	}else{
-		f_no3 = (grid->ndepo_ann_dnoy+grid->ndepo_ann_wnoy) / ndepo_ann;
-		f_nh4 = (grid->ndepo_ann_dnhx+grid->ndepo_ann_wnhx) / ndepo_ann;
-	}
-	
-	if(ndepo_ann <= 0.0){
-		f_wet = 0.5;
-		f_dry = 0.5;
-	}else{
-		f_wet = (grid->ndepo_ann_wnoy+grid->ndepo_ann_wnhx) / ndepo_ann;
-		f_dry = (grid->ndepo_ann_dnoy+grid->ndepo_ann_dnhx) / ndepo_ann;
-	}
-	
-	/* annual precipitation */
-	/* 1.0 : initial value: avoid zero */
-	pre_ann = grid->prate_sfc_ann + 1.0;
+    if(SENS_N == 0 || SENS_N == 1){
+    
+        if(SENS_N == 0){
+            /* CHASER-derived spatial and monthly NH4+/NO3- fraction */
+            ndepo_total = grid->ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]
+                            + grid->ndepo_chaser_dnoy[grid->m][grid->chaser_row][grid->chaser_col]
+                            + grid->ndepo_chaser_wnhx[grid->m][grid->chaser_row][grid->chaser_col]
+                            + grid->ndepo_chaser_wnoy[grid->m][grid->chaser_row][grid->chaser_col];
+            
+            if(ndepo_total <= 0.0){
+                f_no3 = 0.5;
+                f_nh4 = 0.5;
+            }else{
+                f_no3 = (grid->ndepo_chaser_dnoy[grid->m][grid->chaser_row][grid->chaser_col]
+                    + grid->ndepo_chaser_wnoy[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
+                f_nh4 = (grid->ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]
+                    + grid->ndepo_chaser_wnhx[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
+            }
+            
+            if(ndepo_total <= 0.0){
+                f_wet = 0.5;
+                f_dry = 0.5;
+            }else{
+                f_wet = (grid->ndepo_chaser_wnhx[grid->m][grid->chaser_row][grid->chaser_col]
+                    + grid->ndepo_chaser_wnoy[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
+                f_dry = (grid->ndepo_chaser_dnoy[grid->m][grid->chaser_row][grid->chaser_col]
+                    + grid->ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
+            }
+        }else if(SENS_N == 1){
+            f_dry = 0.5;
+            f_wet = 0.5;
+        }
+        
+        /* annual precipitation */
+        /* 1.0 : initial value: avoid zero */
+        pre_ann = grid->prate_sfc_ann + 1.0;
 
-	if(grid->climy<=1850){
-		ndepo_dry = f_dry * grid->ndepo[0] * MDN[grid->m]/365.0;
-		ndepo_wet = f_wet * grid->ndepo[0] * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
-	}else if(grid->climy>1850 && grid->climy<=1993){
-		aa = grid->ndepo[0] + (grid->ndepo[1] - grid->ndepo[0])*(double)(grid->climy-1850)/143.0;
+        if(grid->climy<=1850){
+            ndepo_dry = f_dry * grid->ndepo[0] * MDN[grid->m]/365.0;
+            ndepo_wet = f_wet * grid->ndepo[0] * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
+        }else if(grid->climy>1850 && grid->climy<=1993){
+            aa = grid->ndepo[0] + (grid->ndepo[1] - grid->ndepo[0])*(double)(grid->climy-1850)/143.0;
+        
+            ndepo_dry = f_dry * aa * MDN[grid->m]/365.0;
+            ndepo_wet = f_wet * aa * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
+        }else if(grid->climy>1993 && grid->climy<=2050){
+            aa = grid->ndepo[1] + (grid->ndepo[2] - grid->ndepo[1])*(double)(grid->climy-1993)/57.0;
+        
+            ndepo_dry = f_dry * aa * MDN[grid->m]/365.0;
+            ndepo_wet = f_wet * aa * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
+        }else{ /*  if(grid->climy>2050) */
+            ndepo_dry = grid->ndepo[2] * f_dry * MDN[grid->m]/365.0;
+            ndepo_wet = grid->ndepo[2] * f_wet * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
+            /* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
+        }
 	
-		ndepo_dry = f_dry * aa * MDN[grid->m]/365.0;
-		ndepo_wet = f_wet * aa * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
-	}else if(grid->climy>1993 && grid->climy<=2050){
-		aa = grid->ndepo[1] + (grid->ndepo[2] - grid->ndepo[1])*(double)(grid->climy-1993)/57.0;
-	
-		ndepo_dry = f_dry * aa * MDN[grid->m]/365.0;
-		ndepo_wet = f_wet * aa * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
-	}else{ /*  if(grid->climy>2050) */
-		ndepo_dry = grid->ndepo[2] * f_dry * MDN[grid->m]/365.0;
-		ndepo_wet = grid->ndepo[2] * f_wet * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
-		/* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
-	}
-	
-	if(SENS_N == 1){
-		ndepo_dry = f_dry * ndepo_ann * MDN[grid->m]/365.0;
-		ndepo_wet = f_wet * ndepo_ann * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
-	}
-	
-	if(ndepo_dry < 0.0){
-		ndepo_dry = 0.0;
-	}
-	if(ndepo_wet < 0.0){
-		ndepo_wet = 0.0;
-	}
-	
-	/* original unit: mg N m-2 yr-1 */
-	/* converted unit: g N ha-1 month-1 */
-	loct->depo_no3[grid->m] = f_no3 * (ndepo_dry + ndepo_wet) *10.0;
-	loct->depo_nh4[grid->m] = f_nh4 * (ndepo_dry + ndepo_wet) *10.0;
+        if(ndepo_dry < 0.0){
+            ndepo_dry = 0.0;
+        }
+        if(ndepo_wet < 0.0){
+            ndepo_wet = 0.0;
+        }
+
+        /* original unit: mg N m-2 yr-1 */
+        /* converted unit: g N ha-1 month-1 */
+        loct->depo_no3[grid->m] = f_no3 * (ndepo_dry + ndepo_wet) *10.0;
+        loct->depo_nh4[grid->m] = f_nh4 * (ndepo_dry + ndepo_wet) *10.0;
+	}else if(SENS_N == 2){
+        
+        /* 2014/12/27 revised by A.Ito: add organic N deposition*/
+        if(grid->climy<1850){
+            ndepo_no3 = grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
+                    + grid->ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col];
+            ndepo_nh4 = grid->ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col];
+        }else if(grid->climy>=1850 && grid->climy<=2010){
+            
+            ndepo_no3 = grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
+                + (grid->ndepo_chaser4_noy_p[grid->m][grid->chaser_row][grid->chaser_col]
+                        - grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col])
+                * ((double)(grid->climy) - 1850.0)/160.0;
+            ndepo_no3 += grid->ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col]
+                + (grid->ndepo_chaser4_ont_p[grid->m][grid->chaser_row][grid->chaser_col]
+                        - grid->ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col])
+                * ((double)(grid->climy) - 1850.0)/160.0;
+            
+            ndepo_nh4 = grid->ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col]
+                + (grid->ndepo_chaser4_nhx_p[grid->m][grid->chaser_row][grid->chaser_col]
+                        - grid->ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col])
+                * ((double)(grid->climy) - 1850.0)/160.0;
+            
+        }else if(grid->climy>2010){
+            ndepo_no3 = grid->ndepo_chaser4_noy_p[grid->m][grid->chaser_row][grid->chaser_col]
+                + grid->ndepo_chaser4_ont_p[grid->m][grid->chaser_row][grid->chaser_col];
+            ndepo_nh4 = grid->ndepo_chaser4_nhx_p[grid->m][grid->chaser_row][grid->chaser_col];
+        }
+        
+        /* unit: g N ha-1 month-1 */
+        loct->depo_no3[grid->m] = ndepo_no3;
+        loct->depo_nh4[grid->m] = ndepo_nh4;
+    }
 }
 
 /*************************************************/
@@ -356,9 +407,12 @@ void f_n_leaching(
 	/* g N / kg H2O */
 	
 	aa = loct->ro2[grid->m] * ntr_conc;
-	if(aa > mass->n_no3 * 0.95){
+	if(aa > (mass->n_no3 * 0.95)){
 		aa = mass->n_no3 * 0.95;
 	}
+    if(aa < 0.0){
+        aa = 0.0;
+    }
 	
 	/* g NO3-N m-2 month-1 */
 	flux->n_leach[grid->m] = aa*10000.0;
@@ -372,7 +426,7 @@ void f_n_uptake(
 	struct Mass *mass, 
 	struct Flux *flux
 ){
-	double f_temp;
+	double f_temp, aa;
 	double n_max = 1.0;
 	double ks, navil;
 	double uptake_no3, uptake_nh4;
@@ -386,21 +440,36 @@ void f_n_uptake(
 	/* temperature factor */
 	f_temp = exp(0.0693 * grid->tmp10_soil[grid->m]);
 	/* soil diffusion parameter */
-	ks = 0.90 * pow(loct->sw30/grid->field_cap1, 3.0) + 0.1;
+	ks = 0.90 * pow(loct->sw30 / grid->field_cap1, 3.0) + 0.1;
 	
 	/* NO3 uptake */
-	navil = (mass->soil).n_no3/10000.0;
-	uptake_no3 = navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+	navil = (mass->soil).n_no3;
+	aa = navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    if(aa>0.0 && aa<navil){
+        uptake_no3 = aa;
+    }else if(aa<0.0){
+        uptake_no3 = 0.0;
+    }else if(aa>=navil){
+        uptake_no3 = navil;
+    }
+    
 	/* g N ha-1 month-1 */
-	(flux->c3).uptake_no3[grid->m] = uptake_no3 * 10000.0;
-	(flux->c4).uptake_no3[grid->m] = uptake_no3 * 10000.0;
+	(flux->c3).uptake_no3[grid->m] = uptake_no3;
+	(flux->c4).uptake_no3[grid->m] = uptake_no3;
 	
 	/* NH4 uptake */
-	navil = (mass->soil).n_nh4/10000.0;
-	uptake_nh4 = navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+	navil = (mass->soil).n_nh4;
+    aa = navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    if(aa>0.0 && aa<navil){
+        uptake_nh4 = aa;
+    }else if(aa<0.0){
+        uptake_nh4 = 0.0;
+    }else if(aa>=navil){
+        uptake_nh4 = navil;
+    }
 	/* g N ha-1 month-1 */
-	(flux->c3).uptake_nh4[grid->m] = uptake_nh4 * 10000.0;
-	(flux->c4).uptake_nh4[grid->m] = uptake_nh4 * 10000.0;
+	(flux->c3).uptake_nh4[grid->m] = uptake_nh4;
+	(flux->c4).uptake_nh4[grid->m] = uptake_nh4;
 	
 	(flux->plant).uptake_no3[grid->m] = (flux->c3).uptake_no3[grid->m] 
 				+ (flux->c4).uptake_no3[grid->m];
@@ -559,6 +628,11 @@ void f_n_immoblz(
 	flux->n_immbl[grid->m] = 0.2 * flux->n_minerlz_lttr[grid->m] + 
 		0.4 * flux->n_minerlz_hums[grid->m] + 
 		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m];
+    
+    /* safe guard: 2014/05/28 by A.Ito */
+    if(flux->n_immbl[grid->m] > mass->n_mcrb){
+        flux->n_immbl[grid->m] = mass->n_mcrb;
+    }
 }
 
 /* N abandoned from microbes ******************************/
@@ -574,4 +648,9 @@ void f_n_mcrb_abdn(
 	f_temp = exp(log(2.0)/10.0 * (grid->tmp10_soil[grid->m]-10.0));
 
 	flux->n_mcrb_abdn[grid->m] = 0.1 * f_temp * mass->n_mcrb;
+    
+    /* safe guard: 2014/05/28 by A.Ito */
+    if(flux->n_mcrb_abdn[grid->m] > (0.5 * mass->n_mcrb)){
+        flux->n_mcrb_abdn[grid->m] = (0.5 * mass->n_mcrb);
+    }
 }

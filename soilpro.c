@@ -43,7 +43,8 @@ void soil_processes(
 		
 		mass->ltr = 0.0;
 		mass->msl = 0.0;
-
+        
+        /* DOC leaching */
 		flux->doc_boyer[grid->m] = 0.0;
 		mass->doc = 0.0;
 	}else{
@@ -52,7 +53,7 @@ void soil_processes(
 		/* soil respiration of mineral soil and humus */
 		flux->rh[grid->m] = nn*frh(grid, loct, schar, mass);
 		/* soil decomposition from upper litter to lower mineral soil */
-		flux->sf[grid->m] = fsf(grid, schar, flux );
+		flux->sf[grid->m] = fsf(grid, schar, flux);
 		/* stable carbon isotope */
 		flux->d13c_rl[grid->m] = mass->d13c_ltr;
 		flux->d13c_rh[grid->m] = mass->d13c_msl;
@@ -69,6 +70,7 @@ void soil_processes(
 		mass->ltr = (mass->ltr>=0.0)?mass->ltr:0.0;
 		mass->msl = (mass->msl>=0.0)?mass->msl:0.0;
 		
+        /* DOC leaching */
 		f_doc_boyer(grid, loct, mass, flux);
 	}
 	/* total soil respiration */
@@ -129,23 +131,23 @@ double frl(
 	struct Schar *schar, 
 	struct Smas *mass
 ){
-	double rlto, to, rl, ftl, fwl, fal, fsm;
+	double rlto, to, rl, ftl, fwl, fal, fsm, p_scale;
 	
 	rlto = schar->rl/1000.0; 
 	to = 15.0; /* specific rate at 15 deg C */
 	/* temperature effect, exponential */
 	/* ftl=exp(log(soil->qTl)/10.0*(grid->tmp10_soil[grid->m]-to)); */
 	if(grid->tmp10_soil[grid->m]>-20.0){
-		if(T_D==0){
-			ftl = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02))); /* control */
-		}else if(T_D==1){
-			ftl = 0.05 + 0.95*exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02)));
-		}else if(T_D==2){
-			ftl = 0.05 + 0.95*exp(308.56*0.7*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02)));
-		}else if(T_D==3){
-			ftl = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02*1.3)));
-		}else if(T_D==4){
-			ftl = 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m]+46.02*0.7)));
+		if(T_D == 0){
+			ftl = 0.05 + 0.95 * exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m] + 46.02))); /* control */
+		}else if(T_D == 1){
+			ftl = 0.05 + 0.95 * exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m] + 46.02)));
+		}else if(T_D == 2){
+			ftl = 0.05 + 0.95 * exp(308.56*0.7*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m] + 46.02)));
+		}else if(T_D == 3){
+			ftl = 0.05 + 0.95 * exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m] + 46.02*1.3)));
+		}else if(T_D == 4){
+			ftl = 0.05 + 0.95 * exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[grid->m] + 46.02*0.7)));
 		}
 	}else{
 		ftl=0.05;
@@ -155,30 +157,35 @@ double frl(
         if(grid->tmp10_soil[grid->m]>-20.0){
             ftl = 0.05 + 0.95 * exp(log(2.0)/10.0 * (grid->tmp10_soil[grid->m] - 10.0));
         }else{
-            ftl=0.05;
+            ftl = 0.05;
         }
     }else if(EX_SDTD == 2){
         if(grid->tmp10_soil[grid->m]>-20.0){
             ftl = 0.05 + 0.95 * exp(log(1.5)/10.0 * (grid->tmp10_soil[grid->m] - 10.0));
         }else{
-            ftl=0.05;
+            ftl = 0.05;
         }
     }
-	
+    
 	/* acclimation */
 	if(BACC==1 && grid->phase>=1){
 		ftl = schar->ft0_l[grid->m];
 	}
 	
+    if(PARAM_PTB == 4){
+        p_scale = 0.10;
+        ftl *= 1.0 + p_scale*f_pert[13];
+    }
+	
 	schar->ft_l[grid->m] = ftl;
 
 	/* soil moisture effect, saturating */
-	fwl = 0.8*loct->sw30/(schar->kml*grid->field_cap1 + loct->sw30) + 0.2;
+	fwl = 0.8 * loct->sw30/(schar->kml*grid->field_cap1 + loct->sw30) + 0.2;
 	/* soil apparence effect */
 	/* 2009/02/22 by A.Ito */
 	/* fal = 0.4*loct->soil_appr30*(1.0*schar->kmsl)/(schar->kmsl+loct->soil_appr30)+0.6; */
-	fal = 0.4*loct->soil_appr30/(schar->kmsl + loct->soil_appr30) + 0.6;
-	
+	fal = 0.4 * loct->soil_appr30/(schar->kmsl + loct->soil_appr30) + 0.6;
+	/* take minimum */
 	fsm = (fwl>fal)?fal:fwl;
 	
 	/* acclimation */
@@ -206,23 +213,23 @@ double frh(
 	struct Schar *schar, 
 	struct Smas *mass
 ){
-	double rhto, to, rh, fth, fwh, fah, fsm;	
+	double rhto, to, rh, fth, fwh, fah, fsm, p_scale;
 	
 	rhto = schar->rh/1000.0; 
 	to = 15.0; /* specific rate at 15 deg C*/
 	/* temperature effect, exponential */
 	/* fth=exp(log(soil->qTh)/10.0*(grid->tmp200_soil[grid->m]-to)); */
 	if(grid->tmp200_soil[grid->m] > -20.0){
-		if(T_D==0){
-			fth = 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[grid->m]+46.02))); /* control */
-		}else if(T_D==1){
-			fth = 0.05+0.95*exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp200_soil[grid->m]+46.02)));
-		}else if(T_D==2){
-			fth = 0.05+0.95*exp(308.56*0.7*(1.0/56.02-1.0/(grid->tmp200_soil[grid->m]+46.02)));
-		}else if(T_D==3){
-			fth = 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[grid->m]+46.02*1.3)));
-		}else if(T_D==4){
-			fth = 0.05+0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[grid->m]+46.02*0.7)));
+		if(T_D == 0){
+			fth = 0.05 + 0.95*exp(308.56*(1.0/56.02 - 1.0/(grid->tmp200_soil[grid->m] + 46.02))); /* control */
+		}else if(T_D == 1){
+			fth = 0.05 + 0.95*exp(308.56*1.3*(1.0/56.02 - 1.0/(grid->tmp200_soil[grid->m] + 46.02)));
+		}else if(T_D == 2){
+			fth = 0.05 + 0.95*exp(308.56*0.7*(1.0/56.02 - 1.0/(grid->tmp200_soil[grid->m] + 46.02)));
+		}else if(T_D == 3){
+			fth = 0.05 + 0.95*exp(308.56*(1.0/56.02 - 1.0/(grid->tmp200_soil[grid->m] + 46.02*1.3)));
+		}else if(T_D == 4){
+			fth = 0.05 + 0.95*exp(308.56*(1.0/56.02 - 1.0/(grid->tmp200_soil[grid->m] + 46.02*0.7)));
 		}
 	}else{
 		fth = 0.05;
@@ -247,15 +254,20 @@ double frh(
 		fth = schar->ft0_h[grid->m];
 	}
 	
+    if(PARAM_PTB == 4){
+        p_scale = 0.10;
+        fth *= 1.0 + p_scale*f_pert[13];
+    }
+
 	schar->ft_h[grid->m] = fth;
 
 	/* soil moisture effect, saturating */
-	fwh = 0.8*loct->sww/(schar->kmh*grid->field_cap2 + loct->sww) + 0.2;
+	fwh = 0.8 * loct->sww/(schar->kmh * grid->field_cap2 + loct->sww) + 0.2;
 	/* soil apparence effect */
 	/* 2009/02/22 by A.Ito */
 	/* fah = 0.4*loct->soil_apprw*(1.0*schar->kmsh)/(schar->kmsh + loct->soil_apprw) + 0.6;  */
-	fah = 0.4*loct->soil_apprw/(schar->kmsh + loct->soil_apprw) + 0.6;
-
+	fah = 0.4 * loct->soil_apprw/(schar->kmsh + loct->soil_apprw) + 0.6;
+    /* take minimum */
 	fsm = (fwh>fah)?fah:fwh;
 	
 	/* acclimation */
