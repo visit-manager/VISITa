@@ -76,10 +76,10 @@ void set_hist_clim(
                 tcdc_var = grid->ncep_tcdc[grid->climy - PIVOT_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
                         - grid->ncep_tcdc_b[h][grid->ncep_lat][grid->ncep_lon];
                 grid->tcdc_clm[h] = grid->tcdc_clm_a[h] + tcdc_var;
-                if(grid->tcdc_clm[h]<0.0){
+                if(grid->tcdc_clm[h] < 0.0){
                     grid->tcdc_clm[h] = 0.0;
                 }
-                if(grid->tcdc_clm[h]>1.0){
+                if(grid->tcdc_clm[h] > 1.0){
                     grid->tcdc_clm[h] = 1.0;
                 }
             }
@@ -98,28 +98,30 @@ void set_hist_clim(
             impex_t = (short)(GCM_ID%50);
             
             switch(impex_t){
-                case 0: tmp_var = -3.0; break;
-                case 1: tmp_var = -2.0; break;
-                case 2: tmp_var = -1.0; break;
-                case 3: tmp_var = 0.0; break;
-                case 4: tmp_var = +1.0; break;
-                case 5: tmp_var = +2.0; break;
-                case 6: tmp_var = +3.0; break;
-                case 7: tmp_var = +4.0; break;
-                case 8: tmp_var = +5.0; break;
-                case 9: tmp_var = +6.0; break;
-                case 10: tmp_var = +7.0; break;
-                case 11: tmp_var = +8.0; break;
-                case 12: tmp_var = +9.0; break;
-                case 13: tmp_var = +10.0; break;
-                case 14: tmp_var = +11.0; break;
+                case 1: tmp_var = -3.0; break;
+                case 2: tmp_var = -2.0; break;
+                case 3: tmp_var = -1.0; break;
+                case 4: tmp_var = 0.0; break;
+                case 5: tmp_var = 1.0; break;
+                case 6: tmp_var = 2.0; break;
+                case 7: tmp_var = 3.0; break;
+                case 8: tmp_var = 4.0; break;
+                case 9: tmp_var = 5.0; break;
+                case 10: tmp_var = 6.0; break;
+                case 11: tmp_var = 7.0; break;
+                case 12: tmp_var = 8.0; break;
+                case 13: tmp_var = 9.0; break;
+                case 14: tmp_var = 10.0; break;
+                case 15: tmp_var = 11.0; break;
                 default: tmp_var = 0.0; break;
             }
             
-            grid->tmp_sfc[h] += tmp_var;
-            grid->tmp_2m[h] += tmp_var;
-            grid->tmp10_soil[h] += tmp_var;
-            grid->tmp200_soil[h] += tmp_var;
+            for(h=0;h<ASTEP;h++){
+                grid->tmp_sfc[h] += tmp_var;
+                grid->tmp_2m[h] += tmp_var;
+                grid->tmp10_soil[h] += tmp_var;
+                grid->tmp200_soil[h] += tmp_var;
+            }
             
             /*******/
             impex_p = (short)((GCM_ID - 6000)/50);
@@ -141,7 +143,9 @@ void set_hist_clim(
                 default: pre_var = 1.0; break;
             }
             
-            grid->prate_sfc[h] *= pre_var;
+            for(h=0;h<ASTEP;h++){
+                grid->prate_sfc[h] *= pre_var;
+            }
         }
         
     }else if(ISIMIP_RUN == 1){
@@ -321,11 +325,11 @@ void set_gcm_clim(
             grid->prate_sfc[h] = grid->proj_prec[grid->climy-PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col];
         }
         
-        if(grid->prate_sfc[h]<=0.0){
+        if(grid->prate_sfc[h] <= 0.0){
             /* carry over of negative precipitation */
             grid->proj_prec_co += grid->prate_sfc[h];
             grid->prate_sfc[h] = 0.0;
-        }else if(grid->prate_sfc[h]>0.0){
+        }else if(grid->prate_sfc[h] > 0.0){
             grid->prate_sfc[h] += grid->proj_prec_co;
             grid->proj_prec_co = 0.0;
             if(grid->prate_sfc[h] <= 0.0){

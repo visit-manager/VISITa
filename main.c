@@ -457,6 +457,7 @@ int main(
 	/* end of latitudinal loop *************************************/
 	
 	/* decadal average grid values */
+    /* used for IMPRESSIONS analysis: 2015/08/11 by A.Ito */
 	fwrite(g_tmp, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 0-4
 	fwrite(g_prc, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 5-9
 	fwrite(g_swr, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 10-14
@@ -519,10 +520,9 @@ int main(
 	fwrite(gm_ch4ep_wh, sizeof(float), 12*N_ROW*N_COL, fp_binout);	// 235
 #endif
 	
+	fclose(fp_binout);
+	
 	/* close files *************/
-	for(h=0;h<IFILEN;h++){
-		fclose(fp_s[h]); 
-	}
 	for(h=0;h<4;h++){
 		fclose(fp_c[h]);
         
@@ -530,8 +530,9 @@ int main(
             fclose(fp_c2[h]);
         }
 	}
-	
-	fclose(fp_binout);
+	for(h=0;h<IFILEN;h++){
+		fclose(fp_s[h]); 
+	}
 	
 	printf("Simulation ended\n");
 	

@@ -66,8 +66,8 @@
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
-#define C13_GOUT 1
-#define C14_GOUT 1
+#define C13_GOUT 0
+#define C14_GOUT 0
 #define PHYS_GOUT 1
 
 /***********************************************************/

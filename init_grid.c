@@ -279,7 +279,7 @@ void f_init_grid(
 	}if(GCM_ID==3070 || GCM_ID==3071 || GCM_ID==3072){ /* GEO-MIP CanESM2 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM_ID==3080 || GCM_ID==3801){ /* GEO-MIP MPI-ESM-LR */
+	}if(GCM_ID==3080 || GCM_ID==3081){ /* GEO-MIP MPI-ESM-LR */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}if(GCM_ID==3090 || GCM_ID==3091){ /* GEO-MIP CCSM4 */

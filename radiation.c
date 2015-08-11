@@ -401,14 +401,21 @@ void f_net_rad(
     albedo_var = loct->albedo_sfc[grid->m];
     /* loct->xx5[grid->m] = albedo_var; */
     
-    if(grid->phase == 0){
+    /* 2015/08/10 by A.Ito *****/
+    /* if(grid->phase == 0){
         grid->tmp_sfc[grid->m] = grid->tmp_sfc_a[grid->m];
         grid->tmp10_soil[grid->m] = grid->tmp10_soil_a[grid->m];
         grid->tmp200_soil[grid->m] = grid->tmp200_soil_a[grid->m];
-    }
+    } */
     
     /* temperature change due to albedo: 2014/5/19 by A.Ito */
     if(EX_TVAR == 1 && EX_ALBEDO>=1){
+ 
+        if(grid->phase == 0){
+            grid->tmp_sfc[grid->m] = grid->tmp_sfc_a[grid->m];
+            grid->tmp10_soil[grid->m] = grid->tmp10_soil_a[grid->m];
+            grid->tmp200_soil[grid->m] = grid->tmp200_soil_a[grid->m];
+        }
         
         /* latent heat, W m-2, approximated by the previous year's value */
         latheat = (loct->incep[grid->m] + loct->trspr[grid->m] + loct->evpr[grid->m])
