@@ -50,7 +50,7 @@ void f_cult_luc(
 					break;
 				case 4:
 					/* high scenario : ex e */
-					if(grid->f_crop_trend>0.0){
+					if(grid->f_crop_trend > 0.0){
 						grid->f_crop_con = grid->fcrop_sage[290] + grid->f_crop_trend*(1.0+0.01*
 								((double)(grid->lucy - 1990))) *(double)(grid->lucy - 1990);
 					}else{

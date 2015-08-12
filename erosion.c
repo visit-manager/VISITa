@@ -62,8 +62,8 @@ void f_erosion(
 	if(grid->prate_sfc_ann<=850.0){
 		grid->f_erosion_r = 0.0483 * pow(grid->prate_sfc_ann, 1.610);
 	}else{
-		grid->f_erosion_r = 587.8 - 1.219*grid->prate_sfc_ann 
-				+ 0.004105*grid->prate_sfc_ann*grid->prate_sfc_ann;
+		grid->f_erosion_r = 587.8 - 1.219 * grid->prate_sfc_ann
+				+ 0.004105*grid->prate_sfc_ann * grid->prate_sfc_ann;
 	}
 	if(grid->f_erosion_r<0.0){
 		grid->f_erosion_r = 0.0;
@@ -219,14 +219,14 @@ void f_erosion(
 		flux->erod_soil = grid->f_erosion_r * grid->f_erosion_k * grid->f_erosion_ls * 
 				grid->f_erosion_c * grid->f_erosion_p * prm_ensen;  /* t/ha/yr */
 		
-		if(flux->erod_soil<0.0){
+		if(flux->erod_soil < 0.0){
 			flux->erod_soil = 0.0;
 		}else if(flux->erod_soil > 130.0*5.0){
-			flux->erod_soil = 130.0*5.0;
+			flux->erod_soil = 130.0 * 5.0;
 		}
 		
-		flux->erod_orgmat = flux->erod_soil * grid->pcnt_orgmat/100.0;
-		flux->erod_carbon = flux->erod_orgmat/dmTc;
+		flux->erod_orgmat = flux->erod_soil * grid->pcnt_orgmat / 100.0;
+		flux->erod_carbon = flux->erod_orgmat / dmTc;
 	}
 	
 	/* case cropland: 2011/12/15 (A.Ito) */
@@ -241,6 +241,6 @@ void f_erosion(
 		}
 		
 		flux->erod_orgmat = flux->erod_soil * grid->pcnt_orgmat/100.0;
-		flux->erod_carbon = flux->erod_orgmat/dmTc;
+		flux->erod_carbon = flux->erod_orgmat / dmTc;
 	}
 }

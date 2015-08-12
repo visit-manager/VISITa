@@ -82,9 +82,9 @@ void f_waterbudget(
 	/** runoff 2, estimated by the bucket model **/
 	dry_inx = grid->field_cap2 - loct->sww;
 	gain2 = loct->ro1[grid->m]; 
-	aa = gain2*gain2*gain2;
-	bb = dry_inx*dry_inx*dry_inx;
-	cc = aa+bb;
+	aa = gain2 * gain2 * gain2;
+	bb = dry_inx * dry_inx * dry_inx;
+	cc = aa + bb;
 	cc = (cc>=0.0)?cc:0.0;
 	loct->ro2[grid->m] = pow(cc, 0.33333) - dry_inx + loct->sww*0.0012*MDN[grid->m];
 	loct->ro2[grid->m] = (loct->ro2[grid->m]>=0.0)?loct->ro2[grid->m]:0.0;
@@ -110,9 +110,9 @@ void f_waterbudget(
 	/* aa=0.85; */ /*2003-06-27*/
 	/* aa = 0.87; */ /*2003-06-27*/
 	aa = 0.83;
-	bb = (loct->sww)+loct->pm_trn[grid->m];
-	cc = (loct->sww)*loct->pm_trn[grid->m];
-	loct->trspr[grid->m] = (bb-sqrt(bb*bb-4.0*aa*cc))/(2.0*aa); /* actual */
+	bb = (loct->sww) + loct->pm_trn[grid->m];
+	cc = (loct->sww) * loct->pm_trn[grid->m];
+	loct->trspr[grid->m] = (bb-sqrt(bb*bb - 4.0*aa*cc))/(2.0*aa); /* actual */
 	loct->trspr[grid->m] = (loct->trspr[grid->m]>0.0)?loct->trspr[grid->m]:0.0;
 		
 	/** water balance 4 **/
@@ -121,7 +121,7 @@ void f_waterbudget(
 
 	/* re translocation ************/
 	retran = (loct->sww*grid->field_cap1/grid->field_cap2 - loct->sw30)
-				/(1.0+grid->field_cap1/grid->field_cap2);
+				/(1.0 + grid->field_cap1/grid->field_cap2);
 	if(retran > 0.0){
 		/* retran *= 0.4; */
 		
@@ -194,11 +194,11 @@ double slope_vps(
 	if(grid->tmp_2m[grid->m] > 0.0){ /* at water surface */
 		aaa = 6.1078 * (2500.0 - 2.4*grid->tmp_2m[grid->m]);
 		bbb = 0.4615 * (ZAT + grid->tmp_2m[grid->m])*(ZAT + grid->tmp_2m[grid->m]);
-		ccc = pow(10.0, (7.5*grid->tmp_2m[grid->m])/(237.3 + grid->tmp_2m[grid->m]));
+		ccc = pow(10.0, (7.5*grid->tmp_2m[grid->m]) / (237.3 + grid->tmp_2m[grid->m]));
 	}else{ /* at ice surface */  /* if(grid->tmp_2m[grid->m]<=0.0) */
 		aaa = 6.1078 * 2834.0;
 		bbb = 0.4615 * (ZAT + grid->tmp_2m[grid->m])*(ZAT + grid->tmp_2m[grid->m]);
-		ccc = pow(10.0, (9.5*grid->tmp_2m[grid->m])/(265.3 + grid->tmp_2m[grid->m]));
+		ccc = pow(10.0, (9.5*grid->tmp_2m[grid->m]) / (265.3 + grid->tmp_2m[grid->m]));
 	}
 	slope = (aaa/bbb)*ccc;
 	

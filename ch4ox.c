@@ -257,6 +257,9 @@ void f_ch4oxy_casa(
 		case 1001: case 1016: case 1072: case 1082: case 1092: case 1112:
 			c_ch4 = ach4_b1[grid->co2y-1750]/1000.0/30.0;
 			break;
+        default:
+            c_ch4 = ach4_a1[grid->co2y-1750]/1000.0/30.0;
+            break;
 	}
     
     if(ISIMIP_RUN==1 || ISIMIP_RUN==2 || ISIMIP_RUN==3){

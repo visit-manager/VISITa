@@ -18,8 +18,8 @@
 void f_init_clim(
 	struct Grid *grid
 ){
-	short h;
-	double aaa, bbb;
+	short h, impex_p, impex_t;
+	double aaa, bbb, tmp_var, pre_var;
 	
 	/* in 1950 :311 ppmv*/
 	/* in 1990 : 352.7 ppmv*/
@@ -67,21 +67,80 @@ void f_init_clim(
 			grid->prate_sfc_a[h] = grid->hist_pre_b[h];
 		}
 		
-		grid->spfh_2m[h] = grid->spfh_2m_a[h];
-		
-		aaa = grid->ugrd_10m_a[h]*grid->ugrd_10m_a[h];
-		bbb = grid->vgrd_10m_a[h]*grid->vgrd_10m_a[h];
-		grid->wnd_10m[h] = sqrt(aaa+bbb);
-        
-        grid->tmp_soil_am += grid->tmp200_soil_a[h] * MDN[h] / 365.0;
-
 		/* alternative precipitation data *************************/
-		if(grid->prec_sub_a[h]>=0.0){
+		if(grid->prec_sub_a[h] >= 0.0){
 			grid->prate_sfc[h] = grid->prec_sub_a[h];
-		}else if(grid->prec_sub_a[h]<0.0){
+		}else if(grid->prec_sub_a[h] < 0.0){
 			grid->prate_sfc[h] = grid->prate_sfc_a[h];
 		}
 		
+		grid->spfh_2m[h] = grid->spfh_2m_a[h];
+		
+		aaa = grid->ugrd_10m_a[h] * grid->ugrd_10m_a[h];
+		bbb = grid->vgrd_10m_a[h] * grid->vgrd_10m_a[h];
+		grid->wnd_10m[h] = sqrt(aaa + bbb);
+        
+        /*******************************************/
+        /* IMPRESSIONS IRS: 2015/07/17 by A.Ito */
+        if(IMPRESSIONS_RUN == 1){
+        
+            if(GCM_ID<6001 || GCM_ID>7000){
+                printf("BAD experimental ID\n");
+                exit(1);
+            }
+            
+            /*******/
+            impex_t = (short)(GCM_ID%50);
+            
+            switch(impex_t){
+                case 1: tmp_var = -3.0; break;
+                case 2: tmp_var = -2.0; break;
+                case 3: tmp_var = -1.0; break;
+                case 4: tmp_var = 0.0; break;
+                case 5: tmp_var = 1.0; break;
+                case 6: tmp_var = 2.0; break;
+                case 7: tmp_var = 3.0; break;
+                case 8: tmp_var = 4.0; break;
+                case 9: tmp_var = 5.0; break;
+                case 10: tmp_var = 6.0; break;
+                case 11: tmp_var = 7.0; break;
+                case 12: tmp_var = 8.0; break;
+                case 13: tmp_var = 9.0; break;
+                case 14: tmp_var = 10.0; break;
+                case 15: tmp_var = 11.0; break;
+                default: tmp_var = 0.0; break;
+            }
+            
+            grid->tmp_sfc[h] += tmp_var;
+            grid->tmp_2m[h] += tmp_var;
+            grid->tmp10_soil[h] += tmp_var;
+            grid->tmp200_soil[h] += tmp_var;
+            
+            /*******/
+            impex_p = (short)((GCM_ID - 6000)/50);
+            
+            switch(impex_p){
+                case 0: pre_var = 0.4; break;
+                case 1: pre_var = 0.5; break;
+                case 2: pre_var = 0.6; break;
+                case 3: pre_var = 0.7; break;
+                case 4: pre_var = 0.8; break;
+                case 5: pre_var = 0.9; break;
+                case 6: pre_var = 1.0; break;
+                case 7: pre_var = 1.1; break;
+                case 8: pre_var = 1.2; break;
+                case 9: pre_var = 1.3; break;
+                case 10: pre_var = 1.4; break;
+                case 11: pre_var = 1.5; break;
+                case 12: pre_var = 1.6; break;
+                default: pre_var = 1.0; break;
+            }
+            
+            grid->prate_sfc[h] *= pre_var;
+        }
+
+        grid->tmp_soil_am += grid->tmp200_soil_a[h] * MDN[h] / 365.0;
+
 		/* solar decrination and solar height */
 		grid->sl_dec[h] = f_solar_decl(grid);
 		grid->sl_hgt[h] = f_solar_hgt(grid);
@@ -97,23 +156,23 @@ void f_init_clim(
 		grid->par_a[h] = grid->par[h];
         
 		/* sensitivity analysis *************************/
-		if(TM==1){
+		if(TM == 1){
 			grid->tmp_sfc[h] += 1.0;
 			grid->tmp_2m[h] += 1.0;
 			grid->tmp10_soil[h] += 1.0;
 			grid->tmp200_soil[h] += 1.0;
-		}else if(TM==5){
+		}else if(TM == 5){
 			grid->tmp_sfc[h] -= 1.0;
 			grid->tmp_2m[h] -= 1.0;
 			grid->tmp10_soil[h] -= 1.0;
 			grid->tmp200_soil[h] -= 1.0;
 		}
-		if(PR==1){
+		if(PR == 1){
 			grid->prate_sfc[h] *= 1.1;
-		}else if(PR==5){
+		}else if(PR == 5){
 			grid->prate_sfc[h] *= 0.9;
 		}
-	}	
+	}
 }
 
 /* location conditions derived from the primary data (Secondary data1) *******************/
@@ -148,7 +207,7 @@ void f_init_loct(
 		grid->prate_sfc_ann += grid->prate_sfc[h]; 
 		
 		if(grid->tmp_sfc[h]>5.0){
-			nn +=MDN[h];
+			nn += MDN[h];
 			grid->gp_atem += (grid->tmp_sfc[h]-5.0)*MDN[h];
 			tem_grow += grid->tmp_sfc[h]*MDN[h];
 			grid->gp_pre += grid->prate_sfc[h]; 
@@ -160,10 +219,10 @@ void f_init_loct(
 	c34composition((echar->c3).v_type, grid, loct);
 	
 	/* sensitivity analysis */
-	if(T_D==1||T_D==2||T_D==3||T_D==4){
-		ftmp10b=ftmp200b=ftmp10=ftmp200=0.0;
+	if(T_D==1 || T_D==2 || T_D==3 || T_D==4){
+		ftmp10b = ftmp200b = ftmp10 = ftmp200 = 0.0;
 		for(h=0;h<ASTEP;h++){
-			if(grid->tmp10_soil[h]>-20.0){
+			if(grid->tmp10_soil[h] > -20.0){
 				ftmp10b += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02))); 
 				if(T_D==0){
 					ftmp10 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02)));
@@ -180,7 +239,7 @@ void f_init_loct(
 				ftmp10b += 0.05;
 				ftmp10 += 0.05;
 			}
-			if(grid->tmp200_soil[h]>-20.0){
+			if(grid->tmp200_soil[h] > -20.0){
 				ftmp200b += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
 				if(T_D==0){
 					ftmp200 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
@@ -285,16 +344,18 @@ void f_dyn_loct(
     
         /* daily-mean and hourly: added: 2013/01/10 by A.Ito */
         loct->grad_d[grid->m] = 0.0;
-        for(h=0;h<24;h++){
+        for(h=0;h<DSTEP;h++){
+            grid->h = h;
+        
             /* atmosphere-top, hourly */
             grid->top_rad[grid->m] = f_top_rad(grid, -180 + h*15);
+            /* surface, hourly */
+            grid->gl_rad[grid->m] = f_gl_rad(grid);
             /* daily mean */
-            loct->grad_d[grid->m] += f_gl_rad(grid)/24.0;
+            loct->grad_d[grid->m] += f_gl_rad(grid)/(double)DSTEP;
             
             /* hourly PAR, micro mol photon m-2 s-1 */
-            loct->ppfd_h[h] = f_par(grid);
-            loct->ppfdb_h[h] = grid->par_bp[h];
-            loct->ppfdd_h[h] = grid->par_dp[h];
+            f_par_h(grid, loct);
         }
         
         /* midday */
@@ -311,7 +372,7 @@ void f_dyn_loct(
 		grid->tmp_soil_mean = 0.0;
 		for(h=0;h<ASTEP;h++){
 			/* annual mean temperature */
-			grid->tmp_sfc_am += grid->tmp_sfc[h]*MDN[h]/365.0; 
+			grid->tmp_sfc_am += grid->tmp_sfc[h] * MDN[h]/365.0;
 			/* annual maximum */
 			grid->tmp_sfc_mx = (grid->tmp_sfc[h]>grid->tmp_sfc_mx)?grid->tmp_sfc[h]:grid->tmp_sfc_mx; 
 			/* annual minimum */
@@ -319,7 +380,7 @@ void f_dyn_loct(
 			/* annual total precipitation */
 			grid->prate_sfc_ann += grid->prate_sfc[h]; 
 			/* annual mean soil temperature */
-			grid->tmp_soil_mean += grid->tmp10_soil[h]*MDN[h]/365.0;
+			grid->tmp_soil_mean += grid->tmp10_soil[h] * MDN[h]/365.0;
 		}
 		loct->cum_dprec = 0.0;
         
@@ -377,7 +438,7 @@ void f_dyn_loct(
 	/* altitude */
 	alt = (grid->topo>=0.0)?grid->topo:0.0; 
 	/* air pressure */
-	loct->prsr[grid->m] = 1013.25*exp(-1.0*(28.964*0.001) * GAC * alt / (UGC*(grid->tmp_2m[grid->m] + ZAT)));
+	loct->prsr[grid->m] = 1013.25 * exp(-1.0 * (28.964 * 0.001) * GAC * alt / (UGC * (grid->tmp_2m[grid->m] + ZAT)));
 	
 	/* saturated vapour pressure, hPa */
 	loct->vps[grid->m] = vap_pre_sat(grid); 
@@ -445,7 +506,7 @@ void f_dyn_loct(
 		/* vapour pressure, hPa */
 		loct->vp[grid->m] = loct->prsr[grid->m] * grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]);
 		/* vapour pressure deficit */
-		loct->vpd[grid->m] = (loct->vps[grid->m]>=loct->vp[grid->m])?loct->vps[grid->m]-loct->vp[grid->m]:0.0; 
+		loct->vpd[grid->m] = (loct->vps[grid->m] >= loct->vp[grid->m])?loct->vps[grid->m] - loct->vp[grid->m]:0.0;
 	}
 
 	/* air density */
@@ -460,8 +521,8 @@ void f_dyn_loct(
 	/** net radiation **/
 	f_net_rad(grid, loct, mass, echar);
     	
-	(mass->plant).lai[grid->m] = (mass->c3).lai[grid->m]*loct->c3ptn[grid->m]
-					+ (mass->c4).lai[grid->m]*loct->c4ptn[grid->m];
+	(mass->plant).lai[grid->m] = (mass->c3).lai[grid->m] * loct->c3ptn[grid->m]
+					+ (mass->c4).lai[grid->m] * loct->c4ptn[grid->m];
 	loct->lai[grid->m] = (mass->plant).lai[grid->m];
     
 	/** hydrological water budget **/
@@ -474,7 +535,7 @@ void f_dyn_loct(
 	non-photosynthetic organs on canopy photosynthetic production. 
 	Ecological Research 4:187-197.
 	*/
-	if(grid->veg_sage>=1 && grid->veg_sage<=8){
+	if(grid->veg_sage >= 1 && grid->veg_sage <= 8){
 		k_c = 0.221;	/* Kurachi and Hagihara */
 	}else{
 		k_c = 0.001;

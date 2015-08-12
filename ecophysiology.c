@@ -32,8 +32,8 @@ void f_ecophysiology(
         hangle = -180.0 + ((double)f+0.5)*15.0;
     
         /* canopy radiation absorption */
-        sinb = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr) 
-                + cos(grid->lat*dTr)*cos(grid->sl_dec[grid->m]*dTr)* cos(hangle*dTr);
+        sinb = sin(grid->lat*dTr) * sin(grid->sl_dec[grid->m]*dTr)
+                + cos(grid->lat*dTr) * cos(grid->sl_dec[grid->m]*dTr) * cos(hangle*dTr);
         sinb = (sinb<=1.0)?sinb:1.0; 
         sinb = (sinb>=-1.0)?sinb:-1.0;
         
@@ -43,8 +43,8 @@ void f_ecophysiology(
             irr_b = (1.0 - sqrt(1.0 - 0.15))/(1.0 + sqrt(1.0 - 0.15));
             rfl_b = 1.0 - exp(-2.0 * irr_b * ke_b1)/(1.0 + ke_b1);
             
-            appfdb = (1.0 - rfl_b)* loct->ppfdb_h[f] * (1.0 - exp(-ke_b2*mass->lai[grid->m]));
-            appfdd = (1.0 - 0.036)* loct->ppfdd_h[f] * (1.0 - exp(-0.719*mass->lai[grid->m]));
+            appfdb = (1.0 - rfl_b)* loct->ppfdb_h[f] * (1.0 - exp(-ke_b2 * mass->lai[grid->m]));
+            appfdd = (1.0 - 0.036)* loct->ppfdd_h[f] * (1.0 - exp(-0.719 * mass->lai[grid->m]));
             
             apar = appfdb + appfdd;
             fapar = apar / loct->ppfd_h[f];

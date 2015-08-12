@@ -279,7 +279,7 @@ void f_init_grid(
 	}if(GCM_ID==3070 || GCM_ID==3071 || GCM_ID==3072){ /* GEO-MIP CanESM2 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM_ID==3080 || GCM_ID==3801){ /* GEO-MIP MPI-ESM-LR */
+	}if(GCM_ID==3080 || GCM_ID==3081){ /* GEO-MIP MPI-ESM-LR */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}if(GCM_ID==3090 || GCM_ID==3091){ /* GEO-MIP CCSM4 */
@@ -524,7 +524,7 @@ void f_init_grid(
 	
 	/* Olson croplands replaced by SAGE natural vegetation */
 	/* 2010/04/27 by A.Ito */
-	if(REPL_OLSON_CROP == 1){
+	if(REPLACE_OLSON_CROP == 1){
 		if(grid->veg_olson==29 ||grid->veg_olson==30 ||grid->veg_olson==31 
 		   ||grid->veg_olson==32){
 			
@@ -1097,7 +1097,7 @@ void f_init_grid(
 		grid->veg_crop = 3;
 	}
     
-    /* change crop types: 2015/04/24 by A.Ito */
+    /* force change crop types: 2015/04/24 by A.Ito */
     if(EX_CROP == 1){
         grid->veg_crop = 1;  /* C3:wheat */
     }
