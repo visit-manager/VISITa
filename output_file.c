@@ -609,6 +609,9 @@ void f_output_result(
             /* 2014/06/07 */
             fprintf(fp_o[6],"%.3lf ", grid->tmp10_soil[f]);
             fprintf(fp_o[6],"%.3lf ", grid->tmp200_soil[f]);
+            
+            /* added 2015/08/12 by A.Ito */
+            fprintf(fp_o[6],"%.2lf ", loct->ippfd_g[f]);
 
             /* 2014/01/22 for WSL output */
             /* 2015/02/18 for WTD check */

@@ -331,6 +331,8 @@ struct Grid{
 	
 	long	type_permaforst;			/* permafrost type by NSIDC */
     double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
+    
+    double  f_biofuel[N_BF];              /* biofuel scenario: 2015/8/21 by A.Ito */
 };			
 
 /* grid conditions, derived from submodules *******************************************/

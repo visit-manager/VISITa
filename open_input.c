@@ -1557,19 +1557,19 @@ void open_input(
             printf("No luc_s2u_ssp3_2001-2100.txt\n");
             exit(1); 
         }
-        if( (fp_s[74]=fopen("./data/luc_v2c_ssp3_2001-2100.txt","rt"))==NULL ){
+        if( (fp_s[74] = fopen("./data/luc_v2c_ssp3_2001-2100.txt","rt"))==NULL ){
             printf("No luc_v2c_ssp3_2001-2100.txt\n");
             exit(1); 
         }
-        if( (fp_s[75]=fopen("./data/luc_v2p_ssp3_2001-2100.txt","rt"))==NULL ){
+        if( (fp_s[75] = fopen("./data/luc_v2p_ssp3_2001-2100.txt","rt"))==NULL ){
             printf("No luc_v2p_ssp3_2001-2100.txt\n");
             exit(1); 
         }
-        if( (fp_s[76]=fopen("./data/luc_v2s_ssp3_2001-2100.txt","rt"))==NULL ){
+        if( (fp_s[76] = fopen("./data/luc_v2s_ssp3_2001-2100.txt","rt"))==NULL ){
             printf("No luc_v2s_ssp3_2001-2100.txt\n");
             exit(1); 
         }
-        if( (fp_s[77]=fopen("./data/luc_v2u_ssp3_2001-2100.txt","rt"))==NULL ){
+        if( (fp_s[77] = fopen("./data/luc_v2u_ssp3_2001-2100.txt","rt"))==NULL ){
             printf("No luc_v2u_ssp3_2001-2100.txt\n");
             exit(1); 
         }
@@ -1627,10 +1627,13 @@ void open_input(
 		CO2S = 1;
 		
 		if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
-			printf("NO DATA !!\n");
+			printf("NO DATA:image_a1b_fcrop.dat !!\n");
 			exit(1);
 		}
-		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+        if((fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt"))==NULL){
+			printf("NO DATA:image_a1b_fgrass.dat !!\n");
+			exit(1);
+        }
 	}else if(GCM_ID==1013 ||GCM_ID==1014 ||GCM_ID==1015 || GCM_ID==1051 ||GCM_ID==1061 ||GCM_ID==1071 ||
 		GCM_ID==1081 ||GCM_ID==1091 ||GCM_ID==1111 ||GCM_ID==1121 ||GCM_ID==1135 ||GCM_ID==1136 ||GCM_ID==1137 ||
 		GCM_ID==1138 ||GCM_ID==1139 ||GCM_ID==1154 ||GCM_ID==1155 ||GCM_ID==1156 ||GCM_ID==1171 ||GCM_ID==1181 ||
@@ -2005,5 +2008,32 @@ void open_input(
     if( (fp_s[58]=fopen("./data/GlobAlbedo_av.flt","rb"))==NULL ){
         printf("No GlobAlbedo_av.flt\n");  
         exit(1); 
+    }
+    
+    if(BIOFUEL_RUN==0){
+        if( (fp_s[87]=fopen("./data/s10gcp_ssp_crop_2010-2100.txt","rt"))==NULL ){
+            printf("No s10gcp_ssp_crop_2010-2100.txt\n");
+            exit(1); 
+        }
+    }else if(BIOFUEL_RUN==1){
+        if( (fp_s[87]=fopen("./data/s10gcp_ssp_biofuel_2020-2100_current.txt","rt"))==NULL ){
+            printf("No s10gcp_ssp_biofuel_2020-2100_current.txt\n");
+            exit(1); 
+        }
+    }else if(BIOFUEL_RUN==2){
+        if( (fp_s[87]=fopen("./data/s10gcp_ssp_biofuel_2020-2100_low.txt","rt"))==NULL ){
+            printf("No s10gcp_ssp_biofuel_2020-2100_low.txt\n");
+            exit(1); 
+        }
+    }else if(BIOFUEL_RUN==3){
+        if( (fp_s[87]=fopen("./data/s10gcp_ssp_biofuel_2020-2100_middle.txt","rt"))==NULL ){
+            printf("No s10gcp_ssp_biofuel_2020-2100_middle.txt\n");
+            exit(1); 
+        }
+    }else{
+        if( (fp_s[87]=fopen("./data/s10gcp_ssp_crop_2010-2100.txt","rt"))==NULL ){
+            printf("No s10gcp_ssp_crop_2010-2100.txt\n");
+            exit(1); 
+        }
     }
 }

@@ -34,7 +34,7 @@
 #define INT_C 0.01
 
 /***********************************************************/
-#define ISIMIP_RUN 1
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -54,19 +54,11 @@
 /* 0: off */
 /* 1: on */
 
-/* biofuel experiment: 2015/08/21 by A.Ito */
-#define BIOFUEL_RUN 1
-/* 0: off */
-/* 1: current fertilization */
-/* 2: low fertilization */
-/* 3: middle fertilization */
-#define N_BF 81 /* biofuel data length */
-
 /********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 0
+#define OUTPUT_ISOTOPE 1
 #define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 1
@@ -82,8 +74,7 @@
 /* total vegetation number */
 #define NVEG_OLSON 34	/* Olson veg (modified) */
 #define NVEG_SAGE 16		/* SAGE veg (modified) */
-/* #define NVEG_CROP 3	*/	/* crop types */
-#define NVEG_CROP 4		/* crop types: add biofuel crop: 2015/08/21 by A.Ito */
+#define NVEG_CROP 3		/* crop types */
 
 /* calculation for land covers */
 #define CALC_OLSON 1    /* matural vegetation */
@@ -151,7 +142,6 @@
 /* total historical run: using CRU, NCEP, etc. ***/
 #if ISIMIP_RUN==1
     #define PD_HIST 150  /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
-                         /* BIOFUEL RUN */
 #elif ISIMIP_RUN==2
     #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
@@ -211,7 +201,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
@@ -284,7 +274,7 @@
 #define NPERT 20
 
 /* land use change setting ***********/
-#define LANDUSE 9
+#define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -372,7 +362,7 @@
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 

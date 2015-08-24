@@ -1107,6 +1107,10 @@ void f_init_grid(
     if(EX_CROP == 3){
         grid->veg_crop = 3;  /* C4:maize */
     }
+    
+    if(BIOFUEL_RUN >= 1){
+         grid->veg_crop = 4;  /* biofuel: added 2015/08/21 by A.Ito */
+    }
 	
 	/* diffuse radiation estimation using SRB data ************/
 	/* intercept */
@@ -1219,5 +1223,14 @@ void f_init_grid(
     fread(rfdat,sizeof(float),12, fp_s[58]);
     for(e=0;e<ASTEP;e++){
         grid->glbalbedo[e] = rfdat[e];
+    }
+    
+    /* Bio Fuel scenario: 2015/08/21 by A.Ito ***********/
+    for(e=0;e<N_BF;e++){
+        fscanf(fp_s[87],"%lf", &grid->f_biofuel[e]);
+        
+        if(grid->f_biofuel[e] < 0.0){
+            grid->f_biofuel[e] = 0.0;
+        }
     }
 }

@@ -369,9 +369,9 @@ void interval(
 	flux->d13c_rrg[grid->m] = flux->d13c_tpr[grid->m];
 	
 	/* partitioning of photosynthate */
-	mass->fol += (flux->tpf[grid->m]-flux->rfg[grid->m]);
-	mass->stm += (flux->tpc[grid->m]-flux->rcg[grid->m]);
-	mass->rot += (flux->tpr[grid->m]-flux->rrg[grid->m]);
+	mass->fol += (flux->tpf[grid->m] - flux->rfg[grid->m]);
+	mass->stm += (flux->tpc[grid->m] - flux->rcg[grid->m]);
+	mass->rot += (flux->tpr[grid->m] - flux->rrg[grid->m]);
 	
 	f_leaf_age(0, pchar, mass, (flux->tpf[grid->m]-flux->rfg[grid->m]));
 	

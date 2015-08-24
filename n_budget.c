@@ -349,6 +349,48 @@ void f_n_deposit(
         loct->depo_no3[grid->m] = ndepo_no3;
         loct->depo_nh4[grid->m] = ndepo_nh4;
     }
+    
+    /* experiment N deposition: 2015/08/12 by A.Ito *****/
+    if(EX_NDEPO == 1){
+        loct->depo_no3[grid->m] *= 1.1;
+        loct->depo_nh4[grid->m] *= 1.1;
+    }
+    if(EX_NDEPO == 2){
+        loct->depo_no3[grid->m] *= 0.9;
+        loct->depo_nh4[grid->m] *= 0.9;
+    }
+    if(EX_NDEPO == 3){
+        loct->depo_no3[grid->m] *= 1.3;
+        loct->depo_nh4[grid->m] *= 1.3;
+    }
+    if(EX_NDEPO == 4){
+        loct->depo_no3[grid->m] *= 0.7;
+        loct->depo_nh4[grid->m] *= 0.7;
+    }
+    if(EX_NDEPO == 5){
+        loct->depo_no3[grid->m] *= 1.5;
+        loct->depo_nh4[grid->m] *= 1.5;
+    }
+    if(EX_NDEPO == 6){
+        loct->depo_no3[grid->m] *= 0.5;
+        loct->depo_nh4[grid->m] *= 0.5;
+    }
+    
+    if(EX_NDEPO == 7){
+        ndepo_total = loct->depo_no3[grid->m] + loct->depo_nh4[grid->m];
+        loct->depo_nh4[grid->m] = ndepo_total;
+        loct->depo_no3[grid->m] = 0.0;
+    }
+    if(EX_NDEPO == 8){
+        ndepo_total = loct->depo_no3[grid->m] + loct->depo_nh4[grid->m];
+        loct->depo_nh4[grid->m] = 0.0;
+        loct->depo_no3[grid->m] = ndepo_total;
+    }
+    if(EX_NDEPO == 9){
+        ndepo_total = loct->depo_no3[grid->m] + loct->depo_nh4[grid->m];
+        loct->depo_nh4[grid->m] = 0.5 * ndepo_total;
+        loct->depo_no3[grid->m] = 0.5 * ndepo_total;
+    }
 }
 
 /*************************************************/

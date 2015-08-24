@@ -498,20 +498,20 @@ int main(
 #endif
 
 #if PHYS_GOUT==1
-	fwrite(g_lai, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 160
-	fwrite(g_parb, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 165
-	fwrite(g_pard, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 170
-	fwrite(g_apar, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 175
-	fwrite(g_apar2, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 180
+	fwrite(g_lai, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 160 90
+	fwrite(g_parb, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 165 95
+	fwrite(g_pard, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 170 100
+	fwrite(g_apar, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 175 105
+	fwrite(g_apar2, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 180 110
 	fwrite(g_aet, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 185
-	fwrite(g_rof, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 190
+	fwrite(g_rof, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 190 120
 	fwrite(g_rns, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 195
-	fwrite(g_rnl, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 200
+	fwrite(g_rnl, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 200 130
 	fwrite(g_sw1, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 205
-	fwrite(g_sw2, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 210
+	fwrite(g_sw2, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 210 140
 	fwrite(g_snh4, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 215
-	fwrite(g_sno3, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 220
-	fwrite(g_rnsd, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 221 added: 2013/01/10 by A.Ito
+	fwrite(g_sno3, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 220 150
+	fwrite(g_rnsd, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 225 added: 2013/01/10 by A.Ito
 #endif
 	
 #if CH4_WH==1	
@@ -526,7 +526,8 @@ int main(
 	for(h=0;h<4;h++){
 		fclose(fp_c[h]);
         
-        if(GCM_ID >= 1){
+        /* revised 2015/8/12 by A.Ito */
+        if(GCM_RUN == 1 && GCM_ID >= 1){
             fclose(fp_c2[h]);
         }
 	}

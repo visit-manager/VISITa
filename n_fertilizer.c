@@ -247,4 +247,14 @@ void n_fertilizer_in(
 	}
 	
 	loct->n_frtlz_in = fert_input* MDN[grid->m] / 365.0;
+    
+    if(BIOFUEL_RUN == 1){
+        loct->n_frtlz_in = 60.0 * MDN[grid->m] / 365.0;
+    }
+    if(BIOFUEL_RUN == 2){
+        loct->n_frtlz_in = 30.0 * MDN[grid->m] / 365.0;
+    }
+    if(BIOFUEL_RUN == 3){
+        loct->n_frtlz_in = 90.0 * MDN[grid->m] / 365.0;
+    }
 }

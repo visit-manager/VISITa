@@ -135,6 +135,17 @@ void f_cult_luc(
         grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - PIVOT_LUC];
     }
 	
+    /* biofuel experiment: 2015/08/21 by A.Ito */
+    if(BIOFUEL_RUN >= 1){
+        if(grid->lucy <= 2010){
+            grid->f_crop_con = grid->f_biofuel[2010 - 2010];
+        }else{
+            grid->f_crop_con = grid->f_biofuel[grid->lucy - 2010];
+        }
+        
+        grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - PIVOT_LUC];
+    }
+    
 	/*********************************/
 	if(grid->f_crop_con < 0.0){
 		grid->f_crop_con = 0.0;
@@ -214,6 +225,10 @@ void f_cult_luc(
                                 + grid->t_sp_unh_hmnzed[grid->lucy - PIVOT_LUC];
         }
 	}
+    
+    if(BIOFUEL_RUN >= 1){
+        grid->f_deforest = 0.0;
+    }
     
     /* parameter ensemble: 2014/11/19 by A.Ito */
     prm_ensen = 1.0;
@@ -304,6 +319,10 @@ void f_cult_luc(
 		if(grid->f_paddy < 0.0){
 			grid->f_paddy = 0.0;
 		}
+    }
+    
+    if(BIOFUEL_RUN >= 1){
+        grid->f_paddy = grid->f_paddy_b;
     }
 }
 

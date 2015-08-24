@@ -427,7 +427,7 @@ void noleafperiod(
 	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m] - pchar->photo_13c_frac[grid->m];
 	
 	/* GPP by de Pury & Farquhar scheme */
-	if(DF97==1){
+	if(DF97 == 1){
 		flux->gpp_df97[grid->m] = f_df97_gpp(1, grid, loct, pchar, mass);
 	}
 
@@ -442,7 +442,7 @@ void noleafperiod(
 	flux->d13c_rrm[grid->m] = mass->d13c_rot;
 	
 	/* tentative primary production */	
-	if(DF97==1){
+	if(DF97 == 1){
 		flux->epp[grid->m] = flux->gpp_df97[grid->m] - flux->arm[grid->m];
 	}else{
 		flux->epp[grid->m] = flux->gpp[grid->m] - flux->arm[grid->m];
@@ -456,7 +456,7 @@ void noleafperiod(
 	flux->d13c_tpr[grid->m] = flux->d13c_gpp[grid->m];
 	flux->d13c_tpp[grid->m] = flux->d13c_gpp[grid->m];
 
-	if(flux->epp[grid->m]>0.0){
+	if(flux->epp[grid->m] > 0.0){
 		/* growth construction respiration */
 		flux->rfg[grid->m] = frfg(grid, pchar, flux);
 		flux->rcg[grid->m] = frcg(grid, pchar, flux);

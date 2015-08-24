@@ -34,7 +34,7 @@
 #define INT_C 0.01
 
 /***********************************************************/
-#define ISIMIP_RUN 1
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -45,7 +45,7 @@
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
-#define IMPRESSIONS_RUN 0
+#define IMPRESSIONS_RUN 1
 /* 0: off */
 /* 1: sensitivity run (for IRS) */
 
@@ -54,25 +54,17 @@
 /* 0: off */
 /* 1: on */
 
-/* biofuel experiment: 2015/08/21 by A.Ito */
-#define BIOFUEL_RUN 1
-/* 0: off */
-/* 1: current fertilization */
-/* 2: low fertilization */
-/* 3: middle fertilization */
-#define N_BF 81 /* biofuel data length */
-
 /********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
+#define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 1
-#define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
-#define OUTPUT_GHG 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_NITROGEN 0
+#define OUTPUT_HYDMET 0
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 0
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 /* output binary */
 #define C13_GOUT 0
 #define C14_GOUT 0
@@ -82,8 +74,7 @@
 /* total vegetation number */
 #define NVEG_OLSON 34	/* Olson veg (modified) */
 #define NVEG_SAGE 16		/* SAGE veg (modified) */
-/* #define NVEG_CROP 3	*/	/* crop types */
-#define NVEG_CROP 4		/* crop types: add biofuel crop: 2015/08/21 by A.Ito */
+#define NVEG_CROP 3		/* crop types */
 
 /* calculation for land covers */
 #define CALC_OLSON 1    /* matural vegetation */
@@ -151,7 +142,6 @@
 /* total historical run: using CRU, NCEP, etc. ***/
 #if ISIMIP_RUN==1
     #define PD_HIST 150  /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
-                         /* BIOFUEL RUN */
 #elif ISIMIP_RUN==2
     #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
@@ -168,8 +158,7 @@
     /* #define PD_HIST 110	*/	/* AD 1901 - 2010 */
     /* #define PD_HIST 111	*/	/* AD 1901 - 2011 */
     /* #define PD_HIST 112	*/	/* AD 1901 - 2012 */
-    /* #define PD_HIST 113	*/	/* AD 1901 - 2013 */
-    #define PD_HIST 114	/* */	/* AD 1901 - 2014 */
+    #define PD_HIST 113	/* */	/* AD 1901 - 2013 */
 #endif
 
 /* start year (AD) of climate ***/
@@ -211,7 +200,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
@@ -284,7 +273,7 @@
 #define NPERT 20
 
 /* land use change setting ***********/
-#define LANDUSE 9
+#define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -439,19 +428,6 @@
 /* sensitivity run of N deposition */
 #define SENS_N 0
 /* 0:off, 1:0n */
-
-/* experiment: changed nitrogen deposition: 2015/08/12 by A.Ito */
-#define EX_NDEPO 0
-/* 0: control */
-/* 1: +10% */
-/* 2: -10% */
-/* 3: +30% */
-/* 4: -30% */
-/* 5: +50% */
-/* 6: -50% */
-/* 7: all ammonium */
-/* 8: all nitrate */
-/* 9: 50:50 ammonium and nitrate */
 
 /********************************************************/
 /* sensitivity analysis *****************/
