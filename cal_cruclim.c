@@ -53,9 +53,6 @@ void cal_historical(
 			set_hist_clim(grid);
 		}
 		
-		/* land-use change ******************/
-		f_cult_luc(grid);
-		
 		/* CO2 year ********************/
 		grid->co2y = PIVOT_CO2Y + g; 
 		/* sensitivity analysis: no CO2 rise */
@@ -76,6 +73,9 @@ void cal_historical(
         }
         
         grid->lucy = PIVOT_CLIMY + g;
+		
+		/* land-use change ******************/
+		f_cult_luc(grid);
 		
 		/*  Fertilizer input, historical change: 2010/05/11 by A.Ito */
 		if(grid->rank_nat == 1){
@@ -376,7 +376,7 @@ void cal_historical(
 			/* assumption for the period later than 2004: A.Ito (2010/11/11) */
 			if( (LANDUSE != 10 && LANDUSE != 11 && LANDUSE != 12 && LANDUSE != 13) &&
                     grid->climy > (PIVOT_LUC+DL_LUH-1)){
-				dyr = (PIVOT_LUC+DL_LUH-1);
+				dyr = (PIVOT_LUC + DL_LUH - 1);
 			}
             
             /* from total grid */

@@ -12,7 +12,7 @@
 #include"setting.h"
 
 /* #define IFILEN 59 */  /* normal case */
-#define IFILEN 87 /* */  /* normal case */
+#define IFILEN 88 /* */  /* normal case */
 #define OFILEN 9
 
 extern short DF97;
@@ -39,7 +39,7 @@ extern double h_trnsp[PD_SIM], h_incepev[PD_SIM], h_ssurfev[PD_SIM];
 extern double h_nbp[PD_SIM], h_hvst[PD_SIM], h_abgm[PD_SIM];
 extern double h_sw1[PD_SIM], h_sw2[PD_SIM];
 extern double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
-extern double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM];
+extern double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
 extern double h_parb[PD_SIM], h_pard[PD_SIM];
 extern double h_arm[PD_SIM];
 
@@ -245,6 +245,7 @@ double f_day_length(struct Grid *grid);
 double f_top_rad(struct Grid *grid, short ha);
 double f_gl_rad(struct Grid *grid);
 double f_par(struct Grid *grid);
+void f_par_h(struct Grid *grid, struct Loct *loct);
 void f_net_rad(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Echar *echar);
 double albedo_soil(struct Loct *loct, struct Schar *schar);
 

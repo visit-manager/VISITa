@@ -210,8 +210,8 @@ void f_nh3_volatilization(
 	/* soil water potential Eq.(6.2g) */
 	if(loct->sw30 > 1.0){
 		/* modified by A.Ito (2009/06/05) */
-		swp = -10.0 * pow(1.0/(loct->sw30/grid->field_cap1), 5.0);
-		f_sw = exp((18.0 * swp)/(8314.0*(grid->tmp10_soil[grid->m] + ZAT)));
+		swp = -10.0 * pow(1.0 / (loct->sw30 / grid->field_cap1), 5.0);
+		f_sw = exp((18.0 * swp) / (8314.0 * (grid->tmp10_soil[grid->m] + ZAT)));
 	}else{
 		f_sw = 0.0;
 	}
@@ -348,6 +348,48 @@ void f_n_deposit(
         /* unit: g N ha-1 month-1 */
         loct->depo_no3[grid->m] = ndepo_no3;
         loct->depo_nh4[grid->m] = ndepo_nh4;
+    }
+    
+    /* experiment N deposition: 2015/08/12 by A.Ito *****/
+    if(EX_NDEPO == 1){
+        loct->depo_no3[grid->m] *= 1.1;
+        loct->depo_nh4[grid->m] *= 1.1;
+    }
+    if(EX_NDEPO == 2){
+        loct->depo_no3[grid->m] *= 0.9;
+        loct->depo_nh4[grid->m] *= 0.9;
+    }
+    if(EX_NDEPO == 3){
+        loct->depo_no3[grid->m] *= 1.3;
+        loct->depo_nh4[grid->m] *= 1.3;
+    }
+    if(EX_NDEPO == 4){
+        loct->depo_no3[grid->m] *= 0.7;
+        loct->depo_nh4[grid->m] *= 0.7;
+    }
+    if(EX_NDEPO == 5){
+        loct->depo_no3[grid->m] *= 1.5;
+        loct->depo_nh4[grid->m] *= 1.5;
+    }
+    if(EX_NDEPO == 6){
+        loct->depo_no3[grid->m] *= 0.5;
+        loct->depo_nh4[grid->m] *= 0.5;
+    }
+    
+    if(EX_NDEPO == 7){
+        ndepo_total = loct->depo_no3[grid->m] + loct->depo_nh4[grid->m];
+        loct->depo_nh4[grid->m] = ndepo_total;
+        loct->depo_no3[grid->m] = 0.0;
+    }
+    if(EX_NDEPO == 8){
+        ndepo_total = loct->depo_no3[grid->m] + loct->depo_nh4[grid->m];
+        loct->depo_nh4[grid->m] = 0.0;
+        loct->depo_no3[grid->m] = ndepo_total;
+    }
+    if(EX_NDEPO == 9){
+        ndepo_total = loct->depo_no3[grid->m] + loct->depo_nh4[grid->m];
+        loct->depo_nh4[grid->m] = 0.5 * ndepo_total;
+        loct->depo_no3[grid->m] = 0.5 * ndepo_total;
     }
 }
 

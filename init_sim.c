@@ -200,7 +200,7 @@ void f_init_sim(
 		h_nbp[f] = h_hvst[f] = h_abgm[f] = 0.0;
 		h_sw1[f] = h_sw2[f] = 0.0;
         h_rns[f] = h_rnl[f] = 0.0; /* added by A.Ito (2013/01/02) */
-		h_rnsd[f] = h_cld[f] = h_apar[f] = 0.0;
+		h_rnsd[f] = h_cld[f] = h_apar[f] = h_ipar[f] = 0.0;
         h_parb[f] = h_pard[f] = 0.0;
         h_arm[f] = 0.0;
         

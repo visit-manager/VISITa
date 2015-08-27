@@ -57,6 +57,7 @@ struct Grid{
 	long 	phase;					/* simulation phase: 0-spinup, 1-past, 2-future */
 	long 	y;						/* calculation time from the simulation onset, in year */
 	long 	m;						/* month of the year, from Jan. to Dec., 0 to 11 */
+    long    h;
 	
 	/* atmospheric condition ***********/
 	long 	co2y;					/* year for CO2 level estimation */
@@ -330,6 +331,8 @@ struct Grid{
 	
 	long	type_permaforst;			/* permafrost type by NSIDC */
     double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
+    
+    double  f_biofuel[N_BF];              /* biofuel scenario: 2015/8/21 by A.Ito */
 };			
 
 /* grid conditions, derived from submodules *******************************************/
@@ -370,9 +373,9 @@ struct Loct{
     double  ppfdb_h[DSTEP];
     double  ppfdd_h[DSTEP];
 
+    double  ippfd_g[ASTEP];
     double  appfd_g[ASTEP];
 	double	fappfd_g[ASTEP];
-    
 	double	fapar_df[ASTEP];
 
 	double	pet_prty[ASTEP];			/* Priestley-Taylor potential evapotranspiration, mm month-1 */

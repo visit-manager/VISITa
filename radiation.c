@@ -251,6 +251,89 @@ double f_par(
 	return (par);
 }
 
+/* photosynthetically active radiation ***************************/
+void f_par_h(
+	struct Grid *grid,
+    struct Loct *loct
+){
+	double kt, hd, dd;
+	double e2p_b, e2p_d, par_be, par_de;
+	
+	/* constant, after McCree (1981) */
+	/* McCree, K. J. 1981. Photosynthetically active radiation. 
+	Pages 41-55 in O. L. Lange, P. S. Nobel, and C. B. Osmond, editors. 
+	Encyclopedia of Plant Physiology. Springer, Berlin. */
+	e2p_b = 4.6; /* W/m2 to micro-mol photon /m2/s for diffused radiation*/
+	e2p_d = 4.2; /* W/m2 to micro-mol photon /m2/s for beam radiation*/
+	
+	/* photosynthetically active radiation (par) in the global radiation, 
+	based on the empirical Tooming's equation */	
+	/* ref. Iqbal, M. 1983. An introduction to solar radiation. 
+	Academic Press, Toronto. */
+	if(grid->top_rad[grid->m] > 0.0){
+		/* surface / top ratio */
+		kt = grid->gl_rad[grid->m]/grid->top_rad[grid->m];
+		
+		/* new estimation of diffuse radiation: 2008/09/08 by A.Ito */
+		if(DIF_SRB == 1){
+			if((grid->srb_dif_rr * grid->srb_dif_rr) > 0.25){
+				dd = grid->srb_dif_aa + grid->srb_dif_bb * kt;
+			}else{
+				/* global average */
+				dd = 1.306833 - 1.250070 * kt;
+			}
+		}else{
+			dd = 0.958 - 0.982 * kt;
+		}
+		
+		if(SENS_RAD == 1){
+			dd *= 1.1;
+		}
+		if(SENS_RAD == 2){
+			dd *= 0.9;
+		}
+		
+		dd = (dd>0.01)?dd:0.01;
+		dd = (dd<=1.0)?dd:1.0;
+		
+		/** diffused radiation **/
+		hd = grid->gl_rad[grid->m] * dd;
+		
+		/* variable conversion factor after Dye et al. (2004) */
+		/*
+		Dye, D.G., 2004. Spectral composition and quantum-to-energy 
+		ratio of diffuse photosynthetically active radiation under 
+		diverse cloud conditions. Journal of Geophysical Research 
+		109, 10.1029/2003JD004251.
+		*/
+		if(D_PAR == 1){
+			e2p_d = 4.5886 * dd / (0.010773 + dd);
+			e2p_d = (e2p_d>4.2)?e2p_d:4.2;
+			
+			e2p_b = 4.576 - 0.033144 * dd;		/* 050409 */
+		}
+		
+		/* fraction of PAR ******/
+		/* beam */
+		par_be = 0.43 * (grid->gl_rad[grid->m] - hd);
+		/* diffuse */
+		par_de = 0.57 * hd;
+		
+		/* conversion from W/m2 to micro-mol photon /m2/s */
+		/* beam */
+		loct->ppfdb_h[grid->h] = par_be * e2p_b;
+		/* diffuse */
+		loct->ppfdd_h[grid->h] = par_de * e2p_d;
+		
+		/* total: micro-mol photon /m2/s */
+		loct->ppfd_h[grid->h] = loct->ppfdb_h[grid->h] + loct->ppfdd_h[grid->h];
+	}else{
+		loct->ppfdb_h[grid->h] = 0.0;
+		loct->ppfdd_h[grid->h] = 0.0;
+		loct->ppfd_h[grid->h] = 0.0;
+	}
+}
+
 /* net radiation of canopy and ground surface *******************************/
 void f_net_rad(
 	struct Grid *grid, 
@@ -261,7 +344,7 @@ void f_net_rad(
     short nn;
 	double aaa, bbb, ccc, ddd1, ddd2, eee, ee_c3, ee_c4, fff;
 	double net_long, rad_net_p, rad_net_g, c3_canopy, c4_canopy, kmono_c3, kmono_c4;
-	double transmittance, ground, inppfd;
+	double transmittance, ground;
     double albedo_base, albedo_var, rn_short_base, rn_short_var;
     double tsfc, tsfc_base, tsfc_var,crit, tt1, tt2, latheat, snsheat, dtsfc;
 	
@@ -318,14 +401,21 @@ void f_net_rad(
     albedo_var = loct->albedo_sfc[grid->m];
     /* loct->xx5[grid->m] = albedo_var; */
     
-    if(grid->phase == 0){
+    /* 2015/08/10 by A.Ito *****/
+    /* if(grid->phase == 0){
         grid->tmp_sfc[grid->m] = grid->tmp_sfc_a[grid->m];
         grid->tmp10_soil[grid->m] = grid->tmp10_soil_a[grid->m];
         grid->tmp200_soil[grid->m] = grid->tmp200_soil_a[grid->m];
-    }
+    } */
     
     /* temperature change due to albedo: 2014/5/19 by A.Ito */
     if(EX_TVAR == 1 && EX_ALBEDO>=1){
+ 
+        if(grid->phase == 0){
+            grid->tmp_sfc[grid->m] = grid->tmp_sfc_a[grid->m];
+            grid->tmp10_soil[grid->m] = grid->tmp10_soil_a[grid->m];
+            grid->tmp200_soil[grid->m] = grid->tmp200_soil_a[grid->m];
+        }
         
         /* latent heat, W m-2, approximated by the previous year's value */
         latheat = (loct->incep[grid->m] + loct->trspr[grid->m] + loct->evpr[grid->m])
@@ -439,12 +529,12 @@ void f_net_rad(
     loct->appfd_g[grid->m] = loct->c3ptn[grid->m] * (echar->c3).appfd_db[grid->m]
                            + loct->c4ptn[grid->m] * (echar->c4).appfd_db[grid->m];
  
-    inppfd = loct->c3ptn[grid->m] * (echar->c3).ppfd_db[grid->m]
+    loct->ippfd_g[grid->m] = loct->c3ptn[grid->m] * (echar->c3).ppfd_db[grid->m]
            + loct->c4ptn[grid->m] * (echar->c4).ppfd_db[grid->m];
 
     /* fapar */
-    if(inppfd > 0.0){
-        loct->fappfd_g[grid->m] = loct->appfd_g[grid->m] / inppfd;
+    if(loct->ippfd_g[grid->m] > 0.0){
+        loct->fappfd_g[grid->m] = loct->appfd_g[grid->m] / loct->ippfd_g[grid->m];
     }else{
         loct->fappfd_g[grid->m] = 0.0;
     }

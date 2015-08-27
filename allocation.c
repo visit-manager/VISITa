@@ -69,7 +69,7 @@ void allocation(
                 
                 /* maximum allocation ratio to foliage is 40 %: 2008/08/25 by A.Ito */
                 /* ccc = ((pchar->alloc_ass*cc1)<0.4)?(pchar->alloc_ass*cc1):0.4; */
-                ccc = ((pchar->alloc_ass*cc1)<0.5)?(pchar->alloc_ass*cc1):0.5; 
+                ccc = ((pchar->alloc_ass * cc1)<0.5)?(pchar->alloc_ass * cc1):0.5;
             }
 
             /* ccc = pchar->alloc_ass*1.0; */
@@ -102,13 +102,13 @@ void allocation(
 		flux->tpp[grid->m] = (alloc_f + alloc_c + alloc_r) * flux->epp[grid->m];
 		
 		if(DF97 == 1){
-			flux->tpf[grid->m] = alloc_f*flux->gpp_df97[grid->m] - flux->rfm[grid->m];
-			flux->tpc[grid->m] = alloc_c*flux->gpp_df97[grid->m] - flux->rcm[grid->m];
-			flux->tpr[grid->m] = alloc_r*flux->gpp_df97[grid->m] - flux->rrm[grid->m];
+			flux->tpf[grid->m] = alloc_f * flux->gpp_df97[grid->m] - flux->rfm[grid->m];
+			flux->tpc[grid->m] = alloc_c * flux->gpp_df97[grid->m] - flux->rcm[grid->m];
+			flux->tpr[grid->m] = alloc_r * flux->gpp_df97[grid->m] - flux->rrm[grid->m];
 		}else{
-			flux->tpf[grid->m] = alloc_f*flux->gpp[grid->m] - flux->rfm[grid->m];
-			flux->tpc[grid->m] = alloc_c*flux->gpp[grid->m] - flux->rcm[grid->m];
-			flux->tpr[grid->m] = alloc_r*flux->gpp[grid->m] - flux->rrm[grid->m];
+			flux->tpf[grid->m] = alloc_f * flux->gpp[grid->m] - flux->rfm[grid->m];
+			flux->tpc[grid->m] = alloc_c * flux->gpp[grid->m] - flux->rcm[grid->m];
+			flux->tpr[grid->m] = alloc_r * flux->gpp[grid->m] - flux->rrm[grid->m];
 		}
 	}
 	
@@ -211,7 +211,7 @@ void reallocation_survival(
 	
 	/* to root */
 	if(mass->rot <= 0.0){
-		if(mass->stm>0.0){
+		if(mass->stm > 0.0){
 			aaa = mass->stm*(1.0 - pchar->alloc_abg);
 			mass->rot += aaa;
 			mass->stm -= aaa;
