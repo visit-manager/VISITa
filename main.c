@@ -308,6 +308,9 @@ int main(
 			printf("%3ld %3ld: %7.2lf %7.2lf: %2ld %2ld %2ld: %1ld\n", 
 				grid.row, grid.col, grid.lat, grid.lon, grid.veg_olson, grid.veg_sage, 
 				grid.veg_crop, grid.flag_histdata); /* */
+            
+            /****/
+            printf("*************%lf %lf %lf\n", grid.f_biofuel[0], grid.f_biofuel[10], grid.f_biofuel[50]);
 			
 			/* head records of output files */
 			for(h=0;h<OFILEN;h++){
