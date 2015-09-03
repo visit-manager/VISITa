@@ -248,13 +248,20 @@ void n_fertilizer_in(
 	
 	loct->n_frtlz_in = fert_input* MDN[grid->m] / 365.0;
     
+    /* biofuel experiments: 2015/09/03 revised by A.Ito */
     if(BIOFUEL_RUN == 1){
-        loct->n_frtlz_in = 80.0 * MDN[grid->m] / 365.0;
+        /* current */
+        /* loct->n_frtlz_in = 80.0 * MDN[grid->m] / 365.0; */ /* 2015/08/27 by A.Ito */
+        ;
     }
     if(BIOFUEL_RUN == 2){
-        loct->n_frtlz_in = 40.0 * MDN[grid->m] / 365.0;
+        /* low */
+        /* loct->n_frtlz_in = 40.0 * MDN[grid->m] / 365.0; */ /* 2015/08/27 by A.Ito */
+        loct->n_frtlz_in = 10.0 * MDN[grid->m] / 365.0;
     }
     if(BIOFUEL_RUN == 3){
-        loct->n_frtlz_in = 120.0 * MDN[grid->m] / 365.0;
+        /* medium */
+        /* loct->n_frtlz_in = 120.0 * MDN[grid->m] / 365.0; */ /* 2015/08/27 by A.Ito */
+        loct->n_frtlz_in = 60.0 * MDN[grid->m] / 365.0;
     }
 }
