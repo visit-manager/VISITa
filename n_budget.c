@@ -151,6 +151,11 @@ void f_biolfix(
 	if(total_nbiofix < 0.0){
 		total_nbiofix = 0.0;
 	}
+    
+    /* lower N2 fixation: 2015/09/03 by A.Ito */
+    if(loct->v_type==2 && BIOFUEL_RUN >= 1){
+        total_nbiofix *= 0.1;
+    }
 	
 	(flux->c3).n_biofix[grid->m] = total_nbiofix;
 	(flux->c4).n_biofix[grid->m] = total_nbiofix;
@@ -181,7 +186,7 @@ void f_nh3_volatilization(
     /* revised: 2014/11/27 by A.Ito */
 	if(schar->v_type == 2){
         /* cropland */
-		if((grid->soil_ph+0.5) >= 6.5){ /* 6.0=>6.5 */
+		if((grid->soil_ph + 0.5) >= 6.5){ /* 6.0=>6.5 */
 			ph_soil = grid->soil_ph + 1.5;
 		}else{
 			ph_soil = 6.5;

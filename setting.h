@@ -54,7 +54,15 @@
 /* 0: off */
 /* 1: on */
 
-/********************************************************/
+/* biofuel experiment: 2015/08/21 by A.Ito */
+#define BIOFUEL_RUN 0
+/* 0: off */
+/* 1: current fertilization */
+/* 2: low fertilization */
+/* 3: middle fertilization */
+#define N_BF 91 /* biofuel data length */
+
+/***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 1
@@ -74,7 +82,8 @@
 /* total vegetation number */
 #define NVEG_OLSON 34	/* Olson veg (modified) */
 #define NVEG_SAGE 16		/* SAGE veg (modified) */
-#define NVEG_CROP 3		/* crop types */
+/* #define NVEG_CROP 3	*/	/* crop types */
+#define NVEG_CROP 4		/* crop types: add biofuel crop: 2015/08/21 by A.Ito */
 
 /* calculation for land covers */
 #define CALC_OLSON 1    /* matural vegetation */
@@ -142,6 +151,7 @@
 /* total historical run: using CRU, NCEP, etc. ***/
 #if ISIMIP_RUN==1
     #define PD_HIST 150  /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
+                         /* BIOFUEL RUN */
 #elif ISIMIP_RUN==2
     #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
@@ -289,13 +299,17 @@
 /* 11: LUH 1500-2005/2005-2100 (RCP2.6) */
 /* 12: LUH 1500-2005/2005-2100 (RCP6.0) */
 /* 13: LUH 1500-2005/2005-2100 (RCP8.5) */
+/* 14: SSP1 */
+/* 15: SSP1 */
+/* 16: SSP1 */
+/* 17: LUH 1500-2005/2005-2100 (RCP2.6) + Biofuel */
 
-//#define DL_LUH 306 /* 1700-2000/2005 */
+/* #define DL_LUH 306 */ /* 1700-2000/2005 */
 #define DL_LUH 601 /* 1500-2100 */
 
 /* begin year of land-use data */
 #define PIVOT_LUC 1500
-//#define PIVOT_LUC 1700
+/* #define PIVOT_LUC 1700 */
 
 #if ISIMIP_RUN==1
     #define BGY_LUC 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
