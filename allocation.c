@@ -161,7 +161,10 @@ void reallocation_survival(
 				ral_cap_rtf = 0.12;
 				/* break; */
 		/* } */
-	}/* else if(pchar->v_type==3){
+	}else{
+        ral_cap_stf = 0.05;
+        ral_cap_rtf = 0.10;
+    }/* else if(pchar->v_type==3){
 		ral_cap_stf = 0.070;
 		ral_cap_rtf = 0.12;
 	} */

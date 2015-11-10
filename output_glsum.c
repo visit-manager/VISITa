@@ -30,6 +30,10 @@ void f_set_history_data(
 	
 	/* 2010/04/27 by A.Ito ***********/
 	/* natural */
+    fweight = 1.0;
+    fweight_nat = 1.0;
+    fweight_wet = 0.0;
+    fweight_pad = 0.0;
 	if(loct->v_type == 1){
 		if(REPLACE_OLSON_CROP == 1){
 			fweight = 1.0 - grid->f_crop_con;

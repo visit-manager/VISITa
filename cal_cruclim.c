@@ -84,7 +84,9 @@ void cal_historical(
 		}else if(grid->rank_nat == 2){
 			/* developed countries */
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
-		}
+		}else{
+            f_fert = 1.0;
+        }
 		
 		/* seasonal (monthly) loop ************************************************/
 		for(f=0;f<ASTEP;f++){
@@ -112,7 +114,7 @@ void cal_historical(
 
 			f_plant_stand_budget(grid, loct, mass, flux);
 			
-			if(BACC==3){
+			if(BACC == 3){
 				(flux->plant).lL[f] = flux->lL0[f];
 			}
 
@@ -358,6 +360,8 @@ void cal_historical(
         if(f_nat > 0.0){
             iweight = 1.0 / f_nat;
             /* factor from natural to whole grid */
+        }else{
+            iweight = 1.0;
         }
         avc3 = 0.0;
         for(f=0;f<ASTEP;f++){
@@ -366,6 +370,8 @@ void cal_historical(
         if(avc3 > 0.0){
             iweight3 = iweight * (1.0 / avc3);
             /* factor from C3-dominated natural to whole grid */
+        }else{
+            iweight3 = iweight;
         }
         
 		/* wood harvest: 2010/10/15 by A.Ito ***************/

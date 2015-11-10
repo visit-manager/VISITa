@@ -571,7 +571,9 @@ void f_ch4_emit_walter(
 		f_grow = 0.0 + 4.0 * (1.0 - pow((t_mat - tmp[5])/(t_mat - t_gr), 2.0));
 	}else if(tmp[5] > t_mat){
 		f_grow = 4.0;
-	}
+	}else{
+        f_grow = 1.0;
+    }
 	
 	/* organic matter factor **************************/
 	f_org[0] = 1.0;
@@ -849,6 +851,8 @@ void f_ch4_emit_walter(
 	}
 	
     /****************************/
+    f_inundation = 0.0;
+    fa_wetland = fa_paddy = 0.0;
 	if(EX_CH4_1 == 1){
 		/* experiment for Sasakawa-san: low sensitivity */
 		switch(smode){

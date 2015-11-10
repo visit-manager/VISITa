@@ -725,6 +725,7 @@ void f_grid_av(
 	
 	/* 2010/04/27 by A.Ito */
 	/* natural */
+    fweight = 1.0;
 	if(loct->v_type == 1){
 		if(REPLACE_OLSON_CROP == 1){
 			fweight = 1.0 - grid->f_crop_con;

@@ -33,13 +33,17 @@ void cal_spinup(
 		/* corrected: A.Ito and E.Kato (2009/08/16) */
 		if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 
 				|| grid->veg_olson==32){
+            /* short-term ecosystems */
 			term_time = 300;
 		}else{
+            /* long-term ecosystems */
 			term_time = 4000;
 		}
 	}else if((echar->c3).v_type==2){
 		term_time = 300;
-	}
+	}else{
+        term_time = 300;
+    }
 	
 	(echar->soil).rl = (echar->soil).rl0;
 	(echar->soil).rh = (echar->soil).rh0;
@@ -79,7 +83,9 @@ void cal_spinup(
 	}else if(grid->rank_nat==2){
 		/* developed countries */
 		f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - 1900.0)))+0.53533202;
-	}
+	}else{
+        f_fert = 1.0;
+    }
 	
 	/* LOOP to stable stage ************************************************/
 	nn = 0; 
@@ -360,6 +366,8 @@ void cal_spinup(
     f_nat = 1.0 - grid->f_crop_con;
     if(f_nat > 0.0){
         iweight = 1.0 / f_nat;
+    }else{
+        iweight = 1.0;
     }
     avc3 = 0.0;
     for(f=0;f<ASTEP;f++){
@@ -367,6 +375,8 @@ void cal_spinup(
     }
     if(avc3 > 0.0){
         iweight3 = iweight * (1.0 / avc3);
+    }else{
+        iweight3 = iweight;
     }
 
 	/* wood harvest: 2010/10/15 by A.Ito *****************/
@@ -412,9 +422,9 @@ void cal_spinup(
         
 		if((mass->c3).stm > (total_hvst + INT_C)){
         
-            if((mass->c3).stm > (total_hvst*iweight3 + INT_C)){
-                (mass->c3).stm -= total_hvst*iweight3;
-                flux->hvst_wood = total_hvst*iweight3;
+            if((mass->c3).stm > (total_hvst * iweight3 + INT_C)){
+                (mass->c3).stm -= total_hvst * iweight3;
+                flux->hvst_wood = total_hvst * iweight3;
             }else{
                 (mass->c3).stm -= total_hvst;
                 flux->hvst_wood = total_hvst;

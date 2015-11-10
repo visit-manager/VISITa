@@ -130,6 +130,24 @@ void open_input(
                 printf("No cru322_vap_1901-2013.txt\n");
                 exit(1); 
             }
+        }else if(DL_CRU==114){
+            /* UEA-CRU data from 1901 - 2014: 2015/11/10 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/cru323_cld_1901-2014.txt","rt"))==NULL ){
+                printf("No cru323_cld_1901-2014.txt\n");
+                exit(1); 
+            }
+            if( (fp_c[1]=fopen("./data/cru323_pre_1901-2014.txt","rt"))==NULL ){
+                printf("No cru323_pre_1901-2014.txt\n");
+                exit(1); 
+            }
+            if( (fp_c[2]=fopen("./data/cru323_tmp_1901-2014.txt","rt"))==NULL ){
+                printf("No cru323_tmp_1901-2014.txt\n");
+                exit(1); 
+            }
+            if( (fp_c[3]=fopen("./data/cru323_vap_1901-2014.txt","rt"))==NULL ){
+                printf("No cru323_vap_1901-2014.txt\n");
+                exit(1); 
+            }
         }else{
             printf("No CRU data\n");
             exit(1);

@@ -36,6 +36,7 @@ void set_hist_clim(
             /* 1901-2011:CRU TS3.2 */
             /* 1901-2012:CRU TS3.21 */
             /* 1901-2013:CRU TS3.22 */
+            /* 1901-2014:CRU TS3.23 */
             for(h=0;h<ASTEP;h++){
                 grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] 
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
@@ -279,6 +280,8 @@ void set_gcm_clim(
             }else{
                 tmp_var = 0.0;
             }
+        }else{
+            tmp_var = 0.0;
         }
         
         if(CC_T_A == 1){
@@ -380,6 +383,8 @@ void set_gcm_clim(
                             grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
             }else if(CC_R == 0 || CC_R == 3){
                 rad_var = 0.0;	/* mean SW & PAR */
+            }else{
+                rad_var = 0.0;	
             }
         }
 

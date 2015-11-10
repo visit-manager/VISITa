@@ -285,6 +285,8 @@ void cal_projection(
         f_nat = 1.0 - grid->f_crop_con;
         if(f_nat > 0.0){
             iweight = 1.0 / f_nat;  /* inverse weight */
+        }else{
+            iweight = 1.0;
         }
         avc3 = 0.0;
         for(f=0;f<ASTEP;f++){
@@ -292,6 +294,8 @@ void cal_projection(
         }
         if(avc3 > 0.0){
             iweight3 = iweight * (1.0 / avc3);  /* inverse weight */
+        }else{
+            iweight3 = iweight;
         }
 		
 		/* wood harvest: 2010/10/15 by A.Ito ***********/

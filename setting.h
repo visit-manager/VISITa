@@ -62,6 +62,9 @@
 /* 3: middle fertilization */
 #define N_BF 91 /* biofuel data length */
 
+/* parameter ensemble **************************/
+#define NPERT 20
+
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
@@ -201,13 +204,14 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
-    #define DL_CRU 113  /* CRU TS3.22: AD 1901 - 2013 */
+    #define DL_CRU 114  /* CRU TS3.24: AD 1901 - 2014 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
     /* 111: TS3.2 */
     /* 112: TS3.21 */
     /* 113: TS3.22 */
+    /* 114: TS3.23 */
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
@@ -280,10 +284,7 @@
 /* crop harvest */
 #define NECB_CROP 1
 
-/* parameter ensemble *************************************/
-#define NPERT 20
-
-/* land use change setting ***********/
+/* land use change setting ********************************/
 #define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
@@ -300,8 +301,8 @@
 /* 12: LUH 1500-2005/2005-2100 (RCP6.0) */
 /* 13: LUH 1500-2005/2005-2100 (RCP8.5) */
 /* 14: SSP1 */
-/* 15: SSP1 */
-/* 16: SSP1 */
+/* 15: SSP2 */
+/* 16: SSP3 */
 /* 17: LUH 1500-2005/2005-2100 (RCP2.6) + Biofuel */
 
 /* #define DL_LUH 306 */ /* 1700-2000/2005 */

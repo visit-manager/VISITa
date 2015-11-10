@@ -153,9 +153,9 @@ void f_biolfix(
 	}
     
     /* lower N2 fixation: 2015/09/03 by A.Ito */
-    if(loct->v_type==2 && BIOFUEL_RUN >= 1){
+    /* if(loct->v_type==2 && BIOFUEL_RUN >= 1){
         total_nbiofix *= 0.1;
-    }
+    } */
 	
 	(flux->c3).n_biofix[grid->m] = total_nbiofix;
 	(flux->c4).n_biofix[grid->m] = total_nbiofix;
