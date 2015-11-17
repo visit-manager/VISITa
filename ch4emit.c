@@ -413,6 +413,7 @@ void f_ch4_emit_walter(
 	cumtime = 600;
 	
 	/* characteristics ***************************************/
+    wtdepth = 0.0;
 	if(smode == 1){	/* water-logged wetlands */
 		/* t_veg = 6.0; */  /* vegetation factor */
 		/* rdepth = 0.20; */		/* rooting depth, m */
@@ -647,6 +648,7 @@ void f_ch4_emit_walter(
     }
 		
 	release = 0.0;
+    flux_ebull = flux_plant = 0.0;
 	for(g=1;g<=cumtime;g++){ 
 		
 		/* DEPTH **************************************/
@@ -736,6 +738,9 @@ void f_ch4_emit_walter(
 	loct->xx5[grid->m] = loct->prof_ch4[15]; */
 	
 	/* CH4 emission area fraction **************************************/
+    f_inundation = 0.0;
+    fa_wetland = fa_paddy = 0.0;
+
 	/* sensitivity experiments: 2010/07/02 by A.Ito */
 	if(EX_CH4_1 >= 1){
 		/* West Siberia */
@@ -797,6 +802,7 @@ void f_ch4_emit_walter(
                 }
             }
         }else if(ALT_INUND == 6){
+            /* use GCP-CH4 data */
             if(grid->climy >= 2000 && grid->climy <= 2012){
         
                 if(grid->f_wetland > 0.0){
@@ -851,8 +857,6 @@ void f_ch4_emit_walter(
 	}
 	
     /****************************/
-    f_inundation = 0.0;
-    fa_wetland = fa_paddy = 0.0;
 	if(EX_CH4_1 == 1){
 		/* experiment for Sasakawa-san: low sensitivity */
 		switch(smode){
