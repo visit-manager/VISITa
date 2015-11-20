@@ -86,6 +86,10 @@ void cal_spinup(
 	}else{
         f_fert = 1.0;
     }
+    /* NMIP input: 2015/11/19 by A.Ito */
+    if(NMIP_RUN == 1){
+        f_fert = 1.0;
+    }
 	
 	/* LOOP to stable stage ************************************************/
 	nn = 0; 
@@ -118,6 +122,9 @@ void cal_spinup(
             grid->climy = grid->lucy = nn%30 +1901;
 			set_hist_clim(grid);
         }
+        
+        /* NMIP: 2015/11/19 by A.Ito **/
+        grid->niny = 1901;
 		
 		plantmass = ann_nep = 0.0;
 		for(f=0;f<ASTEP;f++){

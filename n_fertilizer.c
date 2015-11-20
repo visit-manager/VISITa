@@ -264,4 +264,15 @@ void n_fertilizer_in(
         /* loct->n_frtlz_in = 120.0 * MDN[grid->m] / 365.0; */ /* 2015/08/27 by A.Ito */
         loct->n_frtlz_in = 60.0 * MDN[grid->m] / 365.0;
     }
+    
+    /* NMIP run: 2015/11/19 by A.Ito *****/
+    if(NMIP_RUN == 1){
+        if(grid->niny>=1900 && grid->niny<=2012){
+            loct->n_frtlz_in = grid->nmip_nfert[grid->niny - 1900] * MDN[grid->m] / 365.0;
+        }else if(grid->niny<1900){
+            loct->n_frtlz_in = grid->nmip_nfert[1900 - 1900] * MDN[grid->m] / 365.0;
+        }else if(grid->niny>2012){
+            loct->n_frtlz_in = grid->nmip_nfert[2012 - 1900] * MDN[grid->m] / 365.0;
+        }
+    }
 }

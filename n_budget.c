@@ -245,10 +245,11 @@ void f_n_deposit(
 	struct Grid *grid, 
 	struct Loct *loct
 ){
+    long f;
 	double pre_ann, ndepo_total, ndepo_dry, ndepo_wet, aa;
 	double f_no3, f_nh4, ndepo_no3, ndepo_nh4;
 	double f_wet, f_dry;
-	extern double MDN[12];
+	extern double MDN[ASTEP];
 	
 	/* f_no3 = 0.75; */
 	/*f_no3 = 0.47; */ /* revised by CHASER data: 2010/03/28 (A.Ito) */
@@ -353,6 +354,31 @@ void f_n_deposit(
         /* unit: g N ha-1 month-1 */
         loct->depo_no3[grid->m] = ndepo_no3;
         loct->depo_nh4[grid->m] = ndepo_nh4;
+    }
+    
+    /* NMIP: 2015/11/19 by A.Ito *******/
+    if(NMIP_RUN == 1){
+        /* seasonality based on CHASER */
+        ndepo_no3 = ndepo_nh4 = 0.0;
+        for(f=0;f<ASTEP;f++){
+            ndepo_no3 += grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
+                    + grid->ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col];
+            ndepo_nh4 += grid->ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col];
+        }
+        
+        if(ndepo_no3 > 0.0){
+            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny]*1000.0 *
+                    (grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
+                    + grid->ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_no3;
+        }else{
+            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny]*1000.0 / 12.0;
+        }
+        if(ndepo_nh4 > 0.0){
+            loct->depo_nh4[grid->m] =  grid->nmip_ndep_nh4[grid->niny]*1000.0 *
+                grid->ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col]*1000.0 / ndepo_nh4;
+        }else{
+            loct->depo_nh4[grid->m] = grid->nmip_ndep_nh4[grid->niny]*1000.0 / 12.0;
+        }
     }
     
     /* experiment N deposition: 2015/08/12 by A.Ito *****/

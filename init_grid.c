@@ -1235,4 +1235,25 @@ void f_init_grid(
             grid->f_biofuel[e] = 0.0;
         }
     }
+    
+    /* NMIP input: 2015/11/19 by A.Ito *************/
+    for(e=0;e<N_NMIP;e++){
+        /* kg N/ha/yr */
+        fscanf(fp_s[88],"%lf", &grid->nmip_nfert[e]);
+        if(grid->nmip_nfert[e] < 0.0){
+            grid->nmip_nfert[e] = 0.0;
+        }
+        fscanf(fp_s[88],"%lf", &grid->nmip_ndep_noy[e]);
+        if(grid->nmip_ndep_noy[e] < 0.0){
+            grid->nmip_ndep_noy[e] = 0.0;
+        }
+        fscanf(fp_s[88],"%lf", &grid->nmip_ndep_nh4[e]);
+        if(grid->nmip_ndep_nh4[e] < 0.0){
+            grid->nmip_ndep_nh4[e] = 0.0;
+        }
+        fscanf(fp_s[88],"%lf", &grid->nmip_manure[e]);
+        if(grid->nmip_manure[e] < 0.0){
+            grid->nmip_manure[e] = 0.0;
+        }
+    }
 }

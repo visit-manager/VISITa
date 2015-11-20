@@ -2057,4 +2057,10 @@ void open_input(
             exit(1); 
         }
     }
+    
+    /* NMIP: nitrogen input, 2015/11/19 by A.Ito ************/
+    if( (fp_s[88]=fopen("./data/fin_nmip.txt","rt"))==NULL ){
+        printf("No fin_nmip.txt\n");
+        exit(1); 
+    }
 }

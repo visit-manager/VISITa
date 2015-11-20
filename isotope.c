@@ -31,10 +31,10 @@ void photo_13c_frac(
 	fai = 0.21;
 
 	if(pchar->phototype == 3){
-		pchar->photo_13c_frac[grid->m] = aaa + (bbb-aaa)*pchar->ci[grid->m]
+		pchar->photo_13c_frac[grid->m] = aaa + (bbb - aaa) * pchar->ci[grid->m]
 				/loct->aco2[grid->m];
 	}else if(pchar->phototype == 4){
-		pchar->photo_13c_frac[grid->m] = aaa + (bb4+bb3*fai-aaa)*pchar->ci[grid->m]
+		pchar->photo_13c_frac[grid->m] = aaa + (bb4 + bb3*fai - aaa) * pchar->ci[grid->m]
 				/loct->aco2[grid->m];
 	}
 }
@@ -75,14 +75,14 @@ double d13c_addition(
 	ratio_a = deltaTratio(d13c_a); 
 	ratio_b = deltaTratio(d13c_b); 
 	
-	c12_a = mass_a/(1.0+ratio_a); c13_a = mass_a-c12_a;
-	c12_b = mass_b/(1.0+ratio_b); c13_b = mass_b-c12_b;
+	c12_a = mass_a / (1.0 + ratio_a); c13_a = mass_a - c12_a;
+	c12_b = mass_b / (1.0 + ratio_b); c13_b = mass_b - c12_b;
 	
-	c12_pro = c12_a+c12_b;
-	c13_pro = c13_a+c13_b;
+	c12_pro = c12_a + c12_b;
+	c13_pro = c13_a + c13_b;
 	
 	if(c12_pro>0.0){
-		d13c_product = (c13_pro/c12_pro/STCIR - 1.0)*1000.0;
+		d13c_product = (c13_pro / c12_pro / STCIR - 1.0)*1000.0;
 	}else{
 		d13c_product = d13c_a;
 	}

@@ -41,6 +41,15 @@ void cal_historical(
 		/* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
         
+        /* NMIP: 2015/11/19 by A.Ito **/
+        grid->niny = grid->climy;
+        if(grid->niny < 1900){
+            grid->niny = 1900;
+        }
+        if(grid->niny > 2012){
+            grid->niny = 2012;
+        }
+
         /* for considering leap years: 2014/09/29 by A.Ito */
         if(grid->climy%4 == 0){
             MDN[1] = 29.0;
@@ -85,6 +94,10 @@ void cal_historical(
 			/* developed countries */
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
 		}else{
+            f_fert = 1.0;
+        }
+        /* NMIP input: 2015/11/19 by A.Ito */
+        if(NMIP_RUN == 1){
             f_fert = 1.0;
         }
 		

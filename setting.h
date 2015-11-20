@@ -62,6 +62,10 @@
 /* 3: middle fertilization */
 #define N_BF 91 /* biofuel data length */
 
+/* NMIP: N2O model intercomparison runs */
+#define NMIP_RUN 0
+#define N_NMIP 113
+
 /* parameter ensemble **************************/
 #define NPERT 20
 
