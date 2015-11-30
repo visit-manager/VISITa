@@ -145,7 +145,8 @@ void f_ch4_emit_cao(
 	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * wtable) 
 						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -25.0)); */
 	/* 2013/11/29 by A.Ito */
-    wtable = 4.0;
+ 	/* 2015/11/30 by A.Ito */
+   wtable = 4.5;
     
     /* 2014/12/10 by A.Ito */
     if(VAR_WTD == 1){
@@ -155,13 +156,13 @@ void f_ch4_emit_cao(
         if(wtable < -30.0){
             wtable = -30.0;
         }
-        if(wtable > 10.0){
-            wtable = 10.0;
+        if(wtable > 12.0){
+            wtable = 12.0;
         }
     }
     
 	f_wtable = 0.383 * (f_inund_wet * exp(0.096 * wtable)
-						+ (1.0 - f_inund_wet)*exp(0.096 * (wtable-12.0)));
+						+ (1.0 - f_inund_wet)*exp(0.096 * (wtable - 12.0)));
 	/* if(ALT_FWETLAND == 1){
 		f_wtable = 0.383 * (grid->f_wetland*exp(0.096 * wtable) 
 							+ (1.0-grid->f_wetland)*exp(0.096 * -25.0));
@@ -173,7 +174,7 @@ void f_ch4_emit_cao(
 	/* lake: added by A.Ito (2009/07/14) */
 	/* f_wtable_lake = 0.383 * exp(0.096 * 5.0); */
 	/* lake: revised by A.Ito (2013/11/29) */
-	f_wtable_lake = 0.383 * exp(0.096 * 9.0);
+	f_wtable_lake = 0.383 * exp(0.096 * 10.0);
 	
 	/* Mg C ha-1 month-1 */
 	(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * 
@@ -193,7 +194,7 @@ void f_ch4_emit_cao(
 		gpp_factor = (gpp_factor<1.0)?gpp_factor:1.0;
 		
 		(flux->soil).ch4oxy_wetland_cao[grid->m] = (flux->soil).ch4prod_wetland_cao[grid->m] *
-            (0.60 + 0.30*gpp_factor);
+            (0.60 + 0.30 * gpp_factor);
 	}else{
 		(flux->soil).ch4oxy_wetland_cao[grid->m] = 0.0;
 	}
@@ -204,7 +205,8 @@ void f_ch4_emit_cao(
 	
     
     /* if((flux->soil).ch4flux_wetland_cao[grid->m] > 1000.0){
-        printf("*****************************%ld %lf %lf\n", grid->n_olson, (flux->soil).ch4flux_wetland_cao[grid->m], grid->tmp10_soil[grid->m]);
+        printf("*****************************%ld %lf %lf\n", grid->n_olson, 
+        (flux->soil).ch4flux_wetland_cao[grid->m], grid->tmp10_soil[grid->m]);
         exit(1);
     }*/
     
@@ -346,17 +348,17 @@ void f_ch4_emit_walter(
     switch(smode){
         case 1:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 15.0;
-                r0 = 1.5;
+                t_veg = 16.0;
+                r0 = 1.6;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 11.5;
-                r0 = 1.15;
+                t_veg = 12.0;
+                r0 = 1.2;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 4.6;
-                r0 = 0.46;
+                t_veg = 4.8;
+                r0 = 0.48;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 2.2;
-                r0 = 0.22;
+                t_veg = 2.3;
+                r0 = 0.23;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
                 t_veg = 1.28;
                 r0 = 0.128;
@@ -373,17 +375,17 @@ void f_ch4_emit_walter(
             break;
         case 2:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 3.8;
-                r0 = 0.38;
+                t_veg = 4.0;
+                r0 = 0.4;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 2.7;
-                r0 = 0.27;
+                t_veg = 2.8;
+                r0 = 0.28;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 0.87;
-                r0 = 0.087;
+                t_veg = 0.88;
+                r0 = 0.088;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 0.43;
-                r0 = 0.043;
+                t_veg = 0.44;
+                r0 = 0.044;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
                 t_veg = 0.33;
                 r0 = 0.033;
@@ -399,11 +401,11 @@ void f_ch4_emit_walter(
             }
             break;
         case 3: /*  */
-            t_veg = 8.0;
+            t_veg = 7.0;
             r0 = 0.6;
             break;
         case 4:
-            t_veg = 5.0;
+            t_veg = 4.5;
             r0 = 0.3;
             break;
         default:
