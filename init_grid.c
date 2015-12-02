@@ -279,7 +279,7 @@ void f_init_grid(
 	}if(GCM_ID==3070 || GCM_ID==3071 || GCM_ID==3072){ /* GEO-MIP CanESM2 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(GCM_ID==3080 || GCM_ID==3801){ /* GEO-MIP MPI-ESM-LR */
+	}if(GCM_ID==3080 || GCM_ID==3081){ /* GEO-MIP MPI-ESM-LR */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}if(GCM_ID==3090 || GCM_ID==3091){ /* GEO-MIP CCSM4 */
@@ -746,7 +746,8 @@ void f_init_grid(
 	 Global Change Biology, 12, 1-22.
 	 */
     /* revised by A.Ito (2013/12/20) */
-	if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+	if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 ||
+         LANDUSE==13 || LANDUSE==17){
         
 		for(h=0;h<DL_LUH;h++){
 			/* fractional cover */
@@ -793,7 +794,7 @@ void f_init_grid(
             }
 		}
         
-        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13 || LANDUSE==17){
             /* skip Hist - 2005 data */
             fscanf(fp_s[26],"%lf", &ddummy);
             fscanf(fp_s[27],"%lf", &ddummy);
@@ -816,7 +817,7 @@ void f_init_grid(
             fscanf(fp_s[44],"%lf", &ddummy);
         }
     
-	}else if(LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
+	}else if(LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16){
     
         for(h=2001;h<=2004;h++){
             fscanf(fp_s[59],"%lf", &ddummy);
@@ -981,7 +982,8 @@ void f_init_grid(
 	/* added by A.Ito (2010/10/15) */
 	/* revised by A.Ito (2013/12/20, 24) */
     
-    if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+    if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 ||
+                LANDUSE==11 || LANDUSE==12 || LANDUSE==13 || LANDUSE==17){
         
         for(h=0;h<DL_LUH;h++){
             if(h<(BGY_GCM - PIVOT_LUC - 1)){
@@ -999,7 +1001,7 @@ void f_init_grid(
             }
         }
         
-        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13 || LANDUSE==17){
             fscanf(fp_s[53],"%lf", &ddummy);
             fscanf(fp_s[54],"%lf", &ddummy);
             fscanf(fp_s[55],"%lf", &ddummy);
@@ -1007,7 +1009,7 @@ void f_init_grid(
             fscanf(fp_s[57],"%lf", &ddummy);
         }
         
-    }else if(LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
+    }else if(LANDUSE == 14){
         for(h=2001;h<=2004;h++){
             fscanf(fp_s[78],"%lf", &ddummy);
         }
@@ -1059,18 +1061,18 @@ void f_init_grid(
 	for(h=0;h<308;h++){
 		/* crop */
 		fscanf(fp_s[50],"%lf", &grid->fcrop_rk[h]);
-		if(grid->fcrop_rk[h]<0.0){
+		if(grid->fcrop_rk[h] < 0.0){
 			grid->fcrop_rk[h] = 0.0;
 		}
-		if(grid->fcrop_rk[h]>1.0){
+		if(grid->fcrop_rk[h] > 1.0){
 			grid->fcrop_rk[h] = 1.0;
 		}
 		/* pasture */
 		fscanf(fp_s[51],"%lf", &grid->fpast_rk[h]);
-		if(grid->fpast_rk[h]<0.0){
+		if(grid->fpast_rk[h] < 0.0){
 			grid->fpast_rk[h] = 0.0;
 		}
-		if(grid->fpast_rk[h]>1.0){
+		if(grid->fpast_rk[h] > 1.0){
 			grid->fpast_rk[h] = 1.0;
 		}
 	}
@@ -1090,10 +1092,10 @@ void f_init_grid(
 	/* 1: C3 crops (non-rice) */
 	/* 2: paddy */
 	/* 3: C4 crops, e.g. maize */
-	if(grid->frice>grid->fwheat && grid->frice>grid->fmaize){
+	if(grid->frice > grid->fwheat && grid->frice > grid->fmaize){
 		grid->veg_crop = 2;
 	}
-	if(grid->fmaize>grid->fwheat && grid->fmaize>grid->frice){
+	if(grid->fmaize > grid->fwheat && grid->fmaize > grid->frice){
 		grid->veg_crop = 3;
 	}
     
@@ -1106,6 +1108,10 @@ void f_init_grid(
     }
     if(EX_CROP == 3){
         grid->veg_crop = 3;  /* C4:maize */
+    }
+    
+    if(BIOFUEL_RUN >= 1){
+         grid->veg_crop = 4;  /* biofuel: added 2015/08/21 by A.Ito */
     }
 	
 	/* diffuse radiation estimation using SRB data ************/
@@ -1219,5 +1225,35 @@ void f_init_grid(
     fread(rfdat,sizeof(float),12, fp_s[58]);
     for(e=0;e<ASTEP;e++){
         grid->glbalbedo[e] = rfdat[e];
+    }
+    
+    /* Bio Fuel scenario: 2015/08/21 by A.Ito ***********/
+    for(e=0;e<N_BF;e++){
+        fscanf(fp_s[87],"%lf", &grid->f_biofuel[e]);
+        
+        if(grid->f_biofuel[e] < 0.0){
+            grid->f_biofuel[e] = 0.0;
+        }
+    }
+    
+    /* NMIP input: 2015/11/19 by A.Ito *************/
+    for(e=0;e<N_NMIP;e++){
+        /* kg N/ha/yr */
+        fscanf(fp_s[88],"%lf", &grid->nmip_nfert[e]);
+        if(grid->nmip_nfert[e] < 0.0){
+            grid->nmip_nfert[e] = 0.0;
+        }
+        fscanf(fp_s[88],"%lf", &grid->nmip_ndep_noy[e]);
+        if(grid->nmip_ndep_noy[e] < 0.0){
+            grid->nmip_ndep_noy[e] = 0.0;
+        }
+        fscanf(fp_s[88],"%lf", &grid->nmip_ndep_nh4[e]);
+        if(grid->nmip_ndep_nh4[e] < 0.0){
+            grid->nmip_ndep_nh4[e] = 0.0;
+        }
+        fscanf(fp_s[88],"%lf", &grid->nmip_manure[e]);
+        if(grid->nmip_manure[e] < 0.0){
+            grid->nmip_manure[e] = 0.0;
+        }
     }
 }

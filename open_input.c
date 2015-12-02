@@ -130,6 +130,24 @@ void open_input(
                 printf("No cru322_vap_1901-2013.txt\n");
                 exit(1); 
             }
+        }else if(DL_CRU==114){
+            /* UEA-CRU data from 1901 - 2014: 2015/11/10 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/cru323_cld_1901-2014.txt","rt"))==NULL ){
+                printf("No cru323_cld_1901-2014.txt\n");
+                exit(1); 
+            }
+            if( (fp_c[1]=fopen("./data/cru323_pre_1901-2014.txt","rt"))==NULL ){
+                printf("No cru323_pre_1901-2014.txt\n");
+                exit(1); 
+            }
+            if( (fp_c[2]=fopen("./data/cru323_tmp_1901-2014.txt","rt"))==NULL ){
+                printf("No cru323_tmp_1901-2014.txt\n");
+                exit(1); 
+            }
+            if( (fp_c[3]=fopen("./data/cru323_vap_1901-2014.txt","rt"))==NULL ){
+                printf("No cru323_vap_1901-2014.txt\n");
+                exit(1); 
+            }
         }else{
             printf("No CRU data\n");
             exit(1);
@@ -939,7 +957,7 @@ void open_input(
     /* U.NH harmonized historical land-use data (2013/12/19: by A.Ito) */
 	/* URL  http://luh.unh.edu/ */
 	if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13
-        || LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
+        || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17){
         if( (fp_s[26]=fopen("./data/luh_gcrop_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gcrop_1500_2005.txt\n");  
 			exit(1); 
@@ -1097,7 +1115,7 @@ void open_input(
         }
     }
     
-    if(LANDUSE == 11){
+    if(LANDUSE == 11 || LANDUSE == 17){
         if( (fp_s[59]=fopen("./data/luh_gcrop_rcp26_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gcrop_rcp26_2005_2100.txt\n");  
             exit(1); 
@@ -1557,19 +1575,19 @@ void open_input(
             printf("No luc_s2u_ssp3_2001-2100.txt\n");
             exit(1); 
         }
-        if( (fp_s[74]=fopen("./data/luc_v2c_ssp3_2001-2100.txt","rt"))==NULL ){
+        if( (fp_s[74] = fopen("./data/luc_v2c_ssp3_2001-2100.txt","rt"))==NULL ){
             printf("No luc_v2c_ssp3_2001-2100.txt\n");
             exit(1); 
         }
-        if( (fp_s[75]=fopen("./data/luc_v2p_ssp3_2001-2100.txt","rt"))==NULL ){
+        if( (fp_s[75] = fopen("./data/luc_v2p_ssp3_2001-2100.txt","rt"))==NULL ){
             printf("No luc_v2p_ssp3_2001-2100.txt\n");
             exit(1); 
         }
-        if( (fp_s[76]=fopen("./data/luc_v2s_ssp3_2001-2100.txt","rt"))==NULL ){
+        if( (fp_s[76] = fopen("./data/luc_v2s_ssp3_2001-2100.txt","rt"))==NULL ){
             printf("No luc_v2s_ssp3_2001-2100.txt\n");
             exit(1); 
         }
-        if( (fp_s[77]=fopen("./data/luc_v2u_ssp3_2001-2100.txt","rt"))==NULL ){
+        if( (fp_s[77] = fopen("./data/luc_v2u_ssp3_2001-2100.txt","rt"))==NULL ){
             printf("No luc_v2u_ssp3_2001-2100.txt\n");
             exit(1); 
         }
@@ -1584,7 +1602,7 @@ void open_input(
 	/* 5: gradual rise (SRES B1) */
 	/* 6: gradual rise (SRES B2) */
 	/* 7: uniform rise */
-	if(GCM_ID == 0){
+	if(GCM_ID == 0 || (GCM_ID>6000 && GCM_ID<7000)){
 		CO2S = 4;
 		fp_s[23] = fopen("./data/image_a2_fcrop.dat","rt");
 		fp_s[45] = fopen("./data/image_a2_fgrass.dat","rt");
@@ -1627,10 +1645,13 @@ void open_input(
 		CO2S = 1;
 		
 		if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
-			printf("NO DATA !!\n");
+			printf("NO DATA:image_a1b_fcrop.dat !!\n");
 			exit(1);
 		}
-		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+        if((fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt"))==NULL){
+			printf("NO DATA:image_a1b_fgrass.dat !!\n");
+			exit(1);
+        }
 	}else if(GCM_ID==1013 ||GCM_ID==1014 ||GCM_ID==1015 || GCM_ID==1051 ||GCM_ID==1061 ||GCM_ID==1071 ||
 		GCM_ID==1081 ||GCM_ID==1091 ||GCM_ID==1111 ||GCM_ID==1121 ||GCM_ID==1135 ||GCM_ID==1136 ||GCM_ID==1137 ||
 		GCM_ID==1138 ||GCM_ID==1139 ||GCM_ID==1154 ||GCM_ID==1155 ||GCM_ID==1156 ||GCM_ID==1171 ||GCM_ID==1181 ||
@@ -1784,7 +1805,8 @@ void open_input(
 	
 	/* wood harvest based on RCP-harmonized data: LUHa.v1 *************/
 	/* added by A.Ito (2010/10/15) */
-    if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+    if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13
+         || LANDUSE==17){
         if( (fp_s[53]=fopen("./data/luh_gvbh1_1500_2005.txt","rt"))==NULL ){  
             printf("No luh_gvbh1_1500_2005.txt\n");  
             exit(1); 
@@ -1849,7 +1871,7 @@ void open_input(
             printf("No luh_gsbh3_rcp45_2005_2100.txt\n");  
             exit(1); 
         }
-    }else if(LANDUSE==11){
+    }else if(LANDUSE==11 || LANDUSE==17){
         if( (fp_s[78]=fopen("./data/luh_gvbh1_rcp26_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gvbh1_rcp26_2005_2100.txt\n");  
             exit(1); 
@@ -2004,6 +2026,41 @@ void open_input(
     /* GlobAlbedo *******************************/
     if( (fp_s[58]=fopen("./data/GlobAlbedo_av.flt","rb"))==NULL ){
         printf("No GlobAlbedo_av.flt\n");  
+        exit(1); 
+    }
+    
+    /* BioFuel data: 2015/08/21 added by A.Ito  ***********************/
+    /* data supplied from Kinoshita-san */
+    if(BIOFUEL_RUN==0){
+        if( (fp_s[87]=fopen("./data/s10gcp_ssp_crop_2010-2100.txt","rt"))==NULL ){
+            printf("No s10gcp_ssp_crop_2010-2100.txt\n");
+            exit(1); 
+        }
+    }else if(BIOFUEL_RUN==1){
+        if( (fp_s[87]=fopen("./data/s10gcp_ssp_biofuel_2020-2100_current.txt","rt"))==NULL ){
+            printf("No s10gcp_ssp_biofuel_2020-2100_current.txt\n");
+            exit(1); 
+        }
+    }else if(BIOFUEL_RUN==2){
+        if( (fp_s[87]=fopen("./data/s10gcp_ssp_biofuel_2020-2100_low.txt","rt"))==NULL ){
+            printf("No s10gcp_ssp_biofuel_2020-2100_low.txt\n");
+            exit(1); 
+        }
+    }else if(BIOFUEL_RUN==3){
+        if( (fp_s[87]=fopen("./data/s10gcp_ssp_biofuel_2020-2100_middle.txt","rt"))==NULL ){
+            printf("No s10gcp_ssp_biofuel_2020-2100_middle.txt\n");
+            exit(1); 
+        }
+    }else{
+        if( (fp_s[87]=fopen("./data/s10gcp_ssp_crop_2010-2100.txt","rt"))==NULL ){
+            printf("No s10gcp_ssp_crop_2010-2100.txt\n");
+            exit(1); 
+        }
+    }
+    
+    /* NMIP: nitrogen input, 2015/11/19 by A.Ito ************/
+    if( (fp_s[88]=fopen("./data/fin_nmip.txt","rt"))==NULL ){
+        printf("No fin_nmip.txt\n");
         exit(1); 
     }
 }

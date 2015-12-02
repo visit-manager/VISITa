@@ -81,7 +81,20 @@ void cal_projection(
 			/* developed countries */
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
 		}
+        /* NMIP input: 2015/11/19 by A.Ito */
+        if(NMIP_RUN == 1){
+            f_fert = 1.0;
+        }
 				
+        /* NMIP: 2015/11/19 by A.Ito **/
+        grid->niny = grid->climy;
+        if(grid->niny < 1900){
+            grid->niny = 1900;
+        }
+        if(grid->niny > 2012){
+            grid->niny = 2012;
+        }
+
         /* for considering leap years: 2014/09/29 by A.Ito */
         if(grid->climy%4 == 0){
             MDN[1] = 29.0;
@@ -285,6 +298,8 @@ void cal_projection(
         f_nat = 1.0 - grid->f_crop_con;
         if(f_nat > 0.0){
             iweight = 1.0 / f_nat;  /* inverse weight */
+        }else{
+            iweight = 1.0;
         }
         avc3 = 0.0;
         for(f=0;f<ASTEP;f++){
@@ -292,6 +307,8 @@ void cal_projection(
         }
         if(avc3 > 0.0){
             iweight3 = iweight * (1.0 / avc3);  /* inverse weight */
+        }else{
+            iweight3 = iweight;
         }
 		
 		/* wood harvest: 2010/10/15 by A.Ito ***********/

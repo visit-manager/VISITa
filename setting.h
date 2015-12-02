@@ -41,7 +41,7 @@
 /* 3: ISI-MIP 2.1 historical runs */
 /* 4: ISI-MIP 2.2 */
 
-#define GEOMIP_RUN 1
+#define GEOMIP_RUN 0
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
@@ -54,27 +54,46 @@
 /* 0: off */
 /* 1: on */
 
-/********************************************************/
+/* biofuel experiment: 2015/08/21 by A.Ito */
+#define BIOFUEL_RUN 0
+/* 0: off */
+/* 1: current fertilization */
+/* 2: low fertilization */
+/* 3: middle fertilization */
+#define N_BF 91 /* biofuel data length */
+
+/* NMIP: N2O model intercomparison runs */
+#define NMIP_RUN 1
+/* 0: off */
+/* 1: on use NMIP data = S1 and S2? */
+/* 2: all fix (S0) */
+#define N_NMIP 113
+
+/* parameter ensemble **************************/
+#define NPERT 20
+
+/***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
+#define OUTPUT_ISOTOPE 1
+#define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 1
 #define OUTPUT_GHG 1
 #define OUTPUT_BB 1
-#define OUTPUT_BVOC 0
+#define OUTPUT_BVOC 1
 /* output binary */
-#define C13_GOUT 1
-#define C14_GOUT 1
+#define C13_GOUT 0
+#define C14_GOUT 0
 #define PHYS_GOUT 1
 
 /***********************************************************/
 /* total vegetation number */
 #define NVEG_OLSON 34	/* Olson veg (modified) */
 #define NVEG_SAGE 16		/* SAGE veg (modified) */
-#define NVEG_CROP 3		/* crop types */
+/* #define NVEG_CROP 3	*/	/* crop types */
+#define NVEG_CROP 4		/* crop types: add biofuel crop: 2015/08/21 by A.Ito */
 
 /* calculation for land covers */
 #define CALC_OLSON 1    /* matural vegetation */
@@ -142,6 +161,7 @@
 /* total historical run: using CRU, NCEP, etc. ***/
 #if ISIMIP_RUN==1
     #define PD_HIST 150  /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
+                         /* BIOFUEL RUN */
 #elif ISIMIP_RUN==2
     #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
@@ -158,7 +178,8 @@
     /* #define PD_HIST 110	*/	/* AD 1901 - 2010 */
     /* #define PD_HIST 111	*/	/* AD 1901 - 2011 */
     /* #define PD_HIST 112	*/	/* AD 1901 - 2012 */
-    #define PD_HIST 113	/* */	/* AD 1901 - 2013 */
+    /* #define PD_HIST 113	*/	/* AD 1901 - 2013 */
+    #define PD_HIST 114	/* */	/* AD 1901 - 2014 */
 #endif
 
 /* start year (AD) of climate ***/
@@ -190,17 +211,18 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
-    #define DL_CRU 113  /* CRU TS3.21: AD 1901 - 2012 */
+    #define DL_CRU 114  /* CRU TS3.24: AD 1901 - 2014 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
     /* 111: TS3.2 */
     /* 112: TS3.21 */
     /* 113: TS3.22 */
+    /* 114: TS3.23 */
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define PIVOT_NCEP 1948
@@ -208,7 +230,8 @@
 /* extension to 2011: 2012/01/26 by A.Ito */
 /* extension to 2012: 2013/04/14 by A.Ito */
 /* extension to 2013: 2014/01/02 by A.Ito */
-#define DL_NCEP 66   /* 1948-2013 */
+/* #define DL_NCEP 66 */   /* 1948-2013 */
+#define DL_NCEP 67   /* 1948-2014 */
 
 /* Simulation using ISI-MIP data (yr) */
 /* spinup 1951-1980 */
@@ -227,7 +250,7 @@
 
 /* future projection *****************************/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_RUN 1
+#define GCM_RUN 0
 /* 0: no  1:yes */
 
 /* year of GCM data (AD) */
@@ -268,10 +291,7 @@
 /* crop harvest */
 #define NECB_CROP 1
 
-/* parameter ensemble *************************************/
-#define NPERT 20
-
-/* land use change setting ***********/
+/* land use change setting ********************************/
 #define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
@@ -287,13 +307,17 @@
 /* 11: LUH 1500-2005/2005-2100 (RCP2.6) */
 /* 12: LUH 1500-2005/2005-2100 (RCP6.0) */
 /* 13: LUH 1500-2005/2005-2100 (RCP8.5) */
+/* 14: SSP1 */
+/* 15: SSP2 */
+/* 16: SSP3 */
+/* 17: LUH 1500-2005/2005-2100 (RCP2.6) + Biofuel */
 
-//#define DL_LUH 306 /* 1700-2000/2005 */
+/* #define DL_LUH 306 */ /* 1700-2000/2005 */
 #define DL_LUH 601 /* 1500-2100 */
 
 /* begin year of land-use data */
 #define PIVOT_LUC 1500
-//#define PIVOT_LUC 1700
+/* #define PIVOT_LUC 1700 */
 
 #if ISIMIP_RUN==1
     #define BGY_LUC 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
@@ -360,7 +384,7 @@
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define SOIL_LAYER 20
 /* number of soil layers */ 
@@ -427,6 +451,19 @@
 /* sensitivity run of N deposition */
 #define SENS_N 0
 /* 0:off, 1:0n */
+
+/* experiment: changed nitrogen deposition: 2015/08/12 by A.Ito */
+#define EX_NDEPO 0
+/* 0: control */
+/* 1: +10% */
+/* 2: -10% */
+/* 3: +30% */
+/* 4: -30% */
+/* 5: +50% */
+/* 6: -50% */
+/* 7: all ammonium */
+/* 8: all nitrate */
+/* 9: 50:50 ammonium and nitrate */
 
 /********************************************************/
 /* sensitivity analysis *****************/

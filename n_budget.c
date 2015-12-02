@@ -151,6 +151,11 @@ void f_biolfix(
 	if(total_nbiofix < 0.0){
 		total_nbiofix = 0.0;
 	}
+    
+    /* lower N2 fixation: 2015/09/03 by A.Ito */
+    /* if(loct->v_type==2 && BIOFUEL_RUN >= 1){
+        total_nbiofix *= 0.1;
+    } */
 	
 	(flux->c3).n_biofix[grid->m] = total_nbiofix;
 	(flux->c4).n_biofix[grid->m] = total_nbiofix;
@@ -181,7 +186,7 @@ void f_nh3_volatilization(
     /* revised: 2014/11/27 by A.Ito */
 	if(schar->v_type == 2){
         /* cropland */
-		if((grid->soil_ph+0.5) >= 6.5){ /* 6.0=>6.5 */
+		if((grid->soil_ph + 0.5) >= 6.5){ /* 6.0=>6.5 */
 			ph_soil = grid->soil_ph + 1.5;
 		}else{
 			ph_soil = 6.5;
@@ -240,10 +245,11 @@ void f_n_deposit(
 	struct Grid *grid, 
 	struct Loct *loct
 ){
+    long f;
 	double pre_ann, ndepo_total, ndepo_dry, ndepo_wet, aa;
 	double f_no3, f_nh4, ndepo_no3, ndepo_nh4;
 	double f_wet, f_dry;
-	extern double MDN[12];
+	extern double MDN[ASTEP];
 	
 	/* f_no3 = 0.75; */
 	/*f_no3 = 0.47; */ /* revised by CHASER data: 2010/03/28 (A.Ito) */
@@ -348,6 +354,73 @@ void f_n_deposit(
         /* unit: g N ha-1 month-1 */
         loct->depo_no3[grid->m] = ndepo_no3;
         loct->depo_nh4[grid->m] = ndepo_nh4;
+    }
+    
+    /* NMIP: 2015/11/19 by A.Ito *******/
+    if(NMIP_RUN == 1){
+        /* seasonality based on CHASER */
+        ndepo_no3 = ndepo_nh4 = 0.0;
+        for(f=0;f<ASTEP;f++){
+            ndepo_no3 += grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
+                    + grid->ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col];
+            ndepo_nh4 += grid->ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col];
+        }
+        
+        if(ndepo_no3 > 0.0){
+            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny]*1000.0 *
+                    (grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
+                    + grid->ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_no3;
+        }else{
+            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny]*1000.0 / 12.0;
+        }
+        if(ndepo_nh4 > 0.0){
+            loct->depo_nh4[grid->m] =  grid->nmip_ndep_nh4[grid->niny]*1000.0 *
+                grid->ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col]*1000.0 / ndepo_nh4;
+        }else{
+            loct->depo_nh4[grid->m] = grid->nmip_ndep_nh4[grid->niny]*1000.0 / 12.0;
+        }
+    }
+    
+    /* experiment N deposition: 2015/08/12 by A.Ito *****/
+    if(EX_NDEPO == 1){
+        loct->depo_no3[grid->m] *= 1.1;
+        loct->depo_nh4[grid->m] *= 1.1;
+    }
+    if(EX_NDEPO == 2){
+        loct->depo_no3[grid->m] *= 0.9;
+        loct->depo_nh4[grid->m] *= 0.9;
+    }
+    if(EX_NDEPO == 3){
+        loct->depo_no3[grid->m] *= 1.3;
+        loct->depo_nh4[grid->m] *= 1.3;
+    }
+    if(EX_NDEPO == 4){
+        loct->depo_no3[grid->m] *= 0.7;
+        loct->depo_nh4[grid->m] *= 0.7;
+    }
+    if(EX_NDEPO == 5){
+        loct->depo_no3[grid->m] *= 1.5;
+        loct->depo_nh4[grid->m] *= 1.5;
+    }
+    if(EX_NDEPO == 6){
+        loct->depo_no3[grid->m] *= 0.5;
+        loct->depo_nh4[grid->m] *= 0.5;
+    }
+    
+    if(EX_NDEPO == 7){
+        ndepo_total = loct->depo_no3[grid->m] + loct->depo_nh4[grid->m];
+        loct->depo_nh4[grid->m] = ndepo_total;
+        loct->depo_no3[grid->m] = 0.0;
+    }
+    if(EX_NDEPO == 8){
+        ndepo_total = loct->depo_no3[grid->m] + loct->depo_nh4[grid->m];
+        loct->depo_nh4[grid->m] = 0.0;
+        loct->depo_no3[grid->m] = ndepo_total;
+    }
+    if(EX_NDEPO == 9){
+        ndepo_total = loct->depo_no3[grid->m] + loct->depo_nh4[grid->m];
+        loct->depo_nh4[grid->m] = 0.5 * ndepo_total;
+        loct->depo_no3[grid->m] = 0.5 * ndepo_total;
     }
 }
 

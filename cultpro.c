@@ -81,9 +81,9 @@ void planting(
 	f_leaf_age(0, pchar, mass, 0.4);
 
 	/* litter */
-	flux->lf[grid->m] = nn*flf(grid, pchar, mass);
-	flux->lc[grid->m] = nn*flc(grid, pchar, mass);
-	flux->lr[grid->m] = nn*flr(grid, pchar, mass);
+	flux->lf[grid->m] = nn * flf(grid, pchar, mass);
+	flux->lc[grid->m] = nn * flc(grid, pchar, mass);
+	flux->lr[grid->m] = nn * flr(grid, pchar, mass);
 	/* stable carbon isotope */
 	flux->d13c_lf[grid->m] = mass->d13c_fol;
 	flux->d13c_lc[grid->m] = mass->d13c_stm;
@@ -108,10 +108,10 @@ void planting(
 	}
 
 	/* maintenance respirations */
-	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
-	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
-	flux->rrm[grid->m] = nn*frrm(grid, pchar, mass);
-	flux->arm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m]+flux->rrm[grid->m];
+	flux->rfm[grid->m] = nn * frfm(grid, pchar, mass);
+	flux->rcm[grid->m] = nn * frcm(grid, pchar, mass);
+	flux->rrm[grid->m] = nn * frrm(grid, pchar, mass);
+	flux->arm[grid->m] = flux->rfm[grid->m] + flux->rcm[grid->m] + flux->rrm[grid->m];
 	/* stable carbon isotope */
 	flux->d13c_rfm[grid->m] = mass->d13c_fol;
 	flux->d13c_rcm[grid->m] = mass->d13c_stm;
@@ -194,7 +194,7 @@ void harvesting(
 	mass->stm += (hvst_index * mass->stm);
 	mass->rot += (hvst_index * mass->rot);
 	
-	f_leaf_age(1, pchar, mass, hvst_index*mass->fol);
+	f_leaf_age(1, pchar, mass, hvst_index * mass->fol);
 
 	/* litter */
 	clear = 0.9 + hvst_index;
@@ -228,7 +228,7 @@ void harvesting(
 	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
 	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
 	flux->rrm[grid->m] = nn*frrm(grid, pchar, mass);
-	flux->arm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m]+flux->rrm[grid->m];
+	flux->arm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m] + flux->rrm[grid->m];
 	/* stable carbon isotope */
 	flux->d13c_rfm[grid->m] = mass->d13c_fol;
 	flux->d13c_rcm[grid->m] = mass->d13c_stm;
@@ -369,9 +369,9 @@ void interval(
 	flux->d13c_rrg[grid->m] = flux->d13c_tpr[grid->m];
 	
 	/* partitioning of photosynthate */
-	mass->fol += (flux->tpf[grid->m]-flux->rfg[grid->m]);
-	mass->stm += (flux->tpc[grid->m]-flux->rcg[grid->m]);
-	mass->rot += (flux->tpr[grid->m]-flux->rrg[grid->m]);
+	mass->fol += (flux->tpf[grid->m] - flux->rfg[grid->m]);
+	mass->stm += (flux->tpc[grid->m] - flux->rcg[grid->m]);
+	mass->rot += (flux->tpr[grid->m] - flux->rrg[grid->m]);
 	
 	f_leaf_age(0, pchar, mass, (flux->tpf[grid->m]-flux->rfg[grid->m]));
 	

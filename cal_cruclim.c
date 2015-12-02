@@ -41,6 +41,15 @@ void cal_historical(
 		/* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
         
+        /* NMIP: 2015/11/19 by A.Ito **/
+        grid->niny = grid->climy;
+        if(grid->niny < 1900){
+            grid->niny = 1900;
+        }
+        if(grid->niny > 2012){
+            grid->niny = 2012;
+        }
+
         /* for considering leap years: 2014/09/29 by A.Ito */
         if(grid->climy%4 == 0){
             MDN[1] = 29.0;
@@ -52,9 +61,6 @@ void cal_historical(
             /* set climate variables  */
 			set_hist_clim(grid);
 		}
-		
-		/* land-use change ******************/
-		f_cult_luc(grid);
 		
 		/* CO2 year ********************/
 		grid->co2y = PIVOT_CO2Y + g; 
@@ -77,6 +83,9 @@ void cal_historical(
         
         grid->lucy = PIVOT_CLIMY + g;
 		
+		/* land-use change ******************/
+		f_cult_luc(grid);
+		
 		/*  Fertilizer input, historical change: 2010/05/11 by A.Ito */
 		if(grid->rank_nat == 1){
 			/* developing countries */
@@ -84,7 +93,13 @@ void cal_historical(
 		}else if(grid->rank_nat == 2){
 			/* developed countries */
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
-		}
+		}else{
+            f_fert = 1.0;
+        }
+        /* NMIP input: 2015/11/19 by A.Ito */
+        if(NMIP_RUN == 1){
+            f_fert = 1.0;
+        }
 		
 		/* seasonal (monthly) loop ************************************************/
 		for(f=0;f<ASTEP;f++){
@@ -112,7 +127,7 @@ void cal_historical(
 
 			f_plant_stand_budget(grid, loct, mass, flux);
 			
-			if(BACC==3){
+			if(BACC == 3){
 				(flux->plant).lL[f] = flux->lL0[f];
 			}
 
@@ -358,6 +373,8 @@ void cal_historical(
         if(f_nat > 0.0){
             iweight = 1.0 / f_nat;
             /* factor from natural to whole grid */
+        }else{
+            iweight = 1.0;
         }
         avc3 = 0.0;
         for(f=0;f<ASTEP;f++){
@@ -366,6 +383,8 @@ void cal_historical(
         if(avc3 > 0.0){
             iweight3 = iweight * (1.0 / avc3);
             /* factor from C3-dominated natural to whole grid */
+        }else{
+            iweight3 = iweight;
         }
         
 		/* wood harvest: 2010/10/15 by A.Ito ***************/
@@ -376,7 +395,7 @@ void cal_historical(
 			/* assumption for the period later than 2004: A.Ito (2010/11/11) */
 			if( (LANDUSE != 10 && LANDUSE != 11 && LANDUSE != 12 && LANDUSE != 13) &&
                     grid->climy > (PIVOT_LUC+DL_LUH-1)){
-				dyr = (PIVOT_LUC+DL_LUH-1);
+				dyr = (PIVOT_LUC + DL_LUH - 1);
 			}
             
             /* from total grid */

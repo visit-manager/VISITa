@@ -59,18 +59,18 @@ struct Grid{
 	long 	m;						/* month of the year, from Jan. to Dec., 0 to 11 */
     long    h;
 	
-	/* atmospheric condition ***********/
 	long 	co2y;					/* year for CO2 level estimation */
+	long 	climy;					/* year of climate data */
+    long    lucy;                   /* year of land-use data: 2014/09/11 by A.Ito */
+    long    niny;                   /* year of nitrogen input: 2015/11/19 by A.Ito */
+
+	/* atmospheric condition ***********/
 	double 	bco2[ASTEP];			/* background CO2 concentration, in ppmv */
 	double 	d13c_bco2[ASTEP];		/* stable carbon isotope composition of background CO2, permille */
 	double	d14c_bco2[ASTEP];		/* D14C of atmospheric CO2: added by A.Ito (2009/06/23) */
     double  bo3[ASTEP];             /* monthly O3, ppb */
 
 	/* climate condition: *[] means the transitional value */
-	long 	climy;					/* year of climate data */
-    
-    long    lucy;                   /* year of land-use data: 2014/09/11 by A.Ito */
-	
 	double 	tmp_sfc[ASTEP];			/* ground surface temperature, degree Celcius */
 	double 	tmp_2m[ASTEP];			/* 2m air temperature, degree Celcius */
 	double 	tmp10_soil[ASTEP];		/* soil temperature at 10 cm depth, degree Celcius */
@@ -331,7 +331,15 @@ struct Grid{
 	
 	long	type_permaforst;			/* permafrost type by NSIDC */
     double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
-};			
+    
+    double  f_biofuel[N_BF];                /* biofuel scenario: 2015/8/21 by A.Ito */
+    
+    /* NMIP input: 2015/11/19 by A.Ito */
+    double  nmip_nfert[N_NMIP];                /* nitrogen fertilizer */
+    double  nmip_ndep_noy[N_NMIP];                /* NOy deposition */
+    double  nmip_ndep_nh4[N_NMIP];                /* NH4 fertilizer */
+    double  nmip_manure[N_NMIP];                /* manure */
+};
 
 /* grid conditions, derived from submodules *******************************************/
 struct Loct{ 

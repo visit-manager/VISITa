@@ -67,6 +67,19 @@ void f_init_clim(
 			grid->prate_sfc_a[h] = grid->hist_pre_b[h];
 		}
 		
+		/* alternative precipitation data *************************/
+		if(grid->prec_sub_a[h] >= 0.0){
+			grid->prate_sfc[h] = grid->prec_sub_a[h];
+		}else if(grid->prec_sub_a[h] < 0.0){
+			grid->prate_sfc[h] = grid->prate_sfc_a[h];
+		}
+		
+		grid->spfh_2m[h] = grid->spfh_2m_a[h];
+		
+		aaa = grid->ugrd_10m_a[h] * grid->ugrd_10m_a[h];
+		bbb = grid->vgrd_10m_a[h] * grid->vgrd_10m_a[h];
+		grid->wnd_10m[h] = sqrt(aaa + bbb);
+        
         /*******************************************/
         /* IMPRESSIONS IRS: 2015/07/17 by A.Ito */
         if(IMPRESSIONS_RUN == 1){
@@ -80,21 +93,21 @@ void f_init_clim(
             impex_t = (short)(GCM_ID%50);
             
             switch(impex_t){
-                case 0: tmp_var = -3.0; break;
-                case 1: tmp_var = -2.0; break;
-                case 2: tmp_var = -1.0; break;
-                case 3: tmp_var = 0.0; break;
-                case 4: tmp_var = +1.0; break;
-                case 5: tmp_var = +2.0; break;
-                case 6: tmp_var = +3.0; break;
-                case 7: tmp_var = +4.0; break;
-                case 8: tmp_var = +5.0; break;
-                case 9: tmp_var = +6.0; break;
-                case 10: tmp_var = +7.0; break;
-                case 11: tmp_var = +8.0; break;
-                case 12: tmp_var = +9.0; break;
-                case 13: tmp_var = +10.0; break;
-                case 14: tmp_var = +11.0; break;
+                case 1: tmp_var = -3.0; break;
+                case 2: tmp_var = -2.0; break;
+                case 3: tmp_var = -1.0; break;
+                case 4: tmp_var = 0.0; break;
+                case 5: tmp_var = 1.0; break;
+                case 6: tmp_var = 2.0; break;
+                case 7: tmp_var = 3.0; break;
+                case 8: tmp_var = 4.0; break;
+                case 9: tmp_var = 5.0; break;
+                case 10: tmp_var = 6.0; break;
+                case 11: tmp_var = 7.0; break;
+                case 12: tmp_var = 8.0; break;
+                case 13: tmp_var = 9.0; break;
+                case 14: tmp_var = 10.0; break;
+                case 15: tmp_var = 11.0; break;
                 default: tmp_var = 0.0; break;
             }
             
@@ -126,21 +139,8 @@ void f_init_clim(
             grid->prate_sfc[h] *= pre_var;
         }
 
-		grid->spfh_2m[h] = grid->spfh_2m_a[h];
-		
-		aaa = grid->ugrd_10m_a[h] * grid->ugrd_10m_a[h];
-		bbb = grid->vgrd_10m_a[h] * grid->vgrd_10m_a[h];
-		grid->wnd_10m[h] = sqrt(aaa + bbb);
-        
         grid->tmp_soil_am += grid->tmp200_soil_a[h] * MDN[h] / 365.0;
 
-		/* alternative precipitation data *************************/
-		if(grid->prec_sub_a[h] >= 0.0){
-			grid->prate_sfc[h] = grid->prec_sub_a[h];
-		}else if(grid->prec_sub_a[h] < 0.0){
-			grid->prate_sfc[h] = grid->prate_sfc_a[h];
-		}
-		
 		/* solar decrination and solar height */
 		grid->sl_dec[h] = f_solar_decl(grid);
 		grid->sl_hgt[h] = f_solar_hgt(grid);
@@ -156,20 +156,20 @@ void f_init_clim(
 		grid->par_a[h] = grid->par[h];
         
 		/* sensitivity analysis *************************/
-		if(TM==1){
+		if(TM == 1){
 			grid->tmp_sfc[h] += 1.0;
 			grid->tmp_2m[h] += 1.0;
 			grid->tmp10_soil[h] += 1.0;
 			grid->tmp200_soil[h] += 1.0;
-		}else if(TM==5){
+		}else if(TM == 5){
 			grid->tmp_sfc[h] -= 1.0;
 			grid->tmp_2m[h] -= 1.0;
 			grid->tmp10_soil[h] -= 1.0;
 			grid->tmp200_soil[h] -= 1.0;
 		}
-		if(PR==1){
+		if(PR == 1){
 			grid->prate_sfc[h] *= 1.1;
-		}else if(PR==5){
+		}else if(PR == 5){
 			grid->prate_sfc[h] *= 0.9;
 		}
 	}
@@ -207,7 +207,7 @@ void f_init_loct(
 		grid->prate_sfc_ann += grid->prate_sfc[h]; 
 		
 		if(grid->tmp_sfc[h]>5.0){
-			nn +=MDN[h];
+			nn += MDN[h];
 			grid->gp_atem += (grid->tmp_sfc[h]-5.0)*MDN[h];
 			tem_grow += grid->tmp_sfc[h]*MDN[h];
 			grid->gp_pre += grid->prate_sfc[h]; 
@@ -372,7 +372,7 @@ void f_dyn_loct(
 		grid->tmp_soil_mean = 0.0;
 		for(h=0;h<ASTEP;h++){
 			/* annual mean temperature */
-			grid->tmp_sfc_am += grid->tmp_sfc[h]*MDN[h]/365.0; 
+			grid->tmp_sfc_am += grid->tmp_sfc[h] * MDN[h]/365.0;
 			/* annual maximum */
 			grid->tmp_sfc_mx = (grid->tmp_sfc[h]>grid->tmp_sfc_mx)?grid->tmp_sfc[h]:grid->tmp_sfc_mx; 
 			/* annual minimum */
@@ -380,7 +380,7 @@ void f_dyn_loct(
 			/* annual total precipitation */
 			grid->prate_sfc_ann += grid->prate_sfc[h]; 
 			/* annual mean soil temperature */
-			grid->tmp_soil_mean += grid->tmp10_soil[h]*MDN[h]/365.0;
+			grid->tmp_soil_mean += grid->tmp10_soil[h] * MDN[h]/365.0;
 		}
 		loct->cum_dprec = 0.0;
         

@@ -33,13 +33,17 @@ void cal_spinup(
 		/* corrected: A.Ito and E.Kato (2009/08/16) */
 		if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 
 				|| grid->veg_olson==32){
+            /* short-term ecosystems */
 			term_time = 300;
 		}else{
+            /* long-term ecosystems */
 			term_time = 4000;
 		}
 	}else if((echar->c3).v_type==2){
 		term_time = 300;
-	}
+	}else{
+        term_time = 300;
+    }
 	
 	(echar->soil).rl = (echar->soil).rl0;
 	(echar->soil).rh = (echar->soil).rh0;
@@ -52,31 +56,40 @@ void cal_spinup(
 	}else if(LANDUSE>=1 && LANDUSE<=5){
 		grid->f_crop_p = grid->fcrop_sage[199];
 		grid->f_pasture_p = 0.0;
-	}else if(LANDUSE==6 || LANDUSE==8){
+	}else if(LANDUSE == 6 || LANDUSE == 8){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[199];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[199];
-	}else if(LANDUSE==7){
+	}else if(LANDUSE == 7){
 		grid->f_crop_p = grid->fcrop_rk[199];
 		grid->f_pasture_p = grid->fpast_rk[199];
-	}else if(LANDUSE==9){
+	}else if(LANDUSE == 9){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[2000-BGY_LUC];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[2000-BGY_LUC];
-	}else if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13){
+	}else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13
+         || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - PIVOT_LUC];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - PIVOT_LUC];
-	}else if(LANDUSE==14 || LANDUSE==15 || LANDUSE==16){
-		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - PIVOT_LUC];
-		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - PIVOT_LUC];
-    }
+	}
+    
+    if(LANDUSE == 17 || BIOFUEL_RUN >= 1){
+		grid->f_crop_p = grid->f_biofuel[0];
+		grid->f_pasture_p = grid->fpast_unh_hmnzed[2000-BGY_LUC];
+	}
 	
     /* historical fertilizer */
-	if(grid->rank_nat==1){
+	if(grid->rank_nat == 1){
 		/* developing countries */
 		f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - 1900.0)))+0.0014929171;
 	}else if(grid->rank_nat==2){
 		/* developed countries */
 		f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - 1900.0)))+0.53533202;
-	}
+	}else{
+        f_fert = 1.0;
+    }
+    /* NMIP input: 2015/11/19 by A.Ito */
+    if(NMIP_RUN == 1){
+        f_fert = 1.0;
+    }
 	
 	/* LOOP to stable stage ************************************************/
 	nn = 0; 
@@ -109,6 +122,9 @@ void cal_spinup(
             grid->climy = grid->lucy = nn%30 +1901;
 			set_hist_clim(grid);
         }
+        
+        /* NMIP: 2015/11/19 by A.Ito **/
+        grid->niny = 1901;
 		
 		plantmass = ann_nep = 0.0;
 		for(f=0;f<ASTEP;f++){
@@ -164,7 +180,7 @@ void cal_spinup(
 			
 			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
 			/* NH4:NO3 ratio is based on inventories */
-			if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || 
+			if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 ||
 											 grid->veg_olson==31 || grid->veg_olson==32)){
 				(flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0 * f_fert;
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
@@ -357,6 +373,8 @@ void cal_spinup(
     f_nat = 1.0 - grid->f_crop_con;
     if(f_nat > 0.0){
         iweight = 1.0 / f_nat;
+    }else{
+        iweight = 1.0;
     }
     avc3 = 0.0;
     for(f=0;f<ASTEP;f++){
@@ -364,6 +382,8 @@ void cal_spinup(
     }
     if(avc3 > 0.0){
         iweight3 = iweight * (1.0 / avc3);
+    }else{
+        iweight3 = iweight;
     }
 
 	/* wood harvest: 2010/10/15 by A.Ito *****************/
@@ -372,7 +392,7 @@ void cal_spinup(
         /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
         
         if(LANDUSE ==9 || LANDUSE ==10 || LANDUSE ==11 || LANDUSE ==12 || LANDUSE ==13
-                    || LANDUSE ==14 || LANDUSE ==15 || LANDUSE ==16){
+                    || LANDUSE ==14){
             dyr = 1900 - PIVOT_LUC;
         }else{
             dyr = 1900 - PIVOT_LUC;
@@ -409,9 +429,9 @@ void cal_spinup(
         
 		if((mass->c3).stm > (total_hvst + INT_C)){
         
-            if((mass->c3).stm > (total_hvst*iweight3 + INT_C)){
-                (mass->c3).stm -= total_hvst*iweight3;
-                flux->hvst_wood = total_hvst*iweight3;
+            if((mass->c3).stm > (total_hvst * iweight3 + INT_C)){
+                (mass->c3).stm -= total_hvst * iweight3;
+                flux->hvst_wood = total_hvst * iweight3;
             }else{
                 (mass->c3).stm -= total_hvst;
                 flux->hvst_wood = total_hvst;

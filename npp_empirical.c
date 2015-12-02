@@ -28,8 +28,8 @@ void npp_empirical(
 	n = 0;
 	for(f=0;f<ASTEP;f++){
 		/* annual AET or PET */
-		aet_ann += loct->evpr[f]+loct->incep[f]+loct->trspr[f]; 
-		pet_ann += loct->pm_evp[f]+loct->pm_incep[f]+loct->pm_trn[f];
+		aet_ann += loct->evpr[f] + loct->incep[f] + loct->trspr[f];
+		pet_ann += loct->pm_evp[f] + loct->pm_incep[f] + loct->pm_trn[f];
 		
 		/* annual mean net radiation, W m-2 */
 		loct->rad_net[f] = loct->rad_net_short[f] * 0.636619 * grid->dlen[f] / 24.0 - loct->rad_net_long[f];

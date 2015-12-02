@@ -57,7 +57,7 @@ void c34composition(
 			if(grid->veg_crop == 1 || grid->veg_crop == 2){
 				loct->c4ptn[f] = 0.0;
 				loct->c3ptn[f] = 1.0;
-			}else if(grid->veg_crop == 3){
+			}else if(grid->veg_crop == 3 || grid->veg_crop == 4){
 				loct->c4ptn[f] = 1.0;
 				loct->c3ptn[f] = 0.0;
 			}
