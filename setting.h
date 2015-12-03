@@ -63,7 +63,7 @@
 #define N_BF 91 /* biofuel data length */
 
 /* NMIP: N2O model intercomparison runs */
-#define NMIP_RUN 1
+#define NMIP_RUN 2
 /* 0: off */
 /* 1: on use NMIP data = S1 and S2? */
 /* 2: all fix (S0) */

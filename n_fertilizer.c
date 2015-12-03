@@ -266,7 +266,7 @@ void n_fertilizer_in(
     }
     
     /* NMIP run: 2015/11/19 by A.Ito *****/
-    if(NMIP_RUN == 1){
+    if(NMIP_RUN == 1 || NMIP_RUN == 2){
         if(grid->niny>=1900 && grid->niny<=2012){
             loct->n_frtlz_in = grid->nmip_nfert[grid->niny - 1900] * MDN[grid->m] / 365.0;
         }else if(grid->niny<1900){

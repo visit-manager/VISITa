@@ -357,7 +357,7 @@ void f_n_deposit(
     }
     
     /* NMIP: 2015/11/19 by A.Ito *******/
-    if(NMIP_RUN == 1){
+    if(NMIP_RUN == 1 || NMIP_RUN == 2){
         /* seasonality based on CHASER */
         ndepo_no3 = ndepo_nh4 = 0.0;
         for(f=0;f<ASTEP;f++){

@@ -37,11 +37,12 @@ void cal_historical(
         /* ISIMIP: 1950-2099 */
         /* GEOMIP: 1901-2005 */
         /* ISIMIP2 (hist): 1901-2010 */
+        /* NMIP: 1901-2012 */
 		
 		/* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
         
-        /* NMIP: 2015/11/19 by A.Ito **/
+       /* NMIP: 2015/11/19 by A.Ito *******/
         grid->niny = grid->climy;
         if(grid->niny < 1900){
             grid->niny = 1900;
@@ -49,19 +50,7 @@ void cal_historical(
         if(grid->niny > 2012){
             grid->niny = 2012;
         }
-
-        /* for considering leap years: 2014/09/29 by A.Ito */
-        if(grid->climy%4 == 0){
-            MDN[1] = 29.0;
-        }else{
-            MDN[1] = 28.0;
-        }
-
-		if(grid->flag_histdata == 1){
-            /* set climate variables  */
-			set_hist_clim(grid);
-		}
-		
+        
 		/* CO2 year ********************/
 		grid->co2y = PIVOT_CO2Y + g; 
 		/* sensitivity analysis: no CO2 rise */
@@ -81,9 +70,32 @@ void cal_historical(
             grid->co2y = 2000;
         }
         
+        /* land-use year *****/
         grid->lucy = PIVOT_CLIMY + g;
 		
-		/* land-use change ******************/
+        /* NMIP all fix **************/
+        if(NMIP_RUN == 2){
+            grid->climy = 2000;
+            grid->niny = 2000;
+            grid->co2y = 2000;
+            grid->lucy = 2000;
+        }
+        
+        /* for considering leap years: 2014/09/29 by A.Ito */
+        if(grid->climy%4 == 0){
+            MDN[1] = 29.0;
+        }else{
+            MDN[1] = 28.0;
+        }
+
+ 		if(grid->flag_histdata == 1){
+            /* set climate variables  */
+			set_hist_clim(grid);
+		}
+		
+        /*****************************************************************************/
+
+		/* land-use change *************/
 		f_cult_luc(grid);
 		
 		/*  Fertilizer input, historical change: 2010/05/11 by A.Ito */
@@ -97,7 +109,7 @@ void cal_historical(
             f_fert = 1.0;
         }
         /* NMIP input: 2015/11/19 by A.Ito */
-        if(NMIP_RUN == 1){
+        if(NMIP_RUN == 1 || NMIP_RUN == 2){
             f_fert = 1.0;
         }
 		
