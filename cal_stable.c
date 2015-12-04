@@ -90,6 +90,8 @@ void cal_spinup(
     if(NMIP_RUN == 1 || NMIP_RUN == 2){
         f_fert = 1.0;
     }
+    
+    grid->simy = 1900;
 	
 	/* LOOP to stable stage ************************************************/
 	nn = 0; 
@@ -523,7 +525,7 @@ void cal_spinup(
 	}
 	
 	/* history data */
-	f_set_history_data(0, grid, loct, mass, flux);
+	f_set_history_data(grid->simy - (PIVOT_CLIMY-1), grid, loct, mass, flux);
 		
 	/** output initial stable state **/
 	publish_cbud(grid, loct, echar, mass, flux, fp_o[0]); /* */

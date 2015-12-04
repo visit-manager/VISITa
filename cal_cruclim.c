@@ -39,11 +39,14 @@ void cal_historical(
         /* ISIMIP2 (hist): 1901-2010 */
         /* NMIP: 1901-2012 */
 		
-		/* climate change ********************/
+		/* simulation year ********************/
+		grid->simy = PIVOT_CLIMY + g;
+ 
+        /* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
         
        /* NMIP: 2015/11/19 by A.Ito *******/
-        grid->niny = grid->climy;
+        grid->niny = grid->simy;
         if(grid->niny < 1900){
             grid->niny = 1900;
         }
@@ -65,7 +68,7 @@ void cal_historical(
             GCM_ID==2015 ||GCM_ID==2016 ||GCM_ID==2017 ||GCM_ID==2018 ||
             GCM_ID==2025 ||GCM_ID==2026 ||GCM_ID==2027 ||GCM_ID==2028 ||
             GCM_ID==2035 ||GCM_ID==2036 ||GCM_ID==2037 ||GCM_ID==2038 ||
-            GCM_ID==2045 ||GCM_ID==2046 ||GCM_ID==2047 ||GCM_ID==2048) && grid->climy>=2000){
+            GCM_ID==2045 ||GCM_ID==2046 ||GCM_ID==2047 ||GCM_ID==2048) && grid->simy>=2000){
             /* fixed to AD2000 level */
             grid->co2y = 2000;
         }
@@ -101,10 +104,10 @@ void cal_historical(
 		/*  Fertilizer input, historical change: 2010/05/11 by A.Ito */
 		if(grid->rank_nat == 1){
 			/* developing countries */
-			f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - (double)grid->climy)))+0.0014929171;
+			f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - (double)grid->niny)))+0.0014929171;
 		}else if(grid->rank_nat == 2){
 			/* developed countries */
-			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
+			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->niny)))+0.53533202;
 		}else{
             f_fert = 1.0;
         }
@@ -253,7 +256,7 @@ void cal_historical(
 			n_budget(grid, loct, mass, flux);
 			
 			/* average LAI: 2009/05/06 by A.Ito */
-			if(grid->climy>=1990 && grid->climy<=1999){
+			if(grid->niny>=1990 && grid->niny<=1999){
 				(mass->c3).lai0[f] += (mass->c3).lai[f]/10.0;
 				(mass->c4).lai0[f] += (mass->c4).lai[f]/10.0;
 				(mass->plant).lai0[f] += (mass->plant).lai[f]/10.0;
@@ -402,11 +405,11 @@ void cal_historical(
 		/* wood harvest: 2010/10/15 by A.Ito ***************/
 		total_hvst = 0.0;
 		if((mass->c3).v_type == 1 && NECB_WHVST == 1 && (EX_CCPL != 5 && EX_CCPL != 8)){
-			dyr = grid->climy - PIVOT_LUC;
+			dyr = grid->lucy - PIVOT_LUC;
 			
 			/* assumption for the period later than 2004: A.Ito (2010/11/11) */
 			if( (LANDUSE != 10 && LANDUSE != 11 && LANDUSE != 12 && LANDUSE != 13) &&
-                    grid->climy > (PIVOT_LUC+DL_LUH-1)){
+                    grid->lucy > (PIVOT_LUC+DL_LUH-1)){
 				dyr = (PIVOT_LUC + DL_LUH - 1);
 			}
             
@@ -520,20 +523,20 @@ void cal_historical(
 		}
 		
 		/* history data */
-		f_set_history_data(grid->climy - PIVOT_CLIMY +1, grid, loct, mass, flux);
+		f_set_history_data(grid->simy - PIVOT_CLIMY +1, grid, loct, mass, flux);
 		
 		/* output */
-		f_output_result(grid->climy, grid, loct, echar, mass, flux, fp_o); /* */
+		f_output_result(grid->simy, grid, loct, echar, mass, flux, fp_o); /* */
 		
 		/* setting previous land-use */
 		grid->f_crop_p = grid->f_crop_con;
 		grid->f_pasture_p = grid->f_pasture_con;
 		
-		if(grid->climy>=1950 && grid->climy<1960){
+		if(grid->simy>=1950 && grid->simy<1960){
 			g_ersn[0][grid->row][grid->col] += flux->erod_carbon /10.0;
 			g_luc[0][grid->row][grid->col] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) /10.0;
 		}
-		if(grid->climy>=1990 && grid->climy<2000){
+		if(grid->simy>=1990 && grid->simy<2000){
 			g_ersn[1][grid->row][grid->col] += flux->erod_carbon /10.0;
 			g_luc[1][grid->row][grid->col] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) /10.0;
 		}

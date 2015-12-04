@@ -43,6 +43,9 @@ void cal_projection(
 	/* LOOP to dynamic stage ***************************************/
 	for(g=BGY_GCM;g<=ENY_GCM;g++){ 
 	
+		/* simulation year ********************/
+		grid->simy = g;
+ 
 		/* CO2 change ********************/
 		if(CO2S == 0){
 			grid->co2y = BGY_GCM; 
