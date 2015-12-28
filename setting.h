@@ -64,7 +64,12 @@
 
 /* NMIP: N2O model intercomparison runs */
 #define NMIP_RUN 0
+/* 0: off */
+/* 1: on use NMIP data (S1) */
+/* 2: all fix (S0) */
+/* 3: all combined (S2) */
 #define N_NMIP 113
+#define PIVOT_NINY 1901
 
 /* parameter ensemble **************************/
 #define NPERT 20

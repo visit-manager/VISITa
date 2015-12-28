@@ -128,6 +128,9 @@ void reallocation_survival(
 	double aaa, bbb, ccc;
 	double ral_stf, ral_rtf;
 	
+    /* initial values */
+    ral_cap_stf = 0.03;
+    ral_cap_rtf = 0.03;
 	if(pchar->v_type == 1){
 		switch(grid->veg_olson){
 			case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: 

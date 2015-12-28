@@ -418,6 +418,7 @@ void f_ch4_emit_walter(
 	
 	/* characteristics ***************************************/
     wtdepth = 0.0;
+    rdepth = 0.1;
 	if(smode == 1){	/* water-logged wetlands */
 		/* t_veg = 6.0; */  /* vegetation factor */
 		/* rdepth = 0.20; */		/* rooting depth, m */

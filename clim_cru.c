@@ -27,7 +27,7 @@ void read_cru_clim(
 	long kk[4], flag;
 	long f, g, h, i;
 	double data, alt, aa, bb, vps;
-    double atmp, apres, shum, avtas, avpr, drad;
+    double apres, shum, avtas, avpr, drad;
     float r_isimip_data[ASTEP*DL_ISIMIP]; /* corrected: 2012/08/05 */
     float r_gcm_data[ASTEP*DL_ISIMIP]; /* added: 2014/07/31 */
 

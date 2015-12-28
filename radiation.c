@@ -343,7 +343,7 @@ void f_net_rad(
 ){
     short nn;
 	double aaa, bbb, ccc, ddd1, ddd2, eee, ee_c3, ee_c4, fff;
-	double net_long, rad_net_p, rad_net_g, c3_canopy, c4_canopy, kmono_c3, kmono_c4;
+	double net_long, rad_net_p, rad_net_g, c3_canopy, c4_canopy;
 	double transmittance, ground;
     double albedo_base, albedo_var, rn_short_base, rn_short_var;
     double tsfc, tsfc_base, tsfc_var,crit, tt1, tt2, latheat, snsheat, dtsfc;
@@ -361,7 +361,7 @@ void f_net_rad(
 		bbb = 0.39 - 0.058 * sqrt( 40.0*760.0/1013.0 );
 	}
 	ccc = 1.0 - 0.65 * grid->tcdc_clm[grid->m];
-	net_long = aaa*bbb*ccc;
+	net_long = aaa * bbb * ccc;
 	loct->rad_net_long[grid->m] = net_long;
 	
 	/** soil surface albedo **/

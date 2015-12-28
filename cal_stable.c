@@ -87,9 +87,11 @@ void cal_spinup(
         f_fert = 1.0;
     }
     /* NMIP input: 2015/11/19 by A.Ito */
-    if(NMIP_RUN == 1){
+    if(NMIP_RUN == 1 || NMIP_RUN == 2){
         f_fert = 1.0;
     }
+    
+    grid->simy = 1900;
 	
 	/* LOOP to stable stage ************************************************/
 	nn = 0; 
@@ -125,6 +127,14 @@ void cal_spinup(
         
         /* NMIP: 2015/11/19 by A.Ito **/
         grid->niny = 1901;
+        
+        if(NMIP_RUN == 2){
+            grid->climy = 2000;
+            grid->niny = 2000;
+            grid->co2y = 2000;
+            grid->lucy = 2000;
+            set_hist_clim(grid);
+        }
 		
 		plantmass = ann_nep = 0.0;
 		for(f=0;f<ASTEP;f++){
@@ -515,7 +525,7 @@ void cal_spinup(
 	}
 	
 	/* history data */
-	f_set_history_data(0, grid, loct, mass, flux);
+	f_set_history_data(grid->simy - (PIVOT_CLIMY-1), grid, loct, mass, flux);
 		
 	/** output initial stable state **/
 	publish_cbud(grid, loct, echar, mass, flux, fp_o[0]); /* */
