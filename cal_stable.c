@@ -87,8 +87,8 @@ void cal_spinup(
         f_fert = 1.0;
     }
     /* NMIP input: 2015/11/19 by A.Ito */
-    if(NMIP_RUN == 1 || NMIP_RUN == 2){
-        f_fert = 1.0;
+    if(NMIP_RUN >= 1){
+        f_fert = 1.0; /* driven by data */
     }
     
     grid->simy = 1900;
@@ -128,11 +128,11 @@ void cal_spinup(
         /* NMIP: 2015/11/19 by A.Ito **/
         grid->niny = 1901;
         
-        if(NMIP_RUN == 2){
-            grid->climy = 2000;
-            grid->niny = 2000;
-            grid->co2y = 2000;
-            grid->lucy = 2000;
+        if(NMIP_RUN >= 1){
+            grid->climy = PIVOT_NINY;
+            grid->niny = PIVOT_NINY;
+            grid->co2y = PIVOT_NINY;
+            grid->lucy = PIVOT_NINY;
             set_hist_clim(grid);
         }
 		

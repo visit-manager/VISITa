@@ -20,7 +20,7 @@ void f_cult_luc(
 ){
     double prm_ensen;
 
-	if(LANDUSE == 0){
+	if(LANDUSE == 0 || NMIP_RUN == 3){
 		/* Natural condition *************/
 		grid->f_crop_con = 0.0;
 		grid->f_pasture_con = 0.0;
@@ -164,7 +164,7 @@ void f_cult_luc(
 	/* annual deforestation */
 	if(grid->phase == 0){
 		/* spin-up */
-		if(LANDUSE == 0){
+		if(LANDUSE == 0 || NMIP_RUN == 3){
 			grid->f_deforest = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
             grid->f_deforest = grid->fcrop_sage[(BGY_LUC+1) - PIVOT_LUC]
@@ -188,7 +188,7 @@ void f_cult_luc(
 		/* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
 	
 	}else if(grid->phase==1 || grid->phase==2){
-		if(LANDUSE == 0){
+		if(LANDUSE == 0 || NMIP_RUN == 3){
 			grid->f_deforest = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
 			grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
@@ -264,7 +264,7 @@ void f_cult_luc(
 	}
 	
 	/* historical change in paddy field area: added by A.Ito (2011/2/28) ********/
-	if(LANDUSE == 0){
+	if(LANDUSE == 0 || NMIP_RUN == 3){
 		grid->f_paddy = 0.0;
 	}else if(LANDUSE == 7){
 		if(grid->lucy <= 2005){
@@ -400,7 +400,7 @@ void f_luc_emit(
 	if(grid->phase==0){
 		/* spin-up: fluxes for 1801-1900 *******************************/
 		/* modified by A.Ito (2009/06/05: 2010/01/07) */
-		if(LANDUSE == 0 || LANDUSE==9){
+		if(LANDUSE == 0 || LANDUSE==9 || NMIP_RUN == 3){
 			f_luc = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
 			f_luc = grid->fcrop_sage[BGY_LUC-PIVOT_LUC] - grid->fcrop_sage[BGY_LUC-PIVOT_LUC-1];
@@ -426,7 +426,7 @@ void f_luc_emit(
 		
 		for(f=(BGY_LUC-9);f<=BGY_LUC;f++){
 			/* senstivity analysis */
-			if(LANDUSE == 0 || LANDUSE==9){
+			if(LANDUSE == 0 || LANDUSE==9 || NMIP_RUN == 3){
 				f_luc = 0.0;
 			}else if(LANDUSE>=1 && LANDUSE<=5){
 				f_luc = grid->fcrop_sage[f - PIVOT_LUC] - grid->fcrop_sage[f - PIVOT_LUC - 1];
@@ -456,7 +456,7 @@ void f_luc_emit(
 		
 		for(f=(BGY_LUC-99);f<=BGY_LUC;f++){
 			/* senstivity analysis */
-			if(LANDUSE == 0 || LANDUSE==9){
+			if(LANDUSE == 0 || LANDUSE==9 || NMIP_RUN == 3){
 				f_luc = 0.0;
 			}else if(LANDUSE>=1 && LANDUSE<=5){
 				f_luc = grid->fcrop_sage[f - PIVOT_LUC] - grid->fcrop_sage[f-PIVOT_LUC-1];
@@ -505,7 +505,7 @@ void f_luc_emit(
 		}
 		
 		/* annual land use change */
-		if(LANDUSE == 0 || LANDUSE == 9){
+		if(LANDUSE == 0 || LANDUSE == 9 || NMIP_RUN == 3){
 			f_luc = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
 			f_luc = grid->f_deforest;

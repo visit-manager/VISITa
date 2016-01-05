@@ -1228,7 +1228,7 @@ void f_init_grid(
     }
     
     /* Bio Fuel scenario: 2015/08/21 by A.Ito ***********/
-    for(e=0;e<N_BF;e++){
+    for(e=0;e<DL_BF;e++){
         fscanf(fp_s[87],"%lf", &grid->f_biofuel[e]);
         
         if(grid->f_biofuel[e] < 0.0){
@@ -1237,7 +1237,7 @@ void f_init_grid(
     }
     
     /* NMIP input: 2015/11/19 by A.Ito *************/
-    for(e=0;e<N_NMIP;e++){
+    for(e=0;e<DL_NMIP;e++){
         /* kg N/ha/yr */
         fscanf(fp_s[88],"%lf", &grid->nmip_nfert[e]);
         if(grid->nmip_nfert[e] < 0.0){

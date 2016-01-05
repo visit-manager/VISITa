@@ -245,7 +245,7 @@ void f_n_deposit(
 	struct Grid *grid, 
 	struct Loct *loct
 ){
-    long f;
+    long f, nyear;
 	double pre_ann, ndepo_total, ndepo_dry, ndepo_wet, aa;
 	double f_no3, f_nh4, ndepo_no3, ndepo_nh4;
 	double f_wet, f_dry;
@@ -357,7 +357,13 @@ void f_n_deposit(
     }
     
     /* NMIP: 2015/11/19 by A.Ito *******/
-    if(NMIP_RUN == 1 || NMIP_RUN == 2){
+    if(NMIP_RUN >= 1){
+        if(NMIP_RUN == 1 || NMIP_RUN == 3 || NMIP_RUN == 9){
+            nyear = grid->niny;
+        }else{
+            nyear = PIVOT_NINY;
+        }
+    
         /* seasonality based on CHASER */
         ndepo_no3 = ndepo_nh4 = 0.0;
         for(f=0;f<ASTEP;f++){

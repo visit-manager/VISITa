@@ -333,13 +333,13 @@ struct Grid{
 	long	type_permaforst;			/* permafrost type by NSIDC */
     double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
     
-    double  f_biofuel[N_BF];                /* biofuel scenario: 2015/8/21 by A.Ito */
+    double  f_biofuel[DL_BF];                /* biofuel scenario: 2015/8/21 by A.Ito */
     
     /* NMIP input: 2015/11/19 by A.Ito */
-    double  nmip_nfert[N_NMIP];                /* nitrogen fertilizer */
-    double  nmip_ndep_noy[N_NMIP];                /* NOy deposition */
-    double  nmip_ndep_nh4[N_NMIP];                /* NH4 fertilizer */
-    double  nmip_manure[N_NMIP];                /* manure */
+    double  nmip_nfert[DL_NMIP];                /* nitrogen fertilizer */
+    double  nmip_ndep_noy[DL_NMIP];                /* NOy deposition */
+    double  nmip_ndep_nh4[DL_NMIP];                /* NH4 fertilizer */
+    double  nmip_manure[DL_NMIP];                /* manure */
 };
 
 /* grid conditions, derived from submodules *******************************************/

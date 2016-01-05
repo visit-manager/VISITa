@@ -85,8 +85,8 @@ void cal_projection(
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
 		}
         /* NMIP input: 2015/11/19 by A.Ito */
-        if(NMIP_RUN == 1 || NMIP_RUN == 2){
-            f_fert = 1.0;
+        if(NMIP_RUN >= 1){
+            f_fert = 1.0; /* driven by data */
         }
 				
         /* NMIP: 2015/11/19 by A.Ito **/

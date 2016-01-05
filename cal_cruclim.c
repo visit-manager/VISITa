@@ -77,11 +77,32 @@ void cal_historical(
         grid->lucy = PIVOT_CLIMY + g;
 		
         /* NMIP all fix **************/
+        /* NMIP_RUN==1: all */
+        /* NMIP_RUN==3: all without cropland */
         if(NMIP_RUN == 2){
-            grid->climy = 2000;
-            grid->niny = 2000;
-            grid->co2y = 2000;
-            grid->lucy = 2000;
+            grid->climy = PIVOT_NINY;
+            grid->niny = PIVOT_NINY;
+            grid->co2y = PIVOT_NINY;
+            grid->lucy = PIVOT_NINY;
+        }else if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
+            grid->niny = PIVOT_NINY;
+            grid->co2y = PIVOT_NINY;
+            grid->lucy = PIVOT_NINY;
+        }else if(NMIP_RUN == 8){
+            grid->climy = PIVOT_NINY;
+            grid->niny = PIVOT_NINY;
+            grid->lucy = PIVOT_NINY;
+        }else if(NMIP_RUN == 9 || NMIP_RUN == 10){
+            grid->climy = PIVOT_NINY;
+            grid->co2y = PIVOT_NINY;
+            grid->lucy = PIVOT_NINY;
+        }else if(NMIP_RUN == 11){
+            grid->climy = PIVOT_NINY;
+            grid->co2y = PIVOT_NINY;
+            grid->niny = PIVOT_NINY;
+        }else if(NMIP_RUN == 12){
+            grid->climy = PIVOT_NINY;
+            grid->co2y = PIVOT_NINY;
         }
         
         /* for considering leap years: 2014/09/29 by A.Ito */
@@ -112,8 +133,8 @@ void cal_historical(
             f_fert = 1.0;
         }
         /* NMIP input: 2015/11/19 by A.Ito */
-        if(NMIP_RUN == 1 || NMIP_RUN == 2){
-            f_fert = 1.0;
+        if(NMIP_RUN >= 1){
+            f_fert = 1.0; /* driven by data */
         }
 		
 		/* seasonal (monthly) loop ************************************************/
@@ -130,7 +151,7 @@ void cal_historical(
 			/* environmental condition *******************/
 			f_dyn_loct(grid, loct, mass, echar);
             
-            //printf("%5.1lf ", grid->tmp_sfc[f]);
+            /* printf("%5.1lf ", grid->tmp_sfc[f]); */
 			
 			/* vegetation processes *********************/
 			f_biome_processes(grid, loct, echar, mass, flux);
