@@ -46,8 +46,33 @@ void set_hist_clim(
                 grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] 
                                 + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
                 grid->tcdc_clm[h] = grid->hist_cld[grid->climy - PIVOT_CLIMY][h];
-                grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY][h];  
-            }
+                grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY][h];
+                
+                if(NMIP_RUN == 5){
+                    grid->tcdc_clm[h] = grid->hist_cld[PIVOT_NINY+1 - PIVOT_CLIMY][h];
+                    grid->prate_sfc[h] = grid->hist_pre[PIVOT_NINY+1 - PIVOT_CLIMY][h];
+                }
+                if(NMIP_RUN == 6){
+                    grid->tmp_sfc[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
+                                    + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
+                    grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h];
+                    grid->tmp10_soil[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
+                                    + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
+                    grid->tmp200_soil[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
+                                    + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
+                    grid->tcdc_clm[h] = grid->hist_cld[PIVOT_NINY+1 - PIVOT_CLIMY][h];
+                }
+                if(NMIP_RUN == 7){
+                    grid->tmp_sfc[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
+                                    + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
+                    grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h];
+                    grid->tmp10_soil[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
+                                    + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
+                    grid->tmp200_soil[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
+                                    + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
+                    grid->prate_sfc[h] = grid->hist_pre[PIVOT_NINY+1 - PIVOT_CLIMY][h];
+                }
+           }
         }else{
             /* extention by NCEP/NCAR data */
             /* 2003-2008: extrapolation using NCEP/NCAR data: 2009/01/05 by A.Ito */
@@ -56,6 +81,7 @@ void set_hist_clim(
             /* 2012-2012: extrapolation using NCEP/NCAR data: 2012/04/14 by A.Ito */
             /* 2013-2013: extrapolation using NCEP/NCAR data: 2013/01/10 by A.Ito */
             /* 2014-2014: extrapolation using NCEP/NCAR data: 2015/01/05 by A.Ito */
+            /* 2015-2015: extrapolation using NCEP/NCAR data: 2016/01/04 by A.Ito */
             for(h=0;h<ASTEP;h++){
                 /* temperature */
                 tmp_var = grid->ncep_tmp2m[grid->climy - PIVOT_NCEP][h][grid->ncep_lat][grid->ncep_lon] 

@@ -12,11 +12,11 @@
 #define cdTc 0.272727 /* from CO2-base to Crabon-base */
 #define dmTc 2.2 /* from dry-matter-base to Carbon base */
 #define cTdm 0.4545 /* from dry-matter-base to Carbon base */
-#define lTs (3600.0*12.0/100000000.0) /* from micro-mol m-2 s-1 to Mg C ha-1 day-1*/
+#define lTs (3600.0*12.0/100000000.0) /* from micro-mol m-2 s-1 to Mg C ha-1 day-1 */
 #define ZAT 273.15 /* zero degree centigrade in absolute temperature */
 #define STCIR (0.0111/0.9889) /* standard stable carbon isotope ratio */
 #define UGC 8.314 /* universal gas constant */
-#define SLC 1367.0
+#define SLC 1367.0 /* solar constant */
 #define SBC (5.6703 / 100000000.0) /* Stephan-Boltzman Constant, W m-2 K-4 */
 #define GAC 9.8 /* gravity acceleration constant, m s-2 */
 
@@ -60,14 +60,26 @@
 /* 1: current fertilization */
 /* 2: low fertilization */
 /* 3: middle fertilization */
-#define N_BF 91 /* biofuel data length */
+#define DL_BF 91 /* biofuel data length */
 
 /* NMIP: N2O model intercomparison runs */
-#define NMIP_RUN 2
+#define NMIP_RUN 0
 /* 0: off */
-/* 1: on use NMIP data = S1 and S2? */
+/* 1: on use NMIP data (S1) */
 /* 2: all fix (S0) */
-#define N_NMIP 113
+/* 3: all combined (S2) */
+/* 4: climate only (S3) */
+/* 5: temperatute only (S3a) */
+/* 6: precipitation only (S3b) */
+/* 7: radiation only (S3c) */
+/* 8: CO2 only (S4) */
+/* 9: N deposition only (S5) */
+/* 10: N fertilizer only (S6) */
+/* 11: land-conversion only (S7) */
+/* 12: land-conversion + N fertilizer + irrigation (S8) */
+
+#define DL_NMIP 113
+#define PIVOT_NINY 1900
 
 /* parameter ensemble **************************/
 #define NPERT 20
@@ -137,7 +149,7 @@
     #define BGY_AGHG 1750
 #endif
 
-/***********************************************************/
+/*****************************************************************/
 /* simulation framework duration (years) */
 #define PD_SIM 201	
 /* only for memory preparation; not actual period */
@@ -179,7 +191,8 @@
     /* #define PD_HIST 111	*/	/* AD 1901 - 2011 */
     /* #define PD_HIST 112	*/	/* AD 1901 - 2012 */
     /* #define PD_HIST 113	*/	/* AD 1901 - 2013 */
-    #define PD_HIST 114	/* */	/* AD 1901 - 2014 */
+    /* #define PD_HIST 114  */	/* AD 1901 - 2014 */
+    #define PD_HIST 115	/* */	/* AD 1901 - 2015 */
 #endif
 
 /* start year (AD) of climate ***/
@@ -231,7 +244,8 @@
 /* extension to 2012: 2013/04/14 by A.Ito */
 /* extension to 2013: 2014/01/02 by A.Ito */
 /* #define DL_NCEP 66 */   /* 1948-2013 */
-#define DL_NCEP 67   /* 1948-2014 */
+/* #define DL_NCEP 67 */   /* 1948-2014 */
+#define DL_NCEP 68   /* 1948-2015 */
 
 /* Simulation using ISI-MIP data (yr) */
 /* spinup 1951-1980 */
@@ -248,7 +262,7 @@
     #define DL_ISIMIP 1
 #endif
 
-/* future projection *****************************/
+/* future projection ***********************************************/
 /* simulation suing GCM-derived projection scenarios */
 #define GCM_RUN 0
 /* 0: no  1:yes */

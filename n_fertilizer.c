@@ -15,6 +15,7 @@ void n_fertilizer_in(
 	struct Grid *grid, 
 	struct Loct *loct
 ){
+    long nyear;
 	double fert_input;
 	extern double MDN[12];
 	
@@ -266,9 +267,15 @@ void n_fertilizer_in(
     }
     
     /* NMIP run: 2015/11/19 by A.Ito *****/
-    if(NMIP_RUN == 1 || NMIP_RUN == 2){
+    if(NMIP_RUN >= 1){
+        if(NMIP_RUN == 1 || NMIP_RUN == 3 || NMIP_RUN == 10 || NMIP_RUN == 12){
+            nyear = grid->niny;
+        }else{
+            nyear = PIVOT_NINY+1;
+        }
+    
         if(grid->niny>=1900 && grid->niny<=2012){
-            loct->n_frtlz_in = grid->nmip_nfert[grid->niny - 1900] * MDN[grid->m] / 365.0;
+            loct->n_frtlz_in = grid->nmip_nfert[nyear - 1900] * MDN[grid->m] / 365.0;
         }else if(grid->niny<1900){
             loct->n_frtlz_in = grid->nmip_nfert[1900 - 1900] * MDN[grid->m] / 365.0;
         }else if(grid->niny>2012){

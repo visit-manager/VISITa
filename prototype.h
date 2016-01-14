@@ -186,6 +186,12 @@ extern double rh_hvst[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
 extern double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
 extern double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
 
+/* CHASER 2001 monthly, by A.Ito (2010/05/21) */
+extern double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
+extern double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
+extern double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
+extern double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
+
 /* CLEARANCE *****************************************************/
 void f_clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 
 		   struct Mass *mass, struct Flux *flux);

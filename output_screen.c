@@ -104,11 +104,15 @@ void screenshow(
 	for(h=0;h<12;h++){		printf("%6.1lf ",flux->nep[h]);		ann+=flux->nep[h];	}		printf(" %.1lf\n",ann);
     
     
-    printf("IPR: ");		ann=0.0;
+    /* printf("IPR: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",(echar->c3).ppfd_db[h]);	} printf("\n");
     printf("APR: ");		ann=0.0;
-	for(h=0;h<12;h++){		printf("%6.1lf ",(echar->c3).appfd_db[h]);	} printf("\n");
+	for(h=0;h<12;h++){		printf("%6.1lf ",(echar->c3).appfd_db[h]);	} printf("\n"); */
     
+    printf("DNH: ");
+	for(h=0;h<12;h++){		printf("%6.3lf ",loct->depo_nh4[h]);		}	printf("\n");
+    printf("DNT: ");
+	for(h=0;h<12;h++){		printf("%6.3lf ",loct->depo_no3[h]);		}	printf("\n");
 	
     /*
 	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->c3).gpp_df97[h]);		ann+=(flux->c3).gpp_df97[h];	}		printf(" %.1lf\n",ann); 

@@ -1173,10 +1173,10 @@ void f_read_chaser_ndepo(
 	for(h=0;h<64;h++){
 		for(g=0;g<128;g++){
 			for(f=0;f<12;f++){
-				fscanf(fp_s[52],"%lf", &(grid->ndepo_chaser_dnhx[f][h][g]));
-				fscanf(fp_s[52],"%lf", &(grid->ndepo_chaser_dnoy[f][h][g]));
-				fscanf(fp_s[52],"%lf", &(grid->ndepo_chaser_wnhx[f][h][g]));
-				fscanf(fp_s[52],"%lf", &(grid->ndepo_chaser_wnoy[f][h][g]));
+				fscanf(fp_s[52],"%lf", &(ndepo_chaser_dnhx[f][h][g]));
+				fscanf(fp_s[52],"%lf", &(ndepo_chaser_dnoy[f][h][g]));
+				fscanf(fp_s[52],"%lf", &(ndepo_chaser_wnhx[f][h][g]));
+				fscanf(fp_s[52],"%lf", &(ndepo_chaser_wnoy[f][h][g]));
 			}
             
             /* preindustrial */

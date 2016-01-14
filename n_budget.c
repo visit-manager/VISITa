@@ -245,7 +245,7 @@ void f_n_deposit(
 	struct Grid *grid, 
 	struct Loct *loct
 ){
-    long f;
+    long f, nyear;
 	double pre_ann, ndepo_total, ndepo_dry, ndepo_wet, aa;
 	double f_no3, f_nh4, ndepo_no3, ndepo_nh4;
 	double f_wet, f_dry;
@@ -259,29 +259,29 @@ void f_n_deposit(
     
         if(SENS_N == 0){
             /* CHASER-derived spatial and monthly NH4+/NO3- fraction */
-            ndepo_total = grid->ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]
-                            + grid->ndepo_chaser_dnoy[grid->m][grid->chaser_row][grid->chaser_col]
-                            + grid->ndepo_chaser_wnhx[grid->m][grid->chaser_row][grid->chaser_col]
-                            + grid->ndepo_chaser_wnoy[grid->m][grid->chaser_row][grid->chaser_col];
+            ndepo_total = ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]
+                            + ndepo_chaser_dnoy[grid->m][grid->chaser_row][grid->chaser_col]
+                            + ndepo_chaser_wnhx[grid->m][grid->chaser_row][grid->chaser_col]
+                            + ndepo_chaser_wnoy[grid->m][grid->chaser_row][grid->chaser_col];
             
             if(ndepo_total <= 0.0){
                 f_no3 = 0.5;
                 f_nh4 = 0.5;
             }else{
-                f_no3 = (grid->ndepo_chaser_dnoy[grid->m][grid->chaser_row][grid->chaser_col]
-                    + grid->ndepo_chaser_wnoy[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
-                f_nh4 = (grid->ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]
-                    + grid->ndepo_chaser_wnhx[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
+                f_no3 = (ndepo_chaser_dnoy[grid->m][grid->chaser_row][grid->chaser_col]
+                    + ndepo_chaser_wnoy[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
+                f_nh4 = (ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]
+                    + ndepo_chaser_wnhx[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
             }
             
             if(ndepo_total <= 0.0){
                 f_wet = 0.5;
                 f_dry = 0.5;
             }else{
-                f_wet = (grid->ndepo_chaser_wnhx[grid->m][grid->chaser_row][grid->chaser_col]
-                    + grid->ndepo_chaser_wnoy[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
-                f_dry = (grid->ndepo_chaser_dnoy[grid->m][grid->chaser_row][grid->chaser_col]
-                    + grid->ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
+                f_wet = (ndepo_chaser_wnhx[grid->m][grid->chaser_row][grid->chaser_col]
+                    + ndepo_chaser_wnoy[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
+                f_dry = (ndepo_chaser_dnoy[grid->m][grid->chaser_row][grid->chaser_col]
+                    + ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
             }
         }else if(SENS_N == 1){
             f_dry = 0.5;
@@ -357,27 +357,33 @@ void f_n_deposit(
     }
     
     /* NMIP: 2015/11/19 by A.Ito *******/
-    if(NMIP_RUN == 1 || NMIP_RUN == 2){
+    if(NMIP_RUN >= 1){
+        if(NMIP_RUN == 1 || NMIP_RUN == 3 || NMIP_RUN == 9){
+            nyear = grid->niny;
+        }else{
+            nyear = PIVOT_NINY;
+        }
+    
         /* seasonality based on CHASER */
         ndepo_no3 = ndepo_nh4 = 0.0;
         for(f=0;f<ASTEP;f++){
-            ndepo_no3 += grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
-                    + grid->ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col];
-            ndepo_nh4 += grid->ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col];
+            ndepo_no3 += grid->ndepo_chaser4_noy_h[f][grid->chaser_row][grid->chaser_col]
+                    + grid->ndepo_chaser4_ont_h[f][grid->chaser_row][grid->chaser_col];
+            ndepo_nh4 += grid->ndepo_chaser4_nhx_h[f][grid->chaser_row][grid->chaser_col];
         }
         
         if(ndepo_no3 > 0.0){
-            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny]*1000.0 *
+            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny-PIVOT_NINY]*1000.0 *
                     (grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
                     + grid->ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_no3;
         }else{
-            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny]*1000.0 / 12.0;
+            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny-PIVOT_NINY]*1000.0 / 12.0;
         }
         if(ndepo_nh4 > 0.0){
-            loct->depo_nh4[grid->m] =  grid->nmip_ndep_nh4[grid->niny]*1000.0 *
-                grid->ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col]*1000.0 / ndepo_nh4;
+            loct->depo_nh4[grid->m] =  grid->nmip_ndep_nh4[grid->niny-PIVOT_NINY]*1000.0 *
+                grid->ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col] / ndepo_nh4;
         }else{
-            loct->depo_nh4[grid->m] = grid->nmip_ndep_nh4[grid->niny]*1000.0 / 12.0;
+            loct->depo_nh4[grid->m] = grid->nmip_ndep_nh4[grid->niny-PIVOT_NINY]*1000.0 / 12.0;
         }
     }
     
