@@ -358,12 +358,12 @@ void f_n_deposit(
     
     /* NMIP: 2015/11/19 by A.Ito *******/
     if(NMIP_RUN >= 1){
-        if(NMIP_RUN == 1 || NMIP_RUN == 3 || NMIP_RUN == 9){
-            nyear = grid->niny;
-        }else{
-            nyear = PIVOT_NINY;
+        nyear = grid->niny;
+        
+        if(NMIP_RUN == 10 || NMIP_RUN == 12){
+            nyear = PIVOT_NINY+1;;
         }
-    
+
         /* seasonality based on CHASER */
         ndepo_no3 = ndepo_nh4 = 0.0;
         for(f=0;f<ASTEP;f++){

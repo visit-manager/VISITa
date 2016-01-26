@@ -268,9 +268,9 @@ void n_fertilizer_in(
     
     /* NMIP run: 2015/11/19 by A.Ito *****/
     if(NMIP_RUN >= 1){
-        if(NMIP_RUN == 1 || NMIP_RUN == 3 || NMIP_RUN == 10 || NMIP_RUN == 12){
-            nyear = grid->niny;
-        }else{
+        nyear = grid->niny;
+
+        if(NMIP_RUN == 9){
             nyear = PIVOT_NINY+1;
         }
     

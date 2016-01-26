@@ -129,6 +129,7 @@ void f_cult_luc(
 		exit(1);
 	}
     
+    /************************/
     if(NMIP_RUN >= 1){
         if(NMIP_RUN == 3){
             grid->f_crop_con = 0.0;
@@ -178,7 +179,7 @@ void f_cult_luc(
 	/* annual deforestation */
 	if(grid->phase == 0){
 		/* spin-up */
-		if(LANDUSE == 0 || NMIP_RUN == 3){
+		if(LANDUSE == 0){
 			grid->f_deforest = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
             grid->f_deforest = grid->fcrop_sage[(BGY_LUC+1) - PIVOT_LUC]
@@ -202,7 +203,7 @@ void f_cult_luc(
 		/* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
 	
 	}else if(grid->phase==1 || grid->phase==2){
-		if(LANDUSE == 0 || NMIP_RUN == 3){
+		if(LANDUSE == 0){
 			grid->f_deforest = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
 			grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
@@ -246,6 +247,13 @@ void f_cult_luc(
         grid->f_deforest = 0.0;
     }
     
+    if(NMIP_RUN >= 1){
+        if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
+            || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
+            grid->f_deforest = 0.0;
+        }
+    }
+
     /* parameter ensemble: 2014/11/19 by A.Ito */
     prm_ensen = 1.0;
     if(PARAM_PTB == 7){
@@ -323,6 +331,7 @@ void f_cult_luc(
         grid->f_paddy = grid->f_paddy_b;
     }else if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13
         || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17){
+        
         if(grid->f_paddy_b > 0.0 && grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC] > 0.0){
             grid->f_paddy = grid->f_paddy_b * 
                 (grid->fcrop_unh_hmnzed[grid->lucy - PIVOT_LUC] / grid->fcrop_unh_hmnzed[2000 - PIVOT_LUC]);
