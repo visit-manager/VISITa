@@ -87,6 +87,7 @@ void cal_projection(
 		}
         /* NMIP input: 2015/11/19 by A.Ito */
         if(NMIP_RUN >= 1){
+            n_fertilizer_in(grid, loct);
             f_fert = 1.0; /* driven by data */
         }
 				

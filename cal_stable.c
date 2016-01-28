@@ -88,6 +88,7 @@ void cal_spinup(
     }
     /* NMIP input: 2015/11/19 by A.Ito */
     if(NMIP_RUN >= 1){
+        n_fertilizer_in(grid, loct);
         f_fert = 1.0; /* driven by data */
     }
     
@@ -134,6 +135,7 @@ void cal_spinup(
             grid->co2y = PIVOT_NINY + 1;
             grid->lucy = PIVOT_NINY + 1;
             set_hist_clim(grid);
+            n_fertilizer_in(grid, loct);
         }
 		
 		plantmass = ann_nep = 0.0;
