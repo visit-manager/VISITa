@@ -1238,6 +1238,7 @@ void f_init_grid(
     
     /* NMIP input: 2015/11/19 by A.Ito *************/
     for(e=0;e<DL_NMIP;e++){
+        
         /* crop fraction */
         fscanf(fp_s[88],"%lf", &grid->nmip_frcrop[e]);
         if(grid->nmip_frcrop[e] < 0.0){

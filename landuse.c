@@ -423,7 +423,7 @@ void f_luc_emit(
 	if(grid->phase==0){
 		/* spin-up: fluxes for 1801-1900 *******************************/
 		/* modified by A.Ito (2009/06/05: 2010/01/07) */
-		if(LANDUSE == 0 || LANDUSE==9 || NMIP_RUN == 3){
+		if(LANDUSE == 0 || LANDUSE==9){
 			f_luc = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
 			f_luc = grid->fcrop_sage[BGY_LUC-PIVOT_LUC] - grid->fcrop_sage[BGY_LUC-PIVOT_LUC-1];
@@ -438,6 +438,12 @@ void f_luc_emit(
 					+(grid->fpast_rk[BGY_LUC-PIVOT_LUC] - grid->fpast_rk[BGY_LUC-PIVOT_LUC-1]);
 		}
 		
+        /* NMIP: fixed land-use */
+        if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
+            || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
+            f_luc = 0.0;
+        }
+
 		/* modified by A.Ito (2009/08/19) */
 		if(f_luc > 0.0){
 			flux->lu_detr = f_luc * 0.2*(mass->plant).rot;
@@ -449,7 +455,7 @@ void f_luc_emit(
 		
 		for(f=(BGY_LUC-9);f<=BGY_LUC;f++){
 			/* senstivity analysis */
-			if(LANDUSE == 0 || LANDUSE==9 || NMIP_RUN == 3){
+			if(LANDUSE == 0 || LANDUSE==9){
 				f_luc = 0.0;
 			}else if(LANDUSE>=1 && LANDUSE<=5){
 				f_luc = grid->fcrop_sage[f - PIVOT_LUC] - grid->fcrop_sage[f - PIVOT_LUC - 1];
@@ -464,6 +470,12 @@ void f_luc_emit(
 						+ (grid->fpast_rk[f - PIVOT_LUC] - grid->fpast_rk[f-PIVOT_LUC-1]);
 			}
 			
+            /* NMIP: fixed land-use */
+            if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
+                || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
+                f_luc = 0.0;
+            }
+
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
 			if(f_luc > 0.0){
 				mass_ten = f_luc * eff_mass * fe_ten/(fe_conv + fe_ten + fe_hund);
@@ -479,7 +491,7 @@ void f_luc_emit(
 		
 		for(f=(BGY_LUC-99);f<=BGY_LUC;f++){
 			/* senstivity analysis */
-			if(LANDUSE == 0 || LANDUSE==9 || NMIP_RUN == 3){
+			if(LANDUSE == 0 || LANDUSE==9){
 				f_luc = 0.0;
 			}else if(LANDUSE>=1 && LANDUSE<=5){
 				f_luc = grid->fcrop_sage[f - PIVOT_LUC] - grid->fcrop_sage[f-PIVOT_LUC-1];
@@ -493,6 +505,12 @@ void f_luc_emit(
 						+ (grid->fpast_rk[f - PIVOT_LUC] - grid->fpast_rk[f-PIVOT_LUC-1]);
 			}
 			
+            /* NMIP: fixed land-use */
+            if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
+                || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
+                f_luc = 0.0;
+            }
+
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
 			/* corrected: A.Ito and E.Kato (2009/08/16) */
 			if(f_luc > 0.0){
@@ -528,7 +546,7 @@ void f_luc_emit(
 		}
 		
 		/* annual land use change */
-		if(LANDUSE == 0 || LANDUSE == 9 || NMIP_RUN == 3){
+		if(LANDUSE == 0 || LANDUSE == 9){
 			f_luc = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
 			f_luc = grid->f_deforest;
@@ -542,6 +560,12 @@ void f_luc_emit(
 			f_luc = grid->f_deforest;
 		}
 		
+        /* NMIP: fixed land-use */
+        if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
+            || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
+            f_luc = 0.0;
+        }
+
 		if(f_luc > 0.0){ /* deforested */
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
 			mass_detr = f_luc * 0.2*(mass->plant).rot;

@@ -45,7 +45,7 @@ void cal_historical(
         /* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
         
-       /* NMIP: 2015/11/19 by A.Ito *******/
+       /* NMIP: 2015/11/19 by A.Ito **********/
         grid->niny = grid->simy;
         if(grid->niny < 1900){
             grid->niny = 1900;

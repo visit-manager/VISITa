@@ -247,7 +247,7 @@ void n_fertilizer_in(
 		default:	fert_input = 57.65;				
 	}
 	
-	loct->n_frtlz_in = fert_input* MDN[grid->m] / 365.0;
+	loct->n_frtlz_in = fert_input * MDN[grid->m] / 365.0;
     
     /* biofuel experiments: 2015/09/03 revised by A.Ito */
     if(BIOFUEL_RUN == 1){
