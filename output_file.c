@@ -431,7 +431,8 @@ void f_output_result(
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_minerlz_lttr[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_minerlz_hums[f]);
 
-            fprintf(fp_o[1],"%.3lf ", grid->f_crop_con * loct->n_frtlz_in*1000.0);
+            /* fprintf(fp_o[1],"%.3lf ", grid->f_crop_con * loct->n_frtlz_in*1000.0); */
+            fprintf(fp_o[1],"%.3lf ", loct->n_frtlz_in);
             fprintf(fp_o[1],"%.3lf ", loct->depo_no3[f]);
             fprintf(fp_o[1],"%.3lf ", loct->depo_nh4[f]);  
             

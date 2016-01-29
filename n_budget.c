@@ -373,14 +373,14 @@ void f_n_deposit(
         }
         
         if(ndepo_no3 > 0.0){
-            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny-PIVOT_NINY]*1000.0 *
+            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[nyear - PIVOT_NINY]*1000.0 *
                     (grid->ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
                     + grid->ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_no3;
         }else{
             loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny-PIVOT_NINY]*1000.0 / 12.0;
         }
         if(ndepo_nh4 > 0.0){
-            loct->depo_nh4[grid->m] =  grid->nmip_ndep_nh4[grid->niny-PIVOT_NINY]*1000.0 *
+            loct->depo_nh4[grid->m] =  grid->nmip_ndep_nh4[nyear - PIVOT_NINY]*1000.0 *
                 grid->ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col] / ndepo_nh4;
         }else{
             loct->depo_nh4[grid->m] = grid->nmip_ndep_nh4[grid->niny-PIVOT_NINY]*1000.0 / 12.0;
