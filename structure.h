@@ -300,12 +300,6 @@ struct Grid{
 	/* nitrogen deposition */
 	double 	ndepo[3];					/* N deposition by Galloway et al. (2004) */
 	
-	/* CHASER 2001 monthly, by A.Ito (2010/05/21) */
-	double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
-	double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
-	double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
-	double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
-
 	/* CHASER4.0 monthly, by A.Ito (2014/11/19) */
 	double	ndepo_chaser4_nhx_h[ASTEP][64][128];		/* NHx */
 	double	ndepo_chaser4_noy_h[ASTEP][64][128];		/* NOy */
@@ -337,9 +331,10 @@ struct Grid{
     
     /* NMIP input: 2015/11/19 by A.Ito */
     double  nmip_nfert[DL_NMIP];                /* nitrogen fertilizer */
-    double  nmip_ndep_noy[DL_NMIP];                /* NOy deposition */
-    double  nmip_ndep_nh4[DL_NMIP];                /* NH4 fertilizer */
-    double  nmip_manure[DL_NMIP];                /* manure */
+    double  nmip_ndep_noy[DL_NMIP];             /* NOy deposition */
+    double  nmip_ndep_nh4[DL_NMIP];             /* NH4 fertilizer */
+    double  nmip_manure[DL_NMIP];               /* manure */
+    double  nmip_frcrop[DL_NMIP];               /* cropland fraction */
 };
 
 /* grid conditions, derived from submodules *******************************************/

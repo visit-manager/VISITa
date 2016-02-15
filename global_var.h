@@ -269,3 +269,10 @@ short TEMP_GC;
 /* 10: +5 deg C per century */
 /* 11: -6 deg C per century */
 /* 12: +6 deg C per century */
+
+/* CHASER 2001 monthly, by A.Ito (2010/05/21) */
+double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
+double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
+double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
+double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
+

@@ -79,7 +79,7 @@
 /* 12: land-conversion + N fertilizer + irrigation (S8) */
 
 #define DL_NMIP 113
-#define PIVOT_NINY 1901
+#define PIVOT_NINY 1900
 
 /* parameter ensemble **************************/
 #define NPERT 20

@@ -45,7 +45,7 @@ void cal_historical(
         /* climate change ********************/
 		grid->climy = PIVOT_CLIMY + g;
         
-       /* NMIP: 2015/11/19 by A.Ito *******/
+       /* NMIP: 2015/11/19 by A.Ito **********/
         grid->niny = grid->simy;
         if(grid->niny < 1900){
             grid->niny = 1900;
@@ -80,29 +80,29 @@ void cal_historical(
         /* NMIP_RUN==1: all */
         /* NMIP_RUN==3: all without cropland */
         if(NMIP_RUN == 2){
-            grid->climy = PIVOT_NINY;
-            grid->niny = PIVOT_NINY;
-            grid->co2y = PIVOT_NINY;
-            grid->lucy = PIVOT_NINY;
+            grid->climy = PIVOT_NINY + 1;
+            grid->niny = PIVOT_NINY + 1;
+            grid->co2y = PIVOT_NINY + 1;
+            grid->lucy = PIVOT_NINY + 1;
         }else if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
-            grid->niny = PIVOT_NINY;
-            grid->co2y = PIVOT_NINY;
-            grid->lucy = PIVOT_NINY;
+            grid->niny = PIVOT_NINY + 1;
+            grid->co2y = PIVOT_NINY + 1;
+            grid->lucy = PIVOT_NINY + 1;
         }else if(NMIP_RUN == 8){
-            grid->climy = PIVOT_NINY;
-            grid->niny = PIVOT_NINY;
-            grid->lucy = PIVOT_NINY;
+            grid->climy = PIVOT_NINY + 1;
+            grid->niny = PIVOT_NINY + 1;
+            grid->lucy = PIVOT_NINY + 1;
         }else if(NMIP_RUN == 9 || NMIP_RUN == 10){
-            grid->climy = PIVOT_NINY;
-            grid->co2y = PIVOT_NINY;
-            grid->lucy = PIVOT_NINY;
+            grid->climy = PIVOT_NINY + 1;
+            grid->co2y = PIVOT_NINY + 1;
+            grid->lucy = PIVOT_NINY + 1;
         }else if(NMIP_RUN == 11){
-            grid->climy = PIVOT_NINY;
-            grid->co2y = PIVOT_NINY;
-            grid->niny = PIVOT_NINY;
+            grid->climy = PIVOT_NINY + 1;
+            grid->co2y = PIVOT_NINY + 1;
+            grid->niny = PIVOT_NINY + 1;
         }else if(NMIP_RUN == 12){
-            grid->climy = PIVOT_NINY;
-            grid->co2y = PIVOT_NINY;
+            grid->climy = PIVOT_NINY + 1;
+            grid->co2y = PIVOT_NINY + 1;
         }
         
         /* for considering leap years: 2014/09/29 by A.Ito */
@@ -134,6 +134,7 @@ void cal_historical(
         }
         /* NMIP input: 2015/11/19 by A.Ito */
         if(NMIP_RUN >= 1){
+            n_fertilizer_in(grid, loct);
             f_fert = 1.0; /* driven by data */
         }
 		

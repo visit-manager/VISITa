@@ -247,7 +247,7 @@ void n_fertilizer_in(
 		default:	fert_input = 57.65;				
 	}
 	
-	loct->n_frtlz_in = fert_input* MDN[grid->m] / 365.0;
+	loct->n_frtlz_in = fert_input * MDN[grid->m] / 365.0;
     
     /* biofuel experiments: 2015/09/03 revised by A.Ito */
     if(BIOFUEL_RUN == 1){
@@ -268,10 +268,10 @@ void n_fertilizer_in(
     
     /* NMIP run: 2015/11/19 by A.Ito *****/
     if(NMIP_RUN >= 1){
-        if(NMIP_RUN == 1 || NMIP_RUN == 3 || NMIP_RUN == 10 || NMIP_RUN == 12){
-            nyear = grid->niny;
-        }else{
-            nyear = PIVOT_NINY;
+        nyear = grid->niny;
+
+        if(NMIP_RUN == 9){
+            nyear = PIVOT_NINY+1;
         }
     
         if(grid->niny>=1900 && grid->niny<=2012){

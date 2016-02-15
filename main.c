@@ -312,7 +312,7 @@ int main(
             /****/
             /* printf("*************%lf %lf %lf\n", grid.f_biofuel[0], grid.f_biofuel[10], grid.f_biofuel[50]); */
 			
-			/* head records of output files */
+			/* header information of output files */
 			for(h=0;h<OFILEN;h++){
 				if(CALC_OLSON == 1){
 					fprintf(fp_o1[h],"%ld %ld %ld %ld %ld\n",
@@ -335,7 +335,7 @@ int main(
 			flag_calc = 0;
 			if(grid.veg_olson!=0 && grid.veg_olson!=33 && grid.flag_histdata==1
 					/* && (g+5)%10==0  */
-					&& (g+2)%10==0 /* */
+					&& (g+0)%1==0 /* */
 					&& grid.lat<=area_t&&grid.lat>=area_b && grid.lon>=area_l&&grid.lon<=area_r
 					/* && grid.lat<90.0&&grid.lat>-90.0 && grid.lon>-180.0&&grid.lon<180.0 */
 					/* && grid.lat<65.0&&grid.lat>55.0 && grid.lon>65.0&&grid.lon<85.0 */

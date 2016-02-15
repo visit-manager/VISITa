@@ -104,16 +104,16 @@ void f_co2_trend(
 	/** seasonal change **/
 	amplitude = exp(0.04 * grid->lat);
 	if(grid->lat >= 0.0){
-		season = amplitude/2.0 * sin(((double)(grid->m) - 0.0)/12.0*2.0*PI);
+		season = amplitude/2.0 * sin(((double)(grid->m) - 0.0)/12.0 * 2.0 * PI);
 	}else{   /*  if(grid->lat<0.0) */
-		season = amplitude/2.0 * sin(((double)(grid->m) + 6.0)/12.0*2.0*PI);
+		season = amplitude/2.0 * sin(((double)(grid->m) + 6.0)/12.0 * 2.0 * PI);
 	}
 	
 	/*  grid->bco2[grid->m]=base+lgrd+season;   */
 	grid->bco2[grid->m] = base + lgrd + season;  /*   + 350.0  */
 		
 	/*  grid->d13c_bco2[grid->m]=-7.0;  */
-	grid->d13c_bco2[grid->m] = -6.0 + (-0.02 * (base-280.0)) + (0.05*season);
+	grid->d13c_bco2[grid->m] = -6.0 + (-0.02 * (base - 280.0)) + (0.05 * season);
 	
 	/* radiocarbon (d14C, D14C) of atmospheric CO2 *********************/
 	/* added 2009/06/23 by A.Ito */

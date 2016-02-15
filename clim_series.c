@@ -49,28 +49,28 @@ void set_hist_clim(
                 grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY][h];
                 
                 if(NMIP_RUN == 5){
-                    grid->tcdc_clm[h] = grid->hist_cld[PIVOT_NINY - PIVOT_CLIMY][h];
-                    grid->prate_sfc[h] = grid->hist_pre[PIVOT_NINY - PIVOT_CLIMY][h];
+                    grid->tcdc_clm[h] = grid->hist_cld[PIVOT_NINY+1 - PIVOT_CLIMY][h];
+                    grid->prate_sfc[h] = grid->hist_pre[PIVOT_NINY+1 - PIVOT_CLIMY][h];
                 }
                 if(NMIP_RUN == 6){
-                    grid->tmp_sfc[h] = grid->hist_tmp[PIVOT_NINY - PIVOT_CLIMY][h]
+                    grid->tmp_sfc[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
                                     + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
                     grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h];
-                    grid->tmp10_soil[h] = grid->hist_tmp[PIVOT_NINY - PIVOT_CLIMY][h]
+                    grid->tmp10_soil[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
                                     + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-                    grid->tmp200_soil[h] = grid->hist_tmp[PIVOT_NINY - PIVOT_CLIMY][h]
+                    grid->tmp200_soil[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
                                     + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
-                    grid->tcdc_clm[h] = grid->hist_cld[PIVOT_NINY - PIVOT_CLIMY][h];
+                    grid->tcdc_clm[h] = grid->hist_cld[PIVOT_NINY+1 - PIVOT_CLIMY][h];
                 }
                 if(NMIP_RUN == 7){
-                    grid->tmp_sfc[h] = grid->hist_tmp[PIVOT_NINY - PIVOT_CLIMY][h]
+                    grid->tmp_sfc[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
                                     + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
                     grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h];
-                    grid->tmp10_soil[h] = grid->hist_tmp[PIVOT_NINY - PIVOT_CLIMY][h]
+                    grid->tmp10_soil[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
                                     + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-                    grid->tmp200_soil[h] = grid->hist_tmp[PIVOT_NINY - PIVOT_CLIMY][h]
+                    grid->tmp200_soil[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
                                     + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
-                    grid->prate_sfc[h] = grid->hist_pre[PIVOT_NINY - PIVOT_CLIMY][h];
+                    grid->prate_sfc[h] = grid->hist_pre[PIVOT_NINY+1 - PIVOT_CLIMY][h];
                 }
            }
         }else{

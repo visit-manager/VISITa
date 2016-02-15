@@ -77,6 +77,7 @@ void cal_projection(
 		}
 		
 		/* historical change in fertilizer input: 2010/05/11 by A.Ito */
+        f_fert = 1.0;
 		if(grid->rank_nat==1){
 			/* developing countries */
 			f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - (double)grid->climy)))+0.0014929171;
@@ -86,6 +87,7 @@ void cal_projection(
 		}
         /* NMIP input: 2015/11/19 by A.Ito */
         if(NMIP_RUN >= 1){
+            n_fertilizer_in(grid, loct);
             f_fert = 1.0; /* driven by data */
         }
 				
