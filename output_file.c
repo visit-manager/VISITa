@@ -431,7 +431,8 @@ void f_output_result(
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_minerlz_lttr[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_minerlz_hums[f]);
 
-            fprintf(fp_o[1],"%.3lf ", grid->f_crop_con * loct->n_frtlz_in*1000.0);
+            /* fprintf(fp_o[1],"%.3lf ", grid->f_crop_con * loct->n_frtlz_in*1000.0); */
+            fprintf(fp_o[1],"%.3lf ", loct->n_frtlz_in);
             fprintf(fp_o[1],"%.3lf ", loct->depo_no3[f]);
             fprintf(fp_o[1],"%.3lf ", loct->depo_nh4[f]);  
             
@@ -546,8 +547,8 @@ void f_output_result(
             fprintf(fp_o[4],"%.3lf ", flux->bb_tec_litter[f]+flux->bb_tec_leaf[f]+flux->bb_tec_wood[f]+flux->bb_tec_root[f]); /* */
         }
         
-        fprintf(fp_o[4],"%lf ", grid->hvst_p1[grid->climy - PIVOT_LUC]);
-        fprintf(fp_o[4],"%lf ", grid->hvst_p2[grid->climy - PIVOT_LUC]);
+        fprintf(fp_o[4],"%lf ", grid->hvst_p1[grid->climy - FDY_LUC]);
+        fprintf(fp_o[4],"%lf ", grid->hvst_p2[grid->climy - FDY_LUC]);
         fprintf(fp_o[4],"%lf ", flux->hvst_wood);
         
         fprintf(fp_o[4],"\n");
@@ -725,6 +726,7 @@ void f_grid_av(
 	
 	/* 2010/04/27 by A.Ito */
 	/* natural */
+    fweight = 1.0;
 	if(loct->v_type == 1){
 		if(REPLACE_OLSON_CROP == 1){
 			fweight = 1.0 - grid->f_crop_con;

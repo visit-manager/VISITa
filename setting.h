@@ -12,16 +12,16 @@
 #define cdTc 0.272727 /* from CO2-base to Crabon-base */
 #define dmTc 2.2 /* from dry-matter-base to Carbon base */
 #define cTdm 0.4545 /* from dry-matter-base to Carbon base */
-#define lTs (3600.0*12.0/100000000.0) /* from micro-mol m-2 s-1 to Mg C ha-1 day-1*/
+#define lTs (3600.0*12.0/100000000.0) /* from micro-mol m-2 s-1 to Mg C ha-1 day-1 */
 #define ZAT 273.15 /* zero degree centigrade in absolute temperature */
 #define STCIR (0.0111/0.9889) /* standard stable carbon isotope ratio */
 #define UGC 8.314 /* universal gas constant */
-#define SLC 1367.0
+#define SLC 1367.0 /* solar constant */
 #define SBC (5.6703 / 100000000.0) /* Stephan-Boltzman Constant, W m-2 K-4 */
 #define GAC 9.8 /* gravity acceleration constant, m s-2 */
 
 /***********************************************************/
-/* annual time-step, 12=monthly */
+/* year time-step, 12=monthly */
 #define ASTEP 12
 /* annual daily-step, 24=hourly */
 #define DSTEP 24
@@ -55,24 +55,46 @@
 /* 1: on */
 
 /* biofuel experiment: 2015/08/21 by A.Ito */
-#define BIOFUEL_RUN 1
+#define BIOFUEL_RUN 0
 /* 0: off */
 /* 1: current fertilization */
 /* 2: low fertilization */
 /* 3: middle fertilization */
-#define N_BF 91 /* biofuel data length */
+#define DL_BF 91 /* biofuel data length */
 
-/********************************************************/
+/* NMIP: N2O model intercomparison runs */
+#define NMIP_RUN 0
+/* 0: off */
+/* 1: on use NMIP data (S1) */
+/* 2: all fix (S0) */
+/* 3: all combined (S2) */
+/* 4: climate only (S3) */
+/* 5: temperatute only (S3a) */
+/* 6: precipitation only (S3b) */
+/* 7: radiation only (S3c) */
+/* 8: CO2 only (S4) */
+/* 9: N deposition only (S5) */
+/* 10: N fertilizer only (S6) */
+/* 11: land-conversion only (S7) */
+/* 12: land-conversion + N fertilizer + irrigation (S8) */
+
+#define DL_NMIP 113
+#define FDY_NINY 1900
+
+/* parameter ensemble **************************/
+#define NPERT 20
+
+/***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 1
 #define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
+#define OUTPUT_EROSION 0
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 /* output binary */
 #define C13_GOUT 0
 #define C14_GOUT 0
@@ -109,43 +131,43 @@
 #if ISIMIP_RUN==1
     /* ISI-MIP: 2012/06/27 by A.Ito */
     #define DL_AGHG 736
-    #define BGY_AGHG 1765
+    #define FDY_AGHG 1765
 #elif ISIMIP_RUN==2
     /* PLUME: 2014/07/31 by A.Ito */
     #define DL_AGHG 736
-    #define BGY_AGHG 1765
+    #define FDY_AGHG 1765
 #elif ISIMIP_RUN==3
     /* ISI-MIP2: 2014/12/02 by A.Ito */
     #define DL_AGHG 736
-    #define BGY_AGHG 1765
+    #define FDY_AGHG 1765
 #elif GEOMIP_RUN==1
     /* GEO-MIP: 2012/06/27 by A.Ito */
     #define DL_AGHG 736
-    #define BGY_AGHG 1765
+    #define FDY_AGHG 1765
 #else
     #define DL_AGHG 553 /* default */
-    #define BGY_AGHG 1750
+    #define FDY_AGHG 1750
 #endif
 
-/***********************************************************/
+/*****************************************************************/
 /* simulation framework duration (years) */
 #define PD_SIM 201	
 /* only for memory preparation; not actual period */
 
 /* start year (AD) of CO2 time series */
-/* #define PIVOT_CO2Y 1901 */
+/* #define BGY_CO2Y 1901 */
 /* cru-init 1901 */
 /* con 1990 */
 /* dcd 2081 */
 /* NCEP1 1948 */
 #if ISIMIP_RUN==1
-    #define PIVOT_CO2Y 1950  /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define BGY_CO2Y 1950  /* ISI-MIP: 2012/06/27 by A.Ito */
 #elif ISIMIP_RUN==2
-    #define PIVOT_CO2Y 1901  /* PLUME: 2014/07/31 by A.Ito */
+    #define BGY_CO2Y 1901  /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
-    #define PIVOT_CO2Y 1901  /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
+    #define BGY_CO2Y 1901  /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
 #else
-    #define PIVOT_CO2Y 1901
+    #define BGY_CO2Y 1901
 #endif
 
 /* total historical run: using CRU, NCEP, etc. ***/
@@ -169,22 +191,23 @@
     /* #define PD_HIST 111	*/	/* AD 1901 - 2011 */
     /* #define PD_HIST 112	*/	/* AD 1901 - 2012 */
     /* #define PD_HIST 113	*/	/* AD 1901 - 2013 */
-    #define PD_HIST 114	/* */	/* AD 1901 - 2014 */
+    /* #define PD_HIST 114  */	/* AD 1901 - 2014 */
+    #define PD_HIST 115	/* */	/* AD 1901 - 2015 */
 #endif
 
 /* start year (AD) of climate ***/
-/* #define PIVOT_CLIMY 1901 */
+/* #define BGY_CLIM 1901 */
 /* 1901: CRU */
 /* 1990: control */
 /* 1948: control */
 #if ISIMIP_RUN==1
-    #define PIVOT_CLIMY 1950  /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define BGY_CLIM 1950  /* ISI-MIP: 2012/06/27 by A.Ito */
 #elif ISIMIP_RUN==2
-    #define PIVOT_CLIMY 1901  /* PLUME: 2014/07/31 by A.Ito */
+    #define BGY_CLIM 1901  /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
-    #define PIVOT_CLIMY 1901  /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
+    #define BGY_CLIM 1901  /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
 #else
-    #define PIVOT_CLIMY 1901
+    #define BGY_CLIM 1901
 #endif
 
 /* historical (e.g., CRU) data length: 2010/01/04 (A.Ito) ***/
@@ -201,26 +224,28 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
-    #define DL_CRU 113  /* CRU TS3.22: AD 1901 - 2013 */
+    #define DL_CRU 114  /* CRU TS3.24: AD 1901 - 2014 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
     /* 111: TS3.2 */
     /* 112: TS3.21 */
     /* 113: TS3.22 */
+    /* 114: TS3.23 */
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
 #define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
-#define PIVOT_NCEP 1948
+#define FDY_NCEP 1948
 /* data length (years) */
 /* extension to 2011: 2012/01/26 by A.Ito */
 /* extension to 2012: 2013/04/14 by A.Ito */
 /* extension to 2013: 2014/01/02 by A.Ito */
 /* #define DL_NCEP 66 */   /* 1948-2013 */
-#define DL_NCEP 67   /* 1948-2014 */
+/* #define DL_NCEP 67 */   /* 1948-2014 */
+#define DL_NCEP 68   /* 1948-2015 */
 
 /* Simulation using ISI-MIP data (yr) */
 /* spinup 1951-1980 */
@@ -237,27 +262,27 @@
     #define DL_ISIMIP 1
 #endif
 
-/* future projection *****************************/
+/* future projection ***********************************************/
 /* simulation suing GCM-derived projection scenarios */
 #define GCM_RUN 0
 /* 0: no  1:yes */
 
 /* year of GCM data (AD) */
 #if GEOMIP_RUN==1
+    #define DL_GCM 131 /* 1970-2100 --GEOMIP */
     #define BGY_GCM 2006  /* --GEOMIP PLUME */
     #define ENY_GCM 2100
-    #define DL_GCM 131 /* 1970-2100 --GEOMIP */
     /* start year of GCM data (AD) */
-    #define PIVOT_GCMY 1970  /* --GEOMIP */
+    #define FDY_GCM 1970  /* --GEOMIP */
 #else
+    #define DL_GCM 94 /* 2006-2099 --ISI-MIP2 */
     #define BGY_GCM 2006  /* --PLUME */
     #define ENY_GCM 2099
-    #define DL_GCM 94 /* 2006-2099 --ISI-MIP2 */
-    #define PIVOT_GCMY 2006   /* --PLUME */
+    #define FDY_GCM 2006   /* --PLUME */
 #endif
 /* #define DL_GCM 241 */ /* 1860-2100 */
-/* #define PIVOT_GCMY 2001 */
-/* #define PIVOT_GCMY 1860 */
+/* #define FDY_GCM 2001 */
+/* #define FDY_GCM 1860 */
 
 /***************************************************/
 /* NECB: coupling carbon loss */
@@ -280,11 +305,8 @@
 /* crop harvest */
 #define NECB_CROP 1
 
-/* parameter ensemble *************************************/
-#define NPERT 20
-
-/* land use change setting ***********/
-#define LANDUSE 17
+/* land use change setting ********************************/
+#define LANDUSE 9
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -300,16 +322,16 @@
 /* 12: LUH 1500-2005/2005-2100 (RCP6.0) */
 /* 13: LUH 1500-2005/2005-2100 (RCP8.5) */
 /* 14: SSP1 */
-/* 15: SSP1 */
-/* 16: SSP1 */
+/* 15: SSP2 */
+/* 16: SSP3 */
 /* 17: LUH 1500-2005/2005-2100 (RCP2.6) + Biofuel */
 
-//#define DL_LUH 306 /* 1700-2000/2005 */
-#define DL_LUH 601 /* 1500-2100 */
+/* #define DL_LUC 306 */ /* 1700-2000/2005 */
+#define DL_LUC 601 /* 1500-2100 */
 
 /* begin year of land-use data */
-#define PIVOT_LUC 1500
-//#define PIVOT_LUC 1700
+#define FDY_LUC 1500
+/* #define FDY_LUC 1700 */
 
 #if ISIMIP_RUN==1
     #define BGY_LUC 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
@@ -335,6 +357,11 @@
 #define CONSTRAIN_LAIMAX 0
 /* 0: off */
 /* 1: on */
+
+/* S10-BECCS experiment: 2016/02/15 by A.Ito */
+#define EX_BECCS 0
+/* 0: off */
+/* 1: on (scenario S3) */
 
 /***************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
@@ -376,9 +403,9 @@
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
-#define SOIL_LAYER 20
+#define N_SLAYER 20
 /* number of soil layers */ 
 
 /* sensitivity run of W&H scheme */

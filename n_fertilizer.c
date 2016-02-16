@@ -15,6 +15,7 @@ void n_fertilizer_in(
 	struct Grid *grid, 
 	struct Loct *loct
 ){
+    long nyear;
 	double fert_input;
 	extern double MDN[12];
 	
@@ -246,7 +247,7 @@ void n_fertilizer_in(
 		default:	fert_input = 57.65;				
 	}
 	
-	loct->n_frtlz_in = fert_input* MDN[grid->m] / 365.0;
+	loct->n_frtlz_in = fert_input * MDN[grid->m] / 365.0;
     
     /* biofuel experiments: 2015/09/03 revised by A.Ito */
     if(BIOFUEL_RUN == 1){
@@ -263,5 +264,22 @@ void n_fertilizer_in(
         /* medium */
         /* loct->n_frtlz_in = 120.0 * MDN[grid->m] / 365.0; */ /* 2015/08/27 by A.Ito */
         loct->n_frtlz_in = 60.0 * MDN[grid->m] / 365.0;
+    }
+    
+    /* NMIP run: 2015/11/19 by A.Ito *****/
+    if(NMIP_RUN >= 1){
+        nyear = grid->niny;
+
+        if(NMIP_RUN == 9){
+            nyear = FDY_NINY+1;
+        }
+    
+        if(grid->niny>=1900 && grid->niny<=2012){
+            loct->n_frtlz_in = grid->nmip_nfert[nyear - 1900] * MDN[grid->m] / 365.0;
+        }else if(grid->niny<1900){
+            loct->n_frtlz_in = grid->nmip_nfert[1900 - 1900] * MDN[grid->m] / 365.0;
+        }else if(grid->niny>2012){
+            loct->n_frtlz_in = grid->nmip_nfert[2012 - 1900] * MDN[grid->m] / 365.0;
+        }
     }
 }

@@ -59,18 +59,19 @@ struct Grid{
 	long 	m;						/* month of the year, from Jan. to Dec., 0 to 11 */
     long    h;
 	
-	/* atmospheric condition ***********/
+	long 	simy;					/* year for simulation (AD) */
 	long 	co2y;					/* year for CO2 level estimation */
+	long 	climy;					/* year of climate data */
+    long    lucy;                   /* year of land-use data: 2014/09/11 by A.Ito */
+    long    niny;                   /* year of nitrogen input: 2015/11/19 by A.Ito */
+
+	/* atmospheric condition ***********/
 	double 	bco2[ASTEP];			/* background CO2 concentration, in ppmv */
 	double 	d13c_bco2[ASTEP];		/* stable carbon isotope composition of background CO2, permille */
 	double	d14c_bco2[ASTEP];		/* D14C of atmospheric CO2: added by A.Ito (2009/06/23) */
     double  bo3[ASTEP];             /* monthly O3, ppb */
 
 	/* climate condition: *[] means the transitional value */
-	long 	climy;					/* year of climate data */
-    
-    long    lucy;                   /* year of land-use data: 2014/09/11 by A.Ito */
-	
 	double 	tmp_sfc[ASTEP];			/* ground surface temperature, degree Celcius */
 	double 	tmp_2m[ASTEP];			/* 2m air temperature, degree Celcius */
 	double 	tmp10_soil[ASTEP];		/* soil temperature at 10 cm depth, degree Celcius */
@@ -222,25 +223,25 @@ struct Grid{
 	double	fothers;		/* fraction of other crops */
 	
 	/* EOS-WEBSTER, 1700-2000/2005, Hurtt et al. */
-	double	fcrop_unh_hmnzed[DL_LUH];		/* cropland fraction */
-	double	fpast_unh_hmnzed[DL_LUH];		/* pasture fraction */
-	double	fprim_unh_hmnzed[DL_LUH];		/* primary land fraction */
-	double	fsecd_unh_hmnzed[DL_LUH];		/* secondary land fraction */
-	double	ssma_unh_hmnzed[DL_LUH];		/* secondary land property 1 */
-	double	ssmb_unh_hmnzed[DL_LUH];		/* secondary land property 2 */
-	double	t_cp_unh_hmnzed[DL_LUH];		/* conversion crop to pasture */
-	double	t_cs_unh_hmnzed[DL_LUH];		/* conversion crop to secondary */
-	double	t_pc_unh_hmnzed[DL_LUH];		/* conversion pasture to crop */
-	double	t_ps_unh_hmnzed[DL_LUH];		/* conversion pasture to secondary */
-	double	t_sc_unh_hmnzed[DL_LUH];		/* conversion secondary to crop */
-	double	t_sp_unh_hmnzed[DL_LUH];		/* conversion secondary to pasture */
-	double	t_ss1_unh_hmnzed[DL_LUH];		/*  */
-	double	t_ss2_unh_hmnzed[DL_LUH];		/*  */
-	double	t_ss3_unh_hmnzed[DL_LUH];		/*  */
-	double	t_vc_unh_hmnzed[DL_LUH];		/* conversion primary to crop */
-	double	t_vp_unh_hmnzed[DL_LUH];		/* conversion primary to pasture */
-	double	t_vs1_unh_hmnzed[DL_LUH];		/*  */
-	double	t_vs2_unh_hmnzed[DL_LUH];		/*  */
+	double	fcrop_unh_hmnzed[DL_LUC];		/* cropland fraction */
+	double	fpast_unh_hmnzed[DL_LUC];		/* pasture fraction */
+	double	fprim_unh_hmnzed[DL_LUC];		/* primary land fraction */
+	double	fsecd_unh_hmnzed[DL_LUC];		/* secondary land fraction */
+	double	ssma_unh_hmnzed[DL_LUC];		/* secondary land property 1 */
+	double	ssmb_unh_hmnzed[DL_LUC];		/* secondary land property 2 */
+	double	t_cp_unh_hmnzed[DL_LUC];		/* conversion crop to pasture */
+	double	t_cs_unh_hmnzed[DL_LUC];		/* conversion crop to secondary */
+	double	t_pc_unh_hmnzed[DL_LUC];		/* conversion pasture to crop */
+	double	t_ps_unh_hmnzed[DL_LUC];		/* conversion pasture to secondary */
+	double	t_sc_unh_hmnzed[DL_LUC];		/* conversion secondary to crop */
+	double	t_sp_unh_hmnzed[DL_LUC];		/* conversion secondary to pasture */
+	double	t_ss1_unh_hmnzed[DL_LUC];		/*  */
+	double	t_ss2_unh_hmnzed[DL_LUC];		/*  */
+	double	t_ss3_unh_hmnzed[DL_LUC];		/*  */
+	double	t_vc_unh_hmnzed[DL_LUC];		/* conversion primary to crop */
+	double	t_vp_unh_hmnzed[DL_LUC];		/* conversion primary to pasture */
+	double	t_vs1_unh_hmnzed[DL_LUC];		/*  */
+	double	t_vs2_unh_hmnzed[DL_LUC];		/*  */
 	
 	double 	f_crop_con;					/* contemporary cropland fraction */
 	double 	f_crop_p;					/* previous cropland fraction */
@@ -260,11 +261,11 @@ struct Grid{
 	double	f_pasture_base;				/* base pasture fraction in 2000 */
 	
 	/* wood harvest */
-	double	hvst_p1[DL_LUH];
-	double	hvst_p2[DL_LUH];
-	double	hvst_s1[DL_LUH];
-	double	hvst_s2[DL_LUH];
-	double	hvst_s3[DL_LUH];
+	double	hvst_p1[DL_LUC];
+	double	hvst_p2[DL_LUC];
+	double	hvst_s1[DL_LUC];
+	double	hvst_s2[DL_LUC];
+	double	hvst_s3[DL_LUC];
 
 	/* RUSLE erosion model coefficients */
 	double 	f_erosion_r;				/* rain factor */
@@ -298,21 +299,7 @@ struct Grid{
 	
 	/* nitrogen deposition */
 	double 	ndepo[3];					/* N deposition by Galloway et al. (2004) */
-	
-	/* CHASER 2001 monthly, by A.Ito (2010/05/21) */
-	double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
-	double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
-	double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
-	double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
-
-	/* CHASER4.0 monthly, by A.Ito (2014/11/19) */
-	double	ndepo_chaser4_nhx_h[ASTEP][64][128];		/* NHx */
-	double	ndepo_chaser4_noy_h[ASTEP][64][128];		/* NOy */
-	double	ndepo_chaser4_ont_h[ASTEP][64][128];		/* Org NOx */
-	double	ndepo_chaser4_nhx_p[ASTEP][64][128];		/* NHx */
-	double	ndepo_chaser4_noy_p[ASTEP][64][128];		/* NOy */
-	double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
-	
+		
 	/* radiation conversion model using SRB data */
 	double	srb_dif_aa;					/* linear regression a */
 	double	srb_dif_bb;					/* linear regression b */
@@ -332,8 +319,15 @@ struct Grid{
 	long	type_permaforst;			/* permafrost type by NSIDC */
     double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
     
-    double  f_biofuel[N_BF];              /* biofuel scenario: 2015/8/21 by A.Ito */
-};			
+    double  f_biofuel[DL_BF];                /* biofuel scenario: 2015/8/21 by A.Ito */
+    
+    /* NMIP input: 2015/11/19 by A.Ito */
+    double  nmip_nfert[DL_NMIP];                /* nitrogen fertilizer */
+    double  nmip_ndep_noy[DL_NMIP];             /* NOy deposition */
+    double  nmip_ndep_nh4[DL_NMIP];             /* NH4 fertilizer */
+    double  nmip_manure[DL_NMIP];               /* manure */
+    double  nmip_frcrop[DL_NMIP];               /* cropland fraction */
+};
 
 /* grid conditions, derived from submodules *******************************************/
 struct Loct{ 
@@ -452,7 +446,7 @@ struct Loct{
 	double	water_table_depth;				/* current time-step */
 	double	water_table_depth_pre;			/* previous time-step */
 	double	npp_max;						/* maximum NPP */
-	double	prof_ch4[SOIL_LAYER+2];			/* CH4 concentration profile */
+	double	prof_ch4[N_SLAYER+2];			/* CH4 concentration profile */
 	
 	double	cum_dprec;					/* cumulative precipitation change */
 	

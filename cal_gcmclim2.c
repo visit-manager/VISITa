@@ -43,6 +43,9 @@ void cal_projection(
 	/* LOOP to dynamic stage ***************************************/
 	for(g=BGY_GCM;g<=ENY_GCM;g++){ 
 	
+		/* simulation year ********************/
+		grid->simy = g;
+ 
 		/* CO2 change ********************/
 		if(CO2S == 0){
 			grid->co2y = BGY_GCM; 
@@ -74,6 +77,7 @@ void cal_projection(
 		}
 		
 		/* historical change in fertilizer input: 2010/05/11 by A.Ito */
+        f_fert = 1.0;
 		if(grid->rank_nat==1){
 			/* developing countries */
 			f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - (double)grid->climy)))+0.0014929171;
@@ -81,7 +85,21 @@ void cal_projection(
 			/* developed countries */
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
 		}
+        /* NMIP input: 2015/11/19 by A.Ito */
+        if(NMIP_RUN >= 1){
+            n_fertilizer_in(grid, loct);
+            f_fert = 1.0; /* driven by data */
+        }
 				
+        /* NMIP: 2015/11/19 by A.Ito **/
+        grid->niny = grid->climy;
+        if(grid->niny < 1900){
+            grid->niny = 1900;
+        }
+        if(grid->niny > 2012){
+            grid->niny = 2012;
+        }
+
         /* for considering leap years: 2014/09/29 by A.Ito */
         if(grid->climy%4 == 0){
             MDN[1] = 29.0;
@@ -285,6 +303,8 @@ void cal_projection(
         f_nat = 1.0 - grid->f_crop_con;
         if(f_nat > 0.0){
             iweight = 1.0 / f_nat;  /* inverse weight */
+        }else{
+            iweight = 1.0;
         }
         avc3 = 0.0;
         for(f=0;f<ASTEP;f++){
@@ -292,16 +312,18 @@ void cal_projection(
         }
         if(avc3 > 0.0){
             iweight3 = iweight * (1.0 / avc3);  /* inverse weight */
+        }else{
+            iweight3 = iweight;
         }
 		
 		/* wood harvest: 2010/10/15 by A.Ito ***********/
 		total_hvst = 0.0;
 		if((mass->c3).v_type == 1 && NECB_WHVST == 1 && (EX_CCPL != 5 && EX_CCPL != 8)){
-			dyr = grid->climy - PIVOT_LUC;
+			dyr = grid->climy - FDY_LUC;
 			
             if( (LANDUSE != 10 && LANDUSE != 11 && LANDUSE != 12 && LANDUSE != 13) &&
-                    g> (PIVOT_LUC+DL_LUH-1)){
-				dyr = (PIVOT_LUC+DL_LUH-1);
+                    g> (FDY_LUC+DL_LUC-1)){
+				dyr = (FDY_LUC+DL_LUC-1);
 			}
 			
 			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
@@ -410,7 +432,7 @@ void cal_projection(
 		}
 		
 		/* history data */
-		f_set_history_data(grid->climy - PIVOT_CLIMY +1, grid, loct, mass, flux);
+		f_set_history_data(grid->climy - BGY_CLIM +1, grid, loct, mass, flux);
 		
 		/* output */
 		f_output_result(grid->climy, grid, loct, echar, mass, flux, fp_o);  /*  */

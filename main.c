@@ -146,7 +146,7 @@ int main(
         }
     }else{
         if(PARAM_PTB >= 1){
-            srand(rpert + clock()%1000);
+            srand((unsigned int)(rpert + clock()%1000));
             rand();
             for(f=0;f<NPERT;f++){
                 f_pert[f] = 0.0;
@@ -310,9 +310,9 @@ int main(
 				grid.veg_crop, grid.flag_histdata); /* */
             
             /****/
-            printf("*************%lf %lf %lf\n", grid.f_biofuel[0], grid.f_biofuel[10], grid.f_biofuel[50]);
+            /* printf("*************%lf %lf %lf\n", grid.f_biofuel[0], grid.f_biofuel[10], grid.f_biofuel[50]); */
 			
-			/* head records of output files */
+			/* header information of output files */
 			for(h=0;h<OFILEN;h++){
 				if(CALC_OLSON == 1){
 					fprintf(fp_o1[h],"%ld %ld %ld %ld %ld\n",

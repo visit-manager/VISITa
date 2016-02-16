@@ -24,6 +24,7 @@ void f_co2_trend(
 	/** time of CO2 level  **/
 	time = (double)(grid->co2y);
 	
+    base = 350.0;
     if(ISIMIP_RUN == 0 && GEOMIP_RUN == 0){
         /** BASE **/
         if(time < 1990.0){
@@ -54,16 +55,16 @@ void f_co2_trend(
         /** ISI-MIP or GeoMIP runs **/
         switch(CO2S){
             case 1:
-                base = aco2_b1[grid->co2y - BGY_AGHG];
+                base = aco2_b1[grid->co2y - FDY_AGHG];
                 break;
             case 2:
-                base = aco2_b2[grid->co2y - BGY_AGHG]; /* corrected: 2012/08/06 */
+                base = aco2_b2[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
                 break;
             case 3:
-                base = aco2_a1[grid->co2y - BGY_AGHG]; /* corrected: 2012/08/06 */
+                base = aco2_a1[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
                 break;
             case 4:
-                base = aco2_a2[grid->co2y - BGY_AGHG]; /* corrected: 2012/08/06 */
+                base = aco2_a2[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
                 break;
         }
     }else{
@@ -76,16 +77,16 @@ void f_co2_trend(
         
             switch(CO2S){
                 case 1:
-                    base = aco2_b1[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_b1[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
                 case 2:
-                    base = aco2_b2[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_b2[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
                 case 3:
-                    base = aco2_a1[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_a1[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
                 case 4:
-                    base = aco2_a2[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_a2[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
             }
         }
@@ -104,16 +105,16 @@ void f_co2_trend(
 	/** seasonal change **/
 	amplitude = exp(0.04 * grid->lat);
 	if(grid->lat >= 0.0){
-		season = amplitude/2.0 * sin(((double)(grid->m) - 0.0)/12.0*2.0*PI);
+		season = amplitude/2.0 * sin(((double)(grid->m) - 0.0)/12.0 * 2.0 * PI);
 	}else{   /*  if(grid->lat<0.0) */
-		season = amplitude/2.0 * sin(((double)(grid->m) + 6.0)/12.0*2.0*PI);
+		season = amplitude/2.0 * sin(((double)(grid->m) + 6.0)/12.0 * 2.0 * PI);
 	}
 	
 	/*  grid->bco2[grid->m]=base+lgrd+season;   */
 	grid->bco2[grid->m] = base + lgrd + season;  /*   + 350.0  */
 		
 	/*  grid->d13c_bco2[grid->m]=-7.0;  */
-	grid->d13c_bco2[grid->m] = -6.0 + (-0.02 * (base-280.0)) + (0.05*season);
+	grid->d13c_bco2[grid->m] = -6.0 + (-0.02 * (base - 280.0)) + (0.05 * season);
 	
 	/* radiocarbon (d14C, D14C) of atmospheric CO2 *********************/
 	/* added 2009/06/23 by A.Ito */

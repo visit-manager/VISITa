@@ -121,6 +121,8 @@ void f_voc_emit_guenther97(
         idveg = grid->veg_sage;
     }else if(loct->v_type == 2){
         idveg = 16;
+    }else{
+        idveg = grid->veg_sage;
     }
 
 	/* foliar density, g d.m. C / m2   *********************/

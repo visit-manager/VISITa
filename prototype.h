@@ -12,7 +12,7 @@
 #include"setting.h"
 
 /* #define IFILEN 59 */  /* normal case */
-#define IFILEN 88 /* */  /* normal case */
+#define IFILEN 89 /* */  /* normal case */
 #define OFILEN 9
 
 extern short DF97;
@@ -185,6 +185,20 @@ extern double rh_ci_h[N_REG][PD_SIM], rh_ci_h_d13c[N_REG][PD_SIM], rh_ci_h_d14c[
 extern double rh_hvst[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
 extern double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
 extern double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
+
+/* CHASER 2001 monthly, by A.Ito (2010/05/21) */
+extern double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
+extern double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
+extern double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
+extern double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
+
+/* CHASER4.0 monthly, by A.Ito (2014/11/19) */
+extern double	ndepo_chaser4_nhx_h[ASTEP][64][128];		/* NHx */
+extern double	ndepo_chaser4_noy_h[ASTEP][64][128];		/* NOy */
+extern double	ndepo_chaser4_ont_h[ASTEP][64][128];		/* Org NOx */
+extern double	ndepo_chaser4_nhx_p[ASTEP][64][128];		/* NHx */
+extern double	ndepo_chaser4_noy_p[ASTEP][64][128];		/* NOy */
+extern double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
 
 /* CLEARANCE *****************************************************/
 void f_clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 

@@ -232,6 +232,14 @@ double glat_ch4_cao[ASTEP][N_ROW], glat_ch4_wh[ASTEP][N_ROW];
 float gs_ipar_1[12][N_ROW][N_COL], gs_ipar_2[12][N_ROW][N_COL], gs_ipar_3[12][N_ROW][N_COL];
 float gs_ipard_1[12][N_ROW][N_COL], gs_ipard_2[12][N_ROW][N_COL], gs_ipard_3[12][N_ROW][N_COL]; */
 
+/* CHASER4.0 monthly, by A.Ito (2014/11/19) */
+double	ndepo_chaser4_nhx_h[ASTEP][64][128];		/* NHx */
+double	ndepo_chaser4_noy_h[ASTEP][64][128];		/* NOy */
+double	ndepo_chaser4_ont_h[ASTEP][64][128];		/* Org NOx */
+double	ndepo_chaser4_nhx_p[ASTEP][64][128];		/* NHx */
+double	ndepo_chaser4_noy_p[ASTEP][64][128];		/* NOy */
+double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
+
 short SENS_RAD;
 /* 0: control */
 /* 1: +10 diffuse PAR fraction */
@@ -269,3 +277,10 @@ short TEMP_GC;
 /* 10: +5 deg C per century */
 /* 11: -6 deg C per century */
 /* 12: +6 deg C per century */
+
+/* CHASER 2001 monthly, by A.Ito (2010/05/21) */
+double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
+double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
+double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
+double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
+

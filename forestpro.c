@@ -38,6 +38,9 @@ void forest_process(
 		case 3: /* old leaf shedding */
 			leaffall(grid, loct, pchar, mass, flux); 
 			break;
+        default:
+            printf("Warning: Undefined season ID\n");
+            break;
 	}
 	
 	/* post-processing */
