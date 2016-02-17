@@ -23,6 +23,7 @@ void cal_historical(
 ){
 	long f, g, dyr;
 	double f_fert, fweight, total_hvst, f_nat, iweight, iweight3, avc3, prm_ensen;
+    double mass_luc;
 	extern double MDN[ASTEP];
 	
     /* phase: 1, historical simulation */
@@ -424,6 +425,44 @@ void cal_historical(
             iweight3 = iweight;
         }
         
+        if(EX_BECCS==1 && NECB_LUC==1){
+            if(grid->f_luc>0.0 && grid->f_luc<1.0){
+                (mass->c3).fol *= (1.0 - grid->f_luc);
+                (mass->c3).stm *= (1.0 - grid->f_luc);
+                (mass->c3).rot *= (1.0 - grid->f_luc);
+                (mass->c4).fol *= (1.0 - grid->f_luc);
+                (mass->c4).stm *= (1.0 - grid->f_luc);
+                (mass->c4).rot *= (1.0 - grid->f_luc);
+
+                (mass->c3).mfol[ASTEP-1] = (mass->c3).fol;
+                (mass->c3).mstm[ASTEP-1] = (mass->c3).stm;
+                (mass->c3).mrot[ASTEP-1] = (mass->c3).rot;
+                (mass->c4).mfol[ASTEP-1] = (mass->c4).fol;
+                (mass->c4).mstm[ASTEP-1] = (mass->c4).stm;
+                (mass->c4).mrot[ASTEP-1] = (mass->c4).rot;
+
+                (mass->plant).fol = (mass->c3).fol*loct->c3ptn[ASTEP-1] + (mass->c4).fol*loct->c4ptn[ASTEP-1];
+                (mass->plant).stm = (mass->c3).stm*loct->c3ptn[ASTEP-1] + (mass->c4).stm*loct->c4ptn[ASTEP-1];
+                (mass->plant).rot = (mass->c3).rot*loct->c3ptn[ASTEP-1] + (mass->c4).rot*loct->c4ptn[ASTEP-1];
+                (mass->plant).mfol[ASTEP-1] = (mass->plant).fol;
+                (mass->plant).mstm[ASTEP-1] = (mass->plant).stm;
+                (mass->plant).mrot[ASTEP-1] = (mass->plant).rot;
+
+                (mass->c3).plant[ASTEP-1] = (mass->c3).fol + (mass->c3).stm + (mass->c3).rot;
+                (mass->c4).plant[ASTEP-1] = (mass->c4).fol + (mass->c4).stm + (mass->c4).rot;
+                (mass->plant).plant[ASTEP-1] = (mass->c3).plant[ASTEP-1]*loct->c3ptn[ASTEP-1]
+                                            + (mass->c4).plant[ASTEP-1]*loct->c4ptn[ASTEP-1];
+
+                (mass->c3).lai[ASTEP-1] = lai_mass(grid, &(mass->c3), &(echar->c3));
+                (mass->c4).lai[ASTEP-1] = lai_mass(grid, &(mass->c4), &(echar->c4));
+                (mass->plant).lai[ASTEP-1] = (mass->c3).lai[ASTEP-1] * loct->c3ptn[ASTEP-1]
+                                            + (mass->c4).lai[ASTEP-1] * loct->c4ptn[ASTEP-1];
+                loct->lai[ASTEP-1] = (mass->plant).lai[ASTEP-1];
+            }else{
+                ;
+            }
+        }
+        
 		/* wood harvest: 2010/10/15 by A.Ito ***************/
 		total_hvst = 0.0;
 		if((mass->c3).v_type == 1 && NECB_WHVST == 1 && (EX_CCPL != 5 && EX_CCPL != 8)){
@@ -488,6 +527,8 @@ void cal_historical(
 		
 		/* net biome production (added by A.Ito: 2010/01/20) *************************/
 		for(f=0;f<ASTEP;f++){
+            grid->m = f;
+            
             /* base */
 			flux->nbp[f] = flux->nep[f];
             
@@ -542,8 +583,9 @@ void cal_historical(
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
                 flux->nbp[f] += (flux->plant).hvst[f]; /* ! hvst is negative */
             }
+
 		}
-		
+        
 		/* history data */
 		f_set_history_data(grid->simy - BGY_CLIM +1, grid, loct, mass, flux);
 		

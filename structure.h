@@ -222,6 +222,8 @@ struct Grid{
 	double	fmaize;			/* fraction of maize */
 	double	fothers;		/* fraction of other crops */
 	
+    double  f_luc;          /* fraction of land-use conversion */
+
 	/* EOS-WEBSTER, 1700-2000/2005, Hurtt et al. */
 	double	fcrop_unh_hmnzed[DL_LUC];		/* cropland fraction */
 	double	fpast_unh_hmnzed[DL_LUC];		/* pasture fraction */

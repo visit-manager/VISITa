@@ -396,7 +396,6 @@ void f_luc_emit(
 	struct Flux *flux
 ){
 	long f;
-	double f_luc;
 	double fe_conv;		/* fraction of conversion flux (1year) */
 	double fe_ten;		/* fraction of 10-year pool flux */
 	double fe_hund;		/* fraction of 100-year pool flux */
@@ -456,36 +455,36 @@ void f_luc_emit(
 	eff_mass = (mass->plant).fol + (mass->plant).stm + 0.8*(mass->plant).rot;
 	
     /* added: A. Ito (with Hamada-san's comment) 2012/01/30 */
-    f_luc = 0.0;
+    grid->f_luc = 0.0;
     
 	if(grid->phase==0){
 		/* spin-up: fluxes for 1801-1900 *******************************/
 		/* modified by A.Ito (2009/06/05: 2010/01/07) */
 		if(LANDUSE == 0 || LANDUSE==9){
-			f_luc = 0.0;
+			grid->f_luc = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
-			f_luc = grid->fcrop_sage[BGY_LUC-FDY_LUC] - grid->fcrop_sage[BGY_LUC-FDY_LUC-1];
+			grid->f_luc = grid->fcrop_sage[BGY_LUC-FDY_LUC] - grid->fcrop_sage[BGY_LUC-FDY_LUC-1];
 		}else if(LANDUSE==6 || LANDUSE==8 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 ||
                 LANDUSE==13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17){
             /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
-			f_luc = (grid->t_vc_unh_hmnzed[BGY_LUC - FDY_LUC] + grid->t_vp_unh_hmnzed[BGY_LUC - FDY_LUC])
+			grid->f_luc = (grid->t_vc_unh_hmnzed[BGY_LUC - FDY_LUC] + grid->t_vp_unh_hmnzed[BGY_LUC - FDY_LUC])
 				+ (grid->t_sc_unh_hmnzed[BGY_LUC - FDY_LUC] + grid->t_sp_unh_hmnzed[BGY_LUC - FDY_LUC])*f_mass_secfor;
 		}else if(LANDUSE==7){
 			/* added 2010/01/07 (A.Ito) */
-			f_luc = (grid->fcrop_rk[BGY_LUC-FDY_LUC] - grid->fcrop_rk[BGY_LUC-FDY_LUC-1])
+			grid->f_luc = (grid->fcrop_rk[BGY_LUC-FDY_LUC] - grid->fcrop_rk[BGY_LUC-FDY_LUC-1])
 					+(grid->fpast_rk[BGY_LUC-FDY_LUC] - grid->fpast_rk[BGY_LUC-FDY_LUC-1]);
 		}
 		
         /* NMIP: fixed land-use */
         if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
             || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
-            f_luc = 0.0;
+            grid->f_luc = 0.0;
         }
 
 		/* modified by A.Ito (2009/08/19) */
-		if(f_luc > 0.0){
-			flux->lu_detr = f_luc * 0.2*(mass->plant).rot;
-			flux->lu_conv = f_luc * eff_mass * fe_conv/(fe_conv + fe_ten + fe_hund);
+		if(grid->f_luc > 0.0){
+			flux->lu_detr = grid->f_luc * 0.2*(mass->plant).rot;
+			flux->lu_conv = grid->f_luc * eff_mass * fe_conv/(fe_conv + fe_ten + fe_hund);
 		}else{
 			flux->lu_detr = 0.0;
 			flux->lu_conv = 0.0;
@@ -494,29 +493,29 @@ void f_luc_emit(
 		for(f=(BGY_LUC-9);f<=BGY_LUC;f++){
 			/* senstivity analysis */
 			if(LANDUSE == 0 || LANDUSE==9){
-				f_luc = 0.0;
+				grid->f_luc = 0.0;
 			}else if(LANDUSE>=1 && LANDUSE<=5){
-				f_luc = grid->fcrop_sage[f - FDY_LUC] - grid->fcrop_sage[f - FDY_LUC - 1];
+				grid->f_luc = grid->fcrop_sage[f - FDY_LUC] - grid->fcrop_sage[f - FDY_LUC - 1];
 			}else if(LANDUSE==6 || LANDUSE==8 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 ||
                     LANDUSE==13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17){
-				f_luc = (grid->t_vc_unh_hmnzed[f - FDY_LUC] + grid->t_vp_unh_hmnzed[f - FDY_LUC])
+				grid->f_luc = (grid->t_vc_unh_hmnzed[f - FDY_LUC] + grid->t_vp_unh_hmnzed[f - FDY_LUC])
 						+ (grid->t_sc_unh_hmnzed[f - FDY_LUC] + grid->t_sp_unh_hmnzed[f - FDY_LUC]) * f_mass_secfor;
 				/* 0.5: assumption by A.Ito for secondary forest stock */
 			}else if(LANDUSE==7){
 				/* added 2010/01/07 (A.Ito) */
-				f_luc = (grid->fcrop_rk[f - FDY_LUC] - grid->fcrop_rk[f-FDY_LUC-1])
+				grid->f_luc = (grid->fcrop_rk[f - FDY_LUC] - grid->fcrop_rk[f-FDY_LUC-1])
 						+ (grid->fpast_rk[f - FDY_LUC] - grid->fpast_rk[f-FDY_LUC-1]);
 			}
 			
             /* NMIP: fixed land-use */
             if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
                 || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
-                f_luc = 0.0;
+                grid->f_luc = 0.0;
             }
 
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
-			if(f_luc > 0.0){
-				mass_ten = f_luc * eff_mass * fe_ten/(fe_conv + fe_ten + fe_hund);
+			if(grid->f_luc > 0.0){
+				mass_ten = grid->f_luc * eff_mass * fe_ten/(fe_conv + fe_ten + fe_hund);
 				flux->detr_ten[BGY_LUC-f] = mass_ten;
 			}else{
                 /* corrected: A. Ito (with Hamada-san's comment) 2012/01/30 */
@@ -530,29 +529,29 @@ void f_luc_emit(
 		for(f=(BGY_LUC-99);f<=BGY_LUC;f++){
 			/* senstivity analysis */
 			if(LANDUSE == 0 || LANDUSE==9){
-				f_luc = 0.0;
+				grid->f_luc = 0.0;
 			}else if(LANDUSE>=1 && LANDUSE<=5){
-				f_luc = grid->fcrop_sage[f - FDY_LUC] - grid->fcrop_sage[f-FDY_LUC-1];
+				grid->f_luc = grid->fcrop_sage[f - FDY_LUC] - grid->fcrop_sage[f-FDY_LUC-1];
 			}else if(LANDUSE==6 || LANDUSE==8 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 ||
                     LANDUSE==13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17){
-				f_luc = (grid->t_vc_unh_hmnzed[f - FDY_LUC] + grid->t_vp_unh_hmnzed[f - FDY_LUC])
+				grid->f_luc = (grid->t_vc_unh_hmnzed[f - FDY_LUC] + grid->t_vp_unh_hmnzed[f - FDY_LUC])
 						+ (grid->t_sc_unh_hmnzed[f - FDY_LUC] + grid->t_sp_unh_hmnzed[f - FDY_LUC])*f_mass_secfor;
 			}else if(LANDUSE==7){
 				/* added 2010/01/07 (A.Ito) */
-				f_luc = (grid->fcrop_rk[f - FDY_LUC] - grid->fcrop_rk[f-FDY_LUC-1])
+				grid->f_luc = (grid->fcrop_rk[f - FDY_LUC] - grid->fcrop_rk[f-FDY_LUC-1])
 						+ (grid->fpast_rk[f - FDY_LUC] - grid->fpast_rk[f-FDY_LUC-1]);
 			}
 			
             /* NMIP: fixed land-use */
             if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
                 || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
-                f_luc = 0.0;
+                grid->f_luc = 0.0;
             }
 
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
 			/* corrected: A.Ito and E.Kato (2009/08/16) */
-			if(f_luc > 0.0){
-				mass_hund = f_luc * eff_mass * fe_hund/(fe_conv + fe_ten + fe_hund);				
+			if(grid->f_luc > 0.0){
+				mass_hund = grid->f_luc * eff_mass * fe_hund/(fe_conv + fe_ten + fe_hund);
 				flux->detr_hund[BGY_LUC - f] = mass_hund;
 			}else{
 				mass_hund = 0.0;
@@ -585,40 +584,40 @@ void f_luc_emit(
 		
 		/* annual land use change */
 		if(LANDUSE == 0 || LANDUSE == 9){
-			f_luc = 0.0;
+			grid->f_luc = 0.0;
 		}else if(LANDUSE>=1 && LANDUSE<=5){
-			f_luc = grid->f_deforest;
+			grid->f_luc = grid->f_deforest;
 			/*  grid->f_crop_con - grid->f_crop_p;  */
 		}else if(LANDUSE==6 || LANDUSE==8 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 ||
                 LANDUSE==13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17){
 			/* assumption: biomass in secondary forest is lower (0.1) than primary forest */
-			f_luc = grid->f_deforest_v + grid->f_deforest_s * f_mass_secfor;
+			grid->f_luc = grid->f_deforest_v + grid->f_deforest_s * f_mass_secfor;
 		}else if(LANDUSE == 7){
 			/* added 2010/01/07 (A.Ito) */
-			f_luc = grid->f_deforest;
+			grid->f_luc = grid->f_deforest;
 		}
 		
         /* NMIP: fixed land-use */
         if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
             || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
-            f_luc = 0.0;
+            grid->f_luc = 0.0;
         }
         
         /* BECCS S10 experiment: 2016/02/16 by A.Ito ******/
         if(EX_BECCS == 1){
             if(grid->lucy <= 2000){
-                f_luc = 0.0;
+                grid->f_luc = 0.0;
             }else if(grid->lucy >= 2001){
-                f_luc = grid->f_deforest;
+                grid->f_luc = grid->f_deforest;
             }
         }
 
-		if(f_luc > 0.0){ /* deforested */
+		if(grid->f_luc > 0.0){ /* deforested */
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
-			mass_detr = f_luc * 0.2*(mass->plant).rot;
-			mass_conv = f_luc * eff_mass * fe_conv/(fe_conv + fe_ten + fe_hund);
-			mass_ten = f_luc * eff_mass * fe_ten/(fe_conv + fe_ten + fe_hund);
-			mass_hund = f_luc * eff_mass * fe_hund/(fe_conv + fe_ten + fe_hund);
+			mass_detr = grid->f_luc * 0.2*(mass->plant).rot;
+			mass_conv = grid->f_luc * eff_mass * fe_conv/(fe_conv + fe_ten + fe_hund);
+			mass_ten = grid->f_luc * eff_mass * fe_ten/(fe_conv + fe_ten + fe_hund);
+			mass_hund = grid->f_luc * eff_mass * fe_hund/(fe_conv + fe_ten + fe_hund);
 			
 			/* emission from 1-yr or instantaneous pool */
 			flux->lu_detr = mass_detr;

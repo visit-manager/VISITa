@@ -93,6 +93,9 @@ void cal_spinup(
     }
     
     grid->simy = 1900;
+    if(EX_BECCS==1){
+        grid->simy = 1949;
+    }
 	
 	/* LOOP to stable stage ************************************************/
 	nn = 0; 
