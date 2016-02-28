@@ -23,6 +23,7 @@ void cal_historical(
 ){
 	long f, g, dyr;
 	double f_fert, fweight, total_hvst, f_nat, iweight, iweight3, avc3, prm_ensen;
+    double mass_luc;
 	extern double MDN[ASTEP];
 	
     /* phase: 1, historical simulation */
@@ -40,10 +41,10 @@ void cal_historical(
         /* NMIP: 1901-2012 */
 		
 		/* simulation year ********************/
-		grid->simy = PIVOT_CLIMY + g;
+		grid->simy = BGY_CLIM + g;
  
         /* climate change ********************/
-		grid->climy = PIVOT_CLIMY + g;
+		grid->climy = grid->simy;
         
        /* NMIP: 2015/11/19 by A.Ito **********/
         grid->niny = grid->simy;
@@ -55,11 +56,11 @@ void cal_historical(
         }
         
 		/* CO2 year ********************/
-		grid->co2y = PIVOT_CO2Y + g; 
+		grid->co2y = grid->simy;
 		/* sensitivity analysis: no CO2 rise */
 		if(CC_CD == 2){
-			grid->co2y = PIVOT_CO2Y;
-			/* PIVOT_CO2Y = 1901 (usual setting) */
+			grid->co2y = BGY_CO2Y;
+			/* BGY_CO2Y = 1901 (usual setting) */
 		}else if(CC_CD == 5){
             grid->co2y = 2000;
         }
@@ -74,35 +75,35 @@ void cal_historical(
         }
         
         /* land-use year *****/
-        grid->lucy = PIVOT_CLIMY + g;
+        grid->lucy = grid->simy;
 		
         /* NMIP all fix **************/
         /* NMIP_RUN==1: all */
         /* NMIP_RUN==3: all without cropland */
         if(NMIP_RUN == 2){
-            grid->climy = PIVOT_NINY + 1;
-            grid->niny = PIVOT_NINY + 1;
-            grid->co2y = PIVOT_NINY + 1;
-            grid->lucy = PIVOT_NINY + 1;
+            grid->climy = FDY_NINY + 1;
+            grid->niny = FDY_NINY + 1;
+            grid->co2y = FDY_NINY + 1;
+            grid->lucy = FDY_NINY + 1;
         }else if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
-            grid->niny = PIVOT_NINY + 1;
-            grid->co2y = PIVOT_NINY + 1;
-            grid->lucy = PIVOT_NINY + 1;
+            grid->niny = FDY_NINY + 1;
+            grid->co2y = FDY_NINY + 1;
+            grid->lucy = FDY_NINY + 1;
         }else if(NMIP_RUN == 8){
-            grid->climy = PIVOT_NINY + 1;
-            grid->niny = PIVOT_NINY + 1;
-            grid->lucy = PIVOT_NINY + 1;
+            grid->climy = FDY_NINY + 1;
+            grid->niny = FDY_NINY + 1;
+            grid->lucy = FDY_NINY + 1;
         }else if(NMIP_RUN == 9 || NMIP_RUN == 10){
-            grid->climy = PIVOT_NINY + 1;
-            grid->co2y = PIVOT_NINY + 1;
-            grid->lucy = PIVOT_NINY + 1;
+            grid->climy = FDY_NINY + 1;
+            grid->co2y = FDY_NINY + 1;
+            grid->lucy = FDY_NINY + 1;
         }else if(NMIP_RUN == 11){
-            grid->climy = PIVOT_NINY + 1;
-            grid->co2y = PIVOT_NINY + 1;
-            grid->niny = PIVOT_NINY + 1;
+            grid->climy = FDY_NINY + 1;
+            grid->co2y = FDY_NINY + 1;
+            grid->niny = FDY_NINY + 1;
         }else if(NMIP_RUN == 12){
-            grid->climy = PIVOT_NINY + 1;
-            grid->co2y = PIVOT_NINY + 1;
+            grid->climy = FDY_NINY + 1;
+            grid->co2y = FDY_NINY + 1;
         }
         
         /* for considering leap years: 2014/09/29 by A.Ito */
@@ -264,7 +265,7 @@ void cal_historical(
 			
 			/* ecosystem mass balance *****************************/	
 			/* net ecosystem production */
-			flux->nep[f] = (flux->plant).npp[f]-(flux->soil).hr[f];
+			flux->nep[f] = (flux->plant).npp[f] - (flux->soil).hr[f];
 			flux->er[f] = (flux->plant).ar[f] + (flux->soil).hr[f];
 			/* total ecosystem carbon storage */
 			mass->total[f] = (mass->c3).plant[f]*loct->c3ptn[f] + (mass->c4).plant[f]*loct->c4ptn[f] + (mass->soil).soil[f];
@@ -304,12 +305,12 @@ void cal_historical(
 				/* mean biome budget *******/
 				vo_npp[grid->veg_olson] += (flux->plant).npp[f]/10.0 * grid->area;
 				vo_nep[grid->veg_olson] += flux->nep[f]/10.0 * grid->area;
-				vo_lai[grid->veg_olson] += (mass->plant).lai[f]*MDN[f]/365.0/10.0 * grid->area;
-				vo_fol[grid->veg_olson] += (mass->plant).mfol[f]*MDN[f]/365.0/10.0 * grid->area;
-				vo_stm[grid->veg_olson] += (mass->plant).mstm[f]*MDN[f]/365.0/10.0 * grid->area;
-				vo_rot[grid->veg_olson] += (mass->plant).mrot[f]*MDN[f]/365.0/10.0 * grid->area;
-				vo_ltr[grid->veg_olson] += (mass->soil).ltr_m[f]*MDN[f]/365.0/10.0 * grid->area;
-				vo_msl[grid->veg_olson] += (mass->soil).msl_m[f]*MDN[f]/365.0/10.0 * grid->area;
+				vo_lai[grid->veg_olson] += (mass->plant).lai[f] * MDN[f]/365.0/10.0 * grid->area;
+				vo_fol[grid->veg_olson] += (mass->plant).mfol[f] * MDN[f]/365.0/10.0 * grid->area;
+				vo_stm[grid->veg_olson] += (mass->plant).mstm[f] * MDN[f]/365.0/10.0 * grid->area;
+				vo_rot[grid->veg_olson] += (mass->plant).mrot[f] * MDN[f]/365.0/10.0 * grid->area;
+				vo_ltr[grid->veg_olson] += (mass->soil).ltr_m[f] * MDN[f]/365.0/10.0 * grid->area;
+				vo_msl[grid->veg_olson] += (mass->soil).msl_m[f] * MDN[f]/365.0/10.0 * grid->area;
 				
 				if(DF97==1){
 					vs_gpp[grid->veg_sage] += (flux->plant).gpp_df97[f]/10.0 * grid->area;
@@ -424,15 +425,53 @@ void cal_historical(
             iweight3 = iweight;
         }
         
+        if(EX_BECCS==1 && NECB_LUC==1){
+            if(grid->f_luc>0.0 && grid->f_luc<1.0){
+                (mass->c3).fol *= (1.0 - grid->f_luc);
+                (mass->c3).stm *= (1.0 - grid->f_luc);
+                (mass->c3).rot *= (1.0 - grid->f_luc);
+                (mass->c4).fol *= (1.0 - grid->f_luc);
+                (mass->c4).stm *= (1.0 - grid->f_luc);
+                (mass->c4).rot *= (1.0 - grid->f_luc);
+
+                (mass->c3).mfol[ASTEP-1] = (mass->c3).fol;
+                (mass->c3).mstm[ASTEP-1] = (mass->c3).stm;
+                (mass->c3).mrot[ASTEP-1] = (mass->c3).rot;
+                (mass->c4).mfol[ASTEP-1] = (mass->c4).fol;
+                (mass->c4).mstm[ASTEP-1] = (mass->c4).stm;
+                (mass->c4).mrot[ASTEP-1] = (mass->c4).rot;
+
+                (mass->plant).fol = (mass->c3).fol*loct->c3ptn[ASTEP-1] + (mass->c4).fol*loct->c4ptn[ASTEP-1];
+                (mass->plant).stm = (mass->c3).stm*loct->c3ptn[ASTEP-1] + (mass->c4).stm*loct->c4ptn[ASTEP-1];
+                (mass->plant).rot = (mass->c3).rot*loct->c3ptn[ASTEP-1] + (mass->c4).rot*loct->c4ptn[ASTEP-1];
+                (mass->plant).mfol[ASTEP-1] = (mass->plant).fol;
+                (mass->plant).mstm[ASTEP-1] = (mass->plant).stm;
+                (mass->plant).mrot[ASTEP-1] = (mass->plant).rot;
+
+                (mass->c3).plant[ASTEP-1] = (mass->c3).fol + (mass->c3).stm + (mass->c3).rot;
+                (mass->c4).plant[ASTEP-1] = (mass->c4).fol + (mass->c4).stm + (mass->c4).rot;
+                (mass->plant).plant[ASTEP-1] = (mass->c3).plant[ASTEP-1]*loct->c3ptn[ASTEP-1]
+                                            + (mass->c4).plant[ASTEP-1]*loct->c4ptn[ASTEP-1];
+
+                (mass->c3).lai[ASTEP-1] = lai_mass(grid, &(mass->c3), &(echar->c3));
+                (mass->c4).lai[ASTEP-1] = lai_mass(grid, &(mass->c4), &(echar->c4));
+                (mass->plant).lai[ASTEP-1] = (mass->c3).lai[ASTEP-1] * loct->c3ptn[ASTEP-1]
+                                            + (mass->c4).lai[ASTEP-1] * loct->c4ptn[ASTEP-1];
+                loct->lai[ASTEP-1] = (mass->plant).lai[ASTEP-1];
+            }else{
+                ;
+            }
+        }
+        
 		/* wood harvest: 2010/10/15 by A.Ito ***************/
 		total_hvst = 0.0;
 		if((mass->c3).v_type == 1 && NECB_WHVST == 1 && (EX_CCPL != 5 && EX_CCPL != 8)){
-			dyr = grid->lucy - PIVOT_LUC;
+			dyr = grid->lucy - FDY_LUC;
 			
 			/* assumption for the period later than 2004: A.Ito (2010/11/11) */
 			if( (LANDUSE != 10 && LANDUSE != 11 && LANDUSE != 12 && LANDUSE != 13) &&
-                    grid->lucy > (PIVOT_LUC+DL_LUH-1)){
-				dyr = (PIVOT_LUC + DL_LUH - 1);
+                    grid->lucy > (FDY_LUC+DL_LUC-1)){
+				dyr = (FDY_LUC + DL_LUC - 1);
 			}
             
             /* from total grid */
@@ -488,6 +527,8 @@ void cal_historical(
 		
 		/* net biome production (added by A.Ito: 2010/01/20) *************************/
 		for(f=0;f<ASTEP;f++){
+            grid->m = f;
+            
             /* base */
 			flux->nbp[f] = flux->nep[f];
             
@@ -542,10 +583,11 @@ void cal_historical(
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
                 flux->nbp[f] += (flux->plant).hvst[f]; /* ! hvst is negative */
             }
+
 		}
-		
+        
 		/* history data */
-		f_set_history_data(grid->simy - PIVOT_CLIMY +1, grid, loct, mass, flux);
+		f_set_history_data(grid->simy - BGY_CLIM +1, grid, loct, mass, flux);
 		
 		/* output */
 		f_output_result(grid->simy, grid, loct, echar, mass, flux, fp_o); /* */

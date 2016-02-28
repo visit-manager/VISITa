@@ -24,6 +24,7 @@ void f_co2_trend(
 	/** time of CO2 level  **/
 	time = (double)(grid->co2y);
 	
+    base = 350.0;
     if(ISIMIP_RUN == 0 && GEOMIP_RUN == 0){
         /** BASE **/
         if(time < 1990.0){
@@ -54,16 +55,16 @@ void f_co2_trend(
         /** ISI-MIP or GeoMIP runs **/
         switch(CO2S){
             case 1:
-                base = aco2_b1[grid->co2y - BGY_AGHG];
+                base = aco2_b1[grid->co2y - FDY_AGHG];
                 break;
             case 2:
-                base = aco2_b2[grid->co2y - BGY_AGHG]; /* corrected: 2012/08/06 */
+                base = aco2_b2[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
                 break;
             case 3:
-                base = aco2_a1[grid->co2y - BGY_AGHG]; /* corrected: 2012/08/06 */
+                base = aco2_a1[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
                 break;
             case 4:
-                base = aco2_a2[grid->co2y - BGY_AGHG]; /* corrected: 2012/08/06 */
+                base = aco2_a2[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
                 break;
         }
     }else{
@@ -76,16 +77,16 @@ void f_co2_trend(
         
             switch(CO2S){
                 case 1:
-                    base = aco2_b1[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_b1[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
                 case 2:
-                    base = aco2_b2[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_b2[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
                 case 3:
-                    base = aco2_a1[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_a1[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
                 case 4:
-                    base = aco2_a2[grid->co2y - BGY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_a2[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
             }
         }

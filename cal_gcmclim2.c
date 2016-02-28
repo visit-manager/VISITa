@@ -319,11 +319,11 @@ void cal_projection(
 		/* wood harvest: 2010/10/15 by A.Ito ***********/
 		total_hvst = 0.0;
 		if((mass->c3).v_type == 1 && NECB_WHVST == 1 && (EX_CCPL != 5 && EX_CCPL != 8)){
-			dyr = grid->climy - PIVOT_LUC;
+			dyr = grid->climy - FDY_LUC;
 			
             if( (LANDUSE != 10 && LANDUSE != 11 && LANDUSE != 12 && LANDUSE != 13) &&
-                    g> (PIVOT_LUC+DL_LUH-1)){
-				dyr = (PIVOT_LUC+DL_LUH-1);
+                    g> (FDY_LUC+DL_LUC-1)){
+				dyr = (FDY_LUC+DL_LUC-1);
 			}
 			
 			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
@@ -432,7 +432,7 @@ void cal_projection(
 		}
 		
 		/* history data */
-		f_set_history_data(grid->climy - PIVOT_CLIMY +1, grid, loct, mass, flux);
+		f_set_history_data(grid->climy - BGY_CLIM +1, grid, loct, mass, flux);
 		
 		/* output */
 		f_output_result(grid->climy, grid, loct, echar, mass, flux, fp_o);  /*  */
