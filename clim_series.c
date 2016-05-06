@@ -23,7 +23,7 @@ void set_hist_clim(
 	double tmp_var, pre_var, tcdc_var;
 	
 	/* last year of CRU-data calculation */
-	cru_te = DL_CRU + (PIVOT_CLIMY-1);
+	cru_te = DL_CRU + (BGY_CLIM-1);
     
     impex_t = impex_p = -999;
 	
@@ -38,39 +38,39 @@ void set_hist_clim(
             /* 1901-2013:CRU TS3.22 */
             /* 1901-2014:CRU TS3.23 */
             for(h=0;h<ASTEP;h++){
-                grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] 
+                grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h] 
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
-                grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h];
-                grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] 
+                grid->tmp_2m[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h];
+                grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h] 
                                 + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-                grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h] 
+                grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h] 
                                 + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
-                grid->tcdc_clm[h] = grid->hist_cld[grid->climy - PIVOT_CLIMY][h];
-                grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY][h];
+                grid->tcdc_clm[h] = grid->hist_cld[grid->climy - BGY_CLIM][h];
+                grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM][h];
                 
                 if(NMIP_RUN == 5){
-                    grid->tcdc_clm[h] = grid->hist_cld[PIVOT_NINY+1 - PIVOT_CLIMY][h];
-                    grid->prate_sfc[h] = grid->hist_pre[PIVOT_NINY+1 - PIVOT_CLIMY][h];
+                    grid->tcdc_clm[h] = grid->hist_cld[FDY_NINY+1 - BGY_CLIM][h];
+                    grid->prate_sfc[h] = grid->hist_pre[FDY_NINY+1 - BGY_CLIM][h];
                 }
                 if(NMIP_RUN == 6){
-                    grid->tmp_sfc[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
+                    grid->tmp_sfc[h] = grid->hist_tmp[FDY_NINY+1 - BGY_CLIM][h]
                                     + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
-                    grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h];
-                    grid->tmp10_soil[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
+                    grid->tmp_2m[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h];
+                    grid->tmp10_soil[h] = grid->hist_tmp[FDY_NINY+1 - BGY_CLIM][h]
                                     + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-                    grid->tmp200_soil[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
+                    grid->tmp200_soil[h] = grid->hist_tmp[FDY_NINY+1 - BGY_CLIM][h]
                                     + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
-                    grid->tcdc_clm[h] = grid->hist_cld[PIVOT_NINY+1 - PIVOT_CLIMY][h];
+                    grid->tcdc_clm[h] = grid->hist_cld[FDY_NINY+1 - BGY_CLIM][h];
                 }
                 if(NMIP_RUN == 7){
-                    grid->tmp_sfc[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
+                    grid->tmp_sfc[h] = grid->hist_tmp[FDY_NINY+1 - BGY_CLIM][h]
                                     + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
-                    grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY][h];
-                    grid->tmp10_soil[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
+                    grid->tmp_2m[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h];
+                    grid->tmp10_soil[h] = grid->hist_tmp[FDY_NINY+1 - BGY_CLIM][h]
                                     + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-                    grid->tmp200_soil[h] = grid->hist_tmp[PIVOT_NINY+1 - PIVOT_CLIMY][h]
+                    grid->tmp200_soil[h] = grid->hist_tmp[FDY_NINY+1 - BGY_CLIM][h]
                                     + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
-                    grid->prate_sfc[h] = grid->hist_pre[PIVOT_NINY+1 - PIVOT_CLIMY][h];
+                    grid->prate_sfc[h] = grid->hist_pre[FDY_NINY+1 - BGY_CLIM][h];
                 }
            }
         }else{
@@ -84,7 +84,7 @@ void set_hist_clim(
             /* 2015-2015: extrapolation using NCEP/NCAR data: 2016/01/04 by A.Ito */
             for(h=0;h<ASTEP;h++){
                 /* temperature */
-                tmp_var = grid->ncep_tmp2m[grid->climy - PIVOT_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
+                tmp_var = grid->ncep_tmp2m[grid->climy - FDY_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
                         - grid->ncep_tmp2m_b[h][grid->ncep_lat][grid->ncep_lon];
                 grid->tmp_sfc[h] = grid->tmp_sfc_a[h] + tmp_var;
                 grid->tmp_2m[h] = grid->tmp_2m_a[h] + tmp_var;
@@ -92,7 +92,7 @@ void set_hist_clim(
                 grid->tmp200_soil[h] = grid->tmp200_soil_a[h] + tmp_var*0.1;
                 
                 /* precipitation */
-                pre_var = grid->ncep_prate[grid->climy - PIVOT_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
+                pre_var = grid->ncep_prate[grid->climy - FDY_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
                             - grid->ncep_prate_b[h][grid->ncep_lat][grid->ncep_lon];
                 grid->prate_sfc[h] = grid->prate_sfc_a[h] + pre_var;
                 if(grid->prate_sfc[h]<0.0){
@@ -100,7 +100,7 @@ void set_hist_clim(
                 }
                 
                 /* cloudiness */
-                tcdc_var = grid->ncep_tcdc[grid->climy - PIVOT_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
+                tcdc_var = grid->ncep_tcdc[grid->climy - FDY_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
                         - grid->ncep_tcdc_b[h][grid->ncep_lat][grid->ncep_lon];
                 grid->tcdc_clm[h] = grid->tcdc_clm_a[h] + tcdc_var;
                 if(grid->tcdc_clm[h] < 0.0){
@@ -178,6 +178,7 @@ void set_hist_clim(
     }else if(ISIMIP_RUN == 1){
         
         /* ISI-MIP climate data: 2012/06/28 by A.Ito */
+        offset = 0;
         if(grid->phase == 0){
             offset = 0;
         }else if(grid->phase == 1 || grid->phase == 2){
@@ -186,15 +187,15 @@ void set_hist_clim(
         }
         
         for(h=0;h<ASTEP;h++){
-            grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+            grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h]
                             + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
-            grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h];
-            grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+            grid->tmp_2m[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h];
+            grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h] 
                             + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-            grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+            grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h] 
                             + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
-            grid->tcdc_clm[h] = grid->hist_cld[grid->climy - PIVOT_CLIMY + offset][h];
-            grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY + offset][h];  
+            grid->tcdc_clm[h] = grid->hist_cld[grid->climy - BGY_CLIM + offset][h];
+            grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM + offset][h];  
         }
     }else if(ISIMIP_RUN == 2){
 
@@ -206,15 +207,15 @@ void set_hist_clim(
         }
         
         for(h=0;h<ASTEP;h++){
-            grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+            grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h] 
                             + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
-            grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h];
-            grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+            grid->tmp_2m[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h];
+            grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h] 
                             + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-            grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+            grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h] 
                             + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
-            grid->tcdc_clm[h] = grid->hist_cld[grid->climy - PIVOT_CLIMY + offset][h];
-            grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY + offset][h];  
+            grid->tcdc_clm[h] = grid->hist_cld[grid->climy - BGY_CLIM + offset][h];
+            grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM + offset][h];  
         }
     }else if(ISIMIP_RUN == 3){
         
@@ -227,15 +228,15 @@ void set_hist_clim(
         }
         
         for(h=0;h<ASTEP;h++){
-            grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+            grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h] 
                             + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
-            grid->tmp_2m[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h];
-            grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+            grid->tmp_2m[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h];
+            grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h] 
                             + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-            grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - PIVOT_CLIMY + offset][h] 
+            grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h] 
                             + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
-            grid->tcdc_clm[h] = grid->hist_cld[grid->climy - PIVOT_CLIMY + offset][h];
-            grid->prate_sfc[h] = grid->hist_pre[grid->climy - PIVOT_CLIMY + offset][h];  
+            grid->tcdc_clm[h] = grid->hist_cld[grid->climy - BGY_CLIM + offset][h];
+            grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM + offset][h];  
         }
     }
 	
@@ -301,7 +302,7 @@ void set_gcm_clim(
             tmp_var = 6.0/100.0 * (double)(grid->climy-2000);
         }else if(TEMP_GC ==0){
             if(CC_T == 1){
-                tmp_var = grid->proj_tmp2m[grid->climy - PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col] -
+                tmp_var = grid->proj_tmp2m[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col] -
                             grid->proj_tmp2m_b[h][grid->gcm_row][grid->gcm_col];
             }else{
                 tmp_var = 0.0;
@@ -327,12 +328,12 @@ void set_gcm_clim(
         
         if(ISIMIP_RUN == 2){
             /* PLUME: 2014/07/31 by A.Ito */
-            grid->tmp_2m[h] = grid->proj_tmp2m[grid->climy - PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col];
-            grid->tmp_sfc[h] = grid->proj_tmp2m[grid->climy - PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col]
+            grid->tmp_2m[h] = grid->proj_tmp2m[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col];
+            grid->tmp_sfc[h] = grid->proj_tmp2m[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col]
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
-            grid->tmp10_soil[h] = grid->proj_tmp2m[grid->climy - PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col]
+            grid->tmp10_soil[h] = grid->proj_tmp2m[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col]
                                 + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-            grid->tmp200_soil[h] = grid->proj_tmp2m[grid->climy - PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col]
+            grid->tmp200_soil[h] = grid->proj_tmp2m[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col]
                                 + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
        }
         
@@ -341,7 +342,7 @@ void set_gcm_clim(
             pre_var = 0.0;
         }else{
             if(CC_P == 1){
-                pre_var = grid->proj_prec[grid->climy-PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col] - 
+                pre_var = grid->proj_prec[grid->climy-FDY_GCM][h][grid->gcm_row][grid->gcm_col] - 
                             grid->proj_prec_b[h][grid->gcm_row][grid->gcm_col];
             }else{
                 pre_var = 0.0;
@@ -351,7 +352,7 @@ void set_gcm_clim(
        
         if(ISIMIP_RUN == 2){
             /* PLUME: 2014/07/31 by A.Ito */
-            grid->prate_sfc[h] = grid->proj_prec[grid->climy-PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col];
+            grid->prate_sfc[h] = grid->proj_prec[grid->climy-FDY_GCM][h][grid->gcm_row][grid->gcm_col];
         }
         
         if(grid->prate_sfc[h] <= 0.0){
@@ -379,10 +380,10 @@ void set_gcm_clim(
             apres = 1013.25*exp(-1.0 * (28.964*0.001) * GAC * alt/(UGC * (grid->tmp_2m[h]+  ZAT)));
             
             if(CC_H == 1){
-                rvap = grid->proj_hum[grid->climy - PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col] / apres;
+                rvap = grid->proj_hum[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col] / apres;
                 grid->spfh_2m[h] = 0.622 * rvap / (1.0 - 0.378 * rvap);
                 
-                /* shm_var = grid->proj_hum[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
+                /* shm_var = grid->proj_hum[grid->climy-FDY_GCM-1][h][grid->gcm_row][grid->gcm_col] - 
                             grid->proj_hum_b[h][grid->gcm_row][grid->gcm_col]; */
             }else{
                 rvap = grid->proj_hum_b[h][grid->gcm_row][grid->gcm_col] / apres;
@@ -405,7 +406,7 @@ void set_gcm_clim(
             rad_var = 0.0;
         }else{
             if(CC_R == 1 || CC_R == 2){
-                rad_var = grid->proj_rad[grid->climy-PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col] - 
+                rad_var = grid->proj_rad[grid->climy-FDY_GCM][h][grid->gcm_row][grid->gcm_col] - 
                             grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
             }else if(CC_R == 0 || CC_R == 3){
                 rad_var = 0.0;	/* mean SW & PAR */
@@ -424,7 +425,7 @@ void set_gcm_clim(
         
         if(ISIMIP_RUN == 2){
             /* PLUME: 2014/07/31 by A.Ito */
-            grid->gl_rad[h] = grid->proj_rad[grid->climy-PIVOT_GCMY][h][grid->gcm_row][grid->gcm_col];
+            grid->gl_rad[h] = grid->proj_rad[grid->climy-FDY_GCM][h][grid->gcm_row][grid->gcm_col];
         }
         
         if(grid->gl_rad[h]<0.0){
@@ -458,7 +459,7 @@ void set_gcm_clim(
             grid->gl_rad[h] = grid->rad_a[h];	/* mean SW */
         }
         if(CC_R == 3){
-            rad_var = grid->proj_rad[grid->climy-PIVOT_GCMY-1][h][grid->gcm_row][grid->gcm_col] - 
+            rad_var = grid->proj_rad[grid->climy-FDY_GCM-1][h][grid->gcm_row][grid->gcm_col] - 
                     grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
                     
             grid->gl_rad[h] = grid->rad_a[h] + rad_var;

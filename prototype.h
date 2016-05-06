@@ -192,6 +192,14 @@ extern double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
 extern double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
 extern double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
 
+/* CHASER4.0 monthly, by A.Ito (2014/11/19) */
+extern double	ndepo_chaser4_nhx_h[ASTEP][64][128];		/* NHx */
+extern double	ndepo_chaser4_noy_h[ASTEP][64][128];		/* NOy */
+extern double	ndepo_chaser4_ont_h[ASTEP][64][128];		/* Org NOx */
+extern double	ndepo_chaser4_nhx_p[ASTEP][64][128];		/* NHx */
+extern double	ndepo_chaser4_noy_p[ASTEP][64][128];		/* NOy */
+extern double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
+
 /* CLEARANCE *****************************************************/
 void f_clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 
 		   struct Mass *mass, struct Flux *flux);

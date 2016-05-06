@@ -583,21 +583,21 @@ void open_input(
                     exit(1); 
                 }
                 break;
-             case 5002:
-                if( (fp_c[0]=fopen("./data/tas_pgfv2_1901_1930_1901_2010_ver2.flt","rb"))==NULL ){
-                    printf("No tas_pgfv2_1901_1930_1901_2010_ver2.flt\n");
+             case 5002: /* corrected (pgfv2.1: 2010 => 2012): 2016/05/06 by A.Ito */
+                if( (fp_c[0]=fopen("./data/tas_pgfv2.1_1901_1930_1901_2012_ver2.flt","rb"))==NULL ){
+                    printf("No tas_pgfv2.1_1901_1930_1901_2012_ver2.flt\n");
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_pgfv2_1901_1930_1901_2010_ver2.flt","rb"))==NULL ){
-                    printf("No pr_pgfv2_1901_1930_1901_2010_ver2.flt\n");
+                if( (fp_c[1]=fopen("./data/pr_pgfv2.1_1901_1930_1901_2012_ver2.flt","rb"))==NULL ){
+                    printf("No pr_pgfv2.1_1901_1930_1901_2012_ver2.flt\n");
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_pgfv2_1901_1930_1901_2010_ver2.flt","rb"))==NULL ){
-                    printf("No huss_pgfv2_1901_1930_1901_2010_ver2.flt\n");
+                if( (fp_c[2]=fopen("./data/huss_pgfv2.1_1901_1930_1901_2012_ver2.flt","rb"))==NULL ){
+                    printf("No huss_pgfv2.1_1901_1930_1901_2012_ver2.flt\n");
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_pgfv2_1901_1930_1901_2010_ver2.flt","rb"))==NULL ){
-                    printf("No rsds_pgfv2_1901_1930_1901_2010_ver2.flt\n");
+                if( (fp_c[3]=fopen("./data/rsds_pgfv2.1_1901_1930_1901_2010_ver2.flt","rb"))==NULL ){
+                    printf("No rsds_pgfv2.1_1901_1930_1901_2010_ver2.flt\n");
                     exit(1); 
                 }
                 break;

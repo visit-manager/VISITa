@@ -67,8 +67,8 @@ void cal_spinup(
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[2000-BGY_LUC];
 	}else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13
          || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16){
-		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - PIVOT_LUC];
-		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - PIVOT_LUC];
+		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - FDY_LUC];
+		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - FDY_LUC];
 	}
     
     if(LANDUSE == 17 || BIOFUEL_RUN >= 1){
@@ -93,6 +93,9 @@ void cal_spinup(
     }
     
     grid->simy = 1900;
+    if(EX_BECCS==1){
+        grid->simy = 1949;
+    }
 	
 	/* LOOP to stable stage ************************************************/
 	nn = 0; 
@@ -130,10 +133,10 @@ void cal_spinup(
         grid->niny = 1901;
         
         if(NMIP_RUN >= 1){
-            grid->climy = PIVOT_NINY + 1;
-            grid->niny = PIVOT_NINY + 1;
-            grid->co2y = PIVOT_NINY + 1;
-            grid->lucy = PIVOT_NINY + 1;
+            grid->climy = FDY_NINY + 1;
+            grid->niny = FDY_NINY + 1;
+            grid->co2y = FDY_NINY + 1;
+            grid->lucy = FDY_NINY + 1;
             set_hist_clim(grid);
             n_fertilizer_in(grid, loct);
         }
@@ -405,9 +408,9 @@ void cal_spinup(
         
         if(LANDUSE ==9 || LANDUSE ==10 || LANDUSE ==11 || LANDUSE ==12 || LANDUSE ==13
                     || LANDUSE ==14){
-            dyr = 1900 - PIVOT_LUC;
+            dyr = 1900 - FDY_LUC;
         }else{
-            dyr = 1900 - PIVOT_LUC;
+            dyr = 1900 - FDY_LUC;
         }
 		
         /* from total grid */
@@ -527,12 +530,12 @@ void cal_spinup(
 	}
 	
 	/* history data */
-	f_set_history_data(grid->simy - (PIVOT_CLIMY-1), grid, loct, mass, flux);
+	f_set_history_data(grid->simy - (BGY_CLIM-1), grid, loct, mass, flux);
 		
 	/** output initial stable state **/
 	publish_cbud(grid, loct, echar, mass, flux, fp_o[0]); /* */
 	
 	/* output */
-	f_output_result(PIVOT_CLIMY-1, grid, loct, echar, mass, flux, fp_o); /* */
+	f_output_result(BGY_CLIM-1, grid, loct, echar, mass, flux, fp_o); /* */
 }
 

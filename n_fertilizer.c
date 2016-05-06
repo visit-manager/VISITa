@@ -271,7 +271,7 @@ void n_fertilizer_in(
         nyear = grid->niny;
 
         if(NMIP_RUN == 9){
-            nyear = PIVOT_NINY+1;
+            nyear = FDY_NINY+1;
         }
     
         if(grid->niny>=1900 && grid->niny<=2012){

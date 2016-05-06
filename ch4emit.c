@@ -276,12 +276,12 @@ void f_ch4_emit_walter(
 	struct Flux *flux
 ){
 	long f, g, cumtime;
-	double ww[SOIL_LAYER+2];
-	double df[SOIL_LAYER+2], dpth[SOIL_LAYER+2], t_mean;
-	double ff[SOIL_LAYER+2], q_ebull[SOIL_LAYER+2], q_plant[SOIL_LAYER+2];
-	double q_prod[SOIL_LAYER+2], q_oxid[SOIL_LAYER+2];
-	double sdepth, wtdepth, b_thresh, tmp[SOIL_LAYER+2], rdepth, poro;
-	double f_in, f_org[SOIL_LAYER+2], f_t[SOIL_LAYER+2], f_grow, t_gr, t_mat;
+	double ww[N_SLAYER+2];
+	double df[N_SLAYER+2], dpth[N_SLAYER+2], t_mean;
+	double ff[N_SLAYER+2], q_ebull[N_SLAYER+2], q_plant[N_SLAYER+2];
+	double q_prod[N_SLAYER+2], q_oxid[N_SLAYER+2];
+	double sdepth, wtdepth, b_thresh, tmp[N_SLAYER+2], rdepth, poro;
+	double f_in, f_org[N_SLAYER+2], f_t[N_SLAYER+2], f_grow, t_gr, t_mat;
 	double t_veg, flux_ebull, flux_plant, release, f_sand, f_clay;
 	double hh, rr, kk, df_dry, fa_paddy, fa_wetland, day_produc, day_oxid;
 	double r0, f_inundation, diff_wtd;
@@ -311,7 +311,7 @@ void f_ch4_emit_walter(
 	/************************************************************************/
 	sdepth = 1.0;		/* soil depth, m */
 	kk = 0.01;			/* time step, hour */
-	hh = sdepth/SOIL_LAYER;	/* layer thickness, m */
+	hh = sdepth/N_SLAYER;	/* layer thickness, m */
 	
     /* bubbling threshold, micro mol / liter */
 	b_thresh = 500.0;
@@ -328,7 +328,7 @@ void f_ch4_emit_walter(
 	
 	/* depth from the soil surface, m */
 	dpth[0] = -0.04;
-	for(f=1;f<=SOIL_LAYER;f++){
+	for(f=1;f<=N_SLAYER;f++){
 		dpth[f] = 0.0 + ((double)f - 0.5)*hh;
 	}
 	
@@ -529,7 +529,7 @@ void f_ch4_emit_walter(
 	
 	/* diffusion coefficient, m2 s-1 */
     df_dry = 0.2 * 0.66 * poro;
-	for(f=1;f<=SOIL_LAYER;f++){
+	for(f=1;f<=N_SLAYER;f++){
 		if(dpth[f] < wtdepth){
             /* air-dominated */
 			df[f] = 0.2 * 0.66 * poro;  /* pow(poro, 2.3) */		
@@ -538,7 +538,7 @@ void f_ch4_emit_walter(
 			df[f] = 0.00002 * 0.66 * poro;  
 		}
 	}
-    df[0] = df[SOIL_LAYER+1] = df_dry;
+    df[0] = df[N_SLAYER+1] = df_dry;
     
     /********************/
 	if(SENS_WHCH4 == 1){
@@ -562,13 +562,13 @@ void f_ch4_emit_walter(
 		t_gr = 7.0;
 	}
 	t_mat = t_gr + 10.0;
-	for(f=1;f<=SOIL_LAYER;f++){
+	for(f=1;f<=N_SLAYER;f++){
         if(FIX_STMP == 1){
-            tmp[f] = grid->tmp10_soil_a[grid->m] * (double)(SOIL_LAYER - f)/(double)SOIL_LAYER
-                    + (double)f/(double)SOIL_LAYER * grid->tmp200_soil_a[grid->m];
+            tmp[f] = grid->tmp10_soil_a[grid->m] * (double)(N_SLAYER - f)/(double)N_SLAYER
+                    + (double)f/(double)N_SLAYER * grid->tmp200_soil_a[grid->m];
         }else{
-            tmp[f] = grid->tmp10_soil[grid->m] * (double)(SOIL_LAYER - f)/(double)SOIL_LAYER
-                    + (double)f/(double)SOIL_LAYER * grid->tmp200_soil[grid->m];
+            tmp[f] = grid->tmp10_soil[grid->m] * (double)(N_SLAYER - f)/(double)N_SLAYER
+                    + (double)f/(double)N_SLAYER * grid->tmp200_soil[grid->m];
         }
 	}
 	/* fgow: Eq. 20 */
@@ -584,7 +584,7 @@ void f_ch4_emit_walter(
 	
 	/* organic matter factor **************************/
 	f_org[0] = 1.0;
-	for(f=1;f<=SOIL_LAYER;f++){
+	for(f=1;f<=N_SLAYER;f++){
 		/* vegetated soil */
 		if(dpth[f] < rdepth){
 			f_org[f] = 1.0;
@@ -595,7 +595,7 @@ void f_ch4_emit_walter(
 	
 	/* soil-temperature coefficient profile *******************/
 	tmp[0] = grid->tmp_sfc[grid->m];
-	for(f=1;f<=SOIL_LAYER;f++){		
+	for(f=1;f<=N_SLAYER;f++){		
 		if(tmp[f] > 0.0){
 			f_t[f] = 1.0;
 		}else{
@@ -661,7 +661,7 @@ void f_ch4_emit_walter(
 		flux_ebull = flux_plant = 0.0;
 		day_produc = day_oxid = 0.0;
 		ff[0] = 0.0;
-		for(f=1;f<=SOIL_LAYER;f++){
+		for(f=1;f<=N_SLAYER;f++){
 			/* when water-table falls down */
 			/* if(g==1 && loct->water_table_depth>loct->water_table_depth_pre){
 				if(dpth[f]<=loct->water_table_depth && dpth[f]>=loct->water_table_depth_pre){
@@ -706,7 +706,7 @@ void f_ch4_emit_walter(
 		}
 		
 		/* diffusion equation solved by explicit method */
-		for(f=1;f<=(SOIL_LAYER-1);f++){
+		for(f=1;f<=(N_SLAYER-1);f++){
 			/* ww[f] = df[f]*rr*(loct->prof_ch4[f+1] + loct->prof_ch4[f-1]) 
 					+ (1.0 - 2.0*df[f]*rr)*loct->prof_ch4[f] + kk*ff[f]; */
 			
@@ -721,16 +721,16 @@ void f_ch4_emit_walter(
 			}
 		}
 		/* boundary condition at the bottom: no downward flux */
-		ww[SOIL_LAYER] = loct->prof_ch4[SOIL_LAYER] + rr*(df[SOIL_LAYER]*
-								(2.0*loct->prof_ch4[SOIL_LAYER-1] - 2.0*loct->prof_ch4[SOIL_LAYER]));
-		if(ww[SOIL_LAYER]<=0.0){
-			ww[SOIL_LAYER] = 0.0;
+		ww[N_SLAYER] = loct->prof_ch4[N_SLAYER] + rr*(df[N_SLAYER]*
+								(2.0*loct->prof_ch4[N_SLAYER-1] - 2.0*loct->prof_ch4[N_SLAYER]));
+		if(ww[N_SLAYER]<=0.0){
+			ww[N_SLAYER] = 0.0;
 		}
 		
 		/* ww[LAYER] = 500.0*16.0/(8.3144*(tmp[0]+273.15))/1000000.0*apress; */
 		
 		/* concentration update */
-		for(f=1;f<=SOIL_LAYER;f++){
+		for(f=1;f<=N_SLAYER;f++){
 			loct->prof_ch4[f] = ww[f];
 			
 			/* loct->prof_ch4[f] = 100.0; */		/* debug ***************/

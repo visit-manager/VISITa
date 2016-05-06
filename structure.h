@@ -222,26 +222,28 @@ struct Grid{
 	double	fmaize;			/* fraction of maize */
 	double	fothers;		/* fraction of other crops */
 	
+    double  f_luc;          /* fraction of land-use conversion */
+
 	/* EOS-WEBSTER, 1700-2000/2005, Hurtt et al. */
-	double	fcrop_unh_hmnzed[DL_LUH];		/* cropland fraction */
-	double	fpast_unh_hmnzed[DL_LUH];		/* pasture fraction */
-	double	fprim_unh_hmnzed[DL_LUH];		/* primary land fraction */
-	double	fsecd_unh_hmnzed[DL_LUH];		/* secondary land fraction */
-	double	ssma_unh_hmnzed[DL_LUH];		/* secondary land property 1 */
-	double	ssmb_unh_hmnzed[DL_LUH];		/* secondary land property 2 */
-	double	t_cp_unh_hmnzed[DL_LUH];		/* conversion crop to pasture */
-	double	t_cs_unh_hmnzed[DL_LUH];		/* conversion crop to secondary */
-	double	t_pc_unh_hmnzed[DL_LUH];		/* conversion pasture to crop */
-	double	t_ps_unh_hmnzed[DL_LUH];		/* conversion pasture to secondary */
-	double	t_sc_unh_hmnzed[DL_LUH];		/* conversion secondary to crop */
-	double	t_sp_unh_hmnzed[DL_LUH];		/* conversion secondary to pasture */
-	double	t_ss1_unh_hmnzed[DL_LUH];		/*  */
-	double	t_ss2_unh_hmnzed[DL_LUH];		/*  */
-	double	t_ss3_unh_hmnzed[DL_LUH];		/*  */
-	double	t_vc_unh_hmnzed[DL_LUH];		/* conversion primary to crop */
-	double	t_vp_unh_hmnzed[DL_LUH];		/* conversion primary to pasture */
-	double	t_vs1_unh_hmnzed[DL_LUH];		/*  */
-	double	t_vs2_unh_hmnzed[DL_LUH];		/*  */
+	double	fcrop_unh_hmnzed[DL_LUC];		/* cropland fraction */
+	double	fpast_unh_hmnzed[DL_LUC];		/* pasture fraction */
+	double	fprim_unh_hmnzed[DL_LUC];		/* primary land fraction */
+	double	fsecd_unh_hmnzed[DL_LUC];		/* secondary land fraction */
+	double	ssma_unh_hmnzed[DL_LUC];		/* secondary land property 1 */
+	double	ssmb_unh_hmnzed[DL_LUC];		/* secondary land property 2 */
+	double	t_cp_unh_hmnzed[DL_LUC];		/* conversion crop to pasture */
+	double	t_cs_unh_hmnzed[DL_LUC];		/* conversion crop to secondary */
+	double	t_pc_unh_hmnzed[DL_LUC];		/* conversion pasture to crop */
+	double	t_ps_unh_hmnzed[DL_LUC];		/* conversion pasture to secondary */
+	double	t_sc_unh_hmnzed[DL_LUC];		/* conversion secondary to crop */
+	double	t_sp_unh_hmnzed[DL_LUC];		/* conversion secondary to pasture */
+	double	t_ss1_unh_hmnzed[DL_LUC];		/*  */
+	double	t_ss2_unh_hmnzed[DL_LUC];		/*  */
+	double	t_ss3_unh_hmnzed[DL_LUC];		/*  */
+	double	t_vc_unh_hmnzed[DL_LUC];		/* conversion primary to crop */
+	double	t_vp_unh_hmnzed[DL_LUC];		/* conversion primary to pasture */
+	double	t_vs1_unh_hmnzed[DL_LUC];		/*  */
+	double	t_vs2_unh_hmnzed[DL_LUC];		/*  */
 	
 	double 	f_crop_con;					/* contemporary cropland fraction */
 	double 	f_crop_p;					/* previous cropland fraction */
@@ -261,11 +263,11 @@ struct Grid{
 	double	f_pasture_base;				/* base pasture fraction in 2000 */
 	
 	/* wood harvest */
-	double	hvst_p1[DL_LUH];
-	double	hvst_p2[DL_LUH];
-	double	hvst_s1[DL_LUH];
-	double	hvst_s2[DL_LUH];
-	double	hvst_s3[DL_LUH];
+	double	hvst_p1[DL_LUC];
+	double	hvst_p2[DL_LUC];
+	double	hvst_s1[DL_LUC];
+	double	hvst_s2[DL_LUC];
+	double	hvst_s3[DL_LUC];
 
 	/* RUSLE erosion model coefficients */
 	double 	f_erosion_r;				/* rain factor */
@@ -299,15 +301,7 @@ struct Grid{
 	
 	/* nitrogen deposition */
 	double 	ndepo[3];					/* N deposition by Galloway et al. (2004) */
-	
-	/* CHASER4.0 monthly, by A.Ito (2014/11/19) */
-	double	ndepo_chaser4_nhx_h[ASTEP][64][128];		/* NHx */
-	double	ndepo_chaser4_noy_h[ASTEP][64][128];		/* NOy */
-	double	ndepo_chaser4_ont_h[ASTEP][64][128];		/* Org NOx */
-	double	ndepo_chaser4_nhx_p[ASTEP][64][128];		/* NHx */
-	double	ndepo_chaser4_noy_p[ASTEP][64][128];		/* NOy */
-	double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
-	
+		
 	/* radiation conversion model using SRB data */
 	double	srb_dif_aa;					/* linear regression a */
 	double	srb_dif_bb;					/* linear regression b */
@@ -454,7 +448,7 @@ struct Loct{
 	double	water_table_depth;				/* current time-step */
 	double	water_table_depth_pre;			/* previous time-step */
 	double	npp_max;						/* maximum NPP */
-	double	prof_ch4[SOIL_LAYER+2];			/* CH4 concentration profile */
+	double	prof_ch4[N_SLAYER+2];			/* CH4 concentration profile */
 	
 	double	cum_dprec;					/* cumulative precipitation change */
 	

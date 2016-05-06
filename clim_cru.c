@@ -55,7 +55,7 @@ void read_cru_clim(
             }
         }
         
-        /* read CRU TS Precipitation data */
+        /* read CRU TS precipitation data */
         fscanf(fp_c[1],"%ld", &kk[1]);
         if(kk[1]!=0){
             flag++;
@@ -68,7 +68,7 @@ void read_cru_clim(
             }
         }
         
-        /* read CRU TS Temperature data */
+        /* read CRU TS temperature data */
         fscanf(fp_c[2],"%ld", &kk[2]);
         if(kk[2]!=0){
             flag++;
@@ -81,7 +81,7 @@ void read_cru_clim(
             }
         }
         
-        /* read CRU TS Vapor-pressure data */
+        /* read CRU TS vapor-pressure data */
         fscanf(fp_c[3],"%ld", &kk[3]);
         if(kk[3]!=0){
             flag++;

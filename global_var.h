@@ -232,6 +232,14 @@ double glat_ch4_cao[ASTEP][N_ROW], glat_ch4_wh[ASTEP][N_ROW];
 float gs_ipar_1[12][N_ROW][N_COL], gs_ipar_2[12][N_ROW][N_COL], gs_ipar_3[12][N_ROW][N_COL];
 float gs_ipard_1[12][N_ROW][N_COL], gs_ipard_2[12][N_ROW][N_COL], gs_ipard_3[12][N_ROW][N_COL]; */
 
+/* CHASER4.0 monthly, by A.Ito (2014/11/19) */
+double	ndepo_chaser4_nhx_h[ASTEP][64][128];		/* NHx */
+double	ndepo_chaser4_noy_h[ASTEP][64][128];		/* NOy */
+double	ndepo_chaser4_ont_h[ASTEP][64][128];		/* Org NOx */
+double	ndepo_chaser4_nhx_p[ASTEP][64][128];		/* NHx */
+double	ndepo_chaser4_noy_p[ASTEP][64][128];		/* NOy */
+double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
+
 short SENS_RAD;
 /* 0: control */
 /* 1: +10 diffuse PAR fraction */
