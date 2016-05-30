@@ -176,8 +176,9 @@
 #elif ISIMIP_RUN==2
     #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
-    #define PD_HIST 110  /* AD 1901 - 2010 */ /* ISI-MIP2 (historical gswp3, pgfv2): 2014/11/30 by A.Ito */
+    /* #define PD_HIST 110 */  /* AD 1901 - 2010 */ /* ISI-MIP2 (historical gswp3, pgfv2): 2014/11/30 by A.Ito */
     /* #define PD_HIST 101 */ /* AD 1901 - 2001 */ /* ISI-MIP2 (historical watch): 2015/01/06 by A.Ito */
+    #define PD_HIST 112 /* */ /* AD 1901 - 2012 */ /* ISI-MIP2 (historical watch): 2016/05/06 by A.Ito */
 #elif GEOMIP_RUN==1
     #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
 #else
@@ -218,8 +219,9 @@
     #define DL_CRU 135  /* SU 30 + AD 1901 - 2005 */
 #elif ISIMIP_RUN==3
     /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
-    #define DL_CRU 140  /* SU 30 + AD 1901 - 2010 */
+    /* #define DL_CRU 140 */  /* SU 30 + AD 1901 - 2010 */
     /* #define DL_CRU 131 */  /* SU 30 + AD 1901 - 2001 */
+    #define DL_CRU 142  /* SU 30 + AD 1901 - 2012 */
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
@@ -255,8 +257,9 @@
 #elif ISIMIP_RUN==2
     #define DL_ISIMIP 135  /* SU 30 + AD 1901 - 2005 */
 #elif ISIMIP_RUN==3
-    #define DL_ISIMIP 140  /* SU 30 + AD 1901 - 2010 */
+    /* #define DL_ISIMIP 140 */  /* SU 30 + AD 1901 - 2010 */
     /* #define DL_ISIMIP 131 */ /* SU 30 + AD 1901 - 2001 */
+    #define DL_ISIMIP 142  /* SU 30 + AD 1901 - 2012 */
 #else
     #define DL_ISIMIP 1
 #endif
@@ -326,7 +329,7 @@
 /* 17: LUH 1500-2005/2005-2100 (RCP2.6) + Biofuel */
 
 /* #define DL_LUC 306 */ /* 1700-2000/2005 */
-#define DL_LUC 601 /* 1500-2100 */
+#define DL_LUC 601  /* 1500-2100 */
 
 /* begin year of land-use data */
 #define FDY_LUC 1500
@@ -879,7 +882,7 @@
 
 /** ISI-MIP2: 2014/11/30 by A.Ito ***********/
 /* 5001: historical GSWP3 */
-/* 5002: historical PGFv2 */
+/* 5002: historical PGFv2.1 (2016/05/06) */
 /* 5003: historical WATCH */
 /* 5004: historical WATCH+WFDEI */
 
