@@ -473,7 +473,8 @@ void f_n_leaching(
 	/* adsorption of NO3- : 2010/03/28 by A.Ito */
 	/* fad_no3 = 0.7; */
 	/* fad_no3 = 0.3; */ /* 2010/03/29 by A.Ito */
-	fad_no3 = 0.1; /* 2010/04/06 by A.Ito */
+	/* fad_no3 = 0.1; */ /* 2010/04/06 by A.Ito */
+	fad_no3 = 0.5; /* 2016/06/01 by A.Ito */
 
 	/* g N / ha */
 	/* kg H2O / m2 */
@@ -486,15 +487,17 @@ void f_n_leaching(
 	/* g N / kg H2O */
 	
 	aa = loct->ro2[grid->m] * ntr_conc;
-	if(aa > (mass->n_no3 * 0.95)){
-		aa = mass->n_no3 * 0.95;
+    /* 2016/06/01 by A.Ito */
+	/* if(aa > (mass->n_no3 * 0.95)){ */
+	if(aa > (mass->n_no3 * 0.9)){
+		aa = mass->n_no3 * 0.9;
 	}
     if(aa < 0.0){
         aa = 0.0;
     }
 	
 	/* g NO3-N m-2 month-1 */
-	flux->n_leach[grid->m] = aa*10000.0;
+	flux->n_leach[grid->m] = aa * 10000.0;
 	/* g NO3-N ha-1 month-1 */
 }
 
@@ -604,7 +607,7 @@ void f_n_alloc(
 	kn = pchar->kn_nphoto;
 	rd_nsp = pchar->rd_n;
 	/* optimal leaf N */
-	n_opt = sqrt(amax*kn/rd_nsp) - kn;
+	n_opt = sqrt(amax * kn/rd_nsp) - kn;
 	
 	/* leaf N concentration, mmol N m-2 */
 	n_leaf_conc = pchar->n_conc_larea;
@@ -699,10 +702,13 @@ void f_n_immoblz(
 	double f_immbl_no3, f_immbl_nh4;
 	
 	/* f_immbl_no3 = 0.002;
-	f_immbl_nh4 = 0.001; */
-
+	f_immbl_nh4 = 0.001;
 	f_immbl_no3 = 0.005;
-	f_immbl_nh4 = 0.004;
+	f_immbl_nh4 = 0.004; */
+    
+    /* 2016/06/01 by A.Ito *****/
+	f_immbl_no3 = 0.006;
+	f_immbl_nh4 = 0.003;
 
 	flux->n_immbl[grid->m] = 0.2 * flux->n_minerlz_lttr[grid->m] + 
 		0.4 * flux->n_minerlz_hums[grid->m] + 
