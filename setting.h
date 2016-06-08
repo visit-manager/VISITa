@@ -449,6 +449,10 @@
 #define FIX_NPP 0
 /* 0:off, 1:0n */
 
+/* 2016/06/08 by A.Ito */
+#define EX_NITROGEN 1
+/* 0: off */
+
 /***************************************************/
 /* parameter perturbation */
 /* climate perturbation */

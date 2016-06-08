@@ -156,6 +156,11 @@ void f_biolfix(
     /* if(loct->v_type==2 && BIOFUEL_RUN >= 1){
         total_nbiofix *= 0.1;
     } */
+    
+    /* 2016/06/08 by A.Ito */
+    if(EX_NITROGEN == 1){
+        total_nbiofix *= 0.5;
+    }
 	
 	(flux->c3).n_biofix[grid->m] = total_nbiofix;
 	(flux->c4).n_biofix[grid->m] = total_nbiofix;
@@ -226,11 +231,11 @@ void f_nh3_volatilization(
 	
 	/* Thornley (1998) Eq.(5.4i) */
 	/* g NH3 ha-1 month-1 */
-	flux->n_nh3vlt[grid->m] = nh4_soil * 0.02/30.0 * f_ph * f_tmp * pow(f_sw, 20.0) 
-			* MDN[grid->m] * 17.0/14.0;
+	flux->n_nh3vlt[grid->m] = nh4_soil * 0.02/30.0 * f_ph * f_tmp * pow(f_sw, 20.0) *
+			MDN[grid->m] * 17.0/14.0;
     
     /* safe guard: 2014/05/28 by A.Ito */
-    if(flux->n_nh3vlt[grid->m] > (0.5*mass->n_nh4)){
+    if(flux->n_nh3vlt[grid->m] > (0.5 * mass->n_nh4)){
         flux->n_nh3vlt[grid->m] = 0.5 * mass->n_nh4;
     }
 }
@@ -333,17 +338,17 @@ void f_n_deposit(
             
             ndepo_no3 = ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
                 + (ndepo_chaser4_noy_p[grid->m][grid->chaser_row][grid->chaser_col]
-                        - ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col])
-                * ((double)(grid->climy) - 1850.0)/160.0;
+                        - ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]) *
+                    ((double)(grid->climy) - 1850.0)/160.0;
             ndepo_no3 += ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col]
                 + (ndepo_chaser4_ont_p[grid->m][grid->chaser_row][grid->chaser_col]
-                        - ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col])
-                * ((double)(grid->climy) - 1850.0)/160.0;
+                        - ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col]) *
+                    ((double)(grid->climy) - 1850.0)/160.0;
             
             ndepo_nh4 = ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col]
                 + (ndepo_chaser4_nhx_p[grid->m][grid->chaser_row][grid->chaser_col]
-                        - ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col])
-                * ((double)(grid->climy) - 1850.0)/160.0;
+                        - ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col]) *
+                    ((double)(grid->climy) - 1850.0)/160.0;
             
         }else if(grid->climy>2010){
             ndepo_no3 = ndepo_chaser4_noy_p[grid->m][grid->chaser_row][grid->chaser_col]
@@ -576,8 +581,8 @@ void f_n_abandon_salvage(
 					mass->n_cnpy;
 
 	/* storage ****/
-	flux->n_abdn_strg[grid->m] = (flux->lc[grid->m] + flux->lr[grid->m])
-				* 1000000.0 / pchar->cn0_strg;
+	flux->n_abdn_strg[grid->m] = (flux->lc[grid->m] + flux->lr[grid->m]) *
+				1000000.0 / pchar->cn0_strg;
 	if(flux->n_abdn_strg[grid->m] > mass->n_strg*0.9){
 		flux->n_abdn_strg[grid->m] = mass->n_strg*0.9;
 	}
@@ -709,10 +714,15 @@ void f_n_immoblz(
     /* 2016/06/01 by A.Ito *****/
 	f_immbl_no3 = 0.006;
 	f_immbl_nh4 = 0.003;
-
-	flux->n_immbl[grid->m] = 0.2 * flux->n_minerlz_lttr[grid->m] + 
-		0.4 * flux->n_minerlz_hums[grid->m] + 
+    
+    /* 2016/06/05 by A.Ito *****/
+	flux->n_immbl[grid->m] = 0.05 * flux->n_minerlz_lttr[grid->m] +
+		0.1 * flux->n_minerlz_hums[grid->m] +
 		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m];
+
+	/* flux->n_immbl[grid->m] = 0.2 * flux->n_minerlz_lttr[grid->m] +
+		0.4 * flux->n_minerlz_hums[grid->m] + 
+		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m]; */
     
     /* safe guard: 2014/05/28 by A.Ito */
     if(flux->n_immbl[grid->m] > mass->n_mcrb){
@@ -734,8 +744,15 @@ void f_n_mcrb_abdn(
 
 	flux->n_mcrb_abdn[grid->m] = 0.1 * f_temp * mass->n_mcrb;
     
+    /* 2016/06/08 by A.Ito */
+    if(EX_NITROGEN == 2){
+        flux->n_mcrb_abdn[grid->m] *= 2.0;
+    }
+
     /* safe guard: 2014/05/28 by A.Ito */
-    if(flux->n_mcrb_abdn[grid->m] > (0.5 * mass->n_mcrb)){
-        flux->n_mcrb_abdn[grid->m] = (0.5 * mass->n_mcrb);
+    /* 2016/06/05 by A.Ito *****/
+    if(flux->n_mcrb_abdn[grid->m] > (0.75* mass->n_mcrb)){
+        /* flux->n_mcrb_abdn[grid->m] = (0.5 * mass->n_mcrb); */
+        flux->n_mcrb_abdn[grid->m] = (0.75 * mass->n_mcrb);
     }
 }
