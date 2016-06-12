@@ -597,10 +597,10 @@ double albedo_soil(
     /* revised: 2012/12/29 by A.Ito */
 	albedo = schar->albedo0 + (0.95 - schar->albedo0)/(1.0 + exp(-0.05 * (loct->snwa - 75.0)));
 	
-	if(SENS_RAD==3){
+	if(SENS_RAD == 3){
 		albedo *= 1.1;
 	}
-	if(SENS_RAD==4){
+	if(SENS_RAD == 4){
 		albedo *= 0.9;
 	}
     

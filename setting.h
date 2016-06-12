@@ -450,8 +450,11 @@
 /* 0:off, 1:0n */
 
 /* 2016/06/08 by A.Ito */
-#define EX_NITROGEN 1
+#define EX_NITROGEN 3
 /* 0: off */
+/* 1: half biological N2 fixation */
+/* 2: double microbial abandonment */
+/* 3: revised WFPF for NGAS */
 
 /***************************************************/
 /* parameter perturbation */

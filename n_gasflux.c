@@ -40,12 +40,28 @@ void f_n2o_emit_ngas(
 	extern double MDN[ASTEP];
 	double vmw_b, wfps_b;
 	
-	vmw_b = (loct->sw30 + loct->sww) / 1500.0;
-	wfps_b = vmw_b / (1.0 - grid->bulkdens/2.65);
-	if(wfps_b>0.9){
+    /* 2016/06/12 by A.Ito */
+    if(EX_NITROGEN == 3){
+    
+        if( (grid->field_cap1+grid->field_cap2) > 0.0 ){
+            vmw_b = (loct->sw30 + loct->sww) / (grid->field_cap1 + grid->field_cap2);
+        }else{
+            /* vmw_b = (loct->sw30 + loct->sww) / 1500.0; */
+            vmw_b = (loct->sw30 + loct->sww) / 1000.0;
+        }
+        
+    }else{
+        /* vmw_b = (loct->sw30 + loct->sww) / 1500.0; */
+        vmw_b = (loct->sw30 + loct->sww) / 1000.0;
+    }
+    
+    wfps_b = vmw_b;
+	/* wfps_b = vmw_b / (1.0 - grid->bulkdens/2.65); */
+    
+	if(wfps_b > 0.9){
 		wfps_b = 0.9;
 	}
-	if(wfps_b<0.1){
+	if(wfps_b < 0.1){
 		wfps_b = 0.1;
 	}
 	
