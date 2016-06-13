@@ -454,7 +454,7 @@
 /* 0: off */
 /* 1: half biological N2 fixation */
 /* 2: double microbial abandonment */
-/* 3: revised WFPF for NGAS */
+/* 3: revised WFPS for NGAS */
 
 /***************************************************/
 /* parameter perturbation */

@@ -39,15 +39,18 @@ void f_n2o_emit_ngas(
 	double nmax;							/* assumed */
 	extern double MDN[ASTEP];
 	double vmw_b, wfps_b;
+    
+    ee = 1.0 - exp(-6.0 * 0.3);
 	
     /* 2016/06/12 by A.Ito */
     if(EX_NITROGEN == 3){
     
-        if( (grid->field_cap1+grid->field_cap2) > 0.0 ){
-            vmw_b = (loct->sw30 + loct->sww) / (grid->field_cap1 + grid->field_cap2);
+        if( grid->field_cap1 > 0.0 && grid->field_cap2 > 0.0){
+            /* vmw_b = (loct->sw30 + loct->sww) / (grid->field_cap1 + grid->field_cap2); */
+            vmw_b = ee * loct->sw30 / grid->field_cap1 + (1.0-ee) * loct->sww / grid->field_cap2;
         }else{
             /* vmw_b = (loct->sw30 + loct->sww) / 1500.0; */
-            vmw_b = (loct->sw30 + loct->sww) / 1000.0;
+            vmw_b = loct->sw30 / 300.0;
         }
         
     }else{
