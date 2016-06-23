@@ -168,6 +168,16 @@ void f_set_history_data(
 		/* corrected by A.Ito (2013/11/07) */
 		h_n_depoin[year] += fweight * (loct->depo_nh4[f] + loct->depo_no3[f]) * grid->area;
 		
+        /* 2016/06/23 by A.Ito */
+        h_n_mcrb[f] += fweight * (mass->soil).n_mcrb_m[f] * grid->area;
+        h_n_no3[f] += fweight * (mass->soil).n_no3_m[f] * grid->area;
+        h_n_nh4[f] += fweight * (mass->soil).n_nh4_m[f] * grid->area;
+        
+        h_n_cnpy[f] += fweight * (mass->plant).n_cnpy_m[f] * grid->area;
+        h_n_strg[f] += fweight * (mass->plant).n_strg_m[f] * grid->area;
+        h_n_lttr[f] += fweight * (mass->soil).n_lttr_m[f] * grid->area;
+        h_n_hums[f] += fweight * (mass->soil).n_hums_m[f] * grid->area;
+
 		if(loct->v_type == 1 && REPLACE_OLSON_CROP == 0){ /* added by A.Ito (2009/06/16) */
 			if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32){
 				h_n2o_emit_ngas_agr[year] += (flux->soil).d_n2o_ngas[f] * grid->area;
@@ -578,6 +588,15 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_deforest[h]); /* added by A.Ito (2014/09/22) */
 
 		fprintf(fp_glsum,"%lf ", h_ipar[h]); /* added by A.Ito (2015/07/27) */  //98
+        
+        fprintf(fp_glsum,"%lf ", h_n_mcrb[h]); /* 2016/06/23 by A.Ito */
+        fprintf(fp_glsum,"%lf ", h_n_no3[h]);
+        fprintf(fp_glsum,"%lf ", h_n_nh4[h]);
+        
+        fprintf(fp_glsum,"%lf ", h_n_cnpy[h]);
+        fprintf(fp_glsum,"%lf ", h_n_strg[h]);
+        fprintf(fp_glsum,"%lf ", h_n_lttr[h]);
+        fprintf(fp_glsum,"%lf ", h_n_hums[h]);
 
 		fprintf(fp_glsum,"\n");
 	}

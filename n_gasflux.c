@@ -40,7 +40,7 @@ void f_n2o_emit_ngas(
 	extern double MDN[ASTEP];
 	double vmw_b, wfps_b;
     
-    ee = 1.0 - exp(-6.0 * 0.3);
+    ee = 1.0 - exp(-4.0 * 0.3);
 	
     /* 2016/06/12 by A.Ito */
     if(EX_NITROGEN == 3){
@@ -61,11 +61,11 @@ void f_n2o_emit_ngas(
     wfps_b = vmw_b;
 	/* wfps_b = vmw_b / (1.0 - grid->bulkdens/2.65); */
     
-	if(wfps_b > 0.9){
-		wfps_b = 0.9;
+	if(wfps_b > 0.95){
+		wfps_b = 0.95;
 	}
-	if(wfps_b < 0.1){
-		wfps_b = 0.1;
+	if(wfps_b < 0.05){
+		wfps_b = 0.05;
 	}
 	
 	/* added by A.Ito (2009/06/16) */

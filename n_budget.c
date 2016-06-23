@@ -491,19 +491,22 @@ void f_n_leaching(
 	}
 	/* g N / kg H2O */
 	
-	aa = loct->ro2[grid->m] * ntr_conc;
-    /* 2016/06/01 by A.Ito */
+	/* g NO3-N m-2 */
+	aa = loct->ro2[grid->m] * ntr_conc * 10000.0;
+	/* g NO3-N ha-1 */
+    
+    /* 2016/06/21 by A.Ito */
 	/* if(aa > (mass->n_no3 * 0.95)){ */
-	if(aa > (mass->n_no3 * 0.9)){
-		aa = mass->n_no3 * 0.9;
+	/* if(aa > (mass->n_no3 * 0.9)){ */
+	if(aa > (mass->n_no3 * 0.5)){
+		aa = mass->n_no3 * 0.5;
 	}
     if(aa < 0.0){
         aa = 0.0;
     }
 	
-	/* g NO3-N m-2 month-1 */
-	flux->n_leach[grid->m] = aa * 10000.0;
 	/* g NO3-N ha-1 month-1 */
+	flux->n_leach[grid->m] = aa;
 }
 
 /* plant N uptake *******************************************/
