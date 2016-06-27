@@ -169,14 +169,14 @@ void f_set_history_data(
 		h_n_depoin[year] += fweight * (loct->depo_nh4[f] + loct->depo_no3[f]) * grid->area;
 		
         /* 2016/06/23 by A.Ito */
-        h_n_mcrb[f] += fweight * (mass->soil).n_mcrb_m[f] * grid->area;
-        h_n_no3[f] += fweight * (mass->soil).n_no3_m[f] * grid->area;
-        h_n_nh4[f] += fweight * (mass->soil).n_nh4_m[f] * grid->area;
+        h_n_mcrb[year] += fweight * (mass->soil).n_mcrb_m[f] * grid->area;
+        h_n_no3[year] += fweight * (mass->soil).n_no3_m[f] * grid->area;
+        h_n_nh4[year] += fweight * (mass->soil).n_nh4_m[f] * grid->area;
         
-        h_n_cnpy[f] += fweight * (mass->plant).n_cnpy_m[f] * grid->area;
-        h_n_strg[f] += fweight * (mass->plant).n_strg_m[f] * grid->area;
-        h_n_lttr[f] += fweight * (mass->soil).n_lttr_m[f] * grid->area;
-        h_n_hums[f] += fweight * (mass->soil).n_hums_m[f] * grid->area;
+        h_n_cnpy[year] += fweight * (mass->plant).n_cnpy_m[f] * grid->area;
+        h_n_strg[year] += fweight * (mass->plant).n_strg_m[f] * grid->area;
+        h_n_lttr[year] += fweight * (mass->soil).n_lttr_m[f] * grid->area;
+        h_n_hums[year] += fweight * (mass->soil).n_hums_m[f] * grid->area;
 
 		if(loct->v_type == 1 && REPLACE_OLSON_CROP == 0){ /* added by A.Ito (2009/06/16) */
 			if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32){
