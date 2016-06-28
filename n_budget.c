@@ -443,6 +443,11 @@ void f_n_mineralz(
 	struct Sflx *flux
 ){
 	double f_c_min;
+    double f_nmin_l, f_nmin_h;
+    
+    /* 2016/06/28 by A.Ito */
+    f_nmin_l = 1.0;
+    f_nmin_h = 10.0;
 	
 	/** litter **/
 	if(mass->ltr > 0.01){
@@ -452,7 +457,7 @@ void f_n_mineralz(
 	}
 	
 	/* g N ha-1 month-1 */
-	flux->n_minerlz_lttr[grid->m] = mass->n_lttr * f_c_min;
+	flux->n_minerlz_lttr[grid->m] = f_nmin_l * mass->n_lttr * f_c_min;
 
 	/** humus **/
 	if(mass->msl > 0.01){
@@ -462,7 +467,7 @@ void f_n_mineralz(
 	}
 	
 	/* g N ha-1 month-1 */
-	flux->n_minerlz_hums[grid->m] = mass->n_hums * f_c_min;
+	flux->n_minerlz_hums[grid->m] = f_nmin_h * mass->n_hums * f_c_min;
 }
 
 /* leaching of NO3 **************************************/
@@ -744,8 +749,10 @@ void f_n_mcrb_abdn(
 	double f_temp;
 	
 	f_temp = exp(log(2.0)/10.0 * (grid->tmp10_soil[grid->m]-10.0));
-
-	flux->n_mcrb_abdn[grid->m] = 0.1 * f_temp * mass->n_mcrb;
+    
+    /* 2016/06/28 by A.Ito */
+	/* flux->n_mcrb_abdn[grid->m] = 0.1 * f_temp * mass->n_mcrb; */
+	flux->n_mcrb_abdn[grid->m] = 0.4 * f_temp * mass->n_mcrb;
     
     /* 2016/06/08 by A.Ito */
     if(EX_NITROGEN == 2){
