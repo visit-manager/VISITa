@@ -225,7 +225,7 @@ void f_nh3_volatilization(
 	}else{
 		f_sw = 0.0;
 	}
-	if(f_sw<0.0){
+	if(f_sw < 0.0){
 		f_sw = 0.0;
 	}
 	
@@ -234,9 +234,10 @@ void f_nh3_volatilization(
 	flux->n_nh3vlt[grid->m] = nh4_soil * 0.02/30.0 * f_ph * f_tmp * pow(f_sw, 20.0) *
 			MDN[grid->m] * 17.0/14.0;
     
-    /* safe guard: 2014/05/28 by A.Ito */
-    if(flux->n_nh3vlt[grid->m] > (0.5 * mass->n_nh4)){
-        flux->n_nh3vlt[grid->m] = 0.5 * mass->n_nh4;
+    /* safe guard: 2014/05/28 by A.Ito: 0.5 */
+    /* safe guard: 2016/06/28 by A.Ito: 0.1 */
+    if(flux->n_nh3vlt[grid->m] > (0.1 * mass->n_nh4)){
+        flux->n_nh3vlt[grid->m] = 0.1 * mass->n_nh4;
     }
 }
 
@@ -446,8 +447,8 @@ void f_n_mineralz(
     double f_nmin_l, f_nmin_h;
     
     /* 2016/06/28 by A.Ito */
-    f_nmin_l = 1.0;
-    f_nmin_h = 10.0;
+    f_nmin_l = 2.0;
+    f_nmin_h = 20.0;
 	
 	/** litter **/
 	if(mass->ltr > 0.01){
@@ -542,9 +543,9 @@ void f_n_uptake(
 	aa = navil * n_max * ks / (90.0 + ks*navil) * f_temp;
     if(aa>0.0 && aa<navil){
         uptake_no3 = aa;
-    }else if(aa<0.0){
+    }else if(aa < 0.0){
         uptake_no3 = 0.0;
-    }else if(aa>=navil){
+    }else if(aa >= navil){
         uptake_no3 = navil;
     }
     
@@ -752,7 +753,8 @@ void f_n_mcrb_abdn(
     
     /* 2016/06/28 by A.Ito */
 	/* flux->n_mcrb_abdn[grid->m] = 0.1 * f_temp * mass->n_mcrb; */
-	flux->n_mcrb_abdn[grid->m] = 0.4 * f_temp * mass->n_mcrb;
+	/* flux->n_mcrb_abdn[grid->m] = 0.4 * f_temp * mass->n_mcrb; */
+	flux->n_mcrb_abdn[grid->m] = 3.0 * f_temp * mass->n_mcrb;
     
     /* 2016/06/08 by A.Ito */
     if(EX_NITROGEN == 2){

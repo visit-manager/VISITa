@@ -40,7 +40,7 @@ void f_n2o_emit_ngas(
 	extern double MDN[ASTEP];
 	double vmw_b, wfps_b;
     
-    ee = 1.0 - exp(-4.0 * 0.3);
+    ee = 1.0 - exp(-5.0 * 0.3);
 	
     /* 2016/06/12 by A.Ito */
     if(EX_NITROGEN == 3){
@@ -76,8 +76,10 @@ void f_n2o_emit_ngas(
 		/* kmax = 28.6; */
 		/* kmax = 18.0; */ /* 22.5=>20.0=>18.0 2014/12/02 by A.Ito */
 		/* nmax = 23.0; */ /* 30.0=>25.0=>23.0 2014/11/30 by A.Ito */
-		kmax = 18.0; /* 22.0: 2016/05/30 by A.Ito */
-		nmax = 30.0; /* 30.0: 2016/05/30 by A.Ito */
+		/* kmax = 18.0; */ /* 22.0: 2016/05/30 by A.Ito */
+		/* nmax = 30.0; */ /* 30.0: 2016/05/30 by A.Ito */
+		kmax = 12.0; /* 22.0: 2016/05/30 by A.Ito */
+		nmax = 20.0; /* 30.0: 2016/05/30 by A.Ito */
 		/* 2009/06/15 by A.Ito */
 		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
 		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
@@ -89,8 +91,10 @@ void f_n2o_emit_ngas(
 		/* kmax = 3.8; */ 
 		/* kmax = 3.3; */   /* 3.8=>3.4=>3.3 2014/11/30 by A.Ito */
 		/* nmax = 23.0; */  /* 30.0=>25.0=>23.0 2014/11/30 by A.Ito */
-		kmax = 4.0;   /* 3.8: 2016/05/30 by A.Ito */
-		nmax = 30.0;  /* 30.0: 2016/05/30 by A.Ito */
+		/* kmax = 4.0; */   /* 3.8: 2016/05/30 by A.Ito */
+		/* nmax = 30.0; */  /* 30.0: 2016/05/30 by A.Ito */
+		kmax = 2.0;   /* 3.8: 2016/05/30 by A.Ito */
+		nmax = 10.0;  /* 30.0: 2016/05/30 by A.Ito */
 		/* 2009/06/15 by A.Ito */
 		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
 		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
