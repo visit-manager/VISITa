@@ -405,7 +405,7 @@
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 

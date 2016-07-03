@@ -40,7 +40,7 @@ void f_n2o_emit_ngas(
 	extern double MDN[ASTEP];
 	double vmw_b, wfps_b;
     
-    ee = 1.0 - exp(-5.0 * 0.3);
+    ee = 1.0 - exp(-4.0 * 0.3);
 	
     /* 2016/06/12 by A.Ito */
     if(EX_NITROGEN == 3){

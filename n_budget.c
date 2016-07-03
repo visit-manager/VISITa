@@ -212,21 +212,25 @@ void f_nh3_volatilization(
 	/* temperature: Thornley (1998) Eq.(3.11a) */
 	f_tmp = pow((grid->tmp10_soil[grid->m] - 0.0), 2.0)*(45.0 - grid->tmp10_soil[grid->m]) 
 			/ (pow((20.0 - 0.0), 2.0)*(45.0 - 20.0));
-	if(f_tmp<0.0){
+	if(f_tmp < 0.0){
 		f_tmp = 0.0;
 	}
 	
 	/* soil water: Thornley (1998) Eq.(6.7a) */
 	/* soil water potential Eq.(6.2g) */
+    /* modified: 2016/07/03 by A.Ito */
 	if(loct->sw30 > 1.0){
 		/* modified by A.Ito (2009/06/05) */
 		swp = -10.0 * pow(1.0 / (loct->sw30 / grid->field_cap1), 5.0);
 		f_sw = exp((18.0 * swp) / (8314.0 * (grid->tmp10_soil[grid->m] + ZAT)));
+        if(f_sw > 10.0){
+            f_sw = 10.0;
+        }
 	}else{
-		f_sw = 0.0;
+		f_sw = 0.05; /* for dry land sublimation */
 	}
-	if(f_sw < 0.0){
-		f_sw = 0.0;
+	if(f_sw < 0.05){
+		f_sw = 0.05;
 	}
 	
 	/* Thornley (1998) Eq.(5.4i) */
@@ -236,8 +240,9 @@ void f_nh3_volatilization(
     
     /* safe guard: 2014/05/28 by A.Ito: 0.5 */
     /* safe guard: 2016/06/28 by A.Ito: 0.1 */
-    if(flux->n_nh3vlt[grid->m] > (0.1 * mass->n_nh4)){
-        flux->n_nh3vlt[grid->m] = 0.1 * mass->n_nh4;
+    /* safe guard: 2016/07/03 by A.Ito: 0.1 */
+    if(flux->n_nh3vlt[grid->m] > (0.2 * mass->n_nh4)){
+        flux->n_nh3vlt[grid->m] = 0.2 * mass->n_nh4;
     }
 }
 
@@ -485,7 +490,8 @@ void f_n_leaching(
 	/* fad_no3 = 0.7; */
 	/* fad_no3 = 0.3; */ /* 2010/03/29 by A.Ito */
 	/* fad_no3 = 0.1; */ /* 2010/04/06 by A.Ito */
-	fad_no3 = 0.5; /* 2016/06/01 by A.Ito */
+	/* fad_no3 = 0.5; */ /* 2016/06/01 by A.Ito */
+	fad_no3 = 0.3; /* 2016/06/29 by A.Ito */
 
 	/* g N / ha */
 	/* kg H2O / m2 */
@@ -721,12 +727,21 @@ void f_n_immoblz(
 	f_immbl_nh4 = 0.004; */
     
     /* 2016/06/01 by A.Ito *****/
-	f_immbl_no3 = 0.006;
-	f_immbl_nh4 = 0.003;
+	/* f_immbl_no3 = 0.006;
+	f_immbl_nh4 = 0.003; */
+    
+    /* 2016/06/29 by A.Ito *****/
+	f_immbl_no3 = 0.004;
+	f_immbl_nh4 = 0.002;
     
     /* 2016/06/05 by A.Ito *****/
-	flux->n_immbl[grid->m] = 0.05 * flux->n_minerlz_lttr[grid->m] +
+	/* flux->n_immbl[grid->m] = 0.05 * flux->n_minerlz_lttr[grid->m] +
 		0.1 * flux->n_minerlz_hums[grid->m] +
+		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m]; */
+    
+    /* 2016/07/03 by A.Ito *****/
+	flux->n_immbl[grid->m] = 0.025 * flux->n_minerlz_lttr[grid->m] +
+		0.05 * flux->n_minerlz_hums[grid->m] +
 		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m];
 
 	/* flux->n_immbl[grid->m] = 0.2 * flux->n_minerlz_lttr[grid->m] +
@@ -754,7 +769,8 @@ void f_n_mcrb_abdn(
     /* 2016/06/28 by A.Ito */
 	/* flux->n_mcrb_abdn[grid->m] = 0.1 * f_temp * mass->n_mcrb; */
 	/* flux->n_mcrb_abdn[grid->m] = 0.4 * f_temp * mass->n_mcrb; */
-	flux->n_mcrb_abdn[grid->m] = 3.0 * f_temp * mass->n_mcrb;
+	/* flux->n_mcrb_abdn[grid->m] = 3.0 * f_temp * mass->n_mcrb; */
+	flux->n_mcrb_abdn[grid->m] = 5.0 * f_temp * mass->n_mcrb;
     
     /* 2016/06/08 by A.Ito */
     if(EX_NITROGEN == 2){
