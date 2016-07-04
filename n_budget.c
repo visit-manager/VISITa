@@ -452,8 +452,12 @@ void f_n_mineralz(
     double f_nmin_l, f_nmin_h;
     
     /* 2016/06/28 by A.Ito */
+    /* f_nmin_l = 2.0;
+    f_nmin_h = 20.0; */
+	
+    /* 2016/06/28 by A.Ito */
     f_nmin_l = 2.0;
-    f_nmin_h = 20.0;
+    f_nmin_h = 50.0;
 	
 	/** litter **/
 	if(mass->ltr > 0.01){
@@ -491,7 +495,8 @@ void f_n_leaching(
 	/* fad_no3 = 0.3; */ /* 2010/03/29 by A.Ito */
 	/* fad_no3 = 0.1; */ /* 2010/04/06 by A.Ito */
 	/* fad_no3 = 0.5; */ /* 2016/06/01 by A.Ito */
-	fad_no3 = 0.3; /* 2016/06/29 by A.Ito */
+	/* fad_no3 = 0.3; */ /* 2016/06/29 by A.Ito */
+	fad_no3 = 0.1; /* 2016/07/04 by A.Ito */
 
 	/* g N / ha */
 	/* kg H2O / m2 */
@@ -538,6 +543,7 @@ void f_n_uptake(
 	/*****
 	Effect of N allocatiom to root ?
 	*****/
+    n_max = 0.2; /* 2016/07/04 by A.Ito */
 	
 	/* temperature factor */
 	f_temp = exp(0.0693 * grid->tmp10_soil[grid->m]);
