@@ -181,6 +181,8 @@ void f_nh3_volatilization(
 	/*  nh4_soil = grid->total_n_1m * 0.3 * 0.01*10000.0 *0.5;  */
 	/*  nh4_soil = (mass->soil).n_nh4 /1000.0 /10000.0;  */
 	nh4_soil = mass->n_nh4;
+    
+    nh4_soil = 10000.0;
 	
 	/* pH: Lin et al. (2000) Eq.(16) */
 	/* modified by A.Ito (2009/06/05) */
@@ -499,10 +501,10 @@ void f_n_leaching(
 	fad_no3 = 0.1; /* 2016/07/04 by A.Ito */
 
 	/* g N / ha */
-	/* kg H2O / m2 */
-	if((loct->sw30 + grid->prate_sfc[grid->m]) > 0.1){
+	/* kg H2O / m2 */ /* 2016/07/05 by A.Ito */
+	if((loct->sw30 + loct->sww + grid->prate_sfc[grid->m]) > 0.1){
 		ntr_conc = (1.0 - fad_no3)*(mass->n_no3/10000.0) / 
-					(loct->sw30 + grid->prate_sfc[grid->m]);
+					(loct->sw30 + loct->sww + grid->prate_sfc[grid->m]);
 	}else{
 		ntr_conc = 0.0;
 	}
