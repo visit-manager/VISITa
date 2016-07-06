@@ -182,7 +182,7 @@ void f_nh3_volatilization(
 	/*  nh4_soil = (mass->soil).n_nh4 /1000.0 /10000.0;  */
 	nh4_soil = mass->n_nh4;
     
-    nh4_soil = 10000.0;
+    /* nh4_soil = 10000.0; */
 	
 	/* pH: Lin et al. (2000) Eq.(16) */
 	/* modified by A.Ito (2009/06/05) */
@@ -200,12 +200,15 @@ void f_nh3_volatilization(
 		}
 	}else{
         /* natural */
-		ph_soil = grid->soil_ph - 0.4;
+		/* ph_soil = grid->soil_ph - 0.4; */
+		ph_soil = grid->soil_ph;
 	}
 	
 	/* base_ph = 6.5; */ /* 2010/03/28 (A.Ito) */
 	/* base_ph = 5.5; */ /* 2010/03/30 (A.Ito) */
-	base_ph = 5.4; /* 2014/12/02 (A.Ito) */
+	/* base_ph = 5.4; */ /* 2014/12/02 (A.Ito) */
+    /* revised: 2016/07/06 by A.Ito */
+    base_ph = 5.5;
 	f_ph = pow(10.0, ph_soil - 10.0) / pow(10.0, base_ph - 10.0);
 	if(f_ph < 0.0){
 		f_ph = 0.0;
@@ -545,7 +548,7 @@ void f_n_uptake(
 	/*****
 	Effect of N allocatiom to root ?
 	*****/
-    n_max = 0.2; /* 2016/07/04 by A.Ito */
+    n_max = 0.1; /* 2016/07/06 by A.Ito */
 	
 	/* temperature factor */
 	f_temp = exp(0.0693 * grid->tmp10_soil[grid->m]);
@@ -739,8 +742,12 @@ void f_n_immoblz(
 	f_immbl_nh4 = 0.003; */
     
     /* 2016/06/29 by A.Ito *****/
-	f_immbl_no3 = 0.004;
-	f_immbl_nh4 = 0.002;
+	/* f_immbl_no3 = 0.004;
+	f_immbl_nh4 = 0.002; */
+    
+    /* 2016/07/06 by A.Ito *****/
+	f_immbl_no3 = 0.002;
+	f_immbl_nh4 = 0.001;
     
     /* 2016/06/05 by A.Ito *****/
 	/* flux->n_immbl[grid->m] = 0.05 * flux->n_minerlz_lttr[grid->m] +
@@ -748,8 +755,9 @@ void f_n_immoblz(
 		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m]; */
     
     /* 2016/07/03 by A.Ito *****/
+    /* 2016/07/06 by A.Ito *****/
 	flux->n_immbl[grid->m] = 0.025 * flux->n_minerlz_lttr[grid->m] +
-		0.05 * flux->n_minerlz_hums[grid->m] +
+		0.025 * flux->n_minerlz_hums[grid->m] +
 		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m];
 
 	/* flux->n_immbl[grid->m] = 0.2 * flux->n_minerlz_lttr[grid->m] +
