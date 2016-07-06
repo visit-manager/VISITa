@@ -208,7 +208,7 @@ void f_nh3_volatilization(
 	/* base_ph = 5.5; */ /* 2010/03/30 (A.Ito) */
 	/* base_ph = 5.4; */ /* 2014/12/02 (A.Ito) */
     /* revised: 2016/07/06 by A.Ito */
-    base_ph = 5.5;
+    base_ph = 5.0;
 	f_ph = pow(10.0, ph_soil - 10.0) / pow(10.0, base_ph - 10.0);
 	if(f_ph < 0.0){
 		f_ph = 0.0;
@@ -548,7 +548,7 @@ void f_n_uptake(
 	/*****
 	Effect of N allocatiom to root ?
 	*****/
-    n_max = 0.1; /* 2016/07/06 by A.Ito */
+    n_max = 0.02; /* 2016/07/06 by A.Ito */
 	
 	/* temperature factor */
 	f_temp = exp(0.0693 * grid->tmp10_soil[grid->m]);
