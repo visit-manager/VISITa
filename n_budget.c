@@ -460,9 +460,9 @@ void f_n_mineralz(
     /* f_nmin_l = 2.0;
     f_nmin_h = 20.0; */
 	
-    /* 2016/06/28 by A.Ito */
-    f_nmin_l = 2.0;
-    f_nmin_h = 50.0;
+    /* 2016/07/06 by A.Ito */
+    f_nmin_l = 50.0;
+    f_nmin_h = 80.0;
 	
 	/** litter **/
 	if(mass->ltr > 0.01){
