@@ -311,6 +311,12 @@ void cal_historical(
 				vo_rot[grid->veg_olson] += (mass->plant).mrot[f] * MDN[f]/365.0/10.0 * grid->area;
 				vo_ltr[grid->veg_olson] += (mass->soil).ltr_m[f] * MDN[f]/365.0/10.0 * grid->area;
 				vo_msl[grid->veg_olson] += (mass->soil).msl_m[f] * MDN[f]/365.0/10.0 * grid->area;
+                
+                vo_n_cnpy[grid->veg_olson] += (mass->plant).n_cnpy_m[f] * MDN[f]/365.0/10.0 * grid->area;
+                vo_n_strg[grid->veg_olson] += (mass->plant).n_strg_m[f] * MDN[f]/365.0/10.0 * grid->area;
+                vo_n_mcrb[grid->veg_olson] += (mass->soil).n_mcrb_m[f] * MDN[f]/365.0/10.0 * grid->area;
+                vo_n_ltr[grid->veg_olson] += (mass->soil).n_lttr_m[f] * MDN[f]/365.0/10.0 * grid->area;
+                vo_n_hms[grid->veg_olson] += (mass->soil).n_hums_m[f] * MDN[f]/365.0/10.0 * grid->area;
 				
 				if(DF97==1){
 					vs_gpp[grid->veg_sage] += (flux->plant).gpp_df97[f]/10.0 * grid->area;

@@ -159,6 +159,8 @@ double vs_area[NVEG_SAGE];
 double vs_gpp[NVEG_SAGE], vs_npp[NVEG_SAGE], vs_nep[NVEG_SAGE];
 double vs_lai[NVEG_SAGE], vs_fol[NVEG_SAGE], vs_stm[NVEG_SAGE], vs_rot[NVEG_SAGE], vs_ltr[NVEG_SAGE], vs_msl[NVEG_SAGE];
 
+double vo_n_cnpy[NVEG_OLSON], vo_n_strg[NVEG_OLSON], vo_n_mcrb[NVEG_OLSON], vo_n_ltr[NVEG_OLSON], vo_n_hms[NVEG_OLSON];
+
 /* 0: 1950s */
 /* 1: 1990s */ /* IMPRESSIONS: 1981-2010 */
 /* 2: 2020s */

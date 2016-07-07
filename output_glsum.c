@@ -634,6 +634,13 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", vo_rot[h]);
 		fprintf(fp_glsum,"%lf ", vo_ltr[h]);
 		fprintf(fp_glsum,"%lf ", vo_msl[h]);
+        
+        fprintf(fp_glsum,"%lf ", vo_n_cnpy[h]);
+        fprintf(fp_glsum,"%lf ", vo_n_strg[h]);
+        fprintf(fp_glsum,"%lf ", vo_n_mcrb[h]);
+        fprintf(fp_glsum,"%lf ", vo_n_ltr[h]);
+        fprintf(fp_glsum,"%lf ", vo_n_hms[h]);
+        
 		fprintf(fp_glsum,"\n");
 	}
 	fprintf(fp_glsum,"\n");

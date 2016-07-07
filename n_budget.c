@@ -246,8 +246,9 @@ void f_nh3_volatilization(
     /* safe guard: 2014/05/28 by A.Ito: 0.5 */
     /* safe guard: 2016/06/28 by A.Ito: 0.1 */
     /* safe guard: 2016/07/03 by A.Ito: 0.1 */
-    if(flux->n_nh3vlt[grid->m] > (0.2 * mass->n_nh4)){
-        flux->n_nh3vlt[grid->m] = 0.2 * mass->n_nh4;
+    /* safe guard: 2016/07/07 by A.Ito: 0.75 */
+    if(flux->n_nh3vlt[grid->m] > (0.75 * mass->n_nh4)){
+        flux->n_nh3vlt[grid->m] = 0.75 * mass->n_nh4;
     }
 }
 
@@ -527,6 +528,8 @@ void f_n_leaching(
         aa = 0.0;
     }
 	
+    aa = mass->n_no3*0.1;
+    
 	/* g NO3-N ha-1 month-1 */
 	flux->n_leach[grid->m] = aa;
 }

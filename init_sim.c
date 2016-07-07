@@ -266,6 +266,7 @@ void f_init_sim(
 		vo_area[f] = 0.0;
 		vo_gpp[f] = vo_npp[f] = vo_nep[f] = 0.0;
 		vo_lai[f] = vo_fol[f] = vo_stm[f] = vo_rot[f] = vo_ltr[f] = vo_msl[f] = 0.0;
+        vo_n_cnpy[f] = vo_n_strg[f] = vo_n_mcrb[f] = vo_n_ltr[f] = vo_n_hms[f] = 0.0;
 	}
 	for(f=0;f<NVEG_SAGE;f++){
 		vs_area[f] = 0.0;

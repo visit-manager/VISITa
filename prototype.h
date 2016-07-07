@@ -87,7 +87,7 @@ extern double ci_h[PD_SIM], ci_h_d13c[PD_SIM], ci_h_d14c[PD_SIM];
 extern double hm_temp[PD_SIM][ASTEP], hm_prec[PD_SIM][ASTEP], hm_ch4_wh[PD_SIM][ASTEP], hm_inund[PD_SIM][ASTEP];
 
 /* monthly results **********/
-extern double m_ch4ox1[12], m_ch4ox2[12], m_ch4ox3[12];
+extern double m_ch4ox1[ASTEP], m_ch4ox2[12], m_ch4ox3[12];
 extern double m_bioburn_co2[12], m_bioburn_ch4[12], m_bioburn_co[12];
 extern double m_bioburn_nmhc[12], m_bioburn_oc[12], m_bioburn_bc[12];
 extern double m_gpp[ASTEP], m_npp[ASTEP], m_nep[ASTEP];
@@ -95,12 +95,14 @@ extern double m_ch4p_cao[ASTEP], m_ch4p_wh[ASTEP];
 
 /* vegetation (olson) results */
 extern double go_landarea, gs_landarea;
-extern double vo_area[34];
-extern double vo_gpp[34], vo_npp[34], vo_nep[34];
-extern double vo_lai[34], vo_fol[34], vo_stm[34], vo_rot[34], vo_ltr[34], vo_msl[34];
+extern double vo_area[NVEG_OLSON];
+extern double vo_gpp[NVEG_OLSON], vo_npp[NVEG_OLSON], vo_nep[NVEG_OLSON];
+extern double vo_lai[NVEG_OLSON], vo_fol[NVEG_OLSON], vo_stm[NVEG_OLSON], vo_rot[NVEG_OLSON], vo_ltr[NVEG_OLSON], vo_msl[NVEG_OLSON];
 extern double vs_area[16];
 extern double vs_gpp[16], vs_npp[16], vs_nep[16];
 extern double vs_lai[16], vs_fol[16], vs_stm[16], vs_rot[16], vs_ltr[16], vs_msl[16];
+
+extern double vo_n_cnpy[NVEG_OLSON], vo_n_strg[NVEG_OLSON], vo_n_mcrb[NVEG_OLSON], vo_n_ltr[NVEG_OLSON], vo_n_hms[NVEG_OLSON];
 
 extern float g_tmp[5][N_ROW][N_COL];
 extern float g_prc[5][N_ROW][N_COL];
