@@ -40,7 +40,8 @@ void f_n2o_emit_ngas(
 	extern double MDN[ASTEP];
 	double vmw_b, wfps_b;
     
-    ee = 1.0 - exp(-4.0 * 0.3);
+    /* 2016/07/08 by A.Ito */
+    ee = 1.0 - exp(-5.0 * 0.3);
 	
     /* 2016/06/12 by A.Ito */
     if(EX_NITROGEN == 3){
@@ -123,21 +124,21 @@ void f_n2o_emit_ngas(
 		n_h2o = pow(aa, bb) * pow(cc, 2.84);
 	}
 	
-	/* temperature factor*/
+	/* temperature factor */
 	/* Fig.(2b) in Parton et al. (1996) */
 	n_t = -0.06 + 0.13 * exp(0.07 * grid->tmp10_soil[grid->m]);
 	if(n_t < 0.0){
 		n_t = 0.0;
 	}
 	
-	/* pH factor*/
+	/* pH factor */
 	/* Fig.(2c) in Parton et al. (1996) */
 	n_ph = 0.56 + atan(PI * 0.45 * (-5.0 + grid->soil_ph))/PI;
 	if(n_ph < 0.0){
 		n_ph = 0.0;
 	}
 	
-	/* ammonium factor*/
+	/* ammonium factor */
 	/* Fig.(2d) in Parton et al. (1996) */
 	n_nh4 = 1.0 - exp(-0.0105 * nh4_soil);
 	if(n_nh4 < 0.0){

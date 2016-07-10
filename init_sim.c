@@ -231,6 +231,9 @@ void f_init_sim(
 		h_n_fertin[f] = h_n_depoin[f] = 0.0;
         h_n_mcrb[f] = h_n_no3[f] = h_n_nh4[f] = 0.0; /* 2016/06/23 by A.Ito */
         h_n_cnpy[f] = h_n_strg[f] = h_n_lttr[f] = h_n_hums[f] = 0.0;
+        
+        h_n_immbl[f] = h_n_lmnrl[f] = h_n_hmnrl[f] = 0.0;
+        h_n_cabdn[f] = h_n_sabdn[f] = h_n_uptk[f] = 0.0;
 
 		h_hvst_wood[f] = h_wetarea[f] = h_deforest[f] = 0.0;
 

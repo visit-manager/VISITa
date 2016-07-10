@@ -163,6 +163,13 @@ void f_set_history_data(
 		h_n2o_d_emit_ngas[year] += fweight * (flux->soil).d_n2o_dnt_ngas[f] * grid->area;
 		h_no3_leach[year] += fweight * (flux->soil).n_leach[f] * grid->area;
 		
+        h_n_immbl[year] += fweight * (flux->soil).n_immbl[f] * grid->area;
+        h_n_lmnrl[year] += fweight * (flux->soil).n_minerlz_lttr[f] * grid->area;
+        h_n_hmnrl[year] += fweight * (flux->soil).n_minerlz_hums[f] * grid->area;
+        h_n_cabdn[year] += fweight * (flux->plant).n_abdn_cnpy[f] * grid->area;
+        h_n_sabdn[year] += fweight * (flux->plant).n_abdn_strg[f] * grid->area;
+        h_n_uptk[year] += fweight * ((flux->plant).uptake_nh4[f]+(flux->plant).uptake_no3[f]) * grid->area;
+
 		/* added by A.Ito (2010/05/02) */
 		h_n_fertin[year] += fweight * (flux->soil).n_fertin[f] * grid->area;
 		/* corrected by A.Ito (2013/11/07) */
@@ -597,6 +604,13 @@ void f_glosum_output(
         fprintf(fp_glsum,"%lf ", h_n_strg[h]);
         fprintf(fp_glsum,"%lf ", h_n_lttr[h]);
         fprintf(fp_glsum,"%lf ", h_n_hums[h]);
+        
+        fprintf(fp_glsum,"%lf ", h_n_immbl[h]);
+        fprintf(fp_glsum,"%lf ", h_n_lmnrl[h]);
+        fprintf(fp_glsum,"%lf ", h_n_hmnrl[h]);
+        fprintf(fp_glsum,"%lf ", h_n_cabdn[h]);
+        fprintf(fp_glsum,"%lf ", h_n_sabdn[h]);
+        fprintf(fp_glsum,"%lf ", h_n_uptk[h]);
 
 		fprintf(fp_glsum,"\n");
 	}

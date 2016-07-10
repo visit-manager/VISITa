@@ -113,8 +113,8 @@ void n_budget(
 	/* ammonium */
 	(mass->soil).n_nh4 += loct->depo_nh4[grid->m] 
 						+ ((flux->soil).n_minerlz_lttr[grid->m] 
-							+(flux->soil).n_minerlz_hums[grid->m]
-							- (flux->soil).n_immbl[grid->m])
+						+(flux->soil).n_minerlz_hums[grid->m]
+						- (flux->soil).n_immbl[grid->m])
 						- (flux->plant).uptake_nh4[grid->m]
 						- (flux->soil).n_nitrif[grid->m]
 						- (flux->soil).d_n2o_ntr_ngas[grid->m]*28.0/44.0
@@ -462,8 +462,12 @@ void f_n_mineralz(
     f_nmin_h = 20.0; */
 	
     /* 2016/07/06 by A.Ito */
-    f_nmin_l = 50.0;
-    f_nmin_h = 80.0;
+    /* f_nmin_l = 50.0;
+    f_nmin_h = 80.0; */
+	
+    /* 2016/07/10 by A.Ito */
+    f_nmin_l = 1.0;
+    f_nmin_h = 1.0;
 	
 	/** litter **/
 	if(mass->ltr > 0.01){
@@ -528,7 +532,8 @@ void f_n_leaching(
         aa = 0.0;
     }
 	
-    aa = mass->n_no3*0.1;
+    /* 2016/07/07 by A.Ito */
+    /* aa = mass->n_no3*0.1; */
     
 	/* g NO3-N ha-1 month-1 */
 	flux->n_leach[grid->m] = aa;
@@ -605,7 +610,7 @@ void f_n_abandon_salvage(
 	/* abandon */
 	flux->n_abdn_cnpy[grid->m] = (1.0 - pchar->n_salvage) * pchar->lf[grid->m] * 
 					mass->n_cnpy;
-	/* salvage (drwa back to storage) */
+	/* salvage (draw back to storage) */
 	flux->n_salvage[grid->m] = pchar->n_salvage * pchar->lf[grid->m] * 
 					mass->n_cnpy;
 
@@ -768,6 +773,7 @@ void f_n_immoblz(
 		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m]; */
     
     /* safe guard: 2014/05/28 by A.Ito */
+    /* 2016/06/05 by A.Ito *****/
     if(flux->n_immbl[grid->m] > mass->n_mcrb){
         flux->n_immbl[grid->m] = mass->n_mcrb;
     }
