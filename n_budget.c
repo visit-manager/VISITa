@@ -234,13 +234,17 @@ void f_nh3_volatilization(
 	}else{
 		f_sw = 0.05; /* for dry land sublimation */
 	}
+    
+    /* modified: 2016/07/11 by A.Ito */
+    /* Thornley (1998) Eq.(5.11) */
+    f_sw = pow(f_sw, 20.0);
 	if(f_sw < 0.05){
 		f_sw = 0.05;
 	}
 	
 	/* Thornley (1998) Eq.(5.4i) */
 	/* g NH3 ha-1 month-1 */
-	flux->n_nh3vlt[grid->m] = nh4_soil * 0.02/30.0 * f_ph * f_tmp * pow(f_sw, 20.0) *
+	flux->n_nh3vlt[grid->m] = nh4_soil * 0.02/30.0 * f_ph * f_tmp * f_sw *
 			MDN[grid->m] * 17.0/14.0;
     
     /* safe guard: 2014/05/28 by A.Ito: 0.5 */
@@ -466,8 +470,8 @@ void f_n_mineralz(
     f_nmin_h = 80.0; */
 	
     /* 2016/07/10 by A.Ito */
-    f_nmin_l = 1.0;
-    f_nmin_h = 1.0;
+    f_nmin_l = 5.0;
+    f_nmin_h = 5.0;
 	
 	/** litter **/
 	if(mass->ltr > 0.01){
@@ -764,9 +768,11 @@ void f_n_immoblz(
     
     /* 2016/07/03 by A.Ito *****/
     /* 2016/07/06 by A.Ito *****/
-	flux->n_immbl[grid->m] = 0.025 * flux->n_minerlz_lttr[grid->m] +
+	/* flux->n_immbl[grid->m] = 0.025 * flux->n_minerlz_lttr[grid->m] +
 		0.025 * flux->n_minerlz_hums[grid->m] +
-		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m];
+		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m]; */
+
+	flux->n_immbl[grid->m] = (f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m];
 
 	/* flux->n_immbl[grid->m] = 0.2 * flux->n_minerlz_lttr[grid->m] +
 		0.4 * flux->n_minerlz_hums[grid->m] + 
@@ -774,8 +780,8 @@ void f_n_immoblz(
     
     /* safe guard: 2014/05/28 by A.Ito */
     /* 2016/06/05 by A.Ito *****/
-    if(flux->n_immbl[grid->m] > mass->n_mcrb){
-        flux->n_immbl[grid->m] = mass->n_mcrb;
+    if(flux->n_immbl[grid->m] > 1.0*mass->n_mcrb){
+        flux->n_immbl[grid->m] = 1.0*mass->n_mcrb;
     }
 }
 
@@ -795,7 +801,7 @@ void f_n_mcrb_abdn(
 	/* flux->n_mcrb_abdn[grid->m] = 0.1 * f_temp * mass->n_mcrb; */
 	/* flux->n_mcrb_abdn[grid->m] = 0.4 * f_temp * mass->n_mcrb; */
 	/* flux->n_mcrb_abdn[grid->m] = 3.0 * f_temp * mass->n_mcrb; */
-	flux->n_mcrb_abdn[grid->m] = 5.0 * f_temp * mass->n_mcrb;
+	flux->n_mcrb_abdn[grid->m] = 0.5 * f_temp * mass->n_mcrb;
     
     /* 2016/06/08 by A.Ito */
     if(EX_NITROGEN == 2){
@@ -804,8 +810,8 @@ void f_n_mcrb_abdn(
 
     /* safe guard: 2014/05/28 by A.Ito */
     /* 2016/06/05 by A.Ito *****/
-    if(flux->n_mcrb_abdn[grid->m] > (0.75* mass->n_mcrb)){
+    if(flux->n_mcrb_abdn[grid->m] > (0.8* mass->n_mcrb)){
         /* flux->n_mcrb_abdn[grid->m] = (0.5 * mass->n_mcrb); */
-        flux->n_mcrb_abdn[grid->m] = (0.75 * mass->n_mcrb);
+        flux->n_mcrb_abdn[grid->m] = (0.8 * mass->n_mcrb);
     }
 }
