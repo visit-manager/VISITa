@@ -207,8 +207,8 @@ void f_nh3_volatilization(
 	/* base_ph = 6.5; */ /* 2010/03/28 (A.Ito) */
 	/* base_ph = 5.5; */ /* 2010/03/30 (A.Ito) */
 	/* base_ph = 5.4; */ /* 2014/12/02 (A.Ito) */
-    /* revised: 2016/07/06 by A.Ito */
-    base_ph = 5.0;
+    /* revised: 2016/07/12 by A.Ito */
+    base_ph = 6.0;
 	f_ph = pow(10.0, ph_soil - 10.0) / pow(10.0, base_ph - 10.0);
 	if(f_ph < 0.0){
 		f_ph = 0.0;
@@ -238,8 +238,8 @@ void f_nh3_volatilization(
     /* modified: 2016/07/11 by A.Ito */
     /* Thornley (1998) Eq.(5.11) */
     f_sw = pow(f_sw, 20.0);
-	if(f_sw < 0.05){
-		f_sw = 0.05;
+	if(f_sw < 0.01){
+		f_sw = 0.01;
 	}
 	
 	/* Thornley (1998) Eq.(5.4i) */
@@ -538,6 +538,7 @@ void f_n_leaching(
 	
     /* 2016/07/07 by A.Ito */
     /* aa = mass->n_no3*0.1; */
+    /* aa = 1.0; */
     
 	/* g NO3-N ha-1 month-1 */
 	flux->n_leach[grid->m] = aa;
@@ -587,9 +588,9 @@ void f_n_uptake(
     aa = navil * n_max * ks / (90.0 + ks*navil) * f_temp;
     if(aa>0.0 && aa<navil){
         uptake_nh4 = aa;
-    }else if(aa<0.0){
+    }else if(aa < 0.0){
         uptake_nh4 = 0.0;
-    }else if(aa>=navil){
+    }else if(aa >= navil){
         uptake_nh4 = navil;
     }
 	/* g N ha-1 month-1 */
@@ -702,7 +703,7 @@ void f_n_realloc(
 		kn = pchar->kn_nphoto;
 		rd_nsp = pchar->rd_n;
 		/* optimal leaf N */
-		n_opt = sqrt(amax*kn/rd_nsp) - kn;
+		n_opt = sqrt(amax * kn / rd_nsp) - kn;
 		/* n_opt = 20.0; */
 		
 		/* leaf N concentration, mmol N m-2 */
@@ -780,8 +781,9 @@ void f_n_immoblz(
     
     /* safe guard: 2014/05/28 by A.Ito */
     /* 2016/06/05 by A.Ito *****/
-    if(flux->n_immbl[grid->m] > 1.0*mass->n_mcrb){
-        flux->n_immbl[grid->m] = 1.0*mass->n_mcrb;
+    /* 2016/07/12 by A.Ito */
+    if(flux->n_immbl[grid->m] > 0.1*mass->n_mcrb){
+        flux->n_immbl[grid->m] = 0.1*mass->n_mcrb;
     }
 }
 
