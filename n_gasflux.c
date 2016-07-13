@@ -234,7 +234,8 @@ void f_n2o_emit_ngas(
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.02 * MDN[grid->m]; */ /* 2009/07/23 */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.012 * MDN[grid->m]; */ /* 2010/03/30 */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.005 * MDN[grid->m]; */ /* 2016/05/30 */
-	(flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.00291 * MDN[grid->m]; /* 2016/07/06 */
+	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.00291 * MDN[grid->m]; */ /* 2016/07/06 */
+	(flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.005 * MDN[grid->m]; /* 2016/07/06 */
 }
 
 /* Daily step CASA nitrogen trace gas emission from soil ****************************/
