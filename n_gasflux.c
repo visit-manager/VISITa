@@ -106,6 +106,10 @@ void f_n2o_emit_ngas(
 	/*
 	nh4_soil = grid->total_n_1m * 0.3 * 0.01*1000000.0 /(grid->bulkdens*300.0*1000.0)*0.5;
 	no3_soil = grid->total_n_1m * 0.3 * 0.01*1000000.0 /(grid->bulkdens*300.0*1000.0)*0.5;  */
+    
+    /* 2016/07/13 */
+    /* nh4_soil *= 0.1;
+    no3_soil *= 0.1; */
 	
 	/* NITRIFICATION **************************************************/
 	/* water factor */
