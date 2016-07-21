@@ -551,10 +551,27 @@ void f_n_uptake(
 	struct Mass *mass, 
 	struct Flux *flux
 ){
-	double f_temp, aa;
+	double f_temp, max_uptake, n_c3, n_c4;
 	double n_max = 1.0;
 	double ks, navil;
+    double max_n_c3, max_n_c4, nsat_c3, nsat_c4, k_n;
 	double uptake_no3, uptake_nh4;
+    
+    /* 2016/07/21 by A.Ito ************/
+    /* N demand */
+    
+    n_c3 = (mass->c3).n_cnpy + (mass->c3).n_strg;
+    n_c4 = (mass->c4).n_cnpy + (mass->c4).n_strg;
+    
+    /* g N ha-1 */
+    max_n_c3 = 1000000.0 * ((mass->c3).fol/10.0 + ((mass->c3).stm + (mass->c3).rot)/20.0);
+    max_n_c4 = 1000000.0 * ((mass->c4).fol/10.0 + ((mass->c4).stm + (mass->c4).rot)/20.0);
+    
+    k_n = 1.0 + max_n_c3 * 0.1;
+    nsat_c3 = n_c3 * (k_n + n_c3);
+    
+    k_n = 1.0 + max_n_c4 * 0.1;
+    nsat_c4 = n_c4 * (k_n + n_c4);
 
 	/* Raich et al. (1991): Appendix  Eq.1.16 */
 	
@@ -570,37 +587,61 @@ void f_n_uptake(
 	
 	/* NO3 uptake */
 	navil = (mass->soil).n_no3;
-	aa = navil * n_max * ks / (90.0 + ks*navil) * f_temp;
-    if(aa>0.0 && aa<navil){
-        uptake_no3 = aa;
-    }else if(aa < 0.0){
+	/* C3 */
+    max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    if(max_uptake>0.0 && max_uptake<navil){
+        uptake_no3 = max_uptake;
+    }else if(max_uptake < 0.0){
         uptake_no3 = 0.0;
-    }else if(aa >= navil){
+    }else if(max_uptake >= navil){
         uptake_no3 = navil;
     }
-    
 	/* g N ha-1 month-1 */
 	(flux->c3).uptake_no3[grid->m] = uptake_no3;
+    
+	/* C4 */
+    max_uptake = (1.0 - nsat_c4) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    if(max_uptake>0.0 && max_uptake<navil){
+        uptake_no3 = max_uptake;
+    }else if(max_uptake < 0.0){
+        uptake_no3 = 0.0;
+    }else if(max_uptake >= navil){
+        uptake_no3 = navil;
+    }
+	/* g N ha-1 month-1 */
 	(flux->c4).uptake_no3[grid->m] = uptake_no3;
+    
 	
 	/* NH4 uptake */
 	navil = (mass->soil).n_nh4;
-    aa = navil * n_max * ks / (90.0 + ks*navil) * f_temp;
-    if(aa>0.0 && aa<navil){
-        uptake_nh4 = aa;
-    }else if(aa < 0.0){
+    /* C3 */
+    max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    if(max_uptake>0.0 && max_uptake<navil){
+        uptake_nh4 = max_uptake;
+    }else if(max_uptake < 0.0){
         uptake_nh4 = 0.0;
-    }else if(aa >= navil){
+    }else if(max_uptake >= navil){
         uptake_nh4 = navil;
     }
 	/* g N ha-1 month-1 */
 	(flux->c3).uptake_nh4[grid->m] = uptake_nh4;
+    
+    /* C4 */
+    max_uptake = (1.0 - nsat_c4) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    if(max_uptake>0.0 && max_uptake<navil){
+        uptake_nh4 = max_uptake;
+    }else if(max_uptake < 0.0){
+        uptake_nh4 = 0.0;
+    }else if(max_uptake >= navil){
+        uptake_nh4 = navil;
+    }
+	/* g N ha-1 month-1 */
 	(flux->c4).uptake_nh4[grid->m] = uptake_nh4;
-	
-	(flux->plant).uptake_no3[grid->m] = (flux->c3).uptake_no3[grid->m] 
-				+ (flux->c4).uptake_no3[grid->m];
-	(flux->plant).uptake_nh4[grid->m] = (flux->c3).uptake_nh4[grid->m] 
-				+ (flux->c4).uptake_nh4[grid->m];
+    	
+	(flux->plant).uptake_no3[grid->m] = loct->c3ptn[grid->m] * (flux->c3).uptake_no3[grid->m]
+				+ loct->c3ptn[grid->m] * (flux->c4).uptake_no3[grid->m];
+	(flux->plant).uptake_nh4[grid->m] = loct->c3ptn[grid->m] * (flux->c3).uptake_nh4[grid->m]
+				+ loct->c4ptn[grid->m] * (flux->c4).uptake_nh4[grid->m];
 }
 
 /* N abandoned as litter *********************************/
