@@ -161,7 +161,10 @@ void f_biolfix(
     if(EX_NITROGEN == 1){
         total_nbiofix *= 0.5;
     }
-	
+    
+    /* 2016/07/22 by A.Ito  for debugging */
+    total_nbiofix *= 0.1;
+    
 	(flux->c3).n_biofix[grid->m] = total_nbiofix;
 	(flux->c4).n_biofix[grid->m] = total_nbiofix;
 }
