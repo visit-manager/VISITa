@@ -452,6 +452,10 @@ void f_n_deposit(
         loct->depo_nh4[grid->m] = 0.5 * ndepo_total;
         loct->depo_no3[grid->m] = 0.5 * ndepo_total;
     }
+    
+    /* 2016/07/22 by A.Ito  for debugging */
+    loct->depo_no3[grid->m] *= 0.1;
+    loct->depo_nh4[grid->m] *= 0.1;
 }
 
 /*************************************************/
@@ -581,7 +585,8 @@ void f_n_uptake(
 	/*****
 	Effect of N allocatiom to root ?
 	*****/
-    n_max = 0.02; /* 2016/07/06 by A.Ito */
+    /* n_max = 0.02; */ /* 2016/07/06 by A.Ito */
+    n_max = 0.1; /* 2016/07/22 by A.Ito */
 	
 	/* temperature factor */
 	f_temp = exp(0.0693 * grid->tmp10_soil[grid->m]);
