@@ -377,7 +377,7 @@ void f_net_rad(
 	loct->albedo_sfc[grid->m] = (echar->soil).albedo[grid->m] * ground +
 					(echar->c3).albedo * c3_canopy + (echar->c4).albedo * c4_canopy;
     albedo_base = loct->albedo_sfc[grid->m];
-    loct->xx8[grid->m] = albedo_base; /* */
+    /* loct->xx8[grid->m] = albedo_base; */
 	
     /* albedo perturbation: 2012/12/29 by A.Ito */
     if(EX_ALBEDO == 1){

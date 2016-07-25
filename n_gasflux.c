@@ -82,8 +82,9 @@ void f_n2o_emit_ngas(
 		kmax = 12.0; /* 22.0: 2016/05/30 by A.Ito */
 		nmax = 20.0; /* 30.0: 2016/05/30 by A.Ito */
 		/* 2009/06/15 by A.Ito */
-		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
-		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
+        /* micro g g-1*/
+		nh4_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
+		no3_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
 		/* nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0);	
 		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0); */	 /* high */
 		
@@ -97,8 +98,9 @@ void f_n2o_emit_ngas(
 		kmax = 2.0;   /* 3.8: 2016/05/30 by A.Ito */
 		nmax = 10.0;  /* 30.0: 2016/05/30 by A.Ito */
 		/* 2009/06/15 by A.Ito */
-		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
-		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
+        /* micro g g-1*/
+		nh4_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000000.0);
+		no3_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000000.0); /* */ /* low */
 		/* nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0);	
 		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0); */	 /* high */
 	}
@@ -203,14 +205,15 @@ void f_n2o_emit_ngas(
 		fr_co2 = 0.0;
 	}
 	
-	/* loct->xx1[grid->m] = fd_wfps;
-	loct->xx2[grid->m] = fd_no3;
-	loct->xx3[grid->m] = fd_co2;
-	loct->xx4[grid->m] = dt;
-	loct->xx5[grid->m] = fr_wfps;
-	loct->xx6[grid->m] = fr_no3;
-	loct->xx7[grid->m] = fr_co2;
-	loct->xx8[grid->m] = wfps_b; */
+	loct->xx1[grid->m] = n_nh4;
+	loct->xx2[grid->m] = fd_wfps;
+	loct->xx3[grid->m] = fd_no3;
+	loct->xx4[grid->m] = fd_co2;
+	loct->xx5[grid->m] = dt;
+	loct->xx6[grid->m] = fr_wfps;
+	loct->xx7[grid->m] = fr_no3;
+	loct->xx8[grid->m] = fr_co2;
+	loct->xx9[grid->m] = wfps_b; /* */
 		
 	/* N2O emission */
 	/* Eqs.(3+4) in Parton et al. (1996) */

@@ -967,7 +967,7 @@ void f_ch4_emit_walter(
 	/* flux: mg CH4 m-2 month-1 ************************/
 	if(smode == 1){
 		loct->f_inund_wet_wh[grid->m] = fa_wetland;
-        loct->xx5[grid->m] = fa_wetland;
+        /* loct->xx5[grid->m] = fa_wetland; */
         
         /* if((grid->f_wetland + grid->f_paddy) > 0.0){
             loct->xx7[grid->m] += f_inundation * grid->f_wetland / (grid->f_wetland + grid->f_paddy) * 100.0*wtdepth;
@@ -984,9 +984,9 @@ void f_ch4_emit_walter(
 		(flux->soil).ch4_wetland_wh_diff[grid->m] += efflux_diffs;
 		(flux->soil).ch4_wetland_wh_release[grid->m] += efflux_reles;
         
-        loct->xx1[grid->m] = efflux_ebul + efflux_plant + efflux_diffs + efflux_reles;
+        /* loct->xx1[grid->m] = efflux_ebul + efflux_plant + efflux_diffs + efflux_reles; */
 	}if(smode == 2){
-        loct->xx6[grid->m] = fa_wetland;
+        /* loct->xx6[grid->m] = fa_wetland; */
         
         /* if((grid->f_wetland + grid->f_paddy) > 0.0){
             loct->xx7[grid->m] += (1.0 - f_inundation) * grid->f_wetland / (grid->f_wetland + grid->f_paddy) * 100.0*wtdepth;
@@ -1003,10 +1003,10 @@ void f_ch4_emit_walter(
 		(flux->soil).ch4_wetland_wh_diff[grid->m] += efflux_diffs;
 		(flux->soil).ch4_wetland_wh_release[grid->m] += efflux_reles;
         
-        loct->xx2[grid->m] = efflux_ebul + efflux_plant + efflux_diffs + efflux_reles;
+        /* loct->xx2[grid->m] = efflux_ebul + efflux_plant + efflux_diffs + efflux_reles; */
 	}else if(smode == 3){
 		loct->f_inund_pad_wh[grid->m] = fa_paddy;
-        loct->xx7[grid->m] = fa_paddy;
+        /* loct->xx7[grid->m] = fa_paddy; */
         
         /* loct->xx6[grid->m] += fa_paddy;
         if((grid->f_wetland+grid->f_paddy) > 0.0){
@@ -1024,9 +1024,9 @@ void f_ch4_emit_walter(
 		(flux->soil).ch4_paddy_wh_diff[grid->m] += efflux_diffs;
 		(flux->soil).ch4_paddy_wh_release[grid->m] += efflux_reles;
         
-        loct->xx3[grid->m] = efflux_ebul + efflux_plant + efflux_diffs + efflux_reles;
+        /* loct->xx3[grid->m] = efflux_ebul + efflux_plant + efflux_diffs + efflux_reles; */
 	}else if(smode == 4){
-        loct->xx8[grid->m] = fa_paddy;
+        /* loct->xx8[grid->m] = fa_paddy; */
         
         /* if((grid->f_wetland + grid->f_paddy) > 0.0){
             loct->xx7[grid->m] += (1.0 - f_inundation) * grid->f_paddy / (grid->f_wetland + grid->f_paddy)  * 100.0*wtdepth;
@@ -1043,7 +1043,7 @@ void f_ch4_emit_walter(
 		(flux->soil).ch4_paddy_wh_diff[grid->m] += efflux_diffs;
 		(flux->soil).ch4_paddy_wh_release[grid->m] += efflux_reles;
         
-        loct->xx4[grid->m] = efflux_ebul + efflux_plant + efflux_diffs + efflux_reles;
+        /* loct->xx4[grid->m] = efflux_ebul + efflux_plant + efflux_diffs + efflux_reles; */
 	}
     
     /* if((grid->f_wetland + grid->f_paddy) <= 0.0){
