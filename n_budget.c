@@ -162,8 +162,8 @@ void f_biolfix(
         total_nbiofix *= 0.5;
     }
     
-    /* 2016/07/22 by A.Ito  for debugging */
-    total_nbiofix *= 0.1;
+    /* 2016/07/25 by A.Ito  for debugging */
+    total_nbiofix *= 0.01;
     
 	(flux->c3).n_biofix[grid->m] = total_nbiofix;
 	(flux->c4).n_biofix[grid->m] = total_nbiofix;
@@ -453,9 +453,9 @@ void f_n_deposit(
         loct->depo_no3[grid->m] = 0.5 * ndepo_total;
     }
     
-    /* 2016/07/22 by A.Ito  for debugging */
-    loct->depo_no3[grid->m] *= 0.1;
-    loct->depo_nh4[grid->m] *= 0.1;
+    /* 2016/07/25 by A.Ito  for debugging */
+    loct->depo_no3[grid->m] *= 0.01;
+    loct->depo_nh4[grid->m] *= 0.01;
 }
 
 /*************************************************/
