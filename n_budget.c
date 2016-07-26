@@ -113,7 +113,7 @@ void n_budget(
 	/* ammonium */
 	(mass->soil).n_nh4 += loct->depo_nh4[grid->m] 
 						+ ((flux->soil).n_minerlz_lttr[grid->m] 
-						+(flux->soil).n_minerlz_hums[grid->m]
+						+ (flux->soil).n_minerlz_hums[grid->m]
 						- (flux->soil).n_immbl[grid->m])
 						- (flux->plant).uptake_nh4[grid->m]
 						- (flux->soil).n_nitrif[grid->m]

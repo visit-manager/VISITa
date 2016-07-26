@@ -227,11 +227,9 @@ void f_n2o_emit_ngas(
         day_d_n2 = 0.0;
     }
 	
-	/* total ***************************************************/
 	/* g N20 ha-1 month-1 */
 	(flux->soil).d_n2o_ntr_ngas[grid->m] = day_n_n2o * 44.0/28.0 * MDN[grid->m];
 	(flux->soil).d_n2o_dnt_ngas[grid->m] = day_d_n2o * 44.0/28.0 * MDN[grid->m];
-	(flux->soil).d_n2o_ngas[grid->m] = (flux->soil).d_n2o_ntr_ngas[grid->m] + (flux->soil).d_n2o_dnt_ngas[grid->m];
 	
 	/* g N2 ha-1 month-1 */
 	(flux->soil).d_n2_ngas[grid->m] = day_d_n2 * MDN[grid->m];
@@ -259,6 +257,9 @@ void f_n2o_emit_ngas(
         (flux->soil).d_n2o_dnt_ngas[grid->m] *= bb;
         (flux->soil).d_n2_ngas[grid->m] *= bb;
     }
+    
+	/* total ***************************************************/
+	(flux->soil).d_n2o_ngas[grid->m] = (flux->soil).d_n2o_ntr_ngas[grid->m] + (flux->soil).d_n2o_dnt_ngas[grid->m];
 }
 
 /* Daily step CASA nitrogen trace gas emission from soil ****************************/
