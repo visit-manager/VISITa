@@ -284,5 +284,5 @@ void n_fertilizer_in(
     }
     
     /* 2016/07/25 by A.Ito */
-    loct->n_frtlz_in *= 0.01;
+    /* loct->n_frtlz_in *= 0.01; */
 }

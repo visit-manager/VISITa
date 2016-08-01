@@ -165,7 +165,7 @@ void f_biolfix(
     }
     
     /* 2016/07/25 by A.Ito  for debugging */
-    total_nbiofix *= 0.01;
+    /* total_nbiofix *= 0.01; */
     
 	(flux->c3).n_biofix[grid->m] = total_nbiofix;
 	(flux->c4).n_biofix[grid->m] = total_nbiofix;
@@ -456,8 +456,8 @@ void f_n_deposit(
     }
     
     /* 2016/07/25 by A.Ito  for debugging */
-    loct->depo_no3[grid->m] *= 0.01;
-    loct->depo_nh4[grid->m] *= 0.01;
+    /* loct->depo_no3[grid->m] *= 0.01;
+    loct->depo_nh4[grid->m] *= 0.01; */
 }
 
 /*************************************************/
@@ -835,10 +835,10 @@ void f_n_immoblz(
     /* safe guard: 2014/05/28 by A.Ito */
     /* 2016/06/05 by A.Ito *****/
     /* 2016/07/12 by A.Ito */
-    if((flux->n_immbl_no3[grid->m]+flux->n_immbl_nh4[grid->m]) > 0.1*mass->n_mcrb){
+    /* if((flux->n_immbl_no3[grid->m]+flux->n_immbl_nh4[grid->m]) > 0.1*mass->n_mcrb){
         flux->n_immbl_no3[grid->m] *= 0.1*mass->n_mcrb / (flux->n_immbl_no3[grid->m]+flux->n_immbl_nh4[grid->m]);
         flux->n_immbl_nh4[grid->m] *= 0.1*mass->n_mcrb / (flux->n_immbl_no3[grid->m]+flux->n_immbl_nh4[grid->m]);
-    }
+    } */
 }
 
 /* N abandoned from microbes ******************************/
