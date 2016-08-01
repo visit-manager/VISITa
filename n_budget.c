@@ -577,10 +577,10 @@ void f_n_uptake(
     max_n_c4 = 1000000.0 * ((mass->c4).fol/10.0 + ((mass->c4).stm + (mass->c4).rot)/20.0);
     
     k_n = 1.0 + max_n_c3 * 0.1;
-    nsat_c3 = n_c3 * (k_n + n_c3);
+    nsat_c3 = n_c3 / (k_n + n_c3);
     
     k_n = 1.0 + max_n_c4 * 0.1;
-    nsat_c4 = n_c4 * (k_n + n_c4);
+    nsat_c4 = n_c4 / (k_n + n_c4);
 
 	/* Raich et al. (1991): Appendix  Eq.1.16 */
 	
@@ -811,8 +811,8 @@ void f_n_immoblz(
     
     /* 2016/07/06 by A.Ito *****/
     /* 2016/08/01 by A.Ito *****/
-	f_immbl_no3 = 0.002;
-	f_immbl_nh4 = 0.002;
+	f_immbl_no3 = 0.001;
+	f_immbl_nh4 = 0.001;
     
     /* 2016/06/05 by A.Ito *****/
 	/* flux->n_immbl[grid->m] = 0.05 * flux->n_minerlz_lttr[grid->m] +
