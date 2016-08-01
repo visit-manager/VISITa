@@ -426,7 +426,7 @@ void f_output_result(
             fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2o_ntr_ngas[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2o_dnt_ngas[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_nitrif[f]);
-            fprintf(fp_o[1],"%.3lf ", (flux->soil).n_immbl[f]);
+            fprintf(fp_o[1],"%.3lf ", (flux->soil).n_immbl_no3[f]+(flux->soil).n_immbl_nh4[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_mcrb_abdn[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_minerlz_lttr[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_minerlz_hums[f]);

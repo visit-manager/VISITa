@@ -74,7 +74,8 @@ void n_budget(
 	
 	/* soil N *************************************************/
 	/* microbe */
-	(mass->soil).n_mcrb += (flux->soil).n_immbl[grid->m]
+	(mass->soil).n_mcrb += (flux->soil).n_immbl_no3[grid->m]
+                        + (flux->soil).n_immbl_no3[grid->m]
 						- (flux->soil).n_mcrb_abdn[grid->m];
 	if((mass->soil).n_mcrb < 0.0){
 		(mass->soil).n_mcrb = 0.0;
@@ -101,6 +102,7 @@ void n_budget(
 	/* nitrate */
 	(mass->soil).n_no3 += loct->depo_no3[grid->m] 
 						+ (flux->soil).n_nitrif[grid->m]
+                        - (flux->soil).n_immbl_no3[grid->m]
 						- (flux->plant).uptake_no3[grid->m]
 						- (flux->soil).d_n2o_dnt_ngas[grid->m]*28.0/44.0
 						- (flux->soil).d_n2_ngas[grid->m]
@@ -112,9 +114,9 @@ void n_budget(
 
 	/* ammonium */
 	(mass->soil).n_nh4 += loct->depo_nh4[grid->m] 
-						+ ((flux->soil).n_minerlz_lttr[grid->m] 
+						+ (flux->soil).n_minerlz_lttr[grid->m]
 						+ (flux->soil).n_minerlz_hums[grid->m]
-						- (flux->soil).n_immbl[grid->m])
+						- (flux->soil).n_immbl_nh4[grid->m]
 						- (flux->plant).uptake_nh4[grid->m]
 						- (flux->soil).n_nitrif[grid->m]
 						- (flux->soil).d_n2o_ntr_ngas[grid->m]*28.0/44.0
@@ -647,7 +649,7 @@ void f_n_uptake(
 	(flux->c4).uptake_nh4[grid->m] = uptake_nh4;
     	
 	(flux->plant).uptake_no3[grid->m] = loct->c3ptn[grid->m] * (flux->c3).uptake_no3[grid->m]
-				+ loct->c3ptn[grid->m] * (flux->c4).uptake_no3[grid->m];
+				+ loct->c4ptn[grid->m] * (flux->c4).uptake_no3[grid->m];
 	(flux->plant).uptake_nh4[grid->m] = loct->c3ptn[grid->m] * (flux->c3).uptake_nh4[grid->m]
 				+ loct->c4ptn[grid->m] * (flux->c4).uptake_nh4[grid->m];
 }
@@ -808,8 +810,9 @@ void f_n_immoblz(
 	f_immbl_nh4 = 0.002; */
     
     /* 2016/07/06 by A.Ito *****/
-	f_immbl_no3 = 0.003;
-	f_immbl_nh4 = 0.001;
+    /* 2016/08/01 by A.Ito *****/
+	f_immbl_no3 = 0.002;
+	f_immbl_nh4 = 0.002;
     
     /* 2016/06/05 by A.Ito *****/
 	/* flux->n_immbl[grid->m] = 0.05 * flux->n_minerlz_lttr[grid->m] +
@@ -822,7 +825,8 @@ void f_n_immoblz(
 		0.025 * flux->n_minerlz_hums[grid->m] +
 		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m]; */
 
-	flux->n_immbl[grid->m] = (f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m];
+	flux->n_immbl_no3[grid->m] = f_immbl_no3 * mass->n_no3 * MDN[grid->m];
+	flux->n_immbl_nh4[grid->m] = f_immbl_nh4 * mass->n_nh4 * MDN[grid->m];
 
 	/* flux->n_immbl[grid->m] = 0.2 * flux->n_minerlz_lttr[grid->m] +
 		0.4 * flux->n_minerlz_hums[grid->m] + 
@@ -831,8 +835,9 @@ void f_n_immoblz(
     /* safe guard: 2014/05/28 by A.Ito */
     /* 2016/06/05 by A.Ito *****/
     /* 2016/07/12 by A.Ito */
-    if(flux->n_immbl[grid->m] > 0.1*mass->n_mcrb){
-        flux->n_immbl[grid->m] = 0.1*mass->n_mcrb;
+    if((flux->n_immbl_no3[grid->m]+flux->n_immbl_nh4[grid->m]) > 0.1*mass->n_mcrb){
+        flux->n_immbl_no3[grid->m] *= 0.1*mass->n_mcrb / (flux->n_immbl_no3[grid->m]+flux->n_immbl_nh4[grid->m]);
+        flux->n_immbl_nh4[grid->m] *= 0.1*mass->n_mcrb / (flux->n_immbl_no3[grid->m]+flux->n_immbl_nh4[grid->m]);
     }
 }
 

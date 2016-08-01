@@ -163,7 +163,7 @@ void f_set_history_data(
 		h_n2o_d_emit_ngas[year] += fweight * (flux->soil).d_n2o_dnt_ngas[f] * grid->area;
 		h_no3_leach[year] += fweight * (flux->soil).n_leach[f] * grid->area;
 		
-        h_n_immbl[year] += fweight * (flux->soil).n_immbl[f] * grid->area;
+        h_n_immbl[year] += fweight * ((flux->soil).n_immbl_no3[f]+(flux->soil).n_immbl_nh4[f]) * grid->area;
         h_n_lmnrl[year] += fweight * (flux->soil).n_minerlz_lttr[f] * grid->area;
         h_n_hmnrl[year] += fweight * (flux->soil).n_minerlz_hums[f] * grid->area;
         h_n_cabdn[year] += fweight * (flux->plant).n_abdn_cnpy[f] * grid->area;

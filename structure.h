@@ -901,7 +901,8 @@ struct Sflx{
 	double	n_minerlz_lttr[ASTEP];			/* litter N mineralization */
 	double	n_minerlz_hums[ASTEP];			/* humus N mineralization */
 	double	n_nitrif[ASTEP];				/* nitrification in NGAS */
-	double	n_immbl[ASTEP];					/* N immobilization */
+	double	n_immbl_nh4[ASTEP];				/* NH4+ immobilization */
+	double	n_immbl_no3[ASTEP];				/* NO3- immobilization */
 	double	n_mcrb_abdn[ASTEP];				/* microbial abandonment */
 	
 	double	n_fertin[ASTEP];				/* fertilizer input */
