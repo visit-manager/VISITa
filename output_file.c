@@ -666,7 +666,12 @@ void f_output_result(
             fprintf(fp_o[7],"%.3lf ", (mass->c4).d14c_mstm[f]);
             fprintf(fp_o[7],"%.3lf ", (mass->c4).d14c_mrot[f]);
             fprintf(fp_o[7],"%.3lf ", (mass->soil).d14c_ltr_m[f]);
-            fprintf(fp_o[7],"%.3lf ", (mass->soil).d14c_msl_m[f]); 
+            fprintf(fp_o[7],"%.3lf ", (mass->soil).d14c_msl_m[f]);
+            
+            /* 2016/08/01 by A.Ito */
+            fprintf(fp_o[7],"%.3lf ", (flux->plant).d13c_gpp[f]);
+            fprintf(fp_o[7],"%.3lf ", (flux->plant).d13c_ar[f]);
+            fprintf(fp_o[7],"%.3lf ", (flux->soil).d13c_hr[f]);
         }
         fprintf(fp_o[7],"\n");
     }
