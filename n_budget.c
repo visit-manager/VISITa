@@ -599,24 +599,24 @@ void f_n_uptake(
 	navil = (mass->soil).n_no3;
 	/* C3 */
     max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
-    if(max_uptake>0.0 && max_uptake<navil){
+    if(max_uptake>=0.0 && max_uptake<navil){
         uptake_no3 = max_uptake;
     }else if(max_uptake < 0.0){
         uptake_no3 = 0.0;
     }else if(max_uptake >= navil){
-        uptake_no3 = navil;
+        uptake_no3 = navil* n_max;
     }
 	/* g N ha-1 month-1 */
 	(flux->c3).uptake_no3[grid->m] = uptake_no3;
     
 	/* C4 */
     max_uptake = (1.0 - nsat_c4) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
-    if(max_uptake>0.0 && max_uptake<navil){
+    if(max_uptake>=0.0 && max_uptake<navil){
         uptake_no3 = max_uptake;
     }else if(max_uptake < 0.0){
         uptake_no3 = 0.0;
     }else if(max_uptake >= navil){
-        uptake_no3 = navil;
+        uptake_no3 = navil* n_max;
     }
 	/* g N ha-1 month-1 */
 	(flux->c4).uptake_no3[grid->m] = uptake_no3;
@@ -631,7 +631,7 @@ void f_n_uptake(
     }else if(max_uptake < 0.0){
         uptake_nh4 = 0.0;
     }else if(max_uptake >= navil){
-        uptake_nh4 = navil;
+        uptake_nh4 = navil* n_max;
     }
 	/* g N ha-1 month-1 */
 	(flux->c3).uptake_nh4[grid->m] = uptake_nh4;
@@ -643,7 +643,7 @@ void f_n_uptake(
     }else if(max_uptake < 0.0){
         uptake_nh4 = 0.0;
     }else if(max_uptake >= navil){
-        uptake_nh4 = navil;
+        uptake_nh4 = navil* n_max;
     }
 	/* g N ha-1 month-1 */
 	(flux->c4).uptake_nh4[grid->m] = uptake_nh4;
@@ -721,7 +721,7 @@ void f_n_alloc(
         if(n_leaf_conc < 1.1*n_opt){
             flux->n_realloc[grid->m] = 0.0;
         }else{
-            n_demand2 = 0.1 * (n_leaf_conc - n_opt);
+            n_demand2 = -0.1 * (n_leaf_conc - n_opt);
             flux->n_realloc[grid->m] = n_demand2;
         }
 	}
@@ -779,7 +779,7 @@ void f_n_realloc(
             if(n_leaf_conc < 1.1*n_opt){
                 flux->n_realloc[grid->m] = 0.0;
             }else{
-                n_demand2 = 0.1 * (n_leaf_conc - n_opt);
+                n_demand2 = -0.1 * (n_leaf_conc - n_opt);
                 
                 flux->n_realloc[grid->m] = n_demand2;
             }
