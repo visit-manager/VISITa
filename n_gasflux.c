@@ -206,7 +206,7 @@ void f_n2o_emit_ngas(
 		fr_co2 = 0.0;
 	}
 	
-	loct->xx1[grid->m] = n_nh4;
+	/* loct->xx1[grid->m] = n_nh4;
 	loct->xx2[grid->m] = fd_wfps;
 	loct->xx3[grid->m] = fd_no3;
 	loct->xx4[grid->m] = fd_co2;
@@ -214,7 +214,7 @@ void f_n2o_emit_ngas(
 	loct->xx6[grid->m] = fr_wfps;
 	loct->xx7[grid->m] = fr_no3;
 	loct->xx8[grid->m] = fr_co2;
-	loct->xx9[grid->m] = wfps_b; /* */
+	loct->xx9[grid->m] = wfps_b; */
 		
 	/* N2O emission */
 	/* Eqs.(3+4) in Parton et al. (1996) */
@@ -241,7 +241,7 @@ void f_n2o_emit_ngas(
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.012 * MDN[grid->m]; */ /* 2010/03/30 */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.005 * MDN[grid->m]; */ /* 2016/05/30 */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.00291 * MDN[grid->m]; */ /* 2016/07/06 */
-	(flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.005 * MDN[grid->m]; /* 2016/07/06 */
+	(flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.004 * MDN[grid->m]; /* 2016/08/02 */
     
     aa = (flux->soil).d_n2o_ntr_ngas[grid->m] + (flux->soil).n_nitrif[grid->m];
     if(aa > 0.5*(mass->soil).n_nh4){

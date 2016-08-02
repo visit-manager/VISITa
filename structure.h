@@ -496,6 +496,9 @@ struct Pchar{
 	double	kn_nphoto;				/* canopy N gradient, exponential coefficient */
 	double	amax_nphoto;			/* max. photosynthesis rate, micro mol CO2 m-2 s-1 */
 	double	rd_n;					/* dark respiration, micro mol CO2 m-2 s-1 */
+    /* 2016/08/02 by A.Ito */
+    double  n_opt[ASTEP];
+    double  n_leaf[ASTEP];
 	
 	double	n_leaf_df97;			/* leaf N concentration, mmol N m-2 */
 	

@@ -158,7 +158,7 @@ void screenshow(
 	printf("M2R: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.2lf ",(flux->soil).ch4_paddy_wh_release[h]);		ann+=(flux->soil).ch4_paddy_wh_release[h];	}		printf(": %.1lf\n",ann); */
 	
-	printf("XX1: ");
+	/* printf("XX1: ");
 	for(h=0;h<12;h++){		printf("%6.2lf ",loct->xx1[h]);		}			printf("\n");
 	printf("XX2: ");
 	for(h=0;h<12;h++){		printf("%6.2lf ",loct->xx2[h]);		}			printf("\n");
@@ -175,7 +175,12 @@ void screenshow(
 	printf("XX8: ");
 	for(h=0;h<12;h++){		printf("%6.2lf ",loct->xx8[h]);		}			printf("\n");
 	printf("XX9: ");
-	for(h=0;h<12;h++){		printf("%6.2lf ",loct->xx9[h]);		}			printf("\n"); /* */
+	for(h=0;h<12;h++){		printf("%6.2lf ",loct->xx9[h]);		}			printf("\n"); */
+    
+    printf("NOP: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(echar->c3).n_opt[h]);		}			printf("\n");
+    printf("NLF: ");
+	for(h=0;h<12;h++){		printf("%6.2lf ",(echar->c3).n_leaf[h]);		}			printf("\n");
 
 
 /*	printf("GP3: ");		ann=0.0;

@@ -478,9 +478,9 @@ void f_n_mineralz(
     /* f_nmin_l = 50.0;
     f_nmin_h = 80.0; */
 	
-    /* 2016/07/15 by A.Ito */
-    f_nmin_l = 0.1;
-    f_nmin_h = 0.1;
+    /* 2016/08/02 by A.Ito */
+    f_nmin_l = 0.2;
+    f_nmin_h = 0.2;
 	
 	/** litter **/
 	if(mass->ltr > 0.01){
@@ -756,12 +756,15 @@ void f_n_realloc(
 		/* optimal leaf N */
 		n_opt = sqrt(amax * kn / rd_nsp) - kn;
 		/* n_opt = 20.0; */
-		
+        
 		/* leaf N concentration, mmol N m-2 */
 		n_leaf_conc = pchar->n_conc_larea;
 		a_nlmt = amax * n_leaf_conc / (kn + n_leaf_conc);
 		/* a_nlmt = n_leaf_conc; */
 		
+        pchar->n_opt[grid->m] = n_opt;
+        pchar->n_leaf[grid->m] = n_leaf_conc;
+
 		if(n_opt > n_leaf_conc){
 			/* g N ha-1 month-1 */
 			n_demand1 = (n_opt - n_leaf_conc) * 14.0 / 1000.0 * 10000.0;
