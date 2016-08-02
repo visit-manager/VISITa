@@ -717,13 +717,13 @@ void f_n_alloc(
 			flux->n_alloc_cnpy[grid->m] = n_obtain;
 		}
 	}else{  /*  if(n_opt <= n_leaf_conc) */
-		n_demand2 = 1.0 * (amax - a_nlmt);
-		
-		if(n_obtain > n_demand2){
-			flux->n_alloc_cnpy[grid->m] = n_demand2;
-		}else{
-			flux->n_alloc_cnpy[grid->m] = n_obtain;
-		}
+        /* 2016/08/02 by A.Ito */
+        if(n_leaf_conc < 1.1*n_opt){
+            flux->n_realloc[grid->m] = 0.0;
+        }else{
+            n_demand2 = 0.1 * (n_leaf_conc - n_opt);
+            flux->n_realloc[grid->m] = n_demand2;
+        }
 	}
 	
 	flux->n_alloc_strg[grid->m] = n_obtain - flux->n_alloc_cnpy[grid->m];
@@ -775,13 +775,14 @@ void f_n_realloc(
 				flux->n_realloc[grid->m] = n_stock;
 			}
 		}else{  /* if(n_opt <= n_leaf_conc) */
-			n_demand2 = 1.0 * (amax - a_nlmt);
-			
-			if(n_stock > n_demand2){
-				flux->n_realloc[grid->m] = n_demand2;
-			}else{
-				flux->n_realloc[grid->m] = n_stock;
-			}
+            /* 2016/08/02 by A.Ito */
+            if(n_leaf_conc < 1.1*n_opt){
+                flux->n_realloc[grid->m] = 0.0;
+            }else{
+                n_demand2 = 0.1 * (n_leaf_conc - n_opt);
+                
+                flux->n_realloc[grid->m] = n_demand2;
+            }
 		}
 	}else{
 		flux->n_realloc[grid->m] = 0.0;
@@ -860,7 +861,8 @@ void f_n_mcrb_abdn(
 	/* flux->n_mcrb_abdn[grid->m] = 0.1 * f_temp * mass->n_mcrb; */
 	/* flux->n_mcrb_abdn[grid->m] = 0.4 * f_temp * mass->n_mcrb; */
 	/* flux->n_mcrb_abdn[grid->m] = 3.0 * f_temp * mass->n_mcrb; */
-	flux->n_mcrb_abdn[grid->m] = 0.5 * f_temp * mass->n_mcrb;
+    /* 2016/08/02 by A.Ito */
+	flux->n_mcrb_abdn[grid->m] = 0.1 * f_temp * mass->n_mcrb;
     
     /* 2016/06/08 by A.Ito */
     if(EX_NITROGEN == 2){
