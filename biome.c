@@ -279,7 +279,7 @@ void f_biome_processes(
 	
 	/* N dynamics *******************************************/
 	/* biological N2 fixation */
-	f_biolfix(grid, loct, flux);
+	f_biolfix(grid, loct, mass, flux);
 	
 	/* plant root N uptake */
 	f_n_uptake(grid, loct, mass, flux);

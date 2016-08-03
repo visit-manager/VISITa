@@ -413,7 +413,7 @@ void ghg_flux_zero(long month, struct Flux *flux);
 void n_budget(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_n_deposit(struct Grid *grid, struct Loct *loct);
 void n_fertilizer_in(struct Grid *grid, struct Loct *loct);
-void f_biolfix(struct Grid *grid, struct Loct *loct, struct Flux *flux);
+void f_biolfix(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_n_uptake(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_n_abandon_salvage(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, 
 		struct Pmas *mass, struct Pflx *flux);

@@ -139,10 +139,18 @@ Global Biogeochemical Cycles 13, 623-645.
 void f_biolfix(
 	struct Grid *grid, 
 	struct Loct *loct,
+    struct Mass *mass,
 	struct Flux *flux
 ){
-	double aet, total_nbiofix;
+	double aet, total_nbiofix, max_n_c3, max_n_c4, n_c3, n_c4;
+    
+    /* N saturation: 2016/08/03 by A.Ito */
+    n_c3 = (mass->c3).n_cnpy + (mass->c3).n_strg;
+    n_c4 = (mass->c4).n_cnpy + (mass->c4).n_strg;
 	
+    max_n_c3 = 1000000.0 * ((mass->c3).fol/10.0 + ((mass->c3).stm + (mass->c3).rot)/20.0);
+    max_n_c4 = 1000000.0 * ((mass->c4).fol/10.0 + ((mass->c4).stm + (mass->c4).rot)/20.0);
+
 	/* annual actual evapotranspiration */
 	aet = loct->incep[grid->m] + loct->evpr[grid->m] + loct->trspr[grid->m];
 	aet *= 0.1; /* cm month-1 */
@@ -167,8 +175,17 @@ void f_biolfix(
     /* 2016/07/25 by A.Ito  for debugging */
     /* total_nbiofix *= 0.01; */
     
-	(flux->c3).n_biofix[grid->m] = total_nbiofix;
-	(flux->c4).n_biofix[grid->m] = total_nbiofix;
+    if(n_c3 > max_n_c3){
+        (flux->c3).n_biofix[grid->m] = 0.0;
+    }else{
+        (flux->c3).n_biofix[grid->m] = total_nbiofix;
+    }
+
+    if(n_c4 > max_n_c4){
+        (flux->c4).n_biofix[grid->m] = 0.0;
+    }else{
+        (flux->c4).n_biofix[grid->m] = total_nbiofix;
+    }
 }
 
 /** NH3 volatilization **********************************************/
@@ -478,9 +495,9 @@ void f_n_mineralz(
     /* f_nmin_l = 50.0;
     f_nmin_h = 80.0; */
 	
-    /* 2016/08/02 by A.Ito */
+    /* 2016/08/03 by A.Ito */
     f_nmin_l = 0.2;
-    f_nmin_h = 0.2;
+    f_nmin_h = 0.4;
 	
 	/** litter **/
 	if(mass->ltr > 0.01){
