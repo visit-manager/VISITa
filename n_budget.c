@@ -74,7 +74,7 @@ void n_budget(
 	
 	/* soil N *************************************************/
 	/* microbe */
-	(mass->soil).n_mcrb += (flux->soil).n_immbl_no3[grid->m]
+	(mass->soil).n_mcrb += (flux->soil).n_immbl_nh4[grid->m]
                         + (flux->soil).n_immbl_no3[grid->m]
 						- (flux->soil).n_mcrb_abdn[grid->m];
 	if((mass->soil).n_mcrb < 0.0){
