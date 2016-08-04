@@ -831,9 +831,9 @@ void f_n_immoblz(
 	f_immbl_nh4 = 0.002; */
     
     /* 2016/07/06 by A.Ito *****/
-    /* 2016/08/03 by A.Ito *****/
-	f_immbl_no3 = 0.0005;
-	f_immbl_nh4 = 0.0005;
+    /* 2016/08/04 by A.Ito *****/
+	f_immbl_no3 = 0.00025;
+	f_immbl_nh4 = 0.00025;
     
     /* 2016/06/05 by A.Ito *****/
 	/* flux->n_immbl[grid->m] = 0.05 * flux->n_minerlz_lttr[grid->m] +
@@ -878,8 +878,8 @@ void f_n_mcrb_abdn(
 	/* flux->n_mcrb_abdn[grid->m] = 0.1 * f_temp * mass->n_mcrb; */
 	/* flux->n_mcrb_abdn[grid->m] = 0.4 * f_temp * mass->n_mcrb; */
 	/* flux->n_mcrb_abdn[grid->m] = 3.0 * f_temp * mass->n_mcrb; */
-    /* 2016/08/03 by A.Ito */
-	flux->n_mcrb_abdn[grid->m] = 0.05 * f_temp * mass->n_mcrb;
+    /* 2016/08/04 by A.Ito */
+	flux->n_mcrb_abdn[grid->m] = 0.025 * f_temp * mass->n_mcrb;
     
     /* 2016/06/08 by A.Ito */
     if(EX_NITROGEN == 2){
