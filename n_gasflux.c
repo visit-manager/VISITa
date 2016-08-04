@@ -101,7 +101,7 @@ void f_n2o_emit_ngas(
 		/* 2009/06/15 by A.Ito */
         /* micro g g-1*/
 		nh4_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000000.0);
-		no3_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000000.0); /* */ /* low */
+		no3_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000000.0*0.3); /* */ /* low */
 		/* nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0);	
 		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0); */	 /* high */
 	}
@@ -241,7 +241,7 @@ void f_n2o_emit_ngas(
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.012 * MDN[grid->m]; */ /* 2010/03/30 */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.005 * MDN[grid->m]; */ /* 2016/05/30 */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.00291 * MDN[grid->m]; */ /* 2016/07/06 */
-	(flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.004 * MDN[grid->m]; /* 2016/08/02 */
+	(flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.003 * MDN[grid->m]; /* 2016/08/02 */
     
     aa = (flux->soil).d_n2o_ntr_ngas[grid->m] + (flux->soil).n_nitrif[grid->m];
     if(aa > 0.5*(mass->soil).n_nh4){
