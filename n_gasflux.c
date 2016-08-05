@@ -201,7 +201,9 @@ void f_n2o_emit_ngas(
 		fr_no3 = 0.0;
 	}
 	/* Fig.(5c) in Parton et al. (1996) */
-	fr_co2 = 13.0 + (30.78 * atan(PI * 0.07 * ((flux->soil).hr[grid->m]*1000.0/MDN[grid->m] - 13.0))) / PI;
+	/* fr_co2 = 13.0 + (30.78 * atan(PI * 0.07 * ((flux->soil).hr[grid->m]*1000.0/MDN[grid->m] - 13.0))) / PI; */
+    /* 2016/08/05 by A.Ito */
+	fr_co2 = 13.0 + (30.78 * atan(PI * 0.07 * (flux->sr[grid->m]*1000.0/MDN[grid->m] - 13.0))) / PI;
 	if(fr_co2 < 0.0){
 		fr_co2 = 0.0;
 	}
