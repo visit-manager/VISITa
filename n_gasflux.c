@@ -227,6 +227,10 @@ void f_n2o_emit_ngas(
     }else{
         day_d_n2 = 0.0;
     }
+    
+    loct->xx1[grid->m] = fr_no3;
+    loct->xx2[grid->m] = fr_co2;
+    loct->xx3[grid->m] = fr_wfps;
 	
 	/* g N20 ha-1 month-1 */
 	(flux->soil).d_n2o_ntr_ngas[grid->m] = day_n_n2o * 44.0/28.0 * MDN[grid->m];

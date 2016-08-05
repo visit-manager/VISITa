@@ -148,8 +148,8 @@ void f_biolfix(
     n_c3 = (mass->c3).n_cnpy + (mass->c3).n_strg;
     n_c4 = (mass->c4).n_cnpy + (mass->c4).n_strg;
 	
-    max_n_c3 = 1000000.0 * ((mass->c3).fol/10.0 + ((mass->c3).stm + (mass->c3).rot)/20.0);
-    max_n_c4 = 1000000.0 * ((mass->c4).fol/10.0 + ((mass->c4).stm + (mass->c4).rot)/20.0);
+    max_n_c3 = 1000000.0 * ((mass->c3).fol/12.0 + ((mass->c3).stm + (mass->c3).rot)/24.0);
+    max_n_c4 = 1000000.0 * ((mass->c4).fol/12.0 + ((mass->c4).stm + (mass->c4).rot)/24.0);
 
 	/* annual actual evapotranspiration */
 	aet = loct->incep[grid->m] + loct->evpr[grid->m] + loct->trspr[grid->m];
@@ -536,7 +536,7 @@ void f_n_leaching(
 	/* fad_no3 = 0.1; */ /* 2010/04/06 by A.Ito */
 	/* fad_no3 = 0.5; */ /* 2016/06/01 by A.Ito */
 	/* fad_no3 = 0.3; */ /* 2016/06/29 by A.Ito */
-	fad_no3 = 0.1; /* 2016/07/04 by A.Ito */
+	fad_no3 = 0.2; /* 2016/08/05 by A.Ito */
 
 	/* g N / ha */
 	/* kg H2O / m2 */ /* 2016/07/05 by A.Ito */
@@ -590,8 +590,8 @@ void f_n_uptake(
     n_c4 = (mass->c4).n_cnpy + (mass->c4).n_strg;
     
     /* g N ha-1 */
-    max_n_c3 = 1000000.0 * ((mass->c3).fol/10.0 + ((mass->c3).stm + (mass->c3).rot)/20.0);
-    max_n_c4 = 1000000.0 * ((mass->c4).fol/10.0 + ((mass->c4).stm + (mass->c4).rot)/20.0);
+    max_n_c3 = 1000000.0 * ((mass->c3).fol/12.0 + ((mass->c3).stm + (mass->c3).rot)/24.0);
+    max_n_c4 = 1000000.0 * ((mass->c4).fol/12.0 + ((mass->c4).stm + (mass->c4).rot)/24.0);
     
     k_n = 1.0 + max_n_c3 * 0.1;
     nsat_c3 = n_c3 / (k_n + n_c3);
