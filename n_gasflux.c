@@ -174,7 +174,7 @@ void f_n2o_emit_ngas(
 	
     /* 2016/08/05 by A.Ito */
     /* medium */
-    fd_wfps = 4.82 / pow(14.0, (16.0 / pow(14.0, 1.39*wfps_b))); /* */
+    /* fd_wfps = 4.82 / pow(14.0, (16.0 / pow(14.0, 1.39*wfps_b))); */
 
 	/* Fig.(3b) in Parton et al. (1996) */
 	fd_no3 = 11000.0 + (40000.0 * atan(PI * 0.002 * (no3_soil - 180.0)))/PI;
