@@ -96,12 +96,12 @@ void f_n2o_emit_ngas(
 		/* nmax = 23.0; */  /* 30.0=>25.0=>23.0 2014/11/30 by A.Ito */
 		/* kmax = 4.0; */   /* 3.8: 2016/05/30 by A.Ito */
 		/* nmax = 30.0; */  /* 30.0: 2016/05/30 by A.Ito */
-		kmax = 2.0;   /* 3.8: 2016/05/30 by A.Ito */
-		nmax = 10.0;  /* 30.0: 2016/05/30 by A.Ito */
+		kmax = 3.0;   /* 3.8: 2016/08/05 by A.Ito */
+		nmax = 15.0;  /* 30.0: 2016/08/05 by A.Ito */
 		/* 2009/06/15 by A.Ito */
         /* micro g g-1*/
 		nh4_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000000.0);
-		no3_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000000.0*0.3); /* */ /* low */
+		no3_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000000.0); /* */ /* low */
 		/* nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0);	
 		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0); */	 /* high */
 	}
@@ -172,6 +172,10 @@ void f_n2o_emit_ngas(
 		fd_wfps = 0.0;
 	}
 	
+    /* 2016/08/05 by A.Ito */
+    /* medium */
+    fd_wfps = 4.82 / pow(14.0, (16.0 / pow(14.0, 1.39*wfps_b))); /* */
+
 	/* Fig.(3b) in Parton et al. (1996) */
 	fd_no3 = 11000.0 + (40000.0 * atan(PI * 0.002 * (no3_soil - 180.0)))/PI;
 	if(fd_no3 < 0.0){
