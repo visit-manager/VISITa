@@ -536,7 +536,7 @@ void f_n_leaching(
 	/* fad_no3 = 0.1; */ /* 2010/04/06 by A.Ito */
 	/* fad_no3 = 0.5; */ /* 2016/06/01 by A.Ito */
 	/* fad_no3 = 0.3; */ /* 2016/06/29 by A.Ito */
-	fad_no3 = 0.5; /* 2016/08/05 by A.Ito */
+	fad_no3 = 0.75; /* 2016/08/14 by A.Ito */
 
 	/* g N / ha */
 	/* kg H2O / m2 */ /* 2016/07/05 by A.Ito */

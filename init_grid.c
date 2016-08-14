@@ -557,7 +557,7 @@ void f_init_grid(
 	
 	/* Cropland coverage by Ramankutty & Foley (1999) */
 	for(h=0;h<293;h++){
-		fscanf(fp_s[11],"%lf", &(grid->fcrop_sage[h])); 
+		fscanf(fp_s[11],"%lf", &(grid->fcrop_net[h])); 
 	}
 	
 	/* current linear trend of land-use chnage */
@@ -565,9 +565,9 @@ void f_init_grid(
 	for(h=0;h<10;h++){
 		x += (double)h;
 		xx += (double)h * (double)h;
-		y += grid->fcrop_sage[280+h];
-		yy += grid->fcrop_sage[280+h]*grid->fcrop_sage[280+h];
-		xy += (double)h*grid->fcrop_sage[280+h];
+		y += grid->fcrop_net[280+h];
+		yy += grid->fcrop_net[280+h]*grid->fcrop_net[280+h];
+		xy += (double)h*grid->fcrop_net[280+h];
 	}
 	grid->f_crop_trend = (10.0*xy - x*y)/(10.0*xx - x*x);
 	
@@ -577,18 +577,33 @@ void f_init_grid(
 	vegetation cover (1850-2100) for use in climate models. 
 	Global Biogeochemical Cycles 20, 10.1029/2005GB002514.
 	*/
-	for(h=0;h<111;h++){
-		fscanf(fp_s[23],"%lf", &(grid->fcrop3_image[h])); 
-	}
-	for(h=0;h<111;h++){
-		fscanf(fp_s[23],"%lf", &(grid->fcrop4_image[h])); 
-	}
-	for(h=0;h<111;h++){
-		fscanf(fp_s[45],"%lf", &(grid->fgrass3_image[h])); 
-	}
-	for(h=0;h<111;h++){
-		fscanf(fp_s[45],"%lf", &(grid->fgrass4_image[h])); 
-	}
+    if(GCM_ID>=2100 && GCM_ID<=2999){
+        /* ICARUS 2016/08/12 */
+        
+        for(h=0;h<111;h++){
+            fscanf(fp_s[23],"%lf", &(grid->fcrop3_image[h]));
+            grid->fcrop4_image[h] = 0.0;
+        }
+        for(h=0;h<111;h++){
+            fscanf(fp_s[45],"%lf", &(grid->fgrass3_image[h]));
+        }
+        for(h=0;h<111;h++){
+            fscanf(fp_s[45],"%lf", &(grid->fgrass4_image[h])); 
+        }
+    }else{
+        for(h=0;h<111;h++){
+            fscanf(fp_s[23],"%lf", &(grid->fcrop3_image[h])); 
+        }
+        for(h=0;h<111;h++){
+            fscanf(fp_s[23],"%lf", &(grid->fcrop4_image[h])); 
+        }
+        for(h=0;h<111;h++){
+            fscanf(fp_s[45],"%lf", &(grid->fgrass3_image[h])); 
+        }
+        for(h=0;h<111;h++){
+            fscanf(fp_s[45],"%lf", &(grid->fgrass4_image[h])); 
+        }
+    }
 	
 	/* soil texture */
 	fscanf(fp_s[12],"%ld", &(grid->soiltexture)); 

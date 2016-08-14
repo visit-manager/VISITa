@@ -45,7 +45,7 @@ long EX_SRM, EX_CCPL;
 /* 14: surface radiation -8.5 W m-2 */
 
 /* perturbation term */
-double f_pert[NPERT];
+double f_pert[N_PARA_ENS];
 
 /* atm. GHG scenario */
 double aco2_a1[DL_AGHG], aco2_a2[DL_AGHG], aco2_b1[DL_AGHG], aco2_b2[DL_AGHG];

@@ -54,7 +54,7 @@ void cal_spinup(
 		grid->f_crop_p = 0.0;
 		grid->f_pasture_p = 0.0;
 	}else if(LANDUSE>=1 && LANDUSE<=5){
-		grid->f_crop_p = grid->fcrop_sage[199];
+		grid->f_crop_p = grid->fcrop_net[199];
 		grid->f_pasture_p = 0.0;
 	}else if(LANDUSE == 6 || LANDUSE == 8){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[199];

@@ -209,7 +209,7 @@ struct Grid{
 	double 	fk_edodibility;					/* soil erodibility for RUSLE erosion model */
 	
 	/* land-use change */
-	double 	fcrop_sage[293];				/* historical data, 1700-1992, Ramankutty & Foley */
+	double 	fcrop_net[293];                 /* historical data, 1700-1992, Ramankutty & Foley */
 	/* future, 1990-2100, IMAGE2, Wang et al. */
 	double 	fcrop3_image[111];				/* C3 crop */
 	double 	fcrop4_image[111];				/* C4 crop */

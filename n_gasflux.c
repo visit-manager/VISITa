@@ -33,41 +33,51 @@ void f_n2o_emit_ngas(
 	double fd_wfps, fd_no3, fd_co2, dt;
 	double fr_wfps, fr_no3, fr_co2;
 	double day_d_n2, day_d_n2o;
-	double nh4_soil;		/* micro g g-1*/
+	double nh4_soil;    /* micro g g-1*/
 	double no3_soil;		
 	double kmax;		/* g N ha-1 day-1 */ /* assumed */
 	double nmax;							/* assumed */
 	extern double MDN[ASTEP];
-	double vmw_b, wfps_b;
+	double wfps1, wfps2, wfps_b_n, wfps_b_d;
     
     /* 2016/07/08 by A.Ito */
-    /* 2016/08/04 by A.Ito */
+    /* 2016/08/14 by A.Ito */
     ee = 1.0 - exp(-3.0 * 0.3);
-	
-    /* 2016/06/12 by A.Ito */
-    if(EX_NITROGEN == 3){
     
-        if( grid->field_cap1 > 0.0 && grid->field_cap2 > 0.0){
-            /* vmw_b = (loct->sw30 + loct->sww) / (grid->field_cap1 + grid->field_cap2); */
-            vmw_b = ee * loct->sw30 / grid->field_cap1 + (1.0-ee) * loct->sww / grid->field_cap2;
-        }else{
-            /* vmw_b = (loct->sw30 + loct->sww) / 1500.0; */
-            vmw_b = loct->sw30 / 300.0;
-        }
-        
+    if(grid->field_cap1 > 0.0){
+        wfps1 = loct->sw30 / grid->field_cap1;
     }else{
-        /* vmw_b = (loct->sw30 + loct->sww) / 1500.0; */
-        vmw_b = (loct->sw30 + loct->sww) / 1000.0;
+        wfps1 = 0.0;
     }
     
-    wfps_b = vmw_b;
-	/* wfps_b = vmw_b / (1.0 - grid->bulkdens/2.65); */
+    if(grid->field_cap2 > 0.0){
+        wfps2 = loct->sww / grid->field_cap2;
+    }else{
+        wfps2 = 0.0;
+    }
     
-	if(wfps_b > 0.95){
-		wfps_b = 0.95;
+    if(wfps1 < wfps2){
+        wfps_b_n = wfps1;
+    }else{
+        wfps_b_n = ee * wfps1 + (1.0 - ee) * wfps2;
+    }
+	if(wfps_b_n > 0.99){
+		wfps_b_n = 0.99;
 	}
-	if(wfps_b < 0.05){
-		wfps_b = 0.05;
+	if(wfps_b_n < 0.01){
+		wfps_b_n = 0.01;
+	}
+   
+     if(wfps1 < wfps2){
+        wfps_b_d = wfps2;
+    }else{
+        wfps_b_d = ee * wfps1 + (1.0 - ee) * wfps2;
+    }
+	if(wfps_b_d > 0.99){
+		wfps_b_d = 0.99;
+	}
+	if(wfps_b_d < 0.01){
+		wfps_b_d = 0.01;
 	}
 	
 	/* added by A.Ito (2009/06/16) */
@@ -119,15 +129,15 @@ void f_n2o_emit_ngas(
 	/* Fig.(2a) in Parton et al. (1996) */
 	if(grid->soiltexture == 1 || grid->soiltexture == 2){
 		/* sandy */
-		aa = (wfps_b - 1.70) / (0.55 - 1.70);
+		aa = (wfps_b_n - 1.70) / (0.55 - 1.70);
 		bb = 3.22 * ((1.70 - 0.55) / (0.55 + 0.007));
-		cc = (wfps_b + 0.007) / (0.55 + 0.007);
+		cc = (wfps_b_n + 0.007) / (0.55 + 0.007);
 		n_h2o = pow(aa, bb) * pow(cc, 3.22);
 	}else{
 		/* medium and fine */
-		aa = (wfps_b - 1.27) / (0.60 - 1.27);
+		aa = (wfps_b_n - 1.27) / (0.60 - 1.27);
 		bb = 2.84 * ((1.27 - 0.60) / (0.60 - 0.0012));
-		cc = (wfps_b - 0.0012) / (0.60 - 0.0012);
+		cc = (wfps_b_n - 0.0012) / (0.60 - 0.0012);
 		n_h2o = pow(aa, bb) * pow(cc, 2.84);
 	}
 	
@@ -160,13 +170,13 @@ void f_n2o_emit_ngas(
 	/* Fig.(3a) in Parton et al. (1996) */
 	if(grid->soiltexture == 1 || grid->soiltexture == 2){
 		/* sandy */
-		fd_wfps = 1.56 / pow(12.0, (16.0 / pow(12.0, 2.01*wfps_b)));
+		fd_wfps = 1.56 / pow(12.0, (16.0 / pow(12.0, 2.01*wfps_b_d)));
 	}else if(grid->soiltexture == 4 || grid->soiltexture == 5){
 		/* fine */
-		fd_wfps = 60.0 / pow(18.0, (22.0 / pow(18.0, 1.06*wfps_b)));
+		fd_wfps = 60.0 / pow(18.0, (22.0 / pow(18.0, 1.06*wfps_b_d)));
 	}else{
 		/* medium */
-		fd_wfps = 4.82 / pow(14.0, (16.0 / pow(14.0, 1.39*wfps_b)));
+		fd_wfps = 4.82 / pow(14.0, (16.0 / pow(14.0, 1.39*wfps_b_d)));
 	}
 	if(fd_wfps < 0.0){
 		fd_wfps = 0.0;
@@ -195,7 +205,7 @@ void f_n2o_emit_ngas(
 	}
 	
 	/* Fig.(5a) in Parton et al. (1996) */
-	fr_wfps = 1.4 / pow(13.0, 17.0/pow(13.0, 2.2*wfps_b));
+	fr_wfps = 1.4 / pow(13.0, 17.0/pow(13.0, 2.2*wfps_b_d));
 	if(fr_wfps < 0.0){
 		fr_wfps = 0.0;
 	}

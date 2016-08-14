@@ -141,14 +141,14 @@ int main(
 		strcat(s_date, "E");
 		strcat(s_date, num);
 		strcat(s_date, "_");
-        for(f=0;f<NPERT;f++){
+        for(f=0;f<N_PARA_ENS;f++){
             f_pert[f] = 0.0;
         }
     }else{
         if(PARAM_PTB >= 1){
             srand((unsigned int)(rpert + clock()%1000));
             rand();
-            for(f=0;f<NPERT;f++){
+            for(f=0;f<N_PARA_ENS;f++){
                 f_pert[f] = 0.0;
                 for(g=0;g<12;g++){
                     f_pert[f] += (double)rand() / (double)RAND_MAX;
@@ -181,7 +181,7 @@ int main(
             strcat(s_date, num);
             strcat(s_date, "_");
         }else{
-            for(f=0;f<NPERT;f++){
+            for(f=0;f<N_PARA_ENS;f++){
                 f_pert[f] = 0.0;
             }
         }
