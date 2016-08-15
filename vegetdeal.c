@@ -720,6 +720,67 @@ void set_gcm_index(
 		case 2047:	strcpy(s_case,"ISIN45N_"); break;
 		case 2048:	strcpy(s_case,"ISIN60N_"); break;
         
+        /* ICARUS: 2016/08/15 by A.Ito */
+        case 2101:	strcpy(s_case,"ICGFS1R26_"); break;
+        case 2102:	strcpy(s_case,"ICGFS1R45_"); break;
+        case 2103:	strcpy(s_case,"ICGFS2R26_"); break;
+        case 2104:	strcpy(s_case,"ICGFS2R45_"); break;
+        case 2105:	strcpy(s_case,"ICGFS2R60_"); break;
+        case 2106:	strcpy(s_case,"ICGFS3R45_"); break;
+        case 2107:	strcpy(s_case,"ICGFS3R60_"); break;
+        case 2108:	strcpy(s_case,"ICGFS4R26_"); break;
+        case 2109:	strcpy(s_case,"ICGFS4R45_"); break;
+        case 2110:	strcpy(s_case,"ICGFS5R26_"); break;
+        case 2111:	strcpy(s_case,"ICGFS5R45_"); break;
+        
+        case 2201:	strcpy(s_case,"ICHDS1R26_"); break;
+        case 2202:	strcpy(s_case,"ICHDS1R45_"); break;
+        case 2203:	strcpy(s_case,"ICHDS2R26_"); break;
+        case 2204:	strcpy(s_case,"ICHDS2R45_"); break;
+        case 2205:	strcpy(s_case,"ICHDS2R60_"); break;
+        case 2206:	strcpy(s_case,"ICHDS3R45_"); break;
+        case 2207:	strcpy(s_case,"ICHDS3R60_"); break;
+        case 2208:	strcpy(s_case,"ICHDS4R26_"); break;
+        case 2209:	strcpy(s_case,"ICHDS4R45_"); break;
+        case 2210:	strcpy(s_case,"ICHDS5R26_"); break;
+        case 2211:	strcpy(s_case,"ICHDS5R45_"); break;
+        
+        case 2301:	strcpy(s_case,"ICIPS1R26_"); break;
+        case 2302:	strcpy(s_case,"ICIPS1R45_"); break;
+        case 2303:	strcpy(s_case,"ICIPS2R26_"); break;
+        case 2304:	strcpy(s_case,"ICIPS2R45_"); break;
+        case 2305:	strcpy(s_case,"ICIPS2R60_"); break;
+        case 2306:	strcpy(s_case,"ICIPS3R45_"); break;
+        case 2307:	strcpy(s_case,"ICIPS3R60_"); break;
+        case 2308:	strcpy(s_case,"ICIPS4R26_"); break;
+        case 2309:	strcpy(s_case,"ICIPS4R45_"); break;
+        case 2310:	strcpy(s_case,"ICIPS5R26_"); break;
+        case 2311:	strcpy(s_case,"ICIPS5R45_"); break;
+        
+        case 2401:	strcpy(s_case,"ICMIS1R26_"); break;
+        case 2402:	strcpy(s_case,"ICMIS1R45_"); break;
+        case 2403:	strcpy(s_case,"ICMIS2R26_"); break;
+        case 2404:	strcpy(s_case,"ICMIS2R45_"); break;
+        case 2405:	strcpy(s_case,"ICMIS2R60_"); break;
+        case 2406:	strcpy(s_case,"ICMIS3R45_"); break;
+        case 2407:	strcpy(s_case,"ICMIS3R60_"); break;
+        case 2408:	strcpy(s_case,"ICMIS4R26_"); break;
+        case 2409:	strcpy(s_case,"ICMIS4R45_"); break;
+        case 2410:	strcpy(s_case,"ICMIS5R26_"); break;
+        case 2411:	strcpy(s_case,"ICMIS5R45_"); break;
+ 
+        case 2501:	strcpy(s_case,"ICNOS1R26_"); break;
+        case 2502:	strcpy(s_case,"ICNOS1R45_"); break;
+        case 2503:	strcpy(s_case,"ICNOS2R26_"); break;
+        case 2504:	strcpy(s_case,"ICNOS2R45_"); break;
+        case 2505:	strcpy(s_case,"ICNOS2R60_"); break;
+        case 2506:	strcpy(s_case,"ICNOS3R45_"); break;
+        case 2507:	strcpy(s_case,"ICNOS3R60_"); break;
+        case 2508:	strcpy(s_case,"ICNOS4R26_"); break;
+        case 2509:	strcpy(s_case,"ICNOS4R45_"); break;
+        case 2510:	strcpy(s_case,"ICNOS5R26_"); break;
+        case 2511:	strcpy(s_case,"ICNOS5R45_"); break;
+
         /* GEO-MIP runs: 2013/11/26 by A.Ito */
 		case 3000:	strcpy(s_case,"GEBN45_"); break;
 		case 3001:	strcpy(s_case,"GEBNG3_"); break;

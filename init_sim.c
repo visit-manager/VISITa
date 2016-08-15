@@ -229,6 +229,12 @@ void f_init_sim(
 		h_nh3_emit_agr[f] = 0.0;
 		h_no3_leach[f] = 0.0;
 		h_n_fertin[f] = h_n_depoin[f] = 0.0;
+        h_n_mcrb[f] = h_n_no3[f] = h_n_nh4[f] = 0.0; /* 2016/06/23 by A.Ito */
+        h_n_cnpy[f] = h_n_strg[f] = h_n_lttr[f] = h_n_hums[f] = 0.0;
+        
+        h_n_immbl[f] = h_n_lmnrl[f] = h_n_hmnrl[f] = 0.0;
+        h_n_cabdn[f] = h_n_sabdn[f] = h_n_uptk[f] = 0.0;
+
 		h_hvst_wood[f] = h_wetarea[f] = h_deforest[f] = 0.0;
 
 		h_voc_isopr_g97[f] = h_voc_monotrp_g97[f] = h_voc_methanl_g97[f] = 0.0;
@@ -263,6 +269,7 @@ void f_init_sim(
 		vo_area[f] = 0.0;
 		vo_gpp[f] = vo_npp[f] = vo_nep[f] = 0.0;
 		vo_lai[f] = vo_fol[f] = vo_stm[f] = vo_rot[f] = vo_ltr[f] = vo_msl[f] = 0.0;
+        vo_n_cnpy[f] = vo_n_strg[f] = vo_n_mcrb[f] = vo_n_ltr[f] = vo_n_hms[f] = 0.0;
 	}
 	for(f=0;f<NVEG_SAGE;f++){
 		vs_area[f] = 0.0;

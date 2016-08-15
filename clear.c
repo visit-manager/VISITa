@@ -220,7 +220,8 @@ void ghg_flux_zero(
 	(flux->soil).n_minerlz_lttr[month] = 0.0;
 	(flux->soil).n_minerlz_hums[month] = 0.0;
 	(flux->soil).n_nitrif[month] = 0.0;
-	(flux->soil).n_immbl[month] = 0.0;
+	(flux->soil).n_immbl_no3[month] = 0.0;
+	(flux->soil).n_immbl_nh4[month] = 0.0;
 	(flux->soil).n_mcrb_abdn[month] = 0.0;
 	(flux->soil).doc_boyer[month] = 0.0;
 	(flux->soil).n_fertin[month] = 0.0;

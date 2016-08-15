@@ -243,7 +243,7 @@ void initVS(
 	}
 	
 	/* set initial soil mineral nitrogen */
-	/* kg N ha-1 */
+	/* g N ha-1 */
 	(mass->c3).n_cnpy = (mass->c3).fol/10.0 * 1000.0;
 	(mass->c3).n_strg = ((mass->c3).stm + (mass->c3).rot)/10.0 * 1000.0;
 

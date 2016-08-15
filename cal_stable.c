@@ -29,7 +29,7 @@ void cal_spinup(
 	grid->phase = 0; /* spin-up */
 	
 	/* max. spin-up time, years *************/
-	if((echar->c3).v_type==1){
+	if((echar->c3).v_type == 1){
 		/* corrected: A.Ito and E.Kato (2009/08/16) */
 		if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 
 				|| grid->veg_olson==32){
@@ -54,7 +54,7 @@ void cal_spinup(
 		grid->f_crop_p = 0.0;
 		grid->f_pasture_p = 0.0;
 	}else if(LANDUSE>=1 && LANDUSE<=5){
-		grid->f_crop_p = grid->fcrop_sage[199];
+		grid->f_crop_p = grid->fcrop_net[199];
 		grid->f_pasture_p = 0.0;
 	}else if(LANDUSE == 6 || LANDUSE == 8){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[199];
@@ -77,10 +77,13 @@ void cal_spinup(
 	}
 	
     /* historical fertilizer */
+    grid->niny = 1901;
+    n_fertilizer_in(grid, loct);
+    
 	if(grid->rank_nat == 1){
 		/* developing countries */
 		f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - 1900.0)))+0.0014929171;
-	}else if(grid->rank_nat==2){
+	}else if(grid->rank_nat == 2){
 		/* developed countries */
 		f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - 1900.0)))+0.53533202;
 	}else{
@@ -88,7 +91,6 @@ void cal_spinup(
     }
     /* NMIP input: 2015/11/19 by A.Ito */
     if(NMIP_RUN >= 1){
-        n_fertilizer_in(grid, loct);
         f_fert = 1.0; /* driven by data */
     }
     

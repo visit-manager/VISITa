@@ -209,7 +209,7 @@ struct Grid{
 	double 	fk_edodibility;					/* soil erodibility for RUSLE erosion model */
 	
 	/* land-use change */
-	double 	fcrop_sage[293];				/* historical data, 1700-1992, Ramankutty & Foley */
+	double 	fcrop_net[293];                 /* historical data, 1700-1992, Ramankutty & Foley */
 	/* future, 1990-2100, IMAGE2, Wang et al. */
 	double 	fcrop3_image[111];				/* C3 crop */
 	double 	fcrop4_image[111];				/* C4 crop */
@@ -496,6 +496,9 @@ struct Pchar{
 	double	kn_nphoto;				/* canopy N gradient, exponential coefficient */
 	double	amax_nphoto;			/* max. photosynthesis rate, micro mol CO2 m-2 s-1 */
 	double	rd_n;					/* dark respiration, micro mol CO2 m-2 s-1 */
+    /* 2016/08/02 by A.Ito */
+    double  n_opt[ASTEP];
+    double  n_leaf[ASTEP];
 	
 	double	n_leaf_df97;			/* leaf N concentration, mmol N m-2 */
 	
@@ -901,7 +904,8 @@ struct Sflx{
 	double	n_minerlz_lttr[ASTEP];			/* litter N mineralization */
 	double	n_minerlz_hums[ASTEP];			/* humus N mineralization */
 	double	n_nitrif[ASTEP];				/* nitrification in NGAS */
-	double	n_immbl[ASTEP];					/* N immobilization */
+	double	n_immbl_nh4[ASTEP];				/* NH4+ immobilization */
+	double	n_immbl_no3[ASTEP];				/* NO3- immobilization */
 	double	n_mcrb_abdn[ASTEP];				/* microbial abandonment */
 	
 	double	n_fertin[ASTEP];				/* fertilizer input */

@@ -153,10 +153,12 @@ void open_input(
             exit(1);
         }
     }else /* ISI-MIP: 2012/06/27 by A.Ito */
+    /* ICARUS SSPs: 2016/08/14 by A.Ito */
     if(ISIMIP_RUN == 1){
         switch(GCM_ID){
             case 2001: case 2005:
-                if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
+                case 2201: case 2203: case 2208: case 2210:
+                if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_hadgem_1950-2099.flt","rb"))==NULL ){
                     printf("No tas_rcp2p6_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
                 }
@@ -192,6 +194,7 @@ void open_input(
                 }
                 break;
             case 2003: case 2007:
+                case 2202: case 2204: case 2206: case 2209: case 2211:
                 if( (fp_c[0]=fopen("./data/tas_rcp4p5_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp4p5_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
@@ -210,6 +213,7 @@ void open_input(
                 }
                 break;
             case 2004: case 2008:
+                case 2205: case 2207:
                 if( (fp_c[0]=fopen("./data/tas_rcp6p0_isimip_hadgem_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp6p0_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
@@ -228,6 +232,7 @@ void open_input(
                 }
                 break;
             case 2011: case 2015:
+                case 2301: case 2303: case 2308: case 2310:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp2p6_isimip_ipsl_1950-2099.flt\n");  
                     exit(1); 
@@ -264,6 +269,7 @@ void open_input(
                 }
                 break;
             case 2013: case 2017:
+                case 2302: case 2304: case 2306: case 2309: case 2311:
                 if( (fp_c[0]=fopen("./data/tas_rcp4p5_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp4p5_isimip_ipsl_1950-2099.flt\n");  
                     exit(1); 
@@ -282,6 +288,7 @@ void open_input(
                 }
                 break;
             case 2014: case 2018:
+                case 2305: case 2307:
                 if( (fp_c[0]=fopen("./data/tas_rcp6p0_isimip_ipsl_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp6p0_isimip_ipsl_1950-2099.flt\n");  
                     exit(1); 
@@ -300,6 +307,7 @@ void open_input(
                 }
                 break;
             case 2021: case 2025:
+                case 2101: case 2103: case 2108: case 2110:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp2p6_isimip_gfdl_1950-2099.flt\n");  
                     exit(1); 
@@ -336,6 +344,7 @@ void open_input(
                 }
                 break;
             case 2023: case 2027:
+                case 2102: case 2104: case 2106: case 2109: case 2111:
                 if( (fp_c[0]=fopen("./data/tas_rcp4p5_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp4p5_isimip_gfdl_1950-2099.flt\n");  
                     exit(1); 
@@ -354,6 +363,7 @@ void open_input(
                 }
                 break;
             case 2024: case 2028:
+                case 2105: case 2107:
                 if( (fp_c[0]=fopen("./data/tas_rcp6p0_isimip_gfdl_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp6p0_isimip_gfdl_1950-2099.flt\n");  
                     exit(1); 
@@ -372,6 +382,7 @@ void open_input(
                 }
                 break;
             case 2031: case 2035:
+                case 2401: case 2403: case 2408: case 2410:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp2p6_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
@@ -408,6 +419,7 @@ void open_input(
                 }
                 break;
             case 2033: case 2037:
+                case 2402: case 2404: case 2406: case 2409: case 2411:
                 if( (fp_c[0]=fopen("./data/tas_rcp4p5_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp4p5_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
@@ -426,6 +438,7 @@ void open_input(
                 }
                 break;
             case 2034: case 2038:
+                case 2405: case 2407:
                 if( (fp_c[0]=fopen("./data/tas_rcp6p0_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp6p0_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
@@ -444,6 +457,7 @@ void open_input(
                 }
                 break;
             case 2041: case 2045:
+                case 2501: case 2503: case 2508: case 2510:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp2p6_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
@@ -480,6 +494,7 @@ void open_input(
                 }
                 break;
             case 2043: case 2047:
+                case 2502: case 2504: case 2506: case 2509: case 2511:
                 if( (fp_c[0]=fopen("./data/tas_rcp4p5_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp4p5_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
@@ -498,6 +513,7 @@ void open_input(
                 }
                 break;
             case 2044: case 2048:
+                case 2505: case 2507:
                 if( (fp_c[0]=fopen("./data/tas_rcp6p0_isimip_noresm_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp6p0_isimip_noresm_1950-2099.flt\n");  
                     exit(1); 
@@ -583,21 +599,21 @@ void open_input(
                     exit(1); 
                 }
                 break;
-             case 5002:
-                if( (fp_c[0]=fopen("./data/tas_pgfv2_1901_1930_1901_2010_ver2.flt","rb"))==NULL ){
-                    printf("No tas_pgfv2_1901_1930_1901_2010_ver2.flt\n");
+             case 5002: /* corrected (pgfv2.1: 2010 => 2012): 2016/05/06 by A.Ito */
+                if( (fp_c[0]=fopen("./data/tas_pgfv2.1_1901_1930_1901_2012_ver2.flt","rb"))==NULL ){
+                    printf("No tas_pgfv2.1_1901_1930_1901_2012_ver2.flt\n");
                     exit(1); 
                 }
-                if( (fp_c[1]=fopen("./data/pr_pgfv2_1901_1930_1901_2010_ver2.flt","rb"))==NULL ){
-                    printf("No pr_pgfv2_1901_1930_1901_2010_ver2.flt\n");
+                if( (fp_c[1]=fopen("./data/pr_pgfv2.1_1901_1930_1901_2012_ver2.flt","rb"))==NULL ){
+                    printf("No pr_pgfv2.1_1901_1930_1901_2012_ver2.flt\n");
                     exit(1); 
                 }
-                if( (fp_c[2]=fopen("./data/huss_pgfv2_1901_1930_1901_2010_ver2.flt","rb"))==NULL ){
-                    printf("No huss_pgfv2_1901_1930_1901_2010_ver2.flt\n");
+                if( (fp_c[2]=fopen("./data/huss_pgfv2.1_1901_1930_1901_2012_ver2.flt","rb"))==NULL ){
+                    printf("No huss_pgfv2.1_1901_1930_1901_2012_ver2.flt\n");
                     exit(1); 
                 }
-                if( (fp_c[3]=fopen("./data/rsds_pgfv2_1901_1930_1901_2010_ver2.flt","rb"))==NULL ){
-                    printf("No rsds_pgfv2_1901_1930_1901_2010_ver2.flt\n");
+                if( (fp_c[3]=fopen("./data/rsds_pgfv2.1_1901_1930_1901_2012_ver2.flt","rb"))==NULL ){
+                    printf("No rsds_pgfv2.1_1901_1930_1901_2012_ver2.flt\n");
                     exit(1); 
                 }
                 break;
@@ -725,7 +741,7 @@ void open_input(
 		exit(1); 
 	}
 
-	if(ALT_FWETLAND==1){
+	if(ALT_FWETLAND == 1){
 		/* Alternative data (NASA/GISS): 2011/03/30 by A.Ito */
 		if( (fp_s[21]=fopen("./data/fwetland_giss.txt","rt"))==NULL ){  
 			printf("No fwetland_giss.txt\n");  
@@ -1036,7 +1052,7 @@ void open_input(
 		}
     }
     
-    if(LANDUSE==9 || LANDUSE==10){
+    if(LANDUSE==9 || LANDUSE==10 || LANDUSE==18){
         if( (fp_s[59]=fopen("./data/luh_gcrop_rcp45_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gcrop_rcp45_2005_2100.txt\n");  
             exit(1); 
@@ -1746,7 +1762,407 @@ void open_input(
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
     }
 	
-    /**************************************************************/
+     /* ISI-MIP: 2012/06/27 by A.Ito ***********************************/
+    /* assumption: SRES data were used, instead of RCP data */
+    if(GCM_ID==2101 || GCM_ID==2103 || GCM_ID==2108 || GCM_ID==2110 ||
+        GCM_ID==2201 || GCM_ID==2203 || GCM_ID==2208 || GCM_ID==2210 ||
+        GCM_ID==2301 || GCM_ID==2303 || GCM_ID==2308 || GCM_ID==2310 ||
+        GCM_ID==2401 || GCM_ID==2403 || GCM_ID==2408 || GCM_ID==2410 ||
+        GCM_ID==2501 || GCM_ID==2503 || GCM_ID==2508 || GCM_ID==2510){
+        CO2S = 1; /* RCP2.6 */
+        /**/
+        
+        switch(GCM_ID){
+            case 2101:
+                if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp1_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_gfdl_aim_ssp1_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2103:
+                if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp2_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_gfdl_aim_ssp2_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2108:
+                if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp4_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_gfdl_aim_ssp4_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2110:
+                if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp5_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_gfdl_aim_ssp5_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2201:
+                if((fp_s[23]=fopen("./data/fcrop_hadg_aim_ssp1_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_hadg_aim_ssp1_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2203:
+                if((fp_s[23]=fopen("./data/fcrop_hadg_aim_ssp2_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_hadg_aim_ssp2_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2208:
+                if((fp_s[23]=fopen("./data/fcrop_hadg_aim_ssp4_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_hadg_aim_ssp4_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2210:
+                if((fp_s[23]=fopen("./data/fcrop_hadg_aim_ssp5_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_hadg_aim_ssp5_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2301:
+                if((fp_s[23]=fopen("./data/fcrop_ipsl_aim_ssp1_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_ipsl_aim_ssp1_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2303:
+                if((fp_s[23]=fopen("./data/fcrop_ipsl_aim_ssp2_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_ipsl_aim_ssp2_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2308:
+                if((fp_s[23]=fopen("./data/fcrop_ipsl_aim_ssp4_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_ipsl_aim_ssp4_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2310:
+                if((fp_s[23]=fopen("./data/fcrop_ipsl_aim_ssp5_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_ipsl_aim_ssp5_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2401:
+                if((fp_s[23]=fopen("./data/fcrop_miro_aim_ssp1_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_miro_aim_ssp1_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2403:
+                if((fp_s[23]=fopen("./data/fcrop_miro_aim_ssp2_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_miro_aim_ssp2_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2408:
+                if((fp_s[23]=fopen("./data/fcrop_miro_aim_ssp4_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_miro_aim_ssp4_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2410:
+                if((fp_s[23]=fopen("./data/fcrop_miro_aim_ssp5_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_miro_aim_ssp5_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2501:
+                if((fp_s[23]=fopen("./data/fcrop_nore_aim_ssp1_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_nore_aim_ssp1_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2503:
+                if((fp_s[23]=fopen("./data/fcrop_nore_aim_ssp2_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_nore_aim_ssp2_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2508:
+                if((fp_s[23]=fopen("./data/fcrop_nore_aim_ssp4_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_nore_aim_ssp4_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2510:
+                if((fp_s[23]=fopen("./data/fcrop_nore_aim_ssp5_rcp26_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_nore_aim_ssp5_rcp26_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            default:
+                printf("NO fcrop data !!\n");
+                exit(1);
+        }
+        
+		fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt");
+    }else if(GCM_ID==2102 || GCM_ID==2104 || GCM_ID==2106 || GCM_ID==2109 || GCM_ID==2111 ||
+        GCM_ID==2202 || GCM_ID==2204 || GCM_ID==2206 || GCM_ID==2209 || GCM_ID==2211 ||
+        GCM_ID==2302 || GCM_ID==2304 || GCM_ID==2306 || GCM_ID==2309 || GCM_ID==2311 ||
+        GCM_ID==2402 || GCM_ID==2404 || GCM_ID==2406 || GCM_ID==2409 || GCM_ID==2411 ||
+        GCM_ID==2502 || GCM_ID==2504 || GCM_ID==2506 || GCM_ID==2509 || GCM_ID==2511 ){
+        CO2S = 2; /* RCP4.5 */
+        /**/
+        
+        switch(GCM_ID){
+            case 2102:
+                if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp1_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_gfdl_aim_ssp1_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2104:
+                if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp2_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_gfdl_aim_ssp2_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2106:
+                if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp3_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_gfdl_aim_ssp3_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2109:
+                if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp4_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_gfdl_aim_ssp4_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2111:
+                if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp5_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_gfdl_aim_ssp5_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2202:
+                if((fp_s[23]=fopen("./data/fcrop_hadg_aim_ssp1_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_hadg_aim_ssp1_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2204:
+                if((fp_s[23]=fopen("./data/fcrop_hadg_aim_ssp2_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_hadg_aim_ssp2_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2206:
+                if((fp_s[23]=fopen("./data/fcrop_hadg_aim_ssp3_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_hadg_aim_ssp3_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2209:
+                if((fp_s[23]=fopen("./data/fcrop_hadg_aim_ssp4_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_hadg_aim_ssp4_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2211:
+                if((fp_s[23]=fopen("./data/fcrop_hadg_aim_ssp5_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_hadg_aim_ssp5_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2302:
+                if((fp_s[23]=fopen("./data/fcrop_ipsl_aim_ssp1_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_ipsl_aim_ssp1_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2304:
+                if((fp_s[23]=fopen("./data/fcrop_ipsl_aim_ssp2_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_ipsl_aim_ssp2_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2306:
+                if((fp_s[23]=fopen("./data/fcrop_ipsl_aim_ssp3_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_ipsl_aim_ssp3_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2309:
+                if((fp_s[23]=fopen("./data/fcrop_ipsl_aim_ssp4_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_ipsl_aim_ssp4_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2311:
+                if((fp_s[23]=fopen("./data/fcrop_ipsl_aim_ssp5_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_ipsl_aim_ssp5_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2402:
+                if((fp_s[23]=fopen("./data/fcrop_miro_aim_ssp1_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_miro_aim_ssp1_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2404:
+                if((fp_s[23]=fopen("./data/fcrop_miro_aim_ssp2_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_miro_aim_ssp2_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2406:
+                if((fp_s[23]=fopen("./data/fcrop_miro_aim_ssp3_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_miro_aim_ssp3_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2409:
+                if((fp_s[23]=fopen("./data/fcrop_miro_aim_ssp4_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_miro_aim_ssp4_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2411:
+                if((fp_s[23]=fopen("./data/fcrop_miro_aim_ssp5_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_miro_aim_ssp5_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2502:
+                if((fp_s[23]=fopen("./data/fcrop_nore_aim_ssp1_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_nore_aim_ssp1_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2504:
+                if((fp_s[23]=fopen("./data/fcrop_nore_aim_ssp2_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_nore_aim_ssp2_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2506:
+                if((fp_s[23]=fopen("./data/fcrop_nore_aim_ssp3_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_nore_aim_ssp3_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2509:
+                if((fp_s[23]=fopen("./data/fcrop_nore_aim_ssp4_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_nore_aim_ssp4_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2511:
+                if((fp_s[23]=fopen("./data/fcrop_nore_aim_ssp5_rcp45_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_nore_aim_ssp5_rcp45_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            default:
+                printf("NO fcrop data !!\n");
+                exit(1);
+        }
+        
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+    }else if(GCM_ID==2105 || GCM_ID==2107 ||
+        GCM_ID==2205 || GCM_ID==2207 ||
+        GCM_ID==2305 || GCM_ID==2307 ||
+        GCM_ID==2405 || GCM_ID==2407 ||
+        GCM_ID==2505 || GCM_ID==2507){
+        CO2S = 3; /* RCP6.0 */
+        /**/
+        switch(GCM_ID){
+            case 2105:
+                if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp2_rcp60_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_gfdl_aim_ssp2_rcp60_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2107:
+                if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp3_rcp60_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_gfdl_aim_ssp3_rcp60_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2205:
+                if((fp_s[23]=fopen("./data/fcrop_hadg_aim_ssp2_rcp60_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_hadg_aim_ssp2_rcp60_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2207:
+                if((fp_s[23]=fopen("./data/fcrop_hadg_aim_ssp3_rcp60_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_hadg_aim_ssp3_rcp60_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2305:
+                if((fp_s[23]=fopen("./data/fcrop_ipsl_aim_ssp2_rcp60_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_ipsl_aim_ssp2_rcp60_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2307:
+                if((fp_s[23]=fopen("./data/fcrop_ipsl_aim_ssp3_rcp60_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_ipsl_aim_ssp3_rcp60_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2405:
+                if((fp_s[23]=fopen("./data/fcrop_miro_aim_ssp2_rcp60_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_miro_aim_ssp2_rcp60_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2407:
+                if((fp_s[23]=fopen("./data/fcrop_miro_aim_ssp3_rcp60_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_miro_aim_ssp3_rcp60_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2505:
+                if((fp_s[23]=fopen("./data/fcrop_nore_aim_ssp2_rcp60_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_nore_aim_ssp2_rcp60_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            case 2507:
+                if((fp_s[23]=fopen("./data/fcrop_nore_aim_ssp3_rcp60_v1.txt","rt"))==NULL){
+                    printf("NO fcrop_nore_aim_ssp3_rcp60_v1.txt !!\n");
+                    exit(1);
+                }
+                break;
+            default:
+                printf("NO fcrop data !!\n");
+                exit(1);
+        }
+        
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+    }
+    
+    /* GEO-MIP ***************************************/
+    if(GCM_ID>=3000 && GCM_ID<=3999){
+        CO2S = 2; /* RCP4.5 */
+        /**/
+        if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
+			printf("NO image_a1b_fcrop.dat !!\n");
+			exit(1);
+		}
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+    }
+    
+    /* ISI-MIP 2 (historical) ******************************/
+    if(GCM_ID>=5000 && GCM_ID<=5999){
+        CO2S = 2; /* RCP4.5 */
+        /**/
+        if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
+			printf("NO image_a1b_fcrop.dat !!\n");
+			exit(1);
+		}
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+    }
+
+   /**************************************************************/
     /* SAGE crop data */
 	if( (fp_s[46]=fopen("./data/sage_crops.dat","rt"))==NULL ){  
 		printf("No sage_crops.dat\n");  

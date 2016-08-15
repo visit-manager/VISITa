@@ -30,6 +30,10 @@
 #define N_ROW 360
 #define N_COL 720
 
+/* number of geographical regions */
+#define N_REG 23
+/* defined in region_giorgi() in vegetdeal.c */
+
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
@@ -77,22 +81,21 @@
 /* 10: N fertilizer only (S6) */
 /* 11: land-conversion only (S7) */
 /* 12: land-conversion + N fertilizer + irrigation (S8) */
-
 #define DL_NMIP 113
 #define FDY_NINY 1900
 
 /* parameter ensemble **************************/
-#define NPERT 20
+#define N_PARA_ENS 20
 
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
+#define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
-#define OUTPUT_GHG 1
+#define OUTPUT_GHG 0
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
@@ -122,10 +125,6 @@
 /* 1: all C3 (e.g. wheat) */
 /* 2: all rice */
 /* 3: all C4 (e.g. maize) */
-
-/* number of geographical regions */
-#define N_REG 23
-/* defined in region_giorgi() in vegetdeal.c */
 
 /* atmopsheric GHG data length */
 #if ISIMIP_RUN==1
@@ -177,8 +176,9 @@
 #elif ISIMIP_RUN==2
     #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
-    #define PD_HIST 110  /* AD 1901 - 2010 */ /* ISI-MIP2 (historical gswp3, pgfv2): 2014/11/30 by A.Ito */
+    /* #define PD_HIST 110 */  /* AD 1901 - 2010 */ /* ISI-MIP2 (historical gswp3, pgfv2): 2014/11/30 by A.Ito */
     /* #define PD_HIST 101 */ /* AD 1901 - 2001 */ /* ISI-MIP2 (historical watch): 2015/01/06 by A.Ito */
+    #define PD_HIST 112 /* */ /* AD 1901 - 2012 */ /* ISI-MIP2 (historical watch): 2016/05/06 by A.Ito */
 #elif GEOMIP_RUN==1
     #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
 #else
@@ -219,8 +219,9 @@
     #define DL_CRU 135  /* SU 30 + AD 1901 - 2005 */
 #elif ISIMIP_RUN==3
     /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
-    #define DL_CRU 140  /* SU 30 + AD 1901 - 2010 */
+    /* #define DL_CRU 140 */  /* SU 30 + AD 1901 - 2010 */
     /* #define DL_CRU 131 */  /* SU 30 + AD 1901 - 2001 */
+    #define DL_CRU 142  /* SU 30 + AD 1901 - 2012 */
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
@@ -256,8 +257,9 @@
 #elif ISIMIP_RUN==2
     #define DL_ISIMIP 135  /* SU 30 + AD 1901 - 2005 */
 #elif ISIMIP_RUN==3
-    #define DL_ISIMIP 140  /* SU 30 + AD 1901 - 2010 */
+    /* #define DL_ISIMIP 140 */  /* SU 30 + AD 1901 - 2010 */
     /* #define DL_ISIMIP 131 */ /* SU 30 + AD 1901 - 2001 */
+    #define DL_ISIMIP 142  /* SU 30 + AD 1901 - 2012 */
 #else
     #define DL_ISIMIP 1
 #endif
@@ -306,7 +308,7 @@
 #define NECB_CROP 1
 
 /* land use change setting ********************************/
-#define LANDUSE 9
+#define LANDUSE 18
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -325,9 +327,10 @@
 /* 15: SSP2 */
 /* 16: SSP3 */
 /* 17: LUH 1500-2005/2005-2100 (RCP2.6) + Biofuel */
+/* 18: ICARUS SSPs version 2016/08 */
 
 /* #define DL_LUC 306 */ /* 1700-2000/2005 */
-#define DL_LUC 601 /* 1500-2100 */
+#define DL_LUC 601  /* 1500-2100 */
 
 /* begin year of land-use data */
 #define FDY_LUC 1500
@@ -359,8 +362,8 @@
 /* 1: on */
 
 /* S10-BECCS experiment: 2016/02/15 by A.Ito */
-#define EX_BECCS 1
-/* 0: off */
+#define EX_BECCS 0
+/* 0: off (inc. scenario S5) */
 /* 1: on (scenario S3) */
 
 /***************************************************/
@@ -447,7 +450,14 @@
 #define FIX_NPP 0
 /* 0:off, 1:0n */
 
-/***************************************************/
+/* 2016/06/08 by A.Ito */
+#define EX_NITROGEN 0
+/* 0: off (control) */
+/* 1: half biological N2 fixation */
+/* 2: double microbial abandonment */
+/* 3: revised WFPS for NGAS */
+
+/*****************************************************/
 /* parameter perturbation */
 /* climate perturbation */
 #define PRT_CLIM 0
@@ -484,7 +494,7 @@
 /* 8: all nitrate */
 /* 9: 50:50 ammonium and nitrate */
 
-/********************************************************/
+/****************************************************/
 /* sensitivity analysis *****************/
 /* temperature */
 #define TM 0
@@ -869,7 +879,7 @@
 /* 3100: NorESM RCP4.5 */
 /* 3101: NorESM G4cdcn */
 
-/** PLUME: 2014/07/31 by A.Ito ***********/
+/** PLUME: 2014/07/31 by A.Ito *************/
 /* 4011: GFDL RCP 4.5 */
 /* 4012: GFDL RCP 8.5 */
 
@@ -880,7 +890,7 @@
 
 /** ISI-MIP2: 2014/11/30 by A.Ito ***********/
 /* 5001: historical GSWP3 */
-/* 5002: historical PGFv2 */
+/* 5002: historical PGFv2.1 (2016/05/06) */
 /* 5003: historical WATCH */
 /* 5004: historical WATCH+WFDEI */
 
@@ -915,3 +925,63 @@
 /* 6X14 6X64: temperature +10 K */
 /* 6X15 6X65: temperature +11 K */
 
+/* ICARUS 2016/08/12 ************/
+/* 2101: gfdl SSP1 rcp2.6  */
+/* 2102: gfdl SSP1 rcp4.5  */
+/* 2103: gfdl SSP2 rcp2.6  */
+/* 2104: gfdl SSP2 rcp4.5  */
+/* 2105: gfdl SSP2 rcp6.0  */
+/* 2106: gfdl SSP3 rcp4.5  */
+/* 2107: gfdl SSP3 rcp6.0  */
+/* 2108: gfdl SSP4 rcp2.6  */
+/* 2109: gfdl SSP4 rcp4.5  */
+/* 2110: gfdl SSP5 rcp2.6  */
+/* 2111: gfdl SSP5 rcp4.5  */
+
+/* 2201: hadgem SSP1 rcp2.6  */
+/* 2202: hadgem SSP1 rcp4.5  */
+/* 2203: hadgem SSP2 rcp2.6  */
+/* 2204: hadgem SSP2 rcp4.5  */
+/* 2205: hadgem SSP2 rcp6.0  */
+/* 2206: hadgem SSP3 rcp4.5  */
+/* 2207: hadgem SSP3 rcp6.0  */
+/* 2208: hadgem SSP4 rcp2.6  */
+/* 2209: hadgem SSP4 rcp4.5  */
+/* 2210: hadgem SSP5 rcp2.6  */
+/* 2211: hadgem SSP5 rcp4.5  */
+
+/* 2301: ipsl SSP1 rcp2.6  */
+/* 2302: ipsl SSP1 rcp4.5  */
+/* 2303: ipsl SSP2 rcp2.6  */
+/* 2304: ipsl SSP2 rcp4.5  */
+/* 2305: ipsl SSP2 rcp6.0  */
+/* 2306: ipsl SSP3 rcp4.5  */
+/* 2307: ipsl SSP3 rcp6.0  */
+/* 2308: ipsl SSP4 rcp2.6  */
+/* 2309: ipsl SSP4 rcp4.5  */
+/* 2310: ipsl SSP5 rcp2.6  */
+/* 2311: ipsl SSP5 rcp4.5  */
+
+/* 2401: miroc SSP1 rcp2.6  */
+/* 2402: miroc SSP1 rcp4.5  */
+/* 2403: miroc SSP2 rcp2.6  */
+/* 2404: miroc SSP2 rcp4.5  */
+/* 2405: miroc SSP2 rcp6.0  */
+/* 2406: miroc SSP3 rcp4.5  */
+/* 2407: miroc SSP3 rcp6.0  */
+/* 2408: miroc SSP4 rcp2.6  */
+/* 2409: miroc SSP4 rcp4.5  */
+/* 2410: miroc SSP5 rcp2.6  */
+/* 2411: miroc SSP5 rcp4.5  */
+
+/* 2501: noresm SSP1 rcp2.6  */
+/* 2502: noresm SSP1 rcp4.5  */
+/* 2503: noresm SSP2 rcp2.6  */
+/* 2504: noresm SSP2 rcp4.5  */
+/* 2505: noresm SSP2 rcp6.0  */
+/* 2506: noresm SSP3 rcp4.5  */
+/* 2507: noresm SSP3 rcp6.0  */
+/* 2508: noresm SSP4 rcp2.6  */
+/* 2509: noresm SSP4 rcp4.5  */
+/* 2510: noresm SSP5 rcp2.6  */
+/* 2511: noresm SSP5 rcp4.5  */

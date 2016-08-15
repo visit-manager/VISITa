@@ -282,4 +282,7 @@ void n_fertilizer_in(
             loct->n_frtlz_in = grid->nmip_nfert[2012 - 1900] * MDN[grid->m] / 365.0;
         }
     }
+    
+    /* 2016/07/25 by A.Ito */
+    /* loct->n_frtlz_in *= 0.01; */
 }
