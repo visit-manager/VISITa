@@ -495,9 +495,9 @@ void f_n_mineralz(
     /* f_nmin_l = 50.0;
     f_nmin_h = 80.0; */
 	
-    /* 2016/08/03 by A.Ito */
-    f_nmin_l = 0.2;
-    f_nmin_h = 0.8;
+    /* 2016/08/15 by A.Ito */
+    f_nmin_l = 0.15;
+    f_nmin_h = 0.7;
 	
 	/** litter **/
 	if(mass->ltr > 0.01){
@@ -612,7 +612,7 @@ void f_n_uptake(
 	ks = 0.90 * pow(loct->sw30 / grid->field_cap1, 3.0) + 0.1;
 	
 	/* NO3 uptake */
-    n_max = 0.12; /* 2016/08/15 by A.Ito */
+    n_max = 0.14; /* 2016/08/15 by A.Ito */
 	navil = (mass->soil).n_no3;
 	/* C3 */
     max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
@@ -640,7 +640,7 @@ void f_n_uptake(
     
 	
 	/* NH4 uptake */
-    n_max = 0.08; /* 2016/08/15 by A.Ito */
+    n_max = 0.07; /* 2016/08/15 by A.Ito */
 	navil = (mass->soil).n_nh4;
     /* C3 */
     max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
