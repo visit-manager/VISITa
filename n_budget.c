@@ -536,7 +536,7 @@ void f_n_leaching(
 	/* fad_no3 = 0.1; */ /* 2010/04/06 by A.Ito */
 	/* fad_no3 = 0.5; */ /* 2016/06/01 by A.Ito */
 	/* fad_no3 = 0.3; */ /* 2016/06/29 by A.Ito */
-	fad_no3 = 0.75; /* 2016/08/14 by A.Ito */
+	fad_no3 = 0.70; /* 2016/08/15 by A.Ito */
 
 	/* g N / ha */
 	/* kg H2O / m2 */ /* 2016/07/05 by A.Ito */
@@ -605,7 +605,6 @@ void f_n_uptake(
 	Effect of N allocatiom to root ?
 	*****/
     /* n_max = 0.02; */ /* 2016/07/06 by A.Ito */
-    n_max = 0.1; /* 2016/07/22 by A.Ito */
 	
 	/* temperature factor */
 	f_temp = exp(0.0693 * grid->tmp10_soil[grid->m]);
@@ -613,6 +612,7 @@ void f_n_uptake(
 	ks = 0.90 * pow(loct->sw30 / grid->field_cap1, 3.0) + 0.1;
 	
 	/* NO3 uptake */
+    n_max = 0.12; /* 2016/08/15 by A.Ito */
 	navil = (mass->soil).n_no3;
 	/* C3 */
     max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
@@ -640,6 +640,7 @@ void f_n_uptake(
     
 	
 	/* NH4 uptake */
+    n_max = 0.08; /* 2016/08/15 by A.Ito */
 	navil = (mass->soil).n_nh4;
     /* C3 */
     max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
