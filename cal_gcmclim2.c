@@ -61,10 +61,10 @@ void cal_projection(
         
 		/* climate change ********************/
 		grid->climy = g;
-		if(GCM_ID >= 1 && GCM_ID <=9999){
+		if(SCENARIO_ID >= 1 && SCENARIO_ID <=9999){
 			set_gcm_clim(grid);
 		}else{
-            printf("BAD GCM_ID!!\n");
+            printf("BAD SCENARIO_ID!!\n");
             exit(1);
         }
 		

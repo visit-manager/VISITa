@@ -69,6 +69,9 @@ void cal_spinup(
          || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - FDY_LUC];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - FDY_LUC];
+	}else if(LANDUSE == 18){
+		grid->f_crop_p = grid->fcrop3_future[0];
+		grid->f_pasture_p = 0.0;
 	}
     
     if(LANDUSE == 17 || BIOFUEL_RUN >= 1){
@@ -95,7 +98,7 @@ void cal_spinup(
     }
     
     grid->simy = 1900;
-    if(EX_BECCS==1){
+    if(ISIMIP_RUN == 1 || EX_BECCS==1){
         grid->simy = 1949;
     }
 	

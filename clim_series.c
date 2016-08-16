@@ -116,13 +116,13 @@ void set_hist_clim(
         /* IMPRESSIONS IRS: 2015/07/17 by A.Ito */
         if(IMPRESSIONS_RUN == 1){
         
-            if(GCM_ID<6001 || GCM_ID>7000){
+            if(SCENARIO_ID<6001 || SCENARIO_ID>7000){
                 printf("BAD experimental ID\n");
                 exit(1);
             }
             
             /*******/
-            impex_t = (short)(GCM_ID%50);
+            impex_t = (short)(SCENARIO_ID%50);
             
             switch(impex_t){
                 case 1: tmp_var = -3.0; break;
@@ -151,7 +151,7 @@ void set_hist_clim(
             }
             
             /*******/
-            impex_p = (short)((GCM_ID - 6000)/50);
+            impex_p = (short)((SCENARIO_ID - 6000)/50);
             
             switch(impex_p){
                 case 0: pre_var = 0.4; break;
@@ -417,7 +417,7 @@ void set_gcm_clim(
 
         /* experiment for SRM by reflector */
         /* added: 2014/07/06 by A.Ito     */
-        if(GCM_ID == 3313 || GCM_ID == 3913){
+        if(SCENARIO_ID == 3313 || SCENARIO_ID == 3913){
             grid->top_rad[h] = f_top_rad(grid, 0);
         }
         

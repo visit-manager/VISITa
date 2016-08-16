@@ -59,9 +59,9 @@ void f_cult_luc(
 					break;
 				case 5:
 					/* IMAGE-based scenario */
-					grid->f_crop_con = grid->fcrop_net[290] + ((grid->fcrop3_image[grid->lucy - 1990]
-						+ grid->fcrop4_image[grid->lucy - 1990])
-						- (grid->fcrop3_image[0] + grid->fcrop4_image[0]))/100.0;
+					grid->f_crop_con = grid->fcrop_net[290] + ((grid->fcrop3_future[grid->lucy - 1990]
+						+ grid->fcrop4_future[grid->lucy - 1990])
+						- (grid->fcrop3_future[0] + grid->fcrop4_future[0]))/100.0;
 					break;
                 default:
                     break;
@@ -80,11 +80,11 @@ void f_cult_luc(
 			grid->f_pasture_con = grid->fpast_unh_hmnzed[grid->lucy - FDY_LUC];
 		}else if(grid->lucy >= 2000){
 			grid->f_crop_con = grid->fcrop_unh_hmnzed[299] + 
-				((grid->fcrop3_image[grid->lucy - 1990] + grid->fcrop4_image[grid->lucy - 1990])
-				- (grid->fcrop3_image[9]+grid->fcrop4_image[9]))/100.0;
+				((grid->fcrop3_future[grid->lucy - 1990] + grid->fcrop4_future[grid->lucy - 1990])
+				- (grid->fcrop3_future[9]+grid->fcrop4_future[9]))/100.0;
 			grid->f_pasture_con = grid->fpast_unh_hmnzed[299] + 
-				((grid->fgrass3_image[grid->lucy - 1990] + grid->fgrass4_image[grid->lucy - 1990])
-				- (grid->fgrass3_image[9] + grid->fgrass4_image[9]))/100.0;
+				((grid->fgrass3_future[grid->lucy - 1990] + grid->fgrass4_future[grid->lucy - 1990])
+				- (grid->fgrass3_future[9] + grid->fgrass4_future[9]))/100.0;
 		}
 	}else if(LANDUSE == 7){
 		/* SAGE land-use data 1700-2007 (Revised: 2010/01/07):
@@ -96,11 +96,11 @@ void f_cult_luc(
 			grid->f_pasture_con = grid->fpast_rk[grid->lucy - FDY_LUC];
 		}else if(grid->lucy >= 2008){
 			grid->f_crop_con = grid->fcrop_rk[307] + 
-					((grid->fcrop3_image[grid->lucy - 1990] + grid->fcrop4_image[grid->lucy - 1990])
-					- (grid->fcrop3_image[17] + grid->fcrop4_image[17]))/100.0;
+					((grid->fcrop3_future[grid->lucy - 1990] + grid->fcrop4_future[grid->lucy - 1990])
+					- (grid->fcrop3_future[17] + grid->fcrop4_future[17]))/100.0;
 			grid->f_pasture_con = grid->fpast_rk[307] + 
-					((grid->fgrass3_image[grid->lucy - 1990] + grid->fgrass4_image[grid->lucy - 1990])
-					 - (grid->fgrass3_image[17] + grid->fgrass4_image[17]))/100.0;
+					((grid->fgrass3_future[grid->lucy - 1990] + grid->fgrass4_future[grid->lucy - 1990])
+					 - (grid->fgrass3_future[17] + grid->fgrass4_future[17]))/100.0;
 		}
 	}else if(LANDUSE == 8){
 		/* UNH harmonized land-use change, 1700-2005 (added 2010/01/31) */
@@ -109,11 +109,11 @@ void f_cult_luc(
 			grid->f_pasture_con = grid->fpast_unh_hmnzed[grid->lucy - FDY_LUC];
 		}else if(grid->lucy >= 2006){
 			grid->f_crop_con = grid->fcrop_unh_hmnzed[305] + 
-				((grid->fcrop3_image[grid->lucy - 1990] + grid->fcrop4_image[grid->lucy - 1990])
-				 - (grid->fcrop3_image[15] + grid->fcrop4_image[15]))/100.0;
+				((grid->fcrop3_future[grid->lucy - 1990] + grid->fcrop4_future[grid->lucy - 1990])
+				 - (grid->fcrop3_future[15] + grid->fcrop4_future[15]))/100.0;
 			grid->f_pasture_con = grid->fpast_unh_hmnzed[305] + 
-				((grid->fgrass3_image[grid->lucy - 1990] + grid->fgrass4_image[grid->lucy - 1990])
-				 - (grid->fgrass3_image[15] + grid->fgrass4_image[15]))/100.0;
+				((grid->fgrass3_future[grid->lucy - 1990] + grid->fgrass4_future[grid->lucy - 1990])
+				 - (grid->fgrass3_future[15] + grid->fgrass4_future[15]))/100.0;
 		}
 	}else if(LANDUSE == 9){
         /* 9: fixed land-use at 2000 --GEOMIP */
@@ -127,9 +127,9 @@ void f_cult_luc(
     }else if(LANDUSE == 18){
         /* ICARUS SSPs: 2016/08/14 by A.Ito */
         if(grid->lucy <= 1990){
-            grid->f_crop_con = grid->fcrop3_image[0];
+            grid->f_crop_con = grid->fcrop3_future[0];
         }else{
-            grid->f_crop_con = grid->fcrop3_image[grid->lucy - 1990];
+            grid->f_crop_con = grid->fcrop3_future[grid->lucy - 1990];
         }
         grid->f_pasture_con = 0.0;
     }else{
@@ -279,7 +279,7 @@ void f_cult_luc(
             if(grid->lucy <= 1990){
                 grid->f_deforest = 0.0;
             }else{
-                grid->f_deforest = grid->fcrop3_image[grid->lucy - 1990] - grid->fcrop3_image[grid->lucy - 1990 -1];
+                grid->f_deforest = grid->fcrop3_future[grid->lucy - 1990] - grid->fcrop3_future[grid->lucy - 1990 -1];
             }
         }
         
@@ -622,7 +622,9 @@ void f_luc_emit(
 		}else if(LANDUSE == 7){
 			/* added 2010/01/07 (A.Ito) */
 			fluc_1 = grid->f_deforest;
-		}
+		}else if(LANDUSE == 18){
+            fluc_1 = grid->f_deforest;
+        }
 		
         /* NMIP: fixed land-use */
         if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6

@@ -104,7 +104,7 @@ double f_top_rad(
     
     /* experiment for SRM by reflector */
     /* added: 2014/07/06 by A.Ito     */
-    /* if(GCM_ID == 3012 || GCM_ID == 3033 || GCM_ID == 3091){
+    /* if(SCENARIO_ID == 3012 || SCENARIO_ID == 3033 || SCENARIO_ID == 3091){
         if(grid->climy >= 2020){
             gg -= ((double)grid->climy-2020.0) * 4.5/50.0;
         }

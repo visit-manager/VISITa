@@ -88,7 +88,7 @@ void f_ecophysiology(
 	/* give irradiance attenuation coefficient */
 	if(EFF_K == 0){
 		pchar->eK[grid->m] = irr_attn(grid, loct, pchar);
-		pchar->fapar[grid->m] = (1.0 - pchar->albedo)*(1.0 - exp(-pchar->eK[grid->m]*mass->lai[grid->m]));
+		pchar->fapar[grid->m] = (1.0 - pchar->albedo)*(1.0 - exp(-pchar->eK[grid->m] * mass->lai[grid->m]));
 	}else if(EFF_K == 1){
         /* default */
 		pchar->eK[grid->m] = eff_k;
@@ -340,7 +340,7 @@ void opt_lai(
 	/* daily respiratory cost */
 	/* printf("%lf %lf\n", plant->qTc[grid->m], grid->tmp_sfc[grid->m]); */
 	eee = log(pchar->qTc[grid->m]) / 10.0*(grid->tmp_sfc[grid->m] - 15.0);
-	arm = pchar->rmf*exp(eee) / 1000.0*dmTc*10000.0/(pchar->sla);
+	arm = pchar->rmf * exp(eee) / 1000.0*dmTc*10000.0/(pchar->sla);
 	arg = pchar->lf[grid->m]*dmTc*10000.0 / (pchar->sla)*(1.0 + pchar->rgf);
 	ar = arm + arg;
 

@@ -155,7 +155,7 @@ void open_input(
     }else /* ISI-MIP: 2012/06/27 by A.Ito */
     /* ICARUS SSPs: 2016/08/14 by A.Ito */
     if(ISIMIP_RUN == 1){
-        switch(GCM_ID){
+        switch(SCENARIO_ID){
             case 2001: case 2005:
                 case 2201: case 2203: case 2208: case 2210:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_hadgem_1950-2099.flt","rb"))==NULL ){
@@ -537,7 +537,7 @@ void open_input(
                 break;
         }
     }else if(ISIMIP_RUN == 2){
-        switch(GCM_ID){
+        switch(SCENARIO_ID){
             case 4011: case 4012:
                 if( (fp_c[0]=fopen("./data/tas_bced_1960_1999_gfdl-esm2m_spin_1901-1930_hist_1860-2005.flt","rb"))==NULL ){
                     printf("No tas_bced_1960_1999_gfdl-esm2m_spin_1901-1930_hist_1860-2005.flt\n");
@@ -580,7 +580,7 @@ void open_input(
             break;
         }
     }else if(ISIMIP_RUN == 3){
-        switch(GCM_ID){
+        switch(SCENARIO_ID){
             case 5001:
                 if( (fp_c[0]=fopen("./data/tas_gswp3_1901_1930_1901_2010_ver2.flt","rb"))==NULL ){
                     printf("No tas_gswp3_1901_1930_1901_2010_ver2.flt\n");
@@ -810,7 +810,8 @@ void open_input(
 		exit(1); 
 	}
 	
-	/* Land use change: Hurtt et al. (2006) */
+	/* land-use: historical *************************************/
+    /* SAGEHYDE: Hurtt et al. (2006) */
 	if(LANDUSE == 6){
 		if( (fp_s[26]=fopen("./data/EOS_SAGEHYDE_1D_crop.dat","rt"))==NULL ){  
 			printf("No EOS_SAGEHYDE_1D_crop.dat\n");  
@@ -973,7 +974,7 @@ void open_input(
     /* U.NH harmonized historical land-use data (2013/12/19: by A.Ito) */
 	/* URL  http://luh.unh.edu/ */
 	if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13
-        || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17){
+        || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17 || LANDUSE==18){
         if( (fp_s[26]=fopen("./data/luh_gcrop_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gcrop_1500_2005.txt\n");  
 			exit(1); 
@@ -1052,6 +1053,7 @@ void open_input(
 		}
     }
     
+    /* land-use: projection *************************************/
     if(LANDUSE==9 || LANDUSE==10 || LANDUSE==18){
         if( (fp_s[59]=fopen("./data/luh_gcrop_rcp45_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gcrop_rcp45_2005_2100.txt\n");  
@@ -1129,9 +1131,7 @@ void open_input(
             printf("No luh_gfvh2_rcp45_2005_2100.txt\n");  
             exit(1); 
         }
-    }
-    
-    if(LANDUSE == 11 || LANDUSE == 17){
+    }else if(LANDUSE == 11 || LANDUSE == 17){
         if( (fp_s[59]=fopen("./data/luh_gcrop_rcp26_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gcrop_rcp26_2005_2100.txt\n");  
             exit(1); 
@@ -1208,9 +1208,7 @@ void open_input(
             printf("No luh_gfvh2_rcp26_2005_2100.txt\n");  
             exit(1); 
         }
-    }
-    
-    if(LANDUSE == 12){
+    }else if(LANDUSE == 12){
         if( (fp_s[59]=fopen("./data/luh_gcrop_rcp60_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gcrop_rcp60_2005_2100.txt\n");  
             exit(1); 
@@ -1287,9 +1285,7 @@ void open_input(
             printf("No luh_gfvh2_rcp60_2005_2100.txt\n");  
             exit(1); 
         }
-    }
-    
-    if(LANDUSE == 13){
+    }else if(LANDUSE == 13){
         if( (fp_s[59]=fopen("./data/luh_gcrop_rcp85_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gcrop_rcp85_2005_2100.txt\n");  
             exit(1); 
@@ -1618,46 +1614,49 @@ void open_input(
 	/* 5: gradual rise (SRES B1) */
 	/* 6: gradual rise (SRES B2) */
 	/* 7: uniform rise */
-	if(GCM_ID == 0 || (GCM_ID>6000 && GCM_ID<7000)){
+	if(SCENARIO_ID == 0 || (SCENARIO_ID>6000 && SCENARIO_ID<7000)){
 		CO2S = 4;
 		fp_s[23] = fopen("./data/image_a2_fcrop.dat","rt");
 		fp_s[45] = fopen("./data/image_a2_fgrass.dat","rt");
-	}else if(GCM_ID ==1 || GCM_ID == 41 || GCM_ID == 61){
+	}else if(SCENARIO_ID ==1 || SCENARIO_ID == 41 || SCENARIO_ID == 61){
 		CO2S = 1;
 		fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt");
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
-	}else if(GCM_ID==2){
+	}else if(SCENARIO_ID == 2){
 		CO2S = 2;
 		fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt");
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
-	}else if(GCM_ID==3){
+	}else if(SCENARIO_ID == 3){
 		CO2S = 3;
 		fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt");
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
-	}else if(GCM_ID==4 || GCM_ID==11 || GCM_ID==13 || GCM_ID==14 || GCM_ID==15 || GCM_ID==21 || GCM_ID==22 || 
-			GCM_ID==23 || GCM_ID==31 || GCM_ID==42 || GCM_ID==51 || GCM_ID==62 || GCM_ID==71 ){
+	}else if(SCENARIO_ID==4 || SCENARIO_ID==11 || SCENARIO_ID==13 || SCENARIO_ID==14 || SCENARIO_ID==15 ||
+            SCENARIO_ID==21 || SCENARIO_ID==22 || SCENARIO_ID==23 || SCENARIO_ID==31 ||
+			SCENARIO_ID==42 || SCENARIO_ID==51 || SCENARIO_ID==62 || SCENARIO_ID==71 ){
 		CO2S = 4;
 		fp_s[23]=fopen("./data/image_a2_fcrop.dat","rt");
 		fp_s[45]=fopen("./data/image_a2_fgrass.dat","rt");
-	}else if(GCM_ID==5 || GCM_ID==43){
+	}else if(SCENARIO_ID==5 || SCENARIO_ID==43){
 		CO2S = 5;
 		fp_s[23]=fopen("./data/image_b1_fcrop.dat","rt");
 		fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt");
-	}else if(GCM_ID==6 || GCM_ID==12 || GCM_ID==16 || GCM_ID==17 || GCM_ID==18 || GCM_ID==24 || GCM_ID==32 || 
-			GCM_ID==44 || GCM_ID==52 || GCM_ID==63 || GCM_ID==106){
+	}else if(SCENARIO_ID==6 || SCENARIO_ID==12 || SCENARIO_ID==16 || SCENARIO_ID==17 ||
+            SCENARIO_ID==18 || SCENARIO_ID==24 || SCENARIO_ID==32 ||
+			SCENARIO_ID==44 || SCENARIO_ID==52 || SCENARIO_ID==63 || SCENARIO_ID==106){
 		CO2S = 6;
 		fp_s[23]=fopen("./data/image_b1_fcrop.dat","rt");
 		fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt");
 	}
 	
-	if(GCM_ID==1000 ||GCM_ID==1010 ||GCM_ID==1011 ||GCM_ID==1012 ||GCM_ID==1050 ||GCM_ID==1060 ||GCM_ID==1070 ||
-		GCM_ID==1080 ||GCM_ID==1090 ||GCM_ID==1100 ||GCM_ID==1101 ||GCM_ID==1110 ||GCM_ID==1120 ||
-		GCM_ID==1130 ||GCM_ID==1131 ||GCM_ID==1132 ||GCM_ID==1133 ||GCM_ID==1134 ||GCM_ID==1150 ||
-		GCM_ID==1151 ||GCM_ID==1152 ||GCM_ID==1153 ||GCM_ID==1160 ||GCM_ID==1161 ||GCM_ID==1162 ||
-		GCM_ID==1170 ||GCM_ID==1180 ||GCM_ID==1190 ||GCM_ID==1200 ||GCM_ID==1201 ||GCM_ID==1202 ||
-		GCM_ID==1203 ||GCM_ID==1204 ||GCM_ID==1220 ||GCM_ID==1221 ||GCM_ID==1222 ||GCM_ID==1223 ||
-		GCM_ID==1224 ||GCM_ID==1225 ||GCM_ID==1226 ||GCM_ID==1240 ||GCM_ID==1250 ||GCM_ID==1251 ||
-		GCM_ID==1260 ||GCM_ID==1261 ||GCM_ID==1262 ||GCM_ID==1263 ||GCM_ID==1270){ 
+	if(SCENARIO_ID==1000 ||SCENARIO_ID==1010 ||SCENARIO_ID==1011 ||SCENARIO_ID==1012 ||SCENARIO_ID==1050 ||
+        SCENARIO_ID==1060 ||SCENARIO_ID==1070 ||
+		SCENARIO_ID==1080 ||SCENARIO_ID==1090 ||SCENARIO_ID==1100 ||SCENARIO_ID==1101 ||SCENARIO_ID==1110 ||SCENARIO_ID==1120 ||
+		SCENARIO_ID==1130 ||SCENARIO_ID==1131 ||SCENARIO_ID==1132 ||SCENARIO_ID==1133 ||SCENARIO_ID==1134 ||SCENARIO_ID==1150 ||
+		SCENARIO_ID==1151 ||SCENARIO_ID==1152 ||SCENARIO_ID==1153 ||SCENARIO_ID==1160 ||SCENARIO_ID==1161 ||SCENARIO_ID==1162 ||
+		SCENARIO_ID==1170 ||SCENARIO_ID==1180 ||SCENARIO_ID==1190 ||SCENARIO_ID==1200 ||SCENARIO_ID==1201 ||SCENARIO_ID==1202 ||
+		SCENARIO_ID==1203 ||SCENARIO_ID==1204 ||SCENARIO_ID==1220 ||SCENARIO_ID==1221 ||SCENARIO_ID==1222 ||SCENARIO_ID==1223 ||
+		SCENARIO_ID==1224 ||SCENARIO_ID==1225 ||SCENARIO_ID==1226 ||SCENARIO_ID==1240 ||SCENARIO_ID==1250 ||SCENARIO_ID==1251 ||
+		SCENARIO_ID==1260 ||SCENARIO_ID==1261 ||SCENARIO_ID==1262 ||SCENARIO_ID==1263 ||SCENARIO_ID==1270){ 
 		CO2S = 1;
 		
 		if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
@@ -1668,12 +1667,16 @@ void open_input(
 			printf("NO DATA:image_a1b_fgrass.dat !!\n");
 			exit(1);
         }
-	}else if(GCM_ID==1013 ||GCM_ID==1014 ||GCM_ID==1015 || GCM_ID==1051 ||GCM_ID==1061 ||GCM_ID==1071 ||
-		GCM_ID==1081 ||GCM_ID==1091 ||GCM_ID==1111 ||GCM_ID==1121 ||GCM_ID==1135 ||GCM_ID==1136 ||GCM_ID==1137 ||
-		GCM_ID==1138 ||GCM_ID==1139 ||GCM_ID==1154 ||GCM_ID==1155 ||GCM_ID==1156 ||GCM_ID==1171 ||GCM_ID==1181 ||
-		GCM_ID==1191 ||GCM_ID==1205 ||GCM_ID==1206 ||GCM_ID==1207 ||GCM_ID==1208 ||GCM_ID==1209 ||GCM_ID==1227 ||
-		GCM_ID==1228 ||GCM_ID==1229 ||GCM_ID==1230 ||GCM_ID==1231 ||GCM_ID==1241 ||GCM_ID==1252 ||GCM_ID==1264 ||
-		GCM_ID==1265 ||GCM_ID==1266 ||GCM_ID==1267 ||GCM_ID==1271){ 
+	}else if(SCENARIO_ID==1013 ||SCENARIO_ID==1014 ||SCENARIO_ID==1015 || SCENARIO_ID==1051 ||
+        SCENARIO_ID==1061 ||SCENARIO_ID==1071 ||SCENARIO_ID==1081 ||SCENARIO_ID==1091 ||
+        SCENARIO_ID==1111 ||SCENARIO_ID==1121 ||SCENARIO_ID==1135 ||SCENARIO_ID==1136 ||
+        SCENARIO_ID==1137 ||SCENARIO_ID==1138 ||SCENARIO_ID==1139 ||SCENARIO_ID==1154 ||
+        SCENARIO_ID==1155 ||SCENARIO_ID==1156 ||SCENARIO_ID==1171 ||SCENARIO_ID==1181 ||
+		SCENARIO_ID==1191 ||SCENARIO_ID==1205 ||SCENARIO_ID==1206 ||SCENARIO_ID==1207 ||
+        SCENARIO_ID==1208 ||SCENARIO_ID==1209 ||SCENARIO_ID==1227 ||SCENARIO_ID==1228 ||
+        SCENARIO_ID==1229 ||SCENARIO_ID==1230 ||SCENARIO_ID==1231 ||SCENARIO_ID==1241 ||
+        SCENARIO_ID==1252 ||SCENARIO_ID==1264 ||SCENARIO_ID==1265 ||SCENARIO_ID==1266 ||
+        SCENARIO_ID==1267 ||SCENARIO_ID==1271){
 		CO2S = 4;
 
 		if((fp_s[23]=fopen("./data/image_a2_fcrop.dat","rt"))==NULL){
@@ -1681,12 +1684,17 @@ void open_input(
 			exit(1);
 		}
 		fp_s[45]=fopen("./data/image_a2_fgrass.dat","rt");
-	}else if(GCM_ID==1001 ||GCM_ID==1016 ||GCM_ID==1017 ||GCM_ID==1018 ||GCM_ID==1052 ||GCM_ID==1062 ||GCM_ID==1072 ||
-		GCM_ID==1082 ||GCM_ID==1092 ||GCM_ID==1102 ||GCM_ID==1103 ||GCM_ID==1112 ||GCM_ID==1122 ||GCM_ID==1140 ||
-		GCM_ID==1141 ||GCM_ID==1142 ||GCM_ID==1143 ||GCM_ID==1144 ||GCM_ID==1157 ||GCM_ID==1158 ||GCM_ID==1159 ||
-		GCM_ID==1163 ||GCM_ID==1164 ||GCM_ID==1165 ||GCM_ID==1182 ||GCM_ID==1192 ||GCM_ID==1210 ||GCM_ID==1211 ||
-		GCM_ID==1212 ||GCM_ID==1213 ||GCM_ID==1214 ||GCM_ID==1232 ||GCM_ID==1233 ||GCM_ID==1234 ||GCM_ID==1235 ||
-		GCM_ID==1236 ||GCM_ID==1237 ||GCM_ID==1238 ||GCM_ID==1239 ||GCM_ID==1242 ||GCM_ID==1253 ||GCM_ID==1272){ 
+	}else if(SCENARIO_ID==1001 ||SCENARIO_ID==1016 ||SCENARIO_ID==1017 ||SCENARIO_ID==1018 ||
+        SCENARIO_ID==1052 ||SCENARIO_ID==1062 ||SCENARIO_ID==1072 ||SCENARIO_ID==1082 ||
+        SCENARIO_ID==1092 ||SCENARIO_ID==1102 ||SCENARIO_ID==1103 ||SCENARIO_ID==1112 ||
+        SCENARIO_ID==1122 ||SCENARIO_ID==1140 ||SCENARIO_ID==1141 ||SCENARIO_ID==1142 ||
+        SCENARIO_ID==1143 ||SCENARIO_ID==1144 ||SCENARIO_ID==1157 ||SCENARIO_ID==1158 ||
+        SCENARIO_ID==1159 ||SCENARIO_ID==1163 ||SCENARIO_ID==1164 ||SCENARIO_ID==1165 ||
+        SCENARIO_ID==1182 ||SCENARIO_ID==1192 ||SCENARIO_ID==1210 ||SCENARIO_ID==1211 ||
+		SCENARIO_ID==1212 ||SCENARIO_ID==1213 ||SCENARIO_ID==1214 ||SCENARIO_ID==1232 ||
+        SCENARIO_ID==1233 ||SCENARIO_ID==1234 ||SCENARIO_ID==1235 ||SCENARIO_ID==1236 ||
+        SCENARIO_ID==1237 ||SCENARIO_ID==1238 ||SCENARIO_ID==1239 ||SCENARIO_ID==1242 ||
+        SCENARIO_ID==1253 ||SCENARIO_ID==1272){
 		CO2S = 5;
 		
 		if((fp_s[23]=fopen("./data/image_b1_fcrop.dat","rt"))==NULL){
@@ -1698,9 +1706,9 @@ void open_input(
     
     /* ISI-MIP: 2012/06/27 by A.Ito ***********************************/
     /* assumption: SRES data were used, instead of RCP data */
-    if(GCM_ID==2001 || GCM_ID==2011 || GCM_ID==2021 || GCM_ID==2031 || GCM_ID==2041
-        || GCM_ID==2005 || GCM_ID==2015 || GCM_ID==2025 || GCM_ID==2035 || GCM_ID==2045
-        || GCM_ID==4023){
+    if(SCENARIO_ID==2001 || SCENARIO_ID==2011 || SCENARIO_ID==2021 || SCENARIO_ID==2031 || SCENARIO_ID==2041
+        || SCENARIO_ID==2005 || SCENARIO_ID==2015 || SCENARIO_ID==2025 || SCENARIO_ID==2035 || SCENARIO_ID==2045
+        || SCENARIO_ID==4023){
         CO2S = 1; /* RCP2.6 */
         /**/
         if((fp_s[23]=fopen("./data/image_b1_fcrop.dat","rt"))==NULL){
@@ -1708,9 +1716,9 @@ void open_input(
 			exit(1);
 		}
 		fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt");
-    }else if(GCM_ID==2002 || GCM_ID==2012 || GCM_ID==2022 || GCM_ID==2032 || GCM_ID==2042
-        || GCM_ID==2006 || GCM_ID==2016 || GCM_ID==2026 || GCM_ID==2036 || GCM_ID==2046
-         || GCM_ID==4012 || GCM_ID==4022){
+    }else if(SCENARIO_ID==2002 || SCENARIO_ID==2012 || SCENARIO_ID==2022 || SCENARIO_ID==2032 || SCENARIO_ID==2042
+        || SCENARIO_ID==2006 || SCENARIO_ID==2016 || SCENARIO_ID==2026 || SCENARIO_ID==2036 || SCENARIO_ID==2046
+         || SCENARIO_ID==4012 || SCENARIO_ID==4022){
         CO2S = 4; /* RCP8.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a2_fcrop.dat","rt"))==NULL){
@@ -1718,9 +1726,9 @@ void open_input(
 			exit(1);
 		}
 		fp_s[45]=fopen("./data/image_a2_fgrass.dat","rt");
-    }else if(GCM_ID==2003 || GCM_ID==2013 || GCM_ID==2023 || GCM_ID==2033 || GCM_ID==2043
-        || GCM_ID==2007 || GCM_ID==2017 || GCM_ID==2027 || GCM_ID==2037 || GCM_ID==2047
-         || GCM_ID==4011|| GCM_ID==4021){
+    }else if(SCENARIO_ID==2003 || SCENARIO_ID==2013 || SCENARIO_ID==2023 || SCENARIO_ID==2033 || SCENARIO_ID==2043
+        || SCENARIO_ID==2007 || SCENARIO_ID==2017 || SCENARIO_ID==2027 || SCENARIO_ID==2037 || SCENARIO_ID==2047
+         || SCENARIO_ID==4011|| SCENARIO_ID==4021){
         CO2S = 2; /* RCP4.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
@@ -1728,9 +1736,9 @@ void open_input(
 			exit(1);
 		}
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
-    }else if(GCM_ID==2004 || GCM_ID==2014 || GCM_ID==2024 || GCM_ID==2034 || GCM_ID==2044
-        || GCM_ID==2008 || GCM_ID==2018 || GCM_ID==2028 || GCM_ID==2038 || GCM_ID==2048
-        || GCM_ID==4024){
+    }else if(SCENARIO_ID==2004 || SCENARIO_ID==2014 || SCENARIO_ID==2024 || SCENARIO_ID==2034 || SCENARIO_ID==2044
+        || SCENARIO_ID==2008 || SCENARIO_ID==2018 || SCENARIO_ID==2028 || SCENARIO_ID==2038 || SCENARIO_ID==2048
+        || SCENARIO_ID==4024){
         CO2S = 3; /* RCP6.0 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
@@ -1741,7 +1749,7 @@ void open_input(
     }
     
     /* GEO-MIP */
-    if(GCM_ID>=3000 && GCM_ID<=3999){
+    if(SCENARIO_ID>=3000 && SCENARIO_ID<=3999){
         CO2S = 2; /* RCP4.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
@@ -1752,7 +1760,7 @@ void open_input(
     }
     
     /* ISI-MIP 2 (historical) */
-    if(GCM_ID>=5000 && GCM_ID<=5999){
+    if(SCENARIO_ID>=5000 && SCENARIO_ID<=5999){
         CO2S = 2; /* RCP4.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
@@ -1763,16 +1771,15 @@ void open_input(
     }
 	
      /* ISI-MIP: 2012/06/27 by A.Ito ***********************************/
-    /* assumption: SRES data were used, instead of RCP data */
-    if(GCM_ID==2101 || GCM_ID==2103 || GCM_ID==2108 || GCM_ID==2110 ||
-        GCM_ID==2201 || GCM_ID==2203 || GCM_ID==2208 || GCM_ID==2210 ||
-        GCM_ID==2301 || GCM_ID==2303 || GCM_ID==2308 || GCM_ID==2310 ||
-        GCM_ID==2401 || GCM_ID==2403 || GCM_ID==2408 || GCM_ID==2410 ||
-        GCM_ID==2501 || GCM_ID==2503 || GCM_ID==2508 || GCM_ID==2510){
+    if(SCENARIO_ID==2101 || SCENARIO_ID==2103 || SCENARIO_ID==2108 || SCENARIO_ID==2110 ||
+        SCENARIO_ID==2201 || SCENARIO_ID==2203 || SCENARIO_ID==2208 || SCENARIO_ID==2210 ||
+        SCENARIO_ID==2301 || SCENARIO_ID==2303 || SCENARIO_ID==2308 || SCENARIO_ID==2310 ||
+        SCENARIO_ID==2401 || SCENARIO_ID==2403 || SCENARIO_ID==2408 || SCENARIO_ID==2410 ||
+        SCENARIO_ID==2501 || SCENARIO_ID==2503 || SCENARIO_ID==2508 || SCENARIO_ID==2510){
         CO2S = 1; /* RCP2.6 */
         /**/
         
-        switch(GCM_ID){
+        switch(SCENARIO_ID){
             case 2101:
                 if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp1_rcp26_v1.txt","rt"))==NULL){
                     printf("NO fcrop_gfdl_aim_ssp1_rcp26_v1.txt !!\n");
@@ -1898,16 +1905,17 @@ void open_input(
                 exit(1);
         }
         
+        /* assumption: SRES data were used, instead of RCP data */
 		fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt");
-    }else if(GCM_ID==2102 || GCM_ID==2104 || GCM_ID==2106 || GCM_ID==2109 || GCM_ID==2111 ||
-        GCM_ID==2202 || GCM_ID==2204 || GCM_ID==2206 || GCM_ID==2209 || GCM_ID==2211 ||
-        GCM_ID==2302 || GCM_ID==2304 || GCM_ID==2306 || GCM_ID==2309 || GCM_ID==2311 ||
-        GCM_ID==2402 || GCM_ID==2404 || GCM_ID==2406 || GCM_ID==2409 || GCM_ID==2411 ||
-        GCM_ID==2502 || GCM_ID==2504 || GCM_ID==2506 || GCM_ID==2509 || GCM_ID==2511 ){
+    }else if(SCENARIO_ID==2102 || SCENARIO_ID==2104 || SCENARIO_ID==2106 || SCENARIO_ID==2109 || SCENARIO_ID==2111 ||
+        SCENARIO_ID==2202 || SCENARIO_ID==2204 || SCENARIO_ID==2206 || SCENARIO_ID==2209 || SCENARIO_ID==2211 ||
+        SCENARIO_ID==2302 || SCENARIO_ID==2304 || SCENARIO_ID==2306 || SCENARIO_ID==2309 || SCENARIO_ID==2311 ||
+        SCENARIO_ID==2402 || SCENARIO_ID==2404 || SCENARIO_ID==2406 || SCENARIO_ID==2409 || SCENARIO_ID==2411 ||
+        SCENARIO_ID==2502 || SCENARIO_ID==2504 || SCENARIO_ID==2506 || SCENARIO_ID==2509 || SCENARIO_ID==2511 ){
         CO2S = 2; /* RCP4.5 */
         /**/
         
-        switch(GCM_ID){
+        switch(SCENARIO_ID){
             case 2102:
                 if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp1_rcp45_v1.txt","rt"))==NULL){
                     printf("NO fcrop_gfdl_aim_ssp1_rcp45_v1.txt !!\n");
@@ -2063,15 +2071,16 @@ void open_input(
                 exit(1);
         }
         
+        /* assumption: SRES data were used, instead of RCP data */
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
-    }else if(GCM_ID==2105 || GCM_ID==2107 ||
-        GCM_ID==2205 || GCM_ID==2207 ||
-        GCM_ID==2305 || GCM_ID==2307 ||
-        GCM_ID==2405 || GCM_ID==2407 ||
-        GCM_ID==2505 || GCM_ID==2507){
+    }else if(SCENARIO_ID==2105 || SCENARIO_ID==2107 ||
+        SCENARIO_ID==2205 || SCENARIO_ID==2207 ||
+        SCENARIO_ID==2305 || SCENARIO_ID==2307 ||
+        SCENARIO_ID==2405 || SCENARIO_ID==2407 ||
+        SCENARIO_ID==2505 || SCENARIO_ID==2507){
         CO2S = 3; /* RCP6.0 */
         /**/
-        switch(GCM_ID){
+        switch(SCENARIO_ID){
             case 2105:
                 if((fp_s[23]=fopen("./data/fcrop_gfdl_aim_ssp2_rcp60_v1.txt","rt"))==NULL){
                     printf("NO fcrop_gfdl_aim_ssp2_rcp60_v1.txt !!\n");
@@ -2137,11 +2146,12 @@ void open_input(
                 exit(1);
         }
         
+        /* assumption: SRES data were used, instead of RCP data */
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
     }
     
     /* GEO-MIP ***************************************/
-    if(GCM_ID>=3000 && GCM_ID<=3999){
+    if(SCENARIO_ID>=3000 && SCENARIO_ID<=3999){
         CO2S = 2; /* RCP4.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
@@ -2152,7 +2162,7 @@ void open_input(
     }
     
     /* ISI-MIP 2 (historical) ******************************/
-    if(GCM_ID>=5000 && GCM_ID<=5999){
+    if(SCENARIO_ID>=5000 && SCENARIO_ID<=5999){
         CO2S = 2; /* RCP4.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){

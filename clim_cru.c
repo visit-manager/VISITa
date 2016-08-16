@@ -18,6 +18,9 @@ New, M., Lister, D., Hulme, M. and Makin, I., 2002. A high-resolution data set o
 Mitchell, T. D., and P. D. Jones (2005), An improved method of constructing a database 
  of monthly climate observations and associated high-resolution grids, 
  International Journal of Climatology, 25, 693-712.
+Harris, I., P. D. Jones, T. J. Osborn, and D. H. Lister, 2014: Updated
+ high-resolution grids of monthly climatic observations – the CRU TS3.10 Dataset.
+ International Journal of Climatology, 34, 623–642.
 */
 void read_cru_clim(
 	FILE *fp_c[4], 

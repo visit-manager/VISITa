@@ -84,13 +84,13 @@ void f_init_clim(
         /* IMPRESSIONS IRS: 2015/07/17 by A.Ito */
         if(IMPRESSIONS_RUN == 1){
         
-            if(GCM_ID<6001 || GCM_ID>7000){
+            if(SCENARIO_ID<6001 || SCENARIO_ID>7000){
                 printf("BAD experimental ID\n");
                 exit(1);
             }
             
             /*******/
-            impex_t = (short)(GCM_ID%50);
+            impex_t = (short)(SCENARIO_ID%50);
             
             switch(impex_t){
                 case 1: tmp_var = -3.0; break;
@@ -117,7 +117,7 @@ void f_init_clim(
             grid->tmp200_soil[h] += tmp_var;
             
             /*******/
-            impex_p = (short)((GCM_ID - 6000)/50);
+            impex_p = (short)((SCENARIO_ID - 6000)/50);
             
             switch(impex_p){
                 case 0: pre_var = 0.4; break;

@@ -65,11 +65,11 @@ void cal_historical(
             grid->co2y = 2000;
         }
         /* ISI-MIP no-co2 run: 2012/07/31 by A.Ito */
-        if((GCM_ID==2005 ||GCM_ID==2006 ||GCM_ID==2007 ||GCM_ID==2008 ||
-            GCM_ID==2015 ||GCM_ID==2016 ||GCM_ID==2017 ||GCM_ID==2018 ||
-            GCM_ID==2025 ||GCM_ID==2026 ||GCM_ID==2027 ||GCM_ID==2028 ||
-            GCM_ID==2035 ||GCM_ID==2036 ||GCM_ID==2037 ||GCM_ID==2038 ||
-            GCM_ID==2045 ||GCM_ID==2046 ||GCM_ID==2047 ||GCM_ID==2048) && grid->simy>=2000){
+        if((SCENARIO_ID==2005 ||SCENARIO_ID==2006 ||SCENARIO_ID==2007 ||SCENARIO_ID==2008 ||
+            SCENARIO_ID==2015 ||SCENARIO_ID==2016 ||SCENARIO_ID==2017 ||SCENARIO_ID==2018 ||
+            SCENARIO_ID==2025 ||SCENARIO_ID==2026 ||SCENARIO_ID==2027 ||SCENARIO_ID==2028 ||
+            SCENARIO_ID==2035 ||SCENARIO_ID==2036 ||SCENARIO_ID==2037 ||SCENARIO_ID==2038 ||
+            SCENARIO_ID==2045 ||SCENARIO_ID==2046 ||SCENARIO_ID==2047 ||SCENARIO_ID==2048) && grid->simy>=2000){
             /* fixed to AD2000 level */
             grid->co2y = 2000;
         }
