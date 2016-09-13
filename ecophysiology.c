@@ -88,7 +88,7 @@ void f_ecophysiology(
 	/* give irradiance attenuation coefficient */
 	if(EFF_K == 0){
 		pchar->eK[grid->m] = irr_attn(grid, loct, pchar);
-		pchar->fapar[grid->m] = (1.0 - pchar->albedo)*(1.0 - exp(-pchar->eK[grid->m]*mass->lai[grid->m]));
+		pchar->fapar[grid->m] = (1.0 - pchar->albedo)*(1.0 - exp(-pchar->eK[grid->m] * mass->lai[grid->m]));
 	}else if(EFF_K == 1){
         /* default */
 		pchar->eK[grid->m] = eff_k;
@@ -340,7 +340,7 @@ void opt_lai(
 	/* daily respiratory cost */
 	/* printf("%lf %lf\n", plant->qTc[grid->m], grid->tmp_sfc[grid->m]); */
 	eee = log(pchar->qTc[grid->m]) / 10.0*(grid->tmp_sfc[grid->m] - 15.0);
-	arm = pchar->rmf*exp(eee) / 1000.0*dmTc*10000.0/(pchar->sla);
+	arm = pchar->rmf * exp(eee) / 1000.0*dmTc*10000.0/(pchar->sla);
 	arg = pchar->lf[grid->m]*dmTc*10000.0 / (pchar->sla)*(1.0 + pchar->rgf);
 	ar = arm + arg;
 
@@ -373,11 +373,39 @@ void f_qten_ar(
 	double aaa;
 	
 	/* larger at cool and smaller at warm */
-	aaa = exp(-0.009 * (grid->tmp_sfc[grid->m] - 15.0));
-		
-	pchar->qTf[grid->m] = pchar->qTf0 * aaa;
-	pchar->qTc[grid->m] = pchar->qTc0 * aaa;
-	pchar->qTr[grid->m] = pchar->qTr0 * aaa;
+    if(EX_TMP_RESP == 0){
+        aaa = exp(-0.009 * (grid->tmp_sfc[grid->m] - 15.0));
+        pchar->qTf[grid->m] = pchar->qTf0 * aaa;
+        pchar->qTc[grid->m] = pchar->qTc0 * aaa;
+        pchar->qTr[grid->m] = pchar->qTr0 * aaa;
+    }else if(EX_TMP_RESP == 1){
+        /* ex. Yokota and Hagihara (1996) Tree Physiology */
+        aaa = 3.32 - 0.0667 * grid->tmp_sfc[grid->m];
+        pchar->qTf[grid->m] = aaa;
+        pchar->qTc[grid->m] = aaa;
+        pchar->qTr[grid->m] = aaa;
+    }else if(EX_TMP_RESP == 2){
+        /* Atkin et al. (2005) */
+        aaa = 3.09 - 0.043 * grid->tmp_sfc[grid->m];
+        pchar->qTf[grid->m] = aaa;
+        pchar->qTc[grid->m] = aaa;
+        pchar->qTr[grid->m] = aaa;
+    }else if(EX_TMP_RESP == 3){
+        aaa = 2.0;
+        pchar->qTf[grid->m] = aaa;
+        pchar->qTc[grid->m] = aaa;
+        pchar->qTr[grid->m] = aaa;
+    }else if(EX_TMP_RESP == 4){
+        aaa = 1.5;
+        pchar->qTf[grid->m] = aaa;
+        pchar->qTc[grid->m] = aaa;
+        pchar->qTr[grid->m] = aaa;
+    }else if(EX_TMP_RESP == 5){
+        aaa = 2.5;
+        pchar->qTf[grid->m] = aaa;
+        pchar->qTc[grid->m] = aaa;
+        pchar->qTr[grid->m] = aaa;
+    }
 	
 	if(T_R==1){
 		pchar->qTf[grid->m] *= 0.9;

@@ -90,14 +90,14 @@
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_CARBON2 0
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
-#define OUTPUT_GHG 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 0
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 /* output binary */
 #define C13_GOUT 0
 #define C14_GOUT 0
@@ -205,7 +205,7 @@
 #elif ISIMIP_RUN==2
     #define BGY_CLIM 1901  /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
-    #define BGY_CLIM 1901  /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
+    #define BGY_CLIM 1901  /* ISI-MIP2a (historical): 2014/11/30 by A.Ito */
 #else
     #define BGY_CLIM 1901
 #endif
@@ -404,6 +404,14 @@
 #define DIF_SRB 1
 /* 0:off, 1:0 */
 
+#define EX_TMP_RESP 0
+/* 0: default */
+/* 1: Yokota & Hagihara */
+/* 2: Atkin */
+/* 3: fix 2.0 */
+/* 4: fix 1.5 */
+/* 5: fix 2.5 */
+
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
 #define CH4_WH 0
@@ -548,7 +556,7 @@
 /* 4: decreased ka */
 
 /* acclimation */
-#define BACC 0 /* */
+#define EX_ACCLM 0 /* */
 /* 0: control */
 /* 1: soil temperature */
 /* 2: soil moisture */

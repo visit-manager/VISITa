@@ -61,10 +61,10 @@ void cal_projection(
         
 		/* climate change ********************/
 		grid->climy = g;
-		if(GCM_ID >= 1 && GCM_ID <=9999){
+		if(SCENARIO_ID >= 1 && SCENARIO_ID <=9999){
 			set_gcm_clim(grid);
 		}else{
-            printf("BAD GCM_ID!!\n");
+            printf("BAD SCENARIO_ID!!\n");
             exit(1);
         }
 		
@@ -161,10 +161,10 @@ void cal_projection(
 			/* aggregate plant mass and fluxes */
 			f_plant_stand_budget(grid, loct, mass, flux);
 			
-			if(BACC==3){
+			if(EX_ACCLM==3){
 				(flux->plant).lL[f] = flux->lL0[f];
 			}
-			if(BACC==4){
+			if(EX_ACCLM==4){
 				rl_a = (echar->soil).rl0*(1.0 - 0.001*(double)((grid->climy - BGY_GCM)+1));
 				if((mass->soil).ltr+(flux->plant).lL[f]){
 					(echar->soil).rl = ((echar->soil).rl*(mass->soil).ltr + 

@@ -247,7 +247,7 @@ void f_ch4oxy_casa(
 	/* CH4 concentration gradient */
 	/* from CHEM96_Potter */
 	/* c_ch4 = 0.04; */ /* default */
-	switch(GCM_ID){
+	switch(SCENARIO_ID){
 		case 1000: case 1010: case 1070: case 1080: case 1090: case 1110:
 			c_ch4 = ach4_a1[grid->co2y-1750]/1000.0/30.0;
 			break;

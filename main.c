@@ -78,8 +78,8 @@ int main(
 	/* config: 1 experiomental scenario ID number (see setting.h) */
 	fscanf(fp_setting,"%s %ld", s_config, &l_config);
 	printf("config  1: %s %ld\n", s_config, l_config);
-	GCM_ID = l_config;
-	   if(GCM_ID>=0 && GCM_ID<=9999){
+	SCENARIO_ID = l_config;
+	   if(SCENARIO_ID>=0 && SCENARIO_ID<=9999){
 	   ;
 	}else{
 	   printf("Bad scenario ID specified !!!\n");
@@ -530,7 +530,7 @@ int main(
 		fclose(fp_c[h]);
         
         /* revised 2015/8/12 by A.Ito */
-        if(GCM_RUN == 1 && GCM_ID >= 1){
+        if(GCM_RUN == 1 && SCENARIO_ID >= 1){
             fclose(fp_c2[h]);
         }
 	}
