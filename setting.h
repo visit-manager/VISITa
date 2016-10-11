@@ -225,7 +225,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
-    #define DL_CRU 114  /* CRU TS3.24: AD 1901 - 2014 */
+    #define DL_CRU 115  /* CRU TS3.24: AD 1901 - 2015 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -233,6 +233,7 @@
     /* 112: TS3.21 */
     /* 113: TS3.22 */
     /* 114: TS3.23 */
+    /* 115: TS3.24 */
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
