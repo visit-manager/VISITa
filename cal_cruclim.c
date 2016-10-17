@@ -165,7 +165,7 @@ void cal_historical(
 
 			f_plant_stand_budget(grid, loct, mass, flux);
 			
-			if(BACC == 3){
+			if(EX_ACCLM == 3){
 				(flux->plant).lL[f] = flux->lL0[f];
 			}
 

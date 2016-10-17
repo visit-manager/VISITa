@@ -90,7 +90,7 @@
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 0
+#define OUTPUT_CARBON2 1
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
@@ -176,7 +176,7 @@
 #elif ISIMIP_RUN==2
     #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
-    /* #define PD_HIST 110 */  /* AD 1901 - 2010 */ /* ISI-MIP2 (historical gswp3, pgfv2): 2014/11/30 by A.Ito */
+    /* #define PD_HIST 110 */ /* AD 1901 - 2010 */ /* ISI-MIP2 (historical gswp3, pgfv2): 2014/11/30 by A.Ito */
     /* #define PD_HIST 101 */ /* AD 1901 - 2001 */ /* ISI-MIP2 (historical watch): 2015/01/06 by A.Ito */
     #define PD_HIST 112 /* */ /* AD 1901 - 2012 */ /* ISI-MIP2 (historical watch): 2016/05/06 by A.Ito */
 #elif GEOMIP_RUN==1
@@ -205,7 +205,7 @@
 #elif ISIMIP_RUN==2
     #define BGY_CLIM 1901  /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
-    #define BGY_CLIM 1901  /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
+    #define BGY_CLIM 1901  /* ISI-MIP2a (historical): 2014/11/30 by A.Ito */
 #else
     #define BGY_CLIM 1901
 #endif
@@ -225,7 +225,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
-    #define DL_CRU 114  /* CRU TS3.24: AD 1901 - 2014 */
+    #define DL_CRU 115  /* CRU TS3.24: AD 1901 - 2015 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -233,10 +233,11 @@
     /* 112: TS3.21 */
     /* 113: TS3.22 */
     /* 114: TS3.23 */
+    /* 115: TS3.24 */
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -404,6 +405,14 @@
 #define DIF_SRB 1
 /* 0:off, 1:0 */
 
+#define EX_TMP_RESP 0
+/* 0: default */
+/* 1: Yokota & Hagihara */
+/* 2: Atkin */
+/* 3: fix 2.0 */
+/* 4: fix 1.5 */
+/* 5: fix 2.5 */
+
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
 #define CH4_WH 0
@@ -548,7 +557,7 @@
 /* 4: decreased ka */
 
 /* acclimation */
-#define BACC 0 /* */
+#define EX_ACCLM 0 /* */
 /* 0: control */
 /* 1: soil temperature */
 /* 2: soil moisture */
@@ -985,3 +994,8 @@
 /* 2509: noresm SSP4 rcp4.5  */
 /* 2510: noresm SSP5 rcp2.6  */
 /* 2511: noresm SSP5 rcp4.5  */
+
+/* add: 2016/10/17 */
+/* 2601: SSP1 no climate change  */
+/* 2602: SSP2 no climate change  */
+/* 2603: SSP3 no climate change  */

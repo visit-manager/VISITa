@@ -148,6 +148,24 @@ void open_input(
                 printf("No cru323_vap_1901-2014.txt\n");
                 exit(1); 
             }
+        }else if(DL_CRU==115){
+            /* UEA-CRU data from 1901 - 2015: 2016/10/11 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/cru324_cld_1901-2015.txt","rt"))==NULL ){
+                printf("No cru324_cld_1901-2014.txt\n");
+                exit(1); 
+            }
+            if( (fp_c[1]=fopen("./data/cru324_pre_1901-2015.txt","rt"))==NULL ){
+                printf("No cru324_pre_1901-2014.txt\n");
+                exit(1); 
+            }
+            if( (fp_c[2]=fopen("./data/cru324_tmp_1901-2015.txt","rt"))==NULL ){
+                printf("No cru324_tmp_1901-2014.txt\n");
+                exit(1); 
+            }
+            if( (fp_c[3]=fopen("./data/cru324_vap_1901-2015.txt","rt"))==NULL ){
+                printf("No cru324_vap_1901-2014.txt\n");
+                exit(1); 
+            }
         }else{
             printf("No CRU data\n");
             exit(1);
@@ -158,6 +176,7 @@ void open_input(
         switch(SCENARIO_ID){
             case 2001: case 2005:
                 case 2201: case 2203: case 2208: case 2210:
+                case 2601: case 2602: case 2603:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_hadgem_1950-2099.flt","rb"))==NULL ){
                     printf("No tas_rcp2p6_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
@@ -2146,6 +2165,30 @@ void open_input(
                 exit(1);
         }
         
+        /* assumption: SRES data were used, instead of RCP data */
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+    }else if(SCENARIO_ID==2601){
+        CO2S = 0; /* fixed */
+        if((fp_s[23]=fopen("./data/fcrop_ssp1_current_v1.txt","rt"))==NULL){
+            printf("NO fcrop_ssp1_current_v1.txt !!\n");
+            exit(1);
+        }
+        /* assumption: SRES data were used, instead of RCP data */
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+    }else if(SCENARIO_ID==2602){
+        CO2S = 0; /* fixed */
+        if((fp_s[23]=fopen("./data/fcrop_ssp2_current_v1.txt","rt"))==NULL){
+            printf("NO fcrop_ssp2_current_v1.txt !!\n");
+            exit(1);
+        }
+        /* assumption: SRES data were used, instead of RCP data */
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+    }else if(SCENARIO_ID==2603){
+        CO2S = 0; /* fixed */
+        if((fp_s[23]=fopen("./data/fcrop_ssp3_current_v1.txt","rt"))==NULL){
+            printf("NO fcrop_ssp3_current_v1.txt !!\n");
+            exit(1);
+        }
         /* assumption: SRES data were used, instead of RCP data */
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
     }

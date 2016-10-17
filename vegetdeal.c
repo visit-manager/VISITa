@@ -781,6 +781,10 @@ void set_gcm_index(
         case 2510:	strcpy(s_case,"ICNOS5R26_"); break;
         case 2511:	strcpy(s_case,"ICNOS5R45_"); break;
 
+        case 2601:	strcpy(s_case,"ICS1_"); break;
+        case 2602:	strcpy(s_case,"ICS2_"); break;
+        case 2603:	strcpy(s_case,"ICS3_"); break;
+
         /* GEO-MIP runs: 2013/11/26 by A.Ito */
 		case 3000:	strcpy(s_case,"GEBN45_"); break;
 		case 3001:	strcpy(s_case,"GEBNG3_"); break;

@@ -168,7 +168,7 @@ double frl(
     }
     
 	/* acclimation */
-	if(BACC==1 && grid->phase>=1){
+	if(EX_ACCLM==1 && grid->phase>=1){
 		ftl = schar->ft0_l[grid->m];
 	}
 	
@@ -189,7 +189,7 @@ double frl(
 	fsm = (fwl>fal)?fal:fwl;
 	
 	/* acclimation */
-	if(BACC==2 && grid->phase>=1){
+	if(EX_ACCLM==2 && grid->phase>=1){
 		fsm = schar->fm0_l[grid->m];
 	}
 	
@@ -250,7 +250,7 @@ double frh(
     }
 
 	/* acclimation */
-	if(BACC==1 && grid->phase>=1){
+	if(EX_ACCLM==1 && grid->phase>=1){
 		fth = schar->ft0_h[grid->m];
 	}
 	
@@ -271,7 +271,7 @@ double frh(
 	fsm = (fwh>fah)?fah:fwh;
 	
 	/* acclimation */
-	if(BACC==2 && grid->phase>=1){
+	if(EX_ACCLM==2 && grid->phase>=1){
 		fsm = schar->fm0_h[grid->m];
 	}
 	

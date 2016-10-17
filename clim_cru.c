@@ -121,6 +121,7 @@ void read_cru_clim(
     }else if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2 ||ISIMIP_RUN == 3){
         
         /* ISI-MIP: 2012/06/27 by A.Ito ****************/
+        /* also for ICARUS */
         /* 1950-1979-detrended: spi-up */
         /* 1950-2005:           historical */
         /* 2006-2099:           future projection */

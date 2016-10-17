@@ -37,6 +37,7 @@ void set_hist_clim(
             /* 1901-2012:CRU TS3.21 */
             /* 1901-2013:CRU TS3.22 */
             /* 1901-2014:CRU TS3.23 */
+            /* 1901-2015:CRU TS3.24 */
             for(h=0;h<ASTEP;h++){
                 grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h] 
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
