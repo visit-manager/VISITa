@@ -104,7 +104,7 @@ double f_top_rad(
     
     /* experiment for SRM by reflector */
     /* added: 2014/07/06 by A.Ito     */
-    /* if(GCM_ID == 3012 || GCM_ID == 3033 || GCM_ID == 3091){
+    /* if(SCENARIO_ID == 3012 || SCENARIO_ID == 3033 || SCENARIO_ID == 3091){
         if(grid->climy >= 2020){
             gg -= ((double)grid->climy-2020.0) * 4.5/50.0;
         }
@@ -377,7 +377,7 @@ void f_net_rad(
 	loct->albedo_sfc[grid->m] = (echar->soil).albedo[grid->m] * ground +
 					(echar->c3).albedo * c3_canopy + (echar->c4).albedo * c4_canopy;
     albedo_base = loct->albedo_sfc[grid->m];
-    loct->xx8[grid->m] = albedo_base; /* */
+    /* loct->xx8[grid->m] = albedo_base; */
 	
     /* albedo perturbation: 2012/12/29 by A.Ito */
     if(EX_ALBEDO == 1){
@@ -597,10 +597,10 @@ double albedo_soil(
     /* revised: 2012/12/29 by A.Ito */
 	albedo = schar->albedo0 + (0.95 - schar->albedo0)/(1.0 + exp(-0.05 * (loct->snwa - 75.0)));
 	
-	if(SENS_RAD==3){
+	if(SENS_RAD == 3){
 		albedo *= 1.1;
 	}
-	if(SENS_RAD==4){
+	if(SENS_RAD == 4){
 		albedo *= 0.9;
 	}
     

@@ -209,20 +209,37 @@ struct Grid{
 	double 	fk_edodibility;					/* soil erodibility for RUSLE erosion model */
 	
 	/* land-use change */
-	double 	fcrop_sage[293];				/* historical data, 1700-1992, Ramankutty & Foley */
+	double	fcrop;                      /* fraction of cropland */
+	double	frice;                      /* fraction of rice */
+	double	fwheat;                     /* fraction of wheat */
+	double	fmaize;                     /* fraction of maize */
+	double	fothers;                    /* fraction of other crops */
+
+	double 	f_crop_con;					/* contemporary cropland fraction */
+	double 	f_crop_p;					/* previous cropland fraction */
+	double 	f_crop_trend;				/* trend of cropland conversion, fraction/yr */
+	double 	f_pasture_con;				/* contemporary pasture fraction */
+	double 	f_pasture_p;				/* previous pasture fraction */
+	double 	f_pasture_trend;			/* trend of pasture conversion, fraction/yr */
+	
+	double	f_deforest;					/* deforestation rate */
+	double	f_deforest_v;				/* in primary lands */
+	double	f_deforest_s;				/* in secondary lands */
+	
+	double	f_crop_base;				/* base cropland fraction in 2000 */
+	double	f_pasture_base;				/* base pasture fraction in 2000 */
+		
+    double  f_luc;                      /* fraction of land-use conversion */
+    
+	double 	fcrop_net[293];             /* historical data, 1700-1992, Ramankutty & Foley */
+	double	fcrop_rk[308];				/* crop fraction by Ramankutty & Kimball (2010) */
+	double	fpast_rk[308];				/* pasture fraction by Ramankutty & Kimball (2010) */
+	
 	/* future, 1990-2100, IMAGE2, Wang et al. */
-	double 	fcrop3_image[111];				/* C3 crop */
-	double 	fcrop4_image[111];				/* C4 crop */
-	double 	fgrass3_image[111];				/* C3 pasture grass */
-	double 	fgrass4_image[111];				/* C4 pasture grass */
-	
-	double	fcrop;			/* fraction of cropland */
-	double	frice;			/* fraction of rice */
-	double	fwheat;			/* fraction of wheat */
-	double	fmaize;			/* fraction of maize */
-	double	fothers;		/* fraction of other crops */
-	
-    double  f_luc;          /* fraction of land-use conversion */
+	double 	fcrop3_future[111];				/* C3 crop */
+	double 	fcrop4_future[111];				/* C4 crop */
+	double 	fgrass3_future[111];			/* C3 pasture grass */
+	double 	fgrass4_future[111];			/* C4 pasture grass */
 
 	/* EOS-WEBSTER, 1700-2000/2005, Hurtt et al. */
 	double	fcrop_unh_hmnzed[DL_LUC];		/* cropland fraction */
@@ -244,23 +261,6 @@ struct Grid{
 	double	t_vp_unh_hmnzed[DL_LUC];		/* conversion primary to pasture */
 	double	t_vs1_unh_hmnzed[DL_LUC];		/*  */
 	double	t_vs2_unh_hmnzed[DL_LUC];		/*  */
-	
-	double 	f_crop_con;					/* contemporary cropland fraction */
-	double 	f_crop_p;					/* previous cropland fraction */
-	double 	f_crop_trend;				/* trend of cropland conversion, fraction/yr */
-	double 	f_pasture_con;				/* contemporary pasture fraction */
-	double 	f_pasture_p;				/* previous pasture fraction */
-	double 	f_pasture_trend;			/* trend of pasture conversion, fraction/yr */
-	
-	double	f_deforest;					/* deforestation rate */
-	double	f_deforest_v;				/* in primary lands */
-	double	f_deforest_s;				/* in secondary lands */
-	
-	double	fcrop_rk[308];				/* crop fraction by Ramankutty & Kimball (2010) */
-	double	fpast_rk[308];				/* pasture fraction by Ramankutty & Kimball (2010) */
-	
-	double	f_crop_base;				/* base cropland fraction in 2000 */
-	double	f_pasture_base;				/* base pasture fraction in 2000 */
 	
 	/* wood harvest */
 	double	hvst_p1[DL_LUC];
@@ -419,6 +419,7 @@ struct Loct{
 	double	soil_apprw;					/* soil aperture of lower layer, fraction */
 	
 	double	n_frtlz_in;					/* N-fertilization input */
+	double	n_manure_in;                /* N-manure input */
 	double	depo_no3[ASTEP];			/* NO3- deposition */
 	double	depo_nh4[ASTEP];			/* NH4+ deposition */
 	
@@ -496,6 +497,9 @@ struct Pchar{
 	double	kn_nphoto;				/* canopy N gradient, exponential coefficient */
 	double	amax_nphoto;			/* max. photosynthesis rate, micro mol CO2 m-2 s-1 */
 	double	rd_n;					/* dark respiration, micro mol CO2 m-2 s-1 */
+    /* 2016/08/02 by A.Ito */
+    double  n_opt[ASTEP];
+    double  n_leaf[ASTEP];
 	
 	double	n_leaf_df97;			/* leaf N concentration, mmol N m-2 */
 	
@@ -901,7 +905,8 @@ struct Sflx{
 	double	n_minerlz_lttr[ASTEP];			/* litter N mineralization */
 	double	n_minerlz_hums[ASTEP];			/* humus N mineralization */
 	double	n_nitrif[ASTEP];				/* nitrification in NGAS */
-	double	n_immbl[ASTEP];					/* N immobilization */
+	double	n_immbl_nh4[ASTEP];				/* NH4+ immobilization */
+	double	n_immbl_no3[ASTEP];				/* NO3- immobilization */
 	double	n_mcrb_abdn[ASTEP];				/* microbial abandonment */
 	
 	double	n_fertin[ASTEP];				/* fertilizer input */

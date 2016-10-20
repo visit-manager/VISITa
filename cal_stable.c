@@ -29,7 +29,7 @@ void cal_spinup(
 	grid->phase = 0; /* spin-up */
 	
 	/* max. spin-up time, years *************/
-	if((echar->c3).v_type==1){
+	if((echar->c3).v_type == 1){
 		/* corrected: A.Ito and E.Kato (2009/08/16) */
 		if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 
 				|| grid->veg_olson==32){
@@ -54,7 +54,7 @@ void cal_spinup(
 		grid->f_crop_p = 0.0;
 		grid->f_pasture_p = 0.0;
 	}else if(LANDUSE>=1 && LANDUSE<=5){
-		grid->f_crop_p = grid->fcrop_sage[199];
+		grid->f_crop_p = grid->fcrop_net[199];
 		grid->f_pasture_p = 0.0;
 	}else if(LANDUSE == 6 || LANDUSE == 8){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[199];
@@ -69,6 +69,9 @@ void cal_spinup(
          || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - FDY_LUC];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - FDY_LUC];
+	}else if(LANDUSE == 18){
+		grid->f_crop_p = grid->fcrop3_future[0];
+		grid->f_pasture_p = 0.0;
 	}
     
     if(LANDUSE == 17 || BIOFUEL_RUN >= 1){
@@ -77,24 +80,36 @@ void cal_spinup(
 	}
 	
     /* historical fertilizer */
-	if(grid->rank_nat == 1){
-		/* developing countries */
-		f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - 1900.0)))+0.0014929171;
-	}else if(grid->rank_nat==2){
-		/* developed countries */
-		f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - 1900.0)))+0.53533202;
-	}else{
-        f_fert = 1.0;
-    }
-    /* NMIP input: 2015/11/19 by A.Ito */
+    grid->niny = 1901;
     if(NMIP_RUN >= 1){
-        n_fertilizer_in(grid, loct);
+        grid->niny = FDY_NINY;
+
+		grid->f_crop_p = grid->nmip_frcrop[0];
+		grid->f_pasture_p = 0.0;
+    }
+    n_fertilizer_in(grid, loct);
+    
+    if(NMIP_RUN >= 1){
+        /* NMIP input: 2015/11/19 by A.Ito */
         f_fert = 1.0; /* driven by data */
+    }else{
+        if(grid->rank_nat == 1){
+            /* developing countries */
+            f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - 1900.0)))+0.0014929171;
+        }else if(grid->rank_nat == 2){
+            /* developed countries */
+            f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - 1900.0)))+0.53533202;
+        }else{
+            f_fert = 1.0;
+        }
     }
     
     grid->simy = 1900;
-    if(EX_BECCS==1){
+    if(ISIMIP_RUN == 1 || EX_BECCS==1){
         grid->simy = 1949;
+    }
+    if(NMIP_RUN >= 1){
+        grid->simy = FSY_HIST -1;
     }
 	
 	/* LOOP to stable stage ************************************************/
@@ -130,13 +145,14 @@ void cal_spinup(
         }
         
         /* NMIP: 2015/11/19 by A.Ito **/
+        /* updated: 2016/10/20 */
         grid->niny = 1901;
         
         if(NMIP_RUN >= 1){
-            grid->climy = FDY_NINY + 1;
-            grid->niny = FDY_NINY + 1;
-            grid->co2y = FDY_NINY + 1;
-            grid->lucy = FDY_NINY + 1;
+            grid->climy = 1901;
+            grid->niny = FSY_HIST-1;
+            grid->co2y = FSY_HIST-1;
+            grid->lucy = FSY_HIST-1;
             set_hist_clim(grid);
             n_fertilizer_in(grid, loct);
         }
@@ -195,6 +211,7 @@ void cal_spinup(
 			
 			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
 			/* NH4:NO3 ratio is based on inventories */
+            /* this routine may not be activated when using REPLACE_OLSON_CROP option */
 			if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 ||
 											 grid->veg_olson==31 || grid->veg_olson==32)){
 				(flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0 * f_fert;
@@ -203,10 +220,14 @@ void cal_spinup(
 			}else{
 				(flux->soil).n_fertin[grid->m] = 0.0;
 			}
+            
 			if((echar->soil).v_type == 2){
 				(flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0 * f_fert;
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+
+                /* 2016/10/20 by A.Ito */
+                (mass->soil).n_lttr += loct->n_manure_in * 1000.0 * f_fert;
 			}
 			
 			/* CH4 oxydation **************/
@@ -530,7 +551,7 @@ void cal_spinup(
 	}
 	
 	/* history data */
-	f_set_history_data(grid->simy - (BGY_CLIM-1), grid, loct, mass, flux);
+	f_set_history_data(grid->simy - (FSY_HIST-1), grid, loct, mass, flux);
 		
 	/** output initial stable state **/
 	publish_cbud(grid, loct, echar, mass, flux, fp_o[0]); /* */

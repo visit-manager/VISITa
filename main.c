@@ -78,8 +78,8 @@ int main(
 	/* config: 1 experiomental scenario ID number (see setting.h) */
 	fscanf(fp_setting,"%s %ld", s_config, &l_config);
 	printf("config  1: %s %ld\n", s_config, l_config);
-	GCM_ID = l_config;
-	   if(GCM_ID>=0 && GCM_ID<=9999){
+	SCENARIO_ID = l_config;
+	   if(SCENARIO_ID>=0 && SCENARIO_ID<=9999){
 	   ;
 	}else{
 	   printf("Bad scenario ID specified !!!\n");
@@ -141,14 +141,14 @@ int main(
 		strcat(s_date, "E");
 		strcat(s_date, num);
 		strcat(s_date, "_");
-        for(f=0;f<NPERT;f++){
+        for(f=0;f<N_PARA_ENS;f++){
             f_pert[f] = 0.0;
         }
     }else{
         if(PARAM_PTB >= 1){
             srand((unsigned int)(rpert + clock()%1000));
             rand();
-            for(f=0;f<NPERT;f++){
+            for(f=0;f<N_PARA_ENS;f++){
                 f_pert[f] = 0.0;
                 for(g=0;g<12;g++){
                     f_pert[f] += (double)rand() / (double)RAND_MAX;
@@ -181,7 +181,7 @@ int main(
             strcat(s_date, num);
             strcat(s_date, "_");
         }else{
-            for(f=0;f<NPERT;f++){
+            for(f=0;f<N_PARA_ENS;f++){
                 f_pert[f] = 0.0;
             }
         }
@@ -530,7 +530,7 @@ int main(
 		fclose(fp_c[h]);
         
         /* revised 2015/8/12 by A.Ito */
-        if(GCM_RUN == 1 && GCM_ID >= 1){
+        if(GCM_RUN == 1 && SCENARIO_ID >= 1){
             fclose(fp_c2[h]);
         }
 	}

@@ -94,6 +94,8 @@ void f_clear(
     grid->tmp_base_permaforst = 0.0;
     grid->tmp_soil_am = 0.0;
     
+    loct->n_frtlz_in = loct->n_manure_in = 0.0;
+    
     /* for(f=0;f<DL_BF;f++){
         grid->f_biofuel[f] = 0.0;
     } */
@@ -220,7 +222,8 @@ void ghg_flux_zero(
 	(flux->soil).n_minerlz_lttr[month] = 0.0;
 	(flux->soil).n_minerlz_hums[month] = 0.0;
 	(flux->soil).n_nitrif[month] = 0.0;
-	(flux->soil).n_immbl[month] = 0.0;
+	(flux->soil).n_immbl_no3[month] = 0.0;
+	(flux->soil).n_immbl_nh4[month] = 0.0;
 	(flux->soil).n_mcrb_abdn[month] = 0.0;
 	(flux->soil).doc_boyer[month] = 0.0;
 	(flux->soil).n_fertin[month] = 0.0;

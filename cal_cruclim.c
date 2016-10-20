@@ -38,21 +38,23 @@ void cal_historical(
         /* ISIMIP: 1950-2099 */
         /* GEOMIP: 1901-2005 */
         /* ISIMIP2 (hist): 1901-2010 */
-        /* NMIP: 1901-2012 */
+        /* NMIP: 1901-2012 => 1861–2015 */
 		
 		/* simulation year ********************/
-		grid->simy = BGY_CLIM + g;
+        /* updated: 2016/10/20 */
+        grid->simy = FSY_HIST + g;
  
         /* climate change ********************/
 		grid->climy = grid->simy;
         
-       /* NMIP: 2015/11/19 by A.Ito **********/
+        /* NMIP: 2015/11/19 by A.Ito **********/
+        /* updated: 2016/10/20 */
         grid->niny = grid->simy;
-        if(grid->niny < 1900){
-            grid->niny = 1900;
+        if(grid->niny < (FSY_HIST-1)){
+            grid->niny = (FSY_HIST-1);
         }
-        if(grid->niny > 2012){
-            grid->niny = 2012;
+        if(grid->niny > LSY_HIST){
+            grid->niny = LSY_HIST;
         }
         
 		/* CO2 year ********************/
@@ -65,11 +67,11 @@ void cal_historical(
             grid->co2y = 2000;
         }
         /* ISI-MIP no-co2 run: 2012/07/31 by A.Ito */
-        if((GCM_ID==2005 ||GCM_ID==2006 ||GCM_ID==2007 ||GCM_ID==2008 ||
-            GCM_ID==2015 ||GCM_ID==2016 ||GCM_ID==2017 ||GCM_ID==2018 ||
-            GCM_ID==2025 ||GCM_ID==2026 ||GCM_ID==2027 ||GCM_ID==2028 ||
-            GCM_ID==2035 ||GCM_ID==2036 ||GCM_ID==2037 ||GCM_ID==2038 ||
-            GCM_ID==2045 ||GCM_ID==2046 ||GCM_ID==2047 ||GCM_ID==2048) && grid->simy>=2000){
+        if((SCENARIO_ID==2005 ||SCENARIO_ID==2006 ||SCENARIO_ID==2007 ||SCENARIO_ID==2008 ||
+            SCENARIO_ID==2015 ||SCENARIO_ID==2016 ||SCENARIO_ID==2017 ||SCENARIO_ID==2018 ||
+            SCENARIO_ID==2025 ||SCENARIO_ID==2026 ||SCENARIO_ID==2027 ||SCENARIO_ID==2028 ||
+            SCENARIO_ID==2035 ||SCENARIO_ID==2036 ||SCENARIO_ID==2037 ||SCENARIO_ID==2038 ||
+            SCENARIO_ID==2045 ||SCENARIO_ID==2046 ||SCENARIO_ID==2047 ||SCENARIO_ID==2048) && grid->simy>=2000){
             /* fixed to AD2000 level */
             grid->co2y = 2000;
         }
@@ -77,37 +79,30 @@ void cal_historical(
         /* land-use year *****/
         grid->lucy = grid->simy;
 		
-        /* NMIP all fix **************/
-        /* NMIP_RUN==1: all */
-        /* NMIP_RUN==3: all without cropland */
-        if(NMIP_RUN == 2){
-            grid->climy = FDY_NINY + 1;
-            grid->niny = FDY_NINY + 1;
-            grid->co2y = FDY_NINY + 1;
-            grid->lucy = FDY_NINY + 1;
-        }else if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
-            grid->niny = FDY_NINY + 1;
-            grid->co2y = FDY_NINY + 1;
-            grid->lucy = FDY_NINY + 1;
-        }else if(NMIP_RUN == 8){
-            grid->climy = FDY_NINY + 1;
-            grid->niny = FDY_NINY + 1;
-            grid->lucy = FDY_NINY + 1;
-        }else if(NMIP_RUN == 9 || NMIP_RUN == 10){
-            grid->climy = FDY_NINY + 1;
-            grid->co2y = FDY_NINY + 1;
-            grid->lucy = FDY_NINY + 1;
-        }else if(NMIP_RUN == 11){
-            grid->climy = FDY_NINY + 1;
-            grid->co2y = FDY_NINY + 1;
-            grid->niny = FDY_NINY + 1;
-        }else if(NMIP_RUN == 12){
-            grid->climy = FDY_NINY + 1;
-            grid->co2y = FDY_NINY + 1;
+        /* NMIP **************/
+        /* updated 2016/10/20 by A.Ito */
+        if(NMIP_RUN == 1 || NMIP_RUN == 2 || NMIP_RUN == 3|| NMIP_RUN == 4){
+            ;
+        }else if(NMIP_RUN == 5){
+            /* grid->climy = FSY_HIST;
+            grid->co2y = FSY_HIST; */
+            grid->niny = FSY_HIST;
+            grid->lucy = FSY_HIST;
+        }else if(NMIP_RUN == 6){
+            /* grid->climy = FSY_HIST; */
+            grid->co2y = FSY_HIST;
+            grid->niny = FSY_HIST;
+            grid->lucy = FSY_HIST;
+        }
+
+        if(grid->simy < BGY_CLIM){
+            grid->climy = BGY_CLIM + g%20;
+        }else if(grid->simy > (BGY_CLIM + DL_CRU - 1)){
+            grid->climy = (BGY_CLIM + DL_CRU - 1);
         }
         
         /* for considering leap years: 2014/09/29 by A.Ito */
-        if(grid->climy%4 == 0){
+        if(grid->simy%4 == 0){
             MDN[1] = 29.0;
         }else{
             MDN[1] = 28.0;
@@ -165,7 +160,7 @@ void cal_historical(
 
 			f_plant_stand_budget(grid, loct, mass, flux);
 			
-			if(BACC == 3){
+			if(EX_ACCLM == 3){
 				(flux->plant).lL[f] = flux->lL0[f];
 			}
 
@@ -188,6 +183,7 @@ void cal_historical(
 
 			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
 			/* NH4:NO3 ratio is based on inventories */
+            /* this routine may not be activated when using REPLACE_OLSON_CROP option */
 			if((echar->soil).v_type == 1){
 			   if(grid->veg_olson==29 || grid->veg_olson==30 || 
 											 grid->veg_olson==31 || grid->veg_olson==32){
@@ -206,9 +202,12 @@ void cal_historical(
 			} */
 			
 			if((echar->soil).v_type == 2){
-				(flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
+				(flux->soil).n_fertin[f] = (loct->n_frtlz_in + loct->n_manure_in) * 1000.0 * f_fert;
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+                
+                /* 2016/10/20 by A.Ito */
+                (mass->soil).n_lttr += loct->n_manure_in * 1000.0 * f_fert;
 			}
 
 			/* CH4 oxydation (uplands) ****************************/
@@ -311,6 +310,12 @@ void cal_historical(
 				vo_rot[grid->veg_olson] += (mass->plant).mrot[f] * MDN[f]/365.0/10.0 * grid->area;
 				vo_ltr[grid->veg_olson] += (mass->soil).ltr_m[f] * MDN[f]/365.0/10.0 * grid->area;
 				vo_msl[grid->veg_olson] += (mass->soil).msl_m[f] * MDN[f]/365.0/10.0 * grid->area;
+                
+                vo_n_cnpy[grid->veg_olson] += (mass->plant).n_cnpy_m[f] * MDN[f]/365.0/10.0 * grid->area;
+                vo_n_strg[grid->veg_olson] += (mass->plant).n_strg_m[f] * MDN[f]/365.0/10.0 * grid->area;
+                vo_n_mcrb[grid->veg_olson] += (mass->soil).n_mcrb_m[f] * MDN[f]/365.0/10.0 * grid->area;
+                vo_n_ltr[grid->veg_olson] += (mass->soil).n_lttr_m[f] * MDN[f]/365.0/10.0 * grid->area;
+                vo_n_hms[grid->veg_olson] += (mass->soil).n_hums_m[f] * MDN[f]/365.0/10.0 * grid->area;
 				
 				if(DF97==1){
 					vs_gpp[grid->veg_sage] += (flux->plant).gpp_df97[f]/10.0 * grid->area;
@@ -587,7 +592,7 @@ void cal_historical(
 		}
         
 		/* history data */
-		f_set_history_data(grid->simy - BGY_CLIM +1, grid, loct, mass, flux);
+		f_set_history_data(grid->simy - FSY_HIST +1, grid, loct, mass, flux);
 		
 		/* output */
 		f_output_result(grid->simy, grid, loct, echar, mass, flux, fp_o); /* */

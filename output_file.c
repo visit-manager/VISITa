@@ -418,7 +418,7 @@ void f_output_result(
 
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_leach[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_nh3vlt[f]); 
-            fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2o_ngas[f]);
+            fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2o_ngas[f]); /* 16 */
             fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2_ngas[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2o_casa[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2_casa[f]);
@@ -426,7 +426,7 @@ void f_output_result(
             fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2o_ntr_ngas[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2o_dnt_ngas[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_nitrif[f]);
-            fprintf(fp_o[1],"%.3lf ", (flux->soil).n_immbl[f]);
+            fprintf(fp_o[1],"%.3lf ", (flux->soil).n_immbl_no3[f]+(flux->soil).n_immbl_nh4[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_mcrb_abdn[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_minerlz_lttr[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_minerlz_hums[f]);
@@ -666,7 +666,12 @@ void f_output_result(
             fprintf(fp_o[7],"%.3lf ", (mass->c4).d14c_mstm[f]);
             fprintf(fp_o[7],"%.3lf ", (mass->c4).d14c_mrot[f]);
             fprintf(fp_o[7],"%.3lf ", (mass->soil).d14c_ltr_m[f]);
-            fprintf(fp_o[7],"%.3lf ", (mass->soil).d14c_msl_m[f]); 
+            fprintf(fp_o[7],"%.3lf ", (mass->soil).d14c_msl_m[f]);
+            
+            /* 2016/08/01 by A.Ito */
+            fprintf(fp_o[7],"%.3lf ", (flux->plant).d13c_gpp[f]);
+            fprintf(fp_o[7],"%.3lf ", (flux->plant).d13c_ar[f]);
+            fprintf(fp_o[7],"%.3lf ", (flux->soil).d13c_hr[f]);
         }
         fprintf(fp_o[7],"\n");
     }
