@@ -219,6 +219,7 @@ void cal_spinup(
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
 			}else{
 				(flux->soil).n_fertin[grid->m] = 0.0;
+                (flux->soil).n_manurein[grid->m] = 0.0;
 			}
             
 			if((echar->soil).v_type == 2){
@@ -227,6 +228,7 @@ void cal_spinup(
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
 
                 /* 2016/10/20 by A.Ito */
+                (flux->soil).n_fertin[grid->m] = loct->n_manure_in * 1000.0 * f_fert;
                 (mass->soil).n_lttr += loct->n_manure_in * 1000.0 * f_fert;
 			}
 			

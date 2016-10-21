@@ -172,6 +172,8 @@ void f_set_history_data(
 
 		/* added by A.Ito (2010/05/02) */
 		h_n_fertin[year] += fweight * (flux->soil).n_fertin[f] * grid->area;
+		/* added by A.Ito (2016/10/21) */
+		h_n_manurein[year] += fweight * (flux->soil).n_manurein[f] * grid->area;
 		/* corrected by A.Ito (2013/11/07) */
 		h_n_depoin[year] += fweight * (loct->depo_nh4[f] + loct->depo_no3[f]) * grid->area;
 		
@@ -611,6 +613,8 @@ void f_glosum_output(
         fprintf(fp_glsum,"%lf ", h_n_cabdn[h]);
         fprintf(fp_glsum,"%lf ", h_n_sabdn[h]);
         fprintf(fp_glsum,"%lf ", h_n_uptk[h]);
+
+		fprintf(fp_glsum,"%lf ", h_n_manurein[h]); /* added by A.Ito (2016/10/21) */
 
 		fprintf(fp_glsum,"\n");
 	}

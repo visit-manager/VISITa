@@ -910,6 +910,7 @@ struct Sflx{
 	double	n_mcrb_abdn[ASTEP];				/* microbial abandonment */
 	
 	double	n_fertin[ASTEP];				/* fertilizer input */
+	double	n_manurein[ASTEP];				/* manure input */
 };
 
 /* ecosystem carbon fluxes *************************************************/
