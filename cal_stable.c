@@ -557,6 +557,6 @@ void cal_spinup(
 	publish_cbud(grid, loct, echar, mass, flux, fp_o[0]); /* */
 	
 	/* output */
-	f_output_result(BGY_CLIM-1, grid, loct, echar, mass, flux, fp_o); /* */
+	f_output_result(FSY_HIST-1, grid, loct, echar, mass, flux, fp_o); /* */
 }
 
