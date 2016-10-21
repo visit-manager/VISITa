@@ -275,30 +275,30 @@ void n_fertilizer_in(
             nyear = FDY_NINY+1;
         }
     
-        if(grid->niny>=1860 && grid->niny<=2015){
-            loct->n_frtlz_in = grid->nmip_nfert[nyear - 1860] * MDN[grid->m] / 365.0;
-        }else if(grid->niny<1860){
-            loct->n_frtlz_in = grid->nmip_nfert[1860 - 1860] * MDN[grid->m] / 365.0;
+        if(grid->niny>=FDY_NINY && grid->niny<=2015){
+            loct->n_frtlz_in = grid->nmip_nfert[nyear - FDY_NINY] * MDN[grid->m] / 365.0;
+        }else if(grid->niny<FDY_NINY){
+            loct->n_frtlz_in = grid->nmip_nfert[FDY_NINY - FDY_NINY] * MDN[grid->m] / 365.0;
         }else if(grid->niny>2012){
             loct->n_frtlz_in = grid->nmip_nfert[2015 - 2015] * MDN[grid->m] / 365.0;
         }
         
-        if(NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
+        /* if(NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
             loct->n_frtlz_in = 0.0;
-        }
+        } */
 
         loct->n_manure_in = 0.0;
-        if(grid->niny>=1860 && grid->niny<=2015){
-            loct->n_manure_in = grid->nmip_manure[nyear - 1860] * MDN[grid->m] / 365.0;
-        }else if(grid->niny<1860){
-            loct->n_manure_in = grid->nmip_manure[1860 - 1860] * MDN[grid->m] / 365.0;
+        if(grid->niny>=FDY_NINY && grid->niny<=2015){
+            loct->n_manure_in = grid->nmip_manure[nyear - FDY_NINY] * MDN[grid->m] / 365.0;
+        }else if(grid->niny<FDY_NINY){
+            loct->n_manure_in = grid->nmip_manure[FDY_NINY - FDY_NINY] * MDN[grid->m] / 365.0;
         }else if(grid->niny>2012){
             loct->n_manure_in = grid->nmip_manure[2015 - 2015] * MDN[grid->m] / 365.0;
         }
         
-        if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
+        /* if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
             loct->n_manure_in = 0.0;
-        }
+        } */
         
     }else{
         loct->n_manure_in = 0.0;

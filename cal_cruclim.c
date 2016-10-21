@@ -588,7 +588,6 @@ void cal_historical(
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
                 flux->nbp[f] += (flux->plant).hvst[f]; /* ! hvst is negative */
             }
-
 		}
         
 		/* history data */
