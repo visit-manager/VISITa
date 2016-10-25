@@ -219,7 +219,7 @@ void cal_projection(
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
 
                 /* 2016/10/20 by A.Ito */
-                (flux->soil).n_fertin[grid->m] = loct->n_manure_in * 1000.0 * f_fert;
+                (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0 * f_fert;
                 (mass->soil).n_lttr += loct->n_manure_in * 1000.0 * f_fert;
 			}
 
