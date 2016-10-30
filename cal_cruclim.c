@@ -203,7 +203,7 @@ void cal_historical(
 			} */
 			
 			if((echar->soil).v_type == 2){
-				(flux->soil).n_fertin[f] = (loct->n_frtlz_in + loct->n_manure_in) * 1000.0 * f_fert;
+				(flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
                 
