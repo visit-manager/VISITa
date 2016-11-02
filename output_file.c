@@ -418,7 +418,7 @@ void f_output_result(
 
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_leach[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_nh3vlt[f]); 
-            fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2o_ngas[f]);
+            fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2o_ngas[f]); /* 16 */
             fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2_ngas[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2o_casa[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).d_n2_casa[f]);
@@ -432,7 +432,8 @@ void f_output_result(
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_minerlz_hums[f]);
 
             /* fprintf(fp_o[1],"%.3lf ", grid->f_crop_con * loct->n_frtlz_in*1000.0); */
-            fprintf(fp_o[1],"%.3lf ", loct->n_frtlz_in);
+            fprintf(fp_o[1],"%.3lf ", (flux->soil).n_fertin[f]);
+            fprintf(fp_o[1],"%.3lf ", (flux->soil).n_manurein[f]);
             fprintf(fp_o[1],"%.3lf ", loct->depo_no3[f]);
             fprintf(fp_o[1],"%.3lf ", loct->depo_nh4[f]);  
             

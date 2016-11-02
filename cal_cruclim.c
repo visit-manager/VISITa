@@ -38,21 +38,23 @@ void cal_historical(
         /* ISIMIP: 1950-2099 */
         /* GEOMIP: 1901-2005 */
         /* ISIMIP2 (hist): 1901-2010 */
-        /* NMIP: 1901-2012 */
+        /* NMIP: 1901-2012 => 1861–2015 */
 		
 		/* simulation year ********************/
-		grid->simy = BGY_CLIM + g;
+        /* updated: 2016/10/20 */
+        grid->simy = FSY_HIST + g;
  
         /* climate change ********************/
 		grid->climy = grid->simy;
         
-       /* NMIP: 2015/11/19 by A.Ito **********/
+        /* NMIP: 2015/11/19 by A.Ito **********/
+        /* updated: 2016/10/20 */
         grid->niny = grid->simy;
-        if(grid->niny < 1900){
-            grid->niny = 1900;
+        if(grid->niny < (FSY_HIST-1)){
+            grid->niny = (FSY_HIST-1);
         }
-        if(grid->niny > 2012){
-            grid->niny = 2012;
+        if(grid->niny > LSY_HIST){
+            grid->niny = LSY_HIST;
         }
         
 		/* CO2 year ********************/
@@ -77,37 +79,30 @@ void cal_historical(
         /* land-use year *****/
         grid->lucy = grid->simy;
 		
-        /* NMIP all fix **************/
-        /* NMIP_RUN==1: all */
-        /* NMIP_RUN==3: all without cropland */
-        if(NMIP_RUN == 2){
-            grid->climy = FDY_NINY + 1;
-            grid->niny = FDY_NINY + 1;
-            grid->co2y = FDY_NINY + 1;
-            grid->lucy = FDY_NINY + 1;
-        }else if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
-            grid->niny = FDY_NINY + 1;
-            grid->co2y = FDY_NINY + 1;
-            grid->lucy = FDY_NINY + 1;
-        }else if(NMIP_RUN == 8){
-            grid->climy = FDY_NINY + 1;
-            grid->niny = FDY_NINY + 1;
-            grid->lucy = FDY_NINY + 1;
-        }else if(NMIP_RUN == 9 || NMIP_RUN == 10){
-            grid->climy = FDY_NINY + 1;
-            grid->co2y = FDY_NINY + 1;
-            grid->lucy = FDY_NINY + 1;
-        }else if(NMIP_RUN == 11){
-            grid->climy = FDY_NINY + 1;
-            grid->co2y = FDY_NINY + 1;
-            grid->niny = FDY_NINY + 1;
-        }else if(NMIP_RUN == 12){
-            grid->climy = FDY_NINY + 1;
-            grid->co2y = FDY_NINY + 1;
+        /* NMIP **************/
+        /* updated 2016/10/20 by A.Ito */
+        if(NMIP_RUN == 1 || NMIP_RUN == 2 || NMIP_RUN == 3|| NMIP_RUN == 4){
+            ;
+        }else if(NMIP_RUN == 5){
+            /* grid->climy = FSY_HIST;
+            grid->co2y = FSY_HIST; */
+            grid->niny = FSY_HIST;
+            grid->lucy = FSY_HIST;
+        }else if(NMIP_RUN == 6){
+            /* grid->climy = FSY_HIST; */
+            grid->co2y = FSY_HIST;
+            grid->niny = FSY_HIST;
+            grid->lucy = FSY_HIST;
+        }
+
+        if(grid->simy < BGY_CLIM){
+            grid->climy = BGY_CLIM + g%20;
+        }else if(grid->simy > (BGY_CLIM + DL_CRU - 1)){
+            grid->climy = (BGY_CLIM + DL_CRU - 1);
         }
         
         /* for considering leap years: 2014/09/29 by A.Ito */
-        if(grid->climy%4 == 0){
+        if(grid->simy%4 == 0){
             MDN[1] = 29.0;
         }else{
             MDN[1] = 28.0;
@@ -188,6 +183,7 @@ void cal_historical(
 
 			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
 			/* NH4:NO3 ratio is based on inventories */
+            /* this routine may not be activated when using REPLACE_OLSON_CROP option */
 			if((echar->soil).v_type == 1){
 			   if(grid->veg_olson==29 || grid->veg_olson==30 || 
 											 grid->veg_olson==31 || grid->veg_olson==32){
@@ -196,6 +192,7 @@ void cal_historical(
 				   (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
 				}else{
 				   (flux->soil).n_fertin[grid->m] = 0.0;
+				   (flux->soil).n_manurein[grid->m] = 0.0;
 				}
 			}
 			
@@ -209,6 +206,10 @@ void cal_historical(
 				(flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+                
+                /* 2016/10/20 by A.Ito */
+                (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0 * f_fert;
+                (mass->soil).n_lttr += loct->n_manure_in * 1000.0 * f_fert;
 			}
 
 			/* CH4 oxydation (uplands) ****************************/
@@ -589,11 +590,10 @@ void cal_historical(
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
                 flux->nbp[f] += (flux->plant).hvst[f]; /* ! hvst is negative */
             }
-
 		}
         
 		/* history data */
-		f_set_history_data(grid->simy - BGY_CLIM +1, grid, loct, mass, flux);
+		f_set_history_data(grid->simy - FSY_HIST +1, grid, loct, mass, flux);
 		
 		/* output */
 		f_output_result(grid->simy, grid, loct, echar, mass, flux, fp_o); /* */

@@ -400,11 +400,12 @@ void f_n_deposit(
     }
     
     /* NMIP: 2015/11/19 by A.Ito *******/
+    /* updated 2016/10/20 by A.Ito */
     if(NMIP_RUN >= 1){
         nyear = grid->niny;
         
-        if(NMIP_RUN == 10 || NMIP_RUN == 12){
-            nyear = FDY_NINY+1;;
+        if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
+            nyear = FDY_NINY+1;
         }
 
         /* seasonality based on CHASER */
@@ -426,7 +427,7 @@ void f_n_deposit(
             loct->depo_nh4[grid->m] =  grid->nmip_ndep_nh4[nyear - FDY_NINY]*1000.0 *
                 ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col] / ndepo_nh4;
         }else{
-            loct->depo_nh4[grid->m] = grid->nmip_ndep_nh4[grid->niny-FDY_NINY]*1000.0 / 12.0;
+            loct->depo_nh4[grid->m] = grid->nmip_ndep_nh4[grid->niny - FDY_NINY]*1000.0 / 12.0;
         }
     }
     

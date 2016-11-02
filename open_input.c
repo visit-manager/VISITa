@@ -176,6 +176,7 @@ void open_input(
         switch(SCENARIO_ID){
             case 2001: case 2005:
                 case 2201: case 2203: case 2208: case 2210:
+                case 2601: case 2602: case 2603:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_hadgem_1950-2099.flt","rb"))==NULL ){
                     printf("No tas_rcp2p6_isimip_hadgem_1950-2099.flt\n");  
                     exit(1); 
@@ -2166,6 +2167,30 @@ void open_input(
         
         /* assumption: SRES data were used, instead of RCP data */
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+    }else if(SCENARIO_ID==2601){
+        CO2S = 0; /* fixed */
+        if((fp_s[23]=fopen("./data/fcrop_ssp1_current_v1.txt","rt"))==NULL){
+            printf("NO fcrop_ssp1_current_v1.txt !!\n");
+            exit(1);
+        }
+        /* assumption: SRES data were used, instead of RCP data */
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+    }else if(SCENARIO_ID==2602){
+        CO2S = 0; /* fixed */
+        if((fp_s[23]=fopen("./data/fcrop_ssp2_current_v1.txt","rt"))==NULL){
+            printf("NO fcrop_ssp2_current_v1.txt !!\n");
+            exit(1);
+        }
+        /* assumption: SRES data were used, instead of RCP data */
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+    }else if(SCENARIO_ID==2603){
+        CO2S = 0; /* fixed */
+        if((fp_s[23]=fopen("./data/fcrop_ssp3_current_v1.txt","rt"))==NULL){
+            printf("NO fcrop_ssp3_current_v1.txt !!\n");
+            exit(1);
+        }
+        /* assumption: SRES data were used, instead of RCP data */
+		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
     }
     
     /* GEO-MIP ***************************************/
@@ -2503,8 +2528,9 @@ void open_input(
     }
     
     /* NMIP: nitrogen input, 2015/11/19 by A.Ito ************/
-    if( (fp_s[88]=fopen("./data/fin_nmip.txt","rt"))==NULL ){
-        printf("No fin_nmip.txt\n");
+    /* updated: 2016/10/20 by A.Ito */
+    if( (fp_s[88]=fopen("./data/fin_nmip_v2.txt","rt"))==NULL ){
+        printf("No fin_nmip_v2.txt\n");
         exit(1); 
     }
 }

@@ -26,6 +26,11 @@ void set_hist_clim(
 	cru_te = DL_CRU + (BGY_CLIM-1);
     
     impex_t = impex_p = -999;
+    
+    if(grid->climy < BGY_CLIM){
+        printf("Bad climate-data year: %ld\n", grid->climy);
+        exit(1);
+    }
 	
     if(ISIMIP_RUN == 0){
         if(grid->climy <= cru_te){
@@ -49,30 +54,6 @@ void set_hist_clim(
                 grid->tcdc_clm[h] = grid->hist_cld[grid->climy - BGY_CLIM][h];
                 grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM][h];
                 
-                if(NMIP_RUN == 5){
-                    grid->tcdc_clm[h] = grid->hist_cld[FDY_NINY+1 - BGY_CLIM][h];
-                    grid->prate_sfc[h] = grid->hist_pre[FDY_NINY+1 - BGY_CLIM][h];
-                }
-                if(NMIP_RUN == 6){
-                    grid->tmp_sfc[h] = grid->hist_tmp[FDY_NINY+1 - BGY_CLIM][h]
-                                    + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
-                    grid->tmp_2m[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h];
-                    grid->tmp10_soil[h] = grid->hist_tmp[FDY_NINY+1 - BGY_CLIM][h]
-                                    + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-                    grid->tmp200_soil[h] = grid->hist_tmp[FDY_NINY+1 - BGY_CLIM][h]
-                                    + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
-                    grid->tcdc_clm[h] = grid->hist_cld[FDY_NINY+1 - BGY_CLIM][h];
-                }
-                if(NMIP_RUN == 7){
-                    grid->tmp_sfc[h] = grid->hist_tmp[FDY_NINY+1 - BGY_CLIM][h]
-                                    + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
-                    grid->tmp_2m[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h];
-                    grid->tmp10_soil[h] = grid->hist_tmp[FDY_NINY+1 - BGY_CLIM][h]
-                                    + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-                    grid->tmp200_soil[h] = grid->hist_tmp[FDY_NINY+1 - BGY_CLIM][h]
-                                    + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
-                    grid->prate_sfc[h] = grid->hist_pre[FDY_NINY+1 - BGY_CLIM][h];
-                }
            }
         }else{
             /* extention by NCEP/NCAR data */

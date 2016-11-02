@@ -24,9 +24,9 @@ void screenshow(
 	double fol, stm, rot, ltr, msl;
 	double gpp, ar, npp, hr, nep;
 	
-	printf("No:%ld A:%7.2lf B-olson:%ld B-sage:%ld HT:%ld CT:%ld WHC30:%.1lf WHC:%.1lf BD:%.3lf UL:%.3lf\n",
-			grid->n_olson, grid->area, grid->veg_olson, grid->veg_sage, loct->time_hyd, loct->time, grid->field_cap1, 
-			grid->field_cap2, grid->bulkdens, grid->f_upland);
+	printf("No:%ld B-olson:%ld B-sage:%ld HT:%ld CT:%ld WHC30:%.1lf WHC:%.1lf BD:%.3lf UL:%.3lf NI:%.3lf\n",
+			grid->n_olson, grid->veg_olson, grid->veg_sage, loct->time_hyd, loct->time, grid->field_cap1,
+			grid->field_cap2, grid->bulkdens, grid->f_upland, loct->n_frtlz_in);
 	
 	printf("CO2: ");
 	for(h=0;h<12;h++){		printf("%6.0lf ",grid->bco2[h]);		}		printf("\n"); 

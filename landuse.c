@@ -139,16 +139,12 @@ void f_cult_luc(
     
     /************************/
     if(NMIP_RUN >= 1){
-        if(NMIP_RUN == 3){
-            grid->f_crop_con = 0.0;
-        }else{
-            if(grid->lucy>=1900 && grid->lucy<=2012){
-                grid->f_crop_con = grid->nmip_frcrop[grid->lucy - FDY_NINY];
-            }else if(grid->lucy<1900){
-                grid->f_crop_con = grid->nmip_frcrop[1900 - FDY_NINY];
-            }else if(grid->lucy>2012){
-                grid->f_crop_con = grid->nmip_frcrop[2012 - FDY_NINY];
-            }
+        if(grid->lucy >= FDY_NINY && grid->lucy<=2015){
+            grid->f_crop_con = grid->nmip_frcrop[grid->lucy - FDY_NINY];
+        }else if(grid->lucy < FDY_NINY){
+            grid->f_crop_con = grid->nmip_frcrop[FDY_NINY - FDY_NINY];
+        }else if(grid->lucy > 2015){
+            grid->f_crop_con = grid->nmip_frcrop[2015 - FDY_NINY];
         }
     }
     
@@ -303,11 +299,9 @@ void f_cult_luc(
     }
     
     /* fixed land-use for NMIP */
-    if(NMIP_RUN >= 1){
-        if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
-            || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
-            grid->f_deforest = 0.0;
-        }
+    /* updated 2016/10/20 by A.Ito */
+    if(NMIP_RUN == 5 || NMIP_RUN == 6){
+        grid->f_deforest = 0.0;
     }
 
     /* parameter ensemble: 2014/11/19 by A.Ito */
@@ -499,8 +493,8 @@ void f_luc_emit(
 		}
 		
         /* NMIP: fixed land-use */
-        if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
-            || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
+        /* updated 2016/10/20 by A.Ito */
+        if(NMIP_RUN == 5 || NMIP_RUN == 6){
             fluc_1 = 0.0;
         }
 
@@ -533,8 +527,8 @@ void f_luc_emit(
             }
 			
             /* NMIP: fixed land-use */
-            if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
-                || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
+            /* updated 2016/10/20 by A.Ito */
+            if(NMIP_RUN == 5 || NMIP_RUN == 6){
                 fluc_10 = 0.0;
             }
 
@@ -570,8 +564,8 @@ void f_luc_emit(
             }
 			
             /* NMIP: fixed land-use */
-            if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
-                || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
+            /* updated 2016/10/20 by A.Ito */
+            if(NMIP_RUN == 5 || NMIP_RUN == 6){
                 fluc_100 = 0.0;
             }
 
@@ -627,8 +621,8 @@ void f_luc_emit(
         }
 		
         /* NMIP: fixed land-use */
-        if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6
-            || NMIP_RUN == 7 || NMIP_RUN == 8 || NMIP_RUN == 9 || NMIP_RUN == 10){
+        /* updated 2016/10/20 by A.Ito */
+        if(NMIP_RUN == 5 || NMIP_RUN == 6){
             fluc_1 = 0.0;
         }
         

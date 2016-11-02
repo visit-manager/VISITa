@@ -59,8 +59,16 @@ void cal_projection(
 			grid->co2y = 2001;
 		}
         
+        if(SCENARIO_ID==2601 ||SCENARIO_ID==2602 ||SCENARIO_ID==2603){
+            grid->co2y = 2005;
+        }
+        
 		/* climate change ********************/
 		grid->climy = g;
+        if(SCENARIO_ID==2601 ||SCENARIO_ID==2602 ||SCENARIO_ID==2603){
+            grid->climy = 2005;
+        }
+
 		if(SCENARIO_ID >= 1 && SCENARIO_ID <=9999){
 			set_gcm_clim(grid);
 		}else{
@@ -193,6 +201,7 @@ void cal_projection(
 			
 			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
 			/* NH4:NO3 ratio is based on inventories */
+            /* this routine may not be activated when using REPLACE_OLSON_CROP option */
 			if((echar->soil).v_type == 1){
 				if(grid->veg_olson==29 || grid->veg_olson==30 || 
 								grid->veg_olson==31 || grid->veg_olson==32){
@@ -203,10 +212,15 @@ void cal_projection(
 					(flux->soil).n_fertin[f] = 0.0;
 				}
 			}
+            
 			if((echar->soil).v_type == 2){
 				(flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+
+                /* 2016/10/20 by A.Ito */
+                (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0 * f_fert;
+                (mass->soil).n_lttr += loct->n_manure_in * 1000.0 * f_fert;
 			}
 
 			/* CH4 oxydation **************/

@@ -81,8 +81,8 @@
 /* 10: N fertilizer only (S6) */
 /* 11: land-conversion only (S7) */
 /* 12: land-conversion + N fertilizer + irrigation (S8) */
-#define DL_NMIP 113
-#define FDY_NINY 1900
+#define DL_NMIP 156
+#define FDY_NINY 1860
 
 /* parameter ensemble **************************/
 #define N_PARA_ENS 20
@@ -153,6 +153,10 @@
 #define PD_SIM 201	
 /* only for memory preparation; not actual period */
 
+#define FSY_HIST 1901 /* */
+/* #define FSY_HIST 1861 */ /* NMIP */
+#define LSY_HIST 2015 /* NMIP */
+
 /* start year (AD) of CO2 time series */
 /* #define BGY_CO2Y 1901 */
 /* cru-init 1901 */
@@ -176,11 +180,13 @@
 #elif ISIMIP_RUN==2
     #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
-    /* #define PD_HIST 110 */  /* AD 1901 - 2010 */ /* ISI-MIP2 (historical gswp3, pgfv2): 2014/11/30 by A.Ito */
+    /* #define PD_HIST 110 */ /* AD 1901 - 2010 */ /* ISI-MIP2 (historical gswp3, pgfv2): 2014/11/30 by A.Ito */
     /* #define PD_HIST 101 */ /* AD 1901 - 2001 */ /* ISI-MIP2 (historical watch): 2015/01/06 by A.Ito */
     #define PD_HIST 112 /* */ /* AD 1901 - 2012 */ /* ISI-MIP2 (historical watch): 2016/05/06 by A.Ito */
 #elif GEOMIP_RUN==1
     #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
+#elif NMIP_RUN>=1
+    #define PD_HIST 155	/* */	/* AD 1861 - 2015 */
 #else
     /* non-ISI-MIP: case dependent */
     /* #define PD_HIST 100  */	/* AD 1901 - 2000 */
@@ -324,9 +330,9 @@
 /* 11: LUH 1500-2005/2005-2100 (RCP2.6) */
 /* 12: LUH 1500-2005/2005-2100 (RCP6.0) */
 /* 13: LUH 1500-2005/2005-2100 (RCP8.5) */
-/* 14: SSP1 */
-/* 15: SSP2 */
-/* 16: SSP3 */
+/* 14: SSP1 (tentative) */
+/* 15: SSP2 (tentative) */
+/* 16: SSP3 (tentative) */
 /* 17: LUH 1500-2005/2005-2100 (RCP2.6) + Biofuel */
 /* 18: ICARUS SSPs version 2016/08 */
 
@@ -415,7 +421,7 @@
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -994,3 +1000,8 @@
 /* 2509: noresm SSP4 rcp4.5  */
 /* 2510: noresm SSP5 rcp2.6  */
 /* 2511: noresm SSP5 rcp4.5  */
+
+/* add: 2016/10/17 */
+/* 2601: SSP1 no climate change  */
+/* 2602: SSP2 no climate change  */
+/* 2603: SSP3 no climate change  */

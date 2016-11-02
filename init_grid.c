@@ -158,8 +158,9 @@ void f_init_grid(
 	if(SCENARIO_ID==1000 || SCENARIO_ID==1001){ /* MIROC-HIGH */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(SCENARIO_ID==1010 || SCENARIO_ID==1011 || SCENARIO_ID==1012 || SCENARIO_ID==1013 || SCENARIO_ID==1014 || 
-			SCENARIO_ID==1015 || SCENARIO_ID==1016 || SCENARIO_ID==1017 || SCENARIO_ID==1018){ /* MIROC-MED */
+	}else if(SCENARIO_ID==1010 || SCENARIO_ID==1011 || SCENARIO_ID==1012 ||
+            SCENARIO_ID==1013 || SCENARIO_ID==1014 || SCENARIO_ID==1015 ||
+            SCENARIO_ID==1016 || SCENARIO_ID==1017 || SCENARIO_ID==1018){ /* MIROC-MED */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}else if(SCENARIO_ID==1050 || SCENARIO_ID==1051 ||SCENARIO_ID==1052){ /* BCCR */
@@ -198,9 +199,11 @@ void f_init_grid(
 	}else if(SCENARIO_ID==1120 || SCENARIO_ID==1121 || SCENARIO_ID==1122 || SCENARIO_ID==1270 || SCENARIO_ID==1271 || SCENARIO_ID==1272){ /* CSIRO 3.0 & 3.5 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(SCENARIO_ID==1130 || SCENARIO_ID==1131 || SCENARIO_ID==1132 || SCENARIO_ID==1133 || SCENARIO_ID==1134
-			 || SCENARIO_ID==1135 || SCENARIO_ID==1136 || SCENARIO_ID==1137 || SCENARIO_ID==1138 || SCENARIO_ID==1139
-			  || SCENARIO_ID==1140 || SCENARIO_ID==1141 || SCENARIO_ID==1142 || SCENARIO_ID==1143 || SCENARIO_ID==1144){ /* MRI */
+	}else if(SCENARIO_ID==1130 || SCENARIO_ID==1131 || SCENARIO_ID==1132 ||
+            SCENARIO_ID==1133 || SCENARIO_ID==1134 || SCENARIO_ID==1135 ||
+            SCENARIO_ID==1136 || SCENARIO_ID==1137 || SCENARIO_ID==1138 ||
+            SCENARIO_ID==1139 || SCENARIO_ID==1140 || SCENARIO_ID==1141 ||
+            SCENARIO_ID==1142 || SCENARIO_ID==1143 || SCENARIO_ID==1144){ /* MRI */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);	
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}else if(SCENARIO_ID==1150 ||SCENARIO_ID==1151 ||SCENARIO_ID==1152 ||SCENARIO_ID==1153 ||SCENARIO_ID==1154 ||
@@ -230,10 +233,13 @@ void f_init_grid(
 			 || SCENARIO_ID==1210 || SCENARIO_ID==1211 || SCENARIO_ID==1212 || SCENARIO_ID==1213 || SCENARIO_ID==1214){ /* CCC47 */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}else if(SCENARIO_ID==1220 || SCENARIO_ID==1221 || SCENARIO_ID==1222 || SCENARIO_ID==1223 || SCENARIO_ID==1224
-			 || SCENARIO_ID==1225 || SCENARIO_ID==1226 || SCENARIO_ID==1227 || SCENARIO_ID==1228 || SCENARIO_ID==1229
-			  || SCENARIO_ID==1230 || SCENARIO_ID==1231 || SCENARIO_ID==1232 || SCENARIO_ID==1233 || SCENARIO_ID==1234
-			   || SCENARIO_ID==1235 || SCENARIO_ID==1236 || SCENARIO_ID==1237 || SCENARIO_ID==1238 || SCENARIO_ID==1239){ /* NCAR CCSM */
+	}else if(SCENARIO_ID==1220 || SCENARIO_ID==1221 || SCENARIO_ID==1222 ||
+            SCENARIO_ID==1223 || SCENARIO_ID==1224 || SCENARIO_ID==1225 ||
+            SCENARIO_ID==1226 || SCENARIO_ID==1227 || SCENARIO_ID==1228 ||
+            SCENARIO_ID==1229 || SCENARIO_ID==1230 || SCENARIO_ID==1231 ||
+            SCENARIO_ID==1232 || SCENARIO_ID==1233 || SCENARIO_ID==1234 ||
+            SCENARIO_ID==1235 || SCENARIO_ID==1236 || SCENARIO_ID==1237 ||
+            SCENARIO_ID==1238 || SCENARIO_ID==1239){ /* NCAR CCSM */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
 	}else if(SCENARIO_ID==1240 || SCENARIO_ID==1241 || SCENARIO_ID==1242){ /* GISS E */

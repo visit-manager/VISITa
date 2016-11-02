@@ -247,6 +247,7 @@ void n_fertilizer_in(
 		default:	fert_input = 57.65;				
 	}
 	
+    /* kg N / ha / month */
 	loct->n_frtlz_in = fert_input * MDN[grid->m] / 365.0;
     
     /* biofuel experiments: 2015/09/03 revised by A.Ito */
@@ -267,20 +268,44 @@ void n_fertilizer_in(
     }
     
     /* NMIP run: 2015/11/19 by A.Ito *****/
+    /* updated: 2016/10/20 */
     if(NMIP_RUN >= 1){
         nyear = grid->niny;
 
-        if(NMIP_RUN == 9){
+        if(NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
             nyear = FDY_NINY+1;
         }
     
-        if(grid->niny>=1900 && grid->niny<=2012){
-            loct->n_frtlz_in = grid->nmip_nfert[nyear - 1900] * MDN[grid->m] / 365.0;
-        }else if(grid->niny<1900){
-            loct->n_frtlz_in = grid->nmip_nfert[1900 - 1900] * MDN[grid->m] / 365.0;
+        if(grid->niny>=FDY_NINY && grid->niny<=2015){
+            loct->n_frtlz_in = grid->nmip_nfert[nyear - FDY_NINY] * MDN[grid->m] / 365.0;
+        }else if(grid->niny<FDY_NINY){
+            loct->n_frtlz_in = grid->nmip_nfert[FDY_NINY - FDY_NINY] * MDN[grid->m] / 365.0;
         }else if(grid->niny>2012){
-            loct->n_frtlz_in = grid->nmip_nfert[2012 - 1900] * MDN[grid->m] / 365.0;
+            loct->n_frtlz_in = grid->nmip_nfert[2015 - 2015] * MDN[grid->m] / 365.0;
         }
+        
+        /* if(NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
+            loct->n_frtlz_in = 0.0;
+        } */
+
+        loct->n_manure_in = 0.0;
+        if(NMIP_RUN == 2){
+            nyear = FDY_NINY+1;
+        }
+        if(grid->niny>=FDY_NINY && grid->niny<=2015){
+            loct->n_manure_in = grid->nmip_manure[nyear - FDY_NINY] * MDN[grid->m] / 365.0;
+        }else if(grid->niny<FDY_NINY){
+            loct->n_manure_in = grid->nmip_manure[FDY_NINY - FDY_NINY] * MDN[grid->m] / 365.0;
+        }else if(grid->niny>2012){
+            loct->n_manure_in = grid->nmip_manure[2015 - 2015] * MDN[grid->m] / 365.0;
+        }
+        
+        /* if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
+            loct->n_manure_in = 0.0;
+        } */
+        
+    }else{
+        loct->n_manure_in = 0.0;
     }
     
     /* 2016/07/25 by A.Ito */
