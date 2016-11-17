@@ -64,7 +64,7 @@ extern double h_n2o_d_emit_ngas[PD_SIM], h_n2o_n_emit_ngas[PD_SIM];
 extern double h_n2o_emit_ngas_agr[PD_SIM], h_n2o_emit_casa_agr[PD_SIM];
 extern double h_nh3_emit_agr[PD_SIM];
 extern double h_no3_leach[PD_SIM];
-extern double h_n_fertin[PD_SIM], h_n_depoin[PD_SIM]; /* added by A.Ito (2010/05/02) */
+extern double h_n_fertin[PD_SIM], h_n_manurein[PD_SIM], h_n_depoin[PD_SIM]; /* added by A.Ito (2010/05/02) */
 extern double h_n_mcrb[PD_SIM],h_n_no3[PD_SIM],h_n_nh4[PD_SIM]; /* 2016/06/23 by A.Ito */
 extern double h_n_cnpy[PD_SIM], h_n_strg[PD_SIM], h_n_lttr[PD_SIM], h_n_hums[PD_SIM];
 extern double h_n_immbl[PD_SIM],h_n_lmnrl[PD_SIM],h_n_hmnrl[PD_SIM],h_n_cabdn[PD_SIM],h_n_sabdn[PD_SIM],h_n_uptk[PD_SIM];

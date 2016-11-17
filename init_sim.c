@@ -228,7 +228,7 @@ void f_init_sim(
 		h_n2o_emit_ngas_agr[f] = h_n2o_emit_casa_agr[f] = 0.0;
 		h_nh3_emit_agr[f] = 0.0;
 		h_no3_leach[f] = 0.0;
-		h_n_fertin[f] = h_n_depoin[f] = 0.0;
+		h_n_fertin[f] = h_n_manurein[f] = h_n_depoin[f] = 0.0;
         h_n_mcrb[f] = h_n_no3[f] = h_n_nh4[f] = 0.0; /* 2016/06/23 by A.Ito */
         h_n_cnpy[f] = h_n_strg[f] = h_n_lttr[f] = h_n_hums[f] = 0.0;
         

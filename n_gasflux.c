@@ -234,7 +234,11 @@ void f_n2o_emit_ngas(
 		
 	/* N2O emission */
 	/* Eqs.(3+4) in Parton et al. (1996) */
-	day_d_n2o = dt / (1.0 + fr_wfps * ((fr_no3>fr_co2)?fr_co2:fr_no3));
+	/* day_d_n2o = dt / (1.0 + fr_wfps * ((fr_no3>fr_co2)?fr_co2:fr_no3)); */
+	day_d_n2o = (n_t/0.4672) * dt / (1.0 + fr_wfps * ((fr_no3>fr_co2)?fr_co2:fr_no3));
+    /* Modified: (n_t/0.4672) for temperature dependence: 2016/10/20 by A.Ito */
+    /* 0.4672 is n_t at 20 degC */
+    
 	/* Eqs.(3+5) in Parton et al. (1996) */
     dd = (fr_no3>fr_co2)?fr_co2:fr_no3;
     if((fr_wfps * dd) > 0.0){

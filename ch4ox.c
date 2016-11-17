@@ -220,7 +220,7 @@ void f_ch4oxy_ridgewell(
 /*  
 Potter CS, Davidson EA, Verchot LV (1996) Estimation of global 
 biogeochemical controls and seasonality in soil methane consumption. 
-Chemosphere 32:2219-2246
+Chemosphere 32:2229-2246
 */
 void f_ch4oxy_casa(
 	struct Grid *grid, 

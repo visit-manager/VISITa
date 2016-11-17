@@ -419,6 +419,7 @@ struct Loct{
 	double	soil_apprw;					/* soil aperture of lower layer, fraction */
 	
 	double	n_frtlz_in;					/* N-fertilization input */
+	double	n_manure_in;                /* N-manure input */
 	double	depo_no3[ASTEP];			/* NO3- deposition */
 	double	depo_nh4[ASTEP];			/* NH4+ deposition */
 	
@@ -909,6 +910,7 @@ struct Sflx{
 	double	n_mcrb_abdn[ASTEP];				/* microbial abandonment */
 	
 	double	n_fertin[ASTEP];				/* fertilizer input */
+	double	n_manurein[ASTEP];				/* manure input */
 };
 
 /* ecosystem carbon fluxes *************************************************/
