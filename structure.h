@@ -895,6 +895,7 @@ struct Sflx{
 	double	d_n2o_dnt_ngas[ASTEP];			/* N2O from denitrification by NGAS */
 	double	d_n2o_ngas[ASTEP];				/* total N2O by NGAS */
 	double	d_n2_ngas[ASTEP];				/* N2 by NGAS */
+    double  f_n2o_ntr_ngas[ASTEP];
 	
 	double	d_no_casa[ASTEP];				/* NO by CASA */
 	double	d_n2_casa[ASTEP];				/* N2 by CASA */

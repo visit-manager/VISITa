@@ -38,7 +38,7 @@
 #define INT_C 0.01
 
 /***********************************************************/
-#define ISIMIP_RUN 1
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -92,10 +92,10 @@
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
+#define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
+#define OUTPUT_GHG 1
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
@@ -155,7 +155,7 @@
 
 #define FSY_HIST 1901 /* */
 /* #define FSY_HIST 1861 */ /* NMIP */
-#define LSY_HIST 2015 /* NMIP */
+#define LSY_HIST 2015 /* present, NMIP */
 
 /* start year (AD) of CO2 time series */
 /* #define BGY_CO2Y 1901 */
@@ -243,7 +243,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -315,7 +315,7 @@
 #define NECB_CROP 1
 
 /* land use change setting ********************************/
-#define LANDUSE 19
+#define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -378,7 +378,7 @@
 /* 0: off (inc. scenario S5) */
 /* 1: on (scenario S3) */
 
-/***************************************************/
+/*******************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
 #define EX_ALBEDO 0
 /* 0: off */
@@ -403,7 +403,7 @@
 /* 1: 2.0 */
 /* 2: 1.5 for litter, 2.5 for humus */
 
-/***************************************************/
+/******************************************************/
 /* PAR conversion */
 #define D_PAR 1
 /* 0: constant conversion factor */
@@ -470,13 +470,6 @@
 #define FIX_NPP 0
 /* 0:off, 1:0n */
 
-/* 2016/06/08 by A.Ito */
-#define EX_NITROGEN 0
-/* 0: off (control) */
-/* 1: half biological N2 fixation */
-/* 2: double microbial abandonment */
-/* 3: revised WFPS for NGAS */
-
 /*****************************************************/
 /* parameter perturbation */
 /* climate perturbation */
@@ -497,6 +490,14 @@
 #define SENS_FIRE 0
 /* 0:off, 1:0n */
 
+/***************************************************/
+/* 2016/06/08 by A.Ito */
+#define EX_NITROGEN 0
+/* 0: off (control) */
+/* 1: half biological N2 fixation */
+/* 2: double microbial abandonment */
+/* 3: revised WFPS for NGAS */
+
 /* sensitivity run of N deposition */
 #define SENS_N 0
 /* 0:off, 1:0n */
@@ -514,8 +515,19 @@
 /* 8: all nitrate */
 /* 9: 50:50 ammonium and nitrate */
 
-/****************************************************/
-/* sensitivity analysis *****************/
+/* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
+#define EX_NITR_N2O 0
+/* 0: off */
+/* 1: 1.0% */
+/* 2: 0.5% */
+/* 3: 2.0% */
+/* 4: 0.0291% */
+/* 5: 0.1% */
+/* 6: 5.0% */
+/* 7: DNDC */
+/* 8: DLEM */
+
+/* sensitivity analysis *****************************/
 /* temperature */
 #define TM 0
 /* 0: as it is */
