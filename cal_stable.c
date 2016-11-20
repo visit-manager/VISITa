@@ -69,9 +69,12 @@ void cal_spinup(
          || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16){
 		grid->f_crop_p = grid->fcrop_unh_hmnzed[BGY_LUC - FDY_LUC];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[BGY_LUC - FDY_LUC];
-	}else if(LANDUSE == 18 || LANDUSE == 19 || LANDUSE == 20 ||
-            LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+	}else if(LANDUSE == 18){
 		grid->f_crop_p = grid->fcrop3_future[0];
+		grid->f_pasture_p = 0.0;
+    }else if(LANDUSE == 19 || LANDUSE == 20 ||
+            LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+		grid->f_crop_p = grid->fcrop_unh_hmnzed[1989 - FDY_LUC];
 		grid->f_pasture_p = 0.0;
 	}
     
@@ -147,7 +150,11 @@ void cal_spinup(
         
         /* NMIP: 2015/11/19 by A.Ito **/
         /* updated: 2016/10/20 */
-        grid->niny = 1901;
+        if(ISIMIP_RUN == 1){
+            grid->niny = FSY_HIST-1;
+        }else{
+            grid->niny = 1901;
+        }
         
         if(NMIP_RUN >= 1){
             grid->climy = 1901;

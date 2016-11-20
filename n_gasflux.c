@@ -39,7 +39,6 @@ void f_n2o_emit_ngas(
 	double nmax;							/* assumed */
 	extern double MDN[ASTEP];
 	double wfps1, wfps2, wfps_b_n, wfps_b_d;
-    double f_tmp, f_wfps;
     
     /* 2016/07/08 by A.Ito */
     /* 2016/08/14 by A.Ito */
@@ -266,79 +265,8 @@ void f_n2o_emit_ngas(
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.012 * MDN[grid->m]; */ /* 2010/03/30 */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.005 * MDN[grid->m]; */ /* 2016/05/30 */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.00291 * MDN[grid->m]; */ /* 2016/07/06 */
-    /* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.003 * MDN[grid->m]; */ /* 2016/08/02 */
+	(flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.003 * MDN[grid->m]; /* 2016/08/02 */
     
-    /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
-    if(EX_NITR_N2O == 0){
-        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.003 * MDN[grid->m];
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.003;
-    }else if(EX_NITR_N2O == 1){
-        /* VISITa default */
-        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.01 * MDN[grid->m];
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.01;
-    }else if(EX_NITR_N2O == 2){
-        /* ExpertN */
-        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.005 * MDN[grid->m];
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.005;
-    }else if(EX_NITR_N2O == 3){
-        /* DayCent */
-        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.02 * MDN[grid->m];
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.02;
-    }else if(EX_NITR_N2O == 4){
-        /* meta-analysis */
-        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.00291 * MDN[grid->m];
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.00291;
-    }else if(EX_NITR_N2O == 5){
-        /* low-end */
-        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.001 * MDN[grid->m];
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.001;
-    }else if(EX_NITR_N2O == 6){
-        /* high-end */
-        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.05 * MDN[grid->m];
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.05;
-    }else if(EX_NITR_N2O == 7){
-        /* Li, C., J. Aber, F. Stange, K. Butterbach-Bahl, and H. Papen (2000), 
-        A process-oriented model of N2O and NO emissions from forest soils: 
-        1. model development, 
-        Journal of Geophysical Research, 105(D4), 4369-4384. */
-        
-        f_wfps = loct->wfps[grid->m];
-        
-        f_tmp = pow((60.0 - grid->tmp10_soil[grid->m])/25.78, 3.503)
-                    * exp(3.503 * (grid->tmp10_soil[grid->m]-34.22)/25.78);
-        
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.0006 * f_tmp * f_wfps;
-        
-        if((flux->soil).f_n2o_ntr_ngas[grid->m] <= 0.00001){
-            (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.00001;
-        }
-        if((flux->soil).f_n2o_ntr_ngas[grid->m] >= 0.5){
-            (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.5;
-        }
-        
-        (flux->soil).n_nitrif[grid->m] = day_n_n2o / (flux->soil).f_n2o_ntr_ngas[grid->m] * MDN[grid->m];
-    }else if(EX_NITR_N2O == 8){
-        /* Tian, H., X. Xu, M. Liu, W. Ren, C. Zhang, G. Chen, and C. Lu (2010), 
-        Spatial and temporal patterns of CH4 and N2O fluxes in terrestrial 
-        ecosystems of North America during 1979–2008: application of a global 
-        biogeochemistry model, Biogeosciences, 7, 2673-2694, 
-        doi:doi:10.5194/bg-7-2673-2010. */
-        
-        f_wfps = pow(10.0, 100.0*(loct->wfps[grid->m] * 0.26 - 1.66));
-        
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.001 * f_wfps / (1.0 + f_wfps);
-        
-        if((flux->soil).f_n2o_ntr_ngas[grid->m] <= 0.00001){
-            (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.00001;
-        }
-        if((flux->soil).f_n2o_ntr_ngas[grid->m] >= 0.5){
-            (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.5;
-        }
-        
-        (flux->soil).n_nitrif[grid->m] = day_n_n2o / (flux->soil).f_n2o_ntr_ngas[grid->m] * MDN[grid->m];
-    }
-    
-    /* limitation by N availability */
     aa = (flux->soil).d_n2o_ntr_ngas[grid->m] + (flux->soil).n_nitrif[grid->m];
     if(aa > 0.5*(mass->soil).n_nh4){
         bb = 0.5*(mass->soil).n_nh4 / aa;

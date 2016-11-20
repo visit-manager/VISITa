@@ -124,11 +124,19 @@ void f_cult_luc(
 		/* UNH harmonized land-use change, 1500-2100 (added 2013/12/20) */
 			grid->f_crop_con = grid->fcrop_unh_hmnzed[grid->lucy - FDY_LUC];
 			grid->f_pasture_con = grid->fpast_unh_hmnzed[grid->lucy - FDY_LUC];
-    }else if(LANDUSE == 18 || LANDUSE == 19 || LANDUSE == 20 ||
-                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+    }else if(LANDUSE == 18){
         /* ICARUS SSPs: 2016/08/14 by A.Ito */
         if(grid->lucy <= 1990){
             grid->f_crop_con = grid->fcrop3_future[0];
+        }else{
+            grid->f_crop_con = grid->fcrop3_future[grid->lucy - 1990];
+        }
+        grid->f_pasture_con = 0.0;
+    }else if(LANDUSE == 19 || LANDUSE == 20 || LANDUSE == 21 ||
+                LANDUSE == 22 || LANDUSE == 23){
+        /* CD-LINKS SSPs: 2016/11/20 by A.Ito */
+        if(grid->lucy < 1990){
+            grid->f_crop_con = grid->fcrop_unh_hmnzed[1989 - FDY_LUC];
         }else{
             grid->f_crop_con = grid->fcrop3_future[grid->lucy - 1990];
         }
@@ -224,7 +232,7 @@ void f_cult_luc(
                         - grid->fcrop_net[BGY_LUC - FDY_LUC];
         }else if(LANDUSE==9){
              grid->f_deforest = 0.0;
-        }else if(LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 ||
+        }else if(LANDUSE==18 || LANDUSE == 19 || LANDUSE == 20 ||
                 LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
             /* ICARUS SSPs: 2016/08/14 by A.Ito */
             grid->f_deforest = 0.0;
@@ -275,10 +283,11 @@ void f_cult_luc(
         }else if(LANDUSE == 18|| LANDUSE == 19 || LANDUSE == 20 ||
                 LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
             /* ICARUS SSPs: 2016/08/14 by A.Ito */
-            if(grid->lucy <= 1990){
+            if(grid->lucy < 1991){
                 grid->f_deforest = 0.0;
             }else{
-                grid->f_deforest = grid->fcrop3_future[grid->lucy - 1990] - grid->fcrop3_future[grid->lucy - 1990 -1];
+                grid->f_deforest = grid->fcrop3_future[grid->lucy - 1990]
+                            - grid->fcrop3_future[grid->lucy - 1990 -1];
             }
         }
         
