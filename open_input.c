@@ -1075,8 +1075,8 @@ void open_input(
     }
     
     /* land-use: projection *************************************/
-    if(LANDUSE==9 || LANDUSE==10 || LANDUSE==18 || LANDUSE == 19 || LANDUSE == 20 ||
-                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+    if(LANDUSE == 9 || LANDUSE == 10 || LANDUSE == 18 || LANDUSE == 19 ||
+                LANDUSE == 20 || LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
         if( (fp_s[59]=fopen("./data/luh_gcrop_rcp45_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gcrop_rcp45_2005_2100.txt\n");  
             exit(1); 
@@ -2310,8 +2310,8 @@ void open_input(
 	
 	/* wood harvest based on RCP-harmonized data: LUHa.v1 *************/
 	/* added by A.Ito (2010/10/15) */
-    if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13
-         || LANDUSE==17){
+    if(LANDUSE == 9 || LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 ||
+        LANDUSE == 13 || LANDUSE == 17){
         if( (fp_s[53]=fopen("./data/luh_gvbh1_1500_2005.txt","rt"))==NULL ){  
             printf("No luh_gvbh1_1500_2005.txt\n");  
             exit(1); 
@@ -2355,7 +2355,7 @@ void open_input(
         }
     }
         
-    if(LANDUSE==9 || LANDUSE==10){
+    if(LANDUSE == 9 || LANDUSE == 10){
         if( (fp_s[78]=fopen("./data/luh_gvbh1_rcp45_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gvbh1_rcp45_2005_2100.txt\n");  
             exit(1); 
@@ -2376,7 +2376,7 @@ void open_input(
             printf("No luh_gsbh3_rcp45_2005_2100.txt\n");  
             exit(1); 
         }
-    }else if(LANDUSE==11 || LANDUSE==17){
+    }else if(LANDUSE == 11 || LANDUSE == 17){
         if( (fp_s[78]=fopen("./data/luh_gvbh1_rcp26_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gvbh1_rcp26_2005_2100.txt\n");  
             exit(1); 
@@ -2397,7 +2397,7 @@ void open_input(
             printf("No luh_gsbh3_rcp26_2005_2100.txt\n");  
             exit(1); 
         }
-    }else if(LANDUSE==12){
+    }else if(LANDUSE == 12){
         if( (fp_s[78]=fopen("./data/luh_gvbh1_rcp60_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gvbh1_rcp60_2005_2100.txt\n");  
             exit(1); 
@@ -2418,7 +2418,7 @@ void open_input(
             printf("No luh_gsbh3_rcp60_2005_2100.txt\n");  
             exit(1); 
         }
-    }else if(LANDUSE==13){
+    }else if(LANDUSE == 13){
         if( (fp_s[78]=fopen("./data/luh_gvbh1_rcp85_2005_2100.txt","rt"))==NULL ){
             printf("No luh_gvbh1_rcp85_2005_2100.txt\n");  
             exit(1); 
@@ -2439,7 +2439,7 @@ void open_input(
             printf("No luh_gsbh3_rcp85_2005_2100.txt\n");  
             exit(1); 
         }
-    }else if(LANDUSE==14){
+    }else if(LANDUSE == 14){
         /* ICARUS SSP data by T.Kinoshita: 2014/09/04 => 09/18 ******************/
         if( (fp_s[78]=fopen("./data/luc_wh_ssp1_2001-2100.txt","rt"))==NULL ){
             printf("No luc_wh_ssp1_2001-2100.txt\n");
@@ -2461,7 +2461,7 @@ void open_input(
             printf("No luh_gsbh3_rcp45_2005_2100.txt\n");  
             exit(1); 
         }
-    }else if(LANDUSE==15){
+    }else if(LANDUSE == 15){
         /* ICARUS SSP data by T.Kinoshita: 2014/09/04 => 09/18 ******************/
         if( (fp_s[78]=fopen("./data/luc_wh_ssp2_2001-2100.txt","rt"))==NULL ){
             printf("No luc_wh_ssp2_2001-2100.txt\n");
@@ -2483,7 +2483,7 @@ void open_input(
             printf("No luh_gsbh3_rcp45_2005_2100.txt\n");  
             exit(1); 
         }
-    }else if(LANDUSE==16){
+    }else if(LANDUSE == 16){
         /* ICARUS SSP data by T.Kinoshita: 2014/09/04 => 09/18 ******************/
         if( (fp_s[78]=fopen("./data/luc_wh_ssp3_2001-2100.txt","rt"))==NULL ){
             printf("No luc_wh_ssp3_2001-2100.txt\n");
@@ -2536,22 +2536,22 @@ void open_input(
     
     /* BioFuel data: 2015/08/21 added by A.Ito  ***********************/
     /* data supplied from Kinoshita-san */
-    if(BIOFUEL_RUN==0){
+    if(BIOFUEL_RUN == 0){
         if( (fp_s[87]=fopen("./data/s10gcp_ssp_crop_2010-2100.txt","rt"))==NULL ){
             printf("No s10gcp_ssp_crop_2010-2100.txt\n");
             exit(1); 
         }
-    }else if(BIOFUEL_RUN==1){
+    }else if(BIOFUEL_RUN == 1){
         if( (fp_s[87]=fopen("./data/s10gcp_ssp_biofuel_2020-2100_current.txt","rt"))==NULL ){
             printf("No s10gcp_ssp_biofuel_2020-2100_current.txt\n");
             exit(1); 
         }
-    }else if(BIOFUEL_RUN==2){
+    }else if(BIOFUEL_RUN == 2){
         if( (fp_s[87]=fopen("./data/s10gcp_ssp_biofuel_2020-2100_low.txt","rt"))==NULL ){
             printf("No s10gcp_ssp_biofuel_2020-2100_low.txt\n");
             exit(1); 
         }
-    }else if(BIOFUEL_RUN==3){
+    }else if(BIOFUEL_RUN == 3){
         if( (fp_s[87]=fopen("./data/s10gcp_ssp_biofuel_2020-2100_middle.txt","rt"))==NULL ){
             printf("No s10gcp_ssp_biofuel_2020-2100_middle.txt\n");
             exit(1); 

@@ -782,7 +782,8 @@ void f_init_grid(
 	 */
     /* revised by A.Ito (2013/12/20) */
 	if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 ||
-         LANDUSE==13 || LANDUSE==17){
+         LANDUSE==13 || LANDUSE==17|| LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 || LANDUSE == 21
+        || LANDUSE == 22 || LANDUSE == 23){
         
 		for(h=0;h<DL_LUC;h++){
 			/* fractional cover */
@@ -829,7 +830,9 @@ void f_init_grid(
             }
 		}
         
-        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13 || LANDUSE==17){
+        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13 ||
+            LANDUSE==17 || LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 ||
+            LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
             /* skip Hist - 2005 data */
             fscanf(fp_s[26],"%lf", &ddummy);
             fscanf(fp_s[27],"%lf", &ddummy);

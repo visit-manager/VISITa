@@ -135,8 +135,8 @@ void f_cult_luc(
     }else if(LANDUSE == 19 || LANDUSE == 20 || LANDUSE == 21 ||
                 LANDUSE == 22 || LANDUSE == 23){
         /* CD-LINKS SSPs: 2016/11/20 by A.Ito */
-        if(grid->lucy < 1990){
-            grid->f_crop_con = grid->fcrop_unh_hmnzed[1989 - FDY_LUC];
+        if(grid->lucy < 2000){
+            grid->f_crop_con = grid->fcrop_unh_hmnzed[1999 - FDY_LUC];
         }else{
             grid->f_crop_con = grid->fcrop3_future[grid->lucy - 1990];
         }
@@ -231,7 +231,7 @@ void f_cult_luc(
             grid->f_deforest = grid->fcrop_net[(BGY_LUC+1) - FDY_LUC]
                         - grid->fcrop_net[BGY_LUC - FDY_LUC];
         }else if(LANDUSE==9){
-             grid->f_deforest = 0.0;
+            grid->f_deforest = 0.0;
         }else if(LANDUSE==18 || LANDUSE == 19 || LANDUSE == 20 ||
                 LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
             /* ICARUS SSPs: 2016/08/14 by A.Ito */
