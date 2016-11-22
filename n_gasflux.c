@@ -356,7 +356,7 @@ void f_n2o_emit_casa(
 	}
 	
 	/* g NO ha-1 month-1 */
-	(flux->soil).d_no_casa[grid->m] = d_no*30.0/14.0;
+	(flux->soil).d_no_casa[grid->m] = d_no * 30.0 / 14.0;
 	/* g N2 ha-1 month-1 */
 	(flux->soil).d_n2_casa[grid->m] = d_n2;
 

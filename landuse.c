@@ -280,11 +280,16 @@ void f_cult_luc(
                                 + grid->t_vp_unh_hmnzed[grid->lucy - FDY_LUC];
             grid->f_deforest_s = grid->t_sc_unh_hmnzed[grid->lucy - FDY_LUC]
                                 + grid->t_sp_unh_hmnzed[grid->lucy - FDY_LUC];
-        }else if(LANDUSE == 18|| LANDUSE == 19 || LANDUSE == 20 ||
-                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+        }else if(LANDUSE == 18){
             /* ICARUS SSPs: 2016/08/14 by A.Ito */
+            grid->f_deforest = 0.0;
+        }else if (LANDUSE == 19 || LANDUSE == 20 ||
+                    LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+            /* CD-LINKS: 2016/11/21 by A.Ito */
             if(grid->lucy < 1991){
-                grid->f_deforest = 0.0;
+                /* grid->f_deforest = 0.0; */
+                grid->f_deforest = grid->t_vc_unh_hmnzed[grid->lucy - FDY_LUC]
+                                    + grid->t_vp_unh_hmnzed[grid->lucy - FDY_LUC];
             }else{
                 grid->f_deforest = grid->fcrop3_future[grid->lucy - 1990]
                             - grid->fcrop3_future[grid->lucy - 1990 -1];
