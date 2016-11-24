@@ -2569,4 +2569,67 @@ void open_input(
         printf("No fin_nmip_v2.txt\n");
         exit(1); 
     }
+    
+    /* N fertilizer scenario: 2016/11/22 by A.Ito **/
+    if(EX_NFERT == 1){
+        if( (fp_s[89]=fopen("./data/estni_hadgem_rcp2p6_ssp1_v1.txt","rt"))==NULL ){
+            printf("No estni_hadgem_rcp2p6_ssp1_v1.txt\n");
+            exit(1); 
+        }
+    }else if(EX_NFERT == 2){
+        if( (fp_s[89]=fopen("./data/estni_hadgem_rcp2p6_ssp2_v1.txt","rt"))==NULL ){
+            printf("No estni_hadgem_rcp2p6_ssp2_v1.txt\n");
+            exit(1); 
+        }
+    }else if(EX_NFERT == 3){
+        if( (fp_s[89]=fopen("./data/estni_hadgem_rcp2p6_ssp3_v1.txt","rt"))==NULL ){
+            printf("No estni_hadgem_rcp2p6_ssp3_v1.txt\n");
+            exit(1); 
+        }
+    }else if(EX_NFERT == 4){
+        if( (fp_s[89]=fopen("./data/estni_hadgem_rcp4p5_ssp1_v1.txt","rt"))==NULL ){
+            printf("No estni_hadgem_rcp4p5_ssp1_v1.txt\n");
+            exit(1); 
+        }
+    }else if(EX_NFERT == 5){
+        if( (fp_s[89]=fopen("./data/estni_hadgem_rcp4p5_ssp2_v1.txt","rt"))==NULL ){
+            printf("No estni_hadgem_rcp4p5_ssp2_v1.txt\n");
+            exit(1); 
+        }
+    }else if(EX_NFERT == 6){
+        if( (fp_s[89]=fopen("./data/estni_hadgem_rcp4p5_ssp3_v1.txt","rt"))==NULL ){
+            printf("No estni_hadgem_rcp4p5_ssp3_v1.txt\n");
+            exit(1); 
+        }
+    }else if(EX_NFERT == 7){
+        if( (fp_s[89]=fopen("./data/estni_miroc_rcp2p6_ssp1_v1.txt","rt"))==NULL ){
+            printf("No estni_miroc_rcp2p6_ssp1_v1.txt\n");
+            exit(1); 
+        }
+    }else if(EX_NFERT == 8){
+        if( (fp_s[89]=fopen("./data/estni_miroc_rcp2p6_ssp2_v1.txt","rt"))==NULL ){
+            printf("No estni_miroc_rcp2p6_ssp2_v1.txt\n");
+            exit(1); 
+        }
+    }else if(EX_NFERT == 9){
+        if( (fp_s[89]=fopen("./data/estni_miroc_rcp2p6_ssp3_v1.txt","rt"))==NULL ){
+            printf("No estni_miroc_rcp2p6_ssp3_v1.txt\n");
+            exit(1); 
+        }
+    }else if(EX_NFERT == 10){
+        if( (fp_s[89]=fopen("./data/estni_miroc_rcp4p5_ssp1_v1.txt","rt"))==NULL ){
+            printf("No estni_miroc_rcp4p5_ssp1_v1.txt\n");
+            exit(1); 
+        }
+    }else if(EX_NFERT == 11){
+        if( (fp_s[89]=fopen("./data/estni_miroc_rcp4p5_ssp2_v1.txt","rt"))==NULL ){
+            printf("No estni_miroc_rcp4p5_ssp2_v1.txt\n");
+            exit(1); 
+        }
+    }else if(EX_NFERT == 12){
+        if( (fp_s[89]=fopen("./data/estni_miroc_rcp4p5_ssp3_v1.txt","rt"))==NULL ){
+            printf("No estni_miroc_rcp4p5_ssp3_v1.txt\n");
+            exit(1); 
+        }
+    }
 }

@@ -214,7 +214,8 @@ void ghg_flux_zero(
 	(flux->soil).d_n2o_dnt_ngas[month] = 0.0;			
 	(flux->soil).d_n2o_ngas[month] = 0.0;			
 	(flux->soil).d_n2_ngas[month] = 0.0;			
-	(flux->soil).d_no_casa[month] = 0.0;			
+	(flux->soil).d_n2o_ntr_ngas[month] = 0.0;
+	(flux->soil).d_no_casa[month] = 0.0;
 	(flux->soil).d_n2_casa[month] = 0.0;			
 	(flux->soil).d_n2o_casa[month] = 0.0;			
 	(flux->soil).n_nh3vlt[month] = 0.0;			

@@ -1082,45 +1082,45 @@ long region_giorgi(
 	}else if((lat>-28.0&&lat<-11.0)&&(lon>110.0&&lon<155.0)){
 		reg = 2;
 	}else if((lat>-20.0&&lat<12.0)&&(lon>-82.0&&lon<-34.0)){
-		reg=3;
+		reg = 3;
 	}else if((lat>-56.0&&lat<-20.0)&&(lon>-76.0&&lon<-40.0)){
-		reg=4;
+		reg = 4;
 	}else if((lat>10.0&&lat<30.0)&&(lon>-116.0&&lon<-83.0)){
-		reg=5;
+		reg = 5;
 	}else if((lat>30.0&&lat<60.0)&&(lon>-130.0&&lon<-103.0)){
-		reg=6;
+		reg = 6;
 	}else if((lat>30.0&&lat<50.0)&&(lon>-103.0&&lon<-85.0)){
-		reg=7;
+		reg = 7;
 	}else if((lat>25.0&&lat<50.0)&&(lon>-85.0&&lon<-60.0)){
-		reg=8;
+		reg = 8;
 	}else if((lat>60.0&&lat<72.0)&&(lon>-170.0&&lon<-103.0)){
-		reg=9;
+		reg = 9;
 	}else if((lat>50.0&&lat<85.0)&&(lon>-103.0&&lon<-10.0)){
-		reg=10;
+		reg = 10;
 	}else if((lat>30.0&&lat<48.0)&&(lon>-10.0&&lon<40.0)){
-		reg=11;
+		reg = 11;
 	}else if((lat>48.0&&lat<75.0)&&(lon>-10.0&&lon<40.0)){
-		reg=12;
+		reg = 12;
 	}else if((lat>-12.0&&lat<18.0)&&(lon>-20.0&&lon<22.0)){
-		reg=13;
+		reg = 13;
 	}else if((lat>-12.0&&lat<18.0)&&(lon>22.0&&lon<52.0)){
-		reg=14;
+		reg = 14;
 	}else if((lat>-35.0&&lat<-12.0)&&(lon>-10.0&&lon<52.0)){
 		reg=15;
 	}else if((lat>18.0&&lat<30.0)&&(lon>-20.0&&lon<65.0)){
 		reg=16;
 	}else if((lat>-11.0&&lat<20.0)&&(lon>95.0&&lon<155.0)){
-		reg=17;
+		reg = 17;
 	}else if((lat>20.0&&lat<50.0)&&(lon>100.0&&lon<145.0)){
-		reg=18;
+		reg = 18;
 	}else if((lat>5.0&&lat<30.0)&&(lon>65.0&&lon<100.0)){
-		reg=19;
+		reg = 19;
 	}else if((lat>30.0&&lat<50.0)&&(lon>40.0&&lon<75.0)){
-		reg=20;
+		reg = 20;
 	}else if((lat>30.0&&lat<50.0)&&(lon>75.0&&lon<100.0)){
-		reg=21;
+		reg = 21;
 	}else if((lat>50.0&&lat<70.0)&&(lon>40.0&&lon<180.0)){
-		reg=22;
+		reg = 22;
 	}
 	
 	return reg;

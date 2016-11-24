@@ -308,6 +308,29 @@ void n_fertilizer_in(
         loct->n_manure_in = 0.0;
     }
     
+    /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
+    if(EX_NFERT >= 1){
+        /* kg N / ha / month */
+        if(grid->niny >= 2010 && grid->niny <= 2099){
+            
+            loct->n_manure_in = grid->est_nfert[grid->niny - 2010];
+            if(loct->n_manure_in < 0.0){
+                loct->n_manure_in = 0.0;
+            }
+        }else{
+            loct->n_manure_in = fert_input * MDN[grid->m] / 365.0;
+        }
+        
+        /* lower boundary */
+        if(loct->n_manure_in < 0.1*(fert_input * MDN[grid->m] / 365.0) ){
+            loct->n_manure_in = 0.1*(fert_input * MDN[grid->m] / 365.0);
+        }
+        /* upper boundary */
+        if(loct->n_manure_in > 10.0*(fert_input * MDN[grid->m] / 365.0) ){
+            loct->n_manure_in = 10.0*(fert_input * MDN[grid->m] / 365.0);
+        }
+    }
+    
     /* 2016/07/25 by A.Ito */
     /* loct->n_frtlz_in *= 0.01; */
 }

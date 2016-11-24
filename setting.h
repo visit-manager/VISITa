@@ -320,7 +320,7 @@
 #define NECB_CROP 1
 
 /* land use change setting ********************************/
-#define LANDUSE 19
+#define LANDUSE 11
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -475,13 +475,6 @@
 #define FIX_NPP 0
 /* 0:off, 1:0n */
 
-/* 2016/06/08 by A.Ito */
-#define EX_NITROGEN 0
-/* 0: off (control) */
-/* 1: half biological N2 fixation */
-/* 2: double microbial abandonment */
-/* 3: revised WFPS for NGAS */
-
 /*****************************************************/
 /* parameter perturbation */
 /* climate perturbation */
@@ -502,6 +495,14 @@
 #define SENS_FIRE 0
 /* 0:off, 1:0n */
 
+/***************************************************/
+/* 2016/06/08 by A.Ito */
+#define EX_NITROGEN 0
+/* 0: off (control) */
+/* 1: half biological N2 fixation */
+/* 2: double microbial abandonment */
+/* 3: revised WFPS for NGAS */
+
 /* sensitivity run of N deposition */
 #define SENS_N 0
 /* 0:off, 1:0n */
@@ -518,6 +519,34 @@
 /* 7: all ammonium */
 /* 8: all nitrate */
 /* 9: 50:50 ammonium and nitrate */
+
+/* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
+#define EX_NITR_N2O 0
+/* 0: off */
+/* 1: 1.0% */
+/* 2: 0.5% */
+/* 3: 2.0% */
+/* 4: 0.0291% */
+/* 5: 0.1% */
+/* 6: 5.0% */
+/* 7: DNDC */
+/* 8: DLEM */
+
+/* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
+#define EX_NFERT 1
+/* 0: off */
+/* 1: HadGEM + RCP2.6 + SSP1 */
+/* 2: HadGEM + RCP2.6 + SSP2 */
+/* 3: HadGEM + RCP2.6 + SSP3 */
+/* 4: HadGEM + RCP4.5 + SSP1 */
+/* 5: HadGEM + RCP4.5 + SSP2 */
+/* 6: HadGEM + RCP4.5 + SSP3 */
+/* 7: MIROC + RCP2.6 + SSP1 */
+/* 8: MIROC + RCP2.6 + SSP2 */
+/* 9: MIROC + RCP2.6 + SSP3 */
+/* 10: MIROC + RCP4.5 + SSP1 */
+/* 11: MIROC + RCP4.5 + SSP2 */
+/* 12: MIROC + RCP4.5 + SSP3 */
 
 /****************************************************/
 /* sensitivity analysis *****************/
