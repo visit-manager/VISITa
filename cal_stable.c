@@ -165,6 +165,11 @@ void cal_spinup(
             n_fertilizer_in(grid, loct);
         }
 		
+        if(EX_NFERT >= 1){
+            n_fertilizer_in(grid, loct);
+            f_fert = 1.0; /* driven by data */
+        }
+
 		plantmass = ann_nep = 0.0;
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;

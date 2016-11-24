@@ -133,6 +133,11 @@ void cal_historical(
             n_fertilizer_in(grid, loct);
             f_fert = 1.0; /* driven by data */
         }
+
+        if(EX_NFERT >= 1){
+            n_fertilizer_in(grid, loct);
+            f_fert = 1.0; /* driven by data */
+        }
 		
 		/* seasonal (monthly) loop ************************************************/
 		for(f=0;f<ASTEP;f++){

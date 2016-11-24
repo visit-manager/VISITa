@@ -99,6 +99,11 @@ void cal_projection(
             f_fert = 1.0; /* driven by data */
         }
 				
+        if(EX_NFERT >= 1){
+            n_fertilizer_in(grid, loct);
+            f_fert = 1.0; /* driven by data */
+        }
+
         /* NMIP: 2015/11/19 by A.Ito **/
         grid->niny = grid->climy;
         if(grid->niny < 1900){
