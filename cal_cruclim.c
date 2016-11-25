@@ -128,15 +128,21 @@ void cal_historical(
 		}else{
             f_fert = 1.0;
         }
-        /* NMIP input: 2015/11/19 by A.Ito */
-        if(NMIP_RUN >= 1){
-            n_fertilizer_in(grid, loct);
-            f_fert = 1.0; /* driven by data */
-        }
+        
+        if((echar->soil).v_type == 2){
+            /* NMIP input: 2015/11/19 by A.Ito */
+            if(NMIP_RUN >= 1){
+                n_fertilizer_in(grid, loct);
+                f_fert = 1.0; /* driven by data */
+            }
 
-        if(EX_NFERT >= 1){
-            n_fertilizer_in(grid, loct);
-            f_fert = 1.0; /* driven by data */
+            if(EX_NFERT >= 1){
+                n_fertilizer_in(grid, loct);
+                f_fert = 1.0; /* driven by data */
+            }
+        }else{
+            loct->n_frtlz_in = 0.0;
+            loct->n_manure_in = 0.0;
         }
 		
 		/* seasonal (monthly) loop ************************************************/
@@ -175,8 +181,8 @@ void cal_historical(
 			
 			/* soil processes *****************/
 			soil_processes(grid, loct, &(echar->soil), &(mass->soil), &(flux->soil));
-			flux->sr[f] = loct->c3ptn[f]*((flux->c3).rrm[f]+(flux->c3).rrg[f]) + 
-							loct->c4ptn[f]*((flux->c4).rrm[f]+(flux->c4).rrg[f]) + 
+			flux->sr[f] = loct->c3ptn[f]*((flux->c3).rrm[f] + (flux->c3).rrg[f]) +
+							loct->c4ptn[f]*((flux->c4).rrm[f] + (flux->c4).rrg[f]) + 
 							(flux->soil).hr[f];
 			
 			if(NECB_DOC == 1 && (EX_CCPL != 7 && EX_CCPL != 8)){

@@ -91,7 +91,12 @@ void cal_spinup(
 		grid->f_crop_p = grid->nmip_frcrop[0];
 		grid->f_pasture_p = 0.0;
     }
-    n_fertilizer_in(grid, loct);
+    if((echar->soil).v_type == 2){
+        n_fertilizer_in(grid, loct);
+    }else{
+        loct->n_frtlz_in = 0.0;
+        loct->n_manure_in = 0.0;
+    }
     
     if(NMIP_RUN >= 1){
         /* NMIP input: 2015/11/19 by A.Ito */
@@ -165,9 +170,12 @@ void cal_spinup(
             n_fertilizer_in(grid, loct);
         }
 		
-        if(EX_NFERT >= 1){
+        if((echar->soil).v_type == 2 && EX_NFERT >= 1){
             n_fertilizer_in(grid, loct);
             f_fert = 1.0; /* driven by data */
+        }else{
+            loct->n_frtlz_in = 0.0;
+            loct->n_manure_in = 0.0;
         }
 
 		plantmass = ann_nep = 0.0;
