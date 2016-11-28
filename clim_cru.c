@@ -135,7 +135,7 @@ void read_cru_clim(
         /* 1901-2010:           historical */
 
         /* ait tempetaure, deg-C */
-        fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[0]);
+        fread(r_isimip_data, sizeof(float), ASTEP * DL_ISIMIP, fp_c[0]);
         avtas = 0.0;
         for(h=0;h<DL_ISIMIP;h++){
             for(g=0;g<ASTEP;g++){
@@ -150,7 +150,7 @@ void read_cru_clim(
         avpr = 0.0;
         for(h=0;h<DL_ISIMIP;h++){
             for(g=0;g<ASTEP;g++){
-                grid->hist_pre[h][g] = (double)r_isimip_data[h*ASTEP+g] * (double)MDN[g] *24.0*3600.0;
+                grid->hist_pre[h][g] = (double)r_isimip_data[h*ASTEP + g] * (double)MDN[g] *24.0*3600.0;
                 avpr += grid->hist_pre[h][g] / (double)DL_ISIMIP;
                 grid->hist_pre[h][g] = (grid->hist_pre[h][g]>0.0)?grid->hist_pre[h][g]:0.0;
             }
@@ -191,7 +191,7 @@ void read_cru_clim(
                         apres = 1013.25*exp(-1.0*(28.964*0.001) * GAC * alt / (UGC*(grid->hist_tmp[h][g] + ZAT)));
 
                         /* vapour pressure, hPa */
-                        shum = (double)r_isimip_data[h*ASTEP+g];
+                        shum = (double)r_isimip_data[h*ASTEP + g];
                         if(shum < 0.0){
                             shum = 0.0;
                         }
@@ -289,7 +289,7 @@ void read_cru_clim(
         avpr = 0.0;
         for(h=0;h<DL_GCM;h++){
             for(g=0;g<ASTEP;g++){
-                grid->proj_prec[h][g][0][0] = (double)r_gcm_data[h*ASTEP+g] * (double)MDN[g] *24.0*3600.0;
+                grid->proj_prec[h][g][0][0] = (double)r_gcm_data[h*ASTEP + g] * (double)MDN[g] *24.0 * 3600.0;
                 grid->proj_prec[h][g][0][0] = (grid->proj_prec[h][g][0][0]>0.0)?grid->proj_prec[h][g][0][0]:0.0;
             }
         }

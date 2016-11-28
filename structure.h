@@ -446,7 +446,7 @@ struct Loct{
 	
 	/* maximum GPP for Cao CH4 scheme */
 	double	gpp_max;						/* maximum GPP */
-    double  npp_av[ASTEP];
+    double  npp_av[ASTEP];                  /* average monthly NPP */
 	
 	/* CH4 emission by Walter & Heimann: added by A.Ito (2009/08/05) */
 	double	water_table_depth;				/* current time-step */

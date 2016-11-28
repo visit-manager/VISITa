@@ -320,7 +320,11 @@ void n_fertilizer_in(
         /* kg N / ha / month */
         if(grid->niny >= 2010 && grid->niny <= 2099){
             
-            loct->n_frtlz_in = f_adj * grid->est_nfert[grid->niny - 2010] * MDN[grid->m] / 365.0;
+            /* loct->n_frtlz_in = f_adj * grid->est_nfert[grid->niny - 2010] * MDN[grid->m] / 365.0; */
+            
+            f_adj = (grid->est_nfert[grid->niny - 2010] - grid->est_nfert[0]) * MDN[grid->m] / 365.0;
+            loct->n_frtlz_in = fin_base + f_adj;
+            
             if(loct->n_frtlz_in < 0.0){
                 loct->n_frtlz_in = 0.0;
             }

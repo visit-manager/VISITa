@@ -196,7 +196,7 @@ void cal_historical(
 			/* NH4:NO3 ratio is based on inventories */
             /* this routine may not be activated when using REPLACE_OLSON_CROP option */
 			if((echar->soil).v_type == 1){
-			   if(grid->veg_olson==29 || grid->veg_olson==30 || 
+			   if(grid->veg_olson == 29 || grid->veg_olson == 30 ||
 											 grid->veg_olson==31 || grid->veg_olson==32){
 				   (flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
 				   (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
