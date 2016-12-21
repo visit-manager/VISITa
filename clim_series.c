@@ -56,7 +56,7 @@ void set_hist_clim(
                 
            }
         }else{
-            /* extention by NCEP/NCAR data */
+            /* extention by NCEP/NCAR reanalysis data */
             /* 2003-2008: extrapolation using NCEP/NCAR data: 2009/01/05 by A.Ito */
             /* 2006-2009: extrapolation using NCEP/NCAR data: 2010/01/04 by A.Ito */
             /* 2006-2010: extrapolation using NCEP/NCAR data: 2011/03/XX by A.Ito */
@@ -324,7 +324,7 @@ void set_gcm_clim(
             pre_var = 0.0;
         }else{
             if(CC_P == 1){
-                pre_var = grid->proj_prec[grid->climy-FDY_GCM][h][grid->gcm_row][grid->gcm_col] - 
+                pre_var = grid->proj_prec[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col] -
                             grid->proj_prec_b[h][grid->gcm_row][grid->gcm_col];
             }else{
                 pre_var = 0.0;
@@ -359,7 +359,7 @@ void set_gcm_clim(
             alt = (grid->topo>=0.0)?grid->topo:0.0; 
             
             /* atmospheric pressure, hPa */
-            apres = 1013.25*exp(-1.0 * (28.964*0.001) * GAC * alt/(UGC * (grid->tmp_2m[h]+  ZAT)));
+            apres = 1013.25*exp(-1.0 * (28.964*0.001) * GAC * alt/(UGC * (grid->tmp_2m[h] + ZAT)));
             
             if(CC_H == 1){
                 rvap = grid->proj_hum[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col] / apres;

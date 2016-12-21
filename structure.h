@@ -51,7 +51,7 @@ struct Grid{
 	/* SAGE's potential biome ID */
 	long 	veg_sage;	
 	/* dominant crop type ID */
-	long 	veg_crop;	
+	long 	type_crop;	
 	
 	/* time ***********/
 	long 	phase;					/* simulation phase: 0-spinup, 1-past, 2-future */
@@ -329,6 +329,9 @@ struct Grid{
     double  nmip_ndep_nh4[DL_NMIP];             /* NH4 fertilizer */
     double  nmip_manure[DL_NMIP];               /* manure */
     double  nmip_frcrop[DL_NMIP];               /* cropland fraction */
+    
+    /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
+    double  est_nfert[90];
 };
 
 /* grid conditions, derived from submodules *******************************************/
@@ -443,7 +446,7 @@ struct Loct{
 	
 	/* maximum GPP for Cao CH4 scheme */
 	double	gpp_max;						/* maximum GPP */
-    double  npp_av[ASTEP];
+    double  npp_av[ASTEP];                  /* average monthly NPP */
 	
 	/* CH4 emission by Walter & Heimann: added by A.Ito (2009/08/05) */
 	double	water_table_depth;				/* current time-step */
@@ -895,6 +898,7 @@ struct Sflx{
 	double	d_n2o_dnt_ngas[ASTEP];			/* N2O from denitrification by NGAS */
 	double	d_n2o_ngas[ASTEP];				/* total N2O by NGAS */
 	double	d_n2_ngas[ASTEP];				/* N2 by NGAS */
+    double  f_n2o_ntr_ngas[ASTEP];          /* N2O / nitrification */
 	
 	double	d_no_casa[ASTEP];				/* NO by CASA */
 	double	d_n2_casa[ASTEP];				/* N2 by CASA */

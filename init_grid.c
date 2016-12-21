@@ -30,6 +30,7 @@ void f_init_grid(
 	double prate_sfc, spfh_2m, soilw10, soilw200, ugrd_10m, vgrd_10m;
 	double geo_prop, crit_tension;
 	double lat, lon, total, wetland, lake, paddy, ddummy;
+    double nfert_m, nfert_r, nfert_sw, nfert_ww;
     float rfdat[ASTEP];
 	
 	/* grid latitudes of CSIRO AOGCM */
@@ -381,15 +382,15 @@ void f_init_grid(
 	*/
 	
 	/* sensitivity analysis for biome change by deforestation */
-	if(EX_DEFOREST==1){
+	if(EX_DEFOREST == 1){
 		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 19;
 		}
-	}else if(EX_DEFOREST==2){
+	}else if(EX_DEFOREST == 2){
 		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 13;
 		}
-	}else if(EX_DEFOREST==3){
+	}else if(EX_DEFOREST == 3){
 		if(aaa>=1 && aaa<=12){
 			grid->veg_olson = 31;
 		}
@@ -583,9 +584,9 @@ void f_init_grid(
 	vegetation cover (1850-2100) for use in climate models. 
 	Global Biogeochemical Cycles 20, 10.1029/2005GB002514.
 	*/
-    if(SCENARIO_ID>=2100 && SCENARIO_ID<=2999){
-        /* ICARUS 2016/08/12 */
-        
+    
+    if(LANDUSE == 19 || LANDUSE == 20 ||LANDUSE == 21 ||LANDUSE == 22 ||LANDUSE == 23){
+        /* CD-LINK 2016/11/17 */
         for(h=0;h<111;h++){
             fscanf(fp_s[23],"%lf", &(grid->fcrop3_future[h]));
             grid->fcrop4_future[h] = 0.0;
@@ -597,17 +598,31 @@ void f_init_grid(
             fscanf(fp_s[45],"%lf", &(grid->fgrass4_future[h])); 
         }
     }else{
-        for(h=0;h<111;h++){
-            fscanf(fp_s[23],"%lf", &(grid->fcrop3_future[h])); 
-        }
-        for(h=0;h<111;h++){
-            fscanf(fp_s[23],"%lf", &(grid->fcrop4_future[h])); 
-        }
-        for(h=0;h<111;h++){
-            fscanf(fp_s[45],"%lf", &(grid->fgrass3_future[h])); 
-        }
-        for(h=0;h<111;h++){
-            fscanf(fp_s[45],"%lf", &(grid->fgrass4_future[h])); 
+        if(SCENARIO_ID>=2100 && SCENARIO_ID<=2999){
+            /* ICARUS 2016/08/12 */
+            for(h=0;h<111;h++){
+                fscanf(fp_s[23],"%lf", &(grid->fcrop3_future[h]));
+                grid->fcrop4_future[h] = 0.0;
+            }
+            for(h=0;h<111;h++){
+                fscanf(fp_s[45],"%lf", &(grid->fgrass3_future[h]));
+            }
+            for(h=0;h<111;h++){
+                fscanf(fp_s[45],"%lf", &(grid->fgrass4_future[h])); 
+            }
+        }else{
+            for(h=0;h<111;h++){
+                fscanf(fp_s[23],"%lf", &(grid->fcrop3_future[h])); 
+            }
+            for(h=0;h<111;h++){
+                fscanf(fp_s[23],"%lf", &(grid->fcrop4_future[h])); 
+            }
+            for(h=0;h<111;h++){
+                fscanf(fp_s[45],"%lf", &(grid->fgrass3_future[h])); 
+            }
+            for(h=0;h<111;h++){
+                fscanf(fp_s[45],"%lf", &(grid->fgrass4_future[h])); 
+            }
         }
     }
 	
@@ -687,7 +702,7 @@ void f_init_grid(
 	}
 	
 	/* wetland fraction: data by Global Lakes and Wetlands Database by WWF *****/
-	if(ALT_FWETLAND==1){
+	if(ALT_FWETLAND == 1){
 		/* Alternative data (NASA/GISS): 2011/03/30 by A.Ito */
 		fscanf(fp_s[21],"%lf", &wetland);
 		grid->f_wetland = wetland;
@@ -719,7 +734,7 @@ void f_init_grid(
     grid->f_wetland0 = grid->f_wetland;
 	
 	/* paddy fraction *****************/
-	if(ALT_FWETLAND==1){
+	if(ALT_FWETLAND == 1){
 		/* Alternative data (IIS-UT + SAGE): 2011/03/30 by A.Ito */
 		fscanf(fp_s[22],"%lf", &paddy); 
 		if(paddy>0.0){
@@ -768,7 +783,8 @@ void f_init_grid(
 	 */
     /* revised by A.Ito (2013/12/20) */
 	if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 ||
-         LANDUSE==13 || LANDUSE==17){
+         LANDUSE==13 || LANDUSE==17|| LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 || LANDUSE == 21
+        || LANDUSE == 22 || LANDUSE == 23){
         
 		for(h=0;h<DL_LUC;h++){
 			/* fractional cover */
@@ -815,7 +831,9 @@ void f_init_grid(
             }
 		}
         
-        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13 || LANDUSE==17){
+        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13 ||
+            LANDUSE==17 || LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 ||
+            LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
             /* skip Hist - 2005 data */
             fscanf(fp_s[26],"%lf", &ddummy);
             fscanf(fp_s[27],"%lf", &ddummy);
@@ -1003,7 +1021,7 @@ void f_init_grid(
 	/* added by A.Ito (2010/10/15) */
 	/* revised by A.Ito (2013/12/20, 24) */
     
-    if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 ||
+    if(LANDUSE == 6 || LANDUSE == 8 || LANDUSE == 9 || LANDUSE == 10 ||
                 LANDUSE==11 || LANDUSE==12 || LANDUSE==13 || LANDUSE==17){
         
         for(h=0;h<DL_LUC;h++){
@@ -1108,31 +1126,31 @@ void f_init_grid(
 	fscanf(fp_s[46],"%lf", &grid->fwheat);
 	fscanf(fp_s[46],"%lf", &grid->fmaize);
 	
-	grid->veg_crop = 1;
+	grid->type_crop = 1;
 	/* 0: no crop */
 	/* 1: C3 crops (non-rice) */
 	/* 2: paddy */
 	/* 3: C4 crops, e.g. maize */
 	if(grid->frice > grid->fwheat && grid->frice > grid->fmaize){
-		grid->veg_crop = 2;
+		grid->type_crop = 2;
 	}
 	if(grid->fmaize > grid->fwheat && grid->fmaize > grid->frice){
-		grid->veg_crop = 3;
+		grid->type_crop = 3;
 	}
     
     /* force change crop types: 2015/04/24 by A.Ito */
     if(EX_CROP == 1){
-        grid->veg_crop = 1;  /* C3:wheat */
+        grid->type_crop = 1;  /* C3:wheat */
     }
     if(EX_CROP == 2){
-        grid->veg_crop = 2;  /* rice */
+        grid->type_crop = 2;  /* rice */
     }
     if(EX_CROP == 3){
-        grid->veg_crop = 3;  /* C4:maize */
+        grid->type_crop = 3;  /* C4:maize */
     }
     
     if(BIOFUEL_RUN >= 1){
-         grid->veg_crop = 4;  /* biofuel: added 2015/08/21 by A.Ito */
+         grid->type_crop = 4;  /* biofuel: added 2015/08/21 by A.Ito */
     }
 	
 	/* diffuse radiation estimation using SRB data ************/
@@ -1282,6 +1300,37 @@ void f_init_grid(
         fscanf(fp_s[88],"%lf", &grid->nmip_manure[e]);
         if(grid->nmip_manure[e] < 0.0){
             grid->nmip_manure[e] = 0.0;
+        }
+    }
+    
+    /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
+    for(e=0;e<90;e++){
+        /* data: 2010–2099, kg N ha-1 yr-1 */
+        fscanf(fp_s[89],"%lf", &nfert_m);
+        fscanf(fp_s[89],"%lf", &nfert_r);
+        fscanf(fp_s[89],"%lf", &nfert_sw);
+        fscanf(fp_s[89],"%lf", &nfert_ww);
+        
+        if(grid->type_crop == 1){
+            
+            if(grid->lat >=45.0){
+                /* spring wheat */
+                grid->est_nfert[e] = nfert_sw;
+            }else{
+                /* winter wheat */
+                grid->est_nfert[e] = nfert_ww;
+            }
+            
+        }else if(grid->type_crop == 2){
+            /* rice */
+            grid->est_nfert[e] = nfert_r;
+        }else if(grid->type_crop == 3){
+            /* maize */
+            grid->est_nfert[e] = nfert_m;
+        }
+        
+        if(grid->est_nfert[e] < 0.0){
+            grid->est_nfert[e] = 0.0;
         }
     }
 }

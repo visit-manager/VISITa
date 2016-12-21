@@ -99,7 +99,7 @@ void f_ecophysiology(
 	f_n_leaf_conc(grid, pchar, mass);
 	
 	/** initial ci: 70% of ambient level **/
-	pchar->ci[grid->m] = loct->aco2[grid->m]*0.7;
+	pchar->ci[grid->m] = loct->aco2[grid->m] * 0.7;
     	
 	/* stabilization of single-leaf processes */
 	for(g=0;g<6;g++){			
@@ -301,7 +301,7 @@ double canopy_cond(
             ttt = 1.0;
         }
 		vvv = -1.0 * pchar->eK[grid->m] * mass->lai[grid->m];
-        ccc = 1.0 + pchar->eK[grid->m]*lue_gs*grid->par[grid->m]*exp(vvv) / pchar->gs[grid->m];
+        ccc = 1.0 + pchar->eK[grid->m] * lue_gs*grid->par[grid->m]*exp(vvv) / pchar->gs[grid->m];
         if(ccc > 0.0){
             uuu = 1.0 + sqrt(ccc);
         }else{
@@ -339,9 +339,9 @@ void opt_lai(
 	
 	/* daily respiratory cost */
 	/* printf("%lf %lf\n", plant->qTc[grid->m], grid->tmp_sfc[grid->m]); */
-	eee = log(pchar->qTc[grid->m]) / 10.0*(grid->tmp_sfc[grid->m] - 15.0);
-	arm = pchar->rmf * exp(eee) / 1000.0*dmTc*10000.0/(pchar->sla);
-	arg = pchar->lf[grid->m]*dmTc*10000.0 / (pchar->sla)*(1.0 + pchar->rgf);
+	eee = log(pchar->qTc[grid->m]) / 10.0 * (grid->tmp_sfc[grid->m] - 15.0);
+	arm = pchar->rmf * exp(eee) / 1000.0 * dmTc*10000.0/(pchar->sla);
+	arg = pchar->lf[grid->m] * dmTc * 10000.0 / (pchar->sla)*(1.0 + pchar->rgf);
 	ar = arm + arg;
 
 	cc4 = (psat*grid->dlen[grid->m])/(psat*grid->dlen[grid->m] - ar*24.0);

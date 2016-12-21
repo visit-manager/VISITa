@@ -72,6 +72,10 @@ void cal_spinup(
 	}else if(LANDUSE == 18){
 		grid->f_crop_p = grid->fcrop3_future[0];
 		grid->f_pasture_p = 0.0;
+    }else if(LANDUSE == 19 || LANDUSE == 20 ||
+            LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+		grid->f_crop_p = grid->fcrop_unh_hmnzed[1989 - FDY_LUC];
+		grid->f_pasture_p = 0.0;
 	}
     
     if(LANDUSE == 17 || BIOFUEL_RUN >= 1){
@@ -87,7 +91,12 @@ void cal_spinup(
 		grid->f_crop_p = grid->nmip_frcrop[0];
 		grid->f_pasture_p = 0.0;
     }
-    n_fertilizer_in(grid, loct);
+    if((echar->soil).v_type == 2){
+        n_fertilizer_in(grid, loct);
+    }else{
+        loct->n_frtlz_in = 0.0;
+        loct->n_manure_in = 0.0;
+    }
     
     if(NMIP_RUN >= 1){
         /* NMIP input: 2015/11/19 by A.Ito */
@@ -146,7 +155,11 @@ void cal_spinup(
         
         /* NMIP: 2015/11/19 by A.Ito **/
         /* updated: 2016/10/20 */
-        grid->niny = 1901;
+        if(ISIMIP_RUN == 1){
+            grid->niny = FSY_HIST-1;
+        }else{
+            grid->niny = 1901;
+        }
         
         if(NMIP_RUN >= 1){
             grid->climy = 1901;
@@ -157,6 +170,14 @@ void cal_spinup(
             n_fertilizer_in(grid, loct);
         }
 		
+        if((echar->soil).v_type == 2 && EX_NFERT >= 1){
+            n_fertilizer_in(grid, loct);
+            f_fert = 1.0; /* driven by data */
+        }else{
+            loct->n_frtlz_in = 0.0;
+            loct->n_manure_in = 0.0;
+        }
+
 		plantmass = ann_nep = 0.0;
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;

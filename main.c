@@ -307,7 +307,7 @@ int main(
 			
 			printf("%3ld %3ld: %7.2lf %7.2lf: %2ld %2ld %2ld: %1ld\n", 
 				grid.row, grid.col, grid.lat, grid.lon, grid.veg_olson, grid.veg_sage, 
-				grid.veg_crop, grid.flag_histdata); /* */
+				grid.type_crop, grid.flag_histdata); /* */
             
             /****/
             /* printf("*************%lf %lf %lf\n", grid.f_biofuel[0], grid.f_biofuel[10], grid.f_biofuel[50]); */
@@ -324,7 +324,7 @@ int main(
 				if(CALC_CROP == 1){
 					/* modified: 2011/02/04 (A.Ito) */
 					fprintf(fp_o2[h],"%ld %ld %ld %ld %ld %ld\n",
-							grid.row, grid.col, grid.veg_olson, grid.veg_sage, grid.veg_crop, grid.flag_histdata);
+							grid.row, grid.col, grid.veg_olson, grid.veg_sage, grid.type_crop, grid.flag_histdata);
 					
 					fprintf(fp_o2[h],"%lf %lf %lf\n", 
 							grid.field_cap1, grid.field_cap2, grid.bulkdens);

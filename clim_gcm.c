@@ -190,12 +190,12 @@ void read_gcm_clim(
 		if( (fp_c2[1]=fopen("./data/pr_MIROCM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No pr_MIROCM_20C-A1B_R1.dat\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_MIROCM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No huss_MIROCM_20C-A1B_R1.dat\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_MIROCM_20C-A1B_R1.dat","rt"))==NULL ){  printf("No rsds_MIROCM_20C-A1B_R1.dat\n");  exit(1); }
-	}else if(SCENARIO_ID==1011){  /* MIROC-MED + A1B Run2 */
+	}else if(SCENARIO_ID == 1011){  /* MIROC-MED + A1B Run2 */
 		if( (fp_c2[0]=fopen("./data/tas_MIROCM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No tas_MIROCM_20C-A1B_R2.dat\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_MIROCM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No pr_MIROCM_20C-A1B_R2.dat\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_MIROCM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No huss_MIROCM_20C-A1B_R2.dat\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_MIROCM_20C-A1B_R2.dat","rt"))==NULL ){  printf("No rsds_MIROCM_20C-A1B_R2.dat\n");  exit(1); }
-	}else if(SCENARIO_ID==1012){  /* MIROC-MED + A1B Run3 */
+	}else if(SCENARIO_ID == 1012){  /* MIROC-MED + A1B Run3 */
 		if( (fp_c2[0]=fopen("./data/tas_MIROCM_20C-A1B_R3.dat","rt"))==NULL ){  printf("No tas_MIROCM_20C-A1B_R3.dat\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_MIROCM_20C-A1B_R3.dat","rt"))==NULL ){  printf("No pr_MIROCM_20C-A1B_R3.dat\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_MIROCM_20C-A1B_R3.dat","rt"))==NULL ){  printf("No huss_MIROCM_20C-A1B_R3.dat\n");  exit(1); }
@@ -924,42 +924,42 @@ void read_gcm_clim(
 		if( (fp_c2[1]=fopen("./data/pr_HadGEM2-ES_197001-210012_rcp45_g3s.txt","rt"))==NULL ){  printf("No pr_HadGEM2-ES_197001-210012_rcp45_g3s.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_HadGEM2-ES_197001-210012_rcp45_g3s.txt","rt"))==NULL ){  printf("No huss_HadGEM2-ES_197001-210012_rcp45_g3s.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_HadGEM2-ES_197001-210012_rcp45_g3s.txt","rt"))==NULL ){  printf("No rsds_HadGEM2-ES_197001-210012_rcp45_g3s.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3034){  /*  GEOMIP: HadGEM2-ES G4cdnc */
+	}else if(SCENARIO_ID == 3034){  /*  GEOMIP: HadGEM2-ES G4cdnc */
 		if( (fp_c2[0]=fopen("./data/tas_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt","rt"))==NULL ){  printf("No tas_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt","rt"))==NULL ){  printf("No pr_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt","rt"))==NULL ){  printf("No huss_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt","rt"))==NULL ){  printf("No rsds_HadGEM2-ES_197001-210012_rcp45_G4cdnc.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3035){  /*  GEOMIP: HadGEM2-ES G4seaSalt */
+	}else if(SCENARIO_ID == 3035){  /*  GEOMIP: HadGEM2-ES G4seaSalt */
 		if( (fp_c2[0]=fopen("./data/tas_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt","rt"))==NULL ){  printf("No tas_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt","rt"))==NULL ){  printf("No pr_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt","rt"))==NULL ){  printf("No huss_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_HadGEM2-ES_197001-210012_rcp45_G4seaSalt.txt","rt"))==NULL ){  printf("No rsds_HadGEM2-ES_197001-210012_rcp45_G4seaSalts.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3040){  /*  GEOMIP: IPSL-CM5A-LR base (RCP4.5) */
+	}else if(SCENARIO_ID == 3040){  /*  GEOMIP: IPSL-CM5A-LR base (RCP4.5) */
 		if( (fp_c2[0]=fopen("./data/tas_IPSL-CM5A-LR_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No tas_IPSL-CM5A-LR_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_IPSL-CM5A-LR_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No pr_IPSL-CM5A-LR_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_IPSL-CM5A-LR_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No huss_IPSL-CM5A-LR_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_IPSL-CM5A-LR_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No rsds_IPSL-CM5A-LR_197001-210012_rcp45_base.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3041){  /*  GEOMIP: IPSL-CM5A-LR G3 */
+	}else if(SCENARIO_ID == 3041){  /*  GEOMIP: IPSL-CM5A-LR G3 */
 		if( (fp_c2[0]=fopen("./data/tas_IPSL-CM5A-LR_197001-210012_rcp45_g3.txt","rt"))==NULL ){  printf("No tas_IPSL-CM5A-LR_197001-210012_rcp45_g3.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_IPSL-CM5A-LR_197001-210012_rcp45_g3.txt","rt"))==NULL ){  printf("No pr_IPSL-CM5A-LR_197001-210012_rcp45_g3.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_IPSL-CM5A-LR_197001-210012_rcp45_g3.txt","rt"))==NULL ){  printf("No huss_IPSL-CM5A-LR_197001-210012_rcp45_g3.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_IPSL-CM5A-LR_197001-210012_rcp45_g3.txt","rt"))==NULL ){  printf("No rsds_IPSL-CM5A-LR_197001-210012_rcp45_g3.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3042){  /*  GEOMIP: IPSL-CM5A-LR G5 */
+	}else if(SCENARIO_ID == 3042){  /*  GEOMIP: IPSL-CM5A-LR G5 */
 		if( (fp_c2[0]=fopen("./data/tas_IPSL-CM5A-LR_197001-210012_rcp45_g5.txt","rt"))==NULL ){  printf("No tas_IPSL-CM5A-LR_197001-210012_rcp45_g5.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_IPSL-CM5A-LR_197001-210012_rcp45_g5.txt","rt"))==NULL ){  printf("No pr_IPSL-CM5A-LR_197001-210012_rcp45_g5.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_IPSL-CM5A-LR_197001-210012_rcp45_g5.txt","rt"))==NULL ){  printf("No huss_IPSL-CM5A-LR_197001-210012_rcp45_g5.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_IPSL-CM5A-LR_197001-210012_rcp45_g5.txt","rt"))==NULL ){  printf("No rsds_IPSL-CM5A-LR_197001-210012_rcp45_g5.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3050){  /*  GEOMIP: MIROC-ESM base (RCP4.5)  */
+	}else if(SCENARIO_ID == 3050){  /*  GEOMIP: MIROC-ESM base (RCP4.5)  */
 		if( (fp_c2[0]=fopen("./data/tas_MIROC-ESM_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No tas_MIROC-ESM_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_MIROC-ESM_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No pr_MIROC-ESM_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_MIROC-ESM_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No huss_MIROC-ESM_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_MIROC-ESM_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No rsds_MIROC-ESM_197001-210012_rcp45_base.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3051){  /*  GEOMIP: MIROC-ESM G4  */
+	}else if(SCENARIO_ID == 3051){  /*  GEOMIP: MIROC-ESM G4  */
 		if( (fp_c2[0]=fopen("./data/tas_MIROC-ESM_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No tas_MIROC-ESM_197001-210012_rcp45_g4.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_MIROC-ESM_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No pr_MIROC-ESM_197001-210012_rcp45_g4.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_MIROC-ESM_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No huss_MIROC-ESM_197001-210012_rcp45_g4.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_MIROC-ESM_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No rsds_MIROC-ESM_197001-210012_rcp45_g4.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3052){  /*  GEOMIP: MIROC-ESM G4cdnc  */
+	}else if(SCENARIO_ID == 3052){  /*  GEOMIP: MIROC-ESM G4cdnc  */
 		if( (fp_c2[0]=fopen("./data/tas_MIROC-ESM_197001-210001_rcp45_G4cdnc.txt","rt"))==NULL ){  printf("No tas_MIROC-ESM_197001-210001_rcp45_G4cdnc.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_MIROC-ESM_197001-210001_rcp45_G4cdnc.txt","rt"))==NULL ){  printf("No pr_MIROC-ESM_197001-210001_rcp45_G4cdnc.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_MIROC-ESM_197001-210001_rcp45_G4cdnc.txt","rt"))==NULL ){  printf("No huss_MIROC-ESM_197001-210001_rcp45_G4cdnc.txt\n");  exit(1); }
@@ -974,80 +974,80 @@ void read_gcm_clim(
 		if( (fp_c2[1]=fopen("./data/pr_MIROC-ESM-CHEM_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No pr_MIROC-ESM-CHEM_197001-210012_rcp45_g4.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_MIROC-ESM-CHEM_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No huss_MIROC-ESM-CHEM_197001-210012_rcp45_g4.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_MIROC-ESM-CHEM_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No rsds_MIROC-ESM-CHEM_197001-210012_rcp45_g4.txt\n");  exit(1); }
-	} else if(SCENARIO_ID==3070){  /*  GEOMIP: CanESM2 base (RCP4.5)  */
+	} else if(SCENARIO_ID == 3070){  /*  GEOMIP: CanESM2 base (RCP4.5)  */
 		if( (fp_c2[0]=fopen("./data/tas_CanESM2_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No tas_CanESM2_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_CanESM2_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No pr_CanESM2_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_CanESM2_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No huss_CanESM2_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_CanESM2_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No rsds_CanESM2_197001-210012_rcp45_base.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3071){  /*  GEOMIP: CanESM2 G4  */
+	}else if(SCENARIO_ID == 3071){  /*  GEOMIP: CanESM2 G4  */
 		if( (fp_c2[0]=fopen("./data/tas_CanESM2_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No tas_CanESM2_197001-210012_rcp45_g4.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_CanESM2_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No pr_CanESM2_197001-210012_rcp45_g4.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_CanESM2_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No huss_CanESM2_197001-210012_rcp45_g4.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_CanESM2_197001-210012_rcp45_g4.txt","rt"))==NULL ){  printf("No rsds_CanESM2_197001-210012_rcp45_g4.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3072){  /*  GEOMIP: CanESM2 G4cdnc  */
+	}else if(SCENARIO_ID == 3072){  /*  GEOMIP: CanESM2 G4cdnc  */
 		if( (fp_c2[0]=fopen("./data/tas_CanESM2_197001-210012_rcp45_g4cdnc.txt","rt"))==NULL ){  printf("No tas_CanESM2_197001-210012_rcp45_g4cdnc.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_CanESM2_197001-210012_rcp45_g4cdnc.txt","rt"))==NULL ){  printf("No pr_CanESM2_197001-210012_rcp45_g4cdnc.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_CanESM2_197001-210012_rcp45_g4cdnc.txt","rt"))==NULL ){  printf("No huss_CanESM2_197001-210012_rcp45_g4cdnc.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_CanESM2_197001-210012_rcp45_g4cdnc.txt","rt"))==NULL ){  printf("No rsds_CanESM2_197001-210012_rcp45_g4cdnc.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3080){  /*  GEOMIP: MPI-ESM-LR base (RCP4.5)  */
+	}else if(SCENARIO_ID == 3080){  /*  GEOMIP: MPI-ESM-LR base (RCP4.5)  */
 		if( (fp_c2[0]=fopen("./data/tas_MPI-ESM-LR_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No tas_MPI-ESM-LR_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_MPI-ESM-LR_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No pr_MPI-ESM-LR_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/hus_MPI-ESM-LR_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No hus_MPI-ESM-LR_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_MPI-ESM-LR_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No rsds_MPI-ESM-LR_197001-210012_rcp45_base.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3081){  /*  GEOMIP: MPI-ESM-LR G3  */
+	}else if(SCENARIO_ID == 3081){  /*  GEOMIP: MPI-ESM-LR G3  */
 		if( (fp_c2[0]=fopen("./data/tas_MPI-ESM-LR_197001-210012_rcp45_g3.txt","rt"))==NULL ){  printf("No tas_MPI-ESM-LR_197001-210012_rcp45_g3.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_MPI-ESM-LR_197001-210012_rcp45_g3.txt","rt"))==NULL ){  printf("No pr_MPI-ESM-LR_197001-210012_rcp45_g3.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/hus_MPI-ESM-LR_197001-210012_rcp45_g3.txt","rt"))==NULL ){  printf("No hus_MPI-ESM-LR_197001-210012_rcp45_g3.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_MPI-ESM-LR_197001-210012_rcp45_g3.txt","rt"))==NULL ){  printf("No rsds_MPI-ESM-LR_197001-210012_rcp45_g3.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3090){  /*  GEOMIP: CCSM4 base (RCP4.5)  */
+	}else if(SCENARIO_ID == 3090){  /*  GEOMIP: CCSM4 base (RCP4.5)  */
 		if( (fp_c2[0]=fopen("./data/tas_CCSM4_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No tas_CCSM4_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_CCSM4_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No pr_CCSM4_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_CCSM4_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No huss_CCSM4_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_CCSM4_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No rsds_CCSM4_197001-210012_rcp45_base.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3091){  /*  GEOMIP: CCSM4 G3  */
+	}else if(SCENARIO_ID == 3091){  /*  GEOMIP: CCSM4 G3  */
 		if( (fp_c2[0]=fopen("./data/tas_CCSM4_197001-210012_rcp45_g3s.txt","rt"))==NULL ){  printf("No tas_CCSM4_197001-210012_rcp45_g3s.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_CCSM4_197001-210012_rcp45_g3s.txt","rt"))==NULL ){  printf("No pr_CCSM4_197001-210012_rcp45_g3s.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_CCSM4_197001-210012_rcp45_g3s.txt","rt"))==NULL ){  printf("No huss_CCSM4_197001-210012_rcp45_g3s.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_CCSM4_197001-210012_rcp45_g3s.txt","rt"))==NULL ){  printf("No rsds_CCSM4_197001-210012_rcp45_g3s.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3100){  /*  GEOMIP: NorESM1-M base (RCP4.5)  */
+	}else if(SCENARIO_ID == 3100){  /*  GEOMIP: NorESM1-M base (RCP4.5)  */
 		if( (fp_c2[0]=fopen("./data/tas_NorESM1-M_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No tas_NorESM1-M_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_NorESM1-M_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No pr_NorESM1-M_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_NorESM1-M_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No huss_NorESM1-M_197001-210012_rcp45_base.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_NorESM1-M_197001-210012_rcp45_base.txt","rt"))==NULL ){  printf("No rsds_NorESM1-M_197001-210012_rcp45_base.txt\n");  exit(1); }
-	}else if(SCENARIO_ID==3101){  /*  GEOMIP: NorESM1-M G4cdnc  */
+	}else if(SCENARIO_ID == 3101){  /*  GEOMIP: NorESM1-M G4cdnc  */
 		if( (fp_c2[0]=fopen("./data/tas_NorESM1-M_197001-210012_rcp45_g4cdnc.txt","rt"))==NULL ){  printf("No tas_NorESM1-M_197001-210012_rcp45_g4cdnc.txt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_NorESM1-M_197001-210012_rcp45_g4cdnc.txt","rt"))==NULL ){  printf("No pr_NorESM1-M_197001-210012_rcp45_g4cdnc.txt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_NorESM1-M_197001-210012_rcp45_g4cdnc.txt","rt"))==NULL ){  printf("No huss_NorESM1-M_197001-210012_rcp45_g4cdnc.txt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_NorESM1-M_197001-210012_rcp45_g4cdnc.txt","rt"))==NULL ){  printf("No rsds_NorESM1-M_197001-210012_rcp45_g4cdnc.txt\n");  exit(1); }
 	}
     
-    if(SCENARIO_ID==4011){  /*  PLUME: GFDL-ESM2M RCP4.5  */
+    if(SCENARIO_ID == 4011){  /*  PLUME: GFDL-ESM2M RCP4.5  */
 		if( (fp_c2[0]=fopen("./data/tas_bced_1960_1999_gfdl-esm2m_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No tas_bced_1960_1999_gfdl-esm2m_rcp4p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_bced_1960_1999_gfdl-esm2m_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No pr_bced_1960_1999_gfdl-esm2m_rcp4p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/hurs_gfdl-esm2m_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No hurs_gfdl-esm2m_rcp4p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_bced_1960_1999_gfdl-esm2m_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No rsds_bced_1960_1999_gfdl-esm2m_rcp4p5_2006-2099.flt\n");  exit(1); }
-	}else if(SCENARIO_ID==4012){  /*  PLUME: IPSL-CM5A-LR RCP8.5  */
+	}else if(SCENARIO_ID == 4012){  /*  PLUME: IPSL-CM5A-LR RCP8.5  */
 		if( (fp_c2[0]=fopen("./data/tas_bced_1960_1999_gfdl-esm2m_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No tas_bced_1960_1999_gfdl-esm2m_rcp8p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_bced_1960_1999_gfdl-esm2m_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No pr_bced_1960_1999_gfdl-esm2m_rcp8p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/hurs_gfdl-esm2m_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No hurs_gfdl-esm2m_rcp8p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_bced_1960_1999_gfdl-esm2m_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No rsds_bced_1960_1999_gfdl-esm2m_rcp8p5_2006-2099.flt\n");  exit(1); }
 	}
-    if(SCENARIO_ID==4021){  /*  PLUME: IPSL-CM5A-LR RCP4.5  */
+    if(SCENARIO_ID == 4021){  /*  PLUME: IPSL-CM5A-LR RCP4.5  */
 		if( (fp_c2[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No tas_bced_1960_1999_ipsl-cm5a-lr_rcp4p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_bced_1960_1999_ipsl-cm5a-lr_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No pr_bced_1960_1999_ipsl-cm5a-lr_rcp4p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/hurs_ipsl-cm5a-lr_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No hurs_ipsl-cm5a-lr_rcp4p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_bced_1960_1999_ipsl-cm5a-lr_rcp4p5_2006-2099.flt","rt"))==NULL ){  printf("No rsds_bced_1960_1999_ipsl-cm5a-lr_rcp4p5_2006-2099.flt\n");  exit(1); }
-	}else if(SCENARIO_ID==4022){  /*  PLUME: IPSL-CM5A-LR RCP8.5  */
+	}else if(SCENARIO_ID == 4022){  /*  PLUME: IPSL-CM5A-LR RCP8.5  */
 		if( (fp_c2[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No tas_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No pr_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/hurs_ipsl-cm5a-lr_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No hurs_ipsl-cm5a-lr_rcp8p5_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt","rt"))==NULL ){  printf("No rsds_bced_1960_1999_ipsl-cm5a-lr_rcp8p5_2006-2099.flt\n");  exit(1); }
-	}else if(SCENARIO_ID==4023){  /*  PLUME: IPSL-CM5A-LR RCP2.6  */
+	}else if(SCENARIO_ID == 4023){  /*  PLUME: IPSL-CM5A-LR RCP2.6  */
 		if( (fp_c2[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_rcp2p6_2006-2099.flt","rt"))==NULL ){  printf("No tas_bced_1960_1999_ipsl-cm5a-lr_rcp2p6_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_bced_1960_1999_ipsl-cm5a-lr_rcp2p6_2006-2099.flt","rt"))==NULL ){  printf("No pr_bced_1960_1999_ipsl-cm5a-lr_rcp2p6_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/hurs_ipsl-cm5a-lr_rcp2p6_2006-2099.flt","rt"))==NULL ){  printf("No hurs_ipsl-cm5a-lr_rcp2p6_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_bced_1960_1999_ipsl-cm5a-lr_rcp2p6_2006-2099.flt","rt"))==NULL ){  printf("No rsds_bced_1960_1999_ipsl-cm5a-lr_rcp2p6_2006-2099.flt\n");  exit(1); }
-	}else if(SCENARIO_ID==4024){  /*  PLUME: IPSL-CM5A-LR RCP6.0  */
+	}else if(SCENARIO_ID == 4024){  /*  PLUME: IPSL-CM5A-LR RCP6.0  */
 		if( (fp_c2[0]=fopen("./data/tas_bced_1960_1999_ipsl-cm5a-lr_rcp6p0_2006-2099.flt","rt"))==NULL ){  printf("No tas_bced_1960_1999_ipsl-cm5a-lr_rcp6p0_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_bced_1960_1999_ipsl-cm5a-lr_rcp6p0_2006-2099.flt","rt"))==NULL ){  printf("No pr_bced_1960_1999_ipsl-cm5a-lr_rcp6p0_2006-2099.flt\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/hurs_ipsl-cm5a-lr_rcp6p0_2006-2099.flt","rt"))==NULL ){  printf("No hurs_ipsl-cm5a-lr_rcp6p0_2006-2099.flt\n");  exit(1); }

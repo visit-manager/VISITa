@@ -38,7 +38,7 @@ void growthperiod(
 		}
 	}
 	if(grid->tmp_sfc[grid->m]>5.0){
-		pchar->gdd += grid->tmp_sfc[grid->m]*MDN[grid->m];
+		pchar->gdd += grid->tmp_sfc[grid->m] * MDN[grid->m];
 	}	
 	pchar->mgdd[grid->m] = pchar->gdd;
 	

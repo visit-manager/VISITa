@@ -74,9 +74,9 @@ double f_top_rad(
 	
 	ge = 2.0 * PI / 365.0 * doy[grid->m];
 	
-	aa = -0.399912*cos(ge) + 0.070257*sin(ge);
-	bb = -0.006758*cos(2.0*ge) + 0.000907*sin(2.0*ge);
-	cc = -0.002697*cos(3.0*ge) + 0.00148*sin(3.0*ge);
+	aa = -0.399912*cos(ge) + 0.070257 * sin(ge);
+	bb = -0.006758*cos(2.0 * ge) + 0.000907 * sin(2.0 * ge);
+	cc = -0.002697*cos(3.0 * ge) + 0.00148 * sin(3.0 * ge);
 	dlt = (0.006918 + aa + bb + cc);
 	
 	/** relative distance between the sun and the earth **/
@@ -561,7 +561,7 @@ void f_net_rad(
     }
     fff = (fff<0.99)?fff:0.99;
     fff = (fff>0.01)?fff:0.01;
-	rad_net_p = (1.0 - fff)*(1.0 - ddd1)*grid->gl_rad[grid->m] - net_long*(1.0 - ddd2);
+	rad_net_p = (1.0 - fff)*(1.0 - ddd1) * grid->gl_rad[grid->m] - net_long * (1.0 - ddd2);
 	rad_net_p = (rad_net_p>=0.0)?rad_net_p:0.0;
 	loct->rad_net_p[grid->m] = rad_net_p;
 	

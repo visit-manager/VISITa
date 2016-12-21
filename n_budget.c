@@ -104,7 +104,7 @@ void n_budget(
 						+ (flux->soil).n_nitrif[grid->m]
                         - (flux->soil).n_immbl_no3[grid->m]
 						- (flux->plant).uptake_no3[grid->m]
-						- (flux->soil).d_n2o_dnt_ngas[grid->m]*28.0/44.0
+						- (flux->soil).d_n2o_dnt_ngas[grid->m] * 28.0/44.0
 						- (flux->soil).d_n2_ngas[grid->m]
 						- (flux->soil).n_leach[grid->m];
 	if((mass->soil).n_no3 < 0.0){
@@ -119,7 +119,7 @@ void n_budget(
 						- (flux->soil).n_immbl_nh4[grid->m]
 						- (flux->plant).uptake_nh4[grid->m]
 						- (flux->soil).n_nitrif[grid->m]
-						- (flux->soil).d_n2o_ntr_ngas[grid->m]*28.0/44.0
+						- (flux->soil).d_n2o_ntr_ngas[grid->m] * 28.0/44.0
 						- (flux->soil).n_nh3vlt[grid->m];
 	if((mass->soil).n_nh4 < 0.0){
 		(mass->soil).n_nh4 = 0.0;

@@ -16,7 +16,7 @@ void n_fertilizer_in(
 	struct Loct *loct
 ){
     long nyear;
-	double fert_input;
+	double fert_input, fin_base, f_adj;
 	extern double MDN[12];
 	
 	/* National average: from FAOSTAT, 2002-2003 */
@@ -248,7 +248,7 @@ void n_fertilizer_in(
 	}
 	
     /* kg N / ha / month */
-	loct->n_frtlz_in = fert_input * MDN[grid->m] / 365.0;
+	loct->n_frtlz_in = fin_base = fert_input * MDN[grid->m] / 365.0;
     
     /* biofuel experiments: 2015/09/03 revised by A.Ito */
     if(BIOFUEL_RUN == 1){
@@ -305,6 +305,42 @@ void n_fertilizer_in(
         } */
         
     }else{
+        loct->n_manure_in = 0.0;
+    }
+    
+    f_adj = 1.0;
+    /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
+    if(EX_NFERT >= 1){
+        if(grid->est_nfert[0] > 0.0){
+            f_adj = fert_input / grid->est_nfert[0];
+        }else{
+            f_adj = 0.0;
+        }
+    
+        /* kg N / ha / month */
+        if(grid->niny >= 2010 && grid->niny <= 2099){
+            
+            /* loct->n_frtlz_in = f_adj * grid->est_nfert[grid->niny - 2010] * MDN[grid->m] / 365.0; */
+            
+            f_adj = (grid->est_nfert[grid->niny - 2010] - grid->est_nfert[0]) * MDN[grid->m] / 365.0;
+            loct->n_frtlz_in = fin_base + f_adj;
+            
+            if(loct->n_frtlz_in < 0.0){
+                loct->n_frtlz_in = 0.0;
+            }
+        }else{
+            loct->n_frtlz_in = fin_base;
+        }
+        
+        /* lower boundary */
+        if(loct->n_frtlz_in < 0.1*fin_base ){
+            loct->n_frtlz_in = 0.1*fin_base;
+        }
+        /* upper boundary */
+        if(loct->n_frtlz_in > 10.0*fin_base ){
+            loct->n_frtlz_in = 10.0*fin_base;
+        }
+        
         loct->n_manure_in = 0.0;
     }
     
