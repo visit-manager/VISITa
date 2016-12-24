@@ -49,9 +49,9 @@ void soil_processes(
 		mass->doc = 0.0;
 	}else{
 		/* soil respiration of litter layer */
-		flux->rl[grid->m] = nn*frl(grid, loct, schar, mass);
+		flux->rl[grid->m] = nn * frl(grid, loct, schar, mass);
 		/* soil respiration of mineral soil and humus */
-		flux->rh[grid->m] = nn*frh(grid, loct, schar, mass);
+		flux->rh[grid->m] = nn * frh(grid, loct, schar, mass);
 		/* soil decomposition from upper litter to lower mineral soil */
 		flux->sf[grid->m] = fsf(grid, schar, flux);
 		/* stable carbon isotope */

@@ -35,9 +35,10 @@ void cal_historical(
 	/* LOOP to dynamic stage *******************************************************/
 	for(g=0; g<PD_HIST; g++){
 		/* AD1901 - 2002 / 2008 / 2009 */
-        /* ISIMIP: 1950-2099 */
+        /* ISIMIP1: 1950-2099 */
         /* GEOMIP: 1901-2005 */
         /* ISIMIP2 (hist): 1901-2010 */
+        /* ISIMIP2b (1.5/2.0): 1661-2099/2299 */
         /* NMIP: 1901-2012 => 1861–2015 */
 		
 		/* simulation year ********************/
@@ -97,8 +98,8 @@ void cal_historical(
 
         if(grid->simy < BGY_CLIM){
             grid->climy = BGY_CLIM + g%20;
-        }else if(grid->simy > (BGY_CLIM + DL_CRU - 1)){
-            grid->climy = (BGY_CLIM + DL_CRU - 1);
+        }else if(grid->simy > (BGY_CLIM + DL_HCLIM - 1)){
+            grid->climy = (BGY_CLIM + DL_HCLIM - 1);
         }
         
         /* for considering leap years: 2014/09/29 by A.Ito */
@@ -128,10 +129,17 @@ void cal_historical(
 		}else{
             f_fert = 1.0;
         }
-        /* NMIP input: 2015/11/19 by A.Ito */
-        if(NMIP_RUN >= 1){
-            n_fertilizer_in(grid, loct);
-            f_fert = 1.0; /* driven by data */
+        
+        if((echar->soil).v_type == 2){
+        
+            /* NMIP input: 2015/11/19 by A.Ito */
+            if(NMIP_RUN >= 1 || EX_NFERT >= 1 || ISIMIP_RUN == 4){
+                n_fertilizer_in(grid, loct);
+                f_fert = 1.0; /* driven by data */
+            }
+        }else{
+            loct->n_frtlz_in = 0.0;
+            loct->n_manure_in = 0.0;
         }
 		
 		/* seasonal (monthly) loop ************************************************/
@@ -170,8 +178,8 @@ void cal_historical(
 			
 			/* soil processes *****************/
 			soil_processes(grid, loct, &(echar->soil), &(mass->soil), &(flux->soil));
-			flux->sr[f] = loct->c3ptn[f]*((flux->c3).rrm[f]+(flux->c3).rrg[f]) + 
-							loct->c4ptn[f]*((flux->c4).rrm[f]+(flux->c4).rrg[f]) + 
+			flux->sr[f] = loct->c3ptn[f]*((flux->c3).rrm[f] + (flux->c3).rrg[f]) +
+							loct->c4ptn[f]*((flux->c4).rrm[f] + (flux->c4).rrg[f]) + 
 							(flux->soil).hr[f];
 			
 			if(NECB_DOC == 1 && (EX_CCPL != 7 && EX_CCPL != 8)){
@@ -185,7 +193,7 @@ void cal_historical(
 			/* NH4:NO3 ratio is based on inventories */
             /* this routine may not be activated when using REPLACE_OLSON_CROP option */
 			if((echar->soil).v_type == 1){
-			   if(grid->veg_olson==29 || grid->veg_olson==30 || 
+			   if(grid->veg_olson == 29 || grid->veg_olson == 30 ||
 											 grid->veg_olson==31 || grid->veg_olson==32){
 				   (flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
 				   (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
@@ -602,11 +610,11 @@ void cal_historical(
 		grid->f_crop_p = grid->f_crop_con;
 		grid->f_pasture_p = grid->f_pasture_con;
 		
-		if(grid->simy>=1950 && grid->simy<1960){
+		if(grid->simy >= 1950 && grid->simy < 1960){
 			g_ersn[0][grid->row][grid->col] += flux->erod_carbon /10.0;
 			g_luc[0][grid->row][grid->col] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) /10.0;
 		}
-		if(grid->simy>=1990 && grid->simy<2000){
+		if(grid->simy >= 1990 && grid->simy < 2000){
 			g_ersn[1][grid->row][grid->col] += flux->erod_carbon /10.0;
 			g_luc[1][grid->row][grid->col] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) /10.0;
 		}

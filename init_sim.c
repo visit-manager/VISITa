@@ -44,14 +44,14 @@ void f_init_sim(
         fpi = fopen("./data/albedo_cmip_5deg_2.flt","rb");
         
         for(f=0;f<12;f++){
-            fread(rdat,sizeof(float),36*72, fpi);
+            fread(rdat, sizeof(float), 36*72, fpi);
             for(g=0;g<36;g++){
                 for(h=0;h<72;h++){
                     grid->albedo_av[f][g][h] = rdat[g*72+h];
                 }
             }
             
-            fread(rdat,sizeof(float),36*72, fpi);
+            fread(rdat, sizeof(float), 36*72, fpi);
             for(g=0;g<36;g++){
                 for(h=0;h<72;h++){
                     if(rdat[g*72+h]>0.0 && rdat[g*72+h]<1.0){
@@ -63,14 +63,14 @@ void f_init_sim(
                 }
             }
             
-            fread(rdat,sizeof(float),36*72, fpi);
+            fread(rdat, sizeof(float), 36*72, fpi);
             for(g=0;g<36;g++){
                 for(h=0;h<72;h++){
                     grid->albedo_max[f][g][h] = rdat[g*72+h];
                 }
             }
             
-            fread(rdat,sizeof(float),36*72, fpi);
+            fread(rdat, sizeof(float), 36*72, fpi);
             for(g=0;g<36;g++){
                 for(h=0;h<72;h++){
                     grid->albedo_min[f][g][h] = rdat[g*72+h];
@@ -184,6 +184,25 @@ void f_init_sim(
             fscanf(fpi,"%lf", &aco2_a2[f]);
             fscanf(fpi,"%lf", &ach4_a2[f]);
             fscanf(fpi,"%lf", &an2o_a2[f]);
+        }
+        fclose(fpi);
+    }else if(ISIMIP_RUN == 4){
+        if((fpi = fopen("./data/co2_isimip2b.txt","rt"))==NULL){
+            printf("No co2_isimip2b.txt\n");
+            exit(1);
+        }
+        for(f=0;f<DL_AGHG;f++){
+            fscanf(fpi,"%ld", &year);
+            fscanf(fpi,"%lf", &aco2_b1[f]); /* piControl */
+            fscanf(fpi,"%lf", &aco2_b2[f]); /* piControl + historical + rcp2.6 */
+            fscanf(fpi,"%lf", &aco2_a1[f]); /* piControl + historical + rcp6.0 */
+            
+            /* rcp26 CH4 */
+            fscanf(fpi,"%lf", &ach4_b1[f]);
+            ach4_b2[f] = ach4_a1[f] = ach4_a2[f] = ach4_b1[f];
+            /* rcp26 N2O */
+            fscanf(fpi,"%lf", &an2o_b1[f]);
+            an2o_b2[f] = an2o_a1[f] = an2o_a2[f] = an2o_b1[f];
         }
         fclose(fpi);
     }

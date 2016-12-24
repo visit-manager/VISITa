@@ -126,8 +126,8 @@ void f_voc_emit_guenther97(
     }
 
 	/* foliar density, g d.m. C / m2   *********************/
-	foliar_dens = ((mass->c3).fol*loct->c3ptn[grid->m] 
-				+ (mass->c4).fol*loct->c4ptn[grid->m]) * 100.0 * dmTc;
+	foliar_dens = ((mass->c3).fol * loct->c3ptn[grid->m] 
+				+ (mass->c4).fol * loct->c4ptn[grid->m]) * 100.0 * dmTc;
 	
 	/* light factor *********************/
 	parday = grid->par[grid->m];

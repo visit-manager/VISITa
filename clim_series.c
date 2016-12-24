@@ -18,12 +18,12 @@ extern short TEMP_GC;
 void set_hist_clim(
 	struct Grid *grid
 ){
-    short offset, impex_t, impex_p;
+    short offset = 0, impex_t, impex_p;
 	long h, cru_te;
 	double tmp_var, pre_var, tcdc_var;
 	
 	/* last year of CRU-data calculation */
-	cru_te = DL_CRU + (BGY_CLIM-1);
+	cru_te = DL_HCLIM + (BGY_CLIM-1);
     
     impex_t = impex_p = -999;
     
@@ -56,7 +56,7 @@ void set_hist_clim(
                 
            }
         }else{
-            /* extention by NCEP/NCAR data */
+            /* extention by NCEP/NCAR reanalysis data */
             /* 2003-2008: extrapolation using NCEP/NCAR data: 2009/01/05 by A.Ito */
             /* 2006-2009: extrapolation using NCEP/NCAR data: 2010/01/04 by A.Ito */
             /* 2006-2010: extrapolation using NCEP/NCAR data: 2011/03/XX by A.Ito */
@@ -220,6 +220,27 @@ void set_hist_clim(
             grid->tcdc_clm[h] = grid->hist_cld[grid->climy - BGY_CLIM + offset][h];
             grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM + offset][h];  
         }
+    }else if(ISIMIP_RUN == 4){
+        
+        /* ISI-MIP2b climate data: 2016/12/24 by A.Ito */
+        if(grid->phase == 0){
+            offset = 0;
+        }else if(grid->phase == 1 || grid->phase == 2){
+            /* skip spin-up data */
+            offset = 0;
+        }
+        
+        for(h=0;h<ASTEP;h++){
+            grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h] 
+                            + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
+            grid->tmp_2m[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h];
+            grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h] 
+                            + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
+            grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h] 
+                            + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
+            grid->tcdc_clm[h] = grid->hist_cld[grid->climy - BGY_CLIM + offset][h];
+            grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM + offset][h];  
+        }
     }
 	
 	/* perturbation for uncertainty analysis: 2010/05/17 (A.Ito) ***************/
@@ -324,7 +345,7 @@ void set_gcm_clim(
             pre_var = 0.0;
         }else{
             if(CC_P == 1){
-                pre_var = grid->proj_prec[grid->climy-FDY_GCM][h][grid->gcm_row][grid->gcm_col] - 
+                pre_var = grid->proj_prec[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col] -
                             grid->proj_prec_b[h][grid->gcm_row][grid->gcm_col];
             }else{
                 pre_var = 0.0;
@@ -359,7 +380,7 @@ void set_gcm_clim(
             alt = (grid->topo>=0.0)?grid->topo:0.0; 
             
             /* atmospheric pressure, hPa */
-            apres = 1013.25*exp(-1.0 * (28.964*0.001) * GAC * alt/(UGC * (grid->tmp_2m[h]+  ZAT)));
+            apres = 1013.25*exp(-1.0 * (28.964*0.001) * GAC * alt/(UGC * (grid->tmp_2m[h] + ZAT)));
             
             if(CC_H == 1){
                 rvap = grid->proj_hum[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col] / apres;

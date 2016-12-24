@@ -67,7 +67,7 @@ double frcm(
 	double rfmt0, t0, rfm, ft;
 	
 	t0 = 15.0; /* specific rate, at 15 deg C */
-	rfmt0 = veg->rmc/1000.0; 
+	rfmt0 = veg->rmc / 1000.0; 
 	
 	/* temperature dependence, exponential */
 	ft = exp(log(veg->qTc[grid->m]) / 10.0*(grid->tmp_sfc[grid->m] - t0));

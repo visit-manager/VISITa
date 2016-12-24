@@ -435,7 +435,9 @@ void f_output_result(
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_fertin[f]);
             fprintf(fp_o[1],"%.3lf ", (flux->soil).n_manurein[f]);
             fprintf(fp_o[1],"%.3lf ", loct->depo_no3[f]);
-            fprintf(fp_o[1],"%.3lf ", loct->depo_nh4[f]);  
+            fprintf(fp_o[1],"%.3lf ", loct->depo_nh4[f]);
+            
+            fprintf(fp_o[1],"%.3lf ", 100.0 * (flux->soil).f_n2o_ntr_ngas[f]);
             
             /* monitor: 2010/03/24 by A.Ito **************/
             /* fprintf(fp_o[1],"%.3lf ", loct->xx1[f]); 

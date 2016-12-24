@@ -12,8 +12,10 @@
 #include"setting.h"
 
 /* #define IFILEN 59 */  /* normal case */
-#define IFILEN 89 /* */  /* normal case */
+#define IFILEN 90 /* */  /* normal case */
 #define OFILEN 9
+
+short Flag_FOPEN[IFILEN];
 
 extern short DF97;
 extern double MDN[ASTEP];
@@ -234,8 +236,8 @@ long f_basin_id_trip(long original);
 long region_giorgi(double lat, double lon);
 void f_read_chaser_ndepo(FILE *fp_s[IFILEN],struct Grid  *grid);
 
-void f_parameter_perturbation(long iseed,struct Grid *grid,struct Loct *loct,struct Echar *echar,
-	double f_prtrb[20]);
+void f_parameter_perturbation(long iseed,struct Grid *grid,struct Loct *loct,
+	struct Echar *echar,double f_prtrb[20]);
 
 /* MASS & PARAMETERS INITIALIZATION *****************************/
 void initVS(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux, 

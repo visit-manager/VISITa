@@ -721,65 +721,65 @@ void set_gcm_index(
 		case 2048:	strcpy(s_case,"ISIN60N_"); break;
         
         /* ICARUS: 2016/08/15 by A.Ito */
-        case 2101:	strcpy(s_case,"ICGFS1R26_"); break;
-        case 2102:	strcpy(s_case,"ICGFS1R45_"); break;
-        case 2103:	strcpy(s_case,"ICGFS2R26_"); break;
-        case 2104:	strcpy(s_case,"ICGFS2R45_"); break;
-        case 2105:	strcpy(s_case,"ICGFS2R60_"); break;
-        case 2106:	strcpy(s_case,"ICGFS3R45_"); break;
-        case 2107:	strcpy(s_case,"ICGFS3R60_"); break;
-        case 2108:	strcpy(s_case,"ICGFS4R26_"); break;
-        case 2109:	strcpy(s_case,"ICGFS4R45_"); break;
-        case 2110:	strcpy(s_case,"ICGFS5R26_"); break;
-        case 2111:	strcpy(s_case,"ICGFS5R45_"); break;
+        case 2201:	strcpy(s_case,"ICGFS1R26_"); break;
+        case 2202:	strcpy(s_case,"ICGFS1R45_"); break;
+        case 2203:	strcpy(s_case,"ICGFS2R26_"); break;
+        case 2204:	strcpy(s_case,"ICGFS2R45_"); break;
+        case 2205:	strcpy(s_case,"ICGFS2R60_"); break;
+        case 2206:	strcpy(s_case,"ICGFS3R45_"); break;
+        case 2207:	strcpy(s_case,"ICGFS3R60_"); break;
+        case 2208:	strcpy(s_case,"ICGFS4R26_"); break;
+        case 2209:	strcpy(s_case,"ICGFS4R45_"); break;
+        case 2210:	strcpy(s_case,"ICGFS5R26_"); break;
+        case 2211:	strcpy(s_case,"ICGFS5R45_"); break;
         
-        case 2201:	strcpy(s_case,"ICHDS1R26_"); break;
-        case 2202:	strcpy(s_case,"ICHDS1R45_"); break;
-        case 2203:	strcpy(s_case,"ICHDS2R26_"); break;
-        case 2204:	strcpy(s_case,"ICHDS2R45_"); break;
-        case 2205:	strcpy(s_case,"ICHDS2R60_"); break;
-        case 2206:	strcpy(s_case,"ICHDS3R45_"); break;
-        case 2207:	strcpy(s_case,"ICHDS3R60_"); break;
-        case 2208:	strcpy(s_case,"ICHDS4R26_"); break;
-        case 2209:	strcpy(s_case,"ICHDS4R45_"); break;
-        case 2210:	strcpy(s_case,"ICHDS5R26_"); break;
-        case 2211:	strcpy(s_case,"ICHDS5R45_"); break;
+        case 2221:	strcpy(s_case,"ICHDS1R26_"); break;
+        case 2222:	strcpy(s_case,"ICHDS1R45_"); break;
+        case 2223:	strcpy(s_case,"ICHDS2R26_"); break;
+        case 2224:	strcpy(s_case,"ICHDS2R45_"); break;
+        case 2225:	strcpy(s_case,"ICHDS2R60_"); break;
+        case 2226:	strcpy(s_case,"ICHDS3R45_"); break;
+        case 2227:	strcpy(s_case,"ICHDS3R60_"); break;
+        case 2228:	strcpy(s_case,"ICHDS4R26_"); break;
+        case 2229:	strcpy(s_case,"ICHDS4R45_"); break;
+        case 2230:	strcpy(s_case,"ICHDS5R26_"); break;
+        case 2231:	strcpy(s_case,"ICHDS5R45_"); break;
         
-        case 2301:	strcpy(s_case,"ICIPS1R26_"); break;
-        case 2302:	strcpy(s_case,"ICIPS1R45_"); break;
-        case 2303:	strcpy(s_case,"ICIPS2R26_"); break;
-        case 2304:	strcpy(s_case,"ICIPS2R45_"); break;
-        case 2305:	strcpy(s_case,"ICIPS2R60_"); break;
-        case 2306:	strcpy(s_case,"ICIPS3R45_"); break;
-        case 2307:	strcpy(s_case,"ICIPS3R60_"); break;
-        case 2308:	strcpy(s_case,"ICIPS4R26_"); break;
-        case 2309:	strcpy(s_case,"ICIPS4R45_"); break;
-        case 2310:	strcpy(s_case,"ICIPS5R26_"); break;
-        case 2311:	strcpy(s_case,"ICIPS5R45_"); break;
+        case 2241:	strcpy(s_case,"ICIPS1R26_"); break;
+        case 2242:	strcpy(s_case,"ICIPS1R45_"); break;
+        case 2243:	strcpy(s_case,"ICIPS2R26_"); break;
+        case 2244:	strcpy(s_case,"ICIPS2R45_"); break;
+        case 2245:	strcpy(s_case,"ICIPS2R60_"); break;
+        case 2246:	strcpy(s_case,"ICIPS3R45_"); break;
+        case 2247:	strcpy(s_case,"ICIPS3R60_"); break;
+        case 2248:	strcpy(s_case,"ICIPS4R26_"); break;
+        case 2249:	strcpy(s_case,"ICIPS4R45_"); break;
+        case 2250:	strcpy(s_case,"ICIPS5R26_"); break;
+        case 2251:	strcpy(s_case,"ICIPS5R45_"); break;
         
-        case 2401:	strcpy(s_case,"ICMIS1R26_"); break;
-        case 2402:	strcpy(s_case,"ICMIS1R45_"); break;
-        case 2403:	strcpy(s_case,"ICMIS2R26_"); break;
-        case 2404:	strcpy(s_case,"ICMIS2R45_"); break;
-        case 2405:	strcpy(s_case,"ICMIS2R60_"); break;
-        case 2406:	strcpy(s_case,"ICMIS3R45_"); break;
-        case 2407:	strcpy(s_case,"ICMIS3R60_"); break;
-        case 2408:	strcpy(s_case,"ICMIS4R26_"); break;
-        case 2409:	strcpy(s_case,"ICMIS4R45_"); break;
-        case 2410:	strcpy(s_case,"ICMIS5R26_"); break;
-        case 2411:	strcpy(s_case,"ICMIS5R45_"); break;
+        case 2261:	strcpy(s_case,"ICMIS1R26_"); break;
+        case 2262:	strcpy(s_case,"ICMIS1R45_"); break;
+        case 2263:	strcpy(s_case,"ICMIS2R26_"); break;
+        case 2264:	strcpy(s_case,"ICMIS2R45_"); break;
+        case 2265:	strcpy(s_case,"ICMIS2R60_"); break;
+        case 2266:	strcpy(s_case,"ICMIS3R45_"); break;
+        case 2267:	strcpy(s_case,"ICMIS3R60_"); break;
+        case 2268:	strcpy(s_case,"ICMIS4R26_"); break;
+        case 2269:	strcpy(s_case,"ICMIS4R45_"); break;
+        case 2270:	strcpy(s_case,"ICMIS5R26_"); break;
+        case 2271:	strcpy(s_case,"ICMIS5R45_"); break;
  
-        case 2501:	strcpy(s_case,"ICNOS1R26_"); break;
-        case 2502:	strcpy(s_case,"ICNOS1R45_"); break;
-        case 2503:	strcpy(s_case,"ICNOS2R26_"); break;
-        case 2504:	strcpy(s_case,"ICNOS2R45_"); break;
-        case 2505:	strcpy(s_case,"ICNOS2R60_"); break;
-        case 2506:	strcpy(s_case,"ICNOS3R45_"); break;
-        case 2507:	strcpy(s_case,"ICNOS3R60_"); break;
-        case 2508:	strcpy(s_case,"ICNOS4R26_"); break;
-        case 2509:	strcpy(s_case,"ICNOS4R45_"); break;
-        case 2510:	strcpy(s_case,"ICNOS5R26_"); break;
-        case 2511:	strcpy(s_case,"ICNOS5R45_"); break;
+        case 2281:	strcpy(s_case,"ICNOS1R26_"); break;
+        case 2282:	strcpy(s_case,"ICNOS1R45_"); break;
+        case 2283:	strcpy(s_case,"ICNOS2R26_"); break;
+        case 2284:	strcpy(s_case,"ICNOS2R45_"); break;
+        case 2285:	strcpy(s_case,"ICNOS2R60_"); break;
+        case 2286:	strcpy(s_case,"ICNOS3R45_"); break;
+        case 2287:	strcpy(s_case,"ICNOS3R60_"); break;
+        case 2288:	strcpy(s_case,"ICNOS4R26_"); break;
+        case 2289:	strcpy(s_case,"ICNOS4R45_"); break;
+        case 2290:	strcpy(s_case,"ICNOS5R26_"); break;
+        case 2291:	strcpy(s_case,"ICNOS5R45_"); break;
 
         case 2601:	strcpy(s_case,"ICS1_"); break;
         case 2602:	strcpy(s_case,"ICS2_"); break;
@@ -841,6 +841,17 @@ void set_gcm_index(
 		case 5002:	strcpy(s_case,"ISIM2H2_"); break;
 		case 5003:	strcpy(s_case,"ISIM2H3_"); break;
 		case 5004:	strcpy(s_case,"ISIM2H4_"); break;
+        
+        /* ISI-MIP2b: 2016/12/22 by A.Ito */
+		case 5010:	strcpy(s_case,"ISM2bGP_"); break;
+		case 5011:	strcpy(s_case,"ISM2bGR26_"); break;
+		case 5012:	strcpy(s_case,"ISM2bGR60_"); break;
+		case 5020:	strcpy(s_case,"ISM2bIP_"); break;
+		case 5021:	strcpy(s_case,"ISM2bIR26_"); break;
+		case 5022:	strcpy(s_case,"ISM2bIR60_"); break;
+		case 5030:	strcpy(s_case,"ISM2bMP_"); break;
+		case 5031:	strcpy(s_case,"ISM2bMR26_"); break;
+		case 5032:	strcpy(s_case,"ISM2bMR60_"); break;
         
         /* IMPRESSIONS *********/
 		case 6001:	strcpy(s_case,"IMP_M03M60_"); break;
@@ -1082,45 +1093,45 @@ long region_giorgi(
 	}else if((lat>-28.0&&lat<-11.0)&&(lon>110.0&&lon<155.0)){
 		reg = 2;
 	}else if((lat>-20.0&&lat<12.0)&&(lon>-82.0&&lon<-34.0)){
-		reg=3;
+		reg = 3;
 	}else if((lat>-56.0&&lat<-20.0)&&(lon>-76.0&&lon<-40.0)){
-		reg=4;
+		reg = 4;
 	}else if((lat>10.0&&lat<30.0)&&(lon>-116.0&&lon<-83.0)){
-		reg=5;
+		reg = 5;
 	}else if((lat>30.0&&lat<60.0)&&(lon>-130.0&&lon<-103.0)){
-		reg=6;
+		reg = 6;
 	}else if((lat>30.0&&lat<50.0)&&(lon>-103.0&&lon<-85.0)){
-		reg=7;
+		reg = 7;
 	}else if((lat>25.0&&lat<50.0)&&(lon>-85.0&&lon<-60.0)){
-		reg=8;
+		reg = 8;
 	}else if((lat>60.0&&lat<72.0)&&(lon>-170.0&&lon<-103.0)){
-		reg=9;
+		reg = 9;
 	}else if((lat>50.0&&lat<85.0)&&(lon>-103.0&&lon<-10.0)){
-		reg=10;
+		reg = 10;
 	}else if((lat>30.0&&lat<48.0)&&(lon>-10.0&&lon<40.0)){
-		reg=11;
+		reg = 11;
 	}else if((lat>48.0&&lat<75.0)&&(lon>-10.0&&lon<40.0)){
-		reg=12;
+		reg = 12;
 	}else if((lat>-12.0&&lat<18.0)&&(lon>-20.0&&lon<22.0)){
-		reg=13;
+		reg = 13;
 	}else if((lat>-12.0&&lat<18.0)&&(lon>22.0&&lon<52.0)){
-		reg=14;
+		reg = 14;
 	}else if((lat>-35.0&&lat<-12.0)&&(lon>-10.0&&lon<52.0)){
 		reg=15;
 	}else if((lat>18.0&&lat<30.0)&&(lon>-20.0&&lon<65.0)){
 		reg=16;
 	}else if((lat>-11.0&&lat<20.0)&&(lon>95.0&&lon<155.0)){
-		reg=17;
+		reg = 17;
 	}else if((lat>20.0&&lat<50.0)&&(lon>100.0&&lon<145.0)){
-		reg=18;
+		reg = 18;
 	}else if((lat>5.0&&lat<30.0)&&(lon>65.0&&lon<100.0)){
-		reg=19;
+		reg = 19;
 	}else if((lat>30.0&&lat<50.0)&&(lon>40.0&&lon<75.0)){
-		reg=20;
+		reg = 20;
 	}else if((lat>30.0&&lat<50.0)&&(lon>75.0&&lon<100.0)){
-		reg=21;
+		reg = 21;
 	}else if((lat>50.0&&lat<70.0)&&(lon>40.0&&lon<180.0)){
-		reg=22;
+		reg = 22;
 	}
 	
 	return reg;

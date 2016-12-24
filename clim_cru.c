@@ -49,7 +49,7 @@ void read_cru_clim(
         fscanf(fp_c[0],"%ld", &kk[0]);
         if(kk[0]!=0){
             flag++;
-            for(h=0;h<DL_CRU;h++){
+            for(h=0;h<DL_HCLIM;h++){
                 for(g=0;g<ASTEP;g++){
                     fscanf(fp_c[0],"%lf", &data);
                     
@@ -62,7 +62,7 @@ void read_cru_clim(
         fscanf(fp_c[1],"%ld", &kk[1]);
         if(kk[1]!=0){
             flag++;
-            for(h=0;h<DL_CRU;h++){
+            for(h=0;h<DL_HCLIM;h++){
                 for(g=0;g<ASTEP;g++){
                     fscanf(fp_c[1],"%lf", &data);
                     
@@ -75,7 +75,7 @@ void read_cru_clim(
         fscanf(fp_c[2],"%ld", &kk[2]);
         if(kk[2]!=0){
             flag++;
-            for(h=0;h<DL_CRU;h++){
+            for(h=0;h<DL_HCLIM;h++){
                 for(g=0;g<ASTEP;g++){
                     fscanf(fp_c[2],"%lf", &data);
                     
@@ -88,7 +88,7 @@ void read_cru_clim(
         fscanf(fp_c[3],"%ld", &kk[3]);
         if(kk[3]!=0){
             flag++;
-            for(h=0;h<DL_CRU;h++){
+            for(h=0;h<DL_HCLIM;h++){
                 for(g=0;g<ASTEP;g++){
                     fscanf(fp_c[3],"%lf", &data);
                     
@@ -118,7 +118,7 @@ void read_cru_clim(
             /* unavailable CRU TS data, for example on ocean */
             grid->flag_histdata = 0;
         }
-    }else if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2 ||ISIMIP_RUN == 3){
+    }else if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2 ||ISIMIP_RUN == 3 ||ISIMIP_RUN == 4){
         
         /* ISI-MIP: 2012/06/27 by A.Ito ****************/
         /* also for ICARUS */
@@ -130,12 +130,18 @@ void read_cru_clim(
         /* 1901-1930-detrended: spi-up */
         /* 1901-2005:           historical */
         
-        /* ISI-MIP2: 2014/11/30 by A.Ito ****************/
+        /* ISI-MIP2.1a: 2014/11/30 by A.Ito ****************/
         /* 1901-1930-detrended: spi-up */
         /* 1901-2010:           historical */
 
+        /* ISI-MIP2.1b: 2016/12/22 by A.Ito ****************/
+        /* 1661-1860:           piControl */
+        /* 1861-2005:           historical */
+        /* 2006-2099:           projection */
+        /* 2100-2299:           extended projection */
+
         /* ait tempetaure, deg-C */
-        fread(r_isimip_data,sizeof(float),ASTEP*DL_ISIMIP, fp_c[0]);
+        fread(r_isimip_data, sizeof(float), ASTEP * DL_ISIMIP, fp_c[0]);
         avtas = 0.0;
         for(h=0;h<DL_ISIMIP;h++){
             for(g=0;g<ASTEP;g++){
@@ -150,7 +156,7 @@ void read_cru_clim(
         avpr = 0.0;
         for(h=0;h<DL_ISIMIP;h++){
             for(g=0;g<ASTEP;g++){
-                grid->hist_pre[h][g] = (double)r_isimip_data[h*ASTEP+g] * (double)MDN[g] *24.0*3600.0;
+                grid->hist_pre[h][g] = (double)r_isimip_data[h*ASTEP + g] * (double)MDN[g] *24.0*3600.0;
                 avpr += grid->hist_pre[h][g] / (double)DL_ISIMIP;
                 grid->hist_pre[h][g] = (grid->hist_pre[h][g]>0.0)?grid->hist_pre[h][g]:0.0;
             }
@@ -183,7 +189,7 @@ void read_cru_clim(
                         vps = (vps>=0.0)?vps:0.0;
                         
                         grid->hist_vap[h][g] = vps * (double)r_isimip_data[h*ASTEP+g] / 100.0;
-                    }else if(ISIMIP_RUN == 3){
+                    }else if(ISIMIP_RUN == 3 || ISIMIP_RUN == 4){
                         /* altitude */
                         alt = (grid->topo>=0.0)?grid->topo:0.0;
                         
@@ -191,7 +197,7 @@ void read_cru_clim(
                         apres = 1013.25*exp(-1.0*(28.964*0.001) * GAC * alt / (UGC*(grid->hist_tmp[h][g] + ZAT)));
 
                         /* vapour pressure, hPa */
-                        shum = (double)r_isimip_data[h*ASTEP+g];
+                        shum = (double)r_isimip_data[h*ASTEP + g];
                         if(shum < 0.0){
                             shum = 0.0;
                         }
@@ -253,7 +259,8 @@ void read_cru_clim(
         for(f=0;f<30;f++){
             for(g=0;g<ASTEP;g++){
                 /* ISI-MIP1: average of 1951–1980 (historial detrended) data */
-                /* ISI-MIP2: average of 1901–1930 (historial detrended) data */
+                /* ISI-MIP2.1a: average of 1901–1930 (historial detrended) data */
+                /* ISI-MIP2.1b: average of 1661–1690 (historial detrended) data */
                 grid->hist_cld_b[g] += grid->hist_cld[f][g] / 30.0;
                 grid->hist_pre_b[g] += grid->hist_pre[f][g] / 30.0;
                 grid->hist_vap_b[g] += grid->hist_vap[f][g] / 30.0;
@@ -289,7 +296,7 @@ void read_cru_clim(
         avpr = 0.0;
         for(h=0;h<DL_GCM;h++){
             for(g=0;g<ASTEP;g++){
-                grid->proj_prec[h][g][0][0] = (double)r_gcm_data[h*ASTEP+g] * (double)MDN[g] *24.0*3600.0;
+                grid->proj_prec[h][g][0][0] = (double)r_gcm_data[h*ASTEP + g] * (double)MDN[g] *24.0 * 3600.0;
                 grid->proj_prec[h][g][0][0] = (grid->proj_prec[h][g][0][0]>0.0)?grid->proj_prec[h][g][0][0]:0.0;
             }
         }

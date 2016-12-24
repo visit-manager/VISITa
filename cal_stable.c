@@ -72,25 +72,34 @@ void cal_spinup(
 	}else if(LANDUSE == 18){
 		grid->f_crop_p = grid->fcrop3_future[0];
 		grid->f_pasture_p = 0.0;
-	}
-    
-    if(LANDUSE == 17 || BIOFUEL_RUN >= 1){
+    }else if(LANDUSE == 17 || BIOFUEL_RUN >= 1){
 		grid->f_crop_p = grid->f_biofuel[0];
 		grid->f_pasture_p = grid->fpast_unh_hmnzed[2000-BGY_LUC];
+	}else if(LANDUSE == 19 || LANDUSE == 20 ||
+            LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+		grid->f_crop_p = grid->fcrop_unh_hmnzed[1989 - FDY_LUC];
+		grid->f_pasture_p = 0.0;
 	}
 	
     /* historical fertilizer */
     grid->niny = 1901;
-    if(NMIP_RUN >= 1){
+    if(NMIP_RUN >= 1 || ISIMIP_RUN == 4){
+        /* ISIMIP2b: 2016/12/24 by A.Ito */
         grid->niny = FDY_NINY;
 
 		grid->f_crop_p = grid->nmip_frcrop[0];
 		grid->f_pasture_p = 0.0;
     }
-    n_fertilizer_in(grid, loct);
+    if((echar->soil).v_type == 2){
+        n_fertilizer_in(grid, loct);
+    }else{
+        loct->n_frtlz_in = 0.0;
+        loct->n_manure_in = 0.0;
+    }
     
-    if(NMIP_RUN >= 1){
+    if(NMIP_RUN >= 1 || ISIMIP_RUN == 4){
         /* NMIP input: 2015/11/19 by A.Ito */
+        /* ISIMIP2b: 2016/12/24 by A.Ito */
         f_fert = 1.0; /* driven by data */
     }else{
         if(grid->rank_nat == 1){
@@ -109,7 +118,10 @@ void cal_spinup(
         grid->simy = 1949;
     }
     if(NMIP_RUN >= 1){
-        grid->simy = FSY_HIST -1;
+        grid->simy = FSY_HIST -1; /* 1860 */
+    }
+    if(ISIMIP_RUN == 4){
+        grid->simy = FSY_HIST; /* 1661 */
     }
 	
 	/* LOOP to stable stage ************************************************/
@@ -142,11 +154,21 @@ void cal_spinup(
             ann_nep = 10.0;
             grid->climy = grid->lucy = nn%30 +1901;
 			set_hist_clim(grid);
+        }else if(ISIMIP_RUN == 4 && grid->flag_histdata == 1){
+            ann_nep = 10.0;
+            grid->climy = grid->lucy = nn%30 +1661;
+			set_hist_clim(grid);
         }
         
         /* NMIP: 2015/11/19 by A.Ito **/
         /* updated: 2016/10/20 */
-        grid->niny = 1901;
+        if(ISIMIP_RUN == 1){
+            grid->niny = FSY_HIST-1;
+        }else if(ISIMIP_RUN == 4){
+            grid->niny = FSY_HIST;
+        }else{
+            grid->niny = 1901;
+        }
         
         if(NMIP_RUN >= 1){
             grid->climy = 1901;
@@ -157,6 +179,14 @@ void cal_spinup(
             n_fertilizer_in(grid, loct);
         }
 		
+        if((echar->soil).v_type == 2 && EX_NFERT >= 1){
+            n_fertilizer_in(grid, loct);
+            f_fert = 1.0; /* driven by data */
+        }else{
+            loct->n_frtlz_in = 0.0;
+            loct->n_manure_in = 0.0;
+        }
+
 		plantmass = ann_nep = 0.0;
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;
@@ -316,7 +346,7 @@ void cal_spinup(
             }else{  /*  if(nn>=term_time) */
                 break; /**** 3. stop by 2000 years ****/	
             }
-        }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3){
+        }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3 || ISIMIP_RUN == 4){
             /* spin-up 3000 years (30 x 100 times): 2012/07/02 by A.Ito */
             ann_nep = 10.0;
             if(nn == 3000){
@@ -359,7 +389,7 @@ void cal_spinup(
 			(flux->soil).ch4_wetland_wh_release[f] = 0.0;
 		}
 	}
-	if(CH4_WH==1 && grid->f_paddy>0.0 && loct->v_type == 2){
+	if(CH4_WH == 1 && grid->f_paddy>0.0 && loct->v_type == 2){
 		for(g=0;g<4;g++){
 			for(f=0;f<ASTEP;f++){
 				(flux->soil).ch4_paddy_wh_plant[f] = 0.0;
