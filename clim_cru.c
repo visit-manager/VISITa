@@ -176,10 +176,11 @@ void read_cru_clim(
             for(h=0;h<DL_ISIMIP;h++){
                 for(g=0;g<ASTEP;g++){
                 
-                    /* relative humidity to vapor pressure */
+                    /* input humidity to vapor pressure */
                     /* revided by A.Ito (2012/06/28) */
                     
                     if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2){
+                        /* relative humidity */
                         /* saturated water vapor pressure */
                         if(grid->hist_tmp[h][g] > 0.0){ /* at water surface */
                             vps = 6.1078*pow(10.0, (7.5 * grid->hist_tmp[h][g])/(237.3 + grid->hist_tmp[h][g]));
@@ -187,16 +188,17 @@ void read_cru_clim(
                             vps = 6.1078*pow(10.0, (9.5 * grid->hist_tmp[h][g])/(265.3 + grid->hist_tmp[h][g]));
                         }
                         vps = (vps>=0.0)?vps:0.0;
-                        
                         grid->hist_vap[h][g] = vps * (double)r_isimip_data[h*ASTEP+g] / 100.0;
+                        
                     }else if(ISIMIP_RUN == 3 || ISIMIP_RUN == 4){
+                        /* specific humidity */
                         /* altitude */
                         alt = (grid->topo>=0.0)?grid->topo:0.0;
                         
                         /* air pressure, hPa */
                         apres = 1013.25*exp(-1.0*(28.964*0.001) * GAC * alt / (UGC*(grid->hist_tmp[h][g] + ZAT)));
 
-                        /* vapour pressure, hPa */
+                        /* to vapour pressure, hPa */
                         shum = (double)r_isimip_data[h*ASTEP + g];
                         if(shum < 0.0){
                             shum = 0.0;
@@ -215,6 +217,7 @@ void read_cru_clim(
             }
         }
         
+        /* cloudiness for downward shortwave radiation */
         fread(r_isimip_data, sizeof(float), ASTEP*DL_ISIMIP, fp_c[3]);
         if(grid->flag_histdata == 1){
             
@@ -347,7 +350,7 @@ void read_cru_clim(
             }
         }
         
-        /**********************************************************/
+        /* baseline climatology ****************************************/
         for(f=0;f<30;f++){ /* 2006-2035 */
             for(g=0;g<ASTEP;g++){
                 for(h=0;h<GCM_R;h++){

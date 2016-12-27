@@ -121,7 +121,7 @@ void cal_spinup(
         grid->simy = FSY_HIST -1; /* 1860 */
     }
     if(ISIMIP_RUN == 4){
-        grid->simy = FSY_HIST; /* 1661 */
+        grid->simy = FSY_HIST - ; /* 1660 */
     }
 	
 	/* LOOP to stable stage ************************************************/
