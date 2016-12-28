@@ -68,6 +68,10 @@ int main(
 	FILE *fp_o1[OFILEN], *fp_o2[OFILEN];
 	FILE *fp_binout;
 	FILE *fp_setting;
+    
+    for(f=0;f<IFILEN;f++){
+        Flag_FOPEN[f] = 0;
+    }
 	
 	/* read configure (instead of arguments) by A.Ito (2009/09/01) ************/
 	if((fp_setting = fopen("setting.txt","rt")) == NULL){

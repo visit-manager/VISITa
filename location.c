@@ -268,7 +268,7 @@ void f_init_loct(
 	loct->m_m_pre = 0.24;
 	nn = 0; 
 	d_smc_a = 10.0;
-	while(d_smc_a>TERM_HYD){
+	while(d_smc_a > TERM_HYD){
 		d_smc_a = loct->sww;
 		for(h=0;h<ASTEP;h++){
 			grid->m = h;
@@ -283,7 +283,7 @@ void f_init_loct(
 		loct->time_hyd = nn; /* simulation time of carbon budget */
 		nn++;
 		
-		if(nn<6){
+		if(nn < 6){
 			d_smc_a = 10.0; /* at least 5 years */
 		}
 		if(nn > 50){
@@ -469,7 +469,7 @@ void f_dyn_loct(
 			/* spin-up */
 			loct->vp[grid->m] = grid->hist_vap_b[grid->m];
 		}else if(grid->phase == 1){
-			if(grid->climy < (BGY_CLIM + DL_CRU)){
+			if(grid->climy < (BGY_CLIM + DL_HCLIM)){
 				/* based on UEA/CRU or ISI-MIP data */
 				loct->vp[grid->m] = grid->hist_vap[grid->climy - BGY_CLIM + offset][grid->m];
 			}else{
@@ -557,10 +557,10 @@ void f_dyn_loct(
 	
 	loct->wfps[grid->m] = ((loct->m_vmc[grid->m]*100.0) / ((1.0 - grid->bulkdens/2.65)*100.0));
 	
-	if(loct->wfps[grid->m]>1.5){
+	if(loct->wfps[grid->m] > 1.5){
 		loct->wfps[grid->m] = 1.5;
 	}
-	if(loct->wfps[grid->m]<0.05){
+	if(loct->wfps[grid->m] < 0.05){
 		loct->wfps[grid->m] = 0.05;
 	}
 	/* soil moisture index */

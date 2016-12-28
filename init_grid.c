@@ -31,7 +31,7 @@ void f_init_grid(
 	double geo_prop, crit_tension;
 	double lat, lon, total, wetland, lake, paddy, ddummy;
     double nfert_m, nfert_r, nfert_sw, nfert_ww;
-    float rfdat[ASTEP];
+    float rfdat[ASTEP], is2bdat[DL_NMIP];
 	
 	/* grid latitudes of CSIRO AOGCM */
 	double csiro_lat[56]={	
@@ -118,7 +118,8 @@ void f_init_grid(
 	grid->gcm_col = 0;
     
 	/* AR3 ****************/
-	if(SCENARIO_ID==1 || SCENARIO_ID==2 || SCENARIO_ID==3 || SCENARIO_ID==4 || SCENARIO_ID==5 || SCENARIO_ID==6){ /* CCSR/NIES */
+	if(SCENARIO_ID==1 || SCENARIO_ID==2 || SCENARIO_ID==3 || SCENARIO_ID==4
+        || SCENARIO_ID==5 || SCENARIO_ID==6){ /* CCSR/NIES */
 		grid->gcm_row = grid->row/11.25;	
 		grid->gcm_col = grid->col/11.25;
 	}else if(SCENARIO_ID==11 || SCENARIO_ID==12 || SCENARIO_ID==13 || SCENARIO_ID==14 || SCENARIO_ID==15 ||
@@ -265,7 +266,8 @@ void f_init_grid(
 	}if(SCENARIO_ID==3020 || SCENARIO_ID==3021 || SCENARIO_ID==3022){ /* GEO-MIP GISS */
 		grid->gcm_row = grid->row/(360.0/(double)GCM_R);
 		grid->gcm_col = grid->col/(720.0/(double)GCM_C);
-	}if(SCENARIO_ID==3030 || SCENARIO_ID==3031 || SCENARIO_ID==3032 || SCENARIO_ID==3033 || SCENARIO_ID==3034 || SCENARIO_ID==3035){ /* GEO-MIP HadGEM */
+	}if(SCENARIO_ID==3030 || SCENARIO_ID==3031 || SCENARIO_ID==3032 || SCENARIO_ID==3033 ||
+            SCENARIO_ID==3034 || SCENARIO_ID==3035){ /* GEO-MIP HadGEM */
 		if(grid->lat>=89.379){
 			grid->gcm_row = 0;
 		}else if(grid->lat<=-89.379){
@@ -473,7 +475,7 @@ void f_init_grid(
 	/* set CRU TS3.0 *************** 2010/01/04 (A.Ito) ********/
 	/* New, M., D. Lister, et al. (2002). "A high-resolution data set of 
 	surface climate over global land areas." Climate Research 21: 1-25. */
-	for(h=0;h<DL_CRU;h++){
+	for(h=0;h<DL_HCLIM;h++){
 		for(g=0;g<ASTEP;g++){
 			grid->hist_cld[h][g] = grid->tcdc_clm_a[g];
 			grid->hist_pre[h][g] = grid->prate_sfc_a[g];
@@ -747,7 +749,7 @@ void f_init_grid(
 	}else{
 		/* default: data by U.Wisconsin SAGE (Leff et al.) */
 		fscanf(fp_s[22],"%lf", &paddy); 
-		if(paddy>0.0){
+		if(paddy > 0.0){
 			grid->f_paddy = paddy;
 			grid->f_paddy_b = paddy;
 		}else{
@@ -767,13 +769,27 @@ void f_init_grid(
 		grid->total_n_1m = 0.0;
 	}
 	
-	/* N deposition: Gallway & Dentener */
-    /* URL  daac.ornl.gov/CLIMATE/guides/global_N_deposition_maps.html */
-	fscanf(fp_s[25],"%lf", &lat); 
-	fscanf(fp_s[25],"%lf", &lon); 
-	fscanf(fp_s[25],"%lf", &grid->ndepo[0]); 
-	fscanf(fp_s[25],"%lf", &grid->ndepo[1]); 
-	fscanf(fp_s[25],"%lf", &grid->ndepo[2]); 
+    if(ISIMIP_RUN==4 && (SCENARIO_ID>=5010 && SCENARIO_ID<=5100)){
+        /* ISI-MIP2b: 2016/12/24 by A.Ito */
+        fread(is2bdat,sizeof(float),DL_AGHG, fp_s[25]);
+        for(e=0;e<DL_NMIP;e++){
+            grid->nmip_ndep_nh4[e] = is2bdat[e];
+        }
+        
+        fread(is2bdat,sizeof(float),DL_AGHG, fp_s[25]);
+        for(e=0;e<DL_NMIP;e++){
+            grid->nmip_ndep_noy[e] = is2bdat[e];
+        }
+        
+    }else{
+        /* N deposition: Gallway & Dentener */
+        /* URL  daac.ornl.gov/CLIMATE/guides/global_N_deposition_maps.html */
+        fscanf(fp_s[25],"%lf", &lat);
+        fscanf(fp_s[25],"%lf", &lon); 
+        fscanf(fp_s[25],"%lf", &grid->ndepo[0]); 
+        fscanf(fp_s[25],"%lf", &grid->ndepo[1]); 
+        fscanf(fp_s[25],"%lf", &grid->ndepo[2]);
+    }
 		
 	/* EOS-WEBSTER Land-use change data *********************/
 	/*
@@ -1049,6 +1065,7 @@ void f_init_grid(
         }
         
     }else if(LANDUSE == 14){
+        
         for(h=2001;h<=2004;h++){
             fscanf(fp_s[78],"%lf", &ddummy);
         }
@@ -1266,40 +1283,58 @@ void f_init_grid(
         grid->glbalbedo[e] = rfdat[e];
     }
     
-    /* Bio Fuel scenario: 2015/08/21 by A.Ito ***********/
-    for(e=0;e<DL_BF;e++){
-        fscanf(fp_s[87],"%lf", &grid->f_biofuel[e]);
+    if(ISIMIP_RUN == 4){
+        /* ISI-MIP2b: 2016/12/24 by A.Ito */
         
-        if(grid->f_biofuel[e] < 0.0){
-            grid->f_biofuel[e] = 0.0;
+        fread(is2bdat,sizeof(float),DL_NMIP, fp_s[87]);
+        for(e=0;e<DL_NMIP;e++){
+            grid->nmip_frcrop[e] = is2bdat[e];
+        }
+    }else{
+        /* Bio Fuel scenario: 2015/08/21 by A.Ito ***********/
+        for(e=0;e<DL_BF;e++){
+            fscanf(fp_s[87],"%lf", &grid->f_biofuel[e]);
+            
+            if(grid->f_biofuel[e] < 0.0){
+                grid->f_biofuel[e] = 0.0;
+            }
         }
     }
     
-    /* NMIP input: 2015/11/19 by A.Ito *************/
-    for(e=0;e<DL_NMIP;e++){
+    if(ISIMIP_RUN == 4){
+        fread(is2bdat,sizeof(float),DL_NMIP, fp_s[88]);
+        for(e=0;e<DL_NMIP;e++){
+            /* kg N /ha / yr */
+            grid->nmip_nfert[e] = is2bdat[e];
+        }
         
-        /* crop fraction */
-        fscanf(fp_s[88],"%lf", &grid->nmip_frcrop[e]);
-        if(grid->nmip_frcrop[e] < 0.0){
-            grid->nmip_frcrop[e] = 0.0;
-        }
+    }else{
+        /* NMIP input: 2015/11/19 by A.Ito *************/
+        for(e=0;e<DL_NMIP;e++){
+            
+            /* crop fraction */
+            fscanf(fp_s[88],"%lf", &grid->nmip_frcrop[e]);
+            if(grid->nmip_frcrop[e] < 0.0){
+                grid->nmip_frcrop[e] = 0.0;
+            }
 
-        /* kg N/ha/yr */
-        fscanf(fp_s[88],"%lf", &grid->nmip_nfert[e]);
-        if(grid->nmip_nfert[e] < 0.0){
-            grid->nmip_nfert[e] = 0.0;
-        }
-        fscanf(fp_s[88],"%lf", &grid->nmip_ndep_noy[e]);
-        if(grid->nmip_ndep_noy[e] < 0.0){
-            grid->nmip_ndep_noy[e] = 0.0;
-        }
-        fscanf(fp_s[88],"%lf", &grid->nmip_ndep_nh4[e]);
-        if(grid->nmip_ndep_nh4[e] < 0.0){
-            grid->nmip_ndep_nh4[e] = 0.0;
-        }
-        fscanf(fp_s[88],"%lf", &grid->nmip_manure[e]);
-        if(grid->nmip_manure[e] < 0.0){
-            grid->nmip_manure[e] = 0.0;
+            /* kg N/ha/yr */
+            fscanf(fp_s[88],"%lf", &grid->nmip_nfert[e]);
+            if(grid->nmip_nfert[e] < 0.0){
+                grid->nmip_nfert[e] = 0.0;
+            }
+            fscanf(fp_s[88],"%lf", &grid->nmip_ndep_noy[e]);
+            if(grid->nmip_ndep_noy[e] < 0.0){
+                grid->nmip_ndep_noy[e] = 0.0;
+            }
+            fscanf(fp_s[88],"%lf", &grid->nmip_ndep_nh4[e]);
+            if(grid->nmip_ndep_nh4[e] < 0.0){
+                grid->nmip_ndep_nh4[e] = 0.0;
+            }
+            fscanf(fp_s[88],"%lf", &grid->nmip_manure[e]);
+            if(grid->nmip_manure[e] < 0.0){
+                grid->nmip_manure[e] = 0.0;
+            }
         }
     }
     

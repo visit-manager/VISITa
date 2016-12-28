@@ -186,6 +186,25 @@ void f_init_sim(
             fscanf(fpi,"%lf", &an2o_a2[f]);
         }
         fclose(fpi);
+    }else if(ISIMIP_RUN == 4){
+        if((fpi = fopen("./data/co2_isimip2b.txt","rt"))==NULL){
+            printf("No co2_isimip2b.txt\n");
+            exit(1);
+        }
+        for(f=0;f<DL_AGHG;f++){
+            fscanf(fpi,"%ld", &year);
+            fscanf(fpi,"%lf", &aco2_b1[f]); /* piControl */
+            fscanf(fpi,"%lf", &aco2_b2[f]); /* piControl + historical + rcp2.6 */
+            fscanf(fpi,"%lf", &aco2_a1[f]); /* piControl + historical + rcp6.0 */
+            
+            /* rcp26 CH4 */
+            fscanf(fpi,"%lf", &ach4_b1[f]);
+            ach4_b2[f] = ach4_a1[f] = ach4_a2[f] = ach4_b1[f];
+            /* rcp26 N2O */
+            fscanf(fpi,"%lf", &an2o_b1[f]);
+            an2o_b2[f] = an2o_a1[f] = an2o_a2[f] = an2o_b1[f];
+        }
+        fclose(fpi);
     }
 	
 	/* global analysis initialization ********************************/

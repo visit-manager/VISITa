@@ -31,6 +31,18 @@ void cal_historical(
 	
 	(echar->soil).rl = (echar->soil).rl0;
 	(echar->soil).rh = (echar->soil).rh0;
+    
+    /* all deforestation and regrowth: 2016/12/28 by A.Ito */
+    if(EX_DEFOREST==4 && (mass->soil).v_type == 1){
+        
+        mass_luc = 0.95* ((mass->c3).fol + (mass->c3).stm + (mass->c3).rot);
+        
+        (mass->soil).ltr += mass_luc;
+        
+        (mass->c3).fol *= 0.05;
+        (mass->c3).stm *= 0.05;
+        (mass->c3).rot *= 0.05;
+    }
 	
 	/* LOOP to dynamic stage *******************************************************/
 	for(g=0; g<PD_HIST; g++){
@@ -38,6 +50,7 @@ void cal_historical(
         /* ISIMIP1: 1950-2099 */
         /* GEOMIP: 1901-2005 */
         /* ISIMIP2 (hist): 1901-2010 */
+        /* ISIMIP2b (1.5/2.0): 1661-2299 (2099) */
         /* NMIP: 1901-2012 => 1861–2015 */
 		
 		/* simulation year ********************/
@@ -97,8 +110,8 @@ void cal_historical(
 
         if(grid->simy < BGY_CLIM){
             grid->climy = BGY_CLIM + g%20;
-        }else if(grid->simy > (BGY_CLIM + DL_CRU - 1)){
-            grid->climy = (BGY_CLIM + DL_CRU - 1);
+        }else if(grid->simy > (BGY_CLIM + DL_HCLIM - 1)){
+            grid->climy = (BGY_CLIM + DL_HCLIM - 1);
         }
         
         /* for considering leap years: 2014/09/29 by A.Ito */
@@ -130,13 +143,9 @@ void cal_historical(
         }
         
         if((echar->soil).v_type == 2){
+        
             /* NMIP input: 2015/11/19 by A.Ito */
-            if(NMIP_RUN >= 1){
-                n_fertilizer_in(grid, loct);
-                f_fert = 1.0; /* driven by data */
-            }
-
-            if(EX_NFERT >= 1){
+            if(NMIP_RUN >= 1 || EX_NFERT >= 1 || ISIMIP_RUN == 4){
                 n_fertilizer_in(grid, loct);
                 f_fert = 1.0; /* driven by data */
             }
@@ -197,7 +206,7 @@ void cal_historical(
             /* this routine may not be activated when using REPLACE_OLSON_CROP option */
 			if((echar->soil).v_type == 1){
 			   if(grid->veg_olson == 29 || grid->veg_olson == 30 ||
-											 grid->veg_olson==31 || grid->veg_olson==32){
+                            grid->veg_olson==31 || grid->veg_olson==32){
 				   (flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
 				   (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
 				   (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
@@ -613,11 +622,11 @@ void cal_historical(
 		grid->f_crop_p = grid->f_crop_con;
 		grid->f_pasture_p = grid->f_pasture_con;
 		
-		if(grid->simy>=1950 && grid->simy<1960){
+		if(grid->simy >= 1950 && grid->simy < 1960){
 			g_ersn[0][grid->row][grid->col] += flux->erod_carbon /10.0;
 			g_luc[0][grid->row][grid->col] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) /10.0;
 		}
-		if(grid->simy>=1990 && grid->simy<2000){
+		if(grid->simy >= 1990 && grid->simy < 2000){
 			g_ersn[1][grid->row][grid->col] += flux->erod_carbon /10.0;
 			g_luc[1][grid->row][grid->col] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) /10.0;
 		}

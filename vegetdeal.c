@@ -842,6 +842,17 @@ void set_gcm_index(
 		case 5003:	strcpy(s_case,"ISIM2H3_"); break;
 		case 5004:	strcpy(s_case,"ISIM2H4_"); break;
         
+        /* ISI-MIP2b: 2016/12/22 by A.Ito */
+		case 5010:	strcpy(s_case,"ISM2bGP_"); break;
+		case 5011:	strcpy(s_case,"ISM2bGR26_"); break;
+		case 5012:	strcpy(s_case,"ISM2bGR60_"); break;
+		case 5020:	strcpy(s_case,"ISM2bIP_"); break;
+		case 5021:	strcpy(s_case,"ISM2bIR26_"); break;
+		case 5022:	strcpy(s_case,"ISM2bIR60_"); break;
+		case 5030:	strcpy(s_case,"ISM2bMP_"); break;
+		case 5031:	strcpy(s_case,"ISM2bMR26_"); break;
+		case 5032:	strcpy(s_case,"ISM2bMR60_"); break;
+        
         /* IMPRESSIONS *********/
 		case 6001:	strcpy(s_case,"IMP_M03M60_"); break;
 		case 6002:	strcpy(s_case,"IMP_M02M60_"); break;

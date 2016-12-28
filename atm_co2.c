@@ -51,7 +51,8 @@ void f_co2_trend(
             
             inc = 0.0;
         }
-    }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3 || GEOMIP_RUN == 1){
+    }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3 || ISIMIP_RUN == 4
+            || GEOMIP_RUN == 1){
         /** ISI-MIP or GeoMIP or ICARUS runs **/
         switch(CO2S){
             case 1:
