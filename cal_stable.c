@@ -121,7 +121,7 @@ void cal_spinup(
         grid->simy = FSY_HIST -1; /* 1860 */
     }
     if(ISIMIP_RUN == 4){
-        grid->simy = FSY_HIST - ; /* 1660 */
+        grid->simy = FSY_HIST - 1; /* 1660 */
     }
 	
 	/* LOOP to stable stage ************************************************/
@@ -156,7 +156,7 @@ void cal_spinup(
 			set_hist_clim(grid);
         }else if(ISIMIP_RUN == 4 && grid->flag_histdata == 1){
             ann_nep = 10.0;
-            grid->climy = grid->lucy = nn%30 +1661;
+            grid->climy = grid->lucy = nn%30 + FSY_HIST;
 			set_hist_clim(grid);
         }
         

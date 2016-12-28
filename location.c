@@ -557,10 +557,10 @@ void f_dyn_loct(
 	
 	loct->wfps[grid->m] = ((loct->m_vmc[grid->m]*100.0) / ((1.0 - grid->bulkdens/2.65)*100.0));
 	
-	if(loct->wfps[grid->m]>1.5){
+	if(loct->wfps[grid->m] > 1.5){
 		loct->wfps[grid->m] = 1.5;
 	}
-	if(loct->wfps[grid->m]<0.05){
+	if(loct->wfps[grid->m] < 0.05){
 		loct->wfps[grid->m] = 0.05;
 	}
 	/* soil moisture index */

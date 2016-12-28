@@ -50,13 +50,13 @@ double f_day_length(
 	double ho, sr, ss, dl, ha;
 	
 	/** hour-angle when the sun-angle equals to zero **/
-	ho = -sin(grid->lat*dTr) * sin(grid->sl_dec[grid->m]*dTr)/
-			cos(grid->lat*dTr) / cos(grid->sl_dec[grid->m]*dTr);
+	ho = -sin(grid->lat * dTr) * sin(grid->sl_dec[grid->m] * dTr)/
+			cos(grid->lat * dTr) / cos(grid->sl_dec[grid->m] * dTr);
 	ho = (ho<=1.0)?ho:1.0; ho=(ho>=-1.0)?ho:-1.0;
 	ha = acos(ho);
 	
-	sr = 12.0-ha*rTd/15.0; /** time of sunrise **/
-	ss = 12.0+ha*rTd/15.0; /** time of sunset **/
+	sr = 12.0 - ha*rTd/15.0; /** time of sunrise **/
+	ss = 12.0 + ha*rTd/15.0; /** time of sunset **/
 	dl = ss-sr; /** day length **/
 	
 	return (dl);
