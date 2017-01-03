@@ -264,7 +264,7 @@ int main(
 	
 	/* read climate scenario 2010/01/04 (A.Ito) ***********/
 	if(NCEP_RUN == 1){
-		printf("Reading NCEP climate data...");
+		printf("Reading NCEP/NCAR reanalysis climate data...");
 		read_ncep_clim(&grid);
 	}
 	if(GCM_RUN == 1){
