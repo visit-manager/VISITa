@@ -68,6 +68,10 @@ int main(
 	FILE *fp_o1[OFILEN], *fp_o2[OFILEN];
 	FILE *fp_binout;
 	FILE *fp_setting;
+    
+    for(f=0;f<IFILEN;f++){
+        Flag_FOPEN[f] = 0;
+    }
 	
 	/* read configure (instead of arguments) by A.Ito (2009/09/01) ************/
 	if((fp_setting = fopen("setting.txt","rt")) == NULL){
@@ -78,8 +82,8 @@ int main(
 	/* config: 1 experiomental scenario ID number (see setting.h) */
 	fscanf(fp_setting,"%s %ld", s_config, &l_config);
 	printf("config  1: %s %ld\n", s_config, l_config);
-	GCM_ID = l_config;
-	   if(GCM_ID>=0 && GCM_ID<=9999){
+	SCENARIO_ID = l_config;
+	   if(SCENARIO_ID>=0 && SCENARIO_ID<=9999){
 	   ;
 	}else{
 	   printf("Bad scenario ID specified !!!\n");
@@ -141,14 +145,14 @@ int main(
 		strcat(s_date, "E");
 		strcat(s_date, num);
 		strcat(s_date, "_");
-        for(f=0;f<NPERT;f++){
+        for(f=0;f<N_PARA_ENS;f++){
             f_pert[f] = 0.0;
         }
     }else{
         if(PARAM_PTB >= 1){
-            srand(rpert + clock()%1000);
+            srand((unsigned int)(rpert + clock()%1000));
             rand();
-            for(f=0;f<NPERT;f++){
+            for(f=0;f<N_PARA_ENS;f++){
                 f_pert[f] = 0.0;
                 for(g=0;g<12;g++){
                     f_pert[f] += (double)rand() / (double)RAND_MAX;
@@ -181,7 +185,7 @@ int main(
             strcat(s_date, num);
             strcat(s_date, "_");
         }else{
-            for(f=0;f<NPERT;f++){
+            for(f=0;f<N_PARA_ENS;f++){
                 f_pert[f] = 0.0;
             }
         }
@@ -260,7 +264,7 @@ int main(
 	
 	/* read climate scenario 2010/01/04 (A.Ito) ***********/
 	if(NCEP_RUN == 1){
-		printf("Reading NCEP climate data...");
+		printf("Reading NCEP/NCAR reanalysis climate data...");
 		read_ncep_clim(&grid);
 	}
 	if(GCM_RUN == 1){
@@ -307,9 +311,12 @@ int main(
 			
 			printf("%3ld %3ld: %7.2lf %7.2lf: %2ld %2ld %2ld: %1ld\n", 
 				grid.row, grid.col, grid.lat, grid.lon, grid.veg_olson, grid.veg_sage, 
-				grid.veg_crop, grid.flag_histdata); /* */
+				grid.type_crop, grid.flag_histdata); /* */
+            
+            /****/
+            /* printf("*************%lf %lf %lf\n", grid.f_biofuel[0], grid.f_biofuel[10], grid.f_biofuel[50]); */
 			
-			/* head records of output files */
+			/* header information of output files */
 			for(h=0;h<OFILEN;h++){
 				if(CALC_OLSON == 1){
 					fprintf(fp_o1[h],"%ld %ld %ld %ld %ld\n",
@@ -321,7 +328,7 @@ int main(
 				if(CALC_CROP == 1){
 					/* modified: 2011/02/04 (A.Ito) */
 					fprintf(fp_o2[h],"%ld %ld %ld %ld %ld %ld\n",
-							grid.row, grid.col, grid.veg_olson, grid.veg_sage, grid.veg_crop, grid.flag_histdata);
+							grid.row, grid.col, grid.veg_olson, grid.veg_sage, grid.type_crop, grid.flag_histdata);
 					
 					fprintf(fp_o2[h],"%lf %lf %lf\n", 
 							grid.field_cap1, grid.field_cap2, grid.bulkdens);
@@ -412,7 +419,7 @@ int main(
                 
                     /* initialize location conditions ****/
                     f_init_loct(&grid, &loct_agr, &mass_agr, &flux_agr, &echar_agr);
-                
+                    
                     /* initialize stable carbon isotope ****/
                     f_init_c_isotpes(&grid, &flux_agr, &echar_agr, &mass_agr);
 
@@ -429,7 +436,7 @@ int main(
                     cal_historical(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2); 
 
                     /* future: 2001-2100 */
-                    if(GCM_RUN){
+                    if(GCM_RUN==1){
                         cal_projection(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
                     }
                     
@@ -527,7 +534,7 @@ int main(
 		fclose(fp_c[h]);
         
         /* revised 2015/8/12 by A.Ito */
-        if(GCM_RUN == 1 && GCM_ID >= 1){
+        if(GCM_RUN == 1 && SCENARIO_ID >= 1){
             fclose(fp_c2[h]);
         }
 	}

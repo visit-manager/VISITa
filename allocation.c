@@ -128,6 +128,9 @@ void reallocation_survival(
 	double aaa, bbb, ccc;
 	double ral_stf, ral_rtf;
 	
+    /* initial values */
+    ral_cap_stf = 0.03;
+    ral_cap_rtf = 0.03;
 	if(pchar->v_type == 1){
 		switch(grid->veg_olson){
 			case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: 
@@ -161,7 +164,10 @@ void reallocation_survival(
 				ral_cap_rtf = 0.12;
 				/* break; */
 		/* } */
-	}/* else if(pchar->v_type==3){
+	}else{
+        ral_cap_stf = 0.05;
+        ral_cap_rtf = 0.10;
+    }/* else if(pchar->v_type==3){
 		ral_cap_stf = 0.070;
 		ral_cap_rtf = 0.12;
 	} */

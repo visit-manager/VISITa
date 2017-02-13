@@ -12,12 +12,14 @@
 #include"setting.h"
 
 /* #define IFILEN 59 */  /* normal case */
-#define IFILEN 88 /* */  /* normal case */
+#define IFILEN 90 /* */  /* normal case */
 #define OFILEN 9
+
+short Flag_FOPEN[IFILEN];
 
 extern short DF97;
 extern double MDN[ASTEP];
-extern long GCM_ID, CO2S, GCM_R, GCM_C;
+extern long SCENARIO_ID, CO2S, GCM_R, GCM_C;
 extern long PARAM_PTB, PARAM_ENS;   /* added by A.Ito (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3;   /* added by A.Ito (2010/07/02) */
 extern long EX_SRM, EX_CCPL;
@@ -64,7 +66,10 @@ extern double h_n2o_d_emit_ngas[PD_SIM], h_n2o_n_emit_ngas[PD_SIM];
 extern double h_n2o_emit_ngas_agr[PD_SIM], h_n2o_emit_casa_agr[PD_SIM];
 extern double h_nh3_emit_agr[PD_SIM];
 extern double h_no3_leach[PD_SIM];
-extern double h_n_fertin[PD_SIM], h_n_depoin[PD_SIM]; /* added by A.Ito (2010/05/02) */
+extern double h_n_fertin[PD_SIM], h_n_manurein[PD_SIM], h_n_depoin[PD_SIM]; /* added by A.Ito (2010/05/02) */
+extern double h_n_mcrb[PD_SIM],h_n_no3[PD_SIM],h_n_nh4[PD_SIM]; /* 2016/06/23 by A.Ito */
+extern double h_n_cnpy[PD_SIM], h_n_strg[PD_SIM], h_n_lttr[PD_SIM], h_n_hums[PD_SIM];
+extern double h_n_immbl[PD_SIM],h_n_lmnrl[PD_SIM],h_n_hmnrl[PD_SIM],h_n_cabdn[PD_SIM],h_n_sabdn[PD_SIM],h_n_uptk[PD_SIM];
 
 extern double h_voc_isopr_g97[PD_SIM], h_voc_monotrp_g97[PD_SIM], h_voc_methanl_g97[PD_SIM];
 extern double h_voc_acetone_g97[PD_SIM], h_voc_actaldhd_g97[PD_SIM], h_voc_frmardhd_g97[PD_SIM];
@@ -85,7 +90,7 @@ extern double ci_h[PD_SIM], ci_h_d13c[PD_SIM], ci_h_d14c[PD_SIM];
 extern double hm_temp[PD_SIM][ASTEP], hm_prec[PD_SIM][ASTEP], hm_ch4_wh[PD_SIM][ASTEP], hm_inund[PD_SIM][ASTEP];
 
 /* monthly results **********/
-extern double m_ch4ox1[12], m_ch4ox2[12], m_ch4ox3[12];
+extern double m_ch4ox1[ASTEP], m_ch4ox2[12], m_ch4ox3[12];
 extern double m_bioburn_co2[12], m_bioburn_ch4[12], m_bioburn_co[12];
 extern double m_bioburn_nmhc[12], m_bioburn_oc[12], m_bioburn_bc[12];
 extern double m_gpp[ASTEP], m_npp[ASTEP], m_nep[ASTEP];
@@ -93,12 +98,14 @@ extern double m_ch4p_cao[ASTEP], m_ch4p_wh[ASTEP];
 
 /* vegetation (olson) results */
 extern double go_landarea, gs_landarea;
-extern double vo_area[34];
-extern double vo_gpp[34], vo_npp[34], vo_nep[34];
-extern double vo_lai[34], vo_fol[34], vo_stm[34], vo_rot[34], vo_ltr[34], vo_msl[34];
+extern double vo_area[NVEG_OLSON];
+extern double vo_gpp[NVEG_OLSON], vo_npp[NVEG_OLSON], vo_nep[NVEG_OLSON];
+extern double vo_lai[NVEG_OLSON], vo_fol[NVEG_OLSON], vo_stm[NVEG_OLSON], vo_rot[NVEG_OLSON], vo_ltr[NVEG_OLSON], vo_msl[NVEG_OLSON];
 extern double vs_area[16];
 extern double vs_gpp[16], vs_npp[16], vs_nep[16];
 extern double vs_lai[16], vs_fol[16], vs_stm[16], vs_rot[16], vs_ltr[16], vs_msl[16];
+
+extern double vo_n_cnpy[NVEG_OLSON], vo_n_strg[NVEG_OLSON], vo_n_mcrb[NVEG_OLSON], vo_n_ltr[NVEG_OLSON], vo_n_hms[NVEG_OLSON];
 
 extern float g_tmp[5][N_ROW][N_COL];
 extern float g_prc[5][N_ROW][N_COL];
@@ -186,6 +193,20 @@ extern double rh_hvst[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
 extern double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
 extern double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
 
+/* CHASER 2001 monthly, by A.Ito (2010/05/21) */
+extern double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
+extern double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
+extern double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
+extern double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
+
+/* CHASER4.0 monthly, by A.Ito (2014/11/19) */
+extern double	ndepo_chaser4_nhx_h[ASTEP][64][128];		/* NHx */
+extern double	ndepo_chaser4_noy_h[ASTEP][64][128];		/* NOy */
+extern double	ndepo_chaser4_ont_h[ASTEP][64][128];		/* Org NOx */
+extern double	ndepo_chaser4_nhx_p[ASTEP][64][128];		/* NHx */
+extern double	ndepo_chaser4_noy_p[ASTEP][64][128];		/* NOy */
+extern double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
+
 /* CLEARANCE *****************************************************/
 void f_clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 
 		   struct Mass *mass, struct Flux *flux);
@@ -215,8 +236,8 @@ long f_basin_id_trip(long original);
 long region_giorgi(double lat, double lon);
 void f_read_chaser_ndepo(FILE *fp_s[IFILEN],struct Grid  *grid);
 
-void f_parameter_perturbation(long iseed,struct Grid *grid,struct Loct *loct,struct Echar *echar,
-	double f_prtrb[20]);
+void f_parameter_perturbation(long iseed,struct Grid *grid,struct Loct *loct,
+	struct Echar *echar,double f_prtrb[20]);
 
 /* MASS & PARAMETERS INITIALIZATION *****************************/
 void initVS(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux, 
@@ -394,7 +415,7 @@ void ghg_flux_zero(long month, struct Flux *flux);
 void n_budget(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_n_deposit(struct Grid *grid, struct Loct *loct);
 void n_fertilizer_in(struct Grid *grid, struct Loct *loct);
-void f_biolfix(struct Grid *grid, struct Loct *loct, struct Flux *flux);
+void f_biolfix(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_n_uptake(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_n_abandon_salvage(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, 
 		struct Pmas *mass, struct Pflx *flux);

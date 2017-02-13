@@ -23,15 +23,15 @@ void f_init_clim(
 	
 	/* in 1950 :311 ppmv*/
 	/* in 1990 : 352.7 ppmv*/
-	grid->co2y = PIVOT_CO2Y; 
+	grid->co2y = BGY_CO2Y; 
 	if(CO2S == 7){
 		grid->co2y = 2081; /* in 2081 : 700 ppmv*/
 	}
     if(CC_CD == 5){
         grid->co2y = 2000;
     }
-	grid->climy = PIVOT_CLIMY;
-	grid->lucy = PIVOT_CLIMY;
+	grid->climy = BGY_CLIM;
+	grid->lucy = BGY_CLIM;
 
 	for(h=0;h<ASTEP;h++){
 		grid->m = h;
@@ -84,13 +84,13 @@ void f_init_clim(
         /* IMPRESSIONS IRS: 2015/07/17 by A.Ito */
         if(IMPRESSIONS_RUN == 1){
         
-            if(GCM_ID<6001 || GCM_ID>7000){
+            if(SCENARIO_ID<6001 || SCENARIO_ID>7000){
                 printf("BAD experimental ID\n");
                 exit(1);
             }
             
             /*******/
-            impex_t = (short)(GCM_ID%50);
+            impex_t = (short)(SCENARIO_ID%50);
             
             switch(impex_t){
                 case 1: tmp_var = -3.0; break;
@@ -117,7 +117,7 @@ void f_init_clim(
             grid->tmp200_soil[h] += tmp_var;
             
             /*******/
-            impex_p = (short)((GCM_ID - 6000)/50);
+            impex_p = (short)((SCENARIO_ID - 6000)/50);
             
             switch(impex_p){
                 case 0: pre_var = 0.4; break;
@@ -268,7 +268,7 @@ void f_init_loct(
 	loct->m_m_pre = 0.24;
 	nn = 0; 
 	d_smc_a = 10.0;
-	while(d_smc_a>TERM_HYD){
+	while(d_smc_a > TERM_HYD){
 		d_smc_a = loct->sww;
 		for(h=0;h<ASTEP;h++){
 			grid->m = h;
@@ -283,7 +283,7 @@ void f_init_loct(
 		loct->time_hyd = nn; /* simulation time of carbon budget */
 		nn++;
 		
-		if(nn<6){
+		if(nn < 6){
 			d_smc_a = 10.0; /* at least 5 years */
 		}
 		if(nn > 50){
@@ -448,7 +448,7 @@ void f_dyn_loct(
 	loct->r_aero[grid->m] = r_aero(grid);	 
 
 	/* initial soil CH4 concentration */
-	for(h=0;h<=(SOIL_LAYER+1);h++){
+	for(h=0;h<=(N_SLAYER+1);h++){
 		loct->prof_ch4[h] = ach4_a1[grid->co2y - 1750]/1000.0 
 			* loct->prsr[grid->m] / (UGC * (grid->tmp10_soil[grid->m] + ZAT));
 	}
@@ -469,12 +469,12 @@ void f_dyn_loct(
 			/* spin-up */
 			loct->vp[grid->m] = grid->hist_vap_b[grid->m];
 		}else if(grid->phase == 1){
-			if(grid->climy < (PIVOT_CLIMY + PD_HIST)){
+			if(grid->climy < (BGY_CLIM + DL_HCLIM)){
 				/* based on UEA/CRU or ISI-MIP data */
-				loct->vp[grid->m] = grid->hist_vap[grid->climy - PIVOT_CLIMY + offset][grid->m];
+				loct->vp[grid->m] = grid->hist_vap[grid->climy - BGY_CLIM + offset][grid->m];
 			}else{
 				/* based on NCEP/NCAR */
-				vpres_var = grid->ncep_vpres[grid->climy - PIVOT_NCEP][grid->m][grid->ncep_lat][grid->ncep_lon] 
+				vpres_var = grid->ncep_vpres[grid->climy - FDY_NCEP][grid->m][grid->ncep_lat][grid->ncep_lon] 
 								- grid->ncep_vpres_b[grid->m][grid->ncep_lat][grid->ncep_lon];
 				
 				loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;
@@ -484,13 +484,13 @@ void f_dyn_loct(
 			/* loct->vp[grid->m] = loct->prsr[grid->m]*grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]);  */
 			
 			/* revided by A.Ito (2009/08/17) */
-			vpres_var = grid->proj_hum[grid->climy - PIVOT_GCMY-1][grid->m][grid->gcm_row][grid->gcm_col] -
+			vpres_var = grid->proj_hum[grid->climy - FDY_GCM-1][grid->m][grid->gcm_row][grid->gcm_col] -
 							grid->proj_hum_b[grid->m][grid->gcm_row][grid->gcm_col];
 			
 			loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;
             
             if(ISIMIP_RUN == 2){
-                loct->vp[grid->m] = grid->proj_hum[grid->climy - PIVOT_GCMY][grid->m][0][0];
+                loct->vp[grid->m] = grid->proj_hum[grid->climy - FDY_GCM][grid->m][0][0];
             }
 		}
 		if(loct->vp[grid->m] < 0.0){
@@ -557,10 +557,10 @@ void f_dyn_loct(
 	
 	loct->wfps[grid->m] = ((loct->m_vmc[grid->m]*100.0) / ((1.0 - grid->bulkdens/2.65)*100.0));
 	
-	if(loct->wfps[grid->m]>1.5){
+	if(loct->wfps[grid->m] > 1.5){
 		loct->wfps[grid->m] = 1.5;
 	}
-	if(loct->wfps[grid->m]<0.05){
+	if(loct->wfps[grid->m] < 0.05){
 		loct->wfps[grid->m] = 0.05;
 	}
 	/* soil moisture index */

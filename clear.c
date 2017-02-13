@@ -87,16 +87,18 @@ void f_clear(
 	grid->f_erosion_c = 0.0;
 	grid->f_erosion_p = 0.0;
 	
-	for(f = 0;f<(SOIL_LAYER+2);f++){
+	for(f = 0;f<(N_SLAYER+2);f++){
 		loct->prof_ch4[f] = 0.0;
 	}
     
     grid->tmp_base_permaforst = 0.0;
     grid->tmp_soil_am = 0.0;
     
-    for(f=0;f<81;f++){
+    loct->n_frtlz_in = loct->n_manure_in = 0.0;
+    
+    /* for(f=0;f<DL_BF;f++){
         grid->f_biofuel[f] = 0.0;
-    }
+    } */
 }
 
 /* make plant fluxes vacant ***************************/
@@ -212,7 +214,8 @@ void ghg_flux_zero(
 	(flux->soil).d_n2o_dnt_ngas[month] = 0.0;			
 	(flux->soil).d_n2o_ngas[month] = 0.0;			
 	(flux->soil).d_n2_ngas[month] = 0.0;			
-	(flux->soil).d_no_casa[month] = 0.0;			
+	(flux->soil).d_n2o_ntr_ngas[month] = 0.0;
+	(flux->soil).d_no_casa[month] = 0.0;
 	(flux->soil).d_n2_casa[month] = 0.0;			
 	(flux->soil).d_n2o_casa[month] = 0.0;			
 	(flux->soil).n_nh3vlt[month] = 0.0;			
@@ -220,10 +223,12 @@ void ghg_flux_zero(
 	(flux->soil).n_minerlz_lttr[month] = 0.0;
 	(flux->soil).n_minerlz_hums[month] = 0.0;
 	(flux->soil).n_nitrif[month] = 0.0;
-	(flux->soil).n_immbl[month] = 0.0;
+	(flux->soil).n_immbl_no3[month] = 0.0;
+	(flux->soil).n_immbl_nh4[month] = 0.0;
 	(flux->soil).n_mcrb_abdn[month] = 0.0;
 	(flux->soil).doc_boyer[month] = 0.0;
 	(flux->soil).n_fertin[month] = 0.0;
+	(flux->soil).n_manurein[month] = 0.0;
 	
 	(flux->soil).ch4prod_wetland_cao[month] = 0.0;
 	(flux->soil).ch4oxy_wetland_cao[month] = 0.0;

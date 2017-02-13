@@ -81,9 +81,9 @@ void planting(
 	f_leaf_age(0, pchar, mass, 0.4);
 
 	/* litter */
-	flux->lf[grid->m] = nn*flf(grid, pchar, mass);
-	flux->lc[grid->m] = nn*flc(grid, pchar, mass);
-	flux->lr[grid->m] = nn*flr(grid, pchar, mass);
+	flux->lf[grid->m] = nn * flf(grid, pchar, mass);
+	flux->lc[grid->m] = nn * flc(grid, pchar, mass);
+	flux->lr[grid->m] = nn * flr(grid, pchar, mass);
 	/* stable carbon isotope */
 	flux->d13c_lf[grid->m] = mass->d13c_fol;
 	flux->d13c_lc[grid->m] = mass->d13c_stm;
@@ -108,10 +108,10 @@ void planting(
 	}
 
 	/* maintenance respirations */
-	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
-	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
-	flux->rrm[grid->m] = nn*frrm(grid, pchar, mass);
-	flux->arm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m]+flux->rrm[grid->m];
+	flux->rfm[grid->m] = nn * frfm(grid, pchar, mass);
+	flux->rcm[grid->m] = nn * frcm(grid, pchar, mass);
+	flux->rrm[grid->m] = nn * frrm(grid, pchar, mass);
+	flux->arm[grid->m] = flux->rfm[grid->m] + flux->rcm[grid->m] + flux->rrm[grid->m];
 	/* stable carbon isotope */
 	flux->d13c_rfm[grid->m] = mass->d13c_fol;
 	flux->d13c_rcm[grid->m] = mass->d13c_stm;
@@ -194,7 +194,7 @@ void harvesting(
 	mass->stm += (hvst_index * mass->stm);
 	mass->rot += (hvst_index * mass->rot);
 	
-	f_leaf_age(1, pchar, mass, hvst_index*mass->fol);
+	f_leaf_age(1, pchar, mass, hvst_index * mass->fol);
 
 	/* litter */
 	clear = 0.9 + hvst_index;
@@ -225,10 +225,10 @@ void harvesting(
 	}
 
 	/* maintenance respirations */
-	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
-	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
-	flux->rrm[grid->m] = nn*frrm(grid, pchar, mass);
-	flux->arm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m]+flux->rrm[grid->m];
+	flux->rfm[grid->m] = nn * frfm(grid, pchar, mass);
+	flux->rcm[grid->m] = nn * frcm(grid, pchar, mass);
+	flux->rrm[grid->m] = nn * frrm(grid, pchar, mass);
+	flux->arm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m] + flux->rrm[grid->m];
 	/* stable carbon isotope */
 	flux->d13c_rfm[grid->m] = mass->d13c_fol;
 	flux->d13c_rcm[grid->m] = mass->d13c_stm;
@@ -305,9 +305,9 @@ void interval(
 	nn = MDN[grid->m];
 
 	/* litter */
-	flux->lf[grid->m] = nn*flf(grid, pchar, mass);
-	flux->lc[grid->m] = nn*flc(grid, pchar, mass);
-	flux->lr[grid->m] = nn*flr(grid, pchar, mass);
+	flux->lf[grid->m] = nn * flf(grid, pchar, mass);
+	flux->lc[grid->m] = nn * flc(grid, pchar, mass);
+	flux->lr[grid->m] = nn * flr(grid, pchar, mass);
 	/* stable carbon isotope */
 	flux->d13c_lf[grid->m] = mass->d13c_fol;
 	flux->d13c_lc[grid->m] = mass->d13c_stm;
@@ -321,7 +321,7 @@ void interval(
 	f_leaf_age(1, pchar, mass, -flux->lf[grid->m]);
 
 	/* photosynthesis, gross primary production */
-	flux->gpp[grid->m] = nn*fgpp(grid, loct, pchar, mass);
+	flux->gpp[grid->m] = nn * fgpp(grid, loct, pchar, mass);
 	/* stable carbon isotope */
 	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m] - pchar->photo_13c_frac[grid->m];
 	
@@ -331,9 +331,9 @@ void interval(
 	}
 
 	/* maintenance respirations */
-	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
-	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
-	flux->rrm[grid->m] = nn*frrm(grid, pchar, mass);
+	flux->rfm[grid->m] = nn * frfm(grid, pchar, mass);
+	flux->rcm[grid->m] = nn * frcm(grid, pchar, mass);
+	flux->rrm[grid->m] = nn * frrm(grid, pchar, mass);
 	flux->arm[grid->m] = flux->rfm[grid->m] + flux->rcm[grid->m] + flux->rrm[grid->m];
 	/* stable carbon isotope */
 	flux->d13c_rfm[grid->m] = mass->d13c_fol;

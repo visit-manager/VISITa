@@ -50,13 +50,13 @@ double f_day_length(
 	double ho, sr, ss, dl, ha;
 	
 	/** hour-angle when the sun-angle equals to zero **/
-	ho = -sin(grid->lat*dTr) * sin(grid->sl_dec[grid->m]*dTr)/
-			cos(grid->lat*dTr) / cos(grid->sl_dec[grid->m]*dTr);
+	ho = -sin(grid->lat * dTr) * sin(grid->sl_dec[grid->m] * dTr)/
+			cos(grid->lat * dTr) / cos(grid->sl_dec[grid->m] * dTr);
 	ho = (ho<=1.0)?ho:1.0; ho=(ho>=-1.0)?ho:-1.0;
 	ha = acos(ho);
 	
-	sr = 12.0-ha*rTd/15.0; /** time of sunrise **/
-	ss = 12.0+ha*rTd/15.0; /** time of sunset **/
+	sr = 12.0 - ha*rTd/15.0; /** time of sunrise **/
+	ss = 12.0 + ha*rTd/15.0; /** time of sunset **/
 	dl = ss-sr; /** day length **/
 	
 	return (dl);
@@ -74,9 +74,9 @@ double f_top_rad(
 	
 	ge = 2.0 * PI / 365.0 * doy[grid->m];
 	
-	aa = -0.399912*cos(ge) + 0.070257*sin(ge);
-	bb = -0.006758*cos(2.0*ge) + 0.000907*sin(2.0*ge);
-	cc = -0.002697*cos(3.0*ge) + 0.00148*sin(3.0*ge);
+	aa = -0.399912*cos(ge) + 0.070257 * sin(ge);
+	bb = -0.006758*cos(2.0 * ge) + 0.000907 * sin(2.0 * ge);
+	cc = -0.002697*cos(3.0 * ge) + 0.00148 * sin(3.0 * ge);
 	dlt = (0.006918 + aa + bb + cc);
 	
 	/** relative distance between the sun and the earth **/
@@ -104,7 +104,7 @@ double f_top_rad(
     
     /* experiment for SRM by reflector */
     /* added: 2014/07/06 by A.Ito     */
-    /* if(GCM_ID == 3012 || GCM_ID == 3033 || GCM_ID == 3091){
+    /* if(SCENARIO_ID == 3012 || SCENARIO_ID == 3033 || SCENARIO_ID == 3091){
         if(grid->climy >= 2020){
             gg -= ((double)grid->climy-2020.0) * 4.5/50.0;
         }
@@ -343,7 +343,7 @@ void f_net_rad(
 ){
     short nn;
 	double aaa, bbb, ccc, ddd1, ddd2, eee, ee_c3, ee_c4, fff;
-	double net_long, rad_net_p, rad_net_g, c3_canopy, c4_canopy, kmono_c3, kmono_c4;
+	double net_long, rad_net_p, rad_net_g, c3_canopy, c4_canopy;
 	double transmittance, ground;
     double albedo_base, albedo_var, rn_short_base, rn_short_var;
     double tsfc, tsfc_base, tsfc_var,crit, tt1, tt2, latheat, snsheat, dtsfc;
@@ -361,7 +361,7 @@ void f_net_rad(
 		bbb = 0.39 - 0.058 * sqrt( 40.0*760.0/1013.0 );
 	}
 	ccc = 1.0 - 0.65 * grid->tcdc_clm[grid->m];
-	net_long = aaa*bbb*ccc;
+	net_long = aaa * bbb * ccc;
 	loct->rad_net_long[grid->m] = net_long;
 	
 	/** soil surface albedo **/
@@ -377,7 +377,7 @@ void f_net_rad(
 	loct->albedo_sfc[grid->m] = (echar->soil).albedo[grid->m] * ground +
 					(echar->c3).albedo * c3_canopy + (echar->c4).albedo * c4_canopy;
     albedo_base = loct->albedo_sfc[grid->m];
-    loct->xx8[grid->m] = albedo_base; /* */
+    /* loct->xx8[grid->m] = albedo_base; */
 	
     /* albedo perturbation: 2012/12/29 by A.Ito */
     if(EX_ALBEDO == 1){
@@ -561,7 +561,7 @@ void f_net_rad(
     }
     fff = (fff<0.99)?fff:0.99;
     fff = (fff>0.01)?fff:0.01;
-	rad_net_p = (1.0 - fff)*(1.0 - ddd1)*grid->gl_rad[grid->m] - net_long*(1.0 - ddd2);
+	rad_net_p = (1.0 - fff)*(1.0 - ddd1) * grid->gl_rad[grid->m] - net_long * (1.0 - ddd2);
 	rad_net_p = (rad_net_p>=0.0)?rad_net_p:0.0;
 	loct->rad_net_p[grid->m] = rad_net_p;
 	
@@ -597,10 +597,10 @@ double albedo_soil(
     /* revised: 2012/12/29 by A.Ito */
 	albedo = schar->albedo0 + (0.95 - schar->albedo0)/(1.0 + exp(-0.05 * (loct->snwa - 75.0)));
 	
-	if(SENS_RAD==3){
+	if(SENS_RAD == 3){
 		albedo *= 1.1;
 	}
-	if(SENS_RAD==4){
+	if(SENS_RAD == 4){
 		albedo *= 0.9;
 	}
     

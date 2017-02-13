@@ -33,20 +33,52 @@ void f_n2o_emit_ngas(
 	double fd_wfps, fd_no3, fd_co2, dt;
 	double fr_wfps, fr_no3, fr_co2;
 	double day_d_n2, day_d_n2o;
-	double nh4_soil;		/* micro g g-1*/
+	double nh4_soil;    /* micro g g-1*/
 	double no3_soil;		
 	double kmax;		/* g N ha-1 day-1 */ /* assumed */
 	double nmax;							/* assumed */
-	extern double MDN[12];
-	double vmw_b, wfps_b;
-	
-	vmw_b = (loct->sw30 + loct->sww) / 1500.0;
-	wfps_b = vmw_b / (1.0 - grid->bulkdens/2.65);
-	if(wfps_b>0.9){
-		wfps_b = 0.9;
+	extern double MDN[ASTEP];
+	double wfps1, wfps2, wfps_b_n, wfps_b_d;
+    double f_tmp, f_wfps;
+    
+    /* 2016/07/08 by A.Ito */
+    /* 2016/08/14 by A.Ito */
+    ee = 1.0 - exp(-3.0 * 0.3);
+    
+    if(grid->field_cap1 > 0.0){
+        wfps1 = loct->sw30 / grid->field_cap1;
+    }else{
+        wfps1 = 0.0;
+    }
+    
+    if(grid->field_cap2 > 0.0){
+        wfps2 = loct->sww / grid->field_cap2;
+    }else{
+        wfps2 = 0.0;
+    }
+    
+    if(wfps1 < wfps2){
+        wfps_b_n = wfps1;
+    }else{
+        wfps_b_n = ee * wfps1 + (1.0 - ee) * wfps2;
+    }
+	if(wfps_b_n > 0.99){
+		wfps_b_n = 0.99;
 	}
-	if(wfps_b<0.1){
-		wfps_b = 0.1;
+	if(wfps_b_n < 0.01){
+		wfps_b_n = 0.01;
+	}
+   
+     if(wfps1 < wfps2){
+        wfps_b_d = wfps2;
+    }else{
+        wfps_b_d = ee * wfps1 + (1.0 - ee) * wfps2;
+    }
+	if(wfps_b_d > 0.99){
+		wfps_b_d = 0.99;
+	}
+	if(wfps_b_d < 0.01){
+		wfps_b_d = 0.01;
 	}
 	
 	/* added by A.Ito (2009/06/16) */
@@ -55,22 +87,32 @@ void f_n2o_emit_ngas(
 	if(CALC_OLSON == 1 && (loct->v_type == 2)){
         /* cropland */
 		/* kmax = 28.6; */
-		kmax = 18.0; /* 22.5=>20.0=>18.0 2014/12/02 by A.Ito */
-		nmax = 23.0; /* 30.0=>25.0=>23.0 2014/11/30 by A.Ito */
+		/* kmax = 18.0; */ /* 22.5=>20.0=>18.0 2014/12/02 by A.Ito */
+		/* nmax = 23.0; */ /* 30.0=>25.0=>23.0 2014/11/30 by A.Ito */
+		/* kmax = 18.0; */ /* 22.0: 2016/05/30 by A.Ito */
+		/* nmax = 30.0; */ /* 30.0: 2016/05/30 by A.Ito */
+		kmax = 12.0; /* 22.0: 2016/05/30 by A.Ito */
+		nmax = 20.0; /* 30.0: 2016/05/30 by A.Ito */
 		/* 2009/06/15 by A.Ito */
-		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
-		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
+        /* micro g g-1*/
+		nh4_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
+		no3_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
 		/* nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0);	
 		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*300.0*1000.0); */	 /* high */
 		
 	}else{
 		/* natural */
 		/* kmax = 3.8; */ 
-		kmax = 3.3;   /* 3.8=>3.4=>3.3 2014/11/30 by A.Ito */
-		nmax = 23.0;  /* 30.0=>25.0=>23.0 2014/11/30 by A.Ito */
+		/* kmax = 3.3; */   /* 3.8=>3.4=>3.3 2014/11/30 by A.Ito */
+		/* nmax = 23.0; */  /* 30.0=>25.0=>23.0 2014/11/30 by A.Ito */
+		/* kmax = 4.0; */   /* 3.8: 2016/05/30 by A.Ito */
+		/* nmax = 30.0; */  /* 30.0: 2016/05/30 by A.Ito */
+		kmax = 3.5;   /* 3.8: 2016/08/15 by A.Ito */
+		nmax = 15.0;  /* 30.0: 2016/08/05 by A.Ito */
 		/* 2009/06/15 by A.Ito */
-		nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
-		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
+        /* micro g g-1*/
+		nh4_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000000.0);
+		no3_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000000.0); /* */ /* low */
 		/* nh4_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0);	
 		no3_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*600.0*1000.0); */	 /* high */
 	}
@@ -78,39 +120,43 @@ void f_n2o_emit_ngas(
 	/*
 	nh4_soil = grid->total_n_1m * 0.3 * 0.01*1000000.0 /(grid->bulkdens*300.0*1000.0)*0.5;
 	no3_soil = grid->total_n_1m * 0.3 * 0.01*1000000.0 /(grid->bulkdens*300.0*1000.0)*0.5;  */
+    
+    /* 2016/07/13 */
+    /* nh4_soil *= 0.1;
+    no3_soil *= 0.1; */
 	
 	/* NITRIFICATION **************************************************/
 	/* water factor */
 	/* Fig.(2a) in Parton et al. (1996) */
 	if(grid->soiltexture == 1 || grid->soiltexture == 2){
 		/* sandy */
-		aa = (wfps_b - 1.70) / (0.55 - 1.70);
+		aa = (wfps_b_n - 1.70) / (0.55 - 1.70);
 		bb = 3.22 * ((1.70 - 0.55) / (0.55 + 0.007));
-		cc = (wfps_b + 0.007) / (0.55 + 0.007);
+		cc = (wfps_b_n + 0.007) / (0.55 + 0.007);
 		n_h2o = pow(aa, bb) * pow(cc, 3.22);
 	}else{
 		/* medium and fine */
-		aa = (wfps_b - 1.27) / (0.60 - 1.27);
+		aa = (wfps_b_n - 1.27) / (0.60 - 1.27);
 		bb = 2.84 * ((1.27 - 0.60) / (0.60 - 0.0012));
-		cc = (wfps_b - 0.0012) / (0.60 - 0.0012);
+		cc = (wfps_b_n - 0.0012) / (0.60 - 0.0012);
 		n_h2o = pow(aa, bb) * pow(cc, 2.84);
 	}
 	
-	/* temperature factor*/
+	/* temperature factor */
 	/* Fig.(2b) in Parton et al. (1996) */
 	n_t = -0.06 + 0.13 * exp(0.07 * grid->tmp10_soil[grid->m]);
 	if(n_t < 0.0){
 		n_t = 0.0;
 	}
 	
-	/* pH factor*/
+	/* pH factor */
 	/* Fig.(2c) in Parton et al. (1996) */
 	n_ph = 0.56 + atan(PI * 0.45 * (-5.0 + grid->soil_ph))/PI;
 	if(n_ph < 0.0){
 		n_ph = 0.0;
 	}
 	
-	/* ammonium factor*/
+	/* ammonium factor */
 	/* Fig.(2d) in Parton et al. (1996) */
 	n_nh4 = 1.0 - exp(-0.0105 * nh4_soil);
 	if(n_nh4 < 0.0){
@@ -125,18 +171,22 @@ void f_n2o_emit_ngas(
 	/* Fig.(3a) in Parton et al. (1996) */
 	if(grid->soiltexture == 1 || grid->soiltexture == 2){
 		/* sandy */
-		fd_wfps = 1.56 / pow(12.0, (16.0 / pow(12.0, 2.01*wfps_b)));
+		fd_wfps = 1.56 / pow(12.0, (16.0 / pow(12.0, 2.01*wfps_b_d)));
 	}else if(grid->soiltexture == 4 || grid->soiltexture == 5){
 		/* fine */
-		fd_wfps = 60.0 / pow(18.0, (22.0 / pow(18.0, 1.06*wfps_b)));
+		fd_wfps = 60.0 / pow(18.0, (22.0 / pow(18.0, 1.06*wfps_b_d)));
 	}else{
 		/* medium */
-		fd_wfps = 4.82 / pow(14.0, (16.0 / pow(14.0, 1.39*wfps_b)));
+		fd_wfps = 4.82 / pow(14.0, (16.0 / pow(14.0, 1.39*wfps_b_d)));
 	}
 	if(fd_wfps < 0.0){
 		fd_wfps = 0.0;
 	}
 	
+    /* 2016/08/05 by A.Ito */
+    /* medium */
+    /* fd_wfps = 4.82 / pow(14.0, (16.0 / pow(14.0, 1.39*wfps_b))); */
+
 	/* Fig.(3b) in Parton et al. (1996) */
 	fd_no3 = 11000.0 + (40000.0 * atan(PI * 0.002 * (no3_soil - 180.0)))/PI;
 	if(fd_no3 < 0.0){
@@ -156,7 +206,7 @@ void f_n2o_emit_ngas(
 	}
 	
 	/* Fig.(5a) in Parton et al. (1996) */
-	fr_wfps = 1.4 / pow(13.0, 17.0/pow(13.0, 2.2*wfps_b));
+	fr_wfps = 1.4 / pow(13.0, 17.0/pow(13.0, 2.2*wfps_b_d));
 	if(fr_wfps < 0.0){
 		fr_wfps = 0.0;
 	}
@@ -166,23 +216,30 @@ void f_n2o_emit_ngas(
 		fr_no3 = 0.0;
 	}
 	/* Fig.(5c) in Parton et al. (1996) */
-	fr_co2 = 13.0 + (30.78 * atan(PI * 0.07 * ((flux->soil).hr[grid->m]*1000.0/MDN[grid->m] - 13.0))) / PI;
+	/* fr_co2 = 13.0 + (30.78 * atan(PI * 0.07 * ((flux->soil).hr[grid->m]*1000.0/MDN[grid->m] - 13.0))) / PI; */
+    /* 2016/08/05 by A.Ito */
+	fr_co2 = 13.0 + (30.78 * atan(PI * 0.07 * (flux->sr[grid->m]*1000.0/MDN[grid->m] - 13.0))) / PI;
 	if(fr_co2 < 0.0){
 		fr_co2 = 0.0;
 	}
 	
-	/* loct->xx1[grid->m] = fd_wfps;
-	loct->xx2[grid->m] = fd_no3;
-	loct->xx3[grid->m] = fd_co2;
-	loct->xx4[grid->m] = dt;
-	loct->xx5[grid->m] = fr_wfps;
-	loct->xx6[grid->m] = fr_no3;
-	loct->xx7[grid->m] = fr_co2;
-	loct->xx8[grid->m] = wfps_b; */
+	/* loct->xx1[grid->m] = n_nh4;
+	loct->xx2[grid->m] = fd_wfps;
+	loct->xx3[grid->m] = fd_no3;
+	loct->xx4[grid->m] = fd_co2;
+	loct->xx5[grid->m] = dt;
+	loct->xx6[grid->m] = fr_wfps;
+	loct->xx7[grid->m] = fr_no3;
+	loct->xx8[grid->m] = fr_co2;
+	loct->xx9[grid->m] = wfps_b; */
 		
 	/* N2O emission */
 	/* Eqs.(3+4) in Parton et al. (1996) */
-	day_d_n2o = dt / (1.0 + fr_wfps * ((fr_no3>fr_co2)?fr_co2:fr_no3));
+	/* day_d_n2o = dt / (1.0 + fr_wfps * ((fr_no3>fr_co2)?fr_co2:fr_no3)); */
+	day_d_n2o = (n_t/0.4672) * dt / (1.0 + fr_wfps * ((fr_no3>fr_co2)?fr_co2:fr_no3));
+    /* Modified: (n_t/0.4672) for temperature dependence: 2016/10/20 by A.Ito */
+    /* 0.4672 is n_t at 20 degC */
+    
 	/* Eqs.(3+5) in Parton et al. (1996) */
     dd = (fr_no3>fr_co2)?fr_co2:fr_no3;
     if((fr_wfps * dd) > 0.0){
@@ -191,12 +248,14 @@ void f_n2o_emit_ngas(
     }else{
         day_d_n2 = 0.0;
     }
+    
+    loct->xx1[grid->m] = fr_no3;
+    loct->xx2[grid->m] = fr_co2;
+    loct->xx3[grid->m] = fr_wfps;
 	
-	/* total ***************************************************/
 	/* g N20 ha-1 month-1 */
-	(flux->soil).d_n2o_ntr_ngas[grid->m] = day_n_n2o*44.0/28.0 * MDN[grid->m];
-	(flux->soil).d_n2o_dnt_ngas[grid->m] = day_d_n2o*44.0/28.0 * MDN[grid->m];
-	(flux->soil).d_n2o_ngas[grid->m] = (flux->soil).d_n2o_ntr_ngas[grid->m] + (flux->soil).d_n2o_dnt_ngas[grid->m];
+	(flux->soil).d_n2o_ntr_ngas[grid->m] = day_n_n2o * 44.0/28.0 * MDN[grid->m];
+	(flux->soil).d_n2o_dnt_ngas[grid->m] = day_d_n2o * 44.0/28.0 * MDN[grid->m];
 	
 	/* g N2 ha-1 month-1 */
 	(flux->soil).d_n2_ngas[grid->m] = day_d_n2 * MDN[grid->m];
@@ -204,7 +263,99 @@ void f_n2o_emit_ngas(
 	/* nitrification */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.01 * MDN[grid->m]; */ /* revised by A.Ito (2009/07/18) */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.02 * MDN[grid->m]; */ /* 2009/07/23 */
-	(flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.012 * MDN[grid->m]; /* 2010/03/30 */
+	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.012 * MDN[grid->m]; */ /* 2010/03/30 */
+	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.005 * MDN[grid->m]; */ /* 2016/05/30 */
+	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.00291 * MDN[grid->m]; */ /* 2016/07/06 */
+    /* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.003 * MDN[grid->m]; */ /* 2016/08/02 */
+    
+    /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
+    if(EX_NITR_N2O == 1){
+        /* VISITa default */
+        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.01 * MDN[grid->m];
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.01;
+    }else if(EX_NITR_N2O == 2){
+        /* ExpertN */
+        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.005 * MDN[grid->m];
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.005;
+    }else if(EX_NITR_N2O == 3){
+        /* DayCent */
+        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.02 * MDN[grid->m];
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.02;
+    }else if(EX_NITR_N2O == 4){
+        /* meta-analysis */
+        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.00291 * MDN[grid->m];
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.00291;
+    }else if(EX_NITR_N2O == 5){
+        /* low-end */
+        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.001 * MDN[grid->m];
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.001;
+    }else if(EX_NITR_N2O == 6){
+        /* high-end */
+        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.05 * MDN[grid->m];
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.05;
+    }else if(EX_NITR_N2O == 7){
+        /* Li, C., J. Aber, F. Stange, K. Butterbach-Bahl, and H. Papen (2000), 
+        A process-oriented model of N2O and NO emissions from forest soils: 
+        1. model development, 
+        Journal of Geophysical Research, 105(D4), 4369-4384. */
+        
+        f_wfps = loct->wfps[grid->m];
+        
+        f_tmp = pow((60.0 - grid->tmp10_soil[grid->m])/25.78, 3.503)
+                    * exp(3.503 * (grid->tmp10_soil[grid->m]-34.22)/25.78);
+        
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.0006 * f_tmp * f_wfps;
+        
+        if((flux->soil).f_n2o_ntr_ngas[grid->m] <= 0.00001){
+            (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.00001;
+        }
+        if((flux->soil).f_n2o_ntr_ngas[grid->m] >= 0.5){
+            (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.5;
+        }
+        
+        (flux->soil).n_nitrif[grid->m] = day_n_n2o / (flux->soil).f_n2o_ntr_ngas[grid->m] * MDN[grid->m];
+    }else if(EX_NITR_N2O == 8){
+        /* Tian, H., X. Xu, M. Liu, W. Ren, C. Zhang, G. Chen, and C. Lu (2010), 
+        Spatial and temporal patterns of CH4 and N2O fluxes in terrestrial 
+        ecosystems of North America during 1979–2008: application of a global 
+        biogeochemistry model, Biogeosciences, 7, 2673-2694, 
+        doi:doi:10.5194/bg-7-2673-2010. */
+        
+        f_wfps = pow(10.0, (100.0*loct->wfps[grid->m] * 0.026 - 1.66));
+        
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.001 * f_wfps / (1.0 + f_wfps);
+        
+        if((flux->soil).f_n2o_ntr_ngas[grid->m] <= 0.00001){
+            (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.00001;
+        }
+        if((flux->soil).f_n2o_ntr_ngas[grid->m] >= 0.5){
+            (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.5;
+        }
+        
+        (flux->soil).n_nitrif[grid->m] = day_n_n2o / (flux->soil).f_n2o_ntr_ngas[grid->m] * MDN[grid->m];
+    }else{
+        (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.003 * MDN[grid->m];
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.003;
+    }
+    
+    aa = (flux->soil).d_n2o_ntr_ngas[grid->m] + (flux->soil).n_nitrif[grid->m];
+    if(aa > 0.5*(mass->soil).n_nh4){
+        bb = 0.5*(mass->soil).n_nh4 / aa;
+    
+        (flux->soil).d_n2o_ntr_ngas[grid->m] *= bb;
+        (flux->soil).n_nitrif[grid->m] *= bb;
+    }
+    
+    aa = (flux->soil).d_n2o_dnt_ngas[grid->m] + (flux->soil).d_n2_ngas[grid->m];
+    if(aa > 0.5*(mass->soil).n_no3){
+        bb = 0.5*(mass->soil).n_no3 / aa;
+    
+        (flux->soil).d_n2o_dnt_ngas[grid->m] *= bb;
+        (flux->soil).d_n2_ngas[grid->m] *= bb;
+    }
+    
+	/* total ***************************************************/
+	(flux->soil).d_n2o_ngas[grid->m] = (flux->soil).d_n2o_ntr_ngas[grid->m] + (flux->soil).d_n2o_dnt_ngas[grid->m];
 }
 
 /* Daily step CASA nitrogen trace gas emission from soil ****************************/
@@ -276,7 +427,7 @@ void f_n2o_emit_casa(
 	}
 	
 	/* g NO ha-1 month-1 */
-	(flux->soil).d_no_casa[grid->m] = d_no*30.0/14.0;
+	(flux->soil).d_no_casa[grid->m] = d_no * 30.0 / 14.0;
 	/* g N2 ha-1 month-1 */
 	(flux->soil).d_n2_casa[grid->m] = d_n2;
 

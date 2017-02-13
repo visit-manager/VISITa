@@ -27,7 +27,7 @@ struct Flux flux_agr;
 double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0};
 
 /* experimental variables ************/
-long GCM_ID, CO2S, GCM_R, GCM_C; /* */
+long SCENARIO_ID, CO2S, GCM_R, GCM_C; /* */
 long PARAM_PTB, PARAM_ENS; /* added by A.Ito (2010/05/10) */
 long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
 long EX_SRM, EX_CCPL;
@@ -45,7 +45,7 @@ long EX_SRM, EX_CCPL;
 /* 14: surface radiation -8.5 W m-2 */
 
 /* perturbation term */
-double f_pert[NPERT];
+double f_pert[N_PARA_ENS];
 
 /* atm. GHG scenario */
 double aco2_a1[DL_AGHG], aco2_a2[DL_AGHG], aco2_b1[DL_AGHG], aco2_b2[DL_AGHG];
@@ -95,7 +95,10 @@ double h_n2o_d_emit_ngas[PD_SIM], h_n2o_n_emit_ngas[PD_SIM];
 double h_n2o_emit_ngas_agr[PD_SIM], h_n2o_emit_casa_agr[PD_SIM];
 double h_nh3_emit_agr[PD_SIM];
 double h_no3_leach[PD_SIM];
-double h_n_fertin[PD_SIM], h_n_depoin[PD_SIM]; /* added by A.Ito (2010/05/02) */
+double h_n_fertin[PD_SIM], h_n_manurein[PD_SIM], h_n_depoin[PD_SIM]; /* added by A.Ito (2010/05/02) */
+double h_n_mcrb[PD_SIM],h_n_no3[PD_SIM],h_n_nh4[PD_SIM]; /* 2016/06/23 by A.Ito */
+double h_n_cnpy[PD_SIM], h_n_strg[PD_SIM], h_n_lttr[PD_SIM], h_n_hums[PD_SIM];
+double h_n_immbl[PD_SIM],h_n_lmnrl[PD_SIM],h_n_hmnrl[PD_SIM],h_n_cabdn[PD_SIM],h_n_sabdn[PD_SIM],h_n_uptk[PD_SIM];
 
 double h_voc_isopr_g97[PD_SIM], h_voc_monotrp_g97[PD_SIM], h_voc_methanl_g97[PD_SIM];
 double h_voc_acetone_g97[PD_SIM], h_voc_actaldhd_g97[PD_SIM], h_voc_frmardhd_g97[PD_SIM];
@@ -156,6 +159,8 @@ double vo_lai[NVEG_OLSON], vo_fol[NVEG_OLSON], vo_stm[NVEG_OLSON], vo_rot[NVEG_O
 double vs_area[NVEG_SAGE];
 double vs_gpp[NVEG_SAGE], vs_npp[NVEG_SAGE], vs_nep[NVEG_SAGE];
 double vs_lai[NVEG_SAGE], vs_fol[NVEG_SAGE], vs_stm[NVEG_SAGE], vs_rot[NVEG_SAGE], vs_ltr[NVEG_SAGE], vs_msl[NVEG_SAGE];
+
+double vo_n_cnpy[NVEG_OLSON], vo_n_strg[NVEG_OLSON], vo_n_mcrb[NVEG_OLSON], vo_n_ltr[NVEG_OLSON], vo_n_hms[NVEG_OLSON];
 
 /* 0: 1950s */
 /* 1: 1990s */ /* IMPRESSIONS: 1981-2010 */
@@ -232,6 +237,14 @@ double glat_ch4_cao[ASTEP][N_ROW], glat_ch4_wh[ASTEP][N_ROW];
 float gs_ipar_1[12][N_ROW][N_COL], gs_ipar_2[12][N_ROW][N_COL], gs_ipar_3[12][N_ROW][N_COL];
 float gs_ipard_1[12][N_ROW][N_COL], gs_ipard_2[12][N_ROW][N_COL], gs_ipard_3[12][N_ROW][N_COL]; */
 
+/* CHASER4.0 monthly, by A.Ito (2014/11/19) */
+double	ndepo_chaser4_nhx_h[ASTEP][64][128];		/* NHx */
+double	ndepo_chaser4_noy_h[ASTEP][64][128];		/* NOy */
+double	ndepo_chaser4_ont_h[ASTEP][64][128];		/* Org NOx */
+double	ndepo_chaser4_nhx_p[ASTEP][64][128];		/* NHx */
+double	ndepo_chaser4_noy_p[ASTEP][64][128];		/* NOy */
+double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
+
 short SENS_RAD;
 /* 0: control */
 /* 1: +10 diffuse PAR fraction */
@@ -269,3 +282,10 @@ short TEMP_GC;
 /* 10: +5 deg C per century */
 /* 11: -6 deg C per century */
 /* 12: +6 deg C per century */
+
+/* CHASER 2001 monthly, by A.Ito (2010/05/21) */
+double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
+double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
+double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
+double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
+

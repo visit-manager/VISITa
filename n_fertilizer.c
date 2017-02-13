@@ -15,7 +15,8 @@ void n_fertilizer_in(
 	struct Grid *grid, 
 	struct Loct *loct
 ){
-	double fert_input;
+    long nyear;
+	double fert_input, fin_base, f_adj;
 	extern double MDN[12];
 	
 	/* National average: from FAOSTAT, 2002-2003 */
@@ -246,15 +247,109 @@ void n_fertilizer_in(
 		default:	fert_input = 57.65;				
 	}
 	
-	loct->n_frtlz_in = fert_input* MDN[grid->m] / 365.0;
+    /* kg N / ha / month */
+	loct->n_frtlz_in = fin_base = fert_input * MDN[grid->m] / 365.0;
     
+    /* biofuel experiments: 2015/09/03 revised by A.Ito */
     if(BIOFUEL_RUN == 1){
-        loct->n_frtlz_in = 60.0 * MDN[grid->m] / 365.0;
+        /* current */
+        /* loct->n_frtlz_in = 80.0 * MDN[grid->m] / 365.0; */ /* 2015/08/27 by A.Ito */
+        ;
     }
     if(BIOFUEL_RUN == 2){
-        loct->n_frtlz_in = 30.0 * MDN[grid->m] / 365.0;
+        /* low */
+        /* loct->n_frtlz_in = 40.0 * MDN[grid->m] / 365.0; */ /* 2015/08/27 by A.Ito */
+        loct->n_frtlz_in = 10.0 * MDN[grid->m] / 365.0;
     }
     if(BIOFUEL_RUN == 3){
-        loct->n_frtlz_in = 90.0 * MDN[grid->m] / 365.0;
+        /* medium */
+        /* loct->n_frtlz_in = 120.0 * MDN[grid->m] / 365.0; */ /* 2015/08/27 by A.Ito */
+        loct->n_frtlz_in = 60.0 * MDN[grid->m] / 365.0;
     }
+    
+    /* NMIP run: 2015/11/19 by A.Ito *****/
+    /* updated: 2016/10/20 */
+    if(NMIP_RUN >= 1){
+        nyear = grid->niny;
+
+        if(NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
+            nyear = FDY_NINY+1;
+        }
+    
+        if(grid->niny>=FDY_NINY && grid->niny<=2015){
+            loct->n_frtlz_in = grid->nmip_nfert[nyear - FDY_NINY] * MDN[grid->m] / 365.0;
+        }else if(grid->niny<FDY_NINY){
+            loct->n_frtlz_in = grid->nmip_nfert[FDY_NINY - FDY_NINY] * MDN[grid->m] / 365.0;
+        }else if(grid->niny>2012){
+            loct->n_frtlz_in = grid->nmip_nfert[2015 - 2015] * MDN[grid->m] / 365.0;
+        }
+        
+        /* if(NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
+            loct->n_frtlz_in = 0.0;
+        } */
+
+        loct->n_manure_in = 0.0;
+        if(NMIP_RUN == 2){
+            nyear = FDY_NINY+1;
+        }
+        if(grid->niny>=FDY_NINY && grid->niny<=2015){
+            loct->n_manure_in = grid->nmip_manure[nyear - FDY_NINY] * MDN[grid->m] / 365.0;
+        }else if(grid->niny<FDY_NINY){
+            loct->n_manure_in = grid->nmip_manure[FDY_NINY - FDY_NINY] * MDN[grid->m] / 365.0;
+        }else if(grid->niny>2012){
+            loct->n_manure_in = grid->nmip_manure[2015 - 2015] * MDN[grid->m] / 365.0;
+        }
+        
+        /* if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
+            loct->n_manure_in = 0.0;
+        } */
+        
+    }else{
+        /* ISI-MIP2.1b: 2016/12/22 by A.Ito */
+        if(ISIMIP_RUN == 4){
+            loct->n_frtlz_in = grid->nmip_nfert[grid->niny - FDY_NINY] * MDN[grid->m] / 365.0;
+        }else{
+            ;
+        }
+        loct->n_manure_in = 0.0;
+    }
+    
+    f_adj = 1.0;
+    /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
+    if(EX_NFERT >= 1){
+        if(grid->est_nfert[0] > 0.0){
+            f_adj = fert_input / grid->est_nfert[0];
+        }else{
+            f_adj = 0.0;
+        }
+    
+        /* kg N / ha / month */
+        if(grid->niny >= 2010 && grid->niny <= 2099){
+            
+            /* loct->n_frtlz_in = f_adj * grid->est_nfert[grid->niny - 2010] * MDN[grid->m] / 365.0; */
+            
+            f_adj = (grid->est_nfert[grid->niny - 2010] - grid->est_nfert[0]) * MDN[grid->m] / 365.0;
+            loct->n_frtlz_in = fin_base + f_adj;
+            
+            if(loct->n_frtlz_in < 0.0){
+                loct->n_frtlz_in = 0.0;
+            }
+        }else{
+            loct->n_frtlz_in = fin_base;
+        }
+        
+        /* lower boundary */
+        if(loct->n_frtlz_in < 0.1*fin_base ){
+            loct->n_frtlz_in = 0.1 * fin_base;
+        }
+        /* upper boundary */
+        if(loct->n_frtlz_in > 10.0*fin_base ){
+            loct->n_frtlz_in = 10.0 * fin_base;
+        }
+        
+        loct->n_manure_in = 0.0;
+    }
+    
+    /* 2016/07/25 by A.Ito */
+    /* loct->n_frtlz_in *= 0.01; */
 }

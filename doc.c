@@ -39,8 +39,8 @@ void f_doc_boyer(
 	
 	if(loct->sww > 0.0){
 		doc_est = mass->doc + aa*pow(10.0, 0.04*stemp)
-			 - (1.0 - exp(-kk*stemp))*mass->doc
-			 - loct->ro2[grid->m]/loct->sww*mass->doc;
+			 - (1.0 - exp(-kk*stemp)) * mass->doc
+			 - loct->ro2[grid->m]/loct->sww * mass->doc;
 		if(doc_est <= 0.0){
 			doc_est = 0.0;
 		}

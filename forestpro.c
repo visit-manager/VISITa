@@ -38,6 +38,9 @@ void forest_process(
 		case 3: /* old leaf shedding */
 			leaffall(grid, loct, pchar, mass, flux); 
 			break;
+        default:
+            printf("Warning: Undefined season ID\n");
+            break;
 	}
 	
 	/* post-processing */
@@ -230,9 +233,9 @@ void leaffall(
 	flux->d13c_rrg[grid->m] = flux->d13c_tpr[grid->m];
 	
 	/* partitioning of photosynthate */
-	mass->fol += (flux->tpf[grid->m]-flux->rfg[grid->m]);
-	mass->stm += (flux->tpc[grid->m]-flux->rcg[grid->m]);
-	mass->rot += (flux->tpr[grid->m]-flux->rrg[grid->m]);
+	mass->fol += (flux->tpf[grid->m] - flux->rfg[grid->m]);
+	mass->stm += (flux->tpc[grid->m] - flux->rcg[grid->m]);
+	mass->rot += (flux->tpr[grid->m] - flux->rrg[grid->m]);
 	
 	f_leaf_age(0, pchar, mass, (flux->tpf[grid->m] - flux->rfg[grid->m]));
 	
@@ -272,7 +275,7 @@ void leafemergence(
 
 	/* leaf emergence */
 	bbb = (pchar->opt_lai[grid->m]>2.0)?pchar->opt_lai[grid->m]:2.0;
-	emerge = (bbb - mass->lai[grid->m])*100.0*2.0/2.2/pchar->sla;
+	emerge = (bbb - mass->lai[grid->m])*100.0*2.0/2.2 / pchar->sla;
 	aaa = mass->stm + mass->rot;
 	
 	switch(grid->veg_olson){
@@ -292,16 +295,16 @@ void leafemergence(
 	
 	if(aaa>0.0){
 		mass->fol += emerge;
-		mass->stm -= emerge*mass->stm/aaa;
-		mass->rot -= emerge*mass->rot/aaa;
+		mass->stm -= emerge * mass->stm/aaa;
+		mass->rot -= emerge * mass->rot/aaa;
 	}
 	
 	f_leaf_age(1, pchar, mass, emerge);
 
 	/* litter */
-	flux->lf[grid->m] = nn*flf(grid, pchar, mass);
-	flux->lc[grid->m] = nn*flc(grid, pchar, mass);
-	flux->lr[grid->m] = nn*flr(grid, pchar, mass);
+	flux->lf[grid->m] = nn * flf(grid, pchar, mass);
+	flux->lc[grid->m] = nn * flc(grid, pchar, mass);
+	flux->lr[grid->m] = nn * flr(grid, pchar, mass);
 	/* stable carbon isotope */
 	flux->d13c_lf[grid->m] = mass->d13c_fol;
 	flux->d13c_lc[grid->m] = mass->d13c_stm;
@@ -318,7 +321,7 @@ void leafemergence(
 	/* photosynthesis, gross primary production */
 	flux->gpp[grid->m] = nn*fgpp(grid, loct, pchar, mass);
 	/* stable carbon isotope */
-	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m]-pchar->photo_13c_frac[grid->m];
+	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m] - pchar->photo_13c_frac[grid->m];
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97==1){
@@ -329,7 +332,7 @@ void leafemergence(
 	flux->rfm[grid->m] = nn * frfm(grid, pchar, mass);
 	flux->rcm[grid->m] = nn * frcm(grid, pchar, mass);
 	flux->rrm[grid->m] = nn * frrm(grid, pchar, mass);
-	flux->arm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m]+flux->rrm[grid->m];
+	flux->arm[grid->m] = flux->rfm[grid->m] + flux->rcm[grid->m] + flux->rrm[grid->m];
 	/* stable carbon isotope */
 	flux->d13c_rfm[grid->m] = mass->d13c_fol;
 	flux->d13c_rcm[grid->m] = mass->d13c_stm;

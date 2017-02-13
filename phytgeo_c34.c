@@ -34,10 +34,10 @@ void c34composition(
 						tmp_factor = (grid->tmp_sfc_am + 5.0)*0.032;
 						pre_factor = 1.0/(grid->prate_sfc_ann * 0.00025 + 0.65);
 						
-						if((tmp_factor*pre_factor) <= 0.96){
+						if((tmp_factor * pre_factor) <= 0.96){
 							loct->c4ptn[f] = tmp_factor * pre_factor;
 							loct->c3ptn[f] = 1.0 - loct->c4ptn[f];
-						}else if((tmp_factor*pre_factor) > 0.96){
+						}else if((tmp_factor * pre_factor) > 0.96){
 							loct->c4ptn[f] = 0.96;
 							loct->c3ptn[f] = 0.04;
 						}
@@ -54,10 +54,10 @@ void c34composition(
 		}
 	}else if(v_type == 2){ /* crop */
 		for(f=0;f<ASTEP;f++){
-			if(grid->veg_crop == 1 || grid->veg_crop == 2){
+			if(grid->type_crop == 1 || grid->type_crop == 2){
 				loct->c4ptn[f] = 0.0;
 				loct->c3ptn[f] = 1.0;
-			}else if(grid->veg_crop == 3){
+			}else if(grid->type_crop == 3 || grid->type_crop == 4){
 				loct->c4ptn[f] = 1.0;
 				loct->c3ptn[f] = 0.0;
 			}

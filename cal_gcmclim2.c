@@ -43,6 +43,9 @@ void cal_projection(
 	/* LOOP to dynamic stage ***************************************/
 	for(g=BGY_GCM;g<=ENY_GCM;g++){ 
 	
+		/* simulation year ********************/
+		grid->simy = g;
+ 
 		/* CO2 change ********************/
 		if(CO2S == 0){
 			grid->co2y = BGY_GCM; 
@@ -56,12 +59,20 @@ void cal_projection(
 			grid->co2y = 2001;
 		}
         
+        if(SCENARIO_ID==2601 ||SCENARIO_ID==2602 ||SCENARIO_ID==2603){
+            grid->co2y = 2005;
+        }
+        
 		/* climate change ********************/
 		grid->climy = g;
-		if(GCM_ID >= 1 && GCM_ID <=9999){
+        if(SCENARIO_ID==2601 ||SCENARIO_ID==2602 ||SCENARIO_ID==2603){
+            grid->climy = 2005;
+        }
+
+		if(SCENARIO_ID >= 1 && SCENARIO_ID <=9999){
 			set_gcm_clim(grid);
 		}else{
-            printf("BAD GCM_ID!!\n");
+            printf("BAD SCENARIO_ID!!\n");
             exit(1);
         }
 		
@@ -74,6 +85,7 @@ void cal_projection(
 		}
 		
 		/* historical change in fertilizer input: 2010/05/11 by A.Ito */
+        f_fert = 1.0;
 		if(grid->rank_nat==1){
 			/* developing countries */
 			f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - (double)grid->climy)))+0.0014929171;
@@ -81,7 +93,26 @@ void cal_projection(
 			/* developed countries */
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
 		}
+        /* NMIP input: 2015/11/19 by A.Ito */
+        if(NMIP_RUN >= 1){
+            n_fertilizer_in(grid, loct);
+            f_fert = 1.0; /* driven by data */
+        }
 				
+        if(EX_NFERT >= 1){
+            n_fertilizer_in(grid, loct);
+            f_fert = 1.0; /* driven by data */
+        }
+
+        /* NMIP: 2015/11/19 by A.Ito **/
+        grid->niny = grid->climy;
+        if(grid->niny < 1900){
+            grid->niny = 1900;
+        }
+        if(grid->niny > 2012){
+            grid->niny = 2012;
+        }
+
         /* for considering leap years: 2014/09/29 by A.Ito */
         if(grid->climy%4 == 0){
             MDN[1] = 29.0;
@@ -143,10 +174,10 @@ void cal_projection(
 			/* aggregate plant mass and fluxes */
 			f_plant_stand_budget(grid, loct, mass, flux);
 			
-			if(BACC==3){
+			if(EX_ACCLM==3){
 				(flux->plant).lL[f] = flux->lL0[f];
 			}
-			if(BACC==4){
+			if(EX_ACCLM==4){
 				rl_a = (echar->soil).rl0*(1.0 - 0.001*(double)((grid->climy - BGY_GCM)+1));
 				if((mass->soil).ltr+(flux->plant).lL[f]){
 					(echar->soil).rl = ((echar->soil).rl*(mass->soil).ltr + 
@@ -175,6 +206,7 @@ void cal_projection(
 			
 			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
 			/* NH4:NO3 ratio is based on inventories */
+            /* this routine may not be activated when using REPLACE_OLSON_CROP option */
 			if((echar->soil).v_type == 1){
 				if(grid->veg_olson==29 || grid->veg_olson==30 || 
 								grid->veg_olson==31 || grid->veg_olson==32){
@@ -185,10 +217,15 @@ void cal_projection(
 					(flux->soil).n_fertin[f] = 0.0;
 				}
 			}
+            
 			if((echar->soil).v_type == 2){
 				(flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
 				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
 				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+
+                /* 2016/10/20 by A.Ito */
+                (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0 * f_fert;
+                (mass->soil).n_lttr += loct->n_manure_in * 1000.0 * f_fert;
 			}
 
 			/* CH4 oxydation **************/
@@ -285,6 +322,8 @@ void cal_projection(
         f_nat = 1.0 - grid->f_crop_con;
         if(f_nat > 0.0){
             iweight = 1.0 / f_nat;  /* inverse weight */
+        }else{
+            iweight = 1.0;
         }
         avc3 = 0.0;
         for(f=0;f<ASTEP;f++){
@@ -292,16 +331,18 @@ void cal_projection(
         }
         if(avc3 > 0.0){
             iweight3 = iweight * (1.0 / avc3);  /* inverse weight */
+        }else{
+            iweight3 = iweight;
         }
 		
 		/* wood harvest: 2010/10/15 by A.Ito ***********/
 		total_hvst = 0.0;
 		if((mass->c3).v_type == 1 && NECB_WHVST == 1 && (EX_CCPL != 5 && EX_CCPL != 8)){
-			dyr = grid->climy - PIVOT_LUC;
+			dyr = grid->climy - FDY_LUC;
 			
             if( (LANDUSE != 10 && LANDUSE != 11 && LANDUSE != 12 && LANDUSE != 13) &&
-                    g> (PIVOT_LUC+DL_LUH-1)){
-				dyr = (PIVOT_LUC+DL_LUH-1);
+                    g> (FDY_LUC+DL_LUC-1)){
+				dyr = (FDY_LUC+DL_LUC-1);
 			}
 			
 			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
@@ -410,7 +451,7 @@ void cal_projection(
 		}
 		
 		/* history data */
-		f_set_history_data(grid->climy - PIVOT_CLIMY +1, grid, loct, mass, flux);
+		f_set_history_data(grid->climy - BGY_CLIM +1, grid, loct, mass, flux);
 		
 		/* output */
 		f_output_result(grid->climy, grid, loct, echar, mass, flux, fp_o);  /*  */
