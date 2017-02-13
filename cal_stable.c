@@ -23,7 +23,8 @@ void cal_spinup(
 	FILE *fp_o[OFILEN]
 ){
 	long f, g, nn, term_time, dyr;
-	double plantmass, ann_nep, f_fert, total_hvst, f_nat, iweight, iweight3, avc3, prm_ensen;
+	double plantmass, ann_nep, f_fert, total_hvst;
+    double f_nat, iweight, iweight3, avc3, prm_ensen, icrop;
 	
 	/** maximum simulation times **/
 	grid->phase = 0; /* spin-up */
@@ -260,20 +261,27 @@ void cal_spinup(
             if(EX_NFERT == 101){
                 if((echar->soil).v_type == 2){
                     /* 101: Nishina ESSD data: 2017/02/13 by A.Ito */
+                    
+                    if(grid->f_crop_con > 0.0){
+                        icrop = 1.0 / grid->f_crop_con;
+                    }else{
+                        icrop = 0.0;
+                    }
+                    
                     if(grid->niny < 1960){
-                        (flux->soil).n_fertin[grid->m] = (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
-                        (mass->soil).n_no3 += grid->nin_no3[0][grid->m] * 1000.0;
-                        (mass->soil).n_nh4 += grid->nin_nh4[0][grid->m] * 1000.0;
+                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
+                        (mass->soil).n_no3 += icrop * grid->nin_no3[0][grid->m] * 1000.0;
+                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[0][grid->m] * 1000.0;
                     }else if(grid->niny >= 1960 && grid->niny <= 2009){
-                        (flux->soil).n_fertin[grid->m] = (grid->nin_no3[grid->niny - 1960][grid->m]
+                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[grid->niny - 1960][grid->m]
                                                     + grid->nin_nh4[grid->niny - 1960][grid->m]) * 1000.0;
-                        (mass->soil).n_no3 += grid->nin_no3[grid->niny - 1960][grid->m] * 1000.0;
-                        (mass->soil).n_nh4 += grid->nin_nh4[grid->niny - 1960][grid->m] * 1000.0;
+                        (mass->soil).n_no3 += icrop * grid->nin_no3[grid->niny - 1960][grid->m] * 1000.0;
+                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[grid->niny - 1960][grid->m] * 1000.0;
                     }else if(grid->niny > 2009){
-                        (flux->soil).n_fertin[grid->m] = (grid->nin_no3[49][grid->m]
+                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[49][grid->m]
                                                     + grid->nin_nh4[49][grid->m]) * 1000.0;
-                        (mass->soil).n_no3 += grid->nin_no3[49][grid->m] * 1000.0;
-                        (mass->soil).n_nh4 += grid->nin_nh4[49][grid->m] * 1000.0;
+                        (mass->soil).n_no3 += icrop * grid->nin_no3[49][grid->m] * 1000.0;
+                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[49][grid->m] * 1000.0;
                     }
                     
                     /* no mature? */
