@@ -23,7 +23,14 @@ ecosystems (Sim-CYCLE): A description based on dry-matter production theory
 and plot-scale validation. Ecological Modelling, 151:147-179.
 */
 
-/* VISIT a: global model	*/
+/* VISIT a: global model	
+Ito, A., Inatomi, M., 2012. Use and uncertainty evaluation of 
+  a process-based model for assessing the methane budget of global 
+  terrestrial ecosystems. Biogeosciences 9, 759–773.
+Ito, A., Inatomi, M., 2012. Water-use efficiency of the terrestrial 
+  biosphere: a model analysis on interactions between the global carbon 
+  and water cycles. Journal of Hydrometeorology 13, 681–694.
+*/
 
 #include<stdio.h>
 #include<stdlib.h>
