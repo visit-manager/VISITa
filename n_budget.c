@@ -291,16 +291,16 @@ void f_n_deposit(
     long f, nyear;
 	double pre_ann, ndepo_total, ndepo_dry, ndepo_wet, aa;
 	double f_no3, f_nh4, ndepo_no3, ndepo_nh4;
-	double f_wet, f_dry;
+	double f_wet, f_dry, uconv;
 	extern double MDN[ASTEP];
 	
 	/* f_no3 = 0.75; */
 	/*f_no3 = 0.47; */ /* revised by CHASER data: 2010/03/28 (A.Ito) */
 	/* f_nh4 = 1.0 - f_no3; */
 	
-    if(SENS_N == 0 || SENS_N == 1){
+    if(EX_CHASER_NDEPO == 0 || EX_CHASER_NDEPO == 1){
     
-        if(SENS_N == 0){
+        if(EX_CHASER_NDEPO == 0){
             /* CHASER-derived spatial and monthly NH4+/NO3- fraction */
             ndepo_total = ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]
                             + ndepo_chaser_dnoy[grid->m][grid->chaser_row][grid->chaser_col]
@@ -326,7 +326,7 @@ void f_n_deposit(
                 f_dry = (ndepo_chaser_dnoy[grid->m][grid->chaser_row][grid->chaser_col]
                     + ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
             }
-        }else if(SENS_N == 1){
+        }else if(EX_CHASER_NDEPO == 1){
             f_dry = 0.5;
             f_wet = 0.5;
         }
@@ -365,7 +365,7 @@ void f_n_deposit(
         /* converted unit: g N ha-1 month-1 */
         loct->depo_no3[grid->m] = f_no3 * (ndepo_dry + ndepo_wet) *10.0;
         loct->depo_nh4[grid->m] = f_nh4 * (ndepo_dry + ndepo_wet) *10.0;
-	}else if(SENS_N == 2){
+	}else if(EX_CHASER_NDEPO == 2){
         
         /* 2014/12/27 revised by A.Ito: add organic N deposition*/
         if(grid->climy<1850){
@@ -401,11 +401,20 @@ void f_n_deposit(
     
     /* NMIP: 2015/11/19 by A.Ito *******/
     /* updated 2016/10/20 by A.Ito */
-    if(NMIP_RUN >= 1){
+    /* ISI-MIP2b: 2016/12/24 by A.Ito */
+    if(NMIP_RUN >= 1 || ISIMIP_RUN == 4){
+    
         nyear = grid->niny;
-        
         if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
             nyear = FDY_NINY+1;
+        }
+        
+        /* to gN/ha */
+        if(NMIP_RUN >= 1){
+            uconv = 1000.0;
+        }
+        if(ISIMIP_RUN == 4){
+            uconv = 10000.0;
         }
 
         /* seasonality based on CHASER */
@@ -417,17 +426,17 @@ void f_n_deposit(
         }
         
         if(ndepo_no3 > 0.0){
-            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[nyear - FDY_NINY]*1000.0 *
+            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[nyear - FDY_NINY]*uconv *
                     (ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
                     + ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_no3;
         }else{
-            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny-FDY_NINY]*1000.0 / 12.0;
+            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny-FDY_NINY]*uconv / 12.0;
         }
         if(ndepo_nh4 > 0.0){
-            loct->depo_nh4[grid->m] =  grid->nmip_ndep_nh4[nyear - FDY_NINY]*1000.0 *
+            loct->depo_nh4[grid->m] =  grid->nmip_ndep_nh4[nyear - FDY_NINY]*uconv *
                 ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col] / ndepo_nh4;
         }else{
-            loct->depo_nh4[grid->m] = grid->nmip_ndep_nh4[grid->niny - FDY_NINY]*1000.0 / 12.0;
+            loct->depo_nh4[grid->m] = grid->nmip_ndep_nh4[grid->niny - FDY_NINY]*uconv / 12.0;
         }
     }
     

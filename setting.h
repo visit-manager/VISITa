@@ -42,8 +42,8 @@
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
-/* 3: ISI-MIP 2.1 historical runs */
-/* 4: ISI-MIP 2.2 */
+/* 3: ISI-MIP 2.1a historical runs */
+/* 4: ISI-MIP 2.1b 1.5 or 2.0 deg target */
 
 #define GEOMIP_RUN 0
 /* 0: normal (no GEO-MIP) */
@@ -81,8 +81,13 @@
 /* 10: N fertilizer only (S6) */
 /* 11: land-conversion only (S7) */
 /* 12: land-conversion + N fertilizer + irrigation (S8) */
+
 #define DL_NMIP 156
-#define FDY_NINY 1860
+#define FDY_NINY 1860 /* */
+
+/* ISI-MIP 2.1b */
+/* #define DL_NMIP 639
+#define FDY_NINY 1661 */
 
 /* parameter ensemble **************************/
 #define N_PARA_ENS 20
@@ -90,12 +95,12 @@
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 0
+#define OUTPUT_CARBON2 1
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
+#define OUTPUT_EROSION 1
+#define OUTPUT_GHG 1
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
@@ -136,9 +141,13 @@
     #define DL_AGHG 736
     #define FDY_AGHG 1765
 #elif ISIMIP_RUN==3
-    /* ISI-MIP2: 2014/12/02 by A.Ito */
+    /* ISI-MIP2a: 2014/12/02 by A.Ito */
     #define DL_AGHG 736
     #define FDY_AGHG 1765
+#elif ISIMIP_RUN==4
+    /* ISI-MIP2b: 2016/12/22 by A.Ito */
+    #define DL_AGHG 639
+    #define FDY_AGHG 1661
 #elif GEOMIP_RUN==1
     /* GEO-MIP: 2012/06/27 by A.Ito */
     #define DL_AGHG 736
@@ -150,16 +159,22 @@
 
 /*****************************************************************/
 /* simulation framework duration (years) */
-#define PD_SIM 201	
-/* only for memory preparation; not actual period */
+#define PD_SIM 201 /* */
+/* #define PD_SIM 640 */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
+/* for memory preparation; not always actual period */
 
 #if ISIMIP_RUN==1
     #define FSY_HIST 1950 /* ISI-MIP */
     #define LSY_HIST 2099 /* ISI-MIP */
+#elif ISIMIP_RUN==4
+    #define FSY_HIST 1661 /* ISI-MIP2.1b */
+    #define LSY_HIST 2299 /* ISI-MIP2.1b */
+    /* #define LSY_HIST 2099 */ /* ISI-MIP2.1b (rcp6.0) */
 #else
     #define FSY_HIST 1901 /* */
     /* #define FSY_HIST 1861 */ /* NMIP */
-    #define LSY_HIST 2015 /* NMIP */
+    /* #define LSY_HIST 2015 */ /* NMIP */
+    #define LSY_HIST 2016 /* history */
 #endif
 
 /* start year (AD) of CO2 time series */
@@ -174,6 +189,8 @@
     #define BGY_CO2Y 1901  /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
     #define BGY_CO2Y 1901  /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
+#elif ISIMIP_RUN==4
+    #define BGY_CO2Y 1661  /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
 #else
     #define BGY_CO2Y 1901
 #endif
@@ -188,6 +205,9 @@
     /* #define PD_HIST 110 */ /* AD 1901 - 2010 */ /* ISI-MIP2 (historical gswp3, pgfv2): 2014/11/30 by A.Ito */
     /* #define PD_HIST 101 */ /* AD 1901 - 2001 */ /* ISI-MIP2 (historical watch): 2015/01/06 by A.Ito */
     #define PD_HIST 112 /* */ /* AD 1901 - 2012 */ /* ISI-MIP2 (historical watch): 2016/05/06 by A.Ito */
+#elif ISIMIP_RUN==4
+    #define PD_HIST 639  /* AD 1661 - 2299 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
+    /* #define PD_HIST 439 */  /* AD 1661 - 2099 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
 #elif GEOMIP_RUN==1
     #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
 #elif NMIP_RUN>=1
@@ -203,7 +223,8 @@
     /* #define PD_HIST 112	*/	/* AD 1901 - 2012 */
     /* #define PD_HIST 113	*/	/* AD 1901 - 2013 */
     /* #define PD_HIST 114  */	/* AD 1901 - 2014 */
-    #define PD_HIST 115	/* */	/* AD 1901 - 2015 */
+    /* #define PD_HIST 115	*/	/* AD 1901 - 2015 */
+    #define PD_HIST 116	/* */	/* AD 1901 - 2016 */
 #endif
 
 /* start year (AD) of climate ***/
@@ -217,26 +238,32 @@
     #define BGY_CLIM 1901  /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
     #define BGY_CLIM 1901  /* ISI-MIP2a (historical): 2014/11/30 by A.Ito */
+#elif ISIMIP_RUN==4
+    #define BGY_CLIM 1661  /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
 #else
     #define BGY_CLIM 1901
 #endif
 
-/* historical (e.g., CRU) data length: 2010/01/04 (A.Ito) ***/
+/* historical climate (e.g., CRU) data length: 2010/01/04 (A.Ito) ***/
 #if ISIMIP_RUN==1
-    #define DL_CRU 180  /* SU 30 + AD 1950 - 2009 */
-    /* note that DL_CRU data is not used in PLUME runs */
+    #define DL_HCLIM 180  /* SU 30 + AD 1950 - 2009 */
+    /* note that DL_HCLIM data is not used in PLUME runs */
 #elif ISIMIP_RUN==2
     /* PLUME: 2014/07/31 by A.Ito */
-    #define DL_CRU 135  /* SU 30 + AD 1901 - 2005 */
+    #define DL_HCLIM 135  /* SU 30 + AD 1901 - 2005 */
 #elif ISIMIP_RUN==3
-    /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
-    /* #define DL_CRU 140 */  /* SU 30 + AD 1901 - 2010 */
-    /* #define DL_CRU 131 */  /* SU 30 + AD 1901 - 2001 */
-    #define DL_CRU 142  /* SU 30 + AD 1901 - 2012 */
+    /* ISI-MIP2.1a (historical): 2014/11/30 by A.Ito */
+    /* #define DL_HCLIM 140 */  /* SU 30 + AD 1901 - 2010 */
+    /* #define DL_HCLIM 131 */  /* SU 30 + AD 1901 - 2001 */
+    #define DL_HCLIM 142  /* SU 30 + AD 1901 - 2012 */
+#elif ISIMIP_RUN==4
+    /* ISI-MIP2.1b (1.5/2.0deg): 2016/12/24 by A.Ito */
+    #define DL_HCLIM 639  /* AD 1661 - 2299 */
+    /* #define DL_HCLIM 439 */  /* AD 1661 - 2099 */
 #else
     /* non-ISI-MIP: case dependent */
-    /* #define DL_CRU 111 */  /* AD 1901 - 2011 */
-    #define DL_CRU 115  /* CRU TS3.24: AD 1901 - 2015 */
+    /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
+    #define DL_HCLIM 115  /* CRU TS3.24: AD 1901 - 2015 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -258,7 +285,8 @@
 /* extension to 2013: 2014/01/02 by A.Ito */
 /* #define DL_NCEP 66 */   /* 1948-2013 */
 /* #define DL_NCEP 67 */   /* 1948-2014 */
-#define DL_NCEP 68   /* 1948-2015 */
+/* #define DL_NCEP 68 */   /* 1948-2015 */
+#define DL_NCEP 69   /* 1948-2016 */
 
 /* Simulation using ISI-MIP data (yr) */
 /* spinup 1951-1980 */
@@ -272,11 +300,15 @@
     /* #define DL_ISIMIP 140 */  /* SU 30 + AD 1901 - 2010 */
     /* #define DL_ISIMIP 131 */ /* SU 30 + AD 1901 - 2001 */
     #define DL_ISIMIP 142  /* SU 30 + AD 1901 - 2012 */
+#elif ISIMIP_RUN==4
+    /* ISI-MIP2.1b (historical): 2014/11/30 by A.Ito */
+    #define DL_ISIMIP 639  /* AD 1661 - 2299 */
+    /* #define DL_ISIMIP 439 */  /* AD 1661 - 2099 */
 #else
     #define DL_ISIMIP 1
 #endif
 
-/* future projection ***********************************************/
+/* future projection *******************************************/
 /* simulation suing GCM-derived projection scenarios */
 #define GCM_RUN 0
 /* 0: no  1:yes */
@@ -345,20 +377,26 @@
 /* 21: SSP3 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 22: SSP4 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 23: SSP5 (ICARUS v2016/08, RCP4.5-IPSL) */
+/* 24: ISI-MIP2b land-use data (2016/12/22 by A.Ito) */
 
+#define DL_LUC 601 /* */  /* 1500-2100 */
 /* #define DL_LUC 306 */ /* 1700-2000/2005 */
-#define DL_LUC 601  /* 1500-2100 */
+/* #define DL_LUC 639 */  /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
 
-/* begin year of land-use data */
-#define FDY_LUC 1500
+/* begin year of land-use DATA */
+#define FDY_LUC 1500 /* */
 /* #define FDY_LUC 1700 */
+/* #define FDY_LUC 1661 */ /* ISI-MIP2b (2016/12/22 by A.Ito) */
 
+/* begin year of land-use SIMULATION */
 #if ISIMIP_RUN==1
     #define BGY_LUC 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
 #elif ISIMIP_RUN==2
     #define BGY_LUC 2000    /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
     #define BGY_LUC 2000    /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
+#elif ISIMIP_RUN==4
+    #define BGY_LUC 1661    /* ISI-MIP2b (2016/12/22 by A.Ito) */
 #else
     #define BGY_LUC 1900
 #endif
@@ -379,9 +417,10 @@
 /* 1: on */
 
 /* S10-BECCS experiment: 2016/02/15 by A.Ito */
-#define EX_BECCS 0
+#define EX_BECCS 2
 /* 0: off (inc. scenario S5) */
 /* 1: on (scenario S3) */
+/* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
 
 /***************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
@@ -504,7 +543,7 @@
 /* 3: revised WFPS for NGAS */
 
 /* sensitivity run of N deposition */
-#define SENS_N 0
+#define EX_CHASER_NDEPO 0
 /* 0:off, 1:0n */
 
 /* experiment: changed nitrogen deposition: 2015/08/12 by A.Ito */
@@ -533,7 +572,7 @@
 /* 8: DLEM */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
-#define EX_NFERT 1
+#define EX_NFERT 0
 /* 0: off */
 /* 1: HadGEM + RCP2.6 + SSP1 */
 /* 2: HadGEM + RCP2.6 + SSP2 */
@@ -547,6 +586,7 @@
 /* 10: MIROC + RCP4.5 + SSP1 */
 /* 11: MIROC + RCP4.5 + SSP2 */
 /* 12: MIROC + RCP4.5 + SSP3 */
+/* 101: Nishina ESSD data: 2017/02/13 by A.Ito */
 
 /****************************************************/
 /* sensitivity analysis *****************/
@@ -643,6 +683,7 @@
 /* 1: entire deforestation, replaced by 19 */
 /* 2: entire deforestation, replaced by 13 */
 /* 3: entire deforestation, replaced by 31 */
+/* 4: entire deforestation and regrowth: 2016/12/28 by A.Ito */
 
 /****************************************************/
 /* 0: no GCM */
@@ -842,7 +883,7 @@
 /* 1266: NCAR PCM + A2 3 */
 /* 1267: NCAR PCM + A2 4 */
 
-/*** ISI-MIP Phase 1: 2012/06/27 by A.Ito ***/
+/*** ISI-MIP Phase 1: 2012/06/27 by A.Ito ********/
 /* CD-LINK 2016/11/17 */
 /* 2001: HadGEM2-ES RCP 2.6 +co2 */
 /* 2002: HadGEM2-ES RCP 8.5 +co2 */
@@ -943,11 +984,22 @@
 /* 4023: IPSL RCP 2.6 */
 /* 4024: IPSL RCP 6.0 */
 
-/** ISI-MIP2: 2014/11/30 by A.Ito ***********/
+/** ISI-MIP2a: 2014/11/30 by A.Ito ***********/
 /* 5001: historical GSWP3 */
 /* 5002: historical PGFv2.1 (2016/05/06) */
 /* 5003: historical WATCH */
 /* 5004: historical WATCH+WFDEI */
+
+/** ISI-MIP2b: 2016/12/22 by A.Ito  *****/
+/* 5010: GFDL piControl */
+/* 5011: GFDL piControl + historical + rcp2.6 */
+/* 5012: GFDL piControl + historical + rcp6.0 */
+/* 5020: IPSL piControl */
+/* 5021: IPSL piControl + historical + rcp2.6 */
+/* 5022: IPSL piControl + historical + rcp6.0 */
+/* 5030: MIROC5 piControl */
+/* 5031: MIROC5 piControl + historical + rcp2.6 */
+/* 5032: MIROC5 piControl + historical + rcp6.0 */
 
 /** IMPRESSIONS: 2015/07/17 **/
 /* 6001-6050: precipitation -60% */
@@ -981,67 +1033,68 @@
 /* 6X15 6X65: temperature +11 K */
 
 /* ICARUS 2016/08/12 ************/
-/* 2201: gfdl SSP1 rcp2.6  */
-/* 2202: gfdl SSP1 rcp4.5  */
-/* 2203: gfdl SSP2 rcp2.6  */
-/* 2204: gfdl SSP2 rcp4.5  */
-/* 2205: gfdl SSP2 rcp6.0  */
-/* 2206: gfdl SSP3 rcp4.5  */
-/* 2207: gfdl SSP3 rcp6.0  */
-/* 2208: gfdl SSP4 rcp2.6  */
-/* 2209: gfdl SSP4 rcp4.5  */
-/* 2210: gfdl SSP5 rcp2.6  */
-/* 2211: gfdl SSP5 rcp4.5  */
+/* 2201 (2101): gfdl SSP1 rcp2.6  */
+/* 2202 (2102): gfdl SSP1 rcp4.5  */
+/* 2203 (2103): gfdl SSP2 rcp2.6  */
+/* 2204 (2104): gfdl SSP2 rcp4.5  */
+/* 2205 (2105): gfdl SSP2 rcp6.0  */
+/* 2206 (2106): gfdl SSP3 rcp4.5  */
+/* 2207 (2107): gfdl SSP3 rcp6.0  */
+/* 2208 (2108): gfdl SSP4 rcp2.6  */
+/* 2209 (2109): gfdl SSP4 rcp4.5  */
+/* 2210 (2110): gfdl SSP5 rcp2.6  */
+/* 2211 (2111): gfdl SSP5 rcp4.5  */
 
-/* 2221: hadgem SSP1 rcp2.6  */
-/* 2222: hadgem SSP1 rcp4.5  */
-/* 2223: hadgem SSP2 rcp2.6  */
-/* 2224: hadgem SSP2 rcp4.5  */
-/* 2225: hadgem SSP2 rcp6.0  */
-/* 2226: hadgem SSP3 rcp4.5  */
-/* 2227: hadgem SSP3 rcp6.0  */
-/* 2228: hadgem SSP4 rcp2.6  */
-/* 2229: hadgem SSP4 rcp4.5  */
-/* 2230: hadgem SSP5 rcp2.6  */
-/* 2231: hadgem SSP5 rcp4.5  */
+/* 2221 (2201): hadgem SSP1 rcp2.6  */
+/* 2222 (2202): hadgem SSP1 rcp4.5  */
+/* 2223 (2203): hadgem SSP2 rcp2.6  */
+/* 2224 (2204): hadgem SSP2 rcp4.5  */
+/* 2225 (2205): hadgem SSP2 rcp6.0  */
+/* 2226 (2206): hadgem SSP3 rcp4.5  */
+/* 2227 (2207): hadgem SSP3 rcp6.0  */
+/* 2228 (2208): hadgem SSP4 rcp2.6  */
+/* 2229 (2209): hadgem SSP4 rcp4.5  */
+/* 2230 (2210): hadgem SSP5 rcp2.6  */
+/* 2231 (2211): hadgem SSP5 rcp4.5  */
 
-/* 2241: ipsl SSP1 rcp2.6  */
-/* 2242: ipsl SSP1 rcp4.5  */
-/* 2243: ipsl SSP2 rcp2.6  */
-/* 2244: ipsl SSP2 rcp4.5  */
-/* 2245: ipsl SSP2 rcp6.0  */
-/* 2246: ipsl SSP3 rcp4.5  */
-/* 2247: ipsl SSP3 rcp6.0  */
-/* 2248: ipsl SSP4 rcp2.6  */
-/* 2249: ipsl SSP4 rcp4.5  */
-/* 2250: ipsl SSP5 rcp2.6  */
-/* 2251: ipsl SSP5 rcp4.5  */
+/* 2241 (2301): ipsl SSP1 rcp2.6  */
+/* 2242 (2302): ipsl SSP1 rcp4.5  */
+/* 2243 (2303): ipsl SSP2 rcp2.6  */
+/* 2244 (2304): ipsl SSP2 rcp4.5  */
+/* 2245 (2305): ipsl SSP2 rcp6.0  */
+/* 2246 (2306): ipsl SSP3 rcp4.5  */
+/* 2247 (2307): ipsl SSP3 rcp6.0  */
+/* 2248 (2308): ipsl SSP4 rcp2.6  */
+/* 2249 (2309): ipsl SSP4 rcp4.5  */
+/* 2250 (2310): ipsl SSP5 rcp2.6  */
+/* 2251 (2311): ipsl SSP5 rcp4.5  */
 
-/* 2261: miroc SSP1 rcp2.6  */
-/* 2262: miroc SSP1 rcp4.5  */
-/* 2263: miroc SSP2 rcp2.6  */
-/* 2264: miroc SSP2 rcp4.5  */
-/* 2265: miroc SSP2 rcp6.0  */
-/* 2266: miroc SSP3 rcp4.5  */
-/* 2267: miroc SSP3 rcp6.0  */
-/* 2268: miroc SSP4 rcp2.6  */
-/* 2269: miroc SSP4 rcp4.5  */
-/* 2270: miroc SSP5 rcp2.6  */
-/* 2271: miroc SSP5 rcp4.5  */
+/* 2261 (2401): miroc SSP1 rcp2.6  */
+/* 2262 (2402): miroc SSP1 rcp4.5  */
+/* 2263 (2403): miroc SSP2 rcp2.6  */
+/* 2264 (2404): miroc SSP2 rcp4.5  */
+/* 2265 (2405): miroc SSP2 rcp6.0  */
+/* 2266 (2406): miroc SSP3 rcp4.5  */
+/* 2267 (2407): miroc SSP3 rcp6.0  */
+/* 2268 (2408): miroc SSP4 rcp2.6  */
+/* 2269 (2409): miroc SSP4 rcp4.5  */
+/* 2270 (2410): miroc SSP5 rcp2.6  */
+/* 2271 (2411): miroc SSP5 rcp4.5  */
 
-/* 2281: noresm SSP1 rcp2.6  */
-/* 2282: noresm SSP1 rcp4.5  */
-/* 2283: noresm SSP2 rcp2.6  */
-/* 2284: noresm SSP2 rcp4.5  */
-/* 2285: noresm SSP2 rcp6.0  */
-/* 2286: noresm SSP3 rcp4.5  */
-/* 2287: noresm SSP3 rcp6.0  */
-/* 2288: noresm SSP4 rcp2.6  */
-/* 2289: noresm SSP4 rcp4.5  */
-/* 2290: noresm SSP5 rcp2.6  */
-/* 2291: noresm SSP5 rcp4.5  */
+/* 2281 (2501): noresm SSP1 rcp2.6  */
+/* 2282 (2502): noresm SSP1 rcp4.5  */
+/* 2283 (2503): noresm SSP2 rcp2.6  */
+/* 2284 (2504): noresm SSP2 rcp4.5  */
+/* 2285 (2505): noresm SSP2 rcp6.0  */
+/* 2286 (2506): noresm SSP3 rcp4.5  */
+/* 2287 (2507): noresm SSP3 rcp6.0  */
+/* 2288 (2508): noresm SSP4 rcp2.6  */
+/* 2289 (2509): noresm SSP4 rcp4.5  */
+/* 2290 (2510): noresm SSP5 rcp2.6  */
+/* 2291 (2511): noresm SSP5 rcp4.5  */
 
 /* add: 2016/10/17 */
 /* 2601: SSP1 no climate change  */
 /* 2602: SSP2 no climate change  */
 /* 2603: SSP3 no climate change  */
+

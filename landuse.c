@@ -141,6 +141,10 @@ void f_cult_luc(
             grid->f_crop_con = grid->fcrop3_future[grid->lucy - 1990];
         }
         grid->f_pasture_con = 0.0;
+    }else if(LANDUSE == 24){
+        /* ISI-MIP2b: 2016/12/24 by A.Ito */
+        grid->f_crop_con = grid->nmip_frcrop[grid->lucy - FDY_NINY];
+        
     }else{
 		printf("Wrong land-use setting ID\n");
 		exit(1);
@@ -167,6 +171,26 @@ void f_cult_luc(
                 
                 grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC]
                         + (double)(grid->lucy - 2000) * 0.1 * (1.0 - grid->fcrop_unh_hmnzed[2000 - FDY_LUC])/100.0;
+                
+                grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - FDY_LUC];
+            }else{
+                grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC];
+                grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - FDY_LUC];
+            }
+        }
+    }else if(EX_BECCS == 2){
+        /* 2017/02/25 by A.Ito */
+        if(grid->lucy <= 2000){
+            grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC];
+            grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - FDY_LUC];
+        }else if(grid->lucy >= 2001){
+            if(grid->veg_sage>=1 && grid->veg_sage<=8){
+                
+                grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC]
+                        + (double)(grid->lucy - 2000) * (grid->beccs_s2b + grid->beccs_v2b + grid->beccs_v2s)/100.0;
+                if(grid->f_crop_con > 1.0){
+                    grid->f_crop_con = 1.0;
+                }
                 
                 grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - FDY_LUC];
             }else{
@@ -233,13 +257,13 @@ void f_cult_luc(
         }else if(LANDUSE==9){
             grid->f_deforest = 0.0;
         }else if(LANDUSE==18 || LANDUSE == 19 || LANDUSE == 20 ||
-                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 || LANDUSE == 24){
             /* ICARUS SSPs: 2016/08/14 by A.Ito */
             grid->f_deforest = 0.0;
         }
 		/* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
         
-        if(EX_BECCS == 1){
+        if(EX_BECCS == 1 || EX_BECCS == 2){
             grid->f_deforest = 0.0;
         }
 	
@@ -294,7 +318,9 @@ void f_cult_luc(
                 grid->f_deforest = grid->fcrop3_future[grid->lucy - 1990]
                             - grid->fcrop3_future[grid->lucy - 1990 -1];
             }
-        }
+        }else if(LANDUSE == 24){
+			grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
+		}
         
         /* BECCS S10 experiment: 2016/02/16 by A.Ito ******/
         if(EX_BECCS == 1){
@@ -303,6 +329,23 @@ void f_cult_luc(
             }else if(grid->lucy >= 2001){
                 if(grid->veg_sage>=1 && grid->veg_sage<=8){
                     grid->f_deforest = 0.1*(1.0 - grid->fcrop_unh_hmnzed[2000 - FDY_LUC])/100.0;
+                }else{
+                    grid->f_deforest = grid->f_deforest_v = grid->f_deforest_s = 0.0;
+                }
+            }
+        }else if(EX_BECCS == 2){
+            /* 2017/02/25 by A.Ito */
+            
+            if(grid->lucy <= 2000){
+                grid->f_deforest = grid->f_deforest_v = grid->f_deforest_s = 0.0;
+            }else if(grid->lucy >= 2001){
+                if(grid->veg_sage>=1 && grid->veg_sage<=8){
+                
+                    /* aa = 1.0 - grid->fcrop_unh_hmnzed[2000 - FDY_LUC];
+                    bb = grid->beccs_v2s + grid->beccs_v2b + grid->beccs_s2b;
+                    max_conv = (aa>bb)?bb:aa; */
+                
+                    grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
                 }else{
                     grid->f_deforest = grid->f_deforest_v = grid->f_deforest_s = 0.0;
                 }
@@ -411,7 +454,7 @@ void f_cult_luc(
 			grid->f_paddy = 0.0;
 		}
     }else if(LANDUSE == 18|| LANDUSE == 19 || LANDUSE == 20 ||
-                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 || LANDUSE == 24){
         grid->f_paddy = grid->f_paddy_b;
     }
     
@@ -442,10 +485,9 @@ void f_luc_emit(
 	
 	switch(grid->veg_sage){
 		/* detritus production by land-use change:
-		 McGuire, A. D., S. Sitch, J. S. Clein, R. Dargaville, G. Esser, J. Foley, M. Heimann, F. Joos, 
-		 J. Kaplan, D. W. Kicklighter, R. A. Meier, J. M. Melillo, B. I. Moore, L. J. Williams, and 
-		 U. Wittenberg, 2001: Carbon balance of the terrestrial biosphere in the twentieth century: analysis 
-		 of CO2, climate and land use effects with four process-based ecosystem models. 
+		 McGuire, A. D., et al., 2001: Carbon balance of the terrestrial biosphere 
+         in the twentieth century: analysis of CO2, climate and land use effects 
+         with four process-based ecosystem models.
 		 Global Biogeochemical Cycles, 15, 183-206.
 		*/
 		/* tropical forests */
@@ -501,13 +543,14 @@ void f_luc_emit(
                 LANDUSE==13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17){
             /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
 			fluc_1 = (grid->t_vc_unh_hmnzed[BGY_LUC - FDY_LUC] + grid->t_vp_unh_hmnzed[BGY_LUC - FDY_LUC])
-				+ (grid->t_sc_unh_hmnzed[BGY_LUC - FDY_LUC] + grid->t_sp_unh_hmnzed[BGY_LUC - FDY_LUC])*f_mass_secfor;
+				+ (grid->t_sc_unh_hmnzed[BGY_LUC - FDY_LUC] + grid->t_sp_unh_hmnzed[BGY_LUC - FDY_LUC])
+                * f_mass_secfor;
 		}else if(LANDUSE==7){
 			/* added 2010/01/07 (A.Ito) */
 			fluc_1 = (grid->fcrop_rk[BGY_LUC-FDY_LUC] - grid->fcrop_rk[BGY_LUC-FDY_LUC-1])
 					+(grid->fpast_rk[BGY_LUC-FDY_LUC] - grid->fpast_rk[BGY_LUC-FDY_LUC-1]);
 		}else if(LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 ||
-                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 || LANDUSE == 24){
 			fluc_1 = 0.0;
 		}
 		
@@ -542,7 +585,7 @@ void f_luc_emit(
 				fluc_10 = (grid->fcrop_rk[f - FDY_LUC] - grid->fcrop_rk[f-FDY_LUC-1])
 						+ (grid->fpast_rk[f - FDY_LUC] - grid->fpast_rk[f-FDY_LUC-1]);
 			}else if(LANDUSE==18 || LANDUSE == 19 || LANDUSE == 20 ||
-                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 || LANDUSE == 24){
                 fluc_10 = 0.0;
             }
 			
@@ -580,7 +623,7 @@ void f_luc_emit(
 				fluc_100 = (grid->fcrop_rk[f - FDY_LUC] - grid->fcrop_rk[f-FDY_LUC-1])
 						+ (grid->fpast_rk[f - FDY_LUC] - grid->fpast_rk[f-FDY_LUC-1]);
 			}else if(LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 ||
-                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 || LANDUSE == 24){
                 fluc_100 = 0.0;
             }
 			
@@ -638,7 +681,7 @@ void f_luc_emit(
 			/* added 2010/01/07 (A.Ito) */
 			fluc_1 = grid->f_deforest;
 		}else if(LANDUSE == 18 || LANDUSE == 19 || LANDUSE == 20 ||
-                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 || LANDUSE == 24){
             fluc_1 = grid->f_deforest;
         }
 		
@@ -649,7 +692,7 @@ void f_luc_emit(
         }
         
         /* BECCS S10 experiment: 2016/02/16 by A.Ito ******/
-        if(EX_BECCS == 1){
+        if(EX_BECCS == 1 || EX_BECCS == 2){
             if(grid->lucy <= 2000){
                 fluc_1 = 0.0;
             }else if(grid->lucy >= 2001){

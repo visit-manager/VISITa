@@ -305,6 +305,12 @@ void n_fertilizer_in(
         } */
         
     }else{
+        /* ISI-MIP2.1b: 2016/12/22 by A.Ito */
+        if(ISIMIP_RUN == 4){
+            loct->n_frtlz_in = grid->nmip_nfert[grid->niny - FDY_NINY] * MDN[grid->m] / 365.0;
+        }else{
+            ;
+        }
         loct->n_manure_in = 0.0;
     }
     
@@ -334,11 +340,11 @@ void n_fertilizer_in(
         
         /* lower boundary */
         if(loct->n_frtlz_in < 0.1*fin_base ){
-            loct->n_frtlz_in = 0.1*fin_base;
+            loct->n_frtlz_in = 0.1 * fin_base;
         }
         /* upper boundary */
         if(loct->n_frtlz_in > 10.0*fin_base ){
-            loct->n_frtlz_in = 10.0*fin_base;
+            loct->n_frtlz_in = 10.0 * fin_base;
         }
         
         loct->n_manure_in = 0.0;
