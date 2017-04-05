@@ -99,9 +99,9 @@
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
+#define OUTPUT_EROSION 0
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 0
+#define OUTPUT_BB 1
 #define OUTPUT_BVOC 0
 /* output binary */
 #define C13_GOUT 0
@@ -198,7 +198,7 @@
 /* total historical run: using CRU, NCEP, etc. ***/
 #if ISIMIP_RUN==1
     #define PD_HIST 150  /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
-                         /* BIOFUEL RUN */
+                         /* and BIOFUEL RUN */
 #elif ISIMIP_RUN==2
     #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
@@ -352,7 +352,7 @@
 #define NECB_CROP 1
 
 /* land use change setting ********************************/
-#define LANDUSE 11
+#define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -417,7 +417,7 @@
 /* 1: on */
 
 /* S10-BECCS experiment: 2016/02/15 by A.Ito */
-#define EX_BECCS 2
+#define EX_BECCS 0
 /* 0: off (inc. scenario S5) */
 /* 1: on (scenario S3) */
 /* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
@@ -511,7 +511,7 @@
 /* 0:off, 1:0n */
 /* fix NPP carbon input to wetland: 2015/03/23 by A.Ito */
 
-#define FIX_NPP 0
+#define FIX_CH4_NPP 0
 /* 0:off, 1:0n */
 
 /*****************************************************/
