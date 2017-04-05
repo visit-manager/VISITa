@@ -38,7 +38,7 @@
 #define INT_C 0.01
 
 /***********************************************************/
-#define ISIMIP_RUN 0
+#define ISIMIP_RUN 1
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -96,13 +96,13 @@
 /* output text files */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 1
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 /* output binary */
 #define C13_GOUT 0
 #define C14_GOUT 0
@@ -275,7 +275,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -352,7 +352,7 @@
 #define NECB_CROP 1
 
 /* land use change setting ********************************/
-#define LANDUSE 10
+#define LANDUSE 11
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -417,9 +417,10 @@
 /* 1: on */
 
 /* S10-BECCS experiment: 2016/02/15 by A.Ito */
-#define EX_BECCS 0
+#define EX_BECCS 2
 /* 0: off (inc. scenario S5) */
 /* 1: on (scenario S3) */
+/* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
 
 /***************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
@@ -469,7 +470,7 @@
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -571,7 +572,7 @@
 /* 8: DLEM */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
-#define EX_NFERT 101
+#define EX_NFERT 0
 /* 0: off */
 /* 1: HadGEM + RCP2.6 + SSP1 */
 /* 2: HadGEM + RCP2.6 + SSP2 */

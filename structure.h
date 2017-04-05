@@ -337,6 +337,11 @@ struct Grid{
     
     /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
     double  est_nfert[90];
+    
+    /* BECCS scenario: 2017/02/20 by A.Ito */
+    double  beccs_s2b;
+    double  beccs_v2b;
+    double  beccs_v2s;
 };
 
 /* grid conditions, derived from submodules *******************************************/

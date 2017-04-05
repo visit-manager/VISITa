@@ -3019,6 +3019,14 @@ void open_input(
         }else{
             Flag_FOPEN[87] ++;
         }
+    }else if(EX_BECCS == 2){
+        /* BECCS data for GCP-MgNET-IIASA workshop, 2017/02/20 */
+        if( (fp_s[87]=fopen("./data/beccs_201702.txt","rt"))==NULL ){
+            printf("No beccs_201702.txt\n");
+            exit(1); 
+        }else{
+            Flag_FOPEN[87] ++;
+        }
     }else{
         /* BioFuel data: 2015/08/21 added by A.Ito  ***********************/
         /* data supplied from Kinoshita-san */

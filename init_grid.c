@@ -1299,6 +1299,11 @@ void f_init_grid(
         for(e=0;e<DL_NMIP;e++){
             grid->nmip_frcrop[e] = is2bdat[e];
         }
+    }else if(EX_BECCS == 2){
+        /* BECCS scenario: 2017/02/20 by A.Ito */
+        fscanf(fp_s[87],"%lf", &grid->beccs_s2b);
+        fscanf(fp_s[87],"%lf", &grid->beccs_v2b);
+        fscanf(fp_s[87],"%lf", &grid->beccs_v2s);
     }else{
         /* Bio Fuel scenario: 2015/08/21 by A.Ito ***********/
         for(e=0;e<DL_BF;e++){
