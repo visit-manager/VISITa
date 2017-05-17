@@ -178,6 +178,26 @@ void f_cult_luc(
                 grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - FDY_LUC];
             }
         }
+    }else if(EX_BECCS == 2){
+        /* 2017/02/25 by A.Ito */
+        if(grid->lucy <= 2000){
+            grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC];
+            grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - FDY_LUC];
+        }else if(grid->lucy >= 2001){
+            if(grid->veg_sage>=1 && grid->veg_sage<=8){
+                
+                grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC]
+                        + (double)(grid->lucy - 2000) * (grid->beccs_s2b + grid->beccs_v2b + grid->beccs_v2s)/100.0;
+                if(grid->f_crop_con > 1.0){
+                    grid->f_crop_con = 1.0;
+                }
+                
+                grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - FDY_LUC];
+            }else{
+                grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC];
+                grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - FDY_LUC];
+            }
+        }
     }
     
     /* decouple land-use emission (fix to 2000 land cover): 2014/11/20 by A.Ito */
@@ -243,7 +263,7 @@ void f_cult_luc(
         }
 		/* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
         
-        if(EX_BECCS == 1){
+        if(EX_BECCS == 1 || EX_BECCS == 2){
             grid->f_deforest = 0.0;
         }
 	
@@ -309,6 +329,23 @@ void f_cult_luc(
             }else if(grid->lucy >= 2001){
                 if(grid->veg_sage>=1 && grid->veg_sage<=8){
                     grid->f_deforest = 0.1*(1.0 - grid->fcrop_unh_hmnzed[2000 - FDY_LUC])/100.0;
+                }else{
+                    grid->f_deforest = grid->f_deforest_v = grid->f_deforest_s = 0.0;
+                }
+            }
+        }else if(EX_BECCS == 2){
+            /* 2017/02/25 by A.Ito */
+            
+            if(grid->lucy <= 2000){
+                grid->f_deforest = grid->f_deforest_v = grid->f_deforest_s = 0.0;
+            }else if(grid->lucy >= 2001){
+                if(grid->veg_sage>=1 && grid->veg_sage<=8){
+                
+                    /* aa = 1.0 - grid->fcrop_unh_hmnzed[2000 - FDY_LUC];
+                    bb = grid->beccs_v2s + grid->beccs_v2b + grid->beccs_s2b;
+                    max_conv = (aa>bb)?bb:aa; */
+                
+                    grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
                 }else{
                     grid->f_deforest = grid->f_deforest_v = grid->f_deforest_s = 0.0;
                 }
@@ -655,7 +692,7 @@ void f_luc_emit(
         }
         
         /* BECCS S10 experiment: 2016/02/16 by A.Ito ******/
-        if(EX_BECCS == 1){
+        if(EX_BECCS == 1 || EX_BECCS == 2){
             if(grid->lucy <= 2000){
                 fluc_1 = 0.0;
             }else if(grid->lucy >= 2001){

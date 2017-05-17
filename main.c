@@ -23,7 +23,14 @@ ecosystems (Sim-CYCLE): A description based on dry-matter production theory
 and plot-scale validation. Ecological Modelling, 151:147-179.
 */
 
-/* VISIT a: global model	*/
+/* VISIT a: global model	
+Ito, A., Inatomi, M., 2012. Use and uncertainty evaluation of 
+  a process-based model for assessing the methane budget of global 
+  terrestrial ecosystems. Biogeosciences 9, 759–773.
+Ito, A., Inatomi, M., 2012. Water-use efficiency of the terrestrial 
+  biosphere: a model analysis on interactions between the global carbon 
+  and water cycles. Journal of Hydrometeorology 13, 681–694.
+*/
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -83,7 +90,7 @@ int main(
 	fscanf(fp_setting,"%s %ld", s_config, &l_config);
 	printf("config  1: %s %ld\n", s_config, l_config);
 	SCENARIO_ID = l_config;
-	   if(SCENARIO_ID>=0 && SCENARIO_ID<=9999){
+	   if(SCENARIO_ID>=0 && SCENARIO_ID<=99999){
 	   ;
 	}else{
 	   printf("Bad scenario ID specified !!!\n");
@@ -264,7 +271,7 @@ int main(
 	
 	/* read climate scenario 2010/01/04 (A.Ito) ***********/
 	if(NCEP_RUN == 1){
-		printf("Reading NCEP climate data...");
+		printf("Reading NCEP/NCAR reanalysis climate data...");
 		read_ncep_clim(&grid);
 	}
 	if(GCM_RUN == 1){
@@ -348,6 +355,16 @@ int main(
 			){
 				flag_calc = 1;
 			}
+            
+            /* IMPRESSIONS MASKED AREA: 2017/05/02 by A.Ito */
+            if(SCENARIO_ID >=60000 && SCENARIO_ID <=70000){
+                /* if(grid.impressions_mask == 1){ */
+                if(grid.impressions_mask == 1 || grid.impressions_mask == 2 || grid.impressions_mask == 3){
+                    flag_calc = 1;
+                }else{
+                    flag_calc = 0;
+                }
+            }
 			
 			/* calculation for lands *******************************************/
             if(flag_calc == 1){
@@ -419,7 +436,7 @@ int main(
                 
                     /* initialize location conditions ****/
                     f_init_loct(&grid, &loct_agr, &mass_agr, &flux_agr, &echar_agr);
-                
+                    
                     /* initialize stable carbon isotope ****/
                     f_init_c_isotpes(&grid, &flux_agr, &echar_agr, &mass_agr);
 
@@ -436,7 +453,7 @@ int main(
                     cal_historical(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2); 
 
                     /* future: 2001-2100 */
-                    if(GCM_RUN){
+                    if(GCM_RUN==1){
                         cal_projection(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
                     }
                     

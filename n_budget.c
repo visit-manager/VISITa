@@ -298,9 +298,9 @@ void f_n_deposit(
 	/*f_no3 = 0.47; */ /* revised by CHASER data: 2010/03/28 (A.Ito) */
 	/* f_nh4 = 1.0 - f_no3; */
 	
-    if(SENS_N == 0 || SENS_N == 1){
+    if(EX_CHASER_NDEPO == 0 || EX_CHASER_NDEPO == 1){
     
-        if(SENS_N == 0){
+        if(EX_CHASER_NDEPO == 0){
             /* CHASER-derived spatial and monthly NH4+/NO3- fraction */
             ndepo_total = ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]
                             + ndepo_chaser_dnoy[grid->m][grid->chaser_row][grid->chaser_col]
@@ -326,7 +326,7 @@ void f_n_deposit(
                 f_dry = (ndepo_chaser_dnoy[grid->m][grid->chaser_row][grid->chaser_col]
                     + ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_total;
             }
-        }else if(SENS_N == 1){
+        }else if(EX_CHASER_NDEPO == 1){
             f_dry = 0.5;
             f_wet = 0.5;
         }
@@ -365,7 +365,7 @@ void f_n_deposit(
         /* converted unit: g N ha-1 month-1 */
         loct->depo_no3[grid->m] = f_no3 * (ndepo_dry + ndepo_wet) *10.0;
         loct->depo_nh4[grid->m] = f_nh4 * (ndepo_dry + ndepo_wet) *10.0;
-	}else if(SENS_N == 2){
+	}else if(EX_CHASER_NDEPO == 2){
         
         /* 2014/12/27 revised by A.Ito: add organic N deposition*/
         if(grid->climy<1850){

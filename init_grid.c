@@ -1283,6 +1283,15 @@ void f_init_grid(
         grid->glbalbedo[e] = rfdat[e];
     }
     
+    /* N input *****************************************/
+    for(e=0;e<DL_NMIP;e++){
+        grid->nmip_frcrop[e] = 0.0;
+        grid->nmip_nfert[e] = 0.0;
+        grid->nmip_ndep_noy[e] = 0.0;
+        grid->nmip_ndep_nh4[e] = 0.0;
+        grid->nmip_manure[e] = 0.0;
+    }
+
     if(ISIMIP_RUN == 4){
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         
@@ -1290,6 +1299,11 @@ void f_init_grid(
         for(e=0;e<DL_NMIP;e++){
             grid->nmip_frcrop[e] = is2bdat[e];
         }
+    }else if(EX_BECCS == 2){
+        /* BECCS scenario: 2017/02/20 by A.Ito */
+        fscanf(fp_s[87],"%lf", &grid->beccs_s2b);
+        fscanf(fp_s[87],"%lf", &grid->beccs_v2b);
+        fscanf(fp_s[87],"%lf", &grid->beccs_v2s);
     }else{
         /* Bio Fuel scenario: 2015/08/21 by A.Ito ***********/
         for(e=0;e<DL_BF;e++){
@@ -1300,7 +1314,7 @@ void f_init_grid(
             }
         }
     }
-    
+
     if(ISIMIP_RUN == 4){
         fread(is2bdat,sizeof(float),DL_NMIP, fp_s[88]);
         for(e=0;e<DL_NMIP;e++){
@@ -1338,34 +1352,68 @@ void f_init_grid(
         }
     }
     
-    /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
-    for(e=0;e<90;e++){
-        /* data: 2010–2099, kg N ha-1 yr-1 */
-        fscanf(fp_s[89],"%lf", &nfert_m);
-        fscanf(fp_s[89],"%lf", &nfert_r);
-        fscanf(fp_s[89],"%lf", &nfert_sw);
-        fscanf(fp_s[89],"%lf", &nfert_ww);
+    if(EX_NFERT == 101){
+        /* 101: Nishina ESSD data: 2017/02/13 by A.Ito */
+        fscanf(fp_s[89],"%lf %lf", &ddummy, &ddummy);
         
-        if(grid->type_crop == 1){
-            
-            if(grid->lat >=45.0){
-                /* spring wheat */
-                grid->est_nfert[e] = nfert_sw;
-            }else{
-                /* winter wheat */
-                grid->est_nfert[e] = nfert_ww;
-            }
-            
-        }else if(grid->type_crop == 2){
-            /* rice */
-            grid->est_nfert[e] = nfert_r;
-        }else if(grid->type_crop == 3){
-            /* maize */
-            grid->est_nfert[e] = nfert_m;
+        for(e=0;e<ASTEP;e++){
+            fscanf(fp_s[89],"%lf", &ddummy);
+            if(ddummy<0.0){ ddummy = 0.0; }
+            grid->nin_date[e] = ddummy;
         }
         
-        if(grid->est_nfert[e] < 0.0){
+        for(e=0;e<50*ASTEP;e++){
+            fscanf(fp_s[89],"%lf", &ddummy);
+            if(ddummy<0.0){ ddummy = 0.0; }
+            grid->nin_no3[e/ASTEP][e%ASTEP] = ddummy;
+        }
+        
+        for(e=0;e<50*ASTEP;e++){
+            fscanf(fp_s[89],"%lf", &ddummy);
+            if(ddummy<0.0){ ddummy = 0.0; }
+            grid->nin_nh4[e/ASTEP][e%ASTEP] = ddummy;
+        }
+        
+        for(e=0;e<90;e++){
             grid->est_nfert[e] = 0.0;
         }
+    }else{
+        /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
+        for(e=0;e<90;e++){
+            /* data: 2010–2099, kg N ha-1 yr-1 */
+            fscanf(fp_s[89],"%lf", &nfert_m);
+            fscanf(fp_s[89],"%lf", &nfert_r);
+            fscanf(fp_s[89],"%lf", &nfert_sw);
+            fscanf(fp_s[89],"%lf", &nfert_ww);
+            
+            if(grid->type_crop == 1){
+                
+                if(grid->lat >=45.0){
+                    /* spring wheat */
+                    grid->est_nfert[e] = nfert_sw;
+                }else{
+                    /* winter wheat */
+                    grid->est_nfert[e] = nfert_ww;
+                }
+                
+            }else if(grid->type_crop == 2){
+                /* rice */
+                grid->est_nfert[e] = nfert_r;
+            }else if(grid->type_crop == 3){
+                /* maize */
+                grid->est_nfert[e] = nfert_m;
+            }
+            
+            if(grid->est_nfert[e] < 0.0){
+                grid->est_nfert[e] = 0.0;
+            }
+        }
+        
+        for(e=0;e<50*ASTEP;e++){
+            grid->nin_no3[e/ASTEP][e%ASTEP] = grid->nin_nh4[e/ASTEP][e%ASTEP] = 0.0;
+        }
     }
+    
+    /* IMPRESSIONS: 2017/05/02 by A.Ito */
+    fscanf(fp_s[90],"%ld", &grid->impressions_mask);
 }

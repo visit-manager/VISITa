@@ -157,7 +157,8 @@ void f_init_sim(
             fscanf(fpi,"%lf", &an2o_b2[f]);
         }
         fclose(fpi);
-    }else if(ISIMIP_RUN==1 || ISIMIP_RUN==2 || ISIMIP_RUN==3 || GEOMIP_RUN==1){
+    }else if(ISIMIP_RUN==1 || ISIMIP_RUN==2 || ISIMIP_RUN==3 || GEOMIP_RUN==1
+         || IMPRESSIONS_RUN==2 || IMPRESSIONS_RUN==3){
         if((fpi = fopen("./data/rcp_ghg.txt","rt"))==NULL){
             printf("No rcp_co2.txt\n");
             exit(1);

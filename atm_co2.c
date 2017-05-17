@@ -25,7 +25,7 @@ void f_co2_trend(
 	time = (double)(grid->co2y);
 	
     base = 350.0;
-    if(ISIMIP_RUN == 0 && GEOMIP_RUN == 0){
+    if(ISIMIP_RUN == 0 && GEOMIP_RUN == 0 && IMPRESSIONS_RUN <= 1){
         /** BASE **/
         if(time < 1990.0){
             /* fitting curve from observational data */
@@ -54,6 +54,22 @@ void f_co2_trend(
     }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3 || ISIMIP_RUN == 4
             || GEOMIP_RUN == 1){
         /** ISI-MIP or GeoMIP or ICARUS runs **/
+        switch(CO2S){
+            case 1:
+                base = aco2_b1[grid->co2y - FDY_AGHG];
+                break;
+            case 2:
+                base = aco2_b2[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
+                break;
+            case 3:
+                base = aco2_a1[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
+                break;
+            case 4:
+                base = aco2_a2[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
+                break;
+        }
+    }else if(IMPRESSIONS_RUN == 2 || IMPRESSIONS_RUN == 3){
+        /** IMPRESSIONS time-dependent runs **/
         switch(CO2S){
             case 1:
                 base = aco2_b1[grid->co2y - FDY_AGHG];

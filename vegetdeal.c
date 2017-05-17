@@ -852,6 +852,9 @@ void set_gcm_index(
 		case 5030:	strcpy(s_case,"ISM2bMP_"); break;
 		case 5031:	strcpy(s_case,"ISM2bMR26_"); break;
 		case 5032:	strcpy(s_case,"ISM2bMR60_"); break;
+		case 5040:	strcpy(s_case,"ISM2bHP_"); break;
+		case 5041:	strcpy(s_case,"ISM2bHR26_"); break;
+		case 5042:	strcpy(s_case,"ISM2bHR60_"); break;
         
         /* IMPRESSIONS *********/
 		case 6001:	strcpy(s_case,"IMP_M03M60_"); break;

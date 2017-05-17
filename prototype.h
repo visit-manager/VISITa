@@ -12,7 +12,7 @@
 #include"setting.h"
 
 /* #define IFILEN 59 */  /* normal case */
-#define IFILEN 90 /* */  /* normal case */
+#define IFILEN 91 /* */  /* normal case */
 #define OFILEN 9
 
 short Flag_FOPEN[IFILEN];
