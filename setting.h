@@ -42,8 +42,10 @@
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
-/* 3: ISI-MIP 2.1a historical runs */
-/* 4: ISI-MIP 2.1b 1.5 or 2.0 deg target */
+/* 3: ISI-MIP 2a historical runs */
+/* 4: ISI-MIP 2b 1.5 or 2.0 deg target */
+#define ISIMIP2_FIXCD 1
+/* ISI-MIP2b IIb (fixed CO2 after 2005) */
 
 #define GEOMIP_RUN 0
 /* 0: normal (no GEO-MIP) */
@@ -54,11 +56,6 @@
 /* 1: sensitivity run (for IRS) */
 /* 2: sensitivity run (for IRS) + seasonal change + RCP4.5-CO2 */
 /* 3: sensitivity run (for IRS) + seasonal change + RCP8.5-CO2 */
-
-/* parameter ensemble experiment ****/
-#define ENSEMBLE_RUN 0
-/* 0: off */
-/* 1: on */
 
 /* biofuel experiment: 2015/08/21 by A.Ito */
 #define BIOFUEL_RUN 0
@@ -84,15 +81,14 @@
 /* 11: land-conversion only (S7) */
 /* 12: land-conversion + N fertilizer + irrigation (S8) */
 
-#define DL_NMIP 156
-#define FDY_NINY 1860 /* */
-
-/* ISI-MIP 2.1b */
-/* #define DL_NMIP 639
-#define FDY_NINY 1661 */
-
-/* parameter ensemble **************************/
-#define N_PARA_ENS 20
+#if ISIMIP_RUN==4
+    /* ISI-MIP2b */
+    #define DL_NMIP 639
+    #define FDY_NINY 1661
+#else
+    #define DL_NMIP 156
+    #define FDY_NINY 1860
+#endif
 
 /***********************************************************/
 /* output text files */
@@ -169,17 +165,20 @@
 
 /*****************************************************************/
 /* simulation framework duration (years) */
-#define PD_SIM 201 /* */
-/* #define PD_SIM 640 */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
-/* for memory preparation; not always actual period */
+#if ISIMIP_RUN==4
+    #define PD_SIM 640 /* */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
+#else
+    #define PD_SIM 201
+#endif
+/* for memory preparation; not always actual experimental length */
 
 #if ISIMIP_RUN==1
     #define FSY_HIST 1950 /* ISI-MIP */
     #define LSY_HIST 2099
 #elif ISIMIP_RUN==4
-    #define FSY_HIST 1661 /* ISI-MIP2.1b */
+    #define FSY_HIST 1661 /* ISI-MIP2b */
     #define LSY_HIST 2299
-    /* #define LSY_HIST 2099 */ /* ISI-MIP2.1b (rcp6.0) */
+    /* #define LSY_HIST 2099 */ /* ISI-MIP2b (rcp6.0) */
 #elif IMPRESSIONS_RUN==2
     #define FSY_HIST 1950 /* IMPRESSIONS 2 */
     #define LSY_HIST 2099
@@ -249,6 +248,7 @@
     /* #define PD_HIST 114  */	/* AD 1901 - 2014 */
     /* #define PD_HIST 115	*/	/* AD 1901 - 2015 */
     #define PD_HIST 116	/* */	/* AD 1901 - 2016 */
+
 #endif
 
 /* start year (AD) of climate ***/
@@ -280,12 +280,12 @@
     /* PLUME: 2014/07/31 by A.Ito */
     #define DL_HCLIM 135  /* SU 30 + AD 1901 - 2005 */
 #elif ISIMIP_RUN==3
-    /* ISI-MIP2.1a (historical): 2014/11/30 by A.Ito */
+    /* ISI-MIP2a (historical): 2014/11/30 by A.Ito */
     /* #define DL_HCLIM 140 */  /* SU 30 + AD 1901 - 2010 */
     /* #define DL_HCLIM 131 */  /* SU 30 + AD 1901 - 2001 */
     #define DL_HCLIM 142  /* SU 30 + AD 1901 - 2012 */
 #elif ISIMIP_RUN==4
-    /* ISI-MIP2.1b (1.5/2.0deg): 2016/12/24 by A.Ito */
+    /* ISI-MIP2b (1.5/2.0deg): 2016/12/24 by A.Ito */
     #define DL_HCLIM 639  /* AD 1661 - 2299 */
     /* #define DL_HCLIM 439 */  /* AD 1661 - 2099 */
 #elif IMPRESSIONS_RUN==2
@@ -333,7 +333,7 @@
     /* #define DL_ISIMIP 131 */ /* SU 30 + AD 1901 - 2001 */
     #define DL_ISIMIP 142  /* SU 30 + AD 1901 - 2012 */
 #elif ISIMIP_RUN==4
-    /* ISI-MIP2.1b (historical): 2014/11/30 by A.Ito */
+    /* ISI-MIP2b (historical): 2014/11/30 by A.Ito */
     #define DL_ISIMIP 639  /* AD 1661 - 2299 */
     /* #define DL_ISIMIP 439 */  /* AD 1661 - 2099 */
 #else
@@ -565,6 +565,14 @@
 /* sensitivity run of biomass burning emission factor */
 #define SENS_FIRE 0
 /* 0:off, 1:0n */
+
+/* parameter ensemble experiment ****/
+#define ENSEMBLE_RUN 0
+/* 0: off */
+/* 1: on */
+
+/* parameter ensemble */
+#define N_PARA_ENS 20
 
 /***************************************************/
 /* 2016/06/08 by A.Ito */

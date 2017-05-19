@@ -141,10 +141,10 @@ void f_init_sim(
         for(f=0;f<DL_AGHG;f++){
             fscanf(fpi,"%ld", &year);
             /* CO2, ppmv */
-            fscanf(fpi,"%lf", &aco2_a1[f]);
-            fscanf(fpi,"%lf", &aco2_b1[f]);
-            fscanf(fpi,"%lf", &aco2_a2[f]);
-            fscanf(fpi,"%lf", &aco2_b2[f]);
+            fscanf(fpi,"%lf", &aco2_1[f]);
+            fscanf(fpi,"%lf", &aco2_3[f]);
+            fscanf(fpi,"%lf", &aco2_2[f]);
+            fscanf(fpi,"%lf", &aco2_4[f]);
             /* CH4, ppbv */
             fscanf(fpi,"%lf", &ach4_a1[f]);
             fscanf(fpi,"%lf", &ach4_b1[f]);
@@ -170,19 +170,19 @@ void f_init_sim(
             /* N2O, ppbv */
             
             /* RCP2.6 */
-            fscanf(fpi,"%lf", &aco2_b1[f]);
+            fscanf(fpi,"%lf", &aco2_3[f]);
             fscanf(fpi,"%lf", &ach4_b1[f]);
             fscanf(fpi,"%lf", &an2o_b1[f]);
             /* RCP4.5 */
-            fscanf(fpi,"%lf", &aco2_b2[f]);
+            fscanf(fpi,"%lf", &aco2_4[f]);
             fscanf(fpi,"%lf", &ach4_b2[f]);
             fscanf(fpi,"%lf", &an2o_b2[f]);
             /* RCP6.0 */
-            fscanf(fpi,"%lf", &aco2_a1[f]);
+            fscanf(fpi,"%lf", &aco2_1[f]);
             fscanf(fpi,"%lf", &ach4_a1[f]);
             fscanf(fpi,"%lf", &an2o_a1[f]);
             /* RCP8.5 */
-            fscanf(fpi,"%lf", &aco2_a2[f]);
+            fscanf(fpi,"%lf", &aco2_2[f]);
             fscanf(fpi,"%lf", &ach4_a2[f]);
             fscanf(fpi,"%lf", &an2o_a2[f]);
         }
@@ -194,9 +194,10 @@ void f_init_sim(
         }
         for(f=0;f<DL_AGHG;f++){
             fscanf(fpi,"%ld", &year);
-            fscanf(fpi,"%lf", &aco2_b1[f]); /* piControl */
-            fscanf(fpi,"%lf", &aco2_b2[f]); /* piControl + historical + rcp2.6 */
-            fscanf(fpi,"%lf", &aco2_a1[f]); /* piControl + historical + rcp6.0 */
+            fscanf(fpi,"%lf", &aco2_3[f]); /* piControl */
+            fscanf(fpi,"%lf", &aco2_4[f]); /* piControl + historical + rcp2.6 */
+            fscanf(fpi,"%lf", &aco2_1[f]); /* piControl + historical + rcp6.0 */
+            aco2_2[f] = aco2_1[f];
             
             /* rcp26 CH4 */
             fscanf(fpi,"%lf", &ach4_b1[f]);

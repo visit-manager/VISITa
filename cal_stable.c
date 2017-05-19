@@ -85,7 +85,7 @@ void cal_spinup(
     /* historical fertilizer */
     grid->niny = 1901;
     if(NMIP_RUN >= 1 || ISIMIP_RUN == 4){
-        /* ISIMIP2b: 2016/12/24 by A.Ito */
+        /* ISI-MIP2b: 2016/12/24 by A.Ito */
         grid->niny = FDY_NINY;
 
 		grid->f_crop_p = grid->nmip_frcrop[0];
@@ -100,7 +100,7 @@ void cal_spinup(
     
     if(NMIP_RUN >= 1 || ISIMIP_RUN == 4){
         /* NMIP input: 2015/11/19 by A.Ito */
-        /* ISIMIP2b: 2016/12/24 by A.Ito */
+        /* ISI-MIP2b: 2016/12/24 by A.Ito */
         f_fert = 1.0; /* driven by data */
     }else{
         if(grid->rank_nat == 1){

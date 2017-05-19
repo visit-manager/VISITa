@@ -674,7 +674,7 @@ void open_input(
                 break;
         }
     }else if(ISIMIP_RUN == 4){
-        /* ISIMIP2.1b: 2016/12/27 by A.Ito */
+        /* ISI-MIP2.1b: 2016/12/27 by A.Ito */
         switch(SCENARIO_ID){
             case 5010:
                 if( (fp_c[0]=fopen("./data/tas_mon_GFDL-ESM2M_r1i1p1_EWEMBI_landonly_pi_1661-2299.flt","rb"))==NULL ){
@@ -2663,7 +2663,7 @@ void open_input(
     
     /* ISI-MIP2 ******************************/
     if(SCENARIO_ID>=5000 && SCENARIO_ID<=5009){
-        /* ISIMIP2.1a (historical) */
+        /* ISI-MIP2a (historical) */
         CO2S = 2; /* RCP4.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
@@ -2679,7 +2679,7 @@ void open_input(
             Flag_FOPEN[45] ++;
         }
     }else if(SCENARIO_ID>=5010 && SCENARIO_ID<=5100){
-        /* ISIMIP2.1b (1.5/2.0deg) */
+        /* ISI-MIP1b (1.5/2.0deg) */
         
         if(SCENARIO_ID == 5010 || SCENARIO_ID == 5020 || SCENARIO_ID == 5030 || SCENARIO_ID == 5040){
             CO2S = 1; /* ISI-MIP2.1b: piControl */

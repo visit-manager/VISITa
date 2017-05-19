@@ -47,10 +47,10 @@ void cal_historical(
 	/* LOOP to dynamic stage *******************************************************/
 	for(g=0; g<PD_HIST; g++){
 		/* AD1901 - 2002 / 2008 / 2009 */
-        /* ISIMIP1: 1950-2099 */
+        /* ISI-MIP1: 1950-2099 */
         /* GEOMIP: 1901-2005 */
-        /* ISIMIP2 (hist): 1901-2010 */
-        /* ISIMIP2b (1.5/2.0): 1661-2299 (2099) */
+        /* ISI-MIP2 (hist): 1901-2010 */
+        /* ISI-MIP2b (1.5/2.0): 1661-2299 (2099) */
         /* NMIP: 1901-2012 => 1861–2015 */
 		
 		/* simulation year ********************/
@@ -87,6 +87,16 @@ void cal_historical(
             SCENARIO_ID==2045 ||SCENARIO_ID==2046 ||SCENARIO_ID==2047 ||SCENARIO_ID==2048) && grid->simy>=2000){
             /* fixed to AD2000 level */
             grid->co2y = 2000;
+        }
+        /* IIa: 2017/05/18 by A.Ito *****/
+        if(ISIMIP2_FIXCD == 1 && (
+            SCENARIO_ID==5011 || SCENARIO_ID==5021 || SCENARIO_ID==5031 || SCENARIO_ID==5041)){
+            /* fix CO2 after 2006 */
+            if(grid->simy>=2006){
+                grid->co2y = 2005;
+            }else{
+                ;
+            }
         }
         
         /* land-use year *****/
