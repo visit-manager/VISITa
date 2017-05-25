@@ -90,7 +90,7 @@ int main(
 	fscanf(fp_setting,"%s %ld", s_config, &l_config);
 	printf("config  1: %s %ld\n", s_config, l_config);
 	SCENARIO_ID = l_config;
-	   if(SCENARIO_ID>=0 && SCENARIO_ID<=99999){
+	   if(SCENARIO_ID>=0 && SCENARIO_ID<=9999){
 	   ;
 	}else{
 	   printf("Bad scenario ID specified !!!\n");
@@ -222,6 +222,12 @@ int main(
 	/* config: 10 SRM experiment */
 	fscanf(fp_setting,"%s %ld", s_config, &EX_SRM);
 	printf("config  10: %s %ld\n", s_config, EX_SRM);
+    
+    /* config: 11 IMPRESSIONS experiment */
+    if(SCENARIO_ID==6001 || SCENARIO_ID==6002){
+        fscanf(fp_setting,"%s %ld %ld", s_config, &IMP_DT, &IMP_DP);
+        printf("config  11: %s %ld %ld\n", s_config, IMP_DT, IMP_DP);
+    }
 	
     /* close setting.txt */
     fclose(fp_setting);
@@ -357,7 +363,7 @@ int main(
 			}
             
             /* IMPRESSIONS MASKED AREA: 2017/05/02 by A.Ito */
-            if(SCENARIO_ID >=60000 && SCENARIO_ID <=70000){
+            if(SCENARIO_ID == 6002){
                 /* if(grid.impressions_mask == 1){ */
                 if(grid.impressions_mask == 1 || grid.impressions_mask == 2 || grid.impressions_mask == 3){
                     flag_calc = 1;

@@ -2010,7 +2010,7 @@ void open_input(
 	/* 5: gradual rise (SRES B1) */
 	/* 6: gradual rise (SRES B2) */
 	/* 7: uniform rise */
-	if(SCENARIO_ID == 0 || (SCENARIO_ID>6000 && SCENARIO_ID<7000)){
+	if(SCENARIO_ID == 0 || (SCENARIO_ID==6001 || SCENARIO_ID==6002)){
 		CO2S = 4;
 		fp_s[23] = fopen("./data/image_a2_fcrop.dat","rt");
 		fp_s[45] = fopen("./data/image_a2_fgrass.dat","rt");
@@ -3244,9 +3244,9 @@ void open_input(
     }
     
     if( (fp_s[90]=fopen("./data/bnd_impress.txt","rt"))==NULL ){
-            printf("No bnd_impress.txt\n");
-            exit(1); 
-        }else{
-            Flag_FOPEN[90] ++;
-        }
+        printf("No bnd_impress.txt\n");
+        exit(1); 
+    }else{
+        Flag_FOPEN[90] ++;
+    }
 }

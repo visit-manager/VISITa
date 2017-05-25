@@ -69,7 +69,7 @@ void cal_projection(
             grid->climy = 2005;
         }
 
-		if(SCENARIO_ID >= 1 && SCENARIO_ID <=99999){
+		if(SCENARIO_ID >= 1 && SCENARIO_ID <=9999){
 			set_gcm_clim(grid);
 		}else{
             printf("BAD SCENARIO_ID!!\n");

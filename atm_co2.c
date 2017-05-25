@@ -75,13 +75,13 @@ void f_co2_trend(
                 base = aco2_3[grid->co2y - FDY_AGHG];
                 break;
             case 2:
-                base = aco2_4[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
+                base = aco2_4[grid->co2y - FDY_AGHG];
                 break;
             case 3:
-                base = aco2_1[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
+                base = aco2_1[grid->co2y - FDY_AGHG];
                 break;
             case 4:
-                base = aco2_2[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
+                base = aco2_2[grid->co2y - FDY_AGHG];
                 break;
         }
     }else{

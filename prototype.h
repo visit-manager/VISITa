@@ -23,6 +23,7 @@ extern long SCENARIO_ID, CO2S, GCM_R, GCM_C;
 extern long PARAM_PTB, PARAM_ENS;   /* added by A.Ito (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3;   /* added by A.Ito (2010/07/02) */
 extern long EX_SRM, EX_CCPL;
+extern long IMP_DT, IMP_DP;
 
 extern double f_pert[20];
 extern double aco2_1[DL_AGHG], aco2_2[DL_AGHG], aco2_3[DL_AGHG], aco2_4[DL_AGHG];
@@ -306,6 +307,7 @@ void f_before_deal(struct Grid *grid, struct Pflx *flux);
 void f_after_deal(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, struct Pmas *pmas, struct Pflx *flux);
 void f_plant_stand_budget(struct Grid *grid,struct Loct *loct,struct Mass *mass, struct Flux *flux);
 double grid_area(double lat1, double lat2, double lon1, double lon2);
+void f_impressions_dclim(double *tmp_var, double *pre_var, struct Grid *grid);
 
 /* ECOPHYSIOLOGY *****************************/
 void f_ecophysiology(struct Grid *grid, struct Loct *loct, struct Pchar *pchar, struct Pmas *mass);

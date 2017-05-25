@@ -857,214 +857,9 @@ void set_gcm_index(
 		case 5042:	strcpy(s_case,"ISM2bHR60_"); break;
         
         /* IMPRESSIONS *********/
-		case 6001:	strcpy(s_case,"IMP_M03M60_"); break;
-		case 6002:	strcpy(s_case,"IMP_M02M60_"); break;
-		case 6003:	strcpy(s_case,"IMP_M01M60_"); break;
-		case 6004:	strcpy(s_case,"IMP_000M60_"); break;
-		case 6005:	strcpy(s_case,"IMP_P01M60_"); break;
-		case 6006:	strcpy(s_case,"IMP_P02M60_"); break;
-		case 6007:	strcpy(s_case,"IMP_P03M60_"); break;
-		case 6008:	strcpy(s_case,"IMP_P04M60_"); break;
-		case 6009:	strcpy(s_case,"IMP_P05M60_"); break;
-		case 6010:	strcpy(s_case,"IMP_P06M60_"); break;
-		case 6011:	strcpy(s_case,"IMP_P07M60_"); break;
-		case 6012:	strcpy(s_case,"IMP_P08M60_"); break;
-		case 6013:	strcpy(s_case,"IMP_P09M60_"); break;
-		case 6014:	strcpy(s_case,"IMP_P10M60_"); break;
-		case 6015:	strcpy(s_case,"IMP_P11M60_"); break;
-
-		case 6051:	strcpy(s_case,"IMP_M03M50_"); break;
-		case 6052:	strcpy(s_case,"IMP_M02M50_"); break;
-		case 6053:	strcpy(s_case,"IMP_M01M50_"); break;
-		case 6054:	strcpy(s_case,"IMP_000M50_"); break;
-		case 6055:	strcpy(s_case,"IMP_P01M50_"); break;
-		case 6056:	strcpy(s_case,"IMP_P02M50_"); break;
-		case 6057:	strcpy(s_case,"IMP_P03M50_"); break;
-		case 6058:	strcpy(s_case,"IMP_P04M50_"); break;
-		case 6059:	strcpy(s_case,"IMP_P05M50_"); break;
-		case 6060:	strcpy(s_case,"IMP_P06M50_"); break;
-		case 6061:	strcpy(s_case,"IMP_P07M50_"); break;
-		case 6062:	strcpy(s_case,"IMP_P08M50_"); break;
-		case 6063:	strcpy(s_case,"IMP_P09M50_"); break;
-		case 6064:	strcpy(s_case,"IMP_P10M50_"); break;
-		case 6065:	strcpy(s_case,"IMP_P11M50_"); break;
-
-		case 6101:	strcpy(s_case,"IMP_M03M40_"); break;
-		case 6102:	strcpy(s_case,"IMP_M02M40_"); break;
-		case 6103:	strcpy(s_case,"IMP_M01M40_"); break;
-		case 6104:	strcpy(s_case,"IMP_000M40_"); break;
-		case 6105:	strcpy(s_case,"IMP_P01M40_"); break;
-		case 6106:	strcpy(s_case,"IMP_P02M40_"); break;
-		case 6107:	strcpy(s_case,"IMP_P03M40_"); break;
-		case 6108:	strcpy(s_case,"IMP_P04M40_"); break;
-		case 6109:	strcpy(s_case,"IMP_P05M40_"); break;
-		case 6110:	strcpy(s_case,"IMP_P06M40_"); break;
-		case 6111:	strcpy(s_case,"IMP_P07M40_"); break;
-		case 6112:	strcpy(s_case,"IMP_P08M40_"); break;
-		case 6113:	strcpy(s_case,"IMP_P09M40_"); break;
-		case 6114:	strcpy(s_case,"IMP_P10M40_"); break;
-		case 6115:	strcpy(s_case,"IMP_P11M40_"); break;
-
-		case 6151:	strcpy(s_case,"IMP_M03M30_"); break;
-		case 6152:	strcpy(s_case,"IMP_M02M30_"); break;
-		case 6153:	strcpy(s_case,"IMP_M01M30_"); break;
-		case 6154:	strcpy(s_case,"IMP_000M30_"); break;
-		case 6155:	strcpy(s_case,"IMP_P01M30_"); break;
-		case 6156:	strcpy(s_case,"IMP_P02M30_"); break;
-		case 6157:	strcpy(s_case,"IMP_P03M30_"); break;
-		case 6158:	strcpy(s_case,"IMP_P04M30_"); break;
-		case 6159:	strcpy(s_case,"IMP_P05M30_"); break;
-		case 6160:	strcpy(s_case,"IMP_P06M30_"); break;
-		case 6161:	strcpy(s_case,"IMP_P07M30_"); break;
-		case 6162:	strcpy(s_case,"IMP_P08M30_"); break;
-		case 6163:	strcpy(s_case,"IMP_P09M30_"); break;
-		case 6164:	strcpy(s_case,"IMP_P10M30_"); break;
-		case 6165:	strcpy(s_case,"IMP_P11M30_"); break;
-
-		case 6201:	strcpy(s_case,"IMP_M03M20_"); break;
-		case 6202:	strcpy(s_case,"IMP_M02M20_"); break;
-		case 6203:	strcpy(s_case,"IMP_M01M20_"); break;
-		case 6204:	strcpy(s_case,"IMP_000M20_"); break;
-		case 6205:	strcpy(s_case,"IMP_P01M20_"); break;
-		case 6206:	strcpy(s_case,"IMP_P02M20_"); break;
-		case 6207:	strcpy(s_case,"IMP_P03M20_"); break;
-		case 6208:	strcpy(s_case,"IMP_P04M20_"); break;
-		case 6209:	strcpy(s_case,"IMP_P05M20_"); break;
-		case 6210:	strcpy(s_case,"IMP_P06M20_"); break;
-		case 6211:	strcpy(s_case,"IMP_P07M20_"); break;
-		case 6212:	strcpy(s_case,"IMP_P08M20_"); break;
-		case 6213:	strcpy(s_case,"IMP_P09M20_"); break;
-		case 6214:	strcpy(s_case,"IMP_P10M20_"); break;
-		case 6215:	strcpy(s_case,"IMP_P11M20_"); break;
-
-		case 6251:	strcpy(s_case,"IMP_M03M10_"); break;
-		case 6252:	strcpy(s_case,"IMP_M02M10_"); break;
-		case 6253:	strcpy(s_case,"IMP_M01M10_"); break;
-		case 6254:	strcpy(s_case,"IMP_000M10_"); break;
-		case 6255:	strcpy(s_case,"IMP_P01M10_"); break;
-		case 6256:	strcpy(s_case,"IMP_P02M10_"); break;
-		case 6257:	strcpy(s_case,"IMP_P03M10_"); break;
-		case 6258:	strcpy(s_case,"IMP_P04M10_"); break;
-		case 6259:	strcpy(s_case,"IMP_P05M10_"); break;
-		case 6260:	strcpy(s_case,"IMP_P06M10_"); break;
-		case 6261:	strcpy(s_case,"IMP_P07M10_"); break;
-		case 6262:	strcpy(s_case,"IMP_P08M10_"); break;
-		case 6263:	strcpy(s_case,"IMP_P09M10_"); break;
-		case 6264:	strcpy(s_case,"IMP_P10M10_"); break;
-		case 6265:	strcpy(s_case,"IMP_P11M10_"); break;
-
-		case 6301:	strcpy(s_case,"IMP_M03000_"); break;
-		case 6302:	strcpy(s_case,"IMP_M02000_"); break;
-		case 6303:	strcpy(s_case,"IMP_M01000_"); break;
-		case 6304:	strcpy(s_case,"IMP_000000_"); break;
-		case 6305:	strcpy(s_case,"IMP_P01000_"); break;
-		case 6306:	strcpy(s_case,"IMP_P02000_"); break;
-		case 6307:	strcpy(s_case,"IMP_P03000_"); break;
-		case 6308:	strcpy(s_case,"IMP_P04000_"); break;
-		case 6309:	strcpy(s_case,"IMP_P05000_"); break;
-		case 6310:	strcpy(s_case,"IMP_P06000_"); break;
-		case 6311:	strcpy(s_case,"IMP_P07000_"); break;
-		case 6312:	strcpy(s_case,"IMP_P08000_"); break;
-		case 6313:	strcpy(s_case,"IMP_P09000_"); break;
-		case 6314:	strcpy(s_case,"IMP_P10000_"); break;
-		case 6315:	strcpy(s_case,"IMP_P11000_"); break;
-
-		case 6351:	strcpy(s_case,"IMP_M03P10_"); break;
-		case 6352:	strcpy(s_case,"IMP_M02P10_"); break;
-		case 6353:	strcpy(s_case,"IMP_M01P10_"); break;
-		case 6354:	strcpy(s_case,"IMP_000P10_"); break;
-		case 6355:	strcpy(s_case,"IMP_P01P10_"); break;
-		case 6356:	strcpy(s_case,"IMP_P02P10_"); break;
-		case 6357:	strcpy(s_case,"IMP_P03P10_"); break;
-		case 6358:	strcpy(s_case,"IMP_P04P10_"); break;
-		case 6359:	strcpy(s_case,"IMP_P05P10_"); break;
-		case 6360:	strcpy(s_case,"IMP_P06P10_"); break;
-		case 6361:	strcpy(s_case,"IMP_P07P10_"); break;
-		case 6362:	strcpy(s_case,"IMP_P08P10_"); break;
-		case 6363:	strcpy(s_case,"IMP_P09P10_"); break;
-		case 6364:	strcpy(s_case,"IMP_P10P10_"); break;
-		case 6365:	strcpy(s_case,"IMP_P11P10_"); break;
-
-		case 6401:	strcpy(s_case,"IMP_M03P20_"); break;
-		case 6402:	strcpy(s_case,"IMP_M02P20_"); break;
-		case 6403:	strcpy(s_case,"IMP_M01P20_"); break;
-		case 6404:	strcpy(s_case,"IMP_000P20_"); break;
-		case 6405:	strcpy(s_case,"IMP_P01P20_"); break;
-		case 6406:	strcpy(s_case,"IMP_P02P20_"); break;
-		case 6407:	strcpy(s_case,"IMP_P03P20_"); break;
-		case 6408:	strcpy(s_case,"IMP_P04P20_"); break;
-		case 6409:	strcpy(s_case,"IMP_P05P20_"); break;
-		case 6410:	strcpy(s_case,"IMP_P06P20_"); break;
-		case 6411:	strcpy(s_case,"IMP_P07P20_"); break;
-		case 6412:	strcpy(s_case,"IMP_P08P20_"); break;
-		case 6413:	strcpy(s_case,"IMP_P09P20_"); break;
-		case 6414:	strcpy(s_case,"IMP_P10P20_"); break;
-		case 6415:	strcpy(s_case,"IMP_P11P20_"); break;
-
-		case 6451:	strcpy(s_case,"IMP_M03P30_"); break;
-		case 6452:	strcpy(s_case,"IMP_M02P30_"); break;
-		case 6453:	strcpy(s_case,"IMP_M01P30_"); break;
-		case 6454:	strcpy(s_case,"IMP_000P30_"); break;
-		case 6455:	strcpy(s_case,"IMP_P01P30_"); break;
-		case 6456:	strcpy(s_case,"IMP_P02P30_"); break;
-		case 6457:	strcpy(s_case,"IMP_P03P30_"); break;
-		case 6458:	strcpy(s_case,"IMP_P04P30_"); break;
-		case 6459:	strcpy(s_case,"IMP_P05P30_"); break;
-		case 6460:	strcpy(s_case,"IMP_P06P30_"); break;
-		case 6461:	strcpy(s_case,"IMP_P07P30_"); break;
-		case 6462:	strcpy(s_case,"IMP_P08P30_"); break;
-		case 6463:	strcpy(s_case,"IMP_P09P30_"); break;
-		case 6464:	strcpy(s_case,"IMP_P10P30_"); break;
-		case 6465:	strcpy(s_case,"IMP_P11P30_"); break;
-
-		case 6501:	strcpy(s_case,"IMP_M03P40_"); break;
-		case 6502:	strcpy(s_case,"IMP_M02P40_"); break;
-		case 6503:	strcpy(s_case,"IMP_M01P40_"); break;
-		case 6504:	strcpy(s_case,"IMP_000P40_"); break;
-		case 6505:	strcpy(s_case,"IMP_P01P40_"); break;
-		case 6506:	strcpy(s_case,"IMP_P02P40_"); break;
-		case 6507:	strcpy(s_case,"IMP_P03P40_"); break;
-		case 6508:	strcpy(s_case,"IMP_P04P40_"); break;
-		case 6509:	strcpy(s_case,"IMP_P05P40_"); break;
-		case 6510:	strcpy(s_case,"IMP_P06P40_"); break;
-		case 6511:	strcpy(s_case,"IMP_P07P40_"); break;
-		case 6512:	strcpy(s_case,"IMP_P08P40_"); break;
-		case 6513:	strcpy(s_case,"IMP_P09P40_"); break;
-		case 6514:	strcpy(s_case,"IMP_P10P40_"); break;
-		case 6515:	strcpy(s_case,"IMP_P11P40_"); break;
-
-		case 6551:	strcpy(s_case,"IMP_M03P50_"); break;
-		case 6552:	strcpy(s_case,"IMP_M02P50_"); break;
-		case 6553:	strcpy(s_case,"IMP_M01P50_"); break;
-		case 6554:	strcpy(s_case,"IMP_000P50_"); break;
-		case 6555:	strcpy(s_case,"IMP_P01P50_"); break;
-		case 6556:	strcpy(s_case,"IMP_P02P50_"); break;
-		case 6557:	strcpy(s_case,"IMP_P03P50_"); break;
-		case 6558:	strcpy(s_case,"IMP_P04P50_"); break;
-		case 6559:	strcpy(s_case,"IMP_P05P50_"); break;
-		case 6560:	strcpy(s_case,"IMP_P06P50_"); break;
-		case 6561:	strcpy(s_case,"IMP_P07P50_"); break;
-		case 6562:	strcpy(s_case,"IMP_P08P50_"); break;
-		case 6563:	strcpy(s_case,"IMP_P09P50_"); break;
-		case 6564:	strcpy(s_case,"IMP_P10P50_"); break;
-		case 6565:	strcpy(s_case,"IMP_P11P50_"); break;
-
-		case 6601:	strcpy(s_case,"IMP_M03P60_"); break;
-		case 6602:	strcpy(s_case,"IMP_M02P60_"); break;
-		case 6603:	strcpy(s_case,"IMP_M01P60_"); break;
-		case 6604:	strcpy(s_case,"IMP_000P60_"); break;
-		case 6605:	strcpy(s_case,"IMP_P01P60_"); break;
-		case 6606:	strcpy(s_case,"IMP_P02P60_"); break;
-		case 6607:	strcpy(s_case,"IMP_P03P60_"); break;
-		case 6608:	strcpy(s_case,"IMP_P04P60_"); break;
-		case 6609:	strcpy(s_case,"IMP_P05P60_"); break;
-		case 6610:	strcpy(s_case,"IMP_P06P60_"); break;
-		case 6611:	strcpy(s_case,"IMP_P07P60_"); break;
-		case 6612:	strcpy(s_case,"IMP_P08P60_"); break;
-		case 6613:	strcpy(s_case,"IMP_P09P60_"); break;
-		case 6614:	strcpy(s_case,"IMP_P10P60_"); break;
-		case 6615:	strcpy(s_case,"IMP_P11P60_"); break;
-
+		case 6001:	strcpy(s_case,"IMP1"); break;
+		case 6002:	strcpy(s_case,"IMP2"); break;
+        
 		default:
 			strcpy(s_case,"STCLIM_"); 
 			printf("NULL CASE !!!");
@@ -1076,6 +871,92 @@ void set_gcm_index(
 		/* rcf */
 		/* apf */
 	}
+    
+    /* IMPRESSIONS 1 */
+    if(SCENARIO_ID == 6001){
+        switch(IMP_DT){
+            case 0: ; break;
+            case 1: strcat(s_case,"TM03"); break;
+            case 2: strcat(s_case,"TM02"); break;
+            case 3: strcat(s_case,"TM01"); break;
+            case 4: strcat(s_case,"T00"); break;
+            case 5: strcat(s_case,"TP01"); break;
+            case 6: strcat(s_case,"TP02"); break;
+            case 7: strcat(s_case,"TP03"); break;
+            case 8: strcat(s_case,"TP04"); break;
+            case 9: strcat(s_case,"TP05"); break;
+            case 10: strcat(s_case,"TP06"); break;
+            case 11: strcat(s_case,"TP07"); break;
+            case 12: strcat(s_case,"TP08"); break;
+            case 13: strcat(s_case,"TP09"); break;
+            case 14: strcat(s_case,"TP10"); break;
+            case 15: strcat(s_case,"TP11"); break;
+        }
+
+        switch(IMP_DP){
+            case 0: ; break;
+            case 1: strcat(s_case,"PM60_"); break;
+            case 2: strcat(s_case,"PM50_"); break;
+            case 3: strcat(s_case,"PM40_"); break;
+            case 4: strcat(s_case,"PM30_"); break;
+            case 5: strcat(s_case,"PM20_"); break;
+            case 6: strcat(s_case,"PM10_"); break;
+            case 7: strcat(s_case,"P00_"); break;
+            case 8: strcat(s_case,"PP10_"); break;
+            case 9: strcat(s_case,"PP20_"); break;
+            case 10: strcat(s_case,"PP30_"); break;
+            case 11: strcat(s_case,"PP40_"); break;
+            case 12: strcat(s_case,"PP50_"); break;
+            case 13: strcat(s_case,"PP60_"); break;
+        }
+    }
+    
+    /* IMPRESSIONS 2 */
+    if(SCENARIO_ID == 6002){
+        switch(IMP_DT){
+            case 0: ; break;
+            case 1: strcat(s_case,"TM03"); break;
+            case 2: strcat(s_case,"TM02"); break;
+            case 3: strcat(s_case,"TM01"); break;
+            case 4: strcat(s_case,"T00"); break;
+            case 5: strcat(s_case,"TP005"); break;
+            case 6: strcat(s_case,"TP01"); break;
+            case 7: strcat(s_case,"TP02"); break;
+            case 8: strcat(s_case,"TP03"); break;
+            case 9: strcat(s_case,"TP04"); break;
+            case 10: strcat(s_case,"TP05"); break;
+            case 11: strcat(s_case,"TP06"); break;
+            case 12: strcat(s_case,"TP07"); break;
+            case 13: strcat(s_case,"TP08"); break;
+        }
+
+        switch(IMP_DP){
+            case 0: ; break;
+            case 1: strcat(s_case,"PM42_"); break;
+            case 2: strcat(s_case,"PM36_"); break;
+            case 3: strcat(s_case,"PM30_"); break;
+            case 4: strcat(s_case,"PM25_"); break;
+            case 5: strcat(s_case,"PM24_"); break;
+            case 6: strcat(s_case,"PM20_"); break;
+            case 7: strcat(s_case,"PM18_"); break;
+            case 8: strcat(s_case,"PM15_"); break;
+            case 9: strcat(s_case,"PM12_"); break;
+            case 10: strcat(s_case,"PM10_"); break;
+            case 11: strcat(s_case,"PM09_"); break;
+            case 12: strcat(s_case,"PM06_"); break;
+            case 13: strcat(s_case,"PM05_"); break;
+            case 14: strcat(s_case,"PM03_"); break;
+            case 15: strcat(s_case,"P00_"); break;
+            case 16: strcat(s_case,"PP03_"); break;
+            case 17: strcat(s_case,"PP05_"); break;
+            case 18: strcat(s_case,"PP06_"); break;
+            case 19: strcat(s_case,"PP09_"); break;
+            case 20: strcat(s_case,"PP10_"); break;
+            case 21: strcat(s_case,"PP12_"); break;
+            case 22: strcat(s_case,"PP15_"); break;
+            case 23: strcat(s_case,"PP18_"); break;
+        }
+    }    
 }
 
 /* REGIONS by F.Giorgi **********/
@@ -1091,9 +972,9 @@ long region_giorgi(
 	long reg;
 	
 	reg = 0;
-	if((lat>-48.0&&lat<-28.0)&&(lon>110.0&&lon<180.0)){
+	if((lat>-48.0&&lat<-28.0) && (lon>110.0&&lon<180.0)){
 		reg = 1;
-	}else if((lat>-28.0&&lat<-11.0)&&(lon>110.0&&lon<155.0)){
+	}else if((lat>-28.0&&lat<-11.0) && (lon>110.0&&lon<155.0)){
 		reg = 2;
 	}else if((lat>-20.0&&lat<12.0)&&(lon>-82.0&&lon<-34.0)){
 		reg = 3;

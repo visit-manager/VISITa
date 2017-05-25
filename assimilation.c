@@ -83,6 +83,7 @@ void pc_sat(
 	
 	/** CO2 effect ***********************************************************/
 	/** stomatal limitation via intercellular CO2 concentration **/
+    fstl = 1.0;
 	if(pchar->phototype == 3){ /* C3 plants */
 		fstl = 0.05 + 0.95*(pchar->ci[grid->m] - pchar->cmpcd[grid->m])/(pchar->kmci + pchar->ci[grid->m]); 
 	}else if(pchar->phototype == 4){ /* C4 plants */
@@ -95,6 +96,7 @@ void pc_sat(
 
 	/** soil water effect ******************************************************/
 	/** non-stomatal limitation **/
+    fnstl = 1.0;
 	if(pchar->phototype == 3){ /* C3 plants */
 		fnstl = 0.95 * loct->sww / (loct->sww + grid->field_cap2*pchar->km_nstl) + 0.05;
 	}else if(pchar->phototype == 4){ /* C4 plants */

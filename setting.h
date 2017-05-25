@@ -38,20 +38,20 @@
 #define INT_C 0.01
 
 /***********************************************************/
-#define ISIMIP_RUN 4
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
 /* 3: ISI-MIP 2a historical runs */
 /* 4: ISI-MIP 2b 1.5 or 2.0 deg target */
-#define ISIMIP2_FIXCD 1
+#define ISIMIP2_FIXCD 0
 /* ISI-MIP2b IIb (fixed CO2 after 2005) */
 
 #define GEOMIP_RUN 0
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
-#define IMPRESSIONS_RUN 0
+#define IMPRESSIONS_RUN 2
 /* 0: off */
 /* 1: sensitivity run (for IRS) */
 /* 2: sensitivity run (for IRS) + seasonal change + RCP4.5-CO2 */
@@ -180,11 +180,11 @@
     #define LSY_HIST 2299
     /* #define LSY_HIST 2099 */ /* ISI-MIP2b (rcp6.0) */
 #elif IMPRESSIONS_RUN==2
-    #define FSY_HIST 1950 /* IMPRESSIONS 2 */
-    #define LSY_HIST 2099
+    #define FSY_HIST 1901 /* IMPRESSIONS 2 */
+    #define LSY_HIST 2015
 #elif IMPRESSIONS_RUN==3
-    #define FSY_HIST 1950 /* IMPRESSIONS 2 */
-    #define LSY_HIST 2099
+    #define FSY_HIST 1901 /* IMPRESSIONS 2 */
+    #define LSY_HIST 2015
 #else
     #define FSY_HIST 1901 /* */
     /* #define FSY_HIST 1861 */ /* NMIP */
@@ -207,9 +207,9 @@
 #elif ISIMIP_RUN==4
     #define BGY_CO2Y 1661  /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
 #elif IMPRESSIONS_RUN==2
-    #define BGY_CO2Y 1950
+    #define BGY_CO2Y 1901
 #elif IMPRESSIONS_RUN==3
-    #define BGY_CO2Y 1950
+    #define BGY_CO2Y 1901
 #else
     #define BGY_CO2Y 1901
 #endif
@@ -232,9 +232,9 @@
 #elif NMIP_RUN>=1
     #define PD_HIST 155	/* */	/* AD 1861 - 2015 */
 #elif IMPRESSIONS_RUN==2
-    #define PD_HIST 116
+    #define PD_HIST 115
 #elif IMPRESSIONS_RUN==3
-    #define PD_HIST 116
+    #define PD_HIST 115
 #else
     /* non-ISI-MIP: case dependent */
     /* #define PD_HIST 100  */	/* AD 1901 - 2000 */
@@ -265,9 +265,9 @@
 #elif ISIMIP_RUN==4
     #define BGY_CLIM 1661  /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
 #elif IMPRESSIONS_RUN==2
-    #define BGY_CLIM 1950
+    #define BGY_CLIM 1901
 #elif IMPRESSIONS_RUN==3
-    #define BGY_CLIM 1950
+    #define BGY_CLIM 1901
 #else
     #define BGY_CLIM 1901
 #endif
@@ -384,7 +384,7 @@
 #define NECB_CROP 1
 
 /* land use change setting ********************************/
-#define LANDUSE 24
+#define LANDUSE 9
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -411,14 +411,14 @@
 /* 23: SSP5 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 24: ISI-MIP2b land-use data (2016/12/22 by A.Ito) */
 
-/* #define DL_LUC 601 */  /* 1500-2100 */
+#define DL_LUC 601 /* */  /* 1500-2100 */
 /* #define DL_LUC 306 */ /* 1700-2000/2005 */
-#define DL_LUC 639 /* */  /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
+/* #define DL_LUC 639 */  /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
 
 /* begin year of land-use DATA */
-/* #define FDY_LUC 1500 */
+#define FDY_LUC 1500 /* */
 /* #define FDY_LUC 1700 */
-#define FDY_LUC 1661 /* */ /* ISI-MIP2b (2016/12/22 by A.Ito) */
+/* #define FDY_LUC 1661 */ /* ISI-MIP2b (2016/12/22 by A.Ito) */
 
 /* begin year of land-use SIMULATION */
 #if ISIMIP_RUN==1
@@ -1045,74 +1045,85 @@
 /* 5042: HadGEM2-ES piControl + historical + rcp6.0 */
 
 /** IMPRESSIONS: 2015/07/17 **/
-/* 6001-6050: precipitation -60% */
-/* 6051-6100: precipitation -50% */
-/* 6101-6150: precipitation -40% */
-/* 6151-6200: precipitation -30% */
-/* 6201-6250: precipitation -20% */
-/* 6251-6300: precipitation -10% */
-/* 6301-6350: precipitation   0% */
-/* 6351-6400: precipitation +10% */
-/* 6401-6450: precipitation +20% */
-/* 6451-6500: precipitation +30% */
-/* 6501-6550: precipitation +40% */
-/* 6551-6600: precipitation +50% */
-/* 6601-6650: precipitation +60% */
+/* 6001: phase 1 */
+/* temperature */
+/* IMPRESSIONS_DT */
+/* 0: temperature 0 K */
+/* 1: temperature -3 K */
+/* 2: temperature -2 K */
+/* 3: temperature -1 K */
+/* 4: temperature  0 K */
+/* 5: temperature +1 K */
+/* 6: temperature +2 K */
+/* 7: temperature +3 K */
+/* 8: temperature +4 K */
+/* 9: temperature +5 K */
+/* 10: temperature +6 K */
+/* 11: temperature +7 K */
+/* 12: temperature +8 K */
+/* 13: temperature +9 K */
+/* 14: temperature +10 K */
+/* 15: temperature +11 K */
 
-/* 6X01 6X51: temperature -3 K */
-/* 6X02 6X52: temperature -2 K */
-/* 6X03 6X53: temperature -1 K */
-/* 6X04 6X54: temperature  0 K */
-/* 6X05 6X55: temperature +1 K */
-/* 6X06 6X56: temperature +2 K */
-/* 6X07 6X57: temperature +3 K */
-/* 6X08 6X58: temperature +4 K */
-/* 6X09 6X59: temperature +5 K */
-/* 6X10 6X60: temperature +6 K */
-/* 6X11 6X61: temperature +7 K */
-/* 6X12 6X62: temperature +8 K */
-/* 6X13 6X63: temperature +9 K */
-/* 6X14 6X64: temperature +10 K */
-/* 6X15 6X65: temperature +11 K */
+/* IMPRESSIONS_DP */
+/* 0: precipitation 0% */
+/* 1: precipitation -60% */
+/* 2: precipitation -50% */
+/* 3: precipitation -40% */
+/* 4: precipitation -30% */
+/* 5: precipitation -20% */
+/* 6: precipitation -10% */
+/* 7: precipitation   0% */
+/* 8: precipitation +10% */
+/* 9: precipitation +20% */
+/* 10: precipitation +30% */
+/* 11: precipitation +40% */
+/* 12: precipitation +50% */
+/* 13: precipitation +60% */
 
 /** IMPRESSIONS: 2017/04/19 **/
-/* 600XX: precipitation -42% */
-/* 601XX: precipitation -36% */
-/* 602XX: precipitation -30% */
-/* 603XX: precipitation -25% */
-/* 604XX: precipitation -24% */
-/* 605XX: precipitation -20% */
-/* 606XX: precipitation -18% */
-/* 607XX: precipitation -15% */
-/* 608XX: precipitation -12% */
-/* 609XX: precipitation -10% */
-/* 610XX: precipitation -9% */
-/* 611XX: precipitation -6% */
-/* 612XX: precipitation -5% */
-/* 613XX: precipitation -3% */
-/* 614XX: precipitation  0% */
-/* 615XX: precipitation +3% */
-/* 616XX: precipitation +5% */
-/* 617XX: precipitation +6% */
-/* 618XX: precipitation +9% */
-/* 619XX: precipitation +10% */
-/* 620XX: precipitation +12% */
-/* 621XX: precipitation +15% */
-/* 622XX: precipitation +18% */
+/* 6002: phase 2 */
+/* #define IMPRESSIONS_DT */
+/* 0: temperature 0 K */
+/* 1: temperature -3 K */
+/* 2: temperature -2 K */
+/* 3: temperature -1 K */
+/* 4: temperature  0 K */
+/* 5: temperature +0.5 K */
+/* 6: temperature +1 K */
+/* 7: temperature +2 K */
+/* 8: temperature +3 K */
+/* 9: temperature +4 K */
+/* 10: temperature +5 K */
+/* 11: temperature +6 K */
+/* 12: temperature +7 K */
+/* 13: temperature +8 K */
 
-/* 6XX00: temperature -3 K */
-/* 6XX01: temperature -2 K */
-/* 6XX02: temperature -1 K */
-/* 6XX03: temperature  0 K */
-/* 6XX04: temperature +0.5 K */
-/* 6XX05: temperature +1 K */
-/* 6XX06: temperature +2 K */
-/* 6XX07: temperature +3 K */
-/* 6XX08: temperature +4 K */
-/* 6XX09: temperature +5 K */
-/* 6XX10: temperature +6 K */
-/* 6XX11: temperature +7 K */
-/* 6XX12: temperature +8 K */
+/* #define IMPRESSIONS_DP */
+/* 0: precipitation 0% */
+/* 1: precipitation -42% */
+/* 2: precipitation -36% */
+/* 3: precipitation -30% */
+/* 4: precipitation -25% */
+/* 5: precipitation -24% */
+/* 6: precipitation -20% */
+/* 7: precipitation -18% */
+/* 8: precipitation -15% */
+/* 9: precipitation -12% */
+/* 10: precipitation -10% */
+/* 11: precipitation -9% */
+/* 12: precipitation -6% */
+/* 13: precipitation -5% */
+/* 14: precipitation -3% */
+/* 15: precipitation  0% */
+/* 16: precipitation +3% */
+/* 17: precipitation +5% */
+/* 18: precipitation +6% */
+/* 19: precipitation +9% */
+/* 20: precipitation +10% */
+/* 21: precipitation +12% */
+/* 22: precipitation +15% */
+/* 23: precipitation +18% */
 
 /* ICARUS 2016/08/12 ************/
 /* 2201 (2101): gfdl SSP1 rcp2.6  */
