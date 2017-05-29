@@ -1415,5 +1415,6 @@ void f_init_grid(
     }
     
     /* IMPRESSIONS: 2017/05/02 by A.Ito */
+    grid->impressions_mask = 0;
     fscanf(fp_s[90],"%ld", &grid->impressions_mask);
 }

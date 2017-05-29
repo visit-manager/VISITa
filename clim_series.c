@@ -95,14 +95,16 @@ void set_hist_clim(
         /**/
         tmp_var = 0.0; pre_var = 1.0;
         if(SCENARIO_ID == 6001 || SCENARIO_ID == 6002){
-            f_impressions_dclim(&tmp_var, &pre_var, grid);
-            
-            grid->tmp_sfc[h] += tmp_var;
-            grid->tmp_2m[h] += tmp_var;
-            grid->tmp10_soil[h] += tmp_var;
-            grid->tmp200_soil[h] += tmp_var;
-            
-            grid->prate_sfc[h] *= pre_var;
+            for(h=0;h<ASTEP;h++){
+                f_impressions_dclim(&tmp_var, &pre_var, grid->impressions_mask, h);
+                
+                grid->tmp_sfc[h] += tmp_var;
+                grid->tmp_2m[h] += tmp_var;
+                grid->tmp10_soil[h] += tmp_var;
+                grid->tmp200_soil[h] += tmp_var;
+                
+                grid->prate_sfc[h] *= pre_var;
+            }
         }
         
     }else if(ISIMIP_RUN == 1){

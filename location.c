@@ -83,7 +83,7 @@ void f_init_clim(
         /* IMPRESSIONS: 2017/05/25 */
         tmp_var = 0.0; pre_var = 1.0;
         if(SCENARIO_ID == 6001 || SCENARIO_ID == 6002){
-            f_impressions_dclim(&tmp_var, &pre_var, grid);
+            f_impressions_dclim(&tmp_var, &pre_var, grid->impressions_mask, h);
 
             grid->tmp_sfc[h] += tmp_var;
             grid->tmp_2m[h] += tmp_var;
@@ -537,7 +537,7 @@ void f_dyn_loct(
 /* IMPRESSIONS climate change: 2017/05/25 by A.Ito *********************/
 void f_impressions_dclim(
     double *tmp_var, double *pre_var,
-    struct Grid *grid
+    long imp_mask, long month
 ){
     long imp_case;
    /* IMPRESSIONS phase2: 2017/04/20 by A.Ito */
@@ -685,7 +685,7 @@ void f_impressions_dclim(
         }
         
         /* Hungary */
-        if(grid->impressions_mask == 1){
+        if(imp_mask == 1){
             if(IMP_DT == 3){
                 imp_case = 0;
             }else if(IMP_DT == 4){
@@ -713,12 +713,12 @@ void f_impressions_dclim(
             }
             
             if(imp_case>=0){
-                *tmp_var = tw_hungary[imp_case][grid->m];
+                *tmp_var = tw_hungary[imp_case][month];
             }
         }
         
         /* Iberia */
-        if(grid->impressions_mask == 2){
+        if(imp_mask == 2){
             if(IMP_DT == 3){
                 imp_case = 0;
             }else if(IMP_DT == 4){
@@ -744,12 +744,12 @@ void f_impressions_dclim(
             }
             
             if(imp_case>=0){
-                *tmp_var = tw_iberia[imp_case][grid->m];
+                *tmp_var = tw_iberia[imp_case][month];
             }
         }
         
         /* Scotland */
-        if(grid->impressions_mask == 3){
+        if(imp_mask == 3){
             if(IMP_DT == 1){
                 imp_case = 0;
             }else if(IMP_DT == 2){
@@ -775,7 +775,7 @@ void f_impressions_dclim(
             }
             
             if(imp_case>=0){
-                *tmp_var = tw_scotland[imp_case][grid->m];
+                *tmp_var = tw_scotland[imp_case][month];
             }
          }
         
@@ -808,7 +808,7 @@ void f_impressions_dclim(
         }
         
         /* Hungary */
-        if(grid->impressions_mask == 1){
+        if(imp_mask == 1){
             
             if(IMP_DP == 3){
                 imp_case = 0;
@@ -833,12 +833,12 @@ void f_impressions_dclim(
             }
             
             if(imp_case>=0){
-                *pre_var =  (100.0 + pw_hungary[imp_case][grid->m])/100.0;
+                *pre_var =  (100.0 + pw_hungary[imp_case][month])/100.0;
             }
         }
 
         /* Iberia */
-        if(grid->impressions_mask == 2){
+        if(imp_mask == 2){
             
             if(IMP_DP == 1){
                 imp_case = 0;
@@ -867,12 +867,12 @@ void f_impressions_dclim(
             }
             
             if(imp_case>=0){
-                *pre_var =  (100.0 + pw_hungary[imp_case][grid->m])/100.0;
+                *pre_var =  (100.0 + pw_iberia[imp_case][month])/100.0;
             }
         }
 
         /* Scotland */
-        if(grid->impressions_mask == 3){
+        if(imp_mask == 3){
             
             if(IMP_DP == 11){
                 imp_case = 0;
@@ -899,7 +899,7 @@ void f_impressions_dclim(
             }
             
             if(imp_case>=0){
-                *pre_var =  (100.0 + pw_hungary[imp_case][grid->m])/100.0;
+                *pre_var =  (100.0 + pw_scotland[imp_case][month])/100.0;
             }
         }
     }

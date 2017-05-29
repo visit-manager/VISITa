@@ -96,7 +96,6 @@ int main(
 	   printf("Bad scenario ID specified !!!\n");
 	   exit(1);
 	}   
-	set_gcm_index(s_case);	/* -> vegetdeal.c */
 	
 	/* config: 2 file identifier (arbitrary phrase such as date, your name, etc.) */
 	fscanf(fp_setting,"%s %s", s_config, s_date);
@@ -229,6 +228,8 @@ int main(
         printf("config  11: %s %ld %ld\n", s_config, IMP_DT, IMP_DP);
     }
 	
+	set_gcm_index(s_case);	/* -> vegetdeal.c */
+
     /* close setting.txt */
     fclose(fp_setting);
 	
