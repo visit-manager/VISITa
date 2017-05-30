@@ -516,6 +516,7 @@ void f_output_result(
             
             fprintf(fp_o[3],"%.3lf ", (flux->soil).d_n2o_ngas[f]);
             fprintf(fp_o[3],"%.3lf ", (flux->soil).d_n2_ngas[f]);
+            
             fprintf(fp_o[3],"%.3lf ", (flux->soil).d_n2o_casa[f]);
             fprintf(fp_o[3],"%.3lf ", (flux->soil).d_n2_casa[f]);
             fprintf(fp_o[3],"%.3lf ", (flux->soil).d_no_casa[f]);
@@ -777,7 +778,7 @@ void f_grid_av(
         }else{
             period = -1;
         }
-    }else if(IMPRESSIONS_RUN == 1){
+    }else if(IMPRESSIONS_RUN == 1 || IMPRESSIONS_RUN == 2 || IMPRESSIONS_RUN == 3){
         if(grid->climy>=1950 && grid->climy<1960){
             period = 0; length = 10.0;
         }else if(grid->climy>=1981 && grid->climy<2010){

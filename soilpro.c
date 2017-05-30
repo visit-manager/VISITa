@@ -64,8 +64,8 @@ void soil_processes(
 		mass->d13c_msl = d13c_addition(mass->d13c_msl, mass->msl, flux->d13c_sf[grid->m], flux->sf[grid->m]);	
 		
 		/* mass balance */
-		mass->ltr += flux->lL[grid->m]-flux->rl[grid->m]-flux->sf[grid->m]; 
-		mass->msl += flux->sf[grid->m]-flux->rh[grid->m];
+		mass->ltr += flux->lL[grid->m] - flux->rl[grid->m] - flux->sf[grid->m];
+		mass->msl += flux->sf[grid->m] - flux->rh[grid->m];
 		
 		mass->ltr = (mass->ltr>=0.0)?mass->ltr:0.0;
 		mass->msl = (mass->msl>=0.0)?mass->msl:0.0;
@@ -91,7 +91,7 @@ void soil_processes(
 	/* d14c: added by A.Ito (2009/07/12) *********/
 	/* d14c: revised by A.Ito (2009/11/17) *********/
 	if((flux->sf[grid->m] + mass->msl) > 0.0){
-		mass->d14c_msl = (mass->d14c_ltr*flux->sf[grid->m] + mass->d14c_msl*mass->msl) / 
+		mass->d14c_msl = (mass->d14c_ltr * flux->sf[grid->m] + mass->d14c_msl * mass->msl) / 
 						(flux->sf[grid->m] + mass->msl);	
 	}else{
 		mass->d14c_msl = grid->d14c_bco2[grid->m];

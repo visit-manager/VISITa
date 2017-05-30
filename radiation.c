@@ -74,14 +74,14 @@ double f_top_rad(
 	
 	ge = 2.0 * PI / 365.0 * doy[grid->m];
 	
-	aa = -0.399912*cos(ge) + 0.070257 * sin(ge);
-	bb = -0.006758*cos(2.0 * ge) + 0.000907 * sin(2.0 * ge);
-	cc = -0.002697*cos(3.0 * ge) + 0.00148 * sin(3.0 * ge);
+	aa = -0.399912 * cos(ge) + 0.070257 * sin(ge);
+	bb = -0.006758 * cos(2.0 * ge) + 0.000907 * sin(2.0 * ge);
+	cc = -0.002697 * cos(3.0 * ge) + 0.00148 * sin(3.0 * ge);
 	dlt = (0.006918 + aa + bb + cc);
 	
 	/** relative distance between the sun and the earth **/
-	dd = 0.034221*cos(ge) + 0.00128*sin(ge);
-	ee = 0.000719*cos(2.0*ge) + 0.000077*sin(2.0*ge);
+	dd = 0.034221 * cos(ge) + 0.00128 * sin(ge);
+	ee = 0.000719 * cos(2.0*ge) + 0.000077 * sin(2.0*ge);
 	dtc = 1.00011 + dd + ee;
 		 
 	/* solar constant = 4.921 MJ/m2 =1367 W/m2=1.96 cal/cm2/min

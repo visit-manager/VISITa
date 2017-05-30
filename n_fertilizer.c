@@ -287,7 +287,7 @@ void n_fertilizer_in(
         /* if(NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
             loct->n_frtlz_in = 0.0;
         } */
-
+        
         loct->n_manure_in = 0.0;
         if(NMIP_RUN == 2){
             nyear = FDY_NINY+1;

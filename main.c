@@ -23,7 +23,14 @@ ecosystems (Sim-CYCLE): A description based on dry-matter production theory
 and plot-scale validation. Ecological Modelling, 151:147-179.
 */
 
-/* VISIT a: global model	*/
+/* VISIT a: global model	
+Ito, A., Inatomi, M., 2012. Use and uncertainty evaluation of 
+  a process-based model for assessing the methane budget of global 
+  terrestrial ecosystems. Biogeosciences 9, 759–773.
+Ito, A., Inatomi, M., 2012. Water-use efficiency of the terrestrial 
+  biosphere: a model analysis on interactions between the global carbon 
+  and water cycles. Journal of Hydrometeorology 13, 681–694.
+*/
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -89,8 +96,15 @@ int main(
 	   printf("Bad scenario ID specified !!!\n");
 	   exit(1);
 	}   
-	set_gcm_index(s_case);	/* -> vegetdeal.c */
 	
+    /* config: IMPRESSIONS experiment */
+    if(SCENARIO_ID==6001 || SCENARIO_ID==6002){
+        fscanf(fp_setting,"%ld %ld", &IMP_DT, &IMP_DP);
+        printf("config  IMP: %ld %ld\n", IMP_DT, IMP_DP);
+    }
+	
+	set_gcm_index(s_case);	/* -> vegetdeal.c */
+
 	/* config: 2 file identifier (arbitrary phrase such as date, your name, etc.) */
 	fscanf(fp_setting,"%s %s", s_config, s_date);
 	strcat(s_date, "_");
@@ -215,7 +229,7 @@ int main(
 	/* config: 10 SRM experiment */
 	fscanf(fp_setting,"%s %ld", s_config, &EX_SRM);
 	printf("config  10: %s %ld\n", s_config, EX_SRM);
-	
+    
     /* close setting.txt */
     fclose(fp_setting);
 	
@@ -348,6 +362,16 @@ int main(
 			){
 				flag_calc = 1;
 			}
+            
+            /* IMPRESSIONS MASKED AREA: 2017/05/02 by A.Ito */
+            if(SCENARIO_ID == 6002){
+                /* if(grid.impressions_mask == 1){ */
+                if(grid.impressions_mask == 1 || grid.impressions_mask == 2 || grid.impressions_mask == 3){
+                    flag_calc = 1;
+                }else{
+                    flag_calc = 0;
+                }
+            }
 			
 			/* calculation for lands *******************************************/
             if(flag_calc == 1){
@@ -419,7 +443,7 @@ int main(
                 
                     /* initialize location conditions ****/
                     f_init_loct(&grid, &loct_agr, &mass_agr, &flux_agr, &echar_agr);
-                
+                    
                     /* initialize stable carbon isotope ****/
                     f_init_c_isotpes(&grid, &flux_agr, &echar_agr, &mass_agr);
 
@@ -436,7 +460,7 @@ int main(
                     cal_historical(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2); 
 
                     /* future: 2001-2100 */
-                    if(GCM_RUN){
+                    if(GCM_RUN==1){
                         cal_projection(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
                     }
                     

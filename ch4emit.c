@@ -605,9 +605,9 @@ void f_ch4_emit_walter(
 	
 	/* carbon input factor: Eq.2 */
 	if(loct->npp_max > 0.0){
-        if(FIX_NPP == 0){
+        if(FIX_CH4_NPP == 0){
             f_in = 1.0 + (flux->plant).npp[grid->m]/loct->npp_max;
-        }else if(FIX_NPP == 1){
+        }else if(FIX_CH4_NPP == 1){
             f_in = 1.0 + loct->npp_av[grid->m]/loct->npp_max;
         }
 	}else{

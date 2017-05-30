@@ -23,7 +23,7 @@ void cal_historical(
 ){
 	long f, g, dyr;
 	double f_fert, fweight, total_hvst, f_nat, iweight, iweight3, avc3, prm_ensen;
-    double mass_luc;
+    double mass_luc, icrop;
 	extern double MDN[ASTEP];
 	
     /* phase: 1, historical simulation */
@@ -47,10 +47,10 @@ void cal_historical(
 	/* LOOP to dynamic stage *******************************************************/
 	for(g=0; g<PD_HIST; g++){
 		/* AD1901 - 2002 / 2008 / 2009 */
-        /* ISIMIP1: 1950-2099 */
+        /* ISI-MIP1: 1950-2099 */
         /* GEOMIP: 1901-2005 */
-        /* ISIMIP2 (hist): 1901-2010 */
-        /* ISIMIP2b (1.5/2.0): 1661-2299 (2099) */
+        /* ISI-MIP2 (hist): 1901-2010 */
+        /* ISI-MIP2b (1.5/2.0): 1661-2299 (2099) */
         /* NMIP: 1901-2012 => 1861–2015 */
 		
 		/* simulation year ********************/
@@ -87,6 +87,16 @@ void cal_historical(
             SCENARIO_ID==2045 ||SCENARIO_ID==2046 ||SCENARIO_ID==2047 ||SCENARIO_ID==2048) && grid->simy>=2000){
             /* fixed to AD2000 level */
             grid->co2y = 2000;
+        }
+        /* IIa: 2017/05/18 by A.Ito *****/
+        if(ISIMIP2_FIXCD == 1 && (
+            SCENARIO_ID==5011 || SCENARIO_ID==5021 || SCENARIO_ID==5031 || SCENARIO_ID==5041)){
+            /* fix CO2 after 2006 */
+            if(grid->simy>=2006){
+                grid->co2y = 2005;
+            }else{
+                ;
+            }
         }
         
         /* land-use year *****/
@@ -206,7 +216,7 @@ void cal_historical(
             /* this routine may not be activated when using REPLACE_OLSON_CROP option */
 			if((echar->soil).v_type == 1){
 			   if(grid->veg_olson == 29 || grid->veg_olson == 30 ||
-                            grid->veg_olson==31 || grid->veg_olson==32){
+                            grid->veg_olson == 31 || grid->veg_olson == 32){
 				   (flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
 				   (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
 				   (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
@@ -221,17 +231,48 @@ void cal_historical(
 				(mass->soil).n_no3 += grid->f_crop_con * loct->n_frtlz_in * 0.2 * 1000.0;
 				(mass->soil).n_nh4 += grid->f_crop_con * loct->n_frtlz_in * 0.8 * 1000.0;
 			} */
-			
-			if((echar->soil).v_type == 2){
-				(flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
-				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
-				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
-                
-                /* 2016/10/20 by A.Ito */
-                (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0 * f_fert;
-                (mass->soil).n_lttr += loct->n_manure_in * 1000.0 * f_fert;
-			}
+            
+            if(EX_NFERT == 101){
+                if((echar->soil).v_type == 2){
+                    /* 101: Nishina ESSD data: 2017/02/13 by A.Ito */
+                    
+                    if(grid->f_crop_con > 0.0){
+                        icrop = 1.0 / grid->f_crop_con;
+                    }else{
+                        icrop = 0.0;
+                    }
+                    
+                    if(grid->niny < 1960){
+                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
+                        (mass->soil).n_no3 += icrop * grid->nin_no3[0][grid->m] * 1000.0;
+                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[0][grid->m] * 1000.0;
+                    }else if(grid->niny >= 1960 && grid->niny <= 2009){
+                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[grid->niny - 1960][grid->m]
+                                                    + grid->nin_nh4[grid->niny - 1960][grid->m]) * 1000.0;
+                        (mass->soil).n_no3 += icrop * grid->nin_no3[grid->niny - 1960][grid->m] * 1000.0;
+                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[grid->niny - 1960][grid->m] * 1000.0;
+                    }else if(grid->niny > 2009){
+                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[49][grid->m]
+                                                    + grid->nin_nh4[49][grid->m]) * 1000.0;
+                        (mass->soil).n_no3 += icrop * grid->nin_no3[49][grid->m] * 1000.0;
+                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[49][grid->m] * 1000.0;
+                    }
+                    
+                    /* no manure? */
+                    (flux->soil).n_manurein[grid->m] = 0.0;
+                }
+            }else{
+                if((echar->soil).v_type == 2){
+                    (flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0 * f_fert;
+                    (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
+                    (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
 
+                    /* 2016/10/20 by A.Ito */
+                    (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0 * f_fert;
+                    (mass->soil).n_lttr += loct->n_manure_in * 1000.0 * f_fert;
+                }
+            }
+            
 			/* CH4 oxydation (uplands) ****************************/
 			f_ch4oxy_ridgewell(grid, loct, flux);
 			f_ch4oxy_casa(grid, loct, flux);
@@ -452,7 +493,7 @@ void cal_historical(
             iweight3 = iweight;
         }
         
-        if(EX_BECCS==1 && NECB_LUC==1){
+        if((EX_BECCS==1 || EX_BECCS==2) && NECB_LUC==1){
             if(grid->f_luc>0.0 && grid->f_luc<1.0){
                 (mass->c3).fol *= (1.0 - grid->f_luc);
                 (mass->c3).stm *= (1.0 - grid->f_luc);

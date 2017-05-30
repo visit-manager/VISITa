@@ -330,8 +330,21 @@ struct Grid{
     double  nmip_manure[DL_NMIP];               /* manure */
     double  nmip_frcrop[DL_NMIP];               /* cropland fraction */
     
+    /* N input by Nishina ESSD data: 2017/02/13 by A.Ito */
+    double  nin_date[ASTEP];
+    double  nin_no3[50][ASTEP];
+    double  nin_nh4[50][ASTEP];
+    
     /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
     double  est_nfert[90];
+    
+    /* BECCS scenario: 2017/02/20 by A.Ito */
+    double  beccs_s2b;
+    double  beccs_v2b;
+    double  beccs_v2s;
+    
+    /* IMPRESSIONS mask: 2017/05/02 by A.Ito */
+    long    impressions_mask;
 };
 
 /* grid conditions, derived from submodules *******************************************/
