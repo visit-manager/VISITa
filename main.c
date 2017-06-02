@@ -97,6 +97,15 @@ int main(
 	   exit(1);
 	}   
 	
+    /* config: IMPRESSIONS experiment */
+    IMP_DT = IMP_DP = IMP_CD = 0;
+    if(SCENARIO_ID==6001 || SCENARIO_ID==6002){
+        fscanf(fp_setting,"%ld %ld %ld", &IMP_DT, &IMP_DP, &IMP_CD);
+        printf("config  IMP: %ld %ld %ld\n", IMP_DT, IMP_DP, IMP_CD);
+    }
+	
+	set_gcm_index(s_case);	/* -> vegetdeal.c */
+
 	/* config: 2 file identifier (arbitrary phrase such as date, your name, etc.) */
 	fscanf(fp_setting,"%s %s", s_config, s_date);
 	strcat(s_date, "_");
@@ -222,14 +231,6 @@ int main(
 	fscanf(fp_setting,"%s %ld", s_config, &EX_SRM);
 	printf("config  10: %s %ld\n", s_config, EX_SRM);
     
-    /* config: 11 IMPRESSIONS experiment */
-    if(SCENARIO_ID==6001 || SCENARIO_ID==6002){
-        fscanf(fp_setting,"%s %ld %ld", s_config, &IMP_DT, &IMP_DP);
-        printf("config  11: %s %ld %ld\n", s_config, IMP_DT, IMP_DP);
-    }
-	
-	set_gcm_index(s_case);	/* -> vegetdeal.c */
-
     /* close setting.txt */
     fclose(fp_setting);
 	

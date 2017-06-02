@@ -932,31 +932,50 @@ void set_gcm_index(
 
         switch(IMP_DP){
             case 0: ; break;
-            case 1: strcat(s_case,"PM42_"); break;
-            case 2: strcat(s_case,"PM36_"); break;
-            case 3: strcat(s_case,"PM30_"); break;
-            case 4: strcat(s_case,"PM25_"); break;
-            case 5: strcat(s_case,"PM24_"); break;
-            case 6: strcat(s_case,"PM20_"); break;
-            case 7: strcat(s_case,"PM18_"); break;
-            case 8: strcat(s_case,"PM15_"); break;
-            case 9: strcat(s_case,"PM12_"); break;
-            case 10: strcat(s_case,"PM10_"); break;
-            case 11: strcat(s_case,"PM09_"); break;
-            case 12: strcat(s_case,"PM06_"); break;
-            case 13: strcat(s_case,"PM05_"); break;
-            case 14: strcat(s_case,"PM03_"); break;
-            case 15: strcat(s_case,"P00_"); break;
-            case 16: strcat(s_case,"PP03_"); break;
-            case 17: strcat(s_case,"PP05_"); break;
-            case 18: strcat(s_case,"PP06_"); break;
-            case 19: strcat(s_case,"PP09_"); break;
-            case 20: strcat(s_case,"PP10_"); break;
-            case 21: strcat(s_case,"PP12_"); break;
-            case 22: strcat(s_case,"PP15_"); break;
-            case 23: strcat(s_case,"PP18_"); break;
+            case 1: strcat(s_case,"PM42"); break;
+            case 2: strcat(s_case,"PM36"); break;
+            case 3: strcat(s_case,"PM30"); break;
+            case 4: strcat(s_case,"PM25"); break;
+            case 5: strcat(s_case,"PM24"); break;
+            case 6: strcat(s_case,"PM20"); break;
+            case 7: strcat(s_case,"PM18"); break;
+            case 8: strcat(s_case,"PM15"); break;
+            case 9: strcat(s_case,"PM12"); break;
+            case 10: strcat(s_case,"PM10"); break;
+            case 11: strcat(s_case,"PM09"); break;
+            case 12: strcat(s_case,"PM06"); break;
+            case 13: strcat(s_case,"PM05"); break;
+            case 14: strcat(s_case,"PM03"); break;
+            case 15: strcat(s_case,"P00"); break;
+            case 16: strcat(s_case,"PP03"); break;
+            case 17: strcat(s_case,"PP05"); break;
+            case 18: strcat(s_case,"PP06"); break;
+            case 19: strcat(s_case,"PP09"); break;
+            case 20: strcat(s_case,"PP10"); break;
+            case 21: strcat(s_case,"PP12"); break;
+            case 22: strcat(s_case,"PP15"); break;
+            case 23: strcat(s_case,"PP18"); break;
         }
-    }    
+
+        switch(IMP_CD){
+            case 0: ; break;
+            case 1: strcat(s_case,"CD360_"); break;
+            case 2: strcat(s_case,"CD423_"); break;
+            case 3: strcat(s_case,"CD448_"); break;
+            case 4: strcat(s_case,"CD474_"); break;
+            case 5: strcat(s_case,"CD498_"); break;
+            case 6: strcat(s_case,"CD517_"); break;
+            case 7: strcat(s_case,"CD528_"); break;
+            case 8: strcat(s_case,"CD532_"); break;
+            case 9: strcat(s_case,"CD432_"); break;
+            case 10: strcat(s_case,"CD469_"); break;
+            case 11: strcat(s_case,"CD515_"); break;
+            case 12: strcat(s_case,"CD572_"); break;
+            case 13: strcat(s_case,"CD640_"); break;
+            case 14: strcat(s_case,"CD718_"); break;
+            case 15: strcat(s_case,"CD802_"); break;
+        }
+    }
 }
 
 /* REGIONS by F.Giorgi **********/

@@ -93,14 +93,14 @@
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 0
-#define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
+#define OUTPUT_CARBON2 1
+#define OUTPUT_ISOTOPE 1
+#define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
+#define OUTPUT_EROSION 1
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
+#define OUTPUT_BB 1
+#define OUTPUT_BVOC 1
 /* output binary */
 #define C13_GOUT 0
 #define C14_GOUT 0
@@ -248,7 +248,6 @@
     /* #define PD_HIST 114  */	/* AD 1901 - 2014 */
     /* #define PD_HIST 115	*/	/* AD 1901 - 2015 */
     #define PD_HIST 116	/* */	/* AD 1901 - 2016 */
-
 #endif
 
 /* start year (AD) of climate ***/
@@ -444,7 +443,7 @@
 /* 1: lai based */
 
 /* constraint on maximum LAI by meta-analysis: 2015/03/23 by A.Ito */
-#define CONSTRAIN_LAIMAX 0
+#define CONSTRAIN_LAIMAX 1
 /* 0: off */
 /* 1: on */
 
@@ -574,7 +573,7 @@
 /* parameter ensemble */
 #define N_PARA_ENS 20
 
-/***************************************************/
+/********************************************************/
 /* 2016/06/08 by A.Ito */
 #define EX_NITROGEN 0
 /* 0: off (control) */
