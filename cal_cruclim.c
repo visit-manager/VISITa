@@ -23,7 +23,7 @@ void cal_historical(
 ){
 	long f, g, dyr;
 	double f_fert, fweight, total_hvst, f_nat, iweight, iweight3, avc3, prm_ensen;
-    double mass_luc, icrop;
+    double mass_luc, icrop, aa, bb;
 	extern double MDN[ASTEP];
 	
     /* phase: 1, historical simulation */
@@ -136,7 +136,7 @@ void cal_historical(
 			set_hist_clim(grid);
 		}
 		
-        /*****************************************************************************/
+        /*******************************************************************/
 
 		/* land-use change *************/
 		f_cult_luc(grid);
@@ -220,6 +220,7 @@ void cal_historical(
 				   (flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
 				   (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
 				   (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+                   (flux->soil).n_manurein[grid->m] = 0.0;
 				}else{
 				   (flux->soil).n_fertin[grid->m] = 0.0;
 				   (flux->soil).n_manurein[grid->m] = 0.0;
@@ -260,6 +261,22 @@ void cal_historical(
                     
                     /* no manure? */
                     (flux->soil).n_manurein[grid->m] = 0.0;
+
+                    if(grid->nfert_potter > 0.0){
+                        aa = grid->nmanure_potter / grid->nfert_potter;
+                        bb = aa * ((flux->soil).n_fertin[grid->m]/1000.0);
+                        
+                        if(bb > grid->nmanure_potter * MDN[grid->m] / 365.0){
+                            bb = grid->nmanure_potter * MDN[grid->m] / 365.0;
+                        }
+                        if(bb < 0.0){
+                            bb = 0.0;
+                        }
+                        
+                        loct->n_manure_in = bb;
+                        (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0;
+                        (mass->soil).n_lttr += loct->n_manure_in * 1000.0;
+                    }
                 }
             }else{
                 if((echar->soil).v_type == 2){

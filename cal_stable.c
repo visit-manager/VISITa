@@ -23,7 +23,7 @@ void cal_spinup(
 	FILE *fp_o[OFILEN]
 ){
 	long f, g, nn, term_time, dyr;
-	double plantmass, ann_nep, f_fert, total_hvst;
+	double plantmass, ann_nep, f_fert, total_hvst, aa,bb;
     double f_nat, iweight, iweight3, avc3, prm_ensen, icrop;
 	
 	/** maximum simulation times **/
@@ -286,13 +286,29 @@ void cal_spinup(
                     
                     /* no mature? */
                     (flux->soil).n_manurein[grid->m] = 0.0;
+                    
+                    if(grid->nfert_potter > 0.0){
+                        aa = grid->nmanure_potter / grid->nfert_potter;
+                        bb = aa * ((flux->soil).n_fertin[grid->m]/1000.0);
+                        
+                        if(bb > grid->nmanure_potter * MDN[grid->m] / 365.0){
+                            bb = grid->nmanure_potter * MDN[grid->m] / 365.0;
+                        }
+                        if(bb < 0.0){
+                            bb = 0.0;
+                        }
+                        
+                        loct->n_manure_in = bb;
+                        (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0;
+                        (mass->soil).n_lttr += loct->n_manure_in * 1000.0;
+                    }
                 }
             }else{
                 if((echar->soil).v_type == 2){
                     (flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0 * f_fert;
                     (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
                     (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
-
+                    
                     /* 2016/10/20 by A.Ito */
                     (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0 * f_fert;
                     (mass->soil).n_lttr += loct->n_manure_in * 1000.0 * f_fert;

@@ -3249,4 +3249,11 @@ void open_input(
     }else{
         Flag_FOPEN[90] ++;
     }
+
+    if( (fp_s[91]=fopen("./data/nfert_potter.txt","rt"))==NULL ){
+        printf("No nfert_potter.txt\n");
+        exit(1); 
+    }else{
+        Flag_FOPEN[91] ++;
+    }
 }

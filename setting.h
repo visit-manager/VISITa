@@ -248,7 +248,6 @@
     /* #define PD_HIST 114  */	/* AD 1901 - 2014 */
     /* #define PD_HIST 115	*/	/* AD 1901 - 2015 */
     #define PD_HIST 116	/* */	/* AD 1901 - 2016 */
-
 #endif
 
 /* start year (AD) of climate ***/
@@ -574,7 +573,7 @@
 /* parameter ensemble */
 #define N_PARA_ENS 20
 
-/***************************************************/
+/********************************************************/
 /* 2016/06/08 by A.Ito */
 #define EX_NITROGEN 0
 /* 0: off (control) */
@@ -612,7 +611,7 @@
 /* 8: DLEM */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
-#define EX_NFERT 0
+#define EX_NFERT 101
 /* 0: off */
 /* 1: HadGEM + RCP2.6 + SSP1 */
 /* 2: HadGEM + RCP2.6 + SSP2 */

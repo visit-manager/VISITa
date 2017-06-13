@@ -681,7 +681,7 @@ void f_impressions_dclim(
             case 11: *tmp_var = 6.0; break;
             case 12: *tmp_var = 7.0; break;
             case 13: *tmp_var = 8.0; break;
-            default: *tmp_var = 8.0; break;
+            default: *tmp_var = 0.0; break;
         }
         
         /* Hungary */
@@ -780,7 +780,7 @@ void f_impressions_dclim(
          }
         
         *pre_var = 1.0;
-        switch(IMP_DT){
+        switch(IMP_DP){
             case 1: *pre_var = 0.58; break;
             case 2: *pre_var = 0.64; break;
             case 3: *pre_var = 0.70; break;

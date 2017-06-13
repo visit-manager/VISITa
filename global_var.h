@@ -31,7 +31,7 @@ long SCENARIO_ID, CO2S, GCM_R, GCM_C; /* */
 long PARAM_PTB, PARAM_ENS; /* added by A.Ito (2010/05/10) */
 long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
 long EX_SRM, EX_CCPL;
-long IMP_DT, IMP_DP;
+long IMP_DT, IMP_DP, IMP_CD;
 /* experiment: geoengeneering, solar radiation management *********/
 /* EX SRM: 2013/06/04 by A.Ito *******************/
 /* 0: off */
