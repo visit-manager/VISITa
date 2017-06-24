@@ -21,9 +21,9 @@ void cal_historical(
 	struct Flux *flux, 
 	FILE *fp_o[OFILEN]
 ){
-	long f, g, dyr;
+	long f, g, dyr, y_nin;
 	double f_fert, fweight, total_hvst, f_nat, iweight, iweight3, avc3, prm_ensen;
-    double mass_luc, icrop;
+    double mass_luc, icrop, aa, bb, base_nin;
 	extern double MDN[ASTEP];
 	
     /* phase: 1, historical simulation */
@@ -47,10 +47,10 @@ void cal_historical(
 	/* LOOP to dynamic stage *******************************************************/
 	for(g=0; g<PD_HIST; g++){
 		/* AD1901 - 2002 / 2008 / 2009 */
-        /* ISIMIP1: 1950-2099 */
+        /* ISI-MIP1: 1950-2099 */
         /* GEOMIP: 1901-2005 */
-        /* ISIMIP2 (hist): 1901-2010 */
-        /* ISIMIP2b (1.5/2.0): 1661-2299 (2099) */
+        /* ISI-MIP2 (hist): 1901-2010 */
+        /* ISI-MIP2b (1.5/2.0): 1661-2299 (2099) */
         /* NMIP: 1901-2012 => 1861–2015 */
 		
 		/* simulation year ********************/
@@ -88,6 +88,16 @@ void cal_historical(
             /* fixed to AD2000 level */
             grid->co2y = 2000;
         }
+        /* IIa: 2017/05/18 by A.Ito *****/
+        if(ISIMIP2_FIXCD == 1 && (
+            SCENARIO_ID==5011 || SCENARIO_ID==5021 || SCENARIO_ID==5031 || SCENARIO_ID==5041)){
+            /* fix CO2 after 2006 */
+            if(grid->simy>=2006){
+                grid->co2y = 2005;
+            }else{
+                ;
+            }
+        }
         
         /* land-use year *****/
         grid->lucy = grid->simy;
@@ -107,7 +117,15 @@ void cal_historical(
             grid->niny = FSY_HIST;
             grid->lucy = FSY_HIST;
         }
-
+        
+        /* sensitivity run: 2017/06/24 by A.Ito */
+        if(EX_NFERT == 101 && (EX_NFERT_SA == 4 || EX_NFERT_SA == 6)){
+            if(grid->lucy >= 1950){
+                grid->lucy = 1950;
+            }
+        }
+        
+        /*************/
         if(grid->simy < BGY_CLIM){
             grid->climy = BGY_CLIM + g%20;
         }else if(grid->simy > (BGY_CLIM + DL_HCLIM - 1)){
@@ -126,7 +144,7 @@ void cal_historical(
 			set_hist_clim(grid);
 		}
 		
-        /*****************************************************************************/
+        /*******************************************************************/
 
 		/* land-use change *************/
 		f_cult_luc(grid);
@@ -210,6 +228,7 @@ void cal_historical(
 				   (flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
 				   (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
 				   (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+                   (flux->soil).n_manurein[grid->m] = 0.0;
 				}else{
 				   (flux->soil).n_fertin[grid->m] = 0.0;
 				   (flux->soil).n_manurein[grid->m] = 0.0;
@@ -232,24 +251,57 @@ void cal_historical(
                         icrop = 0.0;
                     }
                     
-                    if(grid->niny < 1960){
+                    /* sensitivity run: 2017/06/24 by A.Ito */
+                    y_nin = grid->niny;
+                    
+                    if(y_nin < 1960){
                         (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
                         (mass->soil).n_no3 += icrop * grid->nin_no3[0][grid->m] * 1000.0;
                         (mass->soil).n_nh4 += icrop * grid->nin_nh4[0][grid->m] * 1000.0;
-                    }else if(grid->niny >= 1960 && grid->niny <= 2009){
-                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[grid->niny - 1960][grid->m]
-                                                    + grid->nin_nh4[grid->niny - 1960][grid->m]) * 1000.0;
-                        (mass->soil).n_no3 += icrop * grid->nin_no3[grid->niny - 1960][grid->m] * 1000.0;
-                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[grid->niny - 1960][grid->m] * 1000.0;
-                    }else if(grid->niny > 2009){
+                    }else if(y_nin >= 1960 && y_nin <= 2009){
+                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[y_nin - 1960][grid->m]
+                                                    + grid->nin_nh4[y_nin - 1960][grid->m]) * 1000.0;
+                        (mass->soil).n_no3 += icrop * grid->nin_no3[y_nin - 1960][grid->m] * 1000.0;
+                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[y_nin - 1960][grid->m] * 1000.0;
+                    }else if(y_nin > 2009){
                         (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[49][grid->m]
                                                     + grid->nin_nh4[49][grid->m]) * 1000.0;
                         (mass->soil).n_no3 += icrop * grid->nin_no3[49][grid->m] * 1000.0;
                         (mass->soil).n_nh4 += icrop * grid->nin_nh4[49][grid->m] * 1000.0;
                     }
                     
+                    base_nin = (flux->soil).n_fertin[grid->m];
+
+                    if(EX_NFERT_SA == 1 || EX_NFERT_SA == 5 || EX_NFERT_SA == 6){
+                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
+                        (mass->soil).n_no3 += icrop * grid->nin_no3[0][grid->m] * 1000.0;
+                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[0][grid->m] * 1000.0;
+                    }
+                    
+                    /* sensitivity run: 2017/06/24 by A.Ito */
+                    y_nin = grid->niny;
+                    if(EX_NFERT_SA == 2 || EX_NFERT_SA == 5 || EX_NFERT_SA == 6){
+                        base_nin = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
+                    }
+                    
                     /* no manure? */
                     (flux->soil).n_manurein[grid->m] = 0.0;
+
+                    if(grid->nfert_potter > 0.0){
+                        aa = grid->nmanure_potter / grid->nfert_potter;
+                        bb = aa * (base_nin/1000.0);
+                        
+                        if(bb > grid->nmanure_potter * MDN[grid->m] / 365.0){
+                            bb = grid->nmanure_potter * MDN[grid->m] / 365.0;
+                        }
+                        if(bb < 0.0){
+                            bb = 0.0;
+                        }
+                        
+                        loct->n_manure_in = bb;
+                        (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0;
+                        (mass->soil).n_lttr += loct->n_manure_in * 1000.0;
+                    }
                 }
             }else{
                 if((echar->soil).v_type == 2){

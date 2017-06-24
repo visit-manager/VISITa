@@ -300,6 +300,13 @@ void f_n_deposit(
 	
     if(EX_CHASER_NDEPO == 0 || EX_CHASER_NDEPO == 1){
     
+        nyear = grid->niny;
+        if(EX_NFERT == 101 && EX_NFERT_SA == 3){
+            if(nyear >= 1950){
+                nyear = 1950;
+            }
+        }
+    
         if(EX_CHASER_NDEPO == 0){
             /* CHASER-derived spatial and monthly NH4+/NO3- fraction */
             ndepo_total = ndepo_chaser_dnhx[grid->m][grid->chaser_row][grid->chaser_col]
@@ -335,16 +342,16 @@ void f_n_deposit(
         /* 1.0 : initial value: avoid zero */
         pre_ann = grid->prate_sfc_ann + 1.0;
 
-        if(grid->climy<=1850){
+        if(nyear <= 1850){
             ndepo_dry = f_dry * grid->ndepo[0] * MDN[grid->m]/365.0;
             ndepo_wet = f_wet * grid->ndepo[0] * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
-        }else if(grid->climy>1850 && grid->climy<=1993){
-            aa = grid->ndepo[0] + (grid->ndepo[1] - grid->ndepo[0])*(double)(grid->climy-1850)/143.0;
+        }else if(nyear>1850 && nyear<=1993){
+            aa = grid->ndepo[0] + (grid->ndepo[1] - grid->ndepo[0])*(double)(nyear - 1850)/143.0;
         
             ndepo_dry = f_dry * aa * MDN[grid->m]/365.0;
             ndepo_wet = f_wet * aa * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
-        }else if(grid->climy>1993 && grid->climy<=2050){
-            aa = grid->ndepo[1] + (grid->ndepo[2] - grid->ndepo[1])*(double)(grid->climy-1993)/57.0;
+        }else if(nyear>1993 && nyear<=2050){
+            aa = grid->ndepo[1] + (grid->ndepo[2] - grid->ndepo[1])*(double)(nyear - 1993)/57.0;
         
             ndepo_dry = f_dry * aa * MDN[grid->m]/365.0;
             ndepo_wet = f_wet * aa * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
@@ -366,29 +373,31 @@ void f_n_deposit(
         loct->depo_no3[grid->m] = f_no3 * (ndepo_dry + ndepo_wet) *10.0;
         loct->depo_nh4[grid->m] = f_nh4 * (ndepo_dry + ndepo_wet) *10.0;
 	}else if(EX_CHASER_NDEPO == 2){
+    
+        nyear = grid->niny;
         
         /* 2014/12/27 revised by A.Ito: add organic N deposition*/
-        if(grid->climy<1850){
+        if(nyear < 1850){
             ndepo_no3 = ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
                     + ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col];
             ndepo_nh4 = ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col];
-        }else if(grid->climy>=1850 && grid->climy<=2010){
+        }else if(nyear >= 1850 && nyear <= 2010){
             
             ndepo_no3 = ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
                 + (ndepo_chaser4_noy_p[grid->m][grid->chaser_row][grid->chaser_col]
                         - ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]) *
-                    ((double)(grid->climy) - 1850.0)/160.0;
+                    ((double)nyear - 1850.0)/160.0;
             ndepo_no3 += ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col]
                 + (ndepo_chaser4_ont_p[grid->m][grid->chaser_row][grid->chaser_col]
                         - ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col]) *
-                    ((double)(grid->climy) - 1850.0)/160.0;
+                    ((double)nyear - 1850.0)/160.0;
             
             ndepo_nh4 = ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col]
                 + (ndepo_chaser4_nhx_p[grid->m][grid->chaser_row][grid->chaser_col]
                         - ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col]) *
-                    ((double)(grid->climy) - 1850.0)/160.0;
+                    ((double)nyear - 1850.0)/160.0;
             
-        }else if(grid->climy>2010){
+        }else if(nyear > 2010){
             ndepo_no3 = ndepo_chaser4_noy_p[grid->m][grid->chaser_row][grid->chaser_col]
                 + ndepo_chaser4_ont_p[grid->m][grid->chaser_row][grid->chaser_col];
             ndepo_nh4 = ndepo_chaser4_nhx_p[grid->m][grid->chaser_row][grid->chaser_col];

@@ -674,7 +674,7 @@ void open_input(
                 break;
         }
     }else if(ISIMIP_RUN == 4){
-        /* ISIMIP2.1b: 2016/12/27 by A.Ito */
+        /* ISI-MIP2.1b: 2016/12/27 by A.Ito */
         switch(SCENARIO_ID){
             case 5010:
                 if( (fp_c[0]=fopen("./data/tas_mon_GFDL-ESM2M_r1i1p1_EWEMBI_landonly_pi_1661-2299.flt","rb"))==NULL ){
@@ -835,6 +835,60 @@ void open_input(
                 }
                 if( (fp_c[3]=fopen("./data/rsds_mon_MIROC5_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
                     printf("No rsds_mon_MIROC5_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1); 
+                }
+                break;
+            case 5040:
+                if( (fp_c[0]=fopen("./data/tas_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pi_1661-2299.flt","rb"))==NULL ){
+                    printf("No tas_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pi_1661-2299.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pi_1661-2299.flt","rb"))==NULL ){
+                    printf("No pr_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pi_1661-2299.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/huss_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pi_1661-2299.flt","rb"))==NULL ){
+                    printf("No huss_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pi_1661-2299.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pi_1661-2299.flt","rb"))==NULL ){
+                    printf("No rsds_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pi_1661-2299.flt\n");
+                    exit(1); 
+                }
+                break;
+            case 5041:
+                if( (fp_c[0]=fopen("./data/tas_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir26_1661-2299.flt","rb"))==NULL ){
+                    printf("No tas_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir26_1661-2299.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir26_1661-2299.flt","rb"))==NULL ){
+                    printf("No pr_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir26_1661-2299.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/huss_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir26_1661-2299.flt","rb"))==NULL ){
+                    printf("No huss_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir26_1661-2299.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir26_1661-2299.flt","rb"))==NULL ){
+                    printf("No rsds_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir26_1661-2299.flt\n");
+                    exit(1); 
+                }
+                break;
+            case 5042:
+                if( (fp_c[0]=fopen("./data/tas_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No tas_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[1]=fopen("./data/pr_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No pr_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[2]=fopen("./data/huss_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No huss_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1); 
+                }
+                if( (fp_c[3]=fopen("./data/rsds_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No rsds_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
                     exit(1); 
                 }
                 break;
@@ -1956,7 +2010,7 @@ void open_input(
 	/* 5: gradual rise (SRES B1) */
 	/* 6: gradual rise (SRES B2) */
 	/* 7: uniform rise */
-	if(SCENARIO_ID == 0 || (SCENARIO_ID>6000 && SCENARIO_ID<7000)){
+	if(SCENARIO_ID == 0 || (SCENARIO_ID==6001 || SCENARIO_ID==6002)){
 		CO2S = 4;
 		fp_s[23] = fopen("./data/image_a2_fcrop.dat","rt");
 		fp_s[45] = fopen("./data/image_a2_fgrass.dat","rt");
@@ -2609,7 +2663,7 @@ void open_input(
     
     /* ISI-MIP2 ******************************/
     if(SCENARIO_ID>=5000 && SCENARIO_ID<=5009){
-        /* ISIMIP2.1a (historical) */
+        /* ISI-MIP2a (historical) */
         CO2S = 2; /* RCP4.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
@@ -2625,13 +2679,13 @@ void open_input(
             Flag_FOPEN[45] ++;
         }
     }else if(SCENARIO_ID>=5010 && SCENARIO_ID<=5100){
-        /* ISIMIP2.1b (1.5/2.0deg) */
+        /* ISI-MIP1b (1.5/2.0deg) */
         
-        if(SCENARIO_ID == 5010 || SCENARIO_ID == 5020 || SCENARIO_ID == 5030){
+        if(SCENARIO_ID == 5010 || SCENARIO_ID == 5020 || SCENARIO_ID == 5030 || SCENARIO_ID == 5040){
             CO2S = 1; /* ISI-MIP2.1b: piControl */
-        }else if(SCENARIO_ID == 5011 || SCENARIO_ID == 5021 || SCENARIO_ID == 5031){
+        }else if(SCENARIO_ID == 5011 || SCENARIO_ID == 5021 || SCENARIO_ID == 5031 || SCENARIO_ID == 5041){
             CO2S = 2; /* ISI-MIP2.1b: piControl + historical + rcp26 */
-        }else if(SCENARIO_ID == 5012 || SCENARIO_ID == 5022 || SCENARIO_ID == 5032){
+        }else if(SCENARIO_ID == 5012 || SCENARIO_ID == 5022 || SCENARIO_ID == 5032 || SCENARIO_ID == 5042){
             CO2S = 3; /* ISI-MIP2.1b: piControl + historical + rcp60 */
         }
     
@@ -2700,21 +2754,21 @@ void open_input(
     }
 	
     /* N deposition **************************************************/
-    if(SCENARIO_ID==5010 || SCENARIO_ID==5020 || SCENARIO_ID==5030){
+    if(SCENARIO_ID==5010 || SCENARIO_ID==5020 || SCENARIO_ID==5030 || SCENARIO_ID==5040){
         if( (fp_s[25]=fopen("./data/ndepo_ann_2005soc_1661-2299.flt","rb"))==NULL ){
             printf("No ndepo_ann_2005soc_1661-2299.flt\n");
             exit(1); 
         }else{
             Flag_FOPEN[25] ++;
         }
-    }else if(SCENARIO_ID==5011 || SCENARIO_ID==5021 || SCENARIO_ID==5031){
+    }else if(SCENARIO_ID==5011 || SCENARIO_ID==5021 || SCENARIO_ID==5031 || SCENARIO_ID==5041){
         if( (fp_s[25]=fopen("./data/ndepo_ann_rcp26_1661-2299.flt","rb"))==NULL ){
             printf("No ndepo_ann_rcp26_1661-2299.flt\n");
             exit(1); 
         }else{
             Flag_FOPEN[25] ++;
         }
-    }else if(SCENARIO_ID==5012 || SCENARIO_ID==5022 || SCENARIO_ID==5032){
+    }else if(SCENARIO_ID==5012 || SCENARIO_ID==5022 || SCENARIO_ID==5032 || SCENARIO_ID==5042){
         if( (fp_s[25]=fopen("./data/ndepo_ann_rcp60_1661-2299.flt","rb"))==NULL ){
             printf("No ndepo_ann_rcp60_1661-2299.flt\n");
             exit(1); 
@@ -3187,5 +3241,19 @@ void open_input(
         }else{
             Flag_FOPEN[89] ++;
         }
+    }
+    
+    if( (fp_s[90]=fopen("./data/bnd_impress.txt","rt"))==NULL ){
+        printf("No bnd_impress.txt\n");
+        exit(1); 
+    }else{
+        Flag_FOPEN[90] ++;
+    }
+
+    if( (fp_s[91]=fopen("./data/nfert_potter.txt","rt"))==NULL ){
+        printf("No nfert_potter.txt\n");
+        exit(1); 
+    }else{
+        Flag_FOPEN[91] ++;
     }
 }

@@ -31,6 +31,7 @@ long SCENARIO_ID, CO2S, GCM_R, GCM_C; /* */
 long PARAM_PTB, PARAM_ENS; /* added by A.Ito (2010/05/10) */
 long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
 long EX_SRM, EX_CCPL;
+long IMP_DT, IMP_DP, IMP_CD;
 /* experiment: geoengeneering, solar radiation management *********/
 /* EX SRM: 2013/06/04 by A.Ito *******************/
 /* 0: off */
@@ -48,7 +49,7 @@ long EX_SRM, EX_CCPL;
 double f_pert[N_PARA_ENS];
 
 /* atm. GHG scenario */
-double aco2_a1[DL_AGHG], aco2_a2[DL_AGHG], aco2_b1[DL_AGHG], aco2_b2[DL_AGHG];
+double aco2_1[DL_AGHG], aco2_2[DL_AGHG], aco2_3[DL_AGHG], aco2_4[DL_AGHG];
 double ach4_a1[DL_AGHG], ach4_a2[DL_AGHG], ach4_b1[DL_AGHG], ach4_b2[DL_AGHG];
 double an2o_a1[DL_AGHG], an2o_a2[DL_AGHG], an2o_b1[DL_AGHG], an2o_b2[DL_AGHG];
 /* for ISI-MIP: 2012/06/27 by A.Ito */

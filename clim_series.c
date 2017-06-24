@@ -18,14 +18,12 @@ extern short TEMP_GC;
 void set_hist_clim(
 	struct Grid *grid
 ){
-    short offset = 0, impex_t, impex_p;
+    short offset = 0;
 	long h, cru_te;
 	double tmp_var, pre_var, tcdc_var;
-	
+    
 	/* last year of CRU-data calculation */
 	cru_te = DL_HCLIM + (BGY_CLIM-1);
-    
-    impex_t = impex_p = -999;
     
     if(grid->climy < BGY_CLIM){
         printf("Bad climate-data year: %ld\n", grid->climy);
@@ -94,65 +92,17 @@ void set_hist_clim(
             }
         }
         
-        /*******************************************/
-        /* IMPRESSIONS IRS: 2015/07/17 by A.Ito */
-        if(IMPRESSIONS_RUN == 1){
-        
-            if(SCENARIO_ID<6001 || SCENARIO_ID>7000){
-                printf("BAD experimental ID\n");
-                exit(1);
-            }
-            
-            /*******/
-            impex_t = (short)(SCENARIO_ID%50);
-            
-            switch(impex_t){
-                case 1: tmp_var = -3.0; break;
-                case 2: tmp_var = -2.0; break;
-                case 3: tmp_var = -1.0; break;
-                case 4: tmp_var = 0.0; break;
-                case 5: tmp_var = 1.0; break;
-                case 6: tmp_var = 2.0; break;
-                case 7: tmp_var = 3.0; break;
-                case 8: tmp_var = 4.0; break;
-                case 9: tmp_var = 5.0; break;
-                case 10: tmp_var = 6.0; break;
-                case 11: tmp_var = 7.0; break;
-                case 12: tmp_var = 8.0; break;
-                case 13: tmp_var = 9.0; break;
-                case 14: tmp_var = 10.0; break;
-                case 15: tmp_var = 11.0; break;
-                default: tmp_var = 0.0; break;
-            }
-            
+        /**/
+        tmp_var = 0.0; pre_var = 1.0;
+        if(SCENARIO_ID == 6001 || SCENARIO_ID == 6002){
             for(h=0;h<ASTEP;h++){
+                f_impressions_dclim(&tmp_var, &pre_var, grid->impressions_mask, h);
+                
                 grid->tmp_sfc[h] += tmp_var;
                 grid->tmp_2m[h] += tmp_var;
                 grid->tmp10_soil[h] += tmp_var;
                 grid->tmp200_soil[h] += tmp_var;
-            }
-            
-            /*******/
-            impex_p = (short)((SCENARIO_ID - 6000)/50);
-            
-            switch(impex_p){
-                case 0: pre_var = 0.4; break;
-                case 1: pre_var = 0.5; break;
-                case 2: pre_var = 0.6; break;
-                case 3: pre_var = 0.7; break;
-                case 4: pre_var = 0.8; break;
-                case 5: pre_var = 0.9; break;
-                case 6: pre_var = 1.0; break;
-                case 7: pre_var = 1.1; break;
-                case 8: pre_var = 1.2; break;
-                case 9: pre_var = 1.3; break;
-                case 10: pre_var = 1.4; break;
-                case 11: pre_var = 1.5; break;
-                case 12: pre_var = 1.6; break;
-                default: pre_var = 1.0; break;
-            }
-            
-            for(h=0;h<ASTEP;h++){
+                
                 grid->prate_sfc[h] *= pre_var;
             }
         }
