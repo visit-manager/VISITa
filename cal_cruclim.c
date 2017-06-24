@@ -21,9 +21,9 @@ void cal_historical(
 	struct Flux *flux, 
 	FILE *fp_o[OFILEN]
 ){
-	long f, g, dyr;
+	long f, g, dyr, y_nin;
 	double f_fert, fweight, total_hvst, f_nat, iweight, iweight3, avc3, prm_ensen;
-    double mass_luc, icrop, aa, bb;
+    double mass_luc, icrop, aa, bb, base_nin;
 	extern double MDN[ASTEP];
 	
     /* phase: 1, historical simulation */
@@ -117,7 +117,15 @@ void cal_historical(
             grid->niny = FSY_HIST;
             grid->lucy = FSY_HIST;
         }
-
+        
+        /* sensitivity run: 2017/06/24 by A.Ito */
+        if(EX_NFERT == 101 && (EX_NFERT_SA == 4 || EX_NFERT_SA == 6)){
+            if(grid->lucy >= 1950){
+                grid->lucy = 1950;
+            }
+        }
+        
+        /*************/
         if(grid->simy < BGY_CLIM){
             grid->climy = BGY_CLIM + g%20;
         }else if(grid->simy > (BGY_CLIM + DL_HCLIM - 1)){
@@ -243,20 +251,37 @@ void cal_historical(
                         icrop = 0.0;
                     }
                     
-                    if(grid->niny < 1960){
+                    /* sensitivity run: 2017/06/24 by A.Ito */
+                    y_nin = grid->niny;
+                    
+                    if(y_nin < 1960){
                         (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
                         (mass->soil).n_no3 += icrop * grid->nin_no3[0][grid->m] * 1000.0;
                         (mass->soil).n_nh4 += icrop * grid->nin_nh4[0][grid->m] * 1000.0;
-                    }else if(grid->niny >= 1960 && grid->niny <= 2009){
-                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[grid->niny - 1960][grid->m]
-                                                    + grid->nin_nh4[grid->niny - 1960][grid->m]) * 1000.0;
-                        (mass->soil).n_no3 += icrop * grid->nin_no3[grid->niny - 1960][grid->m] * 1000.0;
-                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[grid->niny - 1960][grid->m] * 1000.0;
-                    }else if(grid->niny > 2009){
+                    }else if(y_nin >= 1960 && y_nin <= 2009){
+                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[y_nin - 1960][grid->m]
+                                                    + grid->nin_nh4[y_nin - 1960][grid->m]) * 1000.0;
+                        (mass->soil).n_no3 += icrop * grid->nin_no3[y_nin - 1960][grid->m] * 1000.0;
+                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[y_nin - 1960][grid->m] * 1000.0;
+                    }else if(y_nin > 2009){
                         (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[49][grid->m]
                                                     + grid->nin_nh4[49][grid->m]) * 1000.0;
                         (mass->soil).n_no3 += icrop * grid->nin_no3[49][grid->m] * 1000.0;
                         (mass->soil).n_nh4 += icrop * grid->nin_nh4[49][grid->m] * 1000.0;
+                    }
+                    
+                    base_nin = (flux->soil).n_fertin[grid->m];
+
+                    if(EX_NFERT_SA == 1 || EX_NFERT_SA == 5 || EX_NFERT_SA == 6){
+                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
+                        (mass->soil).n_no3 += icrop * grid->nin_no3[0][grid->m] * 1000.0;
+                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[0][grid->m] * 1000.0;
+                    }
+                    
+                    /* sensitivity run: 2017/06/24 by A.Ito */
+                    y_nin = grid->niny;
+                    if(EX_NFERT_SA == 2 || EX_NFERT_SA == 5 || EX_NFERT_SA == 6){
+                        base_nin = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
                     }
                     
                     /* no manure? */
@@ -264,7 +289,7 @@ void cal_historical(
 
                     if(grid->nfert_potter > 0.0){
                         aa = grid->nmanure_potter / grid->nfert_potter;
-                        bb = aa * ((flux->soil).n_fertin[grid->m]/1000.0);
+                        bb = aa * (base_nin/1000.0);
                         
                         if(bb > grid->nmanure_potter * MDN[grid->m] / 365.0){
                             bb = grid->nmanure_potter * MDN[grid->m] / 365.0;

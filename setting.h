@@ -93,14 +93,14 @@
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 1
+#define OUTPUT_CARBON2 0
+#define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
+#define OUTPUT_EROSION 0
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 /* output binary */
 #define C13_GOUT 0
 #define C14_GOUT 0
@@ -443,7 +443,7 @@
 /* 1: lai based */
 
 /* constraint on maximum LAI by meta-analysis: 2015/03/23 by A.Ito */
-#define CONSTRAIN_LAIMAX 1
+#define CONSTRAIN_LAIMAX 0
 /* 0: off */
 /* 1: on */
 
@@ -626,6 +626,14 @@
 /* 11: MIROC + RCP4.5 + SSP2 */
 /* 12: MIROC + RCP4.5 + SSP3 */
 /* 101: Nishina ESSD data: 2017/02/13 by A.Ito */
+#define EX_NFERT_SA 0
+/* 0: reference */
+/* 1: fix fertilizer */
+/* 2: fix manure */
+/* 3: fix deposition */
+/* 4: fix land use */
+/* 5: fix fertilizer + manure */
+/* 6: fix fertilizer + manure + land use */
 
 /****************************************************/
 /* sensitivity analysis *****************/
