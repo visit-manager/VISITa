@@ -93,14 +93,14 @@
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 0
+#define OUTPUT_CARBON2 1
 #define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
+#define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
+#define OUTPUT_EROSION 1
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
+#define OUTPUT_BB 1
+#define OUTPUT_BVOC 1
 /* output binary */
 #define C13_GOUT 0
 #define C14_GOUT 0
@@ -383,7 +383,7 @@
 #define NECB_CROP 1
 
 /* land use change setting ********************************/
-#define LANDUSE 19
+#define LANDUSE 17
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
