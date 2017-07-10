@@ -59,13 +59,13 @@ void cal_projection(
 			grid->co2y = 2001;
 		}
         
-        if(SCENARIO_ID==2601 ||SCENARIO_ID==2602 ||SCENARIO_ID==2603){
+        if(SCENARIO_ID == 2601 ||SCENARIO_ID == 2602 ||SCENARIO_ID == 2603){
             grid->co2y = 2005;
         }
         
 		/* climate change ********************/
 		grid->climy = g;
-        if(SCENARIO_ID==2601 ||SCENARIO_ID==2602 ||SCENARIO_ID==2603){
+        if(SCENARIO_ID == 2601 ||SCENARIO_ID == 2602 ||SCENARIO_ID == 2603){
             grid->climy = 2005;
         }
 
@@ -174,10 +174,10 @@ void cal_projection(
 			/* aggregate plant mass and fluxes */
 			f_plant_stand_budget(grid, loct, mass, flux);
 			
-			if(EX_ACCLM==3){
+			if(EX_ACCLM == 3){
 				(flux->plant).lL[f] = flux->lL0[f];
 			}
-			if(EX_ACCLM==4){
+			if(EX_ACCLM == 4){
 				rl_a = (echar->soil).rl0*(1.0 - 0.001*(double)((grid->climy - BGY_GCM)+1));
 				if((mass->soil).ltr+(flux->plant).lL[f]){
 					(echar->soil).rl = ((echar->soil).rl*(mass->soil).ltr + 

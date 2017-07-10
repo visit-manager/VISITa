@@ -96,8 +96,19 @@ int main(
 	   printf("Bad scenario ID specified !!!\n");
 	   exit(1);
 	}   
-	set_gcm_index(s_case);	/* -> vegetdeal.c */
 	
+    /* config: IMPRESSIONS experiment */
+    IMP_DT = IMP_DP = IMP_CD = 0;
+    if(SCENARIO_ID==6001 || SCENARIO_ID==6002){
+        /* fscanf(fp_setting,"%ld %ld %ld", &IMP_DT, &IMP_DP, &IMP_CD); */
+        IMP_DT = atol(argv[1]);
+        IMP_DP = atol(argv[2]);
+        IMP_CD = atol(argv[3]);
+        printf("config  IMP: %ld %ld %ld\n", IMP_DT, IMP_DP, IMP_CD);
+    }
+	
+	set_gcm_index(s_case);	/* -> vegetdeal.c */
+
 	/* config: 2 file identifier (arbitrary phrase such as date, your name, etc.) */
 	fscanf(fp_setting,"%s %s", s_config, s_date);
 	strcat(s_date, "_");
@@ -222,7 +233,7 @@ int main(
 	/* config: 10 SRM experiment */
 	fscanf(fp_setting,"%s %ld", s_config, &EX_SRM);
 	printf("config  10: %s %ld\n", s_config, EX_SRM);
-	
+    
     /* close setting.txt */
     fclose(fp_setting);
 	
@@ -355,6 +366,16 @@ int main(
 			){
 				flag_calc = 1;
 			}
+            
+            /* IMPRESSIONS MASKED AREA: 2017/05/02 by A.Ito */
+            if(SCENARIO_ID == 6002){
+                /* if(grid.impressions_mask == 1){ */
+                if(grid.impressions_mask == 1 || grid.impressions_mask == 2 || grid.impressions_mask == 3){
+                    flag_calc = 1;
+                }else{
+                    flag_calc = 0;
+                }
+            }
 			
 			/* calculation for lands *******************************************/
             if(flag_calc == 1){

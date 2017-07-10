@@ -342,6 +342,13 @@ struct Grid{
     double  beccs_s2b;
     double  beccs_v2b;
     double  beccs_v2s;
+    
+    /* IMPRESSIONS mask: 2017/05/02 by A.Ito */
+    long    impressions_mask;
+    
+    /* N fertilizer & manure of Potter: 2017/06/13 by A.Ito */
+    double  nfert_potter;
+    double  nmanure_potter;
 };
 
 /* grid conditions, derived from submodules *******************************************/

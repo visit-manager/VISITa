@@ -20,7 +20,7 @@ double frfm(
 ){
 	double rfmt0, t0, rfm, ft;
 	
-	t0=15.0; /* specific rate, at 15 deg C */
+	t0 = 15.0; /* specific rate, at 15 deg C */
 	
 	if(CN_COUPLE >= 1){	
 		/* micro mol m-2 s-1 */
@@ -101,7 +101,7 @@ double frrm(
 	struct Pmas *mass
 ){
 	double rfmt0, t0, rfm, ft;
-	t0=15.0; /* specific rate, at 15 deg C */
+	t0 = 15.0; /* specific rate, at 15 deg C */
 	rfmt0 = veg->rmr/1000.0; 
 	
 	/* temperature dependence, exponential */

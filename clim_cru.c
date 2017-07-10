@@ -183,9 +183,9 @@ void read_cru_clim(
                         /* relative humidity */
                         /* saturated water vapor pressure */
                         if(grid->hist_tmp[h][g] > 0.0){ /* at water surface */
-                            vps = 6.1078*pow(10.0, (7.5 * grid->hist_tmp[h][g])/(237.3 + grid->hist_tmp[h][g]));
+                            vps = 6.1078 * pow(10.0, (7.5 * grid->hist_tmp[h][g])/(237.3 + grid->hist_tmp[h][g]));
                         }else{ /* at ice surface */  /*  if(grid->tmp_2m[grid->m]<=0.0) */
-                            vps = 6.1078*pow(10.0, (9.5 * grid->hist_tmp[h][g])/(265.3 + grid->hist_tmp[h][g]));
+                            vps = 6.1078 * pow(10.0, (9.5 * grid->hist_tmp[h][g])/(265.3 + grid->hist_tmp[h][g]));
                         }
                         vps = (vps>=0.0)?vps:0.0;
                         grid->hist_vap[h][g] = vps * (double)r_isimip_data[h*ASTEP+g] / 100.0;

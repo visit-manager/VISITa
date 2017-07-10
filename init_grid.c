@@ -1413,4 +1413,13 @@ void f_init_grid(
             grid->nin_no3[e/ASTEP][e%ASTEP] = grid->nin_nh4[e/ASTEP][e%ASTEP] = 0.0;
         }
     }
+    
+    /* IMPRESSIONS: 2017/05/02 by A.Ito */
+    grid->impressions_mask = 0;
+    fscanf(fp_s[90],"%ld", &grid->impressions_mask);
+
+    /* Manure input based on Potter: 2017/05/02 by A.Ito */
+    grid->impressions_mask = 0;
+    fscanf(fp_s[91],"%lf", &grid->nfert_potter);
+    fscanf(fp_s[91],"%lf", &grid->nmanure_potter);
 }

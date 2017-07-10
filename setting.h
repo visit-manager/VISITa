@@ -38,12 +38,14 @@
 #define INT_C 0.01
 
 /***********************************************************/
-#define ISIMIP_RUN 1
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
-/* 3: ISI-MIP 2.1a historical runs */
-/* 4: ISI-MIP 2.1b 1.5 or 2.0 deg target */
+/* 3: ISI-MIP 2a historical runs */
+/* 4: ISI-MIP 2b 1.5 or 2.0 deg target */
+#define ISIMIP2_FIXCD 0
+/* ISI-MIP2b IIb (fixed CO2 after 2005) */
 
 #define GEOMIP_RUN 0
 /* 0: normal (no GEO-MIP) */
@@ -52,11 +54,8 @@
 #define IMPRESSIONS_RUN 0
 /* 0: off */
 /* 1: sensitivity run (for IRS) */
-
-/* parameter ensemble experiment ****/
-#define ENSEMBLE_RUN 0
-/* 0: off */
-/* 1: on */
+/* 2: sensitivity run (for IRS) + seasonal change + RCP4.5-CO2 */
+/* 3: sensitivity run (for IRS) + seasonal change + RCP8.5-CO2 */
 
 /* biofuel experiment: 2015/08/21 by A.Ito */
 #define BIOFUEL_RUN 0
@@ -82,27 +81,26 @@
 /* 11: land-conversion only (S7) */
 /* 12: land-conversion + N fertilizer + irrigation (S8) */
 
-#define DL_NMIP 156
-#define FDY_NINY 1860 /* */
-
-/* ISI-MIP 2.1b */
-/* #define DL_NMIP 639
-#define FDY_NINY 1661 */
-
-/* parameter ensemble **************************/
-#define N_PARA_ENS 20
+#if ISIMIP_RUN==4
+    /* ISI-MIP2b */
+    #define DL_NMIP 639
+    #define FDY_NINY 1661
+#else
+    #define DL_NMIP 156
+    #define FDY_NINY 1860
+#endif
 
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 1
 #define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
+#define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 1
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
+#define OUTPUT_BB 1
+#define OUTPUT_BVOC 1
 /* output binary */
 #define C13_GOUT 0
 #define C14_GOUT 0
@@ -152,6 +150,14 @@
     /* GEO-MIP: 2012/06/27 by A.Ito */
     #define DL_AGHG 736
     #define FDY_AGHG 1765
+#elif IMPRESSIONS_RUN==2
+    /* IMPRESSIONS: 2017/05/02 by A.Ito */
+    #define DL_AGHG 736
+    #define FDY_AGHG 1765
+#elif IMPRESSIONS_RUN==3
+    /* IMPRESSIONS: 2017/05/02 by A.Ito */
+    #define DL_AGHG 736
+    #define FDY_AGHG 1765
 #else
     #define DL_AGHG 553 /* default */
     #define FDY_AGHG 1750
@@ -159,17 +165,26 @@
 
 /*****************************************************************/
 /* simulation framework duration (years) */
-#define PD_SIM 201 /* */
-/* #define PD_SIM 640 */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
-/* for memory preparation; not always actual period */
+#if ISIMIP_RUN==4
+    #define PD_SIM 640 /* */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
+#else
+    #define PD_SIM 201
+#endif
+/* for memory preparation; not always actual experimental length */
 
 #if ISIMIP_RUN==1
     #define FSY_HIST 1950 /* ISI-MIP */
-    #define LSY_HIST 2099 /* ISI-MIP */
+    #define LSY_HIST 2099
 #elif ISIMIP_RUN==4
-    #define FSY_HIST 1661 /* ISI-MIP2.1b */
-    #define LSY_HIST 2299 /* ISI-MIP2.1b */
-    /* #define LSY_HIST 2099 */ /* ISI-MIP2.1b (rcp6.0) */
+    #define FSY_HIST 1661 /* ISI-MIP2b */
+    #define LSY_HIST 2299
+    /* #define LSY_HIST 2099 */ /* ISI-MIP2b (rcp6.0) */
+#elif IMPRESSIONS_RUN==2
+    #define FSY_HIST 1901 /* IMPRESSIONS 2 */
+    #define LSY_HIST 2015
+#elif IMPRESSIONS_RUN==3
+    #define FSY_HIST 1901 /* IMPRESSIONS 2 */
+    #define LSY_HIST 2015
 #else
     #define FSY_HIST 1901 /* */
     /* #define FSY_HIST 1861 */ /* NMIP */
@@ -191,6 +206,10 @@
     #define BGY_CO2Y 1901  /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
 #elif ISIMIP_RUN==4
     #define BGY_CO2Y 1661  /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
+#elif IMPRESSIONS_RUN==2
+    #define BGY_CO2Y 1901
+#elif IMPRESSIONS_RUN==3
+    #define BGY_CO2Y 1901
 #else
     #define BGY_CO2Y 1901
 #endif
@@ -198,7 +217,7 @@
 /* total historical run: using CRU, NCEP, etc. ***/
 #if ISIMIP_RUN==1
     #define PD_HIST 150  /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
-                         /* BIOFUEL RUN */
+                         /* and BIOFUEL RUN */
 #elif ISIMIP_RUN==2
     #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
@@ -212,6 +231,10 @@
     #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
 #elif NMIP_RUN>=1
     #define PD_HIST 155	/* */	/* AD 1861 - 2015 */
+#elif IMPRESSIONS_RUN==2
+    #define PD_HIST 115
+#elif IMPRESSIONS_RUN==3
+    #define PD_HIST 115
 #else
     /* non-ISI-MIP: case dependent */
     /* #define PD_HIST 100  */	/* AD 1901 - 2000 */
@@ -240,6 +263,10 @@
     #define BGY_CLIM 1901  /* ISI-MIP2a (historical): 2014/11/30 by A.Ito */
 #elif ISIMIP_RUN==4
     #define BGY_CLIM 1661  /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
+#elif IMPRESSIONS_RUN==2
+    #define BGY_CLIM 1901
+#elif IMPRESSIONS_RUN==3
+    #define BGY_CLIM 1901
 #else
     #define BGY_CLIM 1901
 #endif
@@ -252,14 +279,18 @@
     /* PLUME: 2014/07/31 by A.Ito */
     #define DL_HCLIM 135  /* SU 30 + AD 1901 - 2005 */
 #elif ISIMIP_RUN==3
-    /* ISI-MIP2.1a (historical): 2014/11/30 by A.Ito */
+    /* ISI-MIP2a (historical): 2014/11/30 by A.Ito */
     /* #define DL_HCLIM 140 */  /* SU 30 + AD 1901 - 2010 */
     /* #define DL_HCLIM 131 */  /* SU 30 + AD 1901 - 2001 */
     #define DL_HCLIM 142  /* SU 30 + AD 1901 - 2012 */
 #elif ISIMIP_RUN==4
-    /* ISI-MIP2.1b (1.5/2.0deg): 2016/12/24 by A.Ito */
+    /* ISI-MIP2b (1.5/2.0deg): 2016/12/24 by A.Ito */
     #define DL_HCLIM 639  /* AD 1661 - 2299 */
     /* #define DL_HCLIM 439 */  /* AD 1661 - 2099 */
+#elif IMPRESSIONS_RUN==2
+    #define DL_HCLIM 115
+#elif IMPRESSIONS_RUN==3
+    #define DL_HCLIM 115
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
@@ -275,7 +306,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -301,7 +332,7 @@
     /* #define DL_ISIMIP 131 */ /* SU 30 + AD 1901 - 2001 */
     #define DL_ISIMIP 142  /* SU 30 + AD 1901 - 2012 */
 #elif ISIMIP_RUN==4
-    /* ISI-MIP2.1b (historical): 2014/11/30 by A.Ito */
+    /* ISI-MIP2b (historical): 2014/11/30 by A.Ito */
     #define DL_ISIMIP 639  /* AD 1661 - 2299 */
     /* #define DL_ISIMIP 439 */  /* AD 1661 - 2099 */
 #else
@@ -352,7 +383,7 @@
 #define NECB_CROP 1
 
 /* land use change setting ********************************/
-#define LANDUSE 11
+#define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -417,7 +448,7 @@
 /* 1: on */
 
 /* S10-BECCS experiment: 2016/02/15 by A.Ito */
-#define EX_BECCS 2
+#define EX_BECCS 0
 /* 0: off (inc. scenario S5) */
 /* 1: on (scenario S3) */
 /* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
@@ -511,7 +542,7 @@
 /* 0:off, 1:0n */
 /* fix NPP carbon input to wetland: 2015/03/23 by A.Ito */
 
-#define FIX_NPP 0
+#define FIX_CH4_NPP 0
 /* 0:off, 1:0n */
 
 /*****************************************************/
@@ -534,7 +565,15 @@
 #define SENS_FIRE 0
 /* 0:off, 1:0n */
 
-/***************************************************/
+/* parameter ensemble experiment ****/
+#define ENSEMBLE_RUN 0
+/* 0: off */
+/* 1: on */
+
+/* parameter ensemble */
+#define N_PARA_ENS 20
+
+/********************************************************/
 /* 2016/06/08 by A.Ito */
 #define EX_NITROGEN 0
 /* 0: off (control) */
@@ -572,7 +611,7 @@
 /* 8: DLEM */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
-#define EX_NFERT 0
+#define EX_NFERT 101
 /* 0: off */
 /* 1: HadGEM + RCP2.6 + SSP1 */
 /* 2: HadGEM + RCP2.6 + SSP2 */
@@ -587,6 +626,15 @@
 /* 11: MIROC + RCP4.5 + SSP2 */
 /* 12: MIROC + RCP4.5 + SSP3 */
 /* 101: Nishina ESSD data: 2017/02/13 by A.Ito */
+#define EX_NFERT_SA 0
+/* 0: reference */
+/* 1: fix fertilizer */
+/* 2: fix manure */
+/* 3: fix deposition */
+/* 4: fix land use */
+/* 5: fix fertilizer + manure */
+/* 6: fix fertilizer + manure + land use */
+/* 7: no manure */
 
 /****************************************************/
 /* sensitivity analysis *****************/
@@ -990,7 +1038,7 @@
 /* 5003: historical WATCH */
 /* 5004: historical WATCH+WFDEI */
 
-/** ISI-MIP2b: 2016/12/22 by A.Ito  *****/
+/** ISI-MIP2b: 2016/12/22 and 2017/05/17 by A.Ito  *****/
 /* 5010: GFDL piControl */
 /* 5011: GFDL piControl + historical + rcp2.6 */
 /* 5012: GFDL piControl + historical + rcp6.0 */
@@ -1000,37 +1048,90 @@
 /* 5030: MIROC5 piControl */
 /* 5031: MIROC5 piControl + historical + rcp2.6 */
 /* 5032: MIROC5 piControl + historical + rcp6.0 */
+/* 5040: HadGEM2-ES piControl */
+/* 5041: HadGEM2-ES piControl + historical + rcp2.6 */
+/* 5042: HadGEM2-ES piControl + historical + rcp6.0 */
 
 /** IMPRESSIONS: 2015/07/17 **/
-/* 6001-6050: precipitation -60% */
-/* 6051-6100: precipitation -50% */
-/* 6101-6150: precipitation -40% */
-/* 6151-6200: precipitation -30% */
-/* 6201-6250: precipitation -20% */
-/* 6251-6300: precipitation -10% */
-/* 6301-6350: precipitation   0% */
-/* 6351-6400: precipitation +10% */
-/* 6401-6450: precipitation +20% */
-/* 6451-6500: precipitation +30% */
-/* 6501-6550: precipitation +40% */
-/* 6551-6600: precipitation +50% */
-/* 6601-6650: precipitation +60% */
+/* 6001: phase 1 */
+/* temperature */
+/* IMPRESSIONS_DT */
+/* 0: temperature 0 K */
+/* 1: temperature -3 K */
+/* 2: temperature -2 K */
+/* 3: temperature -1 K */
+/* 4: temperature  0 K */
+/* 5: temperature +1 K */
+/* 6: temperature +2 K */
+/* 7: temperature +3 K */
+/* 8: temperature +4 K */
+/* 9: temperature +5 K */
+/* 10: temperature +6 K */
+/* 11: temperature +7 K */
+/* 12: temperature +8 K */
+/* 13: temperature +9 K */
+/* 14: temperature +10 K */
+/* 15: temperature +11 K */
 
-/* 6X01 6X51: temperature -3 K */
-/* 6X02 6X52: temperature -2 K */
-/* 6X03 6X53: temperature -1 K */
-/* 6X04 6X54: temperature  0 K */
-/* 6X05 6X55: temperature +1 K */
-/* 6X06 6X56: temperature +2 K */
-/* 6X07 6X57: temperature +3 K */
-/* 6X08 6X58: temperature +4 K */
-/* 6X09 6X59: temperature +5 K */
-/* 6X10 6X60: temperature +6 K */
-/* 6X11 6X61: temperature +7 K */
-/* 6X12 6X62: temperature +8 K */
-/* 6X13 6X63: temperature +9 K */
-/* 6X14 6X64: temperature +10 K */
-/* 6X15 6X65: temperature +11 K */
+/* IMPRESSIONS_DP */
+/* 0: precipitation 0% */
+/* 1: precipitation -60% */
+/* 2: precipitation -50% */
+/* 3: precipitation -40% */
+/* 4: precipitation -30% */
+/* 5: precipitation -20% */
+/* 6: precipitation -10% */
+/* 7: precipitation   0% */
+/* 8: precipitation +10% */
+/* 9: precipitation +20% */
+/* 10: precipitation +30% */
+/* 11: precipitation +40% */
+/* 12: precipitation +50% */
+/* 13: precipitation +60% */
+
+/** IMPRESSIONS: 2017/04/19 **/
+/* 6002: phase 2 */
+/* #define IMPRESSIONS_DT */
+/* 0: temperature 0 K */
+/* 1: temperature -3 K */
+/* 2: temperature -2 K */
+/* 3: temperature -1 K */
+/* 4: temperature  0 K */
+/* 5: temperature +0.5 K */
+/* 6: temperature +1 K */
+/* 7: temperature +2 K */
+/* 8: temperature +3 K */
+/* 9: temperature +4 K */
+/* 10: temperature +5 K */
+/* 11: temperature +6 K */
+/* 12: temperature +7 K */
+/* 13: temperature +8 K */
+
+/* #define IMPRESSIONS_DP */
+/* 0: precipitation 0% */
+/* 1: precipitation -42% */
+/* 2: precipitation -36% */
+/* 3: precipitation -30% */
+/* 4: precipitation -25% */
+/* 5: precipitation -24% */
+/* 6: precipitation -20% */
+/* 7: precipitation -18% */
+/* 8: precipitation -15% */
+/* 9: precipitation -12% */
+/* 10: precipitation -10% */
+/* 11: precipitation -9% */
+/* 12: precipitation -6% */
+/* 13: precipitation -5% */
+/* 14: precipitation -3% */
+/* 15: precipitation  0% */
+/* 16: precipitation +3% */
+/* 17: precipitation +5% */
+/* 18: precipitation +6% */
+/* 19: precipitation +9% */
+/* 20: precipitation +10% */
+/* 21: precipitation +12% */
+/* 22: precipitation +15% */
+/* 23: precipitation +18% */
 
 /* ICARUS 2016/08/12 ************/
 /* 2201 (2101): gfdl SSP1 rcp2.6  */

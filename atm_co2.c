@@ -25,7 +25,7 @@ void f_co2_trend(
 	time = (double)(grid->co2y);
 	
     base = 350.0;
-    if(ISIMIP_RUN == 0 && GEOMIP_RUN == 0){
+    if(ISIMIP_RUN == 0 && GEOMIP_RUN == 0 && IMPRESSIONS_RUN <= 1){
         /** BASE **/
         if(time < 1990.0){
             /* fitting curve from observational data */
@@ -55,19 +55,57 @@ void f_co2_trend(
             || GEOMIP_RUN == 1){
         /** ISI-MIP or GeoMIP or ICARUS runs **/
         switch(CO2S){
-            case 1:
-                base = aco2_b1[grid->co2y - FDY_AGHG];
+            case 1: /* rcp2.6 */
+                base = aco2_3[grid->co2y - FDY_AGHG];
                 break;
-            case 2:
-                base = aco2_b2[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
+            case 2: /* rcp4.5 */
+                base = aco2_4[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
                 break;
-            case 3:
-                base = aco2_a1[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
+            case 3: /* rcp6.0 */
+                base = aco2_1[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
                 break;
-            case 4:
-                base = aco2_a2[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
+            case 4: /* rcp8.5 */
+                base = aco2_2[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
                 break;
         }
+    }else if(IMPRESSIONS_RUN == 2 || IMPRESSIONS_RUN == 3){
+        /** IMPRESSIONS time-dependent runs **/
+        switch(CO2S){
+            case 1:
+                base = aco2_3[grid->co2y - FDY_AGHG];
+                break;
+            case 2:
+                base = aco2_4[grid->co2y - FDY_AGHG];
+                break;
+            case 3:
+                base = aco2_1[grid->co2y - FDY_AGHG];
+                break;
+            case 4:
+                base = aco2_2[grid->co2y - FDY_AGHG];
+                break;
+        }
+        
+        switch(IMP_CD){
+            case 1: base = 360.0; break;
+            
+            case 2: base = 423.0; break;
+            case 3: base = 448.0; break;
+            case 4: base = 474.0; break;
+            case 5: base = 498.0; break;
+            case 6: base = 517.0; break;
+            case 7: base = 528.0; break;
+            case 8: base = 532.0; break;
+
+            case 9: base = 432.0; break;
+            case 10: base = 469.0; break;
+            case 11: base = 515.0; break;
+            case 12: base = 572.0; break;
+            case 13: base = 640.0; break;
+            case 14: base = 718.0; break;
+            case 15: base = 802.0; break;
+            default: break;
+        }
+        
     }else{
         printf("BAD experimental setting!!\n");
     }
@@ -78,16 +116,16 @@ void f_co2_trend(
         
             switch(CO2S){
                 case 1:
-                    base = aco2_b1[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_3[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
                 case 2:
-                    base = aco2_b2[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_4[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
                 case 3:
-                    base = aco2_a1[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_1[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
                 case 4:
-                    base = aco2_a2[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_2[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
                     break;
             }
         }
