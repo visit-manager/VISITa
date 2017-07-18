@@ -144,7 +144,7 @@ void cal_historical(
 			set_hist_clim(grid);
 		}
 		
-        /*******************************************************************/
+        /************************************************************************/
 
 		/* land-use change *************/
 		f_cult_luc(grid);
@@ -161,7 +161,6 @@ void cal_historical(
         }
         
         if((echar->soil).v_type == 2){
-        
             /* NMIP input: 2015/11/19 by A.Ito */
             if(NMIP_RUN >= 1 || EX_NFERT >= 1 || ISIMIP_RUN == 4){
                 n_fertilizer_in(grid, loct);
@@ -186,7 +185,7 @@ void cal_historical(
 			/* environmental condition *******************/
 			f_dyn_loct(grid, loct, mass, echar);
             
-            /* printf("%5.1lf ", grid->tmp_sfc[f]); */
+            /* printf("%5.1lf ", grid->tmp_sfc[f]); ******/
 			
 			/* vegetation processes *********************/
 			f_biome_processes(grid, loct, echar, mass, flux);
@@ -224,7 +223,7 @@ void cal_historical(
             /* this routine may not be activated when using REPLACE_OLSON_CROP option */
 			if((echar->soil).v_type == 1){
 			   if(grid->veg_olson == 29 || grid->veg_olson == 30 ||
-                            grid->veg_olson == 31 || grid->veg_olson == 32){
+                                    grid->veg_olson == 31 || grid->veg_olson == 32){
 				   (flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
 				   (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
 				   (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
@@ -255,7 +254,8 @@ void cal_historical(
                     y_nin = grid->niny;
                     
                     if(y_nin < 1960){
-                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
+                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m]
+                                                    + grid->nin_nh4[0][grid->m]) * 1000.0;
                         (mass->soil).n_no3 += icrop * grid->nin_no3[0][grid->m] * 1000.0;
                         (mass->soil).n_nh4 += icrop * grid->nin_nh4[0][grid->m] * 1000.0;
                     }else if(y_nin >= 1960 && y_nin <= 2009){
@@ -273,7 +273,8 @@ void cal_historical(
                     base_nin = (flux->soil).n_fertin[grid->m];
 
                     if(EX_NFERT_SA == 1 || EX_NFERT_SA == 5 || EX_NFERT_SA == 6){
-                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
+                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m]
+                                                        + grid->nin_nh4[0][grid->m]) * 1000.0;
                         (mass->soil).n_no3 += icrop * grid->nin_no3[0][grid->m] * 1000.0;
                         (mass->soil).n_nh4 += icrop * grid->nin_nh4[0][grid->m] * 1000.0;
                     }
@@ -287,13 +288,19 @@ void cal_historical(
                     /* no manure? */
                     (flux->soil).n_manurein[grid->m] = 0.0;
 
-                    if(grid->nfert_potter > 0.0){
-                        aa = grid->nmanure_potter / grid->nfert_potter;
-                        bb = aa * (base_nin/1000.0);
-                        
-                        if(bb > grid->nmanure_potter * MDN[grid->m] / 365.0){
-                            bb = grid->nmanure_potter * MDN[grid->m] / 365.0;
+                    if(grid->nfert_potter > 0.0 || grid->nmanure_potter > 0.0){
+                    
+                        if(grid->nfert_potter > 0.0){
+                            aa = grid->nmanure_potter / grid->nfert_potter;
+                            bb = aa * (base_nin/1000.0);
+                            
+                            if(bb > 3.0*(grid->nmanure_potter * MDN[grid->m] / 365.0) ){
+                                bb = 3.0*(grid->nmanure_potter * MDN[grid->m] / 365.0);
+                            }
+                        }else{
+                            bb = grid->nmanure_potter  * MDN[grid->m] / 365.0;
                         }
+                        
                         if(bb < 0.0){
                             bb = 0.0;
                         }
@@ -306,6 +313,8 @@ void cal_historical(
                         loct->n_manure_in = bb;
                         (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0;
                         (mass->soil).n_lttr += loct->n_manure_in * 1000.0;
+                    }else{
+                        loct->n_manure_in = (flux->soil).n_manurein[grid->m] = 0.0;
                     }
                 }
             }else{
