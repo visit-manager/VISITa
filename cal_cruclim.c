@@ -310,9 +310,9 @@ void cal_historical(
                             bb = 0.0;
                         }
                         
-                        loct->n_manure_in = bb;
-                        (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0;
-                        (mass->soil).n_lttr += loct->n_manure_in * 1000.0;
+                        loct->n_manure_in = bb * 1000.0;
+                        (flux->soil).n_manurein[grid->m] = loct->n_manure_in;
+                        (mass->soil).n_lttr += loct->n_manure_in;
                     }else{
                         loct->n_manure_in = (flux->soil).n_manurein[grid->m] = 0.0;
                     }

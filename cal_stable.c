@@ -287,20 +287,33 @@ void cal_spinup(
                     /* no mature? */
                     (flux->soil).n_manurein[grid->m] = 0.0;
                     
-                    if(grid->nfert_potter > 0.0){
-                        aa = grid->nmanure_potter / grid->nfert_potter;
-                        bb = aa * ((flux->soil).n_fertin[grid->m]/1000.0);
+                    if(grid->nfert_potter > 0.0 || grid->nmanure_potter > 0.0){
                         
-                        if(bb > grid->nmanure_potter * MDN[grid->m] / 365.0){
+                        if(grid->nfert_potter > 0.0){
+                            aa = grid->nmanure_potter / grid->nfert_potter;
+                            bb = aa * ((flux->soil).n_fertin[grid->m]/1000.0);
+                            
+                            if(bb > 3.0*(grid->nmanure_potter * MDN[grid->m] / 365.0) ){
+                                bb = 3.0*(grid->nmanure_potter * MDN[grid->m] / 365.0);
+                            }
+                        }else{
                             bb = grid->nmanure_potter * MDN[grid->m] / 365.0;
                         }
+                        
                         if(bb < 0.0){
                             bb = 0.0;
                         }
                         
-                        loct->n_manure_in = bb;
-                        (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0;
-                        (mass->soil).n_lttr += loct->n_manure_in * 1000.0;
+                        /* No manure: 2017/07/10 by A.Ito */
+                        if(EX_NFERT_SA == 7){
+                            bb = 0.0;
+                        }
+
+                        loct->n_manure_in = bb * 1000.0;
+                        (flux->soil).n_manurein[grid->m] = loct->n_manure_in;
+                        (mass->soil).n_lttr += loct->n_manure_in;
+                    }else{
+                        (flux->soil).n_manurein[grid->m] = loct->n_manure_in = 0.0;
                     }
                 }
             }else{
