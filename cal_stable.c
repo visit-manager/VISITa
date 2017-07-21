@@ -268,20 +268,28 @@ void cal_spinup(
                         icrop = 0.0;
                     }
                     
-                    if(grid->niny < 1960){
-                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
+                    if(EX_NFERT_SA == 1 || EX_NFERT_SA == 5 || EX_NFERT_SA == 6){
+                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m]
+                                                        + grid->nin_nh4[0][grid->m]) * 1000.0;
                         (mass->soil).n_no3 += icrop * grid->nin_no3[0][grid->m] * 1000.0;
                         (mass->soil).n_nh4 += icrop * grid->nin_nh4[0][grid->m] * 1000.0;
-                    }else if(grid->niny >= 1960 && grid->niny <= 2009){
-                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[grid->niny - 1960][grid->m]
-                                                    + grid->nin_nh4[grid->niny - 1960][grid->m]) * 1000.0;
-                        (mass->soil).n_no3 += icrop * grid->nin_no3[grid->niny - 1960][grid->m] * 1000.0;
-                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[grid->niny - 1960][grid->m] * 1000.0;
-                    }else if(grid->niny > 2009){
-                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[49][grid->m]
-                                                    + grid->nin_nh4[49][grid->m]) * 1000.0;
-                        (mass->soil).n_no3 += icrop * grid->nin_no3[49][grid->m] * 1000.0;
-                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[49][grid->m] * 1000.0;
+                    }else{
+                        if(grid->niny < 1960){
+                            (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m]
+                                                        + grid->nin_nh4[0][grid->m]) * 1000.0;
+                            (mass->soil).n_no3 += icrop * grid->nin_no3[0][grid->m] * 1000.0;
+                            (mass->soil).n_nh4 += icrop * grid->nin_nh4[0][grid->m] * 1000.0;
+                        }else if(grid->niny >= 1960 && grid->niny <= 2009){
+                            (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[grid->niny - 1960][grid->m]
+                                                        + grid->nin_nh4[grid->niny - 1960][grid->m]) * 1000.0;
+                            (mass->soil).n_no3 += icrop * grid->nin_no3[grid->niny - 1960][grid->m] * 1000.0;
+                            (mass->soil).n_nh4 += icrop * grid->nin_nh4[grid->niny - 1960][grid->m] * 1000.0;
+                        }else if(grid->niny > 2009){
+                            (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[49][grid->m]
+                                                        + grid->nin_nh4[49][grid->m]) * 1000.0;
+                            (mass->soil).n_no3 += icrop * grid->nin_no3[49][grid->m] * 1000.0;
+                            (mass->soil).n_nh4 += icrop * grid->nin_nh4[49][grid->m] * 1000.0;
+                        }
                     }
                     
                     /* no mature? */
@@ -293,8 +301,8 @@ void cal_spinup(
                             aa = grid->nmanure_potter / grid->nfert_potter;
                             bb = aa * ((flux->soil).n_fertin[grid->m]/1000.0);
                             
-                            if(bb > 3.0*(grid->nmanure_potter * MDN[grid->m] / 365.0) ){
-                                bb = 3.0*(grid->nmanure_potter * MDN[grid->m] / 365.0);
+                            if(bb > 20.0*(grid->nmanure_potter * MDN[grid->m] / 365.0) ){
+                                bb = 20.0*(grid->nmanure_potter * MDN[grid->m] / 365.0);
                             }
                         }else{
                             bb = grid->nmanure_potter * MDN[grid->m] / 365.0;

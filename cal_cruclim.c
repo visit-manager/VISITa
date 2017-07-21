@@ -253,31 +253,32 @@ void cal_historical(
                     /* sensitivity run: 2017/06/24 by A.Ito */
                     y_nin = grid->niny;
                     
-                    if(y_nin < 1960){
-                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m]
-                                                    + grid->nin_nh4[0][grid->m]) * 1000.0;
-                        (mass->soil).n_no3 += icrop * grid->nin_no3[0][grid->m] * 1000.0;
-                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[0][grid->m] * 1000.0;
-                    }else if(y_nin >= 1960 && y_nin <= 2009){
-                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[y_nin - 1960][grid->m]
-                                                    + grid->nin_nh4[y_nin - 1960][grid->m]) * 1000.0;
-                        (mass->soil).n_no3 += icrop * grid->nin_no3[y_nin - 1960][grid->m] * 1000.0;
-                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[y_nin - 1960][grid->m] * 1000.0;
-                    }else if(y_nin > 2009){
-                        (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[49][grid->m]
-                                                    + grid->nin_nh4[49][grid->m]) * 1000.0;
-                        (mass->soil).n_no3 += icrop * grid->nin_no3[49][grid->m] * 1000.0;
-                        (mass->soil).n_nh4 += icrop * grid->nin_nh4[49][grid->m] * 1000.0;
-                    }
-                    
-                    base_nin = (flux->soil).n_fertin[grid->m];
-
                     if(EX_NFERT_SA == 1 || EX_NFERT_SA == 5 || EX_NFERT_SA == 6){
                         (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m]
                                                         + grid->nin_nh4[0][grid->m]) * 1000.0;
                         (mass->soil).n_no3 += icrop * grid->nin_no3[0][grid->m] * 1000.0;
                         (mass->soil).n_nh4 += icrop * grid->nin_nh4[0][grid->m] * 1000.0;
+                    }else{
+                        if(y_nin < 1960){
+                            (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[0][grid->m]
+                                                        + grid->nin_nh4[0][grid->m]) * 1000.0;
+                            (mass->soil).n_no3 += icrop * grid->nin_no3[0][grid->m] * 1000.0;
+                            (mass->soil).n_nh4 += icrop * grid->nin_nh4[0][grid->m] * 1000.0;
+                        }else if(y_nin >= 1960 && y_nin <= 2009){
+                            (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[y_nin - 1960][grid->m]
+                                                        + grid->nin_nh4[y_nin - 1960][grid->m]) * 1000.0;
+                            (mass->soil).n_no3 += icrop * grid->nin_no3[y_nin - 1960][grid->m] * 1000.0;
+                            (mass->soil).n_nh4 += icrop * grid->nin_nh4[y_nin - 1960][grid->m] * 1000.0;
+                        }else if(y_nin > 2009){
+                            (flux->soil).n_fertin[grid->m] = icrop * (grid->nin_no3[49][grid->m]
+                                                        + grid->nin_nh4[49][grid->m]) * 1000.0;
+                            (mass->soil).n_no3 += icrop * grid->nin_no3[49][grid->m] * 1000.0;
+                            (mass->soil).n_nh4 += icrop * grid->nin_nh4[49][grid->m] * 1000.0;
+                        }
                     }
+                    
+                    base_nin = (flux->soil).n_fertin[grid->m];
+
                     
                     /* sensitivity run: 2017/06/24 by A.Ito */
                     y_nin = grid->niny;
@@ -294,8 +295,8 @@ void cal_historical(
                             aa = grid->nmanure_potter / grid->nfert_potter;
                             bb = aa * (base_nin/1000.0);
                             
-                            if(bb > 3.0*(grid->nmanure_potter * MDN[grid->m] / 365.0) ){
-                                bb = 3.0*(grid->nmanure_potter * MDN[grid->m] / 365.0);
+                            if(bb > 20.0*(grid->nmanure_potter * MDN[grid->m] / 365.0) ){
+                                bb = 20.0*(grid->nmanure_potter * MDN[grid->m] / 365.0);
                             }
                         }else{
                             bb = grid->nmanure_potter  * MDN[grid->m] / 365.0;
@@ -367,10 +368,10 @@ void cal_historical(
 			if(NECB_CH4 == 1 && (EX_CCPL != 1 && EX_CCPL != 8)){
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
                 (mass->soil).msl += 12.0/16.0 * (grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
-						- grid->f_paddy * ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] + 
-									(flux->soil).ch4_paddy_wh_diff[f] + (flux->soil).ch4_paddy_wh_release[f]) * 0.00001
-						- grid->f_wetland * ((flux->soil).ch4_wetland_wh_plant[f] + (flux->soil).ch4_wetland_wh_ebull[f] + 
-									(flux->soil).ch4_wetland_wh_diff[f] + (flux->soil).ch4_wetland_wh_release[f]) * 0.00001);
+					- grid->f_paddy * ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] +
+                            (flux->soil).ch4_paddy_wh_diff[f] + (flux->soil).ch4_paddy_wh_release[f]) * 0.00001
+                    - grid->f_wetland * ((flux->soil).ch4_wetland_wh_plant[f] + (flux->soil).ch4_wetland_wh_ebull[f] +
+                            (flux->soil).ch4_wetland_wh_diff[f] + (flux->soil).ch4_wetland_wh_release[f]) * 0.00001);
 				
 				if((mass->soil).msl < INT_C){
 					(mass->soil).msl = INT_C;
@@ -504,7 +505,7 @@ void cal_historical(
 			for(f=0;f<ASTEP;f++){
 				m_ch4p_cao[f] += (flux->soil).ch4flux_paddy_cao[f] /10.0;
 				m_ch4p_wh[f] += ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] + 
-								 (flux->soil).ch4_paddy_wh_diff[f] + (flux->soil).ch4_paddy_wh_release[f]) / 10.0;
+                        (flux->soil).ch4_paddy_wh_diff[f] + (flux->soil).ch4_paddy_wh_release[f]) / 10.0;
 			}
 		}
 
