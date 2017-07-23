@@ -286,7 +286,7 @@ void cal_historical(
                         base_nin = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
                     }
                     
-                    /* no manure? */
+                    /* base -  manure? */
                     (flux->soil).n_manurein[grid->m] = 0.0;
 
                     if(grid->nfert_potter > 0.0 || grid->nmanure_potter > 0.0){
