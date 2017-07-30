@@ -279,16 +279,24 @@ void cal_historical(
                     
                     base_nin = (flux->soil).n_fertin[grid->m];
 
-                    
                     /* sensitivity run: 2017/06/24 by A.Ito */
-                    y_nin = grid->niny;
                     if(EX_NFERT_SA == 2 || EX_NFERT_SA == 5 || EX_NFERT_SA == 6){
+                        /* fixed at 1960 */
                         base_nin = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
+                    }else if(EX_NFERT_SA == 1){
+                        /* change only for mature */
+                        if(y_nin < 1960){
+                            base_nin = icrop * (grid->nin_no3[0][grid->m]
+                                            + grid->nin_nh4[0][grid->m]) * 1000.0;
+                        }else if(y_nin >= 1960 && y_nin <= 2009){
+                            base_nin = icrop * (grid->nin_no3[y_nin - 1960][grid->m]
+                                            + grid->nin_nh4[y_nin - 1960][grid->m]) * 1000.0;
+                        }else if(y_nin > 2009){
+                            base_nin = icrop * (grid->nin_no3[49][grid->m]
+                                            + grid->nin_nh4[49][grid->m]) * 1000.0;
+                        }
                     }
                     
-                    /* base -  manure? */
-                    (flux->soil).n_manurein[grid->m] = 0.0;
-
                     if(grid->nfert_potter > 0.0 || grid->nmanure_potter > 0.0){
                     
                         if(grid->nfert_potter > 0.0){
@@ -299,7 +307,7 @@ void cal_historical(
                                 bb = 20.0*(grid->nmanure_potter * MDN[grid->m] / 365.0);
                             }
                         }else{
-                            bb = grid->nmanure_potter  * MDN[grid->m] / 365.0;
+                            bb = icrop * grid->nmanure_potter  * MDN[grid->m] / 365.0;
                         }
                         
                         if(bb < 0.0){
