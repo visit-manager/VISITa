@@ -99,7 +99,7 @@
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 0
+#define OUTPUT_BB 1
 #define OUTPUT_BVOC 0
 /* output binary */
 #define C13_GOUT 0
@@ -501,7 +501,7 @@
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -634,6 +634,7 @@
 /* 4: fix land use */
 /* 5: fix fertilizer + manure */
 /* 6: fix fertilizer + manure + land use */
+/* 7: no manure */
 
 /****************************************************/
 /* sensitivity analysis *****************/
