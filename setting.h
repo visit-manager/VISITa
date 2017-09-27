@@ -38,6 +38,7 @@
 #define INT_C 0.01
 
 #define CALC_STEP 10
+#define CALC_OFFET 1
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -605,12 +606,12 @@
 /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
 #define EX_NITR_N2O 0
 /* 0: off (control) */
-/* 1: 1.0% (N20-driven) */
-/* 2: 0.5% (N20-driven) */
-/* 3: 2.0% (N20-driven) */
-/* 4: 1.0% (nitrification-driven) */
-/* 5: 0.5% (nitrification-driven) */
-/* 6: 2.0% (nitrification-driven) */
+/* 01: 1.0% (N20-driven) */
+/* 02: 0.5% (N20-driven) */
+/* 03: 2.0% (N20-driven) */
+/* 04: 1.0% (nitrification-driven) */
+/* 05: 0.5% (nitrification-driven) */
+/* 06: 2.0% (nitrification-driven) */
 
 /* 21: DNDC (N20-driven) */
 /* 22: DLEM (N20-driven) */

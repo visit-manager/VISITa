@@ -387,11 +387,11 @@ void f_n2o_emit_ngas(
         if(EX_NITR_N2O == 21){
             (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.0006 * f_tmp * f_wfps;
             
-            if((flux->soil).f_n2o_ntr_ngas[grid->m] <= 0.00001){
-                (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.00001;
+            if((flux->soil).f_n2o_ntr_ngas[grid->m] <= 0.0000001){
+                (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.0000001;
             }
-            if((flux->soil).f_n2o_ntr_ngas[grid->m] >= 0.5){
-                (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.5;
+            if((flux->soil).f_n2o_ntr_ngas[grid->m] >= 0.6){
+                (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.6;
             }
             
             v_n2oems = day_n_n2o;
@@ -401,11 +401,11 @@ void f_n2o_emit_ngas(
             v_nitrif = v_nitrif_base;
             
             aa = 0.0006 * f_tmp * f_wfps;
-            if(aa <= 0.00001){
-                aa = 0.00001;
+            if(aa <= 0.0000001){
+                aa = 0.0000001;
             }
-            if(aa >= 0.5){
-                aa = 0.5;
+            if(aa >= 0.6){
+                aa = 0.6;
             }
             (flux->soil).f_n2o_ntr_ngas[grid->m] = aa;
             
@@ -417,18 +417,18 @@ void f_n2o_emit_ngas(
         Spatial and temporal patterns of CH4 and N2O fluxes in terrestrial 
         ecosystems of North America during 1979–2008: application of a global 
         biogeochemistry model, Biogeosciences, 7, 2673-2694, 
-        doi:doi:10.5194/bg-7-2673-2010. */
+        doi:10.5194/bg-7-2673-2010. */
         
         f_wfps = pow(10.0, (100.0*loct->wfps[grid->m] * 0.026 - 1.66));
         
         if(EX_NITR_N2O == 22){
             (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.001 * f_wfps / (1.0 + f_wfps);
             
-            if((flux->soil).f_n2o_ntr_ngas[grid->m] <= 0.00001){
-                (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.00001;
+            if((flux->soil).f_n2o_ntr_ngas[grid->m] <= 0.0000001){
+                (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.0000001;
             }
-            if((flux->soil).f_n2o_ntr_ngas[grid->m] >= 0.5){
-                (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.5;
+            if((flux->soil).f_n2o_ntr_ngas[grid->m] >= 0.6){
+                (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.6;
             }
             
             v_n2oems = day_n_n2o;
@@ -438,11 +438,11 @@ void f_n2o_emit_ngas(
             v_nitrif = v_nitrif_base;
             
             aa = 0.001 * f_wfps / (1.0 + f_wfps);
-            if(aa <= 0.00001){
-                aa = 0.00001;
+            if(aa <= 0.0000001){
+                aa = 0.0000001;
             }
-            if(aa >= 0.5){
-                aa = 0.5;
+            if(aa >= 0.6){
+                aa = 0.6;
             }
             (flux->soil).f_n2o_ntr_ngas[grid->m] = aa;
             
@@ -488,11 +488,11 @@ void f_n2o_emit_ngas(
         if(EX_NITR_N2O == 23){
             (flux->soil).f_n2o_ntr_ngas[grid->m] = ff;
             
-            if((flux->soil).f_n2o_ntr_ngas[grid->m] <= 0.00001){
-                (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.00001;
+            if((flux->soil).f_n2o_ntr_ngas[grid->m] <= 0.0000001){
+                (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.0000001;
             }
-            if((flux->soil).f_n2o_ntr_ngas[grid->m] >= 0.5){
-                (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.5;
+            if((flux->soil).f_n2o_ntr_ngas[grid->m] >= 0.6){
+                (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.6;
             }
             
             v_n2oems = day_n_n2o;
@@ -501,11 +501,11 @@ void f_n2o_emit_ngas(
         }else if(EX_NITR_N2O == 33){
             v_nitrif = v_nitrif_base;
             
-            if(ff <= 0.00001){
-                ff = 0.00001;
+            if(ff <= 0.0000001){
+                ff = 0.0000001;
             }
-            if(ff >= 0.5){
-                ff = 0.5;
+            if(ff >= 0.6){
+                ff = 0.6;
             }
             (flux->soil).f_n2o_ntr_ngas[grid->m] = ff;
             
