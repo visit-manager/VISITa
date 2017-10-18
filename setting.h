@@ -37,6 +37,11 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
+#define CALC_STEP 10
+#define CALC_OFFET 1
+/* 1: every grid */
+/* 10: every 10 grid */
+
 /***********************************************************/
 #define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
@@ -294,7 +299,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
-    #define DL_HCLIM 115  /* CRU TS3.24: AD 1901 - 2015 */
+    #define DL_HCLIM 116  /* CRU TS3.25: AD 1901 - 2016 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -303,10 +308,11 @@
     /* 113: TS3.22 */
     /* 114: TS3.23 */
     /* 115: TS3.24 */
+    /* 116: TS3.25 */
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -600,18 +606,41 @@
 
 /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
 #define EX_NITR_N2O 0
-/* 0: off */
-/* 1: 1.0% */
-/* 2: 0.5% */
-/* 3: 2.0% */
-/* 4: 0.0291% */
-/* 5: 0.1% */
-/* 6: 5.0% */
-/* 7: DNDC */
-/* 8: DLEM */
+/* 0: off (control) */
+/* 01: 1.0% (N20-driven) */
+/* 02: 0.5% (N20-driven) */
+/* 03: 2.0% (N20-driven) */
+/* 04: 1.0% (nitrification-driven) */
+/* 05: 0.5% (nitrification-driven) */
+/* 06: 2.0% (nitrification-driven) */
+
+/* 21: DNDC (N20-driven) */
+/* 22: DLEM (N20-driven) */
+/* 23: CLM-CN (N20-driven) */
+
+/* 31: DNDC (nitrification-driven) */
+/* 32: DLEM (nitrification-driven) */
+/* 33: CLM-CN (nitrification-driven) */
+
+/* meta-analysis: 2017/09/15 */
+/* 51: 0.051% (N20-driven) */
+/* 52: 0.086% (N20-driven) */
+/* 53: 0.789% (N20-driven) */
+/* 54: 2.974% (N20-driven) */
+/* 55: 1.612% (N20-driven) */
+/* 56: 0.923% (N20-driven) */
+/* 57: 2.014% (N20-driven) */
+
+/* 61: 0.051% (nitrification-driven) */
+/* 62: 0.086% (nitrification-driven) */
+/* 63: 0.789% (nitrification-driven) */
+/* 64: 2.974% (nitrification-driven) */
+/* 65: 1.612% (nitrification-driven) */
+/* 66: 0.923% (nitrification-driven) */
+/* 67: 2.014% (nitrification-driven) */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
-#define EX_NFERT 101
+#define EX_NFERT 0
 /* 0: off */
 /* 1: HadGEM + RCP2.6 + SSP1 */
 /* 2: HadGEM + RCP2.6 + SSP2 */
