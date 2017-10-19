@@ -1290,6 +1290,11 @@ void f_init_grid(
         grid->nmip_ndep_noy[e] = 0.0;
         grid->nmip_ndep_nh4[e] = 0.0;
         grid->nmip_manure[e] = 0.0;
+        
+        for(h=0;h<12;h++){
+            grid->nmip_ndep_ccmi_noy[e][h] = 0.0;
+            grid->nmip_ndep_ccmi_nh4[e][h] = 0.0;
+        }
     }
 
     if(ISIMIP_RUN == 4){
@@ -1326,29 +1331,50 @@ void f_init_grid(
         /* NMIP input: 2015/11/19 by A.Ito *************/
         for(e=0;e<DL_NMIP;e++){
             
-            /* crop fraction */
+             /* crop fraction */
             fscanf(fp_s[88],"%lf", &grid->nmip_frcrop[e]);
             if(grid->nmip_frcrop[e] < 0.0){
                 grid->nmip_frcrop[e] = 0.0;
             }
 
-            /* kg N/ha/yr */
+             /* g N/ha/yr => kg N/ha/yr */
             fscanf(fp_s[88],"%lf", &grid->nmip_nfert[e]);
+            grid->nmip_nfert[e] *= 0.001;
             if(grid->nmip_nfert[e] < 0.0){
                 grid->nmip_nfert[e] = 0.0;
             }
-            fscanf(fp_s[88],"%lf", &grid->nmip_ndep_noy[e]);
-            if(grid->nmip_ndep_noy[e] < 0.0){
-                grid->nmip_ndep_noy[e] = 0.0;
+
+            /* g N/ha/yr */
+            fscanf(fp_s[88],"%lf", &ddummy);
+            if(grid->nmip_nfert[e] < 0.0){
+                grid->nmip_nfert[e] = 0.0;
             }
-            fscanf(fp_s[88],"%lf", &grid->nmip_ndep_nh4[e]);
-            if(grid->nmip_ndep_nh4[e] < 0.0){
-                grid->nmip_ndep_nh4[e] = 0.0;
-            }
+
             fscanf(fp_s[88],"%lf", &grid->nmip_manure[e]);
+            grid->nmip_manure[e] *= 0.001;
             if(grid->nmip_manure[e] < 0.0){
                 grid->nmip_manure[e] = 0.0;
             }
+
+            fscanf(fp_s[88],"%lf", &ddummy);
+            if(grid->nmip_manure[e] < 0.0){
+                grid->nmip_manure[e] = 0.0;
+            }
+
+            for(h=0;h<12;h++){
+                fscanf(fp_s[88],"%lf", &grid->nmip_ndep_ccmi_nh4[e][h]);
+                if(grid->nmip_ndep_ccmi_nh4[e][h] < 0.0){
+                    grid->nmip_ndep_ccmi_nh4[e][h] = 0.0;
+                }
+            }
+
+            for(h=0;h<12;h++){
+                fscanf(fp_s[88],"%lf", &grid->nmip_ndep_ccmi_noy[e][h]);
+                if(grid->nmip_ndep_ccmi_noy[e][h] < 0.0){
+                    grid->nmip_ndep_ccmi_noy[e][h] = 0.0;
+                }
+            }
+            
         }
     }
     
@@ -1417,4 +1443,9 @@ void f_init_grid(
     /* IMPRESSIONS: 2017/05/02 by A.Ito */
     grid->impressions_mask = 0;
     fscanf(fp_s[90],"%ld", &grid->impressions_mask);
+
+    /* Manure input based on Potter: 2017/05/02 by A.Ito */
+    grid->impressions_mask = 0;
+    fscanf(fp_s[91],"%lf", &grid->nfert_potter);
+    fscanf(fp_s[91],"%lf", &grid->nmanure_potter);
 }

@@ -100,7 +100,10 @@ int main(
     /* config: IMPRESSIONS experiment */
     IMP_DT = IMP_DP = IMP_CD = 0;
     if(SCENARIO_ID==6001 || SCENARIO_ID==6002){
-        fscanf(fp_setting,"%ld %ld %ld", &IMP_DT, &IMP_DP, &IMP_CD);
+        /* fscanf(fp_setting,"%ld %ld %ld", &IMP_DT, &IMP_DP, &IMP_CD); */
+        IMP_DT = atol(argv[1]);
+        IMP_DP = atol(argv[2]);
+        IMP_CD = atol(argv[3]);
         printf("config  IMP: %ld %ld %ld\n", IMP_DT, IMP_DP, IMP_CD);
     }
 	
@@ -354,7 +357,8 @@ int main(
 			flag_calc = 0;
 			if(grid.veg_olson!=0 && grid.veg_olson!=33 && grid.flag_histdata==1
 					/* && (g+5)%10==0  */
-					&& (g+0)%1==0 /* */
+					/* && (g+0)%1==0 */
+					&& (g + CALC_OFFET)%CALC_STEP == 0 /* */
 					&& grid.lat<=area_t&&grid.lat>=area_b && grid.lon>=area_l&&grid.lon<=area_r
 					/* && grid.lat<90.0&&grid.lat>-90.0 && grid.lon>-180.0&&grid.lon<180.0 */
 					/* && grid.lat<65.0&&grid.lat>55.0 && grid.lon>65.0&&grid.lon<85.0 */

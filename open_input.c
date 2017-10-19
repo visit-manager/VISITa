@@ -166,6 +166,24 @@ void open_input(
                 printf("No cru324_vap_1901-2014.txt\n");
                 exit(1); 
             }
+        }else if(DL_HCLIM==116){
+            /* UEA-CRU data from 1901 - 2016: 2016/10/18 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/cru325_cld_1901-2016.txt","rt"))==NULL ){
+                printf("No cru325_cld_1901-2016.txt\n");
+                exit(1);
+            }
+            if( (fp_c[1]=fopen("./data/cru325_pre_1901-2016.txt","rt"))==NULL ){
+                printf("No cru325_pre_1901-2016.txt\n");
+                exit(1);
+            }
+            if( (fp_c[2]=fopen("./data/cru325_tmp_1901-2016.txt","rt"))==NULL ){
+                printf("No cru325_tmp_1901-2016.txt\n");
+                exit(1);
+            }
+            if( (fp_c[3]=fopen("./data/cru325_vap_1901-2016.txt","rt"))==NULL ){
+                printf("No cru325_vap_1901-2016.txt\n");
+                exit(1);
+            }
         }else{
             printf("No CRU data\n");
             exit(1);
@@ -1113,6 +1131,14 @@ void open_input(
         Flag_FOPEN[24] ++;
     }
 	
+    /* GlobAlbedo *******************************/
+    if( (fp_s[58]=fopen("./data/GlobAlbedo_av.flt","rb"))==NULL ){
+        printf("No GlobAlbedo_av.flt\n");
+        exit(1);
+    }else{
+        Flag_FOPEN[58] ++;
+    }
+    
 	/* land-use: historical *************************************/
     /* SAGEHYDE: Hurtt et al. (2006) */
 	if(LANDUSE == 6){
@@ -3057,14 +3083,6 @@ void open_input(
         }
     }
     
-    /* GlobAlbedo *******************************/
-    if( (fp_s[58]=fopen("./data/GlobAlbedo_av.flt","rb"))==NULL ){
-        printf("No GlobAlbedo_av.flt\n");  
-        exit(1); 
-    }else{
-        Flag_FOPEN[58] ++;
-    }
-    
     if(ISIMIP_RUN == 4){
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         if( (fp_s[87]=fopen("./data/landuse_ann_soc_1661-2299.flt","rb"))==NULL ){
@@ -3133,9 +3151,10 @@ void open_input(
         }
     }else{
         /* NMIP: nitrogen input, 2015/11/19 by A.Ito ************/
-        if( (fp_s[88]=fopen("./data/fin_nmip_v2.txt","rt"))==NULL ){
-            printf("No fin_nmip_v2.txt\n");
-            exit(1); 
+        if( (fp_s[88]=fopen("./data/fin_nmip_v3.txt","rt"))==NULL ){
+            /* printf("No fin_nmip_v2.txt\n"); */
+            printf("No fin_nmip_v3.txt\n"); /* updated: 2017/10/17 by A.Ito */
+            exit(1);
         }else{
             Flag_FOPEN[88] ++;
         }
@@ -3248,5 +3267,12 @@ void open_input(
         exit(1); 
     }else{
         Flag_FOPEN[90] ++;
+    }
+
+    if( (fp_s[91]=fopen("./data/nfert_potter.txt","rt"))==NULL ){
+        printf("No nfert_potter.txt\n");
+        exit(1); 
+    }else{
+        Flag_FOPEN[91] ++;
     }
 }

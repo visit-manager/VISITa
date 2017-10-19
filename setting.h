@@ -37,6 +37,11 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
+#define CALC_STEP 10
+#define CALC_OFFET 1
+/* 1: every grid */
+/* 10: every 10 grid */
+
 /***********************************************************/
 #define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
@@ -51,7 +56,7 @@
 /* 0: normal (no GEO-MIP) */
 /* 1: GEO-MIP runs */
 
-#define IMPRESSIONS_RUN 2
+#define IMPRESSIONS_RUN 0
 /* 0: off */
 /* 1: sensitivity run (for IRS) */
 /* 2: sensitivity run (for IRS) + seasonal change + RCP4.5-CO2 */
@@ -66,7 +71,7 @@
 #define DL_BF 91 /* biofuel data length */
 
 /* NMIP: N2O model intercomparison runs */
-#define NMIP_RUN 0
+#define NMIP_RUN 1
 /* 0: off */
 /* 1: on use NMIP data (S1) */
 /* 2: all fix (S0) */
@@ -86,21 +91,22 @@
     #define DL_NMIP 639
     #define FDY_NINY 1661
 #else
-    #define DL_NMIP 156
+    /* #define DL_NMIP 156 */
+    #define DL_NMIP 157 /* updated: 2017/10/19 by A.Ito */
     #define FDY_NINY 1860
 #endif
 
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 1
+#define OUTPUT_CARBON2 0
+#define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
+#define OUTPUT_EROSION 0
 #define OUTPUT_GHG 1
 #define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_BVOC 0
 /* output binary */
 #define C13_GOUT 0
 #define C14_GOUT 0
@@ -294,7 +300,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
-    #define DL_HCLIM 115  /* CRU TS3.24: AD 1901 - 2015 */
+    #define DL_HCLIM 116  /* CRU TS3.25: AD 1901 - 2016 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -303,6 +309,7 @@
     /* 113: TS3.22 */
     /* 114: TS3.23 */
     /* 115: TS3.24 */
+    /* 116: TS3.25 */
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
@@ -383,7 +390,7 @@
 #define NECB_CROP 1
 
 /* land use change setting ********************************/
-#define LANDUSE 9
+#define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -443,7 +450,7 @@
 /* 1: lai based */
 
 /* constraint on maximum LAI by meta-analysis: 2015/03/23 by A.Ito */
-#define CONSTRAIN_LAIMAX 1
+#define CONSTRAIN_LAIMAX 0
 /* 0: off */
 /* 1: on */
 
@@ -599,16 +606,39 @@
 /* 9: 50:50 ammonium and nitrate */
 
 /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
-#define EX_NITR_N2O 0
-/* 0: off */
-/* 1: 1.0% */
-/* 2: 0.5% */
-/* 3: 2.0% */
-/* 4: 0.0291% */
-/* 5: 0.1% */
-/* 6: 5.0% */
-/* 7: DNDC */
-/* 8: DLEM */
+#define EX_NITR_N2O 1
+/* 0: off (control) */
+/* 01: 1.0% (N20-driven) */
+/* 02: 0.5% (N20-driven) */
+/* 03: 2.0% (N20-driven) */
+/* 04: 1.0% (nitrification-driven) */
+/* 05: 0.5% (nitrification-driven) */
+/* 06: 2.0% (nitrification-driven) */
+
+/* 21: DNDC (N20-driven) */
+/* 22: DLEM (N20-driven) */
+/* 23: CLM-CN (N20-driven) */
+
+/* 31: DNDC (nitrification-driven) */
+/* 32: DLEM (nitrification-driven) */
+/* 33: CLM-CN (nitrification-driven) */
+
+/* meta-analysis: 2017/09/15 */
+/* 51: 0.051% (N20-driven) */
+/* 52: 0.086% (N20-driven) */
+/* 53: 0.789% (N20-driven) */
+/* 54: 2.974% (N20-driven) */
+/* 55: 1.612% (N20-driven) */
+/* 56: 0.923% (N20-driven) */
+/* 57: 2.014% (N20-driven) */
+
+/* 61: 0.051% (nitrification-driven) */
+/* 62: 0.086% (nitrification-driven) */
+/* 63: 0.789% (nitrification-driven) */
+/* 64: 2.974% (nitrification-driven) */
+/* 65: 1.612% (nitrification-driven) */
+/* 66: 0.923% (nitrification-driven) */
+/* 67: 2.014% (nitrification-driven) */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
 #define EX_NFERT 0
@@ -626,6 +656,15 @@
 /* 11: MIROC + RCP4.5 + SSP2 */
 /* 12: MIROC + RCP4.5 + SSP3 */
 /* 101: Nishina ESSD data: 2017/02/13 by A.Ito */
+#define EX_NFERT_SA 0
+/* 0: reference */
+/* 1: fix fertilizer */
+/* 2: fix manure */
+/* 3: fix deposition */
+/* 4: fix land use */
+/* 5: fix fertilizer + manure */
+/* 6: fix fertilizer + manure + land use */
+/* 7: no manure */
 
 /****************************************************/
 /* sensitivity analysis *****************/

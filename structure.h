@@ -329,7 +329,10 @@ struct Grid{
     double  nmip_ndep_nh4[DL_NMIP];             /* NH4 fertilizer */
     double  nmip_manure[DL_NMIP];               /* manure */
     double  nmip_frcrop[DL_NMIP];               /* cropland fraction */
-    
+    /* added: 2017/10/19 by A.Ito */
+    double  nmip_ndep_ccmi_noy[DL_NMIP][12];    /* NOy deposition, monthly */
+    double  nmip_ndep_ccmi_nh4[DL_NMIP][12];    /* NH4 fertilizer, monthly */
+
     /* N input by Nishina ESSD data: 2017/02/13 by A.Ito */
     double  nin_date[ASTEP];
     double  nin_no3[50][ASTEP];
@@ -345,6 +348,10 @@ struct Grid{
     
     /* IMPRESSIONS mask: 2017/05/02 by A.Ito */
     long    impressions_mask;
+    
+    /* N fertilizer & manure of Potter: 2017/06/13 by A.Ito */
+    double  nfert_potter;
+    double  nmanure_potter;
 };
 
 /* grid conditions, derived from submodules *******************************************/
