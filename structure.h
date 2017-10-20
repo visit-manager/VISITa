@@ -324,14 +324,14 @@ struct Grid{
     double  f_biofuel[DL_BF];                /* biofuel scenario: 2015/8/21 by A.Ito */
     
     /* NMIP input: 2015/11/19 by A.Ito */
-    double  nmip_nfert[DL_NMIP];                /* nitrogen fertilizer */
-    double  nmip_ndep_noy[DL_NMIP];             /* NOy deposition */
-    double  nmip_ndep_nh4[DL_NMIP];             /* NH4 fertilizer */
-    double  nmip_manure[DL_NMIP];               /* manure */
-    double  nmip_frcrop[DL_NMIP];               /* cropland fraction */
+    double  nmip_nfert[DL_NINPUT];                /* nitrogen fertilizer */
+    double  nmip_ndep_noy[DL_NINPUT];             /* NOy deposition */
+    double  nmip_ndep_nh4[DL_NINPUT];             /* NH4 fertilizer */
+    double  nmip_manure[DL_NINPUT];               /* manure */
+    double  nmip_frcrop[DL_NINPUT];               /* cropland fraction */
     /* added: 2017/10/19 by A.Ito */
-    double  nmip_ndep_ccmi_noy[DL_NMIP][12];    /* NOy deposition, monthly */
-    double  nmip_ndep_ccmi_nh4[DL_NMIP][12];    /* NH4 fertilizer, monthly */
+    double  nmip_ndep_ccmi_noy[DL_NINPUT][12];    /* NOy deposition, monthly */
+    double  nmip_ndep_ccmi_nh4[DL_NINPUT][12];    /* NH4 fertilizer, monthly */
 
     /* N input by Nishina ESSD data: 2017/02/13 by A.Ito */
     double  nin_date[ASTEP];

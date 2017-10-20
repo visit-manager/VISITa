@@ -37,8 +37,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
-#define CALC_OFFET 1
+#define CALC_STEP 1
+#define CALC_OFFET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -88,11 +88,11 @@
 
 #if ISIMIP_RUN==4
     /* ISI-MIP2b */
-    #define DL_NMIP 639
+    #define DL_NINPUT 639
     #define FDY_NINY 1661
 #else
-    /* #define DL_NMIP 156 */
-    #define DL_NMIP 157 /* updated: 2017/10/19 by A.Ito */
+    /* #define DL_NINPUT 156 */
+    #define DL_NINPUT 157 /* updated: 2017/10/19 by A.Ito */
     #define FDY_NINY 1860
 #endif
 
@@ -192,8 +192,8 @@
     #define FSY_HIST 1901 /* IMPRESSIONS 2 */
     #define LSY_HIST 2015
 #else
-    #define FSY_HIST 1901 /* */
-    /* #define FSY_HIST 1861 */ /* NMIP */
+    /* #define FSY_HIST 1901 */
+    #define FSY_HIST 1861 /* */ /* NMIP */
     /* #define LSY_HIST 2015 */ /* NMIP */
     #define LSY_HIST 2016 /* history */
 #endif
@@ -236,7 +236,8 @@
 #elif GEOMIP_RUN==1
     #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
 #elif NMIP_RUN>=1
-    #define PD_HIST 155	/* */	/* AD 1861 - 2015 */
+    /* #define PD_HIST 155	*/	/* AD 1861 - 2015 */
+    #define PD_HIST 156    /* */    /* AD 1861 - 2016 */
 #elif IMPRESSIONS_RUN==2
     #define PD_HIST 115
 #elif IMPRESSIONS_RUN==3
@@ -606,7 +607,7 @@
 /* 9: 50:50 ammonium and nitrate */
 
 /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
-#define EX_NITR_N2O 1
+#define EX_NITR_N2O 2
 /* 0: off (control) */
 /* 01: 1.0% (N20-driven) */
 /* 02: 0.5% (N20-driven) */

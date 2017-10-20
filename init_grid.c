@@ -31,7 +31,7 @@ void f_init_grid(
 	double geo_prop, crit_tension;
 	double lat, lon, total, wetland, lake, paddy, ddummy;
     double nfert_m, nfert_r, nfert_sw, nfert_ww;
-    float rfdat[ASTEP], is2bdat[DL_NMIP];
+    float rfdat[ASTEP], is2bdat[DL_NINPUT];
 	
 	/* grid latitudes of CSIRO AOGCM */
 	double csiro_lat[56]={	
@@ -772,12 +772,12 @@ void f_init_grid(
     if(ISIMIP_RUN==4 && (SCENARIO_ID>=5010 && SCENARIO_ID<=5100)){
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         fread(is2bdat,sizeof(float),DL_AGHG, fp_s[25]);
-        for(e=0;e<DL_NMIP;e++){
+        for(e=0;e<DL_NINPUT;e++){
             grid->nmip_ndep_nh4[e] = is2bdat[e];
         }
         
         fread(is2bdat,sizeof(float),DL_AGHG, fp_s[25]);
-        for(e=0;e<DL_NMIP;e++){
+        for(e=0;e<DL_NINPUT;e++){
             grid->nmip_ndep_noy[e] = is2bdat[e];
         }
         
@@ -1284,7 +1284,7 @@ void f_init_grid(
     }
     
     /* N input *****************************************/
-    for(e=0;e<DL_NMIP;e++){
+    for(e=0;e<DL_NINPUT;e++){
         grid->nmip_frcrop[e] = 0.0;
         grid->nmip_nfert[e] = 0.0;
         grid->nmip_ndep_noy[e] = 0.0;
@@ -1300,8 +1300,8 @@ void f_init_grid(
     if(ISIMIP_RUN == 4){
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         
-        fread(is2bdat,sizeof(float),DL_NMIP, fp_s[87]);
-        for(e=0;e<DL_NMIP;e++){
+        fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[87]);
+        for(e=0;e<DL_NINPUT;e++){
             grid->nmip_frcrop[e] = is2bdat[e];
         }
     }else if(EX_BECCS == 2){
@@ -1321,15 +1321,15 @@ void f_init_grid(
     }
 
     if(ISIMIP_RUN == 4){
-        fread(is2bdat,sizeof(float),DL_NMIP, fp_s[88]);
-        for(e=0;e<DL_NMIP;e++){
+        fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[88]);
+        for(e=0;e<DL_NINPUT;e++){
             /* kg N /ha / yr */
             grid->nmip_nfert[e] = is2bdat[e];
         }
         
     }else{
         /* NMIP input: 2015/11/19 by A.Ito *************/
-        for(e=0;e<DL_NMIP;e++){
+        for(e=0;e<DL_NINPUT;e++){
             
              /* crop fraction */
             fscanf(fp_s[88],"%lf", &grid->nmip_frcrop[e]);
@@ -1337,7 +1337,7 @@ void f_init_grid(
                 grid->nmip_frcrop[e] = 0.0;
             }
 
-             /* g N/ha/yr => kg N/ha/yr */
+            /* g N/ha/yr => kg N/ha/yr */
             fscanf(fp_s[88],"%lf", &grid->nmip_nfert[e]);
             grid->nmip_nfert[e] *= 0.001;
             if(grid->nmip_nfert[e] < 0.0){
