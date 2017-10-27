@@ -558,7 +558,7 @@ void cal_historical(
             iweight3 = iweight;
         }
         
-        if((EX_BECCS==1 || EX_BECCS==2) && NECB_LUC==1){
+        if((EX_BECCS==1 || EX_BECCS==2 || EX_BECCS==3) && NECB_LUC==1){
             if(grid->f_luc>0.0 && grid->f_luc<1.0){
                 (mass->c3).fol *= (1.0 - grid->f_luc);
                 (mass->c3).stm *= (1.0 - grid->f_luc);

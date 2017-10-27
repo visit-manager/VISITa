@@ -37,13 +37,13 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
-#define CALC_OFFET 1
+#define CALC_STEP 1
+#define CALC_OFFET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
 /***********************************************************/
-#define ISIMIP_RUN 0
+#define ISIMIP_RUN 1
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -61,6 +61,13 @@
 /* 1: sensitivity run (for IRS) */
 /* 2: sensitivity run (for IRS) + seasonal change + RCP4.5-CO2 */
 /* 3: sensitivity run (for IRS) + seasonal change + RCP8.5-CO2 */
+
+/* S10-BECCS experiment: 2016/02/15 by A.Ito */
+#define EX_BECCS 3
+/* 0: off (inc. scenario S5) */
+/* 1: on (scenario S3) */
+/* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
+/* 3: on (scenario S3) based on Kinoshita-san data 2017/10 */
 
 /* biofuel experiment: 2015/08/21 by A.Ito */
 #define BIOFUEL_RUN 0
@@ -88,10 +95,11 @@
 
 #if ISIMIP_RUN==4
     /* ISI-MIP2b */
-    #define DL_NMIP 639
+    #define DL_NINPUT 639
     #define FDY_NINY 1661
 #else
-    #define DL_NMIP 156
+    /* #define DL_NINPUT 156 */
+    #define DL_NINPUT 157 /* updated: 2017/10/19 by A.Ito */
     #define FDY_NINY 1860
 #endif
 
@@ -191,8 +199,8 @@
     #define FSY_HIST 1901 /* IMPRESSIONS 2 */
     #define LSY_HIST 2015
 #else
-    #define FSY_HIST 1901 /* */
-    /* #define FSY_HIST 1861 */ /* NMIP */
+    /* #define FSY_HIST 1901 */
+    #define FSY_HIST 1861 /* */ /* NMIP */
     /* #define LSY_HIST 2015 */ /* NMIP */
     #define LSY_HIST 2016 /* history */
 #endif
@@ -235,7 +243,8 @@
 #elif GEOMIP_RUN==1
     #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
 #elif NMIP_RUN>=1
-    #define PD_HIST 155	/* */	/* AD 1861 - 2015 */
+    /* #define PD_HIST 155	*/	/* AD 1861 - 2015 */
+    #define PD_HIST 156    /* */    /* AD 1861 - 2016 */
 #elif IMPRESSIONS_RUN==2
     #define PD_HIST 115
 #elif IMPRESSIONS_RUN==3
@@ -299,7 +308,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
-    #define DL_HCLIM 115  /* CRU TS3.24: AD 1901 - 2015 */
+    #define DL_HCLIM 116  /* CRU TS3.25: AD 1901 - 2016 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -308,10 +317,11 @@
     /* 113: TS3.22 */
     /* 114: TS3.23 */
     /* 115: TS3.24 */
+    /* 116: TS3.25 */
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -388,7 +398,7 @@
 #define NECB_CROP 1
 
 /* land use change setting ********************************/
-#define LANDUSE 10
+#define LANDUSE 11
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -451,12 +461,6 @@
 #define CONSTRAIN_LAIMAX 0
 /* 0: off */
 /* 1: on */
-
-/* S10-BECCS experiment: 2016/02/15 by A.Ito */
-#define EX_BECCS 0
-/* 0: off (inc. scenario S5) */
-/* 1: on (scenario S3) */
-/* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
 
 /***************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
@@ -604,7 +608,7 @@
 /* 9: 50:50 ammonium and nitrate */
 
 /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
-#define EX_NITR_N2O 0
+#define EX_NITR_N2O 2
 /* 0: off (control) */
 /* 01: 1.0% (N20-driven) */
 /* 02: 0.5% (N20-driven) */
