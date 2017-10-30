@@ -87,10 +87,6 @@ void f_clear(
 	grid->f_erosion_c = 0.0;
 	grid->f_erosion_p = 0.0;
 	
-	grid->beccs_s2b = 0.0;
-    grid->beccs_v2b = 0.0;
-    grid->beccs_v2s = 0.0;
-
 	for(f = 0;f<(N_SLAYER+2);f++){
 		loct->prof_ch4[f] = 0.0;
 	}
