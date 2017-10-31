@@ -181,19 +181,22 @@ void f_cult_luc(
     }else if(EX_BECCS == 2 || EX_BECCS == 3){
         /* 2017/02/25, 2017/10/17 by A.Ito */
         if(grid->lucy <= 1999){
-            grid->f_crop_con = grid->fcrop_unh_hmnzed[1999 - FDY_LUC];
-            grid->f_pasture_con = grid->fpast_unh_hmnzed[1999 - FDY_LUC];
+            grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC];
+            grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - FDY_LUC];
         }else if(grid->lucy >= 2000){
             /* if(grid->veg_sage>=1 && grid->veg_sage<=8){ */
             if(grid->veg_sage>=1 && grid->veg_sage<=15){
 
-                /* grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC]
-                        + (double)(grid->lucy - 1999) * (grid->beccs_s2b
-                        + grid->beccs_v2b + grid->beccs_v2s)/100.0; */
-
                 grid->f_crop_con = grid->fcrop_unh_hmnzed[grid->lucy - FDY_LUC]
                         + (double)(grid->lucy - 1999) * (grid->beccs_s2b
                              + grid->beccs_v2b + grid->beccs_v2s)/100.0;
+                
+                if(EX_BECCS_SUB==2){
+                    grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC]
+                            + (double)(grid->lucy - 1999) * (grid->beccs_s2b
+                                 + grid->beccs_v2b + grid->beccs_v2s)/100.0;
+                }
+                
                 if(grid->f_crop_con > 1.0){
                     grid->f_crop_con = 1.0;
                 }

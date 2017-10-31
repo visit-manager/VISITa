@@ -37,8 +37,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
-#define CALC_OFFET 4
+#define CALC_STEP 1
+#define CALC_OFFET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -68,6 +68,11 @@
 /* 1: on (scenario S3) */
 /* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
 /* 3: on (scenario S3) based on Kinoshita-san data 2017/10 */
+/* sub-scenarios: 2017/10/31 by A.Ito */
+#define EX_BECCS_SUB 0
+/* 0: no sub-setting */
+/* 1: no beccs */
+/* 2: fix land-use after 2000 */
 
 /* biofuel experiment: 2015/08/21 by A.Ito */
 #define BIOFUEL_RUN 0
@@ -376,7 +381,7 @@
 /* #define FDY_GCM 2001 */
 /* #define FDY_GCM 1860 */
 
-/***************************************************/
+/*********************************************************/
 /* NECB: coupling carbon loss */
 /* 0: uncoupled */
 /* 1: coupled */
@@ -462,7 +467,7 @@
 /* 0: off */
 /* 1: on */
 
-/***************************************************/
+/*******************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
 #define EX_ALBEDO 0
 /* 0: off */
@@ -476,7 +481,7 @@
 /* 0: off */
 /* 1: albedo-induced temperature change */
 
-/* ozone impacts: 2013/02/25 by A.Ito *************/
+/* ozone impacts: 2013/02/25 by A.Ito *****************/
 #define EX_OZONE 0
 /* 0: off */
 /* 1: on */

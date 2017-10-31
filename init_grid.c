@@ -1317,6 +1317,9 @@ void f_init_grid(
         fscanf(fp_s[87],"%lf", &grid->beccs_s2b);
         grid->beccs_v2b = 0.0;
         grid->beccs_v2s = 0.0;
+        if(EX_BECCS_SUB==1){
+            grid->beccs_s2b = 0.0;
+        }
     }else{
         /* Bio Fuel scenario: 2015/08/21 by A.Ito ***********/
         for(e=0;e<DL_BF;e++){
