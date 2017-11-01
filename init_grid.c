@@ -1297,6 +1297,9 @@ void f_init_grid(
         }
     }
 
+    grid->beccs_s2b = 0.0;
+    grid->beccs_v2b = 0.0;
+    grid->beccs_v2s = 0.0;
     if(ISIMIP_RUN == 4){
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         
@@ -1309,6 +1312,14 @@ void f_init_grid(
         fscanf(fp_s[87],"%lf", &grid->beccs_s2b);
         fscanf(fp_s[87],"%lf", &grid->beccs_v2b);
         fscanf(fp_s[87],"%lf", &grid->beccs_v2s);
+    }else if(EX_BECCS == 3){
+        /* BECCS scenario: 2017/10/30 by A.Ito */
+        fscanf(fp_s[87],"%lf", &grid->beccs_s2b);
+        grid->beccs_v2b = 0.0;
+        grid->beccs_v2s = 0.0;
+        if(EX_BECCS_SUB==1){
+            grid->beccs_s2b = 0.0;
+        }
     }else{
         /* Bio Fuel scenario: 2015/08/21 by A.Ito ***********/
         for(e=0;e<DL_BF;e++){

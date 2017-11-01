@@ -2709,19 +2709,83 @@ void open_input(
         
         if(SCENARIO_ID == 5010 || SCENARIO_ID == 5020 || SCENARIO_ID == 5030 || SCENARIO_ID == 5040){
             CO2S = 1; /* ISI-MIP2.1b: piControl */
+            if((fp_s[23]=fopen("./data/landuse_ann_1860_hist_2005_2005_1661-2299_ipsl.flt","rb"))==NULL){
+                printf("NO landuse_ann_1860_hist_2005_2005_1661-2299_ipsl.flt !!\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[23] ++;
+            }
         }else if(SCENARIO_ID == 5011 || SCENARIO_ID == 5021 || SCENARIO_ID == 5031 || SCENARIO_ID == 5041){
             CO2S = 2; /* ISI-MIP2.1b: piControl + historical + rcp26 */
+            if(SCENARIO_ID == 5011){
+                if((fp_s[23]=fopen("./data/landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_ipsl.flt","rb"))==NULL){
+                    printf("NO landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_ipsl.flt !!\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[23] ++;
+                }
+            }else if(SCENARIO_ID == 5021){
+                if((fp_s[23]=fopen("./data/landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_ipsl.flt","rb"))==NULL){
+                    printf("NO landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_ipsl.flt !!\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[23] ++;
+                }
+            }else if(SCENARIO_ID == 5031){
+                if((fp_s[23]=fopen("./data/landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_miroc5.flt","rb"))==NULL){
+                    printf("NO landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_miroc5.flt !!\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[23] ++;
+                }
+            }else if(SCENARIO_ID == 5041){
+                if((fp_s[23]=fopen("./data/landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_hadgem.flt","rb"))==NULL){
+                    printf("NO landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_hadgem.flt !!\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[23] ++;
+                }
+            }
         }else if(SCENARIO_ID == 5012 || SCENARIO_ID == 5022 || SCENARIO_ID == 5032 || SCENARIO_ID == 5042){
             CO2S = 3; /* ISI-MIP2.1b: piControl + historical + rcp60 */
+            if(SCENARIO_ID == 5012){
+                if((fp_s[23]=fopen("./data/landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_ipsl.flt","rb"))==NULL){
+                    printf("NO landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_ipsl.flt !!\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[23] ++;
+                }
+            }else if(SCENARIO_ID == 5022){
+                if((fp_s[23]=fopen("./data/landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_ipsl.flt","rb"))==NULL){
+                    printf("NO landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_ipsl.flt !!\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[23] ++;
+                }
+            }else if(SCENARIO_ID == 5032){
+                if((fp_s[23]=fopen("./data/landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_miroc5.flt","rb"))==NULL){
+                    printf("NO landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_miroc5.flt !!\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[23] ++;
+                }
+            }else if(SCENARIO_ID == 5042){
+                if((fp_s[23]=fopen("./data/landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_hadgem.flt","rb"))==NULL){
+                    printf("NO landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_hadgem.flt !!\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[23] ++;
+                }
+            }
         }
     
         /**/
-        if((fp_s[23]=fopen("./data/landuse_ann_soc_1661-2299.flt","rb"))==NULL){
+        /* if((fp_s[23]=fopen("./data/landuse_ann_soc_1661-2299.flt","rb"))==NULL){
 			printf("NO landuse_ann_soc_1661-2299.flt !!\n");
 			exit(1);
 		}else{
             Flag_FOPEN[23] ++;
-        }
+        } */
 		if((fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt"))==NULL){
  			printf("NO image_a1b_fgrass.dat !!\n");
 			exit(1);
@@ -3085,17 +3149,98 @@ void open_input(
     
     if(ISIMIP_RUN == 4){
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
-        if( (fp_s[87]=fopen("./data/landuse_ann_soc_1661-2299.flt","rb"))==NULL ){
-            printf("No landuse_ann_soc_1661-2299.flt\n");
-            exit(1); 
+        /* fp_s[87]=fopen("./data/landuse_ann_soc_1661-2299.flt","rb") */
+        /* ISI-MIP2b: 2017/11/01 by A.Ito */
+
+        if(LANDUSE == 25 || ISIMIP_RUN==5010 || ISIMIP_RUN==5020
+                   || ISIMIP_RUN==5030 || ISIMIP_RUN==5040){
+            if( (fp_s[87]=fopen("./data/landuse_ann_1860_hist_2005_2005_1661-2299_ipsl.flt","rb"))==NULL ){
+                printf("No landuse_ann_1860_hist_2005_2005_1661-2299_ipsl.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[87] ++;
+            }
+        }else if(LANDUSE == 24){
+            if(ISIMIP_RUN==5011){
+                /* should be revised with GFDL data */
+                if( (fp_s[87]=fopen("./data/landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_ipsl.flt","rb"))==NULL ){
+                    printf("No landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_ipsl.flt\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[87] ++;
+                }
+            }else if(ISIMIP_RUN==5012){
+                /* should be revised with GFDL data */
+                if( (fp_s[87]=fopen("./data/landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_ipsl.flt","rb"))==NULL ){
+                    printf("No landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_ipsl.flt\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[87] ++;
+                }
+            }else if(ISIMIP_RUN==5021){
+                if( (fp_s[87]=fopen("./data/landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_ipsl.flt","rb"))==NULL ){
+                    printf("No landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_ipsl.flt\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[87] ++;
+                }
+            }else if(ISIMIP_RUN==5022){
+                if( (fp_s[87]=fopen("./data/landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_ipsl.flt","rb"))==NULL ){
+                    printf("No landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_ipsl.flt\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[87] ++;
+                }
+            }else if(ISIMIP_RUN==5031){
+                if( (fp_s[87]=fopen("./data/landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_miroc5.flt","rb"))==NULL ){
+                    printf("No landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_miroc5.flt\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[87] ++;
+                }
+            }else if(ISIMIP_RUN==5032){
+                if( (fp_s[87]=fopen("./data/landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_miroc5.flt","rb"))==NULL ){
+                    printf("No landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_miroc5.flt\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[87] ++;
+                }
+            }else if(ISIMIP_RUN==5041){
+                if( (fp_s[87]=fopen("./data/landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_hadgem.flt","rb"))==NULL ){
+                    printf("No landuse_ann_1860_hist_rcp26_2100rcp26_1661-2299_hadgem.flt\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[87] ++;
+                }
+            }else if(ISIMIP_RUN==5042){
+                if( (fp_s[87]=fopen("./data/landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_hadgem.flt","rb"))==NULL ){
+                    printf("No landuse_ann_1860_hist_rcp60_2100rcp26_1661-2299_hadgem.flt\n");
+                    exit(1);
+                }else{
+                    Flag_FOPEN[87] ++;
+                }
+            }else{
+                printf("BAD land-use setting for ISI-MIP2b\n");
+                exit(1); 
+            }
+        
         }else{
-            Flag_FOPEN[87] ++;
+            printf("BAD land-use setting for ISI-MIP2b\n");
+            exit(1);
         }
     }else if(EX_BECCS == 2){
         /* BECCS data for GCP-MgNET-IIASA workshop, 2017/02/20 */
         if( (fp_s[87]=fopen("./data/beccs_201702.txt","rt"))==NULL ){
             printf("No beccs_201702.txt\n");
             exit(1); 
+        }else{
+            Flag_FOPEN[87] ++;
+        }
+    }else if(EX_BECCS == 3){
+        /* BECCS data for Sustainability Science, 2017/10/27 */
+        if( (fp_s[87]=fopen("./data/beccs_201710.txt","rt"))==NULL ){
+            printf("No beccs_201710.txt\n");
+            exit(1);
         }else{
             Flag_FOPEN[87] ++;
         }

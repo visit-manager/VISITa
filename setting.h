@@ -43,7 +43,7 @@
 /* 10: every 10 grid */
 
 /***********************************************************/
-#define ISIMIP_RUN 0
+#define ISIMIP_RUN 4
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -62,6 +62,18 @@
 /* 2: sensitivity run (for IRS) + seasonal change + RCP4.5-CO2 */
 /* 3: sensitivity run (for IRS) + seasonal change + RCP8.5-CO2 */
 
+/* S10-BECCS experiment: 2016/02/15 by A.Ito */
+#define EX_BECCS 0
+/* 0: off (inc. scenario S5) */
+/* 1: on (scenario S3) */
+/* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
+/* 3: on (scenario S3) based on Kinoshita-san data 2017/10 */
+/* sub-scenarios: 2017/10/31 by A.Ito */
+#define EX_BECCS_SUB 0
+/* 0: no sub-setting */
+/* 1: no beccs */
+/* 2: fix land-use after 2000 */
+
 /* biofuel experiment: 2015/08/21 by A.Ito */
 #define BIOFUEL_RUN 0
 /* 0: off */
@@ -71,7 +83,7 @@
 #define DL_BF 91 /* biofuel data length */
 
 /* NMIP: N2O model intercomparison runs */
-#define NMIP_RUN 1
+#define NMIP_RUN 0
 /* 0: off */
 /* 1: on use NMIP data (S1) */
 /* 2: all fix (S0) */
@@ -101,11 +113,11 @@
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 1
+#define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
 #define C13_GOUT 0
@@ -369,7 +381,7 @@
 /* #define FDY_GCM 2001 */
 /* #define FDY_GCM 1860 */
 
-/***************************************************/
+/*********************************************************/
 /* NECB: coupling carbon loss */
 /* 0: uncoupled */
 /* 1: coupled */
@@ -391,7 +403,7 @@
 #define NECB_CROP 1
 
 /* land use change setting ********************************/
-#define LANDUSE 10
+#define LANDUSE 24
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -417,6 +429,7 @@
 /* 22: SSP4 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 23: SSP5 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 24: ISI-MIP2b land-use data (2016/12/22 by A.Ito) */
+/* 25: ISI-MIP2b 2005 data (2017/11/01 by A.Ito) */
 
 #define DL_LUC 601 /* */  /* 1500-2100 */
 /* #define DL_LUC 306 */ /* 1700-2000/2005 */
@@ -455,13 +468,7 @@
 /* 0: off */
 /* 1: on */
 
-/* S10-BECCS experiment: 2016/02/15 by A.Ito */
-#define EX_BECCS 0
-/* 0: off (inc. scenario S5) */
-/* 1: on (scenario S3) */
-/* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
-
-/***************************************************/
+/*******************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
 #define EX_ALBEDO 0
 /* 0: off */
@@ -475,7 +482,7 @@
 /* 0: off */
 /* 1: albedo-induced temperature change */
 
-/* ozone impacts: 2013/02/25 by A.Ito *************/
+/* ozone impacts: 2013/02/25 by A.Ito *****************/
 #define EX_OZONE 0
 /* 0: off */
 /* 1: on */
