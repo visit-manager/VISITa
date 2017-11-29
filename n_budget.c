@@ -409,22 +409,21 @@ void f_n_deposit(
     }
     
     /* NMIP: 2015/11/19 by A.Ito *******/
-    /* updated 2016/10/20 by A.Ito */
+    /* updated 2016/10/20, 2017/10/19 by A.Ito */
     /* ISI-MIP2b: 2016/12/24 by A.Ito */
-    if(NMIP_RUN >= 1 || ISIMIP_RUN == 4){
+    if(NMIP_RUN >= 1){
     
         nyear = grid->niny;
         if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
-            nyear = FDY_NINY+1;
+            nyear = FDY_NINY+1; /* for fixing */
         }
         
-        /* to gN/ha */
-        if(NMIP_RUN >= 1){
-            uconv = 1000.0;
-        }
-        if(ISIMIP_RUN == 4){
-            uconv = 10000.0;
-        }
+        loct->depo_no3[grid->m] = grid->nmip_ndep_ccmi_noy[nyear - FDY_NINY][grid->m];
+        loct->depo_nh4[grid->m] = grid->nmip_ndep_ccmi_nh4[nyear - FDY_NINY][grid->m];
+
+    }else if(ISIMIP_RUN == 4){
+        nyear = grid->niny;
+        uconv = 10000.0; /* m2 => ha */
 
         /* seasonality based on CHASER */
         ndepo_no3 = ndepo_nh4 = 0.0;

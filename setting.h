@@ -37,8 +37,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
-#define CALC_OFFET 1
+#define CALC_STEP 1
+#define CALC_OFFET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -61,6 +61,18 @@
 /* 1: sensitivity run (for IRS) */
 /* 2: sensitivity run (for IRS) + seasonal change + RCP4.5-CO2 */
 /* 3: sensitivity run (for IRS) + seasonal change + RCP8.5-CO2 */
+
+/* S10-BECCS experiment: 2016/02/15 by A.Ito */
+#define EX_BECCS 0
+/* 0: off (inc. scenario S5) */
+/* 1: on (scenario S3) */
+/* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
+/* 3: on (scenario S3) based on Kinoshita-san data 2017/10 */
+/* sub-scenarios: 2017/10/31 by A.Ito */
+#define EX_BECCS_SUB 0
+/* 0: no sub-setting */
+/* 1: no beccs */
+/* 2: fix land-use after 2000 */
 
 /* biofuel experiment: 2015/08/21 by A.Ito */
 #define BIOFUEL_RUN 0
@@ -88,24 +100,25 @@
 
 #if ISIMIP_RUN==4
     /* ISI-MIP2b */
-    #define DL_NMIP 639
+    #define DL_NINPUT 639
     #define FDY_NINY 1661
 #else
-    #define DL_NMIP 156
+    /* #define DL_NINPUT 156 */
+    #define DL_NINPUT 157 /* updated: 2017/10/19 by A.Ito */
     #define FDY_NINY 1860
 #endif
 
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 0
-#define OUTPUT_ISOTOPE 0
+#define OUTPUT_CARBON2 1
+#define OUTPUT_ISOTOPE 1
 #define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
+#define OUTPUT_EROSION 1
 #define OUTPUT_GHG 1
 #define OUTPUT_BB 1
-#define OUTPUT_BVOC 0
+#define OUTPUT_BVOC 1
 /* output binary */
 #define C13_GOUT 0
 #define C14_GOUT 0
@@ -235,7 +248,8 @@
 #elif GEOMIP_RUN==1
     #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
 #elif NMIP_RUN>=1
-    #define PD_HIST 155	/* */	/* AD 1861 - 2015 */
+    /* #define PD_HIST 155	*/	/* AD 1861 - 2015 */
+    #define PD_HIST 156    /* */    /* AD 1861 - 2016 */
 #elif IMPRESSIONS_RUN==2
     #define PD_HIST 115
 #elif IMPRESSIONS_RUN==3
@@ -367,7 +381,7 @@
 /* #define FDY_GCM 2001 */
 /* #define FDY_GCM 1860 */
 
-/***************************************************/
+/*********************************************************/
 /* NECB: coupling carbon loss */
 /* 0: uncoupled */
 /* 1: coupled */
@@ -415,6 +429,7 @@
 /* 22: SSP4 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 23: SSP5 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 24: ISI-MIP2b land-use data (2016/12/22 by A.Ito) */
+/* 25: ISI-MIP2b 2005 data (2017/11/01 by A.Ito) */
 
 #define DL_LUC 601 /* */  /* 1500-2100 */
 /* #define DL_LUC 306 */ /* 1700-2000/2005 */
@@ -453,13 +468,7 @@
 /* 0: off */
 /* 1: on */
 
-/* S10-BECCS experiment: 2016/02/15 by A.Ito */
-#define EX_BECCS 0
-/* 0: off (inc. scenario S5) */
-/* 1: on (scenario S3) */
-/* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
-
-/***************************************************/
+/*******************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
 #define EX_ALBEDO 0
 /* 0: off */
@@ -473,7 +482,7 @@
 /* 0: off */
 /* 1: albedo-induced temperature change */
 
-/* ozone impacts: 2013/02/25 by A.Ito *************/
+/* ozone impacts: 2013/02/25 by A.Ito *****************/
 #define EX_OZONE 0
 /* 0: off */
 /* 1: on */
@@ -497,6 +506,7 @@
 #define DIF_SRB 1
 /* 0:off, 1:0 */
 
+/* temperature dependence of plant respiration */
 #define EX_TMP_RESP 0
 /* 0: default */
 /* 1: Yokota & Hagihara */
@@ -507,7 +517,7 @@
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -605,7 +615,7 @@
 /* 9: 50:50 ammonium and nitrate */
 
 /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
-#define EX_NITR_N2O 0
+#define EX_NITR_N2O 2
 /* 0: off (control) */
 /* 01: 1.0% (N20-driven) */
 /* 02: 0.5% (N20-driven) */

@@ -115,7 +115,7 @@ void cal_spinup(
     }
     
     grid->simy = 1900;
-    if(ISIMIP_RUN == 1 || (EX_BECCS==1 || EX_BECCS==2)){
+    if(ISIMIP_RUN == 1 || (EX_BECCS==1 || EX_BECCS==2 || EX_BECCS==3)){
         grid->simy = 1949;
     }
     if(NMIP_RUN >= 1){
