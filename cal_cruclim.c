@@ -116,6 +116,11 @@ void cal_historical(
             grid->co2y = FSY_HIST;
             grid->niny = FSY_HIST;
             grid->lucy = FSY_HIST;
+        }else if(NMIP_RUN == 7){
+            grid->climy = FSY_HIST;
+            grid->co2y = FSY_HIST;
+            grid->niny = FSY_HIST;
+            grid->lucy = FSY_HIST;
         }
         
         /* sensitivity run: 2017/06/24 by A.Ito */

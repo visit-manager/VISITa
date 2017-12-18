@@ -85,6 +85,15 @@
 /* NMIP: N2O model intercomparison runs */
 #define NMIP_RUN 0
 /* 0: off */
+/* 1: climate + CO2 + LCLUC + Ndep + Nfer + manure (S1) */
+/* 2: climate + CO2 + LCLUC + Ndep + Nfer (S2) */
+/* 3: climate + CO2 + LCLUC + Ndep (S3) */
+/* 4: climate + CO2 + LCLUC (S4) */
+/* 5: climate + CO2 (S5) */
+/* 6: climate (S6) */
+/* 7: all 1860 (S0) */
+
+/* old NMIP ID */
 /* 1: on use NMIP data (S1) */
 /* 2: all fix (S0) */
 /* 3: all combined (S2) */
@@ -111,14 +120,14 @@
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_CARBON2 0
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
-#define OUTPUT_GHG 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 0
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 /* output binary */
 #define C13_GOUT 0
 #define C14_GOUT 0
@@ -203,10 +212,11 @@
 #elif IMPRESSIONS_RUN==3
     #define FSY_HIST 1901 /* IMPRESSIONS 2 */
     #define LSY_HIST 2015
+#elif NMIP_RUN>=1
+    #define FSY_HIST 1861 /* NMIP */
+    #define LSY_HIST 2015 /* NMIP */
 #else
     #define FSY_HIST 1901 /* */
-    /* #define FSY_HIST 1861 */ /* NMIP */
-    /* #define LSY_HIST 2015 */ /* NMIP */
     #define LSY_HIST 2016 /* history */
 #endif
 
@@ -507,13 +517,14 @@
 /* 0:off, 1:0 */
 
 /* temperature dependence of plant respiration */
-#define EX_TMP_RESP 0
+#define EX_TMP_RESP 6
 /* 0: default */
 /* 1: Yokota & Hagihara */
 /* 2: Atkin */
 /* 3: fix 2.0 */
 /* 4: fix 1.5 */
 /* 5: fix 2.5 */
+/* 6: Heskel et al. 2016: added by A.Ito 2017/12/7 */
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */

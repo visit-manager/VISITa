@@ -405,6 +405,12 @@ void f_qten_ar(
         pchar->qTf[grid->m] = aaa;
         pchar->qTc[grid->m] = aaa;
         pchar->qTr[grid->m] = aaa;
+    }else if(EX_TMP_RESP == 6){
+        /* Heskel et al. 2016, PNAS: added by A.Ito 2017/12/7 */
+        aaa = exp(10.0 * (0.1012 + (2.0 * 0.0005 * grid->tmp_sfc[grid->m])));
+        pchar->qTf[grid->m] = aaa;
+        pchar->qTc[grid->m] = aaa;
+        pchar->qTr[grid->m] = aaa;
     }
 	
 	if(T_R==1){
