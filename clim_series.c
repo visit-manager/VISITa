@@ -26,7 +26,7 @@ void set_hist_clim(
 	cru_te = DL_HCLIM + (BGY_CLIM-1);
     
     if(grid->climy < BGY_CLIM){
-        printf("Bad climate-data year: %ld\n", grid->climy);
+        printf("Bad climate-data year: %ld %ld\n", grid->climy, grid->simy);
         exit(1);
     }
 	
@@ -52,7 +52,6 @@ void set_hist_clim(
                                 + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
                 grid->tcdc_clm[h] = grid->hist_cld[grid->climy - BGY_CLIM][h];
                 grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM][h];
-                
            }
         }else{
             /* extention by NCEP/NCAR reanalysis data */

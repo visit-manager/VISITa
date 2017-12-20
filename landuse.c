@@ -192,9 +192,9 @@ void f_cult_luc(
                              + grid->beccs_v2b + grid->beccs_v2s)/100.0;
                 
                 if(EX_BECCS_SUB==2){
-                    grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC]
-                            + (double)(grid->lucy - 1999) * (grid->beccs_s2b
-                                 + grid->beccs_v2b + grid->beccs_v2s)/100.0;
+                    grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC];
+                            /* + (double)(grid->lucy - 1999) * (grid->beccs_s2b
+                                 + grid->beccs_v2b + grid->beccs_v2s)/100.0; */
                 }
                 
                 if(grid->f_crop_con > 1.0){
@@ -370,7 +370,7 @@ void f_cult_luc(
     
     /* fixed land-use for NMIP */
     /* updated 2016/10/20 by A.Ito */
-    if(NMIP_RUN == 5 || NMIP_RUN == 6){
+    if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
         grid->f_deforest = 0.0;
     }
 
@@ -568,7 +568,7 @@ void f_luc_emit(
 		
         /* NMIP: fixed land-use */
         /* updated 2016/10/20 by A.Ito */
-        if(NMIP_RUN == 5 || NMIP_RUN == 6){
+        if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
             fluc_1 = 0.0;
         }
 
@@ -603,7 +603,7 @@ void f_luc_emit(
 			
             /* NMIP: fixed land-use */
             /* updated 2016/10/20 by A.Ito */
-            if(NMIP_RUN == 5 || NMIP_RUN == 6){
+            if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
                 fluc_10 = 0.0;
             }
 
@@ -642,7 +642,7 @@ void f_luc_emit(
 			
             /* NMIP: fixed land-use */
             /* updated 2016/10/20 by A.Ito */
-            if(NMIP_RUN == 5 || NMIP_RUN == 6){
+            if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
                 fluc_100 = 0.0;
             }
 
@@ -701,7 +701,7 @@ void f_luc_emit(
 		
         /* NMIP: fixed land-use */
         /* updated 2016/10/20 by A.Ito */
-        if(NMIP_RUN == 5 || NMIP_RUN == 6){
+        if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
             fluc_1 = 0.0;
         }
         

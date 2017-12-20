@@ -202,6 +202,8 @@ void f_set_history_data(
 		
 		/* biomass burninig *****************/
 		h_burnt_area[year] += fweight * flux->a_burnt[f]*grid->area;
+        h_burnt_area_wood[year] += fweight * flux->wa_burnt[f]*grid->area;
+
 		h_bioburn_co2[year] += fweight * (flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+
 										  flux->bb_co2_wood[f]+flux->bb_co2_root[f]) * grid->area;
 		h_bioburn_co[year] += fweight * (flux->bb_co_litter[f]+flux->bb_co_leaf[f]+flux->bb_co_wood[f]+
@@ -490,7 +492,7 @@ void f_glosum_output(
 		
 		fprintf(fp_glsum,"%lf ", h_ersn_c[h]);
 		fprintf(fp_glsum,"%lf ", h_agrersn_c[h]);
-		fprintf(fp_glsum,"%lf ", h_doc[h]);
+		fprintf(fp_glsum,"%lf ", h_doc[h]); // O
 		
 		fprintf(fp_glsum,"%lf ", h_agrarea[h]);
 		fprintf(fp_glsum,"%lf ", h_luc[h]);
@@ -615,6 +617,7 @@ void f_glosum_output(
         fprintf(fp_glsum,"%lf ", h_n_uptk[h]);
 
 		fprintf(fp_glsum,"%lf ", h_n_manurein[h]); /* added by A.Ito (2016/10/21) */
+        fprintf(fp_glsum,"%lf ", h_burnt_area_wood[h]); /* 2017/11/30 */
 
 		fprintf(fp_glsum,"\n");
 	}

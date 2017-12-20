@@ -414,7 +414,7 @@ void f_n_deposit(
     if(NMIP_RUN >= 1){
     
         nyear = grid->niny;
-        if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
+        if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
             nyear = FDY_NINY+1; /* for fixing */
         }
         
@@ -634,6 +634,7 @@ void f_n_uptake(
 	navil = (mass->soil).n_no3;
 	/* C3 */
     max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    uptake_no3 = 0.0;
     if(max_uptake>=0.0 && max_uptake<navil){
         uptake_no3 = max_uptake;
     }else if(max_uptake < 0.0){
@@ -646,6 +647,7 @@ void f_n_uptake(
     
 	/* C4 */
     max_uptake = (1.0 - nsat_c4) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    uptake_no3 = 0.0;
     if(max_uptake>=0.0 && max_uptake<navil){
         uptake_no3 = max_uptake;
     }else if(max_uptake < 0.0){
@@ -662,6 +664,7 @@ void f_n_uptake(
 	navil = (mass->soil).n_nh4;
     /* C3 */
     max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    uptake_nh4 = 0.0;
     if(max_uptake>0.0 && max_uptake<navil){
         uptake_nh4 = max_uptake;
     }else if(max_uptake < 0.0){
@@ -674,6 +677,7 @@ void f_n_uptake(
     
     /* C4 */
     max_uptake = (1.0 - nsat_c4) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    uptake_nh4 = 0.0;
     if(max_uptake>0.0 && max_uptake<navil){
         uptake_nh4 = max_uptake;
     }else if(max_uptake < 0.0){

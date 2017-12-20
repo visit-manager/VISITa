@@ -227,7 +227,7 @@ void f_init_sim(
         
 		h_agrarea[f] = h_paddyarea[f] = h_luc[f] = 0.0;
 		h_luc_1[f] = h_luc_2[f] = h_luc_3[f] = 0.0;
-		h_burnt_area[f] = 0.0;
+		h_burnt_area[f] = h_burnt_area_wood[f] = 0.0;
 		h_bioburn_co2[f] = h_bioburn_co[f] = h_bioburn_ch4[f] = 0.0;
 		h_bioburn_nmhc[f] = h_bioburn_oc[f] = h_bioburn_bc[f] = 0.0;
 		h_bioburn_nox[f] = h_bioburn_so2[f] = h_bioburn_pm25[f] = 0.0;

@@ -91,10 +91,14 @@ void f_biomassburning(
 		6.60, 6.60, 8.28, 8.28, 8.28, 8.28, 8.28, 8.28,
 		3.70, 3.70, 3.70, 3.70, 3.70, 3.70, 3.70};
 		
+    double ef_n2o[16] = {0.0,
+        0.2, 0.2, 0.16, 0.16, 0.16, 0.41, 0.41, 38.0,
+        0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
+
 	/* burning efficiency */
 	double burn_eff[16] = {0.0, 
 		0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-		0.85, 0.85, 0.6, 0.6, 0.5, 0.85, 0.85};
+		0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		
 	double closs_leaf, closs_wood, closs_root, closs_litter, prm_ensen;
 	
@@ -228,7 +232,10 @@ void f_biomassburning(
 		/* flux->a_burnt[f] = flux->f_burnt*aa*(1.0 - grid->f_crop_con); */
         /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
 		flux->a_burnt[f] = flux->f_burnt * aa;
-		
+        
+        /* burnt fractio for woods: 2017/11/30 */
+        flux->wa_burnt[f] = flux->a_burnt[f] * f_burnt_wood[grid->veg_sage];
+  
 		/* g/kg = kg/Mg, per ha */
 		/* CO2 emission */
 		flux->bb_co2_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 

@@ -43,7 +43,7 @@
 /* 10: every 10 grid */
 
 /***********************************************************/
-#define ISIMIP_RUN 4
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -83,8 +83,17 @@
 #define DL_BF 91 /* biofuel data length */
 
 /* NMIP: N2O model intercomparison runs */
-#define NMIP_RUN 0
+#define NMIP_RUN 7
 /* 0: off */
+/* 1: climate + CO2 + LCLUC + Ndep + Nfer + manure (S1) */
+/* 2: climate + CO2 + LCLUC + Ndep + Nfer (S2) */
+/* 3: climate + CO2 + LCLUC + Ndep (S3) */
+/* 4: climate + CO2 + LCLUC (S4) */
+/* 5: climate + CO2 (S5) */
+/* 6: climate (S6) */
+/* 7: all 1860 (S0) */
+
+/* old NMIP ID */
 /* 1: on use NMIP data (S1) */
 /* 2: all fix (S0) */
 /* 3: all combined (S2) */
@@ -113,11 +122,11 @@
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
+#define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 0
+#define OUTPUT_BB 1
 #define OUTPUT_BVOC 0
 /* output binary */
 #define C13_GOUT 0
@@ -203,10 +212,11 @@
 #elif IMPRESSIONS_RUN==3
     #define FSY_HIST 1901 /* IMPRESSIONS 2 */
     #define LSY_HIST 2015
+#elif NMIP_RUN>=1
+    #define FSY_HIST 1861 /* NMIP */
+    #define LSY_HIST 2016 /* NMIP */
 #else
-    /* #define FSY_HIST 1901 */
-    #define FSY_HIST 1861 /* */ /* NMIP */
-    /* #define LSY_HIST 2015 */ /* NMIP */
+    #define FSY_HIST 1901 /* */
     #define LSY_HIST 2016 /* history */
 #endif
 
@@ -403,7 +413,7 @@
 #define NECB_CROP 1
 
 /* land use change setting ********************************/
-#define LANDUSE 24
+#define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -506,6 +516,7 @@
 #define DIF_SRB 1
 /* 0:off, 1:0 */
 
+/* temperature dependence of plant respiration */
 #define EX_TMP_RESP 0
 /* 0: default */
 /* 1: Yokota & Hagihara */
@@ -513,6 +524,7 @@
 /* 3: fix 2.0 */
 /* 4: fix 1.5 */
 /* 5: fix 2.5 */
+/* 6: Heskel et al. 2016: added by A.Ito 2017/12/7 */
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */

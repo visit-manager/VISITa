@@ -134,7 +134,7 @@ void screenshow(
     printf(" %7.1lf\n",ann);
     
 
-    printf("NIF: ");		ann=0.0;
+    /* printf("NIF: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->soil).n_fertin[h]);
                             ann += (flux->soil).n_fertin[h]; }
     printf(" %7.1lf\n",ann);
@@ -142,7 +142,7 @@ void screenshow(
     printf("NIM: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->soil).n_manurein[h]);
                             ann += (flux->soil).n_manurein[h]; }
-    printf(" %7.1lf\n",ann);
+    printf(" %7.1lf\n",ann); */
     
     
     /* printf("DNH: ");

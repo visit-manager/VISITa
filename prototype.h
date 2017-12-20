@@ -46,7 +46,7 @@ extern double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
 extern double h_parb[PD_SIM], h_pard[PD_SIM];
 extern double h_arm[PD_SIM];
 
-extern double h_burnt_area[PD_SIM];
+extern double h_burnt_area[PD_SIM],h_burnt_area_wood[PD_SIM];
 extern double h_bioburn_co2[PD_SIM], h_bioburn_ch4[PD_SIM], h_bioburn_co[PD_SIM];
 extern double h_bioburn_nmhc[PD_SIM], h_bioburn_oc[PD_SIM], h_bioburn_bc[PD_SIM];
 extern double h_bioburn_nox[PD_SIM], h_bioburn_so2[PD_SIM], h_bioburn_pm25[PD_SIM];

@@ -272,7 +272,7 @@ void n_fertilizer_in(
     if(NMIP_RUN >= 1){
         nyear = grid->niny;
 
-        if(NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
+        if(NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
             nyear = FDY_NINY+1;
         }
     

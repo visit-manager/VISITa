@@ -977,6 +977,8 @@ struct Flux{
 	double	f_burnt;				/* burnt fraction */
 	double	day_fire[ASTEP];		/* days of fire */
 	double	a_burnt[ASTEP];			/* area burnt */
+    double  wa_burnt[ASTEP];        /* area burnt for woods */
+ 
 	/* CO2 (g species) */
 	double	bb_co2_litter[ASTEP];		/* from litter */
 	double	bb_co2_leaf[ASTEP];			/* from leaf */
