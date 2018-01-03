@@ -605,6 +605,7 @@ void f_ch4oxy_curry(
 	/* potential oxidation rate */
 	/* temperature factor */
 	/* eq.7 */
+    r_t = 0.0;
 	if(grid->tmp10_soil[grid->m] < -10.0 || grid->tmp10_soil[grid->m] >= 43.3){
 		r_t = 0.0;
 	}else if(grid->tmp10_soil[grid->m] >= -10.0 && grid->tmp10_soil[grid->m] < 0.0){
@@ -629,6 +630,7 @@ void f_ch4oxy_curry(
     }
 	
 	/* eq.9: soil water factor */
+    r_sm = 1.0;
 	if(ps < 0.2){
 		r_sm = 1.0;
 	}else if(ps >=0.2 && ps <100.0){

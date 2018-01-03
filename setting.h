@@ -120,14 +120,14 @@
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 0
-#define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
+#define OUTPUT_CARBON2 1
+#define OUTPUT_ISOTOPE 1
+#define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
-#define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
+#define OUTPUT_EROSION 1
+#define OUTPUT_GHG 1
+#define OUTPUT_BB 1
+#define OUTPUT_BVOC 1
 /* output binary */
 #define C13_GOUT 0
 #define C14_GOUT 0
@@ -214,10 +214,11 @@
     #define LSY_HIST 2015
 #elif NMIP_RUN>=1
     #define FSY_HIST 1861 /* NMIP */
-    #define LSY_HIST 2015 /* NMIP */
+    #define LSY_HIST 2016 /* NMIP */
 #else
     #define FSY_HIST 1901 /* */
-    #define LSY_HIST 2016 /* history */
+    /* #define LSY_HIST 2016 */ /* history */
+    #define LSY_HIST 2017 /* history */
 #endif
 
 /* start year (AD) of CO2 time series */
@@ -276,7 +277,8 @@
     /* #define PD_HIST 113	*/	/* AD 1901 - 2013 */
     /* #define PD_HIST 114  */	/* AD 1901 - 2014 */
     /* #define PD_HIST 115	*/	/* AD 1901 - 2015 */
-    #define PD_HIST 116	/* */	/* AD 1901 - 2016 */
+    /* #define PD_HIST 116	*/	/* AD 1901 - 2016 */
+    #define PD_HIST 117    /* */    /* AD 1901 - 2017 */
 #endif
 
 /* start year (AD) of climate ***/
@@ -336,7 +338,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -347,7 +349,8 @@
 /* #define DL_NCEP 66 */   /* 1948-2013 */
 /* #define DL_NCEP 67 */   /* 1948-2014 */
 /* #define DL_NCEP 68 */   /* 1948-2015 */
-#define DL_NCEP 69   /* 1948-2016 */
+/* #define DL_NCEP 69 */   /* 1948-2016 */
+#define DL_NCEP 70   /* 1948-2017 */
 
 /* Simulation using ISI-MIP data (yr) */
 /* spinup 1951-1980 */
@@ -517,7 +520,7 @@
 /* 0:off, 1:0 */
 
 /* temperature dependence of plant respiration */
-#define EX_TMP_RESP 6
+#define EX_TMP_RESP 0
 /* 0: default */
 /* 1: Yokota & Hagihara */
 /* 2: Atkin */

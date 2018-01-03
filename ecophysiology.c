@@ -221,6 +221,8 @@ void quantum_yield(
 	double eftem, efci;
 
 	/** plant_type: 3=C3, 4=C4, (5=CAM) **/
+    eftem = 1.0;
+    efci = 1.0;
 	if(pchar->phototype == 3){
 		/* temperature dependence */
 		eftem = (52.0 - grid->tmp_sfc[grid->m])/(3.5 + 0.75*(52.0 - grid->tmp_sfc[grid->m])); 

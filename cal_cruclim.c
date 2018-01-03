@@ -117,7 +117,7 @@ void cal_historical(
             grid->niny = FSY_HIST;
             grid->lucy = FSY_HIST;
         }else if(NMIP_RUN == 7){
-            grid->climy = FSY_HIST;
+            /* grid->climy = FSY_HIST; */ /* 1901 */
             grid->co2y = FSY_HIST;
             grid->niny = FSY_HIST;
             grid->lucy = FSY_HIST;
@@ -135,6 +135,10 @@ void cal_historical(
             grid->climy = BGY_CLIM + g%20;
         }else if(grid->simy > (BGY_CLIM + DL_HCLIM - 1)){
             grid->climy = (BGY_CLIM + DL_HCLIM - 1);
+        }
+        
+        if(NMIP_RUN == 7){
+            grid->climy = 1901; /* 1901 */
         }
         
         /* for considering leap years: 2014/09/29 by A.Ito */
