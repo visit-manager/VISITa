@@ -134,15 +134,15 @@ double f_df97_gpp(
 	f_ds = (f_ds<=1.0)?f_ds:1.0; 
 	f_ds = (f_ds>=0.0)?f_ds:0.0;
 	
-	if(mode==1){
+	if(mode == 1){
 		/* normal diurnal */
 		start = 0;
 		end = DSTEP;
-	}else if(mode==2){
+	}else if(mode == 2){
 		/* low PAR */
 		start = 12;
 		end = 13;
-	}else if(mode==3){
+	}else if(mode == 3){
 		/* high PAR */
 		start = 12;
 		end = 13;

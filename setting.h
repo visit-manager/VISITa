@@ -689,6 +689,12 @@
 /* 6: fix fertilizer + manure + land use */
 /* 7: no manure */
 
+/* N input seasonality: 2018/02/09 by A.Ito */
+#define EX_NIN_SEASON 0
+/* 0: no seasonality */
+/* 1: once in April (NH) or October (SH) */
+/* 101: all January */
+
 /****************************************************/
 /* sensitivity analysis *****************/
 /* temperature */

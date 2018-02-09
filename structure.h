@@ -388,9 +388,10 @@ struct Loct{
     double  grad_d[ASTEP];              /* daily average downward SW radiation, W m-2 */
     double  nsw_d[ASTEP];               /* daily average net SW radiation, W m-2 */
  	
-    double  ppfd_h[DSTEP];
-    double  ppfdb_h[DSTEP];
-    double  ppfdd_h[DSTEP];
+                                        /* micro mol photon m-2 s-1 */
+    double  ppfd_h[DSTEP];              /* hourly photosynthetical photon flux density */
+    double  ppfdb_h[DSTEP];             /* hourly photosynthetical photon flux density, beam */
+    double  ppfdd_h[DSTEP];             /* hourly photosynthetical photon flux density, diffuse */
 
     double  ippfd_g[ASTEP];
     double  appfd_g[ASTEP];
@@ -475,6 +476,11 @@ struct Loct{
 	double	prof_ch4[N_SLAYER+2];       /* CH4 concentration profile */
 	
 	double	cum_dprec;					/* cumulative precipitation change */
+ 
+    /* d13C - methane production, 2018/02/09 by A.Ito */
+    double  f_ch4_substrate[ASTEP];     /* methane substrate: 0(C02) - 1(CH3COOH, acetate) */
+    double  dlt_ch4_d13c[ASTEP];        /* discrimination of 13C of methane, per mille */
+    double  d13c_ch4[ASTEP];            /* d13C of methane, per mille */
 	
 	/* tentative variables for debugging and monitoring */
 	double	xx1[ASTEP];

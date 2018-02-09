@@ -134,6 +134,15 @@ void screenshow(
     printf(" %7.1lf\n",ann);
     
 
+    printf("MI1: ");
+    for(h=0;h<12;h++){        printf("%6.3lf ",(mass->c4).lai[h]);        }    printf("\n");
+    printf("MI2: ");
+    for(h=0;h<12;h++){        printf("%6.2lf ",(mass->c4).lai[h]);        }    printf("\n");
+    printf("MI3: ");
+    for(h=0;h<12;h++){        printf("%6.2lf ",(mass->c4).lai[h]);        }    printf("\n");
+
+
+
     /* printf("NIF: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->soil).n_fertin[h]);
                             ann += (flux->soil).n_fertin[h]; }

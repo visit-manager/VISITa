@@ -93,7 +93,7 @@ void f_casa_moisture(
 	if(loct->m_e[grid->m] > 0.0){
 		/* Eq.3a in Potter et al. (1996) */
 		loct->i_w[grid->m] = ((loct->m_e[grid->m] + fc) / pc) * 100.0;
-	}else if(loct->m_e==0){
+	}else if(loct->m_e == 0){
 		/* Eq.3b in Potter et al. (1996) */
 		loct->i_w[grid->m] = (loct->m_m[grid->m] / pc) * 100.0;
 	}else{
