@@ -248,7 +248,26 @@ void n_fertilizer_in(
 	}
 	
     /* kg N / ha / month */
-	loct->n_frtlz_in = fin_base = fert_input * MDN[grid->m] / 365.0;
+    /* including seasonality: 2018/02/09 by A.Ito */
+    if(EX_NIN_SEASON == 0){
+        loct->n_frtlz_in = fin_base = fert_input * MDN[grid->m] / 365.0;
+    }else if(EX_NIN_SEASON == 1){
+        if(grid->lat > 0.0 && grid->m == 3){
+            loct->n_frtlz_in = fin_base = fert_input;
+        }else if(grid->lat < 0.0 && grid->m == 9){
+            loct->n_frtlz_in = fin_base = fert_input;
+        }else{
+            loct->n_frtlz_in = fin_base = 0.0;
+        }
+    }else if(EX_NIN_SEASON == 101){
+        if(grid->m == 0){
+            loct->n_frtlz_in = fin_base = fert_input;
+        }else{
+            loct->n_frtlz_in = fin_base = 0.0;
+        }
+    }else{
+        loct->n_frtlz_in = fin_base = fert_input * MDN[grid->m] / 365.0;
+    }
     
     /* biofuel experiments: 2015/09/03 revised by A.Ito */
     if(BIOFUEL_RUN == 1){
@@ -277,11 +296,11 @@ void n_fertilizer_in(
         }
     
         if(grid->niny>=FDY_NINY && grid->niny<=2016){
-            loct->n_frtlz_in = grid->nmip_nfert[nyear - FDY_NINY] * MDN[grid->m] / 365.0;
+            loct->n_frtlz_in = grid->mip_nfert[nyear - FDY_NINY] * MDN[grid->m] / 365.0;
         }else if(grid->niny<FDY_NINY){
-            loct->n_frtlz_in = grid->nmip_nfert[0] * MDN[grid->m] / 365.0;
+            loct->n_frtlz_in = grid->mip_nfert[0] * MDN[grid->m] / 365.0;
         }else if(grid->niny>2017){
-            loct->n_frtlz_in = grid->nmip_nfert[2016 - FDY_NINY] * MDN[grid->m] / 365.0;
+            loct->n_frtlz_in = grid->mip_nfert[2016 - FDY_NINY] * MDN[grid->m] / 365.0;
         }
         
         /* if(NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
@@ -293,11 +312,11 @@ void n_fertilizer_in(
             nyear = FDY_NINY+1;
         }
         if(grid->niny>=FDY_NINY && grid->niny<=2016){
-            loct->n_manure_in = grid->nmip_manure[nyear - FDY_NINY] * MDN[grid->m] / 365.0;
+            loct->n_manure_in = grid->mip_manure[nyear - FDY_NINY] * MDN[grid->m] / 365.0;
         }else if(grid->niny<FDY_NINY){
-            loct->n_manure_in = grid->nmip_manure[0] * MDN[grid->m] / 365.0;
+            loct->n_manure_in = grid->mip_manure[0] * MDN[grid->m] / 365.0;
         }else if(grid->niny>2017){
-            loct->n_manure_in = grid->nmip_manure[2016 - FDY_NINY] * MDN[grid->m] / 365.0;
+            loct->n_manure_in = grid->mip_manure[2016 - FDY_NINY] * MDN[grid->m] / 365.0;
         }
         
         /* if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
@@ -307,7 +326,7 @@ void n_fertilizer_in(
     }else{
         /* ISI-MIP2.1b: 2016/12/22 by A.Ito */
         if(ISIMIP_RUN == 4){
-            loct->n_frtlz_in = grid->nmip_nfert[grid->niny - FDY_NINY] * MDN[grid->m] / 365.0;
+            loct->n_frtlz_in = grid->mip_nfert[grid->niny - FDY_NINY] * MDN[grid->m] / 365.0;
         }else{
             ;
         }

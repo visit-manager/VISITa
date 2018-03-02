@@ -678,6 +678,11 @@ void f_output_result(
             fprintf(fp_o[7],"%.3lf ", (flux->plant).d13c_gpp[f]);
             fprintf(fp_o[7],"%.3lf ", (flux->plant).d13c_ar[f]);
             fprintf(fp_o[7],"%.3lf ", (flux->soil).d13c_hr[f]);
+            
+            /* 2018/02/09 by A.Ito */
+            fprintf(fp_o[7],"%.3lf ", loct->f_ch4_substrate[f]);
+            fprintf(fp_o[7],"%.3lf ", loct->dlt_ch4_d13c[f]);
+            fprintf(fp_o[7],"%.3lf ", loct->d13c_ch4[f]);
         }
         fprintf(fp_o[7],"\n");
     }

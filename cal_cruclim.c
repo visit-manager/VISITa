@@ -92,13 +92,13 @@ void cal_historical(
         if(ISIMIP2_FIXCD == 1 && (
             SCENARIO_ID==5011 || SCENARIO_ID==5021 || SCENARIO_ID==5031 || SCENARIO_ID==5041)){
             /* fix CO2 after 2006 */
-            if(grid->simy>=2006){
+            if(grid->simy >= 2006){
                 grid->co2y = 2005;
             }else{
                 ;
             }
         }
-        
+
         /* land-use year *****/
         grid->lucy = grid->simy;
 		

@@ -843,19 +843,61 @@ void set_gcm_index(
 		case 5004:	strcpy(s_case,"ISIM2H4_"); break;
         
         /* ISI-MIP2b: 2016/12/22 by A.Ito */
-		case 5010:	strcpy(s_case,"ISM2bGP_"); break;
-		case 5011:	strcpy(s_case,"ISM2bGR26_"); break;
-		case 5012:	strcpy(s_case,"ISM2bGR60_"); break;
-		case 5020:	strcpy(s_case,"ISM2bIP_"); break;
-		case 5021:	strcpy(s_case,"ISM2bIR26_"); break;
-		case 5022:	strcpy(s_case,"ISM2bIR60_"); break;
-		case 5030:	strcpy(s_case,"ISM2bMP_"); break;
-		case 5031:	strcpy(s_case,"ISM2bMR26_"); break;
-		case 5032:	strcpy(s_case,"ISM2bMR60_"); break;
-		case 5040:	strcpy(s_case,"ISM2bHP_"); break;
-		case 5041:	strcpy(s_case,"ISM2bHR26_"); break;
-		case 5042:	strcpy(s_case,"ISM2bHR60_"); break;
+		case 5010:	strcpy(s_case,"ISM2bG-I_"); break;
+		case 5011:	strcpy(s_case,"ISM2bG-II_"); break;
+		case 5012:	strcpy(s_case,"ISM2bG-III_"); break;
+		case 5020:	strcpy(s_case,"ISM2bI-I_"); break;
+		case 5021:	strcpy(s_case,"ISM2bI-II_"); break;
+		case 5022:	strcpy(s_case,"ISM2bI-III_"); break;
+		case 5030:	strcpy(s_case,"ISM2bM-I_"); break;
+		case 5031:	strcpy(s_case,"ISM2bM-II_"); break;
+		case 5032:	strcpy(s_case,"ISM2bM-III_"); break;
+		case 5040:	strcpy(s_case,"ISM2bH-I_"); break;
+		case 5041:	strcpy(s_case,"ISM2bH-II_"); break;
+		case 5042:	strcpy(s_case,"ISM2bH-III_"); break;
+  
+        /* ISI-MIP2b EX IV-VII: 2016/12/22 by A.Ito */
+        case 5013:    strcpy(s_case,"ISM2bG-IV_"); break;
+        case 5014:    strcpy(s_case,"ISM2bG-V_"); break;
+        case 5015:    strcpy(s_case,"ISM2bG-VI_"); break;
+        case 5016:    strcpy(s_case,"ISM2bG-VII_"); break;
+
+        case 5023:    strcpy(s_case,"ISM2bI-IV_"); break;
+        case 5024:    strcpy(s_case,"ISM2bI-V_"); break;
+        case 5025:    strcpy(s_case,"ISM2bI-VI_"); break;
+        case 5026:    strcpy(s_case,"ISM2bI-VII_"); break;
+
+        case 5033:    strcpy(s_case,"ISM2bM-IV_"); break;
+        case 5034:    strcpy(s_case,"ISM2bM-V_"); break;
+        case 5035:    strcpy(s_case,"ISM2bM-VI_"); break;
+        case 5036:    strcpy(s_case,"ISM2bM-VII_"); break;
+
+        case 5043:    strcpy(s_case,"ISM2bH-IV_"); break;
+        case 5044:    strcpy(s_case,"ISM2bH-V_"); break;
+        case 5045:    strcpy(s_case,"ISM2bH-VI_"); break;
+        case 5046:    strcpy(s_case,"ISM2bH-VII_"); break;
         
+        /* ISI-MIP2b EX Ia-IIIb: 2018/03/01 by A.Ito */
+        case 5060:    strcpy(s_case,"ISM2bG-Ia_"); break;
+        case 5061:    strcpy(s_case,"ISM2bG-IIb_"); break;
+        case 5062:    strcpy(s_case,"ISM2bG-IIIa_"); break;
+        case 5063:    strcpy(s_case,"ISM2bG-IIIb_"); break;
+
+        case 5070:    strcpy(s_case,"ISM2bI-Ia_"); break;
+        case 5071:    strcpy(s_case,"ISM2bI-IIb_"); break;
+        case 5072:    strcpy(s_case,"ISM2bI-IIIa_"); break;
+        case 5073:    strcpy(s_case,"ISM2bI-IIIb_"); break;
+
+        case 5080:    strcpy(s_case,"ISM2bM-Ia_"); break;
+        case 5081:    strcpy(s_case,"ISM2bM-IIb_"); break;
+        case 5082:    strcpy(s_case,"ISM2bM-IIIa_"); break;
+        case 5083:    strcpy(s_case,"ISM2bM-IIIb_"); break;
+
+        case 5090:    strcpy(s_case,"ISM2bH-Ia_"); break;
+        case 5091:    strcpy(s_case,"ISM2bH-IIb_"); break;
+        case 5092:    strcpy(s_case,"ISM2bH-IIIa_"); break;
+        case 5093:    strcpy(s_case,"ISM2bH-IIIb_"); break;
+
         /* IMPRESSIONS *********/
 		case 6001:	strcpy(s_case,"IMP1"); break;
 		case 6002:	strcpy(s_case,"IMP2"); break;
@@ -871,6 +913,10 @@ void set_gcm_index(
 		/* rcf */
 		/* apf */
 	}
+ 
+    if(ISIMIP_RUN ==4 && ISIMIP2_FIXCD == 1){
+        strcat(s_case,"FXCD_");
+    }
     
     /* IMPRESSIONS 1 */
     if(SCENARIO_ID == 6001){

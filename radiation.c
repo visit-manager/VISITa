@@ -353,6 +353,7 @@ void f_net_rad(
     
 	/** longwave budget : modified 2002/12/25, based on Budyko (1971) **/
 	aaa = pow((grid->tmp_2m[grid->m] + ZAT), 4.0) * SBC;
+    bbb = 0.39;
 	if(loct->vp[grid->m]>0.1 && loct->vp[grid->m]<40.0){
 		bbb = 0.39 - 0.058 * sqrt(loct->vp[grid->m]*  760.0/1013.0 );
 	}else if(loct->vp[grid->m] <= 0.1){

@@ -143,7 +143,7 @@ void f_cult_luc(
         grid->f_pasture_con = 0.0;
     }else if(LANDUSE == 24 || LANDUSE == 25){
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
-        grid->f_crop_con = grid->nmip_frcrop[grid->lucy - FDY_NINY];
+        grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_NINY];
         
     }else{
 		printf("Wrong land-use setting ID\n");
@@ -153,11 +153,11 @@ void f_cult_luc(
     /************************/
     if(NMIP_RUN >= 1){
         if(grid->lucy >= FDY_NINY && grid->lucy<=2015){
-            grid->f_crop_con = grid->nmip_frcrop[grid->lucy - FDY_NINY];
+            grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_NINY];
         }else if(grid->lucy < FDY_NINY){
-            grid->f_crop_con = grid->nmip_frcrop[FDY_NINY - FDY_NINY];
+            grid->f_crop_con = grid->mip_frcrop[FDY_NINY - FDY_NINY];
         }else if(grid->lucy > 2015){
-            grid->f_crop_con = grid->nmip_frcrop[2015 - FDY_NINY];
+            grid->f_crop_con = grid->mip_frcrop[2015 - FDY_NINY];
         }
     }
     

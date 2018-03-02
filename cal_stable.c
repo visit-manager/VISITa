@@ -88,7 +88,7 @@ void cal_spinup(
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         grid->niny = FDY_NINY;
 
-		grid->f_crop_p = grid->nmip_frcrop[0];
+		grid->f_crop_p = grid->mip_frcrop[0];
 		grid->f_pasture_p = 0.0;
     }
     if((echar->soil).v_type == 2){
