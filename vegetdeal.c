@@ -382,10 +382,13 @@ void set_rowcol_gcm(
 	if(SCENARIO_ID == 0){
 		GCM_R = 1;
 		GCM_C = 1;
-	}else if(SCENARIO_ID==1 || SCENARIO_ID==2 || SCENARIO_ID==3 || SCENARIO_ID==4 || SCENARIO_ID==5 || SCENARIO_ID==6){
+	}else if(SCENARIO_ID==1 || SCENARIO_ID==2 || SCENARIO_ID==3 ||
+                SCENARIO_ID==4 || SCENARIO_ID==5 || SCENARIO_ID==6){
 		GCM_R = 32;
 		GCM_C = 64;
-	}else if(SCENARIO_ID==11 || SCENARIO_ID==12 || SCENARIO_ID==13 || SCENARIO_ID==14 || SCENARIO_ID==15 || SCENARIO_ID==16 || SCENARIO_ID==17 || SCENARIO_ID==18){
+	}else if(SCENARIO_ID==11 || SCENARIO_ID==12 || SCENARIO_ID==13 ||
+                SCENARIO_ID==14 || SCENARIO_ID==15 || SCENARIO_ID==16 ||
+                SCENARIO_ID==17 || SCENARIO_ID==18){
 		GCM_R = 48;
 		GCM_C = 96;
 	}else if(SCENARIO_ID==21 || SCENARIO_ID==22 || SCENARIO_ID==23 || SCENARIO_ID==24){
@@ -409,8 +412,9 @@ void set_rowcol_gcm(
 	}else if(SCENARIO_ID==1000 || SCENARIO_ID==1001){ /* MIROC-HIGH */
 		GCM_R = 160;
 		GCM_C = 320;
-	}else if(SCENARIO_ID==1010 || SCENARIO_ID==1011 || SCENARIO_ID==1012 || SCENARIO_ID==1013 || SCENARIO_ID==1014 || 
-			SCENARIO_ID==1015 || SCENARIO_ID==1016 || SCENARIO_ID==1017 || SCENARIO_ID==1018){ /* MIROC-MED */
+	}else if(SCENARIO_ID==1010 || SCENARIO_ID==1011 || SCENARIO_ID==1012 ||
+            SCENARIO_ID==1013 || SCENARIO_ID==1014 || SCENARIO_ID==1015 ||
+            SCENARIO_ID==1016 || SCENARIO_ID==1017 || SCENARIO_ID==1018){ /* MIROC-MED */
 		GCM_R = 64;
 		GCM_C = 128;
 	}else if(SCENARIO_ID==1050 || SCENARIO_ID==1051 ||SCENARIO_ID==1052){ /* BCCR */
@@ -915,6 +919,7 @@ void set_gcm_index(
 	}
  
     if(ISIMIP_RUN ==4 && ISIMIP2_FIXCD == 1){
+        /* fixed CO2 level */
         strcat(s_case,"FXCD_");
     }
     

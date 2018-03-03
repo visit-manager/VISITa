@@ -70,6 +70,8 @@ struct Grid{
 	double 	d13c_bco2[ASTEP];		/* stable carbon isotope composition of background CO2, permille */
 	double	d14c_bco2[ASTEP];		/* D14C of atmospheric CO2: added by A.Ito (2009/06/23) */
     double  bo3[ASTEP];             /* monthly O3, ppb */
+    double  bch4[ASTEP];            /* background CH4 concentration, in ppbv */
+    double  d13c_bch4[ASTEP];       /* stable carbon isotope composition of background CH4, permille */
 
 	/* climate condition: *[] means the transitional value */
 	double 	tmp_sfc[ASTEP];			/* ground surface temperature, degree Celcius */
