@@ -2231,15 +2231,14 @@ void open_input(
     }
     
     /* ISI-MIP 2 (historical) */
-    if(SCENARIO_ID>=5000 && SCENARIO_ID<=5999){
-        CO2S = 2; /* RCP4.5 */
-        /**/
+    /* if(SCENARIO_ID>=5000 && SCENARIO_ID<=5999){
+        CO2S = 2;
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
 			printf("NO image_a1b_fcrop.dat !!\n");
 			exit(1);
 		}
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
-    }
+    } */
 	
     /* ICARUS 2016/08/12 by A.Ito ***********************************/
     if(SCENARIO_ID==2201 || SCENARIO_ID==2203 || SCENARIO_ID==2208 || SCENARIO_ID==2210 ||
@@ -2706,7 +2705,42 @@ void open_input(
         }
     }else if(SCENARIO_ID>=5010 && SCENARIO_ID<=5100){
         /* ISI-MIP2b (1.5/2.0deg) */
-        /* won't be used */
+        
+        if(SCENARIO_ID == 5010 || SCENARIO_ID == 5020 || SCENARIO_ID == 5030 || SCENARIO_ID == 5040){
+            CO2S = 1;
+        }
+        if(SCENARIO_ID == 5011 || SCENARIO_ID == 5021 || SCENARIO_ID == 5031 || SCENARIO_ID == 5041){
+            CO2S = 2;
+        }
+        if(SCENARIO_ID == 5012 || SCENARIO_ID == 5022 || SCENARIO_ID == 5032 || SCENARIO_ID == 5042){
+            CO2S = 3;
+        }
+        if(SCENARIO_ID == 5013 || SCENARIO_ID == 5023 || SCENARIO_ID == 5033 || SCENARIO_ID == 5043){
+            CO2S = 1;
+        }
+        if(SCENARIO_ID == 5014 || SCENARIO_ID == 5024 || SCENARIO_ID == 5034 || SCENARIO_ID == 5044){
+            CO2S = 1;
+        }
+        if(SCENARIO_ID == 5015 || SCENARIO_ID == 5025 || SCENARIO_ID == 5035 || SCENARIO_ID == 5045){
+            CO2S = 2;
+        }
+        if(SCENARIO_ID == 5016 || SCENARIO_ID == 5026 || SCENARIO_ID == 5036 || SCENARIO_ID == 5046){
+            CO2S = 3;
+        }
+        if(SCENARIO_ID == 5060 || SCENARIO_ID == 5070 || SCENARIO_ID == 5080 || SCENARIO_ID == 5090){
+            CO2S = 1;
+        }
+        if(SCENARIO_ID == 5061 || SCENARIO_ID == 5071 || SCENARIO_ID == 5081 || SCENARIO_ID == 5091){
+            CO2S = 2;
+        }
+        if(SCENARIO_ID == 5062 || SCENARIO_ID == 5072 || SCENARIO_ID == 5082 || SCENARIO_ID == 5092){
+            CO2S = 3;
+        }
+        if(SCENARIO_ID == 5063 || SCENARIO_ID == 5073 || SCENARIO_ID == 5083 || SCENARIO_ID == 5093){
+            CO2S = 3;
+        }
+        
+        /* dummy: won't be used */
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
             printf("NO image_a1b_fcrop.dat !!\n");
             exit(1);

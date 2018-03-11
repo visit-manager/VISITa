@@ -238,8 +238,12 @@ int main(
     fclose(fp_setting);
 	
 	/* open source files *************************************************/
-	printf("Open input files...");
+	printf("Open input files...\n");
 	open_input(fp_s, fp_c);	/* -> open_input.c */
+    printf("   CO2 scenario...%ld\n",CO2S);
+    for(f=0;f<IFILEN;f++){
+        printf("   file %3ld: %2d\n",f,Flag_FOPEN[f]);
+    }
 	printf("done\n");
 	
 	/* open result file **************************************************/
@@ -563,7 +567,9 @@ int main(
         }
 	}
 	for(h=0;h<IFILEN;h++){
-		fclose(fp_s[h]); 
+		if(Flag_FOPEN[h]>=1){
+            fclose(fp_s[h]);
+        }
 	}
 	
 	printf("Simulation finished successfully\n");
