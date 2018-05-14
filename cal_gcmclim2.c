@@ -345,9 +345,11 @@ void cal_projection(
 				dyr = (FDY_LUC+DL_LUC-1);
 			}
 			
-			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
-						+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr];
-            
+            /* total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
+                        + grid->hvst_s2[dyr] + grid->hvst_s3[dyr]; */
+
+            total_hvst = grid->hvst_p1[dyr] + grid->hvst_s1[dyr];
+
             /* parameter ensemble: 2014/11/19 by A.Ito */
             prm_ensen = 1.0;
             if(PARAM_PTB == 9){

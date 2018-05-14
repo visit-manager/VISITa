@@ -299,6 +299,26 @@ void f_n2o_emit_ngas(
         (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.02;
     }
     
+    /* meta-analysis-derived empirical: 2018/05/14 by A.Ito */
+    if(EX_NITR_N2O == 7 || EX_NITR_N2O == 8){
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 47.5954 * exp(-1.3449744 * grid->soil_ph);
+        if((flux->soil).f_n2o_ntr_ngas[grid->m] > 0.6){
+            (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.6;
+        }
+        if((flux->soil).f_n2o_ntr_ngas[grid->m] < 0.0000001){
+            (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.0000001;
+        }
+        
+        if(EX_NITR_N2O == 7){
+            v_n2oems = day_n_n2o;
+            v_nitrif = (day_n_n2o / (flux->soil).f_n2o_ntr_ngas[grid->m]);
+        }
+        if(EX_NITR_N2O == 8){
+            v_n2oems = v_nitrif_base * (flux->soil).f_n2o_ntr_ngas[grid->m];
+            v_nitrif = v_nitrif_base;
+        }
+    }
+    
     if(EX_NITR_N2O == 51){
         /* 0.05148% */
         v_n2oems = day_n_n2o;

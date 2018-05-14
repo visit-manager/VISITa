@@ -89,16 +89,17 @@ void cal_historical(
             grid->co2y = 2000;
         }
         /* IIa: 2017/05/18 by A.Ito *****/
-        if(ISIMIP2_FIXCD == 1 && (
-            SCENARIO_ID==5011 || SCENARIO_ID==5021 || SCENARIO_ID==5031 || SCENARIO_ID==5041)){
+        if(ISIMIP2_FIXCD == 1 || (
+            SCENARIO_ID==5011 || SCENARIO_ID==5021 || SCENARIO_ID==5031 || SCENARIO_ID==5041 ||
+            SCENARIO_ID==5062 || SCENARIO_ID==5072 || SCENARIO_ID==5082 || SCENARIO_ID==5092)){
             /* fix CO2 after 2006 */
-            if(grid->simy>=2006){
+            if(grid->simy >= 2006){
                 grid->co2y = 2005;
             }else{
                 ;
             }
         }
-        
+
         /* land-use year *****/
         grid->lucy = grid->simy;
 		
@@ -617,9 +618,11 @@ void cal_historical(
 			}
             
             /* from total grid */
-			total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
-						+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr];
-            
+			/* total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
+						+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr]; */
+
+            total_hvst = grid->hvst_p1[dyr] + grid->hvst_s1[dyr];
+
             /* parameter ensemble: 2014/11/19 by A.Ito */
             prm_ensen = 1.0;
             if(PARAM_PTB == 9){

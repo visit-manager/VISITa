@@ -418,8 +418,8 @@ void f_n_deposit(
             nyear = FDY_NINY+1; /* for fixing */
         }
         
-        loct->depo_no3[grid->m] = grid->nmip_ndep_ccmi_noy[nyear - FDY_NINY][grid->m];
-        loct->depo_nh4[grid->m] = grid->nmip_ndep_ccmi_nh4[nyear - FDY_NINY][grid->m];
+        loct->depo_no3[grid->m] = grid->mip_ndep_ccmi_noy[nyear - FDY_NINY][grid->m];
+        loct->depo_nh4[grid->m] = grid->mip_ndep_ccmi_nh4[nyear - FDY_NINY][grid->m];
 
     }else if(ISIMIP_RUN == 4){
         nyear = grid->niny;
@@ -434,17 +434,17 @@ void f_n_deposit(
         }
         
         if(ndepo_no3 > 0.0){
-            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[nyear - FDY_NINY]*uconv *
+            loct->depo_no3[grid->m] = grid->mip_ndep_noy[nyear - FDY_NINY]*uconv *
                     (ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
                     + ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_no3;
         }else{
-            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny-FDY_NINY]*uconv / 12.0;
+            loct->depo_no3[grid->m] = grid->mip_ndep_noy[grid->niny-FDY_NINY]*uconv / 12.0;
         }
         if(ndepo_nh4 > 0.0){
-            loct->depo_nh4[grid->m] =  grid->nmip_ndep_nh4[nyear - FDY_NINY]*uconv *
+            loct->depo_nh4[grid->m] =  grid->mip_ndep_nh4[nyear - FDY_NINY]*uconv *
                 ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col] / ndepo_nh4;
         }else{
-            loct->depo_nh4[grid->m] = grid->nmip_ndep_nh4[grid->niny - FDY_NINY]*uconv / 12.0;
+            loct->depo_nh4[grid->m] = grid->mip_ndep_nh4[grid->niny - FDY_NINY]*uconv / 12.0;
         }
     }
     

@@ -118,6 +118,7 @@ void f_cisotope_efflux(
 ){
 	double d13c_rr3, d13c_rr4, aaa;
 	double sr, er;
+    double disc_ch4_co2, disc_ch4_astt, d13c_ch4_co2, d13c_ch4_astt;
 	
 	sr = (loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m])+
 		  loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m])+
@@ -229,18 +230,27 @@ void f_cisotope_efflux(
 	}else{
 		flux->d14c_er[grid->m] = 0.0;
 	}
- 
+    
+    /**************************************************************/
     /* d13C of produced CH4: 2018/02/09 by A.Ito  */
-    aaa = 0.0 + 1.0 / (1.0 + exp(-6.0 * (flux->sr[grid->m] - 0.8)));
+    /** aaa = 0.0 + 1.0 / (1.0 + exp(-6.0 * (flux->sr[grid->m] - 0.8))); */
+    aaa = 0.025 + 0.975 / (1.0 + exp(-6.0 * (flux->sr[grid->m] - 0.8)));
     if(aaa>=0.0 && aaa<=1.0){
         ;
     }else{
         aaa = 0.5;
     }
     loct->f_ch4_substrate[grid->m] = aaa;
-    loct->dlt_ch4_d13c[grid->m] = aaa * 20.0 + (1.0 - aaa) * 70.0;
+    
+    disc_ch4_co2 = 70.0;
+    disc_ch4_astt = 20.0;
+    
+    d13c_ch4_co2 = -8.0;
+    d13c_ch4_astt = -25.0;
+    
+    loct->dlt_ch4_d13c[grid->m] = aaa * disc_ch4_co2 + (1.0 - aaa) * disc_ch4_co2;
     /* tentative: CO2: -8 per mille, CH3COOH: -70 per mille */
-    loct->d13c_ch4[grid->m] = (1.0 - aaa) * (-8.0 - 70.0) + aaa * (-25.0 - 20.0);
+    loct->d13c_ch4[grid->m] = (1.0 - aaa) * (d13c_ch4_co2 - disc_ch4_co2) + aaa * (d13c_ch4_astt - disc_ch4_astt);
 }
 
 /* d14C decay: added by A.Ito (2009/06/27) **********************/

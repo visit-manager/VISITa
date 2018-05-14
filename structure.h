@@ -70,6 +70,8 @@ struct Grid{
 	double 	d13c_bco2[ASTEP];		/* stable carbon isotope composition of background CO2, permille */
 	double	d14c_bco2[ASTEP];		/* D14C of atmospheric CO2: added by A.Ito (2009/06/23) */
     double  bo3[ASTEP];             /* monthly O3, ppb */
+    double  bch4[ASTEP];            /* background CH4 concentration, in ppbv */
+    double  d13c_bch4[ASTEP];       /* stable carbon isotope composition of background CH4, permille */
 
 	/* climate condition: *[] means the transitional value */
 	double 	tmp_sfc[ASTEP];			/* ground surface temperature, degree Celcius */
@@ -324,14 +326,14 @@ struct Grid{
     double  f_biofuel[DL_BF];                /* biofuel scenario: 2015/8/21 by A.Ito */
     
     /* NMIP input: 2015/11/19 by A.Ito */
-    double  nmip_nfert[DL_NINPUT];                /* nitrogen fertilizer */
-    double  nmip_ndep_noy[DL_NINPUT];             /* NOy deposition */
-    double  nmip_ndep_nh4[DL_NINPUT];             /* NH4 fertilizer */
-    double  nmip_manure[DL_NINPUT];               /* manure */
-    double  nmip_frcrop[DL_NINPUT];               /* cropland fraction */
+    double  mip_nfert[DL_NINPUT];                /* nitrogen fertilizer */
+    double  mip_ndep_noy[DL_NINPUT];             /* NOy deposition */
+    double  mip_ndep_nh4[DL_NINPUT];             /* NH4 fertilizer */
+    double  mip_manure[DL_NINPUT];               /* manure */
+    double  mip_frcrop[DL_NINPUT];               /* cropland fraction */
     /* added: 2017/10/19 by A.Ito */
-    double  nmip_ndep_ccmi_noy[DL_NINPUT][12];    /* NOy deposition, monthly */
-    double  nmip_ndep_ccmi_nh4[DL_NINPUT][12];    /* NH4 fertilizer, monthly */
+    double  mip_ndep_ccmi_noy[DL_NINPUT][12];    /* NOy deposition, monthly */
+    double  mip_ndep_ccmi_nh4[DL_NINPUT][12];    /* NH4 fertilizer, monthly */
 
     /* N input by Nishina ESSD data: 2017/02/13 by A.Ito */
     double  nin_date[ASTEP];

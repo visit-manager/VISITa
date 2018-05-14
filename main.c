@@ -238,8 +238,12 @@ int main(
     fclose(fp_setting);
 	
 	/* open source files *************************************************/
-	printf("Open input files...");
+	printf("Open input files...\n");
 	open_input(fp_s, fp_c);	/* -> open_input.c */
+    printf("   CO2 scenario...%ld\n",CO2S);
+    for(f=0;f<IFILEN;f++){
+        printf("   file %3ld: %2d\n",f,Flag_FOPEN[f]);
+    }
 	printf("done\n");
 	
 	/* open result file **************************************************/
@@ -255,25 +259,19 @@ int main(
 	/* initialize simulation configuration **/
 	/* vegetation type: olson */
 	loct.v_type = 1;
-	(echar.c3).v_type = 1; 
-	(echar.c4).v_type = 1;
+	(echar.c3).v_type = (echar.c4).v_type = 1;
 	(echar.soil).v_type = 1;
-	(mass.c3).v_type = 1; 
-	(mass.c4).v_type = 1;
+	(mass.c3).v_type = (mass.c4).v_type = 1;
 	(mass.soil).v_type = 1;
-	(flux.c3).v_type = 1; 
-	(flux.c4).v_type = 1;
+	(flux.c3).v_type = (flux.c4).v_type = 1;
 	(flux.soil).v_type = 1;
 	/* vegetation type: cropland */
 	loct_agr.v_type = 2;
-	(echar_agr.c3).v_type = 2; 
-	(echar_agr.c4).v_type = 2;
+	(echar_agr.c3).v_type = (echar_agr.c4).v_type = 2;
 	(echar_agr.soil).v_type = 2;
-	(mass_agr.c3).v_type = 2; 
-	(mass_agr.c4).v_type = 2;
+	(mass_agr.c3).v_type = (mass_agr.c4).v_type = 2;
 	(mass_agr.soil).v_type = 2;
-	(flux_agr.c3).v_type = 2; 
-	(flux_agr.c4).v_type = 2;
+	(flux_agr.c3).v_type = (flux_agr.c4).v_type = 2;
 	(flux_agr.soil).v_type = 2;
 	
     /* initilization of simulation */
@@ -465,7 +463,7 @@ int main(
                     cal_historical(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2); 
 
                     /* future: 2001-2100 */
-                    if(GCM_RUN==1){
+                    if(GCM_RUN == 1){
                         cal_projection(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
                     }
                     
@@ -559,6 +557,7 @@ int main(
 	fclose(fp_binout);
 	
 	/* close files *************/
+    printf("Closing files\n");
 	for(h=0;h<4;h++){
 		fclose(fp_c[h]);
         
@@ -568,10 +567,12 @@ int main(
         }
 	}
 	for(h=0;h<IFILEN;h++){
-		fclose(fp_s[h]); 
+		if(Flag_FOPEN[h]>=1){
+            fclose(fp_s[h]);
+        }
 	}
 	
-	printf("Simulation ended\n");
+	printf("Simulation finished successfully\n");
 	
 	return 0;
 }

@@ -135,11 +135,11 @@ void screenshow(
     
 
     printf("MI1: ");
-    for(h=0;h<12;h++){        printf("%6.3lf ",(mass->c4).lai[h]);        }    printf("\n");
+    for(h=0;h<12;h++){        printf("%6.3lf ",loct->f_ch4_substrate[h]);        }    printf("\n");
     printf("MI2: ");
-    for(h=0;h<12;h++){        printf("%6.2lf ",(mass->c4).lai[h]);        }    printf("\n");
+    for(h=0;h<12;h++){        printf("%6.2lf ",loct->dlt_ch4_d13c[h]);        }    printf("\n");
     printf("MI3: ");
-    for(h=0;h<12;h++){        printf("%6.2lf ",(mass->c4).lai[h]);        }    printf("\n");
+    for(h=0;h<12;h++){        printf("%6.2lf ",loct->d13c_ch4[h]);        }    printf("\n");
 
 
 
