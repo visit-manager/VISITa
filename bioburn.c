@@ -170,7 +170,7 @@ void f_biomassburning(
 	}
 	
 	/* annual fraction of fire season */
-	if(n_fireseason>=0.05){
+	if(n_fireseason >= 0.05){
 		ss = n_fireseason/365.0;	
 		
 		if(ss<=0.0){
