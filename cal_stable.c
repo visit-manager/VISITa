@@ -373,7 +373,7 @@ void cal_spinup(
 			mass->total[f] = (mass->c3).plant[f]*loct->c3ptn[f] + 
 							(mass->c4).plant[f]*loct->c4ptn[f] + (mass->soil).soil[f];
 			/** net carbon balance taking crop harvest into account **/
-			flux->ncb[f] = flux->nep[f] + (flux->plant).hvst[f];
+			flux->ncb[f] = flux->nep[f] - (flux->plant).hvst_crop[f];
 			
 			/* carbon isotope */
 			f_cisotope_efflux(grid, loct, mass, flux);
@@ -670,7 +670,7 @@ void cal_spinup(
         
         if(NECB_CROP == 1 && (EX_CCPL != 5 && EX_CCPL != 8)){
             /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
-            flux->nbp[f] += (flux->plant).hvst[f]; /* ! hvst is negative */
+            flux->nbp[f] += -1.0 * (flux->plant).hvst_crop[f]; /* ! hvst is positive */
         }
 	}
 	

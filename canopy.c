@@ -124,13 +124,13 @@ double f_df97_gpp(
 	root2 = 1.0 - root1;
 	
 	if(pchar->phototype==3){			/* C3 plants */
-		f_ds1 = 0.95*loct->sw30 / (loct->sw30 + grid->field_cap1*0.5) + 0.05;
-		f_ds2 = 0.95*loct->sww / (loct->sww + grid->field_cap2*0.5) + 0.05;
+		f_ds1 = 0.95 * loct->sw30 / (loct->sw30 + grid->field_cap1*0.5) + 0.05;
+		f_ds2 = 0.95 * loct->sww / (loct->sww + grid->field_cap2*0.5) + 0.05;
 	}else if(pchar->phototype==4){		/* C4 plants */
-		f_ds1 = 0.86*loct->sw30 / (loct->sw30 + grid->field_cap1*0.5) + 0.14;
-		f_ds2 = 0.86*loct->sww / (loct->sww + grid->field_cap2*0.5) + 0.14;
+		f_ds1 = 0.86 * loct->sw30 / (loct->sw30 + grid->field_cap1*0.5) + 0.14;
+		f_ds2 = 0.86 * loct->sww / (loct->sww + grid->field_cap2*0.5) + 0.14;
 	}
-	f_ds = root1*f_ds1 + root2*f_ds2;
+	f_ds = root1 * f_ds1 + root2 * f_ds2;
 	f_ds = (f_ds<=1.0)?f_ds:1.0; 
 	f_ds = (f_ds>=0.0)?f_ds:0.0;
 	
@@ -146,7 +146,11 @@ double f_df97_gpp(
 		/* high PAR */
 		start = 12;
 		end = 13;
-	}
+	}else{
+        /* normal diurnal */
+        start = 0;
+        end = DSTEP;
+    }
 	
 	gpp_df = 0.0;
 	apar_d = ipar_d = 0.0;

@@ -352,7 +352,7 @@ void f_output_result(
             fprintf(fp_o[0],"%.4lf ",  flux->ncb[f]); /* */
             
             /* added: 2011/04/19 (A.Ito) */
-            fprintf(fp_o[0],"%.4lf ",  (flux->plant).hvst[f]);
+            fprintf(fp_o[0],"%.4lf ",  (flux->plant).hvst_crop[f]);
             fprintf(fp_o[0],"%.4lf ",  (flux->soil).doc_boyer[f]);
             fprintf(fp_o[0],"%.4lf ",  flux->voc_isopr_g97[f]+flux->voc_monotrp_g97[f]
                     +flux->voc_methanl_g97[f]+flux->voc_acetone_g97[f]+flux->voc_actaldhd_g97[f]

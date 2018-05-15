@@ -76,7 +76,7 @@ void planting(
 	mass->fol += 0.4;
 	mass->stm += 0.3;
 	mass->rot += 0.3;
-	flux->hvst[grid->m] = 1.0;
+	flux->hvst_crop[grid->m] = -1.0; /* palnting => negative harvest */
 	
 	f_leaf_age(0, pchar, mass, 0.4);
 
@@ -187,12 +187,12 @@ void harvesting(
 	nn = MDN[grid->m];
 		
 	/** harvest of crops **/
-	hvst_index = -0.45; /* harvest index -> 45% of biomass */
-	flux->hvst[grid->m] = hvst_index*(mass->fol + mass->stm + mass->rot);
+	hvst_index = 0.45; /* harvest index -> 45% of biomass */
+	flux->hvst_crop[grid->m] = hvst_index * (mass->fol + mass->stm + mass->rot);
 
-	mass->fol += (hvst_index * mass->fol);
-	mass->stm += (hvst_index * mass->stm);
-	mass->rot += (hvst_index * mass->rot);
+	mass->fol -= (hvst_index * mass->fol);
+	mass->stm -= (hvst_index * mass->stm);
+	mass->rot -= (hvst_index * mass->rot);
 	
 	f_leaf_age(1, pchar, mass, hvst_index * mass->fol);
 

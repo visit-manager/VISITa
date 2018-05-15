@@ -310,7 +310,7 @@ int main(
 			}
 		}
 		
-		/* grid area */	/* -> vegetdeal.c */
+		/* grid area, ha */	/* -> vegetdeal.c */
 		grid.area = grid_area(90.0-0.5*(double)f, 89.5-0.5*(double)f, 0.0, 0.5);
 
 		/* longitude loop: west to east ****************************************/

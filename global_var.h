@@ -68,7 +68,7 @@ double h_gpp_df97[PD_SIM];
 double h_gpp_c4[PD_SIM];	/* added by A.Ito (2009/08/31) */
 double h_pot_prmfrst[PD_SIM];
 double h_trnsp[PD_SIM], h_incepev[PD_SIM], h_ssurfev[PD_SIM];
-double h_nbp[PD_SIM], h_hvst[PD_SIM], h_abgm[PD_SIM];
+double h_nbp[PD_SIM], h_hvst_crop[PD_SIM], h_abgm[PD_SIM];
 double h_sw1[PD_SIM], h_sw2[PD_SIM];
 double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
 double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
@@ -132,7 +132,7 @@ double rh_gpp[N_REG][PD_SIM], rh_npp[N_REG][PD_SIM], rh_nep[N_REG][PD_SIM];
 double rh_evpr[N_REG][PD_SIM], rh_trsp[N_REG][PD_SIM], rh_incp[N_REG][PD_SIM], rh_rnof[N_REG][PD_SIM];
 
 /* added by A.Ito (2009/11/15) */
-double rh_hvst[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
+double rh_hvst_crop[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
 double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
 double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
 

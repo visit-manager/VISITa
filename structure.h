@@ -817,7 +817,7 @@ struct Pflx{
 	double	lL[ASTEP];				/* total litterfall */
 	double	lf_c[ASTEP];			/* leaf shedding in C3/C4 altyeration in grassland */
 	
-	double	hvst[ASTEP];			/* harvest of crops */
+	double	hvst_crop[ASTEP];			/* harvest of crops */
 	
 	double	emit_ch4_kirschbaum_mass[ASTEP];		/* plant CH4 emission, mass-based */
 	double	emit_ch4_kirschbaum_photo[ASTEP];		/* plant CH4 emission, photosynthesis-based */
@@ -850,7 +850,7 @@ struct Pflx{
 	double	d13c_lL[ASTEP];			/* total  */
 	double	d13c_lf_c[ASTEP];		
 
-	double	d13c_hvst[ASTEP];		/* harvest */
+	double	d13c_hvst_crop[ASTEP];		/* harvest */
 
 	double	d14c_gpp[ASTEP];		/* GPP */
 	double	d14c_lL[ASTEP];			/* litter input */
