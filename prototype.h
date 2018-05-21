@@ -50,7 +50,7 @@ extern double h_burnt_area[PD_SIM],h_burnt_area_wood[PD_SIM];
 extern double h_bioburn_co2[PD_SIM], h_bioburn_ch4[PD_SIM], h_bioburn_co[PD_SIM];
 extern double h_bioburn_nmhc[PD_SIM], h_bioburn_oc[PD_SIM], h_bioburn_bc[PD_SIM];
 extern double h_bioburn_nox[PD_SIM], h_bioburn_so2[PD_SIM], h_bioburn_pm25[PD_SIM];
-extern double h_bioburn_tpm[PD_SIM], h_bioburn_tec[PD_SIM];
+extern double h_bioburn_tpm[PD_SIM], h_bioburn_tec[PD_SIM], h_bioburn_n2o[PD_SIM];
 
 extern double h_ch4ox1[PD_SIM], h_ch4ox2[PD_SIM], h_ch4ox3[PD_SIM], h_ch4ox4[PD_SIM];
 extern double h_ch4emit_cao_paddy[PD_SIM], h_ch4emit_cao_wetland[PD_SIM];
@@ -207,6 +207,9 @@ extern double	ndepo_chaser4_ont_h[ASTEP][64][128];		/* Org NOx */
 extern double	ndepo_chaser4_nhx_p[ASTEP][64][128];		/* NHx */
 extern double	ndepo_chaser4_noy_p[ASTEP][64][128];		/* NOy */
 extern double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
+
+/* Burnt area by GFED4s: 2018/05/19 by A.Ito */
+extern double bf_gfed4s[20][N_REG+1];
 
 /* CLEARANCE *****************************************************/
 void f_clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 

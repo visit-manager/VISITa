@@ -24,7 +24,7 @@ void f_biomassburning(
 ){
 	short f;
 	double aa, aad,  bb, cc, ss, n_fireseason;
-	double fuel, fa_burnt;
+	double fuel, fa_burnt, fb_base;
 	/* critical moisture */
 	double me_crit[16] = {0.0, 
 		0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3,
@@ -99,7 +99,7 @@ void f_biomassburning(
 	double burn_eff[16] = {0.0, 
 		0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
 		0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-		
+  		
 	double closs_leaf, closs_wood, closs_root, closs_litter, prm_ensen;
 	
 	extern double MDN[ASTEP];
@@ -179,12 +179,29 @@ void f_biomassburning(
 			ss = 1.0;
 		}
 		
-		aa = ss-1.0;
+		aa = ss - 1.0;
 		/* Eq.8 in Thonicke  */
 		bb = 0.45 * pow(aa, 3.0) + 2.83 * pow(aa, 2.0) + 2.96 * aa + 1.04;
 		
 		/* fractional area burnt, Eq.6 */
 		fa_burnt = ss * exp(aa/bb);
+        
+        /* constraint by GFED4s: 2018/05/18 by A.Ito */
+        if(EX_FIRE_GFED >= 1){
+            if(grid->simy == 1997){
+                fb_base = fa_burnt;
+            }
+            if(grid->simy >=1998 && grid->simy <= 2016){
+                fa_burnt = fb_base * bf_gfed4s[grid->simy - 1997][grid->reg_g];
+            }
+            if(grid->simy >=2017){
+                fa_burnt = fb_base * bf_gfed4s[2016 - 1997][grid->reg_g];
+            }
+            
+            if(EX_FIRE_GFED == 2){
+                fa_burnt *= 0.73; /* adjust global total burnt area to GFED4s */
+            }
+        }
 
 		if(fa_burnt<=0.0){
 			fa_burnt = 0.0;
@@ -306,6 +323,16 @@ void f_biomassburning(
 			* f_burnt_wood[grid->veg_sage] * ef_nox[grid->veg_sage] * prm_ensen;
 		flux->bb_nox_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
 			* f_burnt_root[grid->veg_sage] * ef_nox[grid->veg_sage] * prm_ensen;
+
+        /* N2O emission */
+        flux->bb_n2o_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage]
+            * f_burnt_litter[grid->veg_sage] * ef_n2o[grid->veg_sage] * prm_ensen;
+        flux->bb_n2o_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage]
+            * f_burnt_leaf[grid->veg_sage] * ef_n2o[grid->veg_sage] * prm_ensen;
+        flux->bb_n2o_wood[f] = flux->a_burnt[f] * (mass->plant).mstm[f]/cTdm * burn_eff[grid->veg_sage]
+            * f_burnt_wood[grid->veg_sage] * ef_n2o[grid->veg_sage] * prm_ensen;
+        flux->bb_n2o_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage]
+            * f_burnt_root[grid->veg_sage] * ef_n2o[grid->veg_sage] * prm_ensen;
 
 		/* SO2 emission */
 		flux->bb_so2_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 

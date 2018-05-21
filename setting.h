@@ -415,6 +415,10 @@
 /* crop harvest */
 #define NECB_CROP 1
 
+#define EX_FIRE_GFED 0
+/* 0:off, 1:on   2018/05/19 by A.Ito */
+/* 2: on with adjusting factor, 0.73 */
+
 /* land use change setting ********************************/
 #define LANDUSE 10
 /* 0: natural vegetation */

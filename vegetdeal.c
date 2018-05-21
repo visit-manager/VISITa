@@ -1071,9 +1071,9 @@ long region_giorgi(
 	}else if((lat>-12.0&&lat<18.0)&&(lon>22.0&&lon<52.0)){
 		reg = 14;
 	}else if((lat>-35.0&&lat<-12.0)&&(lon>-10.0&&lon<52.0)){
-		reg=15;
+		reg = 15;
 	}else if((lat>18.0&&lat<30.0)&&(lon>-20.0&&lon<65.0)){
-		reg=16;
+		reg = 16;
 	}else if((lat>-11.0&&lat<20.0)&&(lon>95.0&&lon<155.0)){
 		reg = 17;
 	}else if((lat>20.0&&lat<50.0)&&(lon>100.0&&lon<145.0)){

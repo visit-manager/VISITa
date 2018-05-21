@@ -218,6 +218,8 @@ void f_set_history_data(
 										 flux->bb_bc_wood[f]+flux->bb_bc_root[f]) * grid->area;
 		h_bioburn_nox[year] += fweight * (flux->bb_nox_litter[f]+flux->bb_nox_leaf[f]+
 										  flux->bb_nox_wood[f]+flux->bb_nox_root[f]) * grid->area;
+        h_bioburn_n2o[year] += fweight * (flux->bb_n2o_litter[f]+flux->bb_n2o_leaf[f]+
+                                          flux->bb_n2o_wood[f]+flux->bb_n2o_root[f]) * grid->area;
 		h_bioburn_so2[year] += fweight * (flux->bb_so2_litter[f]+flux->bb_so2_leaf[f]+
 										  flux->bb_so2_wood[f]+flux->bb_so2_root[f]) * grid->area;
 		h_bioburn_pm25[year] += fweight * (flux->bb_pm25_litter[f]+flux->bb_pm25_leaf[f]+
@@ -618,6 +620,7 @@ void f_glosum_output(
 
 		fprintf(fp_glsum,"%lf ", h_n_manurein[h]); /* added by A.Ito (2016/10/21) */
         fprintf(fp_glsum,"%lf ", h_burnt_area_wood[h]); /* 2017/11/30 */
+        fprintf(fp_glsum,"%lf ", h_bioburn_n2o[h]); /* 2018/05/19 */
 
 		fprintf(fp_glsum,"\n");
 	}

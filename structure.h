@@ -1022,6 +1022,11 @@ struct Flux{
 	double	bb_nox_leaf[ASTEP];			/* from leaf */
 	double	bb_nox_wood[ASTEP];			/* from wood */
 	double	bb_nox_root[ASTEP];			/* from root */
+    /* N2O (g species) */
+    double  bb_n2o_litter[ASTEP];       /* from litter */
+    double  bb_n2o_leaf[ASTEP];         /* from leaf */
+    double  bb_n2o_wood[ASTEP];         /* from wood */
+    double  bb_n2o_root[ASTEP];         /* from root */
 	/* SO2 (g species) */
 	double	bb_so2_litter[ASTEP];		/* from litter */
 	double	bb_so2_leaf[ASTEP];			/* from leaf */

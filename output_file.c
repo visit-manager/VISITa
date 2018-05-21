@@ -551,6 +551,7 @@ void f_output_result(
             fprintf(fp_o[4],"%.3lf ", flux->bb_tec_litter[f]+flux->bb_tec_leaf[f]+flux->bb_tec_wood[f]+flux->bb_tec_root[f]); /* */
             
             fprintf(fp_o[4],"%.3lf ", flux->wa_burnt[f]); /* wood burnt: 2017/11/30 */
+            fprintf(fp_o[4],"%.3lf ", flux->bb_n2o_litter[f]+flux->bb_n2o_leaf[f]+flux->bb_n2o_wood[f]+flux->bb_n2o_root[f]); /*  */
         }
         
         fprintf(fp_o[4],"%lf ", grid->hvst_p1[grid->climy - FDY_LUC]);

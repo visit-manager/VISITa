@@ -80,7 +80,7 @@ double h_burnt_area_wood[PD_SIM];
 double h_bioburn_co2[PD_SIM], h_bioburn_ch4[PD_SIM], h_bioburn_co[PD_SIM];
 double h_bioburn_nmhc[PD_SIM], h_bioburn_oc[PD_SIM], h_bioburn_bc[PD_SIM];
 double h_bioburn_nox[PD_SIM], h_bioburn_so2[PD_SIM], h_bioburn_pm25[PD_SIM];
-double h_bioburn_tpm[PD_SIM], h_bioburn_tec[PD_SIM];
+double h_bioburn_tpm[PD_SIM], h_bioburn_tec[PD_SIM], h_bioburn_n2o[PD_SIM];
 
 double h_ch4ox1[PD_SIM], h_ch4ox2[PD_SIM], h_ch4ox3[PD_SIM], h_ch4ox4[PD_SIM];
 double h_ch4emit_cao_paddy[PD_SIM], h_ch4emit_cao_wetland[PD_SIM];
@@ -290,4 +290,7 @@ double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
 double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
 double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
 double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
+
+/* Burnt area by GFED4s: 2018/05/19 by A.Ito */
+double bf_gfed4s[20][N_REG+1];
 

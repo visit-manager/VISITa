@@ -28,6 +28,18 @@ void f_init_sim(
 	double data;
     float rdat[36*72],albvar;
 	FILE *fpi;
+ 
+    if(EX_FIRE_GFED >= 1){
+        fpi = fopen("./data/bf_gfed4s.txt","rt");
+        
+        for(f=0;f<20;f++){
+            for(g=0;g<(N_REG+1);g++){
+                fscanf(fpi,"%lf",&bf_gfed4s[f][g]);
+            }
+        }
+        
+        fclose(fpi);
+    }
 		
 	/**********************************************/
 	set_rowcol_gcm();	/* -> vegetdeal.c */
@@ -231,7 +243,7 @@ void f_init_sim(
 		h_bioburn_co2[f] = h_bioburn_co[f] = h_bioburn_ch4[f] = 0.0;
 		h_bioburn_nmhc[f] = h_bioburn_oc[f] = h_bioburn_bc[f] = 0.0;
 		h_bioburn_nox[f] = h_bioburn_so2[f] = h_bioburn_pm25[f] = 0.0;
-		h_bioburn_tpm[f] = h_bioburn_tec[f] = 0.0;
+		h_bioburn_tpm[f] = h_bioburn_tec[f] = h_bioburn_n2o[f] = 0.0;
 		
 		h_ch4ox1[f] = h_ch4ox2[f] = h_ch4ox3[f] = h_ch4ox4[f] = 0.0;
 		h_ch4emit_cao_paddy[f] = h_ch4emit_cao_wetland[f] = 0.0;
