@@ -24,7 +24,7 @@ void f_biomassburning(
 ){
 	short f;
 	double aa, aad,  bb, cc, ss, n_fireseason;
-	double fuel, fa_burnt, fb_base;
+	double fuel, fa_burnt;
 	/* critical moisture */
 	double me_crit[16] = {0.0, 
 		0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3,
@@ -188,14 +188,14 @@ void f_biomassburning(
         
         /* constraint by GFED4s: 2018/05/18 by A.Ito */
         if(EX_FIRE_GFED >= 1){
-            if(grid->simy == 1997){
-                fb_base = fa_burnt;
+            if(grid->simy <= 1997){
+                loct->fb_base = fa_burnt;
             }
             if(grid->simy >=1998 && grid->simy <= 2016){
-                fa_burnt = fb_base * bf_gfed4s[grid->simy - 1997][grid->reg_g];
+                fa_burnt = loct->fb_base * bf_gfed4s[grid->simy - 1997][grid->reg_g];
             }
             if(grid->simy >=2017){
-                fa_burnt = fb_base * bf_gfed4s[2016 - 1997][grid->reg_g];
+                fa_burnt = loct->fb_base * bf_gfed4s[2016 - 1997][grid->reg_g];
             }
             
             if(EX_FIRE_GFED == 2){

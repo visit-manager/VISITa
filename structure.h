@@ -448,6 +448,8 @@ struct Loct{
 	double	n_manure_in;                /* N-manure input */
 	double	depo_no3[ASTEP];			/* NO3- deposition */
 	double	depo_nh4[ASTEP];			/* NH4+ deposition */
+ 
+    double  fb_base;                    /* base burnt area for GFED-constrianed run: 2018/05/22 */
 	
 	/* CASA moisture **********************************/
 	/* long	mday;			*/
