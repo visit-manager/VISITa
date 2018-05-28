@@ -346,68 +346,69 @@ void f_ch4_emit_walter(
     /* last calibrated 2015/03/30 */
     /* last calibrated 2015/11/19 */
     /* last calibrated 2018/05/25 */
+    /* last calibrated 2018/05/26 */
     switch(smode){
         case 1:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 18.0;
-                r0 = 1.8;
+                t_veg = 22.0;
+                r0 = 2.2;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 14.0;
-                r0 = 1.4;
+                t_veg = 16.0;
+                r0 = 1.6;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 5.0;
-                r0 = 0.5;
+                t_veg = 5.8;
+                r0 = 0.58;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 2.3;
-                r0 = 0.23;
+                t_veg = 2.8;
+                r0 = 0.28;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 1.28;
-                r0 = 0.128;
+                t_veg = 1.4;
+                r0 = 0.14;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 1.0;
-                r0 = 0.10;
+                t_veg = 1.1;
+                r0 = 0.11;
             }else if(grid->veg_olson==23 || grid->veg_olson==24){
-                t_veg = 1.0;
-                r0 = 0.10;
+                t_veg = 1.1;
+                r0 = 0.11;
             }else{
-                t_veg = 1.2;
-                r0 = 0.12;
+                t_veg = 1.5;
+                r0 = 0.15;
             }
             break;
         case 2:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 5.0;
-                r0 = 0.5;
+                t_veg = 8.5;
+                r0 = 0.85;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 3.3;
-                r0 = 0.33;
+                t_veg = 5.2;
+                r0 = 0.52;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 0.9;
-                r0 = 0.09;
+                t_veg = 1.1;
+                r0 = 0.11;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 0.45;
-                r0 = 0.045;
+                t_veg = 0.47;
+                r0 = 0.047;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 0.33;
-                r0 = 0.033;
+                t_veg = 0.35;
+                r0 = 0.035;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 0.23;
-                r0 = 0.023;
+                t_veg = 0.25;
+                r0 = 0.025;
             }else if(grid->veg_olson==23 || grid->veg_olson==24){
-                t_veg = 0.23;
-                r0 = 0.023;
+                t_veg = 0.25;
+                r0 = 0.025;
             }else{
-                t_veg = 0.32;
-                r0 = 0.032;
+                t_veg = 0.4;
+                r0 = 0.04;
             }
             break;
         case 3: /*  */
-            t_veg = 7.0;
-            r0 = 0.6;
+            t_veg = 8.0;
+            r0 = 0.7;
             break;
         case 4:
-            t_veg = 4.5;
-            r0 = 0.3;
+            t_veg = 5.0;
+            r0 = 0.4;
             break;
         default:
              t_veg = 1.0;
@@ -574,9 +575,11 @@ void f_ch4_emit_walter(
 	}
 	/* fgow: Eq. 20 */
 	if(tmp[5] < t_gr){
-		f_grow = 0.0;
+		/* f_grow = 0.0; */
+        f_grow = 0.5;
 	}else if(tmp[5] >= t_gr && tmp[5] <= t_mat){
-		f_grow = 0.0 + 4.0 * (1.0 - pow((t_mat - tmp[5])/(t_mat - t_gr), 2.0));
+		/* f_grow = 0.0 + 4.0 * (1.0 - pow((t_mat - tmp[5])/(t_mat - t_gr), 2.0)); */
+        f_grow = 0.5 + 3.5 * (1.0 - pow((t_mat - tmp[5])/(t_mat - t_gr), 2.0));
 	}else if(tmp[5] > t_mat){
 		f_grow = 4.0;
 	}else{
@@ -626,7 +629,9 @@ void f_ch4_emit_walter(
     N. Thanh-Duc, and P. A. del Giorgio (2014), 
     Methane fluxes show consistent temperature dependence across microbial to 
     ecosystem scales, Nature, 507, 488–491, doi:10.1038/nature13164.  */
-    q10_ch4prod = 2.5; /* 2018/05/25 by A.Ito */
+    /* q10_ch4prod = 2.5; */ /* 2018/05/25 by A.Ito */
+    /* q10_ch4prod = 2.4; */ /* 2018/05/26 by A.Ito */
+    q10_ch4prod = 2.0; /* 2018/05/28 by A.Ito */
 	if(EX_CH4_2 == 1){
 		q10_ch4prod = 3.0;
 	}else if(EX_CH4_2 == 2){

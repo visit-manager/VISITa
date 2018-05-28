@@ -399,15 +399,15 @@
 /* 0: uncoupled */
 /* 1: coupled */
 /* erosion */
-#define NECB_ERSN 1
+#define NECB_ERSN 0
 /* biomass burning */
 #define NECB_BB 1
 /* bvoc */
-#define NECB_BVOC 1
+#define NECB_BVOC 0
 /* doc */
-#define NECB_DOC 1
+#define NECB_DOC 0
 /* CH4 */
-#define NECB_CH4 1
+#define NECB_CH4 0
 /* Wood harvest: 2010/10/15 by A.Ito */
 #define NECB_WHVST 1
 /* land-use change */
@@ -415,7 +415,7 @@
 /* crop harvest */
 #define NECB_CROP 1
 
-#define EX_FIRE_GFED 0
+#define EX_FIRE_GFED 2
 /* 0:off, 1:on   2018/05/19 by A.Ito */
 /* 2: on with adjusting factor, 0.73 */
 
