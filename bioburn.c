@@ -91,11 +91,15 @@ void f_biomassburning(
 		6.60, 6.60, 8.28, 8.28, 8.28, 8.28, 8.28, 8.28,
 		3.70, 3.70, 3.70, 3.70, 3.70, 3.70, 3.70};
 		
+    double ef_n2o[16] = {0.0,
+        0.2, 0.2, 0.16, 0.16, 0.16, 0.41, 0.41, 38.0,
+        0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
+
 	/* burning efficiency */
 	double burn_eff[16] = {0.0, 
 		0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-		0.85, 0.85, 0.6, 0.6, 0.5, 0.85, 0.85};
-		
+		0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+  		
 	double closs_leaf, closs_wood, closs_root, closs_litter, prm_ensen;
 	
 	extern double MDN[ASTEP];
@@ -166,7 +170,7 @@ void f_biomassburning(
 	}
 	
 	/* annual fraction of fire season */
-	if(n_fireseason>=0.05){
+	if(n_fireseason >= 0.05){
 		ss = n_fireseason/365.0;	
 		
 		if(ss<=0.0){
@@ -175,12 +179,29 @@ void f_biomassburning(
 			ss = 1.0;
 		}
 		
-		aa = ss-1.0;
+		aa = ss - 1.0;
 		/* Eq.8 in Thonicke  */
 		bb = 0.45 * pow(aa, 3.0) + 2.83 * pow(aa, 2.0) + 2.96 * aa + 1.04;
 		
 		/* fractional area burnt, Eq.6 */
 		fa_burnt = ss * exp(aa/bb);
+        
+        /* constraint by GFED4s: 2018/05/18 by A.Ito */
+        if(EX_FIRE_GFED >= 1){
+            if(grid->simy <= 1997){
+                loct->fb_base = fa_burnt;
+            }
+            if(grid->simy >=1998 && grid->simy <= 2016){
+                fa_burnt = loct->fb_base * bf_gfed4s[grid->simy - 1997][grid->reg_g];
+            }
+            if(grid->simy >=2017){
+                fa_burnt = loct->fb_base * bf_gfed4s[2016 - 1997][grid->reg_g];
+            }
+            
+            if(EX_FIRE_GFED == 2){
+                fa_burnt *= 0.73; /* adjust global total burnt area to GFED4s */
+            }
+        }
 
 		if(fa_burnt<=0.0){
 			fa_burnt = 0.0;
@@ -213,6 +234,11 @@ void f_biomassburning(
             prm_ensen *= 1.3;
         }
     }
+    
+    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    if(PARAM_PTB == 20){
+        prm_ensen = 1.0 + 0.3 * f_pert[0];
+    }
 	
 	/******************************/
 	flux->f_burnt = fa_burnt;
@@ -228,7 +254,10 @@ void f_biomassburning(
 		/* flux->a_burnt[f] = flux->f_burnt*aa*(1.0 - grid->f_crop_con); */
         /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
 		flux->a_burnt[f] = flux->f_burnt * aa;
-		
+        
+        /* burnt fractio for woods: 2017/11/30 */
+        flux->wa_burnt[f] = flux->a_burnt[f] * f_burnt_wood[grid->veg_sage];
+  
 		/* g/kg = kg/Mg, per ha */
 		/* CO2 emission */
 		flux->bb_co2_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
@@ -300,6 +329,16 @@ void f_biomassburning(
 		flux->bb_nox_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage] 
 			* f_burnt_root[grid->veg_sage] * ef_nox[grid->veg_sage] * prm_ensen;
 
+        /* N2O emission */
+        flux->bb_n2o_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage]
+            * f_burnt_litter[grid->veg_sage] * ef_n2o[grid->veg_sage] * prm_ensen;
+        flux->bb_n2o_leaf[f] = flux->a_burnt[f] * (mass->plant).mfol[f]/cTdm * burn_eff[grid->veg_sage]
+            * f_burnt_leaf[grid->veg_sage] * ef_n2o[grid->veg_sage] * prm_ensen;
+        flux->bb_n2o_wood[f] = flux->a_burnt[f] * (mass->plant).mstm[f]/cTdm * burn_eff[grid->veg_sage]
+            * f_burnt_wood[grid->veg_sage] * ef_n2o[grid->veg_sage] * prm_ensen;
+        flux->bb_n2o_root[f] = flux->a_burnt[f] * (mass->plant).mrot[f]/cTdm * burn_eff[grid->veg_sage]
+            * f_burnt_root[grid->veg_sage] * ef_n2o[grid->veg_sage] * prm_ensen;
+
 		/* SO2 emission */
 		flux->bb_so2_litter[f] = flux->a_burnt[f] * (mass->soil).ltr_m[f]/cTdm * burn_eff[grid->veg_sage] 
 			* f_burnt_litter[grid->veg_sage] * ef_so2[grid->veg_sage] * prm_ensen;
@@ -341,7 +380,7 @@ void f_biomassburning(
 			* f_burnt_root[grid->veg_sage] * ef_tec[grid->veg_sage] * prm_ensen;
 		
 		/* carbon budget ****************************************/
-		if(NECB_BB == 1 && EX_CCPL != 2){
+		if(NECB_BB == 1){
 			closs_leaf = flux->bb_co2_leaf[f]*12.0/44.0/1000.0 + flux->bb_co_leaf[f]*12.0/28.0/1000.0 
 				+ flux->bb_ch4_leaf[f]*12.0/16.0/1000.0 + flux->bb_bc_leaf[f]/1000.0;
 			closs_wood = flux->bb_co2_wood[f]*12.0/44.0/1000.0 + flux->bb_co_wood[f]*12.0/28.0/1000.0 

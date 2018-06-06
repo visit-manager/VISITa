@@ -70,6 +70,8 @@ struct Grid{
 	double 	d13c_bco2[ASTEP];		/* stable carbon isotope composition of background CO2, permille */
 	double	d14c_bco2[ASTEP];		/* D14C of atmospheric CO2: added by A.Ito (2009/06/23) */
     double  bo3[ASTEP];             /* monthly O3, ppb */
+    double  bch4[ASTEP];            /* background CH4 concentration, in ppbv */
+    double  d13c_bch4[ASTEP];       /* stable carbon isotope composition of background CH4, permille */
 
 	/* climate condition: *[] means the transitional value */
 	double 	tmp_sfc[ASTEP];			/* ground surface temperature, degree Celcius */
@@ -324,14 +326,14 @@ struct Grid{
     double  f_biofuel[DL_BF];                /* biofuel scenario: 2015/8/21 by A.Ito */
     
     /* NMIP input: 2015/11/19 by A.Ito */
-    double  nmip_nfert[DL_NINPUT];                /* nitrogen fertilizer */
-    double  nmip_ndep_noy[DL_NINPUT];             /* NOy deposition */
-    double  nmip_ndep_nh4[DL_NINPUT];             /* NH4 fertilizer */
-    double  nmip_manure[DL_NINPUT];               /* manure */
-    double  nmip_frcrop[DL_NINPUT];               /* cropland fraction */
+    double  mip_nfert[DL_NINPUT];                /* nitrogen fertilizer */
+    double  mip_ndep_noy[DL_NINPUT];             /* NOy deposition */
+    double  mip_ndep_nh4[DL_NINPUT];             /* NH4 fertilizer */
+    double  mip_manure[DL_NINPUT];               /* manure */
+    double  mip_frcrop[DL_NINPUT];               /* cropland fraction */
     /* added: 2017/10/19 by A.Ito */
-    double  nmip_ndep_ccmi_noy[DL_NINPUT][12];    /* NOy deposition, monthly */
-    double  nmip_ndep_ccmi_nh4[DL_NINPUT][12];    /* NH4 fertilizer, monthly */
+    double  mip_ndep_ccmi_noy[DL_NINPUT][12];    /* NOy deposition, monthly */
+    double  mip_ndep_ccmi_nh4[DL_NINPUT][12];    /* NH4 fertilizer, monthly */
 
     /* N input by Nishina ESSD data: 2017/02/13 by A.Ito */
     double  nin_date[ASTEP];
@@ -388,9 +390,10 @@ struct Loct{
     double  grad_d[ASTEP];              /* daily average downward SW radiation, W m-2 */
     double  nsw_d[ASTEP];               /* daily average net SW radiation, W m-2 */
  	
-    double  ppfd_h[DSTEP];
-    double  ppfdb_h[DSTEP];
-    double  ppfdd_h[DSTEP];
+                                        /* micro mol photon m-2 s-1 */
+    double  ppfd_h[DSTEP];              /* hourly photosynthetical photon flux density */
+    double  ppfdb_h[DSTEP];             /* hourly photosynthetical photon flux density, beam */
+    double  ppfdd_h[DSTEP];             /* hourly photosynthetical photon flux density, diffuse */
 
     double  ippfd_g[ASTEP];
     double  appfd_g[ASTEP];
@@ -445,6 +448,8 @@ struct Loct{
 	double	n_manure_in;                /* N-manure input */
 	double	depo_no3[ASTEP];			/* NO3- deposition */
 	double	depo_nh4[ASTEP];			/* NH4+ deposition */
+ 
+    double  fb_base;                    /* base burnt area for GFED-constrianed run: 2018/05/22 */
 	
 	/* CASA moisture **********************************/
 	/* long	mday;			*/
@@ -475,6 +480,11 @@ struct Loct{
 	double	prof_ch4[N_SLAYER+2];       /* CH4 concentration profile */
 	
 	double	cum_dprec;					/* cumulative precipitation change */
+ 
+    /* d13C - methane production, 2018/02/09 by A.Ito */
+    double  f_ch4_substrate[ASTEP];     /* methane substrate: 0(C02) - 1(CH3COOH, acetate) */
+    double  dlt_ch4_d13c[ASTEP];        /* discrimination of 13C of methane, per mille */
+    double  d13c_ch4[ASTEP];            /* d13C of methane, per mille */
 	
 	/* tentative variables for debugging and monitoring */
 	double	xx1[ASTEP];
@@ -809,7 +819,7 @@ struct Pflx{
 	double	lL[ASTEP];				/* total litterfall */
 	double	lf_c[ASTEP];			/* leaf shedding in C3/C4 altyeration in grassland */
 	
-	double	hvst[ASTEP];			/* harvest of crops */
+	double	hvst_crop[ASTEP];			/* harvest of crops */
 	
 	double	emit_ch4_kirschbaum_mass[ASTEP];		/* plant CH4 emission, mass-based */
 	double	emit_ch4_kirschbaum_photo[ASTEP];		/* plant CH4 emission, photosynthesis-based */
@@ -842,7 +852,7 @@ struct Pflx{
 	double	d13c_lL[ASTEP];			/* total  */
 	double	d13c_lf_c[ASTEP];		
 
-	double	d13c_hvst[ASTEP];		/* harvest */
+	double	d13c_hvst_crop[ASTEP];		/* harvest */
 
 	double	d14c_gpp[ASTEP];		/* GPP */
 	double	d14c_lL[ASTEP];			/* litter input */
@@ -977,6 +987,8 @@ struct Flux{
 	double	f_burnt;				/* burnt fraction */
 	double	day_fire[ASTEP];		/* days of fire */
 	double	a_burnt[ASTEP];			/* area burnt */
+    double  wa_burnt[ASTEP];        /* area burnt for woods */
+ 
 	/* CO2 (g species) */
 	double	bb_co2_litter[ASTEP];		/* from litter */
 	double	bb_co2_leaf[ASTEP];			/* from leaf */
@@ -1012,6 +1024,11 @@ struct Flux{
 	double	bb_nox_leaf[ASTEP];			/* from leaf */
 	double	bb_nox_wood[ASTEP];			/* from wood */
 	double	bb_nox_root[ASTEP];			/* from root */
+    /* N2O (g species) */
+    double  bb_n2o_litter[ASTEP];       /* from litter */
+    double  bb_n2o_leaf[ASTEP];         /* from leaf */
+    double  bb_n2o_wood[ASTEP];         /* from wood */
+    double  bb_n2o_root[ASTEP];         /* from root */
 	/* SO2 (g species) */
 	double	bb_so2_litter[ASTEP];		/* from litter */
 	double	bb_so2_leaf[ASTEP];			/* from leaf */

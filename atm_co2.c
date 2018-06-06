@@ -68,6 +68,22 @@ void f_co2_trend(
                 base = aco2_2[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
                 break;
         }
+    }else if(ISIMIP_RUN == 4){
+        /** ISI-MIP 2b runs **/
+        switch(CO2S){
+            case 1: /* picontrol */
+                base = aco2_3[grid->co2y - FDY_AGHG];
+                break;
+            case 2: /* pi-hist-rcp2.6 */
+                base = aco2_4[grid->co2y - FDY_AGHG];
+                break;
+            case 3: /* pi-hist-rcp6.0 */
+                base = aco2_1[grid->co2y - FDY_AGHG];
+                break;
+            case 4: /* pi-hist-rcp6.0 */
+                base = aco2_2[grid->co2y - FDY_AGHG];
+                break;
+        }
     }else if(IMPRESSIONS_RUN == 2 || IMPRESSIONS_RUN == 3){
         /** IMPRESSIONS time-dependent runs **/
         switch(CO2S){

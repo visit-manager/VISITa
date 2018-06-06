@@ -26,7 +26,7 @@ void set_hist_clim(
 	cru_te = DL_HCLIM + (BGY_CLIM-1);
     
     if(grid->climy < BGY_CLIM){
-        printf("Bad climate-data year: %ld\n", grid->climy);
+        printf("Bad climate-data year: %ld %ld\n", grid->climy, grid->simy);
         exit(1);
     }
 	
@@ -52,7 +52,6 @@ void set_hist_clim(
                                 + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
                 grid->tcdc_clm[h] = grid->hist_cld[grid->climy - BGY_CLIM][h];
                 grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM][h];
-                
            }
         }else{
             /* extention by NCEP/NCAR reanalysis data */
@@ -63,6 +62,7 @@ void set_hist_clim(
             /* 2013-2013: extrapolation using NCEP/NCAR data: 2013/01/10 by A.Ito */
             /* 2014-2014: extrapolation using NCEP/NCAR data: 2015/01/05 by A.Ito */
             /* 2015-2015: extrapolation using NCEP/NCAR data: 2016/01/04 by A.Ito */
+            /* 2016-2017: extrapolation using NCEP/NCAR data: 2018/01/03 by A.Ito */
             for(h=0;h<ASTEP;h++){
                 /* temperature */
                 tmp_var = grid->ncep_tmp2m[grid->climy - FDY_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
@@ -198,18 +198,18 @@ void set_hist_clim(
 	if(PRT_CLIM == 1){
 		if(PARAM_PTB == 1){
 			for(h=0;h<ASTEP;h++){
-				grid->tmp_sfc[h] += 0.2*f_pert[11];
-				grid->tmp_2m[h] += 0.2*f_pert[11];
-				grid->tmp10_soil[h] += 0.2*f_pert[11];
-				grid->tmp200_soil[h] += 0.2*f_pert[11];
+				grid->tmp_sfc[h] += 0.2 * f_pert[11];
+				grid->tmp_2m[h] += 0.2 * f_pert[11];
+				grid->tmp10_soil[h] += 0.2 * f_pert[11];
+				grid->tmp200_soil[h] += 0.2 * f_pert[11];
 				
-				grid->prate_sfc[h] *= 1.0 + 0.1*f_pert[12];
-				grid->tcdc_clm[h] *= 1.0 + 0.1*f_pert[13];
-				if(grid->tcdc_clm[h]<0.0){
-					grid->tcdc_clm[h]=0.0;
+				grid->prate_sfc[h] *= 1.0 + 0.1 * f_pert[12];
+				grid->tcdc_clm[h] *= 1.0 + 0.1 * f_pert[13];
+				if(grid->tcdc_clm[h] < 0.0){
+					grid->tcdc_clm[h] = 0.0;
 				}
-				if(grid->tcdc_clm[h]>1.0){
-					grid->tcdc_clm[h]=1.0;
+				if(grid->tcdc_clm[h] > 1.0){
+					grid->tcdc_clm[h] = 1.0;
 				}
 			}
 		}

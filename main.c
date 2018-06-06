@@ -141,23 +141,29 @@ int main(
 	/* config: 7 parameter perturbation */
     /* note: no perturbation for PARAM_PTB<=0 */
     if(ENSEMBLE_RUN == 1){
-        fscanf(fp_setting,"%s %ld %ld", s_config, &l_config, &rpert);
-        printf("config  7: %s %ld %ld\n", s_config, l_config, rpert);
+        /* fscanf(fp_setting,"%s %ld %ld", s_config, &l_config, &rpert);
+        printf("config  7: %s %ld %ld\n", s_config, l_config, rpert); */
+        fscanf(fp_setting,"%s %ld", s_config, &l_config);
+        printf("config  7: %s %ld\n", s_config, l_config);
         PARAM_PTB = (long)atol(argv[1]);
         PARAM_ENS = (long)atol(argv[2]);
-        EX_CCPL = (long)atol(argv[3]);
+        /* EX_CCPL = (long)atol(argv[3]); */
     }else{
         fscanf(fp_setting,"%s %ld", s_config, &l_config);
         printf("config  7: %s %ld\n", s_config, l_config);
-        //PARAM_PTB = 0;
+        /* PARAM_PTB = 0; */
         PARAM_PTB = l_config;
         PARAM_ENS = 0;
-        EX_CCPL = 0;
+        /* EX_CCPL = 0; */
         rpert = 0;
     }
     
+    /* NOTE: 2018/06/05 for C-budget parameter ensemble */
+    /* PARAM_PTB: 20 for C-budget parameter ensemble  */
+    /* PARAM_ENS: 1-120  */
+
     if(EX_ALBEDO == 1){
-        srand((long)atol(argv[1]) + clock()%1000);
+        srand((long)atol(argv[1]) + clock()%10000);
     
         snprintf(num, 4, "%03d", (short)atol(argv[1]));
 		strcat(s_date, "E");
@@ -168,7 +174,8 @@ int main(
         }
     }else{
         if(PARAM_PTB >= 1){
-            srand((unsigned int)(rpert + clock()%1000));
+            /* mean = 0.0, stdev = 1.0 */
+            srand((unsigned int)(rpert + clock()%10000));
             rand();
             for(f=0;f<N_PARA_ENS;f++){
                 f_pert[f] = 0.0;
@@ -185,19 +192,8 @@ int main(
                 }
             }
             strcat(s_date, "E");
-            switch(PARAM_PTB){
-                case 2: strcat(s_date, "02"); break;
-                case 3: strcat(s_date, "03"); break;
-                case 4: strcat(s_date, "04"); break;
-                case 5: strcat(s_date, "05"); break;
-                case 6: strcat(s_date, "06"); break;
-                case 7: strcat(s_date, "07"); break;
-                case 8: strcat(s_date, "08"); break;
-                case 9: strcat(s_date, "09"); break;
-                case 10: strcat(s_date, "10"); break;
-                case 11: strcat(s_date, "11"); break;
-                default: break;
-            }
+            snprintf(num, 4, "%03d", (short)PARAM_PTB);
+            strcat(s_date, num);
             strcat(s_date, "_");
             snprintf(num, 4, "%03d", (short)PARAM_ENS);
             strcat(s_date, num);
@@ -210,7 +206,7 @@ int main(
     }
     
     /* small carbon flow coupling/decoupling runs */
-    switch(EX_CCPL){
+    /* switch(EX_CCPL){
         case 1: strcat(s_date, "UC1_"); break;
         case 2: strcat(s_date, "UC2_"); break;
         case 3: strcat(s_date, "UC3_"); break;
@@ -220,7 +216,7 @@ int main(
         case 7: strcat(s_date, "UC7_"); break;
         case 8: strcat(s_date, "UC8_"); break;
         default: break;
-    }
+    } */
 	
 	/* config: 8 CH4 experiment */
 	fscanf(fp_setting,"%s %ld %ld %ld", s_config, &EX_CH4_1, &EX_CH4_2, &EX_CH4_3);
@@ -238,8 +234,12 @@ int main(
     fclose(fp_setting);
 	
 	/* open source files *************************************************/
-	printf("Open input files...");
+	printf("Open input files...\n");
 	open_input(fp_s, fp_c);	/* -> open_input.c */
+    printf("   CO2 scenario...%ld\n",CO2S);
+    for(f=0;f<IFILEN;f++){
+        printf("   file %3ld: %2d\n",f,Flag_FOPEN[f]);
+    }
 	printf("done\n");
 	
 	/* open result file **************************************************/
@@ -255,25 +255,19 @@ int main(
 	/* initialize simulation configuration **/
 	/* vegetation type: olson */
 	loct.v_type = 1;
-	(echar.c3).v_type = 1; 
-	(echar.c4).v_type = 1;
+	(echar.c3).v_type = (echar.c4).v_type = 1;
 	(echar.soil).v_type = 1;
-	(mass.c3).v_type = 1; 
-	(mass.c4).v_type = 1;
+	(mass.c3).v_type = (mass.c4).v_type = 1;
 	(mass.soil).v_type = 1;
-	(flux.c3).v_type = 1; 
-	(flux.c4).v_type = 1;
+	(flux.c3).v_type = (flux.c4).v_type = 1;
 	(flux.soil).v_type = 1;
 	/* vegetation type: cropland */
 	loct_agr.v_type = 2;
-	(echar_agr.c3).v_type = 2; 
-	(echar_agr.c4).v_type = 2;
+	(echar_agr.c3).v_type = (echar_agr.c4).v_type = 2;
 	(echar_agr.soil).v_type = 2;
-	(mass_agr.c3).v_type = 2; 
-	(mass_agr.c4).v_type = 2;
+	(mass_agr.c3).v_type = (mass_agr.c4).v_type = 2;
 	(mass_agr.soil).v_type = 2;
-	(flux_agr.c3).v_type = 2; 
-	(flux_agr.c4).v_type = 2;
+	(flux_agr.c3).v_type = (flux_agr.c4).v_type = 2;
 	(flux_agr.soil).v_type = 2;
 	
     /* initilization of simulation */
@@ -312,7 +306,7 @@ int main(
 			}
 		}
 		
-		/* grid area */	/* -> vegetdeal.c */
+		/* grid area, ha */	/* -> vegetdeal.c */
 		grid.area = grid_area(90.0-0.5*(double)f, 89.5-0.5*(double)f, 0.0, 0.5);
 
 		/* longitude loop: west to east ****************************************/
@@ -465,7 +459,7 @@ int main(
                     cal_historical(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2); 
 
                     /* future: 2001-2100 */
-                    if(GCM_RUN==1){
+                    if(GCM_RUN == 1){
                         cal_projection(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
                     }
                     
@@ -559,6 +553,7 @@ int main(
 	fclose(fp_binout);
 	
 	/* close files *************/
+    printf("Closing files\n");
 	for(h=0;h<4;h++){
 		fclose(fp_c[h]);
         
@@ -568,10 +563,12 @@ int main(
         }
 	}
 	for(h=0;h<IFILEN;h++){
-		fclose(fp_s[h]); 
+		if(Flag_FOPEN[h]>=1){
+            fclose(fp_s[h]);
+        }
 	}
 	
-	printf("Simulation ended\n");
+	printf("Simulation finished successfully\n");
 	
 	return 0;
 }

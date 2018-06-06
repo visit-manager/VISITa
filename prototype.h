@@ -22,7 +22,7 @@ extern double MDN[ASTEP];
 extern long SCENARIO_ID, CO2S, GCM_R, GCM_C;
 extern long PARAM_PTB, PARAM_ENS;   /* added by A.Ito (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3;   /* added by A.Ito (2010/07/02) */
-extern long EX_SRM, EX_CCPL;
+extern long EX_SRM;
 extern long IMP_DT, IMP_DP, IMP_CD;
 
 extern double f_pert[20];
@@ -39,18 +39,18 @@ extern double h_luc_1[PD_SIM], h_luc_2[PD_SIM], h_luc_3[PD_SIM];
 extern double h_gpp_df97[PD_SIM], h_gpp_c4[PD_SIM]; /* added by A.Ito (2009/08/31) */
 extern double h_pot_prmfrst[PD_SIM];
 extern double h_trnsp[PD_SIM], h_incepev[PD_SIM], h_ssurfev[PD_SIM];
-extern double h_nbp[PD_SIM], h_hvst[PD_SIM], h_abgm[PD_SIM];
+extern double h_nbp[PD_SIM], h_hvst_crop[PD_SIM], h_abgm[PD_SIM];
 extern double h_sw1[PD_SIM], h_sw2[PD_SIM];
 extern double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
 extern double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
 extern double h_parb[PD_SIM], h_pard[PD_SIM];
 extern double h_arm[PD_SIM];
 
-extern double h_burnt_area[PD_SIM];
+extern double h_burnt_area[PD_SIM],h_burnt_area_wood[PD_SIM];
 extern double h_bioburn_co2[PD_SIM], h_bioburn_ch4[PD_SIM], h_bioburn_co[PD_SIM];
 extern double h_bioburn_nmhc[PD_SIM], h_bioburn_oc[PD_SIM], h_bioburn_bc[PD_SIM];
 extern double h_bioburn_nox[PD_SIM], h_bioburn_so2[PD_SIM], h_bioburn_pm25[PD_SIM];
-extern double h_bioburn_tpm[PD_SIM], h_bioburn_tec[PD_SIM];
+extern double h_bioburn_tpm[PD_SIM], h_bioburn_tec[PD_SIM], h_bioburn_n2o[PD_SIM];
 
 extern double h_ch4ox1[PD_SIM], h_ch4ox2[PD_SIM], h_ch4ox3[PD_SIM], h_ch4ox4[PD_SIM];
 extern double h_ch4emit_cao_paddy[PD_SIM], h_ch4emit_cao_wetland[PD_SIM];
@@ -190,7 +190,7 @@ extern double rh_ci_r[N_REG][PD_SIM], rh_ci_r_d13c[N_REG][PD_SIM], rh_ci_r_d14c[
 extern double rh_ci_l[N_REG][PD_SIM], rh_ci_l_d13c[N_REG][PD_SIM], rh_ci_l_d14c[N_REG][PD_SIM];
 extern double rh_ci_h[N_REG][PD_SIM], rh_ci_h_d13c[N_REG][PD_SIM], rh_ci_h_d14c[N_REG][PD_SIM];
 
-extern double rh_hvst[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
+extern double rh_hvst_crop[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
 extern double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
 extern double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
 
@@ -207,6 +207,9 @@ extern double	ndepo_chaser4_ont_h[ASTEP][64][128];		/* Org NOx */
 extern double	ndepo_chaser4_nhx_p[ASTEP][64][128];		/* NHx */
 extern double	ndepo_chaser4_noy_p[ASTEP][64][128];		/* NOy */
 extern double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
+
+/* Burnt area by GFED4s: 2018/05/19 by A.Ito */
+extern double bf_gfed4s[20][N_REG+1];
 
 /* CLEARANCE *****************************************************/
 void f_clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 

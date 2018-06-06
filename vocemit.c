@@ -236,6 +236,11 @@ void f_voc_emit_guenther97(
         }
     }
 	
+    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    if(PARAM_PTB == 20){
+        prm_ensen = 1.0 + 0.3 * f_pert[6];
+    }
+
 	/* VOC emission, micro g C m-2 month-1  */
 	flux->voc_isopr_g97[grid->m] = emit_potent_isopr[idveg] * cc * f_ppfd * f_temp_isopr * f_phenology * prm_ensen;
 	flux->voc_monotrp_g97[grid->m] = emit_potent_monotrp[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;
@@ -252,7 +257,7 @@ void f_voc_emit_guenther97(
 	flux->voc_othersesqui[grid->m] = emit_potent_othersesqui[idveg] * cc2 * f_temp_monotrp * f_phenology * prm_ensen;
 	
 	/* carbon loss by BVOC emission: 2008/10/09 */
-	if(NECB_BVOC == 1 && (EX_CCPL != 4 && EX_CCPL != 8)){
+	if(NECB_BVOC == 1){
         /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
          
 		total_closs = flux->voc_isopr_g97[grid->m] + flux->voc_monotrp_g97[grid->m] + flux->voc_methanl_g97[grid->m] + 

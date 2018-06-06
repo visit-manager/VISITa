@@ -773,12 +773,12 @@ void f_init_grid(
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         fread(is2bdat,sizeof(float),DL_AGHG, fp_s[25]);
         for(e=0;e<DL_NINPUT;e++){
-            grid->nmip_ndep_nh4[e] = is2bdat[e];
+            grid->mip_ndep_nh4[e] = is2bdat[e];
         }
         
         fread(is2bdat,sizeof(float),DL_AGHG, fp_s[25]);
         for(e=0;e<DL_NINPUT;e++){
-            grid->nmip_ndep_noy[e] = is2bdat[e];
+            grid->mip_ndep_noy[e] = is2bdat[e];
         }
         
     }else{
@@ -1285,15 +1285,15 @@ void f_init_grid(
     
     /* N input *****************************************/
     for(e=0;e<DL_NINPUT;e++){
-        grid->nmip_frcrop[e] = 0.0;
-        grid->nmip_nfert[e] = 0.0;
-        grid->nmip_ndep_noy[e] = 0.0;
-        grid->nmip_ndep_nh4[e] = 0.0;
-        grid->nmip_manure[e] = 0.0;
+        grid->mip_frcrop[e] = 0.0;
+        grid->mip_nfert[e] = 0.0;
+        grid->mip_ndep_noy[e] = 0.0;
+        grid->mip_ndep_nh4[e] = 0.0;
+        grid->mip_manure[e] = 0.0;
         
         for(h=0;h<12;h++){
-            grid->nmip_ndep_ccmi_noy[e][h] = 0.0;
-            grid->nmip_ndep_ccmi_nh4[e][h] = 0.0;
+            grid->mip_ndep_ccmi_noy[e][h] = 0.0;
+            grid->mip_ndep_ccmi_nh4[e][h] = 0.0;
         }
     }
 
@@ -1305,7 +1305,7 @@ void f_init_grid(
         
         fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[87]);
         for(e=0;e<DL_NINPUT;e++){
-            grid->nmip_frcrop[e] = is2bdat[e];
+            grid->mip_frcrop[e] = is2bdat[e];
         }
     }else if(EX_BECCS == 2){
         /* BECCS scenario: 2017/02/20 by A.Ito */
@@ -1335,7 +1335,7 @@ void f_init_grid(
         fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[88]);
         for(e=0;e<DL_NINPUT;e++){
             /* kg N /ha / yr */
-            grid->nmip_nfert[e] = is2bdat[e];
+            grid->mip_nfert[e] = is2bdat[e];
         }
         
     }else{
@@ -1343,46 +1343,46 @@ void f_init_grid(
         for(e=0;e<DL_NINPUT;e++){
             
              /* crop fraction */
-            fscanf(fp_s[88],"%lf", &grid->nmip_frcrop[e]);
-            if(grid->nmip_frcrop[e] < 0.0){
-                grid->nmip_frcrop[e] = 0.0;
+            fscanf(fp_s[88],"%lf", &grid->mip_frcrop[e]);
+            if(grid->mip_frcrop[e] < 0.0){
+                grid->mip_frcrop[e] = 0.0;
             }
 
             /* g N/ha/yr => kg N/ha/yr */
-            fscanf(fp_s[88],"%lf", &grid->nmip_nfert[e]);
-            grid->nmip_nfert[e] *= 0.001;
-            if(grid->nmip_nfert[e] < 0.0){
-                grid->nmip_nfert[e] = 0.0;
+            fscanf(fp_s[88],"%lf", &grid->mip_nfert[e]);
+            grid->mip_nfert[e] *= 0.001;
+            if(grid->mip_nfert[e] < 0.0){
+                grid->mip_nfert[e] = 0.0;
             }
 
             /* g N/ha/yr */
             fscanf(fp_s[88],"%lf", &ddummy);
-            if(grid->nmip_nfert[e] < 0.0){
-                grid->nmip_nfert[e] = 0.0;
+            if(grid->mip_nfert[e] < 0.0){
+                grid->mip_nfert[e] = 0.0;
             }
 
-            fscanf(fp_s[88],"%lf", &grid->nmip_manure[e]);
-            grid->nmip_manure[e] *= 0.001;
-            if(grid->nmip_manure[e] < 0.0){
-                grid->nmip_manure[e] = 0.0;
+            fscanf(fp_s[88],"%lf", &grid->mip_manure[e]);
+            grid->mip_manure[e] *= 0.001;
+            if(grid->mip_manure[e] < 0.0){
+                grid->mip_manure[e] = 0.0;
             }
 
             fscanf(fp_s[88],"%lf", &ddummy);
-            if(grid->nmip_manure[e] < 0.0){
-                grid->nmip_manure[e] = 0.0;
+            if(grid->mip_manure[e] < 0.0){
+                grid->mip_manure[e] = 0.0;
             }
 
             for(h=0;h<12;h++){
-                fscanf(fp_s[88],"%lf", &grid->nmip_ndep_ccmi_nh4[e][h]);
-                if(grid->nmip_ndep_ccmi_nh4[e][h] < 0.0){
-                    grid->nmip_ndep_ccmi_nh4[e][h] = 0.0;
+                fscanf(fp_s[88],"%lf", &grid->mip_ndep_ccmi_nh4[e][h]);
+                if(grid->mip_ndep_ccmi_nh4[e][h] < 0.0){
+                    grid->mip_ndep_ccmi_nh4[e][h] = 0.0;
                 }
             }
 
             for(h=0;h<12;h++){
-                fscanf(fp_s[88],"%lf", &grid->nmip_ndep_ccmi_noy[e][h]);
-                if(grid->nmip_ndep_ccmi_noy[e][h] < 0.0){
-                    grid->nmip_ndep_ccmi_noy[e][h] = 0.0;
+                fscanf(fp_s[88],"%lf", &grid->mip_ndep_ccmi_noy[e][h]);
+                if(grid->mip_ndep_ccmi_noy[e][h] < 0.0){
+                    grid->mip_ndep_ccmi_noy[e][h] = 0.0;
                 }
             }
             
