@@ -234,6 +234,11 @@ void f_biomassburning(
             prm_ensen *= 1.3;
         }
     }
+    
+    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    if(PARAM_PTB == 20){
+        prm_ensen = 1.0 + 0.3 * f_pert[0];
+    }
 	
 	/******************************/
 	flux->f_burnt = fa_burnt;
@@ -375,7 +380,7 @@ void f_biomassburning(
 			* f_burnt_root[grid->veg_sage] * ef_tec[grid->veg_sage] * prm_ensen;
 		
 		/* carbon budget ****************************************/
-		if(NECB_BB == 1 && EX_CCPL != 2){
+		if(NECB_BB == 1){
 			closs_leaf = flux->bb_co2_leaf[f]*12.0/44.0/1000.0 + flux->bb_co_leaf[f]*12.0/28.0/1000.0 
 				+ flux->bb_ch4_leaf[f]*12.0/16.0/1000.0 + flux->bb_bc_leaf[f]/1000.0;
 			closs_wood = flux->bb_co2_wood[f]*12.0/44.0/1000.0 + flux->bb_co_wood[f]*12.0/28.0/1000.0 

@@ -190,6 +190,12 @@ void harvesting(
 		
 	/** harvest of crops **/
 	hvst_index = 0.45; /* harvest index -> 45% of biomass */
+ 
+    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    if(PARAM_PTB == 20){
+        hvst_index *= 1.0 + 0.3 * f_pert[7];
+    }
+ 
 	flux->hvst_crop[grid->m] = hvst_index * (mass->fol + mass->stm + mass->rot);
     
     if(NECB_CROP == 1){

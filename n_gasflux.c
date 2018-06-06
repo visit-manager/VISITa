@@ -267,7 +267,12 @@ void f_n2o_emit_ngas(
     /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
     /* revised: 2017/09/20 by A.Ito */
     
-    if(EX_NITR_N2O == 1){
+    if(EX_NITR_N2O == 0){
+        /* VISITa default: 1% */
+        v_n2oems = day_n_n2o;
+        v_nitrif = (day_n_n2o / 0.01);
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.01;
+    }else if(EX_NITR_N2O == 1){
         /* VISITa default: 1% */
         v_n2oems = day_n_n2o;
         v_nitrif = (day_n_n2o / 0.01);
@@ -320,77 +325,57 @@ void f_n2o_emit_ngas(
     }
     
     if(EX_NITR_N2O == 51){
-        /* 0.05148% */
+        /* Mean: all */
         v_n2oems = day_n_n2o;
-        v_nitrif = (day_n_n2o / 0.0005148);
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.0005148;
+        v_nitrif = (day_n_n2o / 0.01649);
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.01649;
     }else if(EX_NITR_N2O == 52){
-        /* 0.0857% */
+        /* Mean: remove outlier */
         v_n2oems = day_n_n2o;
-        v_nitrif = (day_n_n2o / 0.000857);
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.000857;
+        v_nitrif = (day_n_n2o / 0.006008);
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.006008;
     }else if(EX_NITR_N2O == 53){
-        /* 0.7890% */
+        /* MEan: paper-based */
         v_n2oems = day_n_n2o;
-        v_nitrif = (day_n_n2o / 0.007890);
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.007890;
+        v_nitrif = (day_n_n2o / 0.047718);
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.047718;
     }else if(EX_NITR_N2O == 54){
-        /* 2.9740% */
+        /* Median: all */
         v_n2oems = day_n_n2o;
-        v_nitrif = (day_n_n2o / 0.029740);
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.029740;
+        v_nitrif = (day_n_n2o / 0.001004);
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.001004;
     }else if(EX_NITR_N2O == 55){
-        /* 1.6120% */
+        /* Median: paper-based */
         v_n2oems = day_n_n2o;
-        v_nitrif = (day_n_n2o / 0.016120);
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.016120;
-    }else if(EX_NITR_N2O == 56){
-        /* 0.9227% */
-        v_n2oems = day_n_n2o;
-        v_nitrif = (day_n_n2o / 0.009227);
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.009227;
-    }else if(EX_NITR_N2O == 57){
-        /* 2.014% */
-        v_n2oems = day_n_n2o;
-        v_nitrif = (day_n_n2o / 0.02014);
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.02014;
+        v_nitrif = (day_n_n2o / 0.003565);
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.003565;
     }
     
     if(EX_NITR_N2O == 61){
         /* 0.05148% */
-        v_n2oems = v_nitrif_base * 0.0005148;
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.0005148;
+        v_n2oems = v_nitrif_base * 0.01649;
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.01649;
         v_nitrif = v_nitrif_base;
     }else if(EX_NITR_N2O == 62){
         /* 0.0857% */
-        v_n2oems = v_nitrif_base * 0.000857;
+        v_n2oems = v_nitrif_base * 0.006008;
         v_nitrif = v_nitrif_base;
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.000857;
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.006008;
     }else if(EX_NITR_N2O == 63){
         /* 0.7890% */
-        v_n2oems = v_nitrif_base * 0.007890;
+        v_n2oems = v_nitrif_base * 0.047718;
         v_nitrif = v_nitrif_base;
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.007890;
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.047718;
     }else if(EX_NITR_N2O == 64){
         /* 2.9740% */
-        v_n2oems = v_nitrif_base * 0.029740;
+        v_n2oems = v_nitrif_base * 0.001004;
         v_nitrif = v_nitrif_base;
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.029740;
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.001004;
     }else if(EX_NITR_N2O == 65){
         /* 1.6120% */
-        v_n2oems = v_nitrif_base * 0.016120;
+        v_n2oems = v_nitrif_base * 0.003565;
         v_nitrif = v_nitrif_base;
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.016120;
-    }else if(EX_NITR_N2O == 66){
-        /* 0.9227% */
-        v_n2oems = v_nitrif_base * 0.009227;
-        v_nitrif = v_nitrif_base;
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.009227;
-    }else if(EX_NITR_N2O == 67){
-        /* 2.014% */
-        v_n2oems = v_nitrif_base * 0.02014;
-        v_nitrif = v_nitrif_base;
-        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.02014;
+        (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.003565;
     }
    
     if(EX_NITR_N2O == 21 || EX_NITR_N2O == 31){

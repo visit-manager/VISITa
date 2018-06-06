@@ -210,10 +210,10 @@ void f_cult_luc(
     }
     
     /* decouple land-use emission (fix to 2000 land cover): 2014/11/20 by A.Ito */
-    if(EX_CCPL == 3 || EX_CCPL == 8){
+    /* if(EX_CCPL == 3 || EX_CCPL == 8){
         grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC];
         grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - FDY_LUC];
-    }
+    } */
 	
     /* biofuel experiment: 2015/08/21 by A.Ito */
     if(LANDUSE==17 || BIOFUEL_RUN >= 1){
@@ -377,22 +377,22 @@ void f_cult_luc(
     /* parameter ensemble: 2014/11/19 by A.Ito */
     prm_ensen = 1.0;
     if(PARAM_PTB == 7){
-        if(PARAM_PTB == 1){
+        if(PARAM_ENS == 1){
             prm_ensen *= 0.7;
         }
-        if(PARAM_PTB == 2){
+        if(PARAM_ENS == 2){
             prm_ensen *= 0.8;
         }
-        if(PARAM_PTB == 3){
+        if(PARAM_ENS == 3){
             prm_ensen *= 0.9;
         }
-        if(PARAM_PTB == 4){
+        if(PARAM_ENS == 4){
             prm_ensen *= 1.1;
         }
-        if(PARAM_PTB == 5){
+        if(PARAM_ENS == 5){
             prm_ensen *= 1.2;
         }
-        if(PARAM_PTB == 6){
+        if(PARAM_ENS == 6){
             prm_ensen *= 1.3;
         }
         grid->f_deforest *= prm_ensen;
@@ -400,6 +400,15 @@ void f_cult_luc(
         grid->f_deforest_s *= prm_ensen;
     }
 	
+    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    if(PARAM_PTB == 20){
+        prm_ensen = 1.0 + 0.3 * f_pert[6];
+
+        grid->f_deforest *= prm_ensen;
+        grid->f_deforest_v *= prm_ensen;
+        grid->f_deforest_s *= prm_ensen;
+    }
+    
 	/* abandonment */
 	if(grid->f_deforest < 0.0){
 		grid->f_deforest = 0.0;

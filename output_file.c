@@ -492,7 +492,9 @@ void f_output_result(
 	
 	/* GHG & trace gases ***********************************************/
     if(OUTPUT_GHG == 1){
-        fprintf(fp_o[3],"%ld %lf ", year, grid->f_crop_con);
+        /* fprintf(fp_o[3],"%ld %lf ", year, grid->f_crop_con); */
+        /* 2018/06/05 by A.Ito */
+        fprintf(fp_o[3],"%ld %lf %lf %lf ", year, grid->f_crop_con, grid->f_wetland, grid->f_paddy);
         for(f=0;f<ASTEP;f++){
             fprintf(fp_o[3],"%.3lf ", loct->msww[f]);
             fprintf(fp_o[3],"%.3lf ", loct->wfps[f]);

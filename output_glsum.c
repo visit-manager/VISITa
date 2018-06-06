@@ -38,7 +38,7 @@ void f_set_history_data(
 		if(REPLACE_OLSON_CROP == 1){
 			fweight = 1.0 - grid->f_crop_con;
 			
-			if(NECB_LUC == 0 && (EX_CCPL != 3 && EX_CCPL != 8)){
+			if(NECB_LUC == 0){
 				fweight = 1.0 - grid->fcrop_unh_hmnzed[200];
 			}
 			

@@ -350,29 +350,29 @@ void f_ch4_emit_walter(
     switch(smode){
         case 1:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 22.0;
-                r0 = 2.2;
+                t_veg = 20.9;
+                r0 = 2.09;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 16.0;
-                r0 = 1.6;
+                t_veg = 15.0;
+                r0 = 1.50;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 5.8;
-                r0 = 0.58;
+                t_veg = 5.75;
+                r0 = 0.575;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 2.8;
-                r0 = 0.28;
+                t_veg = 2.75;
+                r0 = 0.275;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 1.4;
-                r0 = 0.14;
+                t_veg = 1.45;
+                r0 = 0.145;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 1.1;
-                r0 = 0.11;
+                t_veg = 1.14;
+                r0 = 0.114;
             }else if(grid->veg_olson==23 || grid->veg_olson==24){
-                t_veg = 1.1;
-                r0 = 0.11;
+                t_veg = 1.14;
+                r0 = 0.114;
             }else{
-                t_veg = 1.5;
-                r0 = 0.15;
+                t_veg = 1.445;
+                r0 = 0.1445;
             }
             break;
         case 2:
@@ -380,34 +380,34 @@ void f_ch4_emit_walter(
                 t_veg = 8.5;
                 r0 = 0.85;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 5.2;
-                r0 = 0.52;
+                t_veg = 5.8;
+                r0 = 0.58;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 1.1;
-                r0 = 0.11;
+                t_veg = 1.19;
+                r0 = 0.119;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 0.47;
-                r0 = 0.047;
+                t_veg = 0.475;
+                r0 = 0.0475;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 0.35;
-                r0 = 0.035;
+                t_veg = 0.355;
+                r0 = 0.0355;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 0.25;
-                r0 = 0.025;
+                t_veg = 0.245;
+                r0 = 0.0245;
             }else if(grid->veg_olson==23 || grid->veg_olson==24){
-                t_veg = 0.25;
-                r0 = 0.025;
+                t_veg = 0.245;
+                r0 = 0.0245;
             }else{
-                t_veg = 0.4;
-                r0 = 0.04;
+                t_veg = 0.42;
+                r0 = 0.042;
             }
             break;
         case 3: /*  */
-            t_veg = 8.0;
+            t_veg = 7.5;
             r0 = 0.7;
             break;
         case 4:
-            t_veg = 5.0;
+            t_veg = 4.5;
             r0 = 0.4;
             break;
         default:
@@ -418,14 +418,20 @@ void f_ch4_emit_walter(
 	/* TIME */
 	cumtime = 600;
 	
+    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    if(PARAM_PTB == 20){
+        t_veg *= 1.0 + 0.3 * f_pert[2];
+    }
+    
 	/* characteristics ***************************************/
     wtdepth = 0.0;
     rdepth = 0.1;
 	if(smode == 1){	/* water-logged wetlands */
 		/* t_veg = 6.0; */  /* vegetation factor */
 		/* rdepth = 0.20; */		/* rooting depth, m */
-		rdepth = 0.30;		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
-        
+		/* rdepth = 0.30; */		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
+        rdepth = 0.25;        /* rooting depth, m */ /* revised 2018/05/29 by A.Ito */
+
         if(grid->veg_olson==9 || grid->veg_olson==10){
             rdepth = 0.20;
         }else if(grid->veg_olson==11 || grid->veg_olson==12 || grid->veg_olson==21 || grid->veg_olson==22
@@ -652,10 +658,10 @@ void f_ch4_emit_walter(
         if(PARAM_ENS==4){
             r0 *= 1.1;
         }
-        if(PARAM_PTB==5){
+        if(PARAM_ENS==5){
             r0 *= 1.2;
         }
-        if(PARAM_PTB==6){
+        if(PARAM_ENS==6){
             r0 *= 1.3;
         }
     }

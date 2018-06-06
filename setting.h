@@ -399,15 +399,15 @@
 /* 0: uncoupled */
 /* 1: coupled */
 /* erosion */
-#define NECB_ERSN 0
+#define NECB_ERSN 1
 /* biomass burning */
 #define NECB_BB 1
 /* bvoc */
-#define NECB_BVOC 0
+#define NECB_BVOC 1
 /* doc */
-#define NECB_DOC 0
+#define NECB_DOC 1
 /* CH4 */
-#define NECB_CH4 0
+#define NECB_CH4 1
 /* Wood harvest: 2010/10/15 by A.Ito */
 #define NECB_WHVST 1
 /* land-use change */
@@ -415,7 +415,7 @@
 /* crop harvest */
 #define NECB_CROP 1
 
-#define EX_FIRE_GFED 2
+#define EX_FIRE_GFED 1
 /* 0:off, 1:on   2018/05/19 by A.Ito */
 /* 2: on with adjusting factor, 0.73 */
 
@@ -610,7 +610,7 @@
 /* 0: off */
 /* 1: on */
 
-/* parameter ensemble */
+/* number of parameters for ensemble */
 #define N_PARA_ENS 20
 
 /********************************************************/
@@ -639,7 +639,7 @@
 /* 9: 50:50 ammonium and nitrate */
 
 /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
-#define EX_NITR_N2O 1
+#define EX_NITR_N2O 7
 /* 0: off (control) */
 /* 01: 1.0% (N20-driven) */
 /* 02: 0.5% (N20-driven) */
@@ -660,21 +660,17 @@
 /* 33: CLM-CN (nitrification-driven) */
 
 /* meta-analysis: 2017/09/15 */
-/* 51: 0.051% (N20-driven) */
-/* 52: 0.086% (N20-driven) */
-/* 53: 0.789% (N20-driven) */
-/* 54: 2.974% (N20-driven) */
-/* 55: 1.612% (N20-driven) */
-/* 56: 0.923% (N20-driven) */
-/* 57: 2.014% (N20-driven) */
+/* 51: 0.016490 (N20-driven) */
+/* 52: 0.006008 (N20-driven) */
+/* 53: 0.047718 (N20-driven) */
+/* 54: 0.001004 (N20-driven) */
+/* 55: 0.003565 (N20-driven) */
 
-/* 61: 0.051% (nitrification-driven) */
-/* 62: 0.086% (nitrification-driven) */
-/* 63: 0.789% (nitrification-driven) */
-/* 64: 2.974% (nitrification-driven) */
-/* 65: 1.612% (nitrification-driven) */
-/* 66: 0.923% (nitrification-driven) */
-/* 67: 2.014% (nitrification-driven) */
+/* 61: 0.016490 (nitrification-driven) */
+/* 62: 0.006008 (nitrification-driven) */
+/* 63: 0.047718 (nitrification-driven) */
+/* 64: 0.001004 (nitrification-driven) */
+/* 65: 0.003565 (nitrification-driven) */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
 #define EX_NFERT 0
