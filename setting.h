@@ -122,10 +122,10 @@
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
-#define OUTPUT_GHG 1
+#define OUTPUT_GHG 0
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
@@ -399,21 +399,21 @@
 /* 0: uncoupled */
 /* 1: coupled */
 /* erosion */
-#define NECB_ERSN 1
+#define NECB_ERSN 0
 /* biomass burning */
-#define NECB_BB 1
+#define NECB_BB 0
 /* bvoc */
-#define NECB_BVOC 1
+#define NECB_BVOC 0
 /* doc */
-#define NECB_DOC 1
+#define NECB_DOC 0
 /* CH4 */
-#define NECB_CH4 1
+#define NECB_CH4 0
 /* Wood harvest: 2010/10/15 by A.Ito */
-#define NECB_WHVST 1
+#define NECB_WHVST 0
 /* land-use change */
-#define NECB_LUC 1
+#define NECB_LUC 0
 /* crop harvest */
-#define NECB_CROP 1
+#define NECB_CROP 0
 
 #define EX_FIRE_GFED 0
 /* 0:off, 1:on   2018/05/19 by A.Ito */
@@ -541,7 +541,7 @@
 
 /***************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -639,7 +639,7 @@
 /* 9: 50:50 ammonium and nitrate */
 
 /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
-#define EX_NITR_N2O 1
+#define EX_NITR_N2O 7
 /* 0: off (control) */
 /* 01: 1.0% (N20-driven) */
 /* 02: 0.5% (N20-driven) */
