@@ -148,6 +148,7 @@ int main(
         PARAM_PTB = (long)atol(argv[1]);
         PARAM_ENS = (long)atol(argv[2]);
         /* EX_CCPL = (long)atol(argv[3]); */
+        rpert = (long)atol(argv[3]);
     }else{
         fscanf(fp_setting,"%s %ld", s_config, &l_config);
         printf("config  7: %s %ld\n", s_config, l_config);
@@ -190,6 +191,8 @@ int main(
                 if(f_pert[f] < -3.0){
                     f_pert[f] = -3.0;
                 }
+                
+                printf("%3ld %lf\n", f, f_pert[f]);
             }
             strcat(s_date, "E");
             snprintf(num, 4, "%03d", (short)PARAM_PTB);

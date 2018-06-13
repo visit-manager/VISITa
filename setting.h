@@ -37,8 +37,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 1
-#define CALC_OFFET 0
+#define CALC_STEP 10
+#define CALC_OFFET 1
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -119,11 +119,11 @@
 
 /***********************************************************/
 /* output text files */
-#define OUTPUT_CARBON1 1
+#define OUTPUT_CARBON1 0
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
-#define OUTPUT_HYDMET 1
+#define OUTPUT_HYDMET 0
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 0
 #define OUTPUT_BB 0
@@ -131,7 +131,7 @@
 /* output binary */
 #define C13_GOUT 0
 #define C14_GOUT 0
-#define PHYS_GOUT 1
+#define PHYS_GOUT 0
 
 /***********************************************************/
 /* total vegetation number */
@@ -399,21 +399,21 @@
 /* 0: uncoupled */
 /* 1: coupled */
 /* erosion */
-#define NECB_ERSN 0
+#define NECB_ERSN 1
 /* biomass burning */
-#define NECB_BB 0
+#define NECB_BB 1
 /* bvoc */
-#define NECB_BVOC 0
+#define NECB_BVOC 1
 /* doc */
-#define NECB_DOC 0
+#define NECB_DOC 1
 /* CH4 */
-#define NECB_CH4 0
+#define NECB_CH4 1
 /* Wood harvest: 2010/10/15 by A.Ito */
-#define NECB_WHVST 0
+#define NECB_WHVST 1
 /* land-use change */
-#define NECB_LUC 0
+#define NECB_LUC 1
 /* crop harvest */
-#define NECB_CROP 0
+#define NECB_CROP 1
 
 #define EX_FIRE_GFED 0
 /* 0:off, 1:on   2018/05/19 by A.Ito */
@@ -606,7 +606,7 @@
 /* 0:off, 1:0n */
 
 /* parameter ensemble experiment ****/
-#define ENSEMBLE_RUN 0
+#define ENSEMBLE_RUN 1
 /* 0: off */
 /* 1: on */
 
