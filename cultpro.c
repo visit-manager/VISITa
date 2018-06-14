@@ -193,7 +193,7 @@ void harvesting(
  
     /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
     if(PARAM_PTB == 20){
-        hvst_index *= 1.0 + 0.3 * f_pert[7];
+        hvst_index *= 1.0 + 0.3 * f_pert[8];
     }
  
 	flux->hvst_crop[grid->m] = hvst_index * (mass->fol + mass->stm + mass->rot);

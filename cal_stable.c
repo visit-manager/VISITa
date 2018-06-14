@@ -420,7 +420,13 @@ void cal_spinup(
 		//}
         
 		if(NECB_ERSN == 1){
-			(mass->soil).ltr -= flux->erod_carbon*0.20;
+            if(PARAM_PTB == 20){
+                prm_ensen = 1.0 + 0.3 * f_pert[7];
+            }else{
+                prm_ensen = 1.0;
+            }
+
+			(mass->soil).ltr -= flux->erod_carbon * (prm_ensen * 0.20);
 			if((mass->soil).ltr < 0.0){
 				(mass->soil).ltr = 0.0;
 			}
@@ -659,9 +665,15 @@ void cal_spinup(
         }
         
         if(NECB_ERSN == 1){
-            /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+             if(PARAM_PTB == 20){
+                prm_ensen = 1.0 + 0.3 * f_pert[7];
+            }else{
+                prm_ensen = 1.0;
+            }
+
+           /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
         
-            flux->nbp[f] -= flux->erod_carbon * 0.20 / 12.0;
+            flux->nbp[f] -= flux->erod_carbon * (prm_ensen * 0.20) / 12.0;
         }
         
         if(NECB_BVOC == 1){

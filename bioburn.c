@@ -238,6 +238,8 @@ void f_biomassburning(
     /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
     if(PARAM_PTB == 20){
         prm_ensen = 1.0 + 0.3 * f_pert[0];
+    }else{
+        prm_ensen = 1.0;
     }
 	
 	/******************************/

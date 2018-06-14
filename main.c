@@ -491,6 +491,7 @@ int main(
 	
 	/* decadal average grid values */
     /* used for IMPRESSIONS analysis: 2015/08/11 by A.Ito */
+#if BASE_GOUT==1
 	fwrite(g_tmp, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 0-4
 	fwrite(g_prc, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 5-9
 	fwrite(g_swr, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 10-14
@@ -509,6 +510,7 @@ int main(
 	fwrite(g_luc, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 75-79
 	fwrite(g_er, sizeof(float), 5*N_ROW*N_COL, fp_binout);		// 80-84
 	fwrite(g_ch4ep_cao, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 85-89
+#endif
 
 #if C13_GOUT==1	
 	fwrite(g_gpp13, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 90
