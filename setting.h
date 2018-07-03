@@ -558,8 +558,11 @@
 /* Alternative land-cover data for CH4 */
 #define ALT_FWETLAND 0
 /* 0: not use alternative data */
-/* 1: use data */
+/* 1: use alternative data */
 /* 2: use Peregon-san data: 2014/02/04 */
+/* 3: use Maksyutov-san data: GLWD: 2017/07/03 */
+/* 4: use Maksyutov-san data: MERIS: 2017/07/03 */
+/* 5: use Maksyutov-san data: GLWD-MERIS: 2017/07/03 */
 
 /* inundation data */
 #define ALT_INUND 0

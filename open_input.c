@@ -3502,4 +3502,11 @@ void open_input(
     }else{
         Flag_FOPEN[91] ++;
     }
+
+    if( (fp_s[92]=fopen("./data/wet_05_glwd_meris.txt","rt"))==NULL ){
+        printf("No wet_05_glwd_meris.txt\n");
+        exit(1);
+    }else{
+        Flag_FOPEN[92] ++;
+    }
 }

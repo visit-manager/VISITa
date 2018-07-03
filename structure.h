@@ -91,7 +91,8 @@ struct Grid{
 	double 	gp_atem;				/* average temperature during the growing period, degree Celcius */
 	double 	gp_tem;					/* average temperature during the growing period, degree Celcius */
 	double 	gp_pre;					/* precipitation during the prowing period, mm */
-	
+    double  tmp_soil_am;            /* mean soil temperature, degree Celcius */
+
 	/* climate condition: *_a[] means the average during 1965 to 1998 */	
 	double 	tmp_sfc_a[ASTEP];		/* ground surface temperature, degree Celcius */
 	double 	tmp_2m_a[ASTEP];		/* 2m air temperature, degree Celcius */
@@ -104,8 +105,6 @@ struct Grid{
 	double	vgrd_10m_a[ASTEP];		/* meridional wind velocity, m s-1 */
 	double 	rad_a[ASTEP];			/* solar radiation, W m-2 */
 	double 	par_a[ASTEP];			/* PAR, micro mol m-2 s-1 */
-    
-    double 	tmp_soil_am;
 	
 	double 	prec_sub_a[ASTEP];		/* precipitation from substitute data (UEA/CRU), mm mon-1 */
 
@@ -319,7 +318,12 @@ struct Grid{
     
     double  inundation_gcp_av[ASTEP];
     double  inundation_gcp_ts[15][ASTEP];
-	
+    
+    /* revised wetland maps: 2018/07/03 by A.Ito */
+    double  wet_glwd;
+    double  wet_meris;
+    double  wet_glwdmeris;
+
 	long	type_permaforst;			/* permafrost type by NSIDC */
     double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
     
