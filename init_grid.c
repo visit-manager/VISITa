@@ -1474,4 +1474,7 @@ void f_init_grid(
     if(ALT_FWETLAND==5){
         grid->f_wetland = grid->wet_glwdmeris;
     }
+    if(ALT_FWETLAND==6){ /* average of GLWD and MERIS */
+        grid->f_wetland = (grid->wet_glwd + grid->wet_meris) / 2.0;
+    }
 }

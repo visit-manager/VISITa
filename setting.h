@@ -37,8 +37,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 1
-#define CALC_OFFET 0
+#define CALC_STEP 10
+#define CALC_OFFET 2
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -563,6 +563,7 @@
 /* 3: use Maksyutov-san data: GLWD: 2017/07/03 */
 /* 4: use Maksyutov-san data: MERIS: 2017/07/03 */
 /* 5: use Maksyutov-san data: GLWD-MERIS: 2017/07/03 */
+/* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
 #define ALT_INUND 0
@@ -610,7 +611,7 @@
 /* 0:off, 1:0n */
 
 /* parameter ensemble experiment ****/
-#define ENSEMBLE_RUN 1
+#define ENSEMBLE_RUN 0
 /* 0: off */
 /* 1: on */
 
