@@ -348,16 +348,16 @@ struct Grid{
     double  est_nfert[90];
     
     /* BECCS scenario: 2017/02/20 by A.Ito */
-    double  beccs_s2b;
-    double  beccs_v2b;
-    double  beccs_v2s;
+    double  beccs_s2b;                  /* secondary to biofuel */
+    double  beccs_v2b;                  /* primary to biofuel */
+    double  beccs_v2s;                  /* primary to secondary */
     
     /* IMPRESSIONS mask: 2017/05/02 by A.Ito */
     long    impressions_mask;
     
     /* N fertilizer & manure of Potter: 2017/06/13 by A.Ito */
-    double  nfert_potter;
-    double  nmanure_potter;
+    double  nfert_potter;               /* fertilizer */
+    double  nmanure_potter;             /* manure */
 };
 
 /* grid conditions, derived from submodules *******************************************/

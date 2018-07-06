@@ -37,8 +37,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
-#define CALC_OFFET 2
+#define CALC_STEP 1
+#define CALC_OFFET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -119,13 +119,13 @@
 
 /***********************************************************/
 /* output text files */
-#define OUTPUT_CARBON1 0
+#define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
-#define OUTPUT_HYDMET 0
+#define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
+#define OUTPUT_GHG 1
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
@@ -502,7 +502,7 @@
 /* 1: 2.0 */
 /* 2: 1.5 for litter, 2.5 for humus */
 
-/***************************************************/
+/********************************************************/
 /* PAR conversion */
 #define D_PAR 1
 /* 0: constant conversion factor */
@@ -540,7 +540,7 @@
 /* 0: off */
 /* 1: on */
 
-/***************************************************/
+/*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
 #define CH4_WH 1
 /* 0:off, 1:0n */
@@ -585,7 +585,7 @@
 
 #define FIX_STMP 0
 /* 0:off, 1:0n */
-/* fix NPP carbon input to wetland: 2015/03/23 by A.Ito */
+/* fix soil temperature in wetland: 2015/03/23 by A.Ito */
 
 #define FIX_CH4_NPP 0
 /* 0:off, 1:0n */
