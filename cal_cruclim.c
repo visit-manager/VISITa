@@ -138,7 +138,7 @@ void cal_historical(
             grid->climy = (BGY_CLIM + DL_HCLIM - 1);
         }
         
-        if(NMIP_RUN == 7){
+        if(NMIP_RUN == 7 || EXTRA_LU_FIX == 1){
             grid->climy = 1901; /* 1901 */
         }
         

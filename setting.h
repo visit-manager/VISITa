@@ -449,6 +449,11 @@
 /* 24: ISI-MIP2b land-use data (2016/12/22 by A.Ito) */
 /* 25: ISI-MIP2b 2005 data (2017/11/01 by A.Ito) */
 
+/* extra land-use fixation combined with above scenarios: 2018/07/11 by A.Ito */
+#define EXTRA_LU_FIX 1
+/* 0: off (default) */
+/* 1: make grid->lucy = 1901 */
+
 #if ISIMIP_RUN==4
     #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
 #else
