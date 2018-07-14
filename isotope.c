@@ -118,6 +118,7 @@ void f_cisotope_efflux(
 ){
 	double d13c_rr3, d13c_rr4, aaa;
 	double sr, er;
+    double disc_ch4_co2, disc_ch4_astt, d13c_ch4_co2, d13c_ch4_astt;
 	
 	sr = (loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m])+
 		  loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m])+
@@ -220,15 +221,36 @@ void f_cisotope_efflux(
 	
 	if(er > 0.0){
 		flux->d14c_er[grid->m] = ((mass->c3).d14c_fol*loct->c3ptn[grid->m]*((flux->c3).rfm[grid->m]+(flux->c3).rfg[grid->m])+
-							  (mass->c3).d14c_stm*loct->c3ptn[grid->m]*((flux->c3).rcm[grid->m]+(flux->c3).rcg[grid->m])+
-							  (mass->c3).d14c_rot*loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m])+
-							  (mass->c4).d14c_fol*loct->c4ptn[grid->m]*((flux->c4).rfm[grid->m]+(flux->c4).rfg[grid->m])+
-							  (mass->c4).d14c_stm*loct->c4ptn[grid->m]*((flux->c4).rcm[grid->m]+(flux->c4).rcg[grid->m])+
-							  (mass->c4).d14c_rot*loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m])+
-							  (mass->soil).d14c_ltr*(flux->soil).rl[grid->m] + (mass->soil).d14c_msl*(flux->soil).rh[grid->m]) / er;
+						(mass->c3).d14c_stm*loct->c3ptn[grid->m]*((flux->c3).rcm[grid->m]+(flux->c3).rcg[grid->m])+
+						(mass->c3).d14c_rot*loct->c3ptn[grid->m]*((flux->c3).rrm[grid->m]+(flux->c3).rrg[grid->m])+
+						(mass->c4).d14c_fol*loct->c4ptn[grid->m]*((flux->c4).rfm[grid->m]+(flux->c4).rfg[grid->m])+
+						(mass->c4).d14c_stm*loct->c4ptn[grid->m]*((flux->c4).rcm[grid->m]+(flux->c4).rcg[grid->m])+
+						(mass->c4).d14c_rot*loct->c4ptn[grid->m]*((flux->c4).rrm[grid->m]+(flux->c4).rrg[grid->m])+
+						(mass->soil).d14c_ltr*(flux->soil).rl[grid->m] + (mass->soil).d14c_msl*(flux->soil).rh[grid->m]) / er;
 	}else{
 		flux->d14c_er[grid->m] = 0.0;
 	}
+    
+    /**************************************************************/
+    /* d13C of produced CH4: 2018/02/09 by A.Ito  */
+    /** aaa = 0.0 + 1.0 / (1.0 + exp(-6.0 * (flux->sr[grid->m] - 0.8))); */
+    aaa = 0.025 + 0.975 / (1.0 + exp(-6.0 * (flux->sr[grid->m] - 0.8)));
+    if(aaa>=0.0 && aaa<=1.0){
+        ;
+    }else{
+        aaa = 0.5;
+    }
+    loct->f_ch4_substrate[grid->m] = aaa;
+    
+    disc_ch4_co2 = 70.0;
+    disc_ch4_astt = 20.0;
+    
+    d13c_ch4_co2 = -8.0;
+    d13c_ch4_astt = -25.0;
+    
+    loct->dlt_ch4_d13c[grid->m] = aaa * disc_ch4_co2 + (1.0 - aaa) * disc_ch4_co2;
+    /* tentative: CO2: -8 per mille, CH3COOH: -70 per mille */
+    loct->d13c_ch4[grid->m] = (1.0 - aaa) * (d13c_ch4_co2 - disc_ch4_co2) + aaa * (d13c_ch4_astt - disc_ch4_astt);
 }
 
 /* d14C decay: added by A.Ito (2009/06/27) **********************/
@@ -247,4 +269,3 @@ double f_decay_14c(
 	
 	return end_val;
 }
-

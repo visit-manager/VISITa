@@ -221,6 +221,8 @@ void quantum_yield(
 	double eftem, efci;
 
 	/** plant_type: 3=C3, 4=C4, (5=CAM) **/
+    eftem = 1.0;
+    efci = 1.0;
 	if(pchar->phototype == 3){
 		/* temperature dependence */
 		eftem = (52.0 - grid->tmp_sfc[grid->m])/(3.5 + 0.75*(52.0 - grid->tmp_sfc[grid->m])); 
@@ -402,6 +404,12 @@ void f_qten_ar(
         pchar->qTr[grid->m] = aaa;
     }else if(EX_TMP_RESP == 5){
         aaa = 2.5;
+        pchar->qTf[grid->m] = aaa;
+        pchar->qTc[grid->m] = aaa;
+        pchar->qTr[grid->m] = aaa;
+    }else if(EX_TMP_RESP == 6){
+        /* Heskel et al. 2016, PNAS: added by A.Ito 2017/12/7 */
+        aaa = exp(10.0 * (0.1012 + (2.0 * 0.0005 * grid->tmp_sfc[grid->m])));
         pchar->qTf[grid->m] = aaa;
         pchar->qTc[grid->m] = aaa;
         pchar->qTr[grid->m] = aaa;

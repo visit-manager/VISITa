@@ -409,22 +409,21 @@ void f_n_deposit(
     }
     
     /* NMIP: 2015/11/19 by A.Ito *******/
-    /* updated 2016/10/20 by A.Ito */
+    /* updated 2016/10/20, 2017/10/19 by A.Ito */
     /* ISI-MIP2b: 2016/12/24 by A.Ito */
-    if(NMIP_RUN >= 1 || ISIMIP_RUN == 4){
+    if(NMIP_RUN >= 1){
     
         nyear = grid->niny;
-        if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
-            nyear = FDY_NINY+1;
+        if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
+            nyear = FDY_NINY+1; /* for fixing */
         }
         
-        /* to gN/ha */
-        if(NMIP_RUN >= 1){
-            uconv = 1000.0;
-        }
-        if(ISIMIP_RUN == 4){
-            uconv = 10000.0;
-        }
+        loct->depo_no3[grid->m] = grid->mip_ndep_ccmi_noy[nyear - FDY_NINY][grid->m];
+        loct->depo_nh4[grid->m] = grid->mip_ndep_ccmi_nh4[nyear - FDY_NINY][grid->m];
+
+    }else if(ISIMIP_RUN == 4){
+        nyear = grid->niny;
+        uconv = 10000.0; /* m2 => ha */
 
         /* seasonality based on CHASER */
         ndepo_no3 = ndepo_nh4 = 0.0;
@@ -435,17 +434,17 @@ void f_n_deposit(
         }
         
         if(ndepo_no3 > 0.0){
-            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[nyear - FDY_NINY]*uconv *
+            loct->depo_no3[grid->m] = grid->mip_ndep_noy[nyear - FDY_NINY]*uconv *
                     (ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
                     + ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col]) / ndepo_no3;
         }else{
-            loct->depo_no3[grid->m] = grid->nmip_ndep_noy[grid->niny-FDY_NINY]*uconv / 12.0;
+            loct->depo_no3[grid->m] = grid->mip_ndep_noy[grid->niny-FDY_NINY]*uconv / 12.0;
         }
         if(ndepo_nh4 > 0.0){
-            loct->depo_nh4[grid->m] =  grid->nmip_ndep_nh4[nyear - FDY_NINY]*uconv *
+            loct->depo_nh4[grid->m] =  grid->mip_ndep_nh4[nyear - FDY_NINY]*uconv *
                 ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col] / ndepo_nh4;
         }else{
-            loct->depo_nh4[grid->m] = grid->nmip_ndep_nh4[grid->niny - FDY_NINY]*uconv / 12.0;
+            loct->depo_nh4[grid->m] = grid->mip_ndep_nh4[grid->niny - FDY_NINY]*uconv / 12.0;
         }
     }
     
@@ -635,6 +634,7 @@ void f_n_uptake(
 	navil = (mass->soil).n_no3;
 	/* C3 */
     max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    uptake_no3 = 0.0;
     if(max_uptake>=0.0 && max_uptake<navil){
         uptake_no3 = max_uptake;
     }else if(max_uptake < 0.0){
@@ -647,6 +647,7 @@ void f_n_uptake(
     
 	/* C4 */
     max_uptake = (1.0 - nsat_c4) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    uptake_no3 = 0.0;
     if(max_uptake>=0.0 && max_uptake<navil){
         uptake_no3 = max_uptake;
     }else if(max_uptake < 0.0){
@@ -663,6 +664,7 @@ void f_n_uptake(
 	navil = (mass->soil).n_nh4;
     /* C3 */
     max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    uptake_nh4 = 0.0;
     if(max_uptake>0.0 && max_uptake<navil){
         uptake_nh4 = max_uptake;
     }else if(max_uptake < 0.0){
@@ -675,6 +677,7 @@ void f_n_uptake(
     
     /* C4 */
     max_uptake = (1.0 - nsat_c4) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
+    uptake_nh4 = 0.0;
     if(max_uptake>0.0 && max_uptake<navil){
         uptake_nh4 = max_uptake;
     }else if(max_uptake < 0.0){

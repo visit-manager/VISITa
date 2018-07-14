@@ -352,7 +352,7 @@ void f_output_result(
             fprintf(fp_o[0],"%.4lf ",  flux->ncb[f]); /* */
             
             /* added: 2011/04/19 (A.Ito) */
-            fprintf(fp_o[0],"%.4lf ",  (flux->plant).hvst[f]);
+            fprintf(fp_o[0],"%.4lf ",  (flux->plant).hvst_crop[f]);
             fprintf(fp_o[0],"%.4lf ",  (flux->soil).doc_boyer[f]);
             fprintf(fp_o[0],"%.4lf ",  flux->voc_isopr_g97[f]+flux->voc_monotrp_g97[f]
                     +flux->voc_methanl_g97[f]+flux->voc_acetone_g97[f]+flux->voc_actaldhd_g97[f]
@@ -492,7 +492,9 @@ void f_output_result(
 	
 	/* GHG & trace gases ***********************************************/
     if(OUTPUT_GHG == 1){
-        fprintf(fp_o[3],"%ld %lf ", year, grid->f_crop_con);
+        /* fprintf(fp_o[3],"%ld %lf ", year, grid->f_crop_con); */
+        /* 2018/06/05 by A.Ito */
+        fprintf(fp_o[3],"%ld %lf %lf %lf ", year, grid->f_crop_con, grid->f_wetland, grid->f_paddy);
         for(f=0;f<ASTEP;f++){
             fprintf(fp_o[3],"%.3lf ", loct->msww[f]);
             fprintf(fp_o[3],"%.3lf ", loct->wfps[f]);
@@ -549,6 +551,9 @@ void f_output_result(
             fprintf(fp_o[4],"%.3lf ", flux->bb_pm25_litter[f]+flux->bb_pm25_leaf[f]+flux->bb_pm25_wood[f]+flux->bb_pm25_root[f]);
             fprintf(fp_o[4],"%.3lf ", flux->bb_tpm_litter[f]+flux->bb_tpm_leaf[f]+flux->bb_tpm_wood[f]+flux->bb_tpm_root[f]);
             fprintf(fp_o[4],"%.3lf ", flux->bb_tec_litter[f]+flux->bb_tec_leaf[f]+flux->bb_tec_wood[f]+flux->bb_tec_root[f]); /* */
+            
+            fprintf(fp_o[4],"%.3lf ", flux->wa_burnt[f]); /* wood burnt: 2017/11/30 */
+            fprintf(fp_o[4],"%.3lf ", flux->bb_n2o_litter[f]+flux->bb_n2o_leaf[f]+flux->bb_n2o_wood[f]+flux->bb_n2o_root[f]); /*  */
         }
         
         fprintf(fp_o[4],"%lf ", grid->hvst_p1[grid->climy - FDY_LUC]);
@@ -676,6 +681,11 @@ void f_output_result(
             fprintf(fp_o[7],"%.3lf ", (flux->plant).d13c_gpp[f]);
             fprintf(fp_o[7],"%.3lf ", (flux->plant).d13c_ar[f]);
             fprintf(fp_o[7],"%.3lf ", (flux->soil).d13c_hr[f]);
+            
+            /* 2018/02/09 by A.Ito */
+            fprintf(fp_o[7],"%.3lf ", loct->f_ch4_substrate[f]);
+            fprintf(fp_o[7],"%.3lf ", loct->dlt_ch4_d13c[f]);
+            fprintf(fp_o[7],"%.3lf ", loct->d13c_ch4[f]);
         }
         fprintf(fp_o[7],"\n");
     }

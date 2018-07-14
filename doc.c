@@ -75,6 +75,12 @@ void f_doc_boyer(
         }
     }
 	
+    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    if(PARAM_PTB == 20){
+        /* prm_ensen = 1.0 + 0.3 * f_pert[4]; */
+        prm_ensen = 1.0 + 0.15 * f_pert[4];
+    }
+    
 	/* DOC mass, mg/L */
 	mass->doc = doc_est * prm_ensen;
 	mass->doc_m[grid->m] = mass->doc;

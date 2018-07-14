@@ -213,6 +213,11 @@ void f_erosion(
         }
     }
 	
+    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    if(PARAM_PTB == 20){
+        prm_ensen = 1.0 + 0.3 * f_pert[5];
+    }
+    
 	/* Erosion *************************************************************/
 	/* case natural: 2011/12/15 (A.Ito) */
 	if(loct->v_type == 1){

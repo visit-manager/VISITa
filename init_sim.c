@@ -28,6 +28,18 @@ void f_init_sim(
 	double data;
     float rdat[36*72],albvar;
 	FILE *fpi;
+ 
+    if(EX_FIRE_GFED >= 1){
+        fpi = fopen("./data/bf_gfed4s.txt","rt");
+        
+        for(f=0;f<20;f++){
+            for(g=0;g<(N_REG+1);g++){
+                fscanf(fpi,"%lf",&bf_gfed4s[f][g]);
+            }
+        }
+        
+        fclose(fpi);
+    }
 		
 	/**********************************************/
 	set_rowcol_gcm();	/* -> vegetdeal.c */
@@ -218,7 +230,7 @@ void f_init_sim(
 		h_gpp_df97[f] = h_gpp_c4[f] = 0.0;
 		h_pot_prmfrst[f] = 0.0;
 		h_trnsp[f] = h_incepev[f] = h_ssurfev[f] = 0.0;
-		h_nbp[f] = h_hvst[f] = h_abgm[f] = 0.0;
+		h_nbp[f] = h_hvst_crop[f] = h_abgm[f] = 0.0;
 		h_sw1[f] = h_sw2[f] = 0.0;
         h_rns[f] = h_rnl[f] = 0.0; /* added by A.Ito (2013/01/02) */
 		h_rnsd[f] = h_cld[f] = h_apar[f] = h_ipar[f] = 0.0;
@@ -227,11 +239,11 @@ void f_init_sim(
         
 		h_agrarea[f] = h_paddyarea[f] = h_luc[f] = 0.0;
 		h_luc_1[f] = h_luc_2[f] = h_luc_3[f] = 0.0;
-		h_burnt_area[f] = 0.0;
+		h_burnt_area[f] = h_burnt_area_wood[f] = 0.0;
 		h_bioburn_co2[f] = h_bioburn_co[f] = h_bioburn_ch4[f] = 0.0;
 		h_bioburn_nmhc[f] = h_bioburn_oc[f] = h_bioburn_bc[f] = 0.0;
 		h_bioburn_nox[f] = h_bioburn_so2[f] = h_bioburn_pm25[f] = 0.0;
-		h_bioburn_tpm[f] = h_bioburn_tec[f] = 0.0;
+		h_bioburn_tpm[f] = h_bioburn_tec[f] = h_bioburn_n2o[f] = 0.0;
 		
 		h_ch4ox1[f] = h_ch4ox2[f] = h_ch4ox3[f] = h_ch4ox4[f] = 0.0;
 		h_ch4emit_cao_paddy[f] = h_ch4emit_cao_wetland[f] = 0.0;
@@ -383,7 +395,7 @@ void f_init_sim(
 			rh_ipar[f][g] = rh_apar[f][g] = 0.0;
 			rh_gpp[f][g] = rh_npp[f][g] = rh_nep[f][g] = 0.0;
 			rh_evpr[f][g] = rh_trsp[f][g] = rh_incp[f][g] = rh_rnof[f][g] = 0.0;
-			rh_hvst[f][g] = rh_luc[f][g] = 0.0;
+			rh_hvst_crop[f][g] = rh_luc[f][g] = 0.0;
 			rh_ch4ox_curry[f][g] = rh_ch4emit_wh_wet[f][g] = rh_ch4emit_wh_paddy[f][g] = 0.0;
 			rh_n2o_emit_ngas[f][g] = rh_n2o_emitagr_ngas[f][g] = 0.0;
 			

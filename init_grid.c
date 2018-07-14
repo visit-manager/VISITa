@@ -31,7 +31,7 @@ void f_init_grid(
 	double geo_prop, crit_tension;
 	double lat, lon, total, wetland, lake, paddy, ddummy;
     double nfert_m, nfert_r, nfert_sw, nfert_ww;
-    float rfdat[ASTEP], is2bdat[DL_NMIP];
+    float rfdat[ASTEP], is2bdat[DL_NINPUT];
 	
 	/* grid latitudes of CSIRO AOGCM */
 	double csiro_lat[56]={	
@@ -772,13 +772,13 @@ void f_init_grid(
     if(ISIMIP_RUN==4 && (SCENARIO_ID>=5010 && SCENARIO_ID<=5100)){
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         fread(is2bdat,sizeof(float),DL_AGHG, fp_s[25]);
-        for(e=0;e<DL_NMIP;e++){
-            grid->nmip_ndep_nh4[e] = is2bdat[e];
+        for(e=0;e<DL_NINPUT;e++){
+            grid->mip_ndep_nh4[e] = is2bdat[e];
         }
         
         fread(is2bdat,sizeof(float),DL_AGHG, fp_s[25]);
-        for(e=0;e<DL_NMIP;e++){
-            grid->nmip_ndep_noy[e] = is2bdat[e];
+        for(e=0;e<DL_NINPUT;e++){
+            grid->mip_ndep_noy[e] = is2bdat[e];
         }
         
     }else{
@@ -1284,26 +1284,42 @@ void f_init_grid(
     }
     
     /* N input *****************************************/
-    for(e=0;e<DL_NMIP;e++){
-        grid->nmip_frcrop[e] = 0.0;
-        grid->nmip_nfert[e] = 0.0;
-        grid->nmip_ndep_noy[e] = 0.0;
-        grid->nmip_ndep_nh4[e] = 0.0;
-        grid->nmip_manure[e] = 0.0;
+    for(e=0;e<DL_NINPUT;e++){
+        grid->mip_frcrop[e] = 0.0;
+        grid->mip_nfert[e] = 0.0;
+        grid->mip_ndep_noy[e] = 0.0;
+        grid->mip_ndep_nh4[e] = 0.0;
+        grid->mip_manure[e] = 0.0;
+        
+        for(h=0;h<12;h++){
+            grid->mip_ndep_ccmi_noy[e][h] = 0.0;
+            grid->mip_ndep_ccmi_nh4[e][h] = 0.0;
+        }
     }
 
+    grid->beccs_s2b = 0.0;
+    grid->beccs_v2b = 0.0;
+    grid->beccs_v2s = 0.0;
     if(ISIMIP_RUN == 4){
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         
-        fread(is2bdat,sizeof(float),DL_NMIP, fp_s[87]);
-        for(e=0;e<DL_NMIP;e++){
-            grid->nmip_frcrop[e] = is2bdat[e];
+        fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[87]);
+        for(e=0;e<DL_NINPUT;e++){
+            grid->mip_frcrop[e] = is2bdat[e];
         }
     }else if(EX_BECCS == 2){
         /* BECCS scenario: 2017/02/20 by A.Ito */
         fscanf(fp_s[87],"%lf", &grid->beccs_s2b);
         fscanf(fp_s[87],"%lf", &grid->beccs_v2b);
         fscanf(fp_s[87],"%lf", &grid->beccs_v2s);
+    }else if(EX_BECCS == 3){
+        /* BECCS scenario: 2017/10/30 by A.Ito */
+        fscanf(fp_s[87],"%lf", &grid->beccs_s2b);
+        grid->beccs_v2b = 0.0;
+        grid->beccs_v2s = 0.0;
+        if(EX_BECCS_SUB==1){
+            grid->beccs_s2b = 0.0;
+        }
     }else{
         /* Bio Fuel scenario: 2015/08/21 by A.Ito ***********/
         for(e=0;e<DL_BF;e++){
@@ -1316,39 +1332,60 @@ void f_init_grid(
     }
 
     if(ISIMIP_RUN == 4){
-        fread(is2bdat,sizeof(float),DL_NMIP, fp_s[88]);
-        for(e=0;e<DL_NMIP;e++){
+        fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[88]);
+        for(e=0;e<DL_NINPUT;e++){
             /* kg N /ha / yr */
-            grid->nmip_nfert[e] = is2bdat[e];
+            grid->mip_nfert[e] = is2bdat[e];
         }
         
     }else{
         /* NMIP input: 2015/11/19 by A.Ito *************/
-        for(e=0;e<DL_NMIP;e++){
+        for(e=0;e<DL_NINPUT;e++){
             
-            /* crop fraction */
-            fscanf(fp_s[88],"%lf", &grid->nmip_frcrop[e]);
-            if(grid->nmip_frcrop[e] < 0.0){
-                grid->nmip_frcrop[e] = 0.0;
+             /* crop fraction */
+            fscanf(fp_s[88],"%lf", &grid->mip_frcrop[e]);
+            if(grid->mip_frcrop[e] < 0.0){
+                grid->mip_frcrop[e] = 0.0;
             }
 
-            /* kg N/ha/yr */
-            fscanf(fp_s[88],"%lf", &grid->nmip_nfert[e]);
-            if(grid->nmip_nfert[e] < 0.0){
-                grid->nmip_nfert[e] = 0.0;
+            /* g N/ha/yr => kg N/ha/yr */
+            fscanf(fp_s[88],"%lf", &grid->mip_nfert[e]);
+            grid->mip_nfert[e] *= 0.001;
+            if(grid->mip_nfert[e] < 0.0){
+                grid->mip_nfert[e] = 0.0;
             }
-            fscanf(fp_s[88],"%lf", &grid->nmip_ndep_noy[e]);
-            if(grid->nmip_ndep_noy[e] < 0.0){
-                grid->nmip_ndep_noy[e] = 0.0;
+
+            /* g N/ha/yr */
+            fscanf(fp_s[88],"%lf", &ddummy);
+            if(grid->mip_nfert[e] < 0.0){
+                grid->mip_nfert[e] = 0.0;
             }
-            fscanf(fp_s[88],"%lf", &grid->nmip_ndep_nh4[e]);
-            if(grid->nmip_ndep_nh4[e] < 0.0){
-                grid->nmip_ndep_nh4[e] = 0.0;
+
+            fscanf(fp_s[88],"%lf", &grid->mip_manure[e]);
+            grid->mip_manure[e] *= 0.001;
+            if(grid->mip_manure[e] < 0.0){
+                grid->mip_manure[e] = 0.0;
             }
-            fscanf(fp_s[88],"%lf", &grid->nmip_manure[e]);
-            if(grid->nmip_manure[e] < 0.0){
-                grid->nmip_manure[e] = 0.0;
+
+            fscanf(fp_s[88],"%lf", &ddummy);
+            if(grid->mip_manure[e] < 0.0){
+                grid->mip_manure[e] = 0.0;
             }
+
+            for(h=0;h<12;h++){
+                fscanf(fp_s[88],"%lf", &grid->mip_ndep_ccmi_nh4[e][h]);
+                if(grid->mip_ndep_ccmi_nh4[e][h] < 0.0){
+                    grid->mip_ndep_ccmi_nh4[e][h] = 0.0;
+                }
+            }
+
+            for(h=0;h<12;h++){
+                fscanf(fp_s[88],"%lf", &grid->mip_ndep_ccmi_noy[e][h]);
+                if(grid->mip_ndep_ccmi_noy[e][h] < 0.0){
+                    grid->mip_ndep_ccmi_noy[e][h] = 0.0;
+                }
+            }
+            
         }
     }
     
@@ -1422,4 +1459,22 @@ void f_init_grid(
     grid->impressions_mask = 0;
     fscanf(fp_s[91],"%lf", &grid->nfert_potter);
     fscanf(fp_s[91],"%lf", &grid->nmanure_potter);
+    
+    /* Maksyutov-san's alternative wetland maps: 2018/07/03 by A.Ito */
+    fscanf(fp_s[92],"%lf", &grid->wet_glwd);
+    fscanf(fp_s[92],"%lf", &grid->wet_meris);
+    fscanf(fp_s[92],"%lf", &grid->wet_glwdmeris);
+
+    if(ALT_FWETLAND==3){
+        grid->f_wetland = grid->wet_glwd;
+    }
+    if(ALT_FWETLAND==4){
+        grid->f_wetland = grid->wet_meris;
+    }
+    if(ALT_FWETLAND==5){
+        grid->f_wetland = grid->wet_glwdmeris;
+    }
+    if(ALT_FWETLAND==6){ /* average of GLWD and MERIS */
+        grid->f_wetland = (grid->wet_glwd + grid->wet_meris) / 2.0;
+    }
 }
