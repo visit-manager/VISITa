@@ -96,12 +96,12 @@ void f_biomassburning(
         0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
 
 	/* burning efficiency */
-	double burn_eff[16] = {0.0, 
+	/* double burn_eff[16] = {0.0,
 		0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-		0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-    /* double burn_eff[16] = {0.0,
+		0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; */
+    double burn_eff[16] = {0.0,
         0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-        0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.0}; */ /* test: 2018/07/13 by A.Ito */
+        0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.0}; /* */ /* test: 2018/07/13 by A.Ito */
 
 	double closs_leaf, closs_wood, closs_root, closs_litter, prm_ensen;
 	

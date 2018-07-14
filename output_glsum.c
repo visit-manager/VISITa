@@ -110,9 +110,9 @@ void f_set_history_data(
 		
         /* devided by 100.0 to avoid overflow: 2018/07/14 by A.Ito */
 		h_plant[year] += fweight * ((mass->plant).mfol[f] + (mass->plant).mstm[f] + 
-									(mass->plant).mrot[f]) * MDN[f] /365.0 * grid->area;
+									(mass->plant).mrot[f]) * MDN[f] /365.0 * grid->area /100.0;
 		h_soil[year] += fweight * ((mass->soil).ltr_m[f] + 
-								   (mass->soil).msl_m[f])* MDN[f]/365.0 * grid->area;
+								   (mass->soil).msl_m[f])* MDN[f]/365.0 * grid->area /100.0;
 		
         h_arm[year] += fweight * (flux->plant).arm[f] * grid->area;
 		

@@ -123,6 +123,7 @@ double f_df97_gpp(
 	root1 = 1.0 - 0.5 * (exp(-0.3 * pchar->root_dist_a) + exp(-0.3 * pchar->root_dist_b));
 	root2 = 1.0 - root1;
 	
+    f_ds1 = f_ds2 = 0.5;
 	if(pchar->phototype==3){			/* C3 plants */
 		f_ds1 = 0.95 * loct->sw30 / (loct->sw30 + grid->field_cap1*0.5) + 0.05;
 		f_ds2 = 0.95 * loct->sww / (loct->sww + grid->field_cap2*0.5) + 0.05;
