@@ -78,7 +78,7 @@ void planting(
 	    mass->stm += 0.3;
 	    mass->rot += 0.3;
     }
-	flux->hvst_crop[grid->m] = -1.0; /* palnting => negative harvest */
+	flux->net_crop[grid->m] = -1.0; /* palnting => negative harvest */
 	
 	f_leaf_age(0, pchar, mass, 0.4);
 
@@ -193,10 +193,10 @@ void harvesting(
  
     /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
     if(PARAM_PTB == 20){
-        hvst_index *= 1.0 + 0.3 * f_pert[7];
+        hvst_index *= 1.0 + 0.3 * f_pert[8];
     }
- 
-	flux->hvst_crop[grid->m] = hvst_index * (mass->fol + mass->stm + mass->rot);
+    
+	flux->net_crop[grid->m] = flux->hvst_crop[grid->m] = hvst_index * (mass->fol + mass->stm + mass->rot);
     
     if(NECB_CROP == 1){
         mass->fol -= (hvst_index * mass->fol);

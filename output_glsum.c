@@ -106,12 +106,14 @@ void f_set_history_data(
 		h_npp[year] += fweight * (flux->plant).npp[f] * grid->area;
 		h_nep[year] += fweight * flux->nep[f] * grid->area;
 		h_nbp[year] += fweight * flux->nbp[f] * grid->area;
-		h_hvst_crop[year] += fweight * (flux->plant).hvst_crop[f] * grid->area;
-		
+		h_net_crop[year] += fweight * (flux->plant).net_crop[f] * grid->area;
+        h_hvst_crop[year] += fweight * (flux->plant).hvst_crop[f] * grid->area;
+
+        /* test divided by 100.0 to avoid overflow: 2018/07/14 by A.Ito */
 		h_plant[year] += fweight * ((mass->plant).mfol[f] + (mass->plant).mstm[f] + 
-									(mass->plant).mrot[f]) * MDN[f] /365.0 * grid->area;
+									(mass->plant).mrot[f]) * (MDN[f] /365.0) * grid->area;
 		h_soil[year] += fweight * ((mass->soil).ltr_m[f] + 
-								   (mass->soil).msl_m[f])* MDN[f]/365.0 * grid->area;
+								   (mass->soil).msl_m[f])* (MDN[f]/365.0) * grid->area;
 		
         h_arm[year] += fweight * (flux->plant).arm[f] * grid->area;
 		
@@ -344,7 +346,7 @@ void f_set_history_data(
 		rh_rnof[grid->reg_g][year] += loct->ro2[f] * grid->area;
 		
 		/* added by A.Ito (2009/11/15) */
-		rh_hvst_crop[grid->reg_g][year] += (flux->plant).hvst_crop[f] * grid->area;
+		rh_net_crop[grid->reg_g][year] += (flux->plant).net_crop[f] * grid->area;
 		rh_ch4ox_curry[grid->reg_g][year] += (flux->soil).ch4oxy_curry[f] * grid->area *10000.0/1000.0;
 		rh_ch4emit_wh_wet[grid->reg_g][year] += ((flux->soil).ch4_wetland_wh_diff[f] + (flux->soil).ch4_wetland_wh_plant[f] + 
 												 (flux->soil).ch4_wetland_wh_ebull[f] + (flux->soil).ch4_wetland_wh_release[f]) 
@@ -574,7 +576,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_ssurfev[h]); 
 
 		fprintf(fp_glsum,"%lf ", h_nbp[h]);   /* added by A.Ito (2010/11/27) */
-		fprintf(fp_glsum,"%lf ", h_hvst_crop[h]);
+		fprintf(fp_glsum,"%lf ", h_net_crop[h]);
 		fprintf(fp_glsum,"%lf ", h_paddyarea[h]); /* added by A.Ito (2011/2/28) */
 		fprintf(fp_glsum,"%lf ", h_abgm[h]); /* added by A.Ito (2011/12/16) */
 
@@ -621,6 +623,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_n_manurein[h]); /* added by A.Ito (2016/10/21) */
         fprintf(fp_glsum,"%lf ", h_burnt_area_wood[h]); /* 2017/11/30 */
         fprintf(fp_glsum,"%lf ", h_bioburn_n2o[h]); /* 2018/05/19 */
+        fprintf(fp_glsum,"%lf ", h_hvst_crop[h]); /* 2018/07/16 */
 
 		fprintf(fp_glsum,"\n");
 	}
@@ -1009,7 +1012,7 @@ void f_glosum_output(
 	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(FSY_HIST-1));
 		for(i=0;i<N_REG;i++){
-			fprintf(fp_glsum,"%lf ", rh_hvst_crop[i][h]);
+			fprintf(fp_glsum,"%lf ", rh_net_crop[i][h]);
 		}
 		fprintf(fp_glsum,"\n");
 	}

@@ -96,10 +96,13 @@ void f_biomassburning(
         0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
 
 	/* burning efficiency */
-	double burn_eff[16] = {0.0, 
+	/* double burn_eff[16] = {0.0,
 		0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-		0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-  		
+		0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; */
+    double burn_eff[16] = {0.0,
+        0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
+        0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.0}; /* */ /* test: 2018/07/13 by A.Ito */
+
 	double closs_leaf, closs_wood, closs_root, closs_litter, prm_ensen;
 	
 	extern double MDN[ASTEP];
@@ -238,6 +241,8 @@ void f_biomassburning(
     /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
     if(PARAM_PTB == 20){
         prm_ensen = 1.0 + 0.3 * f_pert[0];
+    }else{
+        prm_ensen = 1.0;
     }
 	
 	/******************************/

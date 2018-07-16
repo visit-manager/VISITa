@@ -130,7 +130,11 @@ void cal_historical(
                 grid->lucy = 1950;
             }
         }
-        
+
+        if(EXTRA_LU_FIX == 1){
+            grid->lucy = 1901; /* 1901 */
+        }
+
         /*************/
         if(grid->simy < BGY_CLIM){
             grid->climy = BGY_CLIM + g%20;
@@ -138,7 +142,7 @@ void cal_historical(
             grid->climy = (BGY_CLIM + DL_HCLIM - 1);
         }
         
-        if(NMIP_RUN == 7){
+        if(NMIP_RUN == 7 ){
             grid->climy = 1901; /* 1901 */
         }
         
@@ -407,7 +411,7 @@ void cal_historical(
 			/* total ecosystem carbon storage */
 			mass->total[f] = (mass->c3).plant[f]*loct->c3ptn[f] + (mass->c4).plant[f]*loct->c4ptn[f] + (mass->soil).soil[f];
 			/** net carbon balance taking crop harvest into account **/
-			flux->ncb[f] = flux->nep[f] - (flux->plant).hvst_crop[f];
+			flux->ncb[f] = flux->nep[f] - (flux->plant).net_crop[f];
 			
 			/* carbon isotope */
 			f_cisotope_efflux(grid, loct, mass, flux);
@@ -530,8 +534,15 @@ void cal_historical(
 		/* erosion ****************************/
 		f_erosion(grid, loct, echar, mass, flux);
 		
+        /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+        if(PARAM_PTB == 20){
+            prm_ensen = 1.0 + 0.3 * f_pert[7];
+        }else{
+            prm_ensen = 1.0;
+        }
+    
 		if(NECB_ERSN == 1){
-			(mass->soil).ltr -= flux->erod_carbon*0.20;
+			(mass->soil).ltr -= flux->erod_carbon * (prm_ensen * 0.20);
 			if((mass->soil).ltr < INT_C){
 				(mass->soil).ltr = INT_C;
 			}
@@ -717,8 +728,15 @@ void cal_historical(
             }
             
             if(NECB_ERSN == 1){
+                /* C-budget parameter ensemble: 2018/06/14 by A.Ito */
+                if(PARAM_PTB == 20){
+                    prm_ensen = 1.0 + 0.3 * f_pert[7];
+                }else{
+                    prm_ensen = 1.0;
+                }
+    
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
-                flux->nbp[f] -= flux->erod_carbon*0.20 / 12.0;
+                flux->nbp[f] -= flux->erod_carbon* (prm_ensen * 0.20) / 12.0;
             }
             
             if(NECB_BVOC == 1){
@@ -731,7 +749,7 @@ void cal_historical(
             
             if(NECB_CROP == 1){
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
-                flux->nbp[f] -= 1.0 * (flux->plant).hvst_crop[f]; /* ! hvst is positive */
+                flux->nbp[f] -= 1.0 * (flux->plant).net_crop[f]; /* ! hvst is positive */
             }
 		}
         

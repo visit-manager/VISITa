@@ -91,7 +91,8 @@ struct Grid{
 	double 	gp_atem;				/* average temperature during the growing period, degree Celcius */
 	double 	gp_tem;					/* average temperature during the growing period, degree Celcius */
 	double 	gp_pre;					/* precipitation during the prowing period, mm */
-	
+    double  tmp_soil_am;            /* mean soil temperature, degree Celcius */
+
 	/* climate condition: *_a[] means the average during 1965 to 1998 */	
 	double 	tmp_sfc_a[ASTEP];		/* ground surface temperature, degree Celcius */
 	double 	tmp_2m_a[ASTEP];		/* 2m air temperature, degree Celcius */
@@ -104,8 +105,6 @@ struct Grid{
 	double	vgrd_10m_a[ASTEP];		/* meridional wind velocity, m s-1 */
 	double 	rad_a[ASTEP];			/* solar radiation, W m-2 */
 	double 	par_a[ASTEP];			/* PAR, micro mol m-2 s-1 */
-    
-    double 	tmp_soil_am;
 	
 	double 	prec_sub_a[ASTEP];		/* precipitation from substitute data (UEA/CRU), mm mon-1 */
 
@@ -319,7 +318,12 @@ struct Grid{
     
     double  inundation_gcp_av[ASTEP];
     double  inundation_gcp_ts[15][ASTEP];
-	
+    
+    /* revised wetland maps: 2018/07/03 by A.Ito */
+    double  wet_glwd;
+    double  wet_meris;
+    double  wet_glwdmeris;
+
 	long	type_permaforst;			/* permafrost type by NSIDC */
     double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
     
@@ -344,16 +348,16 @@ struct Grid{
     double  est_nfert[90];
     
     /* BECCS scenario: 2017/02/20 by A.Ito */
-    double  beccs_s2b;
-    double  beccs_v2b;
-    double  beccs_v2s;
+    double  beccs_s2b;                  /* secondary to biofuel */
+    double  beccs_v2b;                  /* primary to biofuel */
+    double  beccs_v2s;                  /* primary to secondary */
     
     /* IMPRESSIONS mask: 2017/05/02 by A.Ito */
     long    impressions_mask;
     
     /* N fertilizer & manure of Potter: 2017/06/13 by A.Ito */
-    double  nfert_potter;
-    double  nmanure_potter;
+    double  nfert_potter;               /* fertilizer */
+    double  nmanure_potter;             /* manure */
 };
 
 /* grid conditions, derived from submodules *******************************************/
@@ -819,8 +823,9 @@ struct Pflx{
 	double	lL[ASTEP];				/* total litterfall */
 	double	lf_c[ASTEP];			/* leaf shedding in C3/C4 altyeration in grassland */
 	
-	double	hvst_crop[ASTEP];			/* harvest of crops */
-	
+	double	net_crop[ASTEP];			/* net C budget of crops */
+	double  hvst_crop[ASTEP];           /* crop harvest */
+    
 	double	emit_ch4_kirschbaum_mass[ASTEP];		/* plant CH4 emission, mass-based */
 	double	emit_ch4_kirschbaum_photo[ASTEP];		/* plant CH4 emission, photosynthesis-based */
 	
@@ -852,7 +857,7 @@ struct Pflx{
 	double	d13c_lL[ASTEP];			/* total  */
 	double	d13c_lf_c[ASTEP];		
 
-	double	d13c_hvst_crop[ASTEP];		/* harvest */
+	double	d13c_net_crop[ASTEP];		/* harvest */
 
 	double	d14c_gpp[ASTEP];		/* GPP */
 	double	d14c_lL[ASTEP];			/* litter input */

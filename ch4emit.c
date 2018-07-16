@@ -43,11 +43,12 @@ void f_ch4_emit_cao(
 	
 	/* CH4 emission, mg CH4 m-2 month-1 */
     
-    if(ALT_INUND==0){
+    if(ALT_INUND == 0){
+        /* standard */
         f_inund_wet = grid->inundation_ssmi[grid->m];
         f_inund_pad = grid->inundation_ssmi[grid->m];
     }else if(ALT_INUND==1 || ALT_INUND==3 || ALT_INUND==4 || ALT_INUND==5){
-    
+        /* for GCP-CH4 analyses */
         if(grid->climy>=1999 && grid->climy<=2013){
         
             if(grid->f_wetland > 0.0){
@@ -347,11 +348,12 @@ void f_ch4_emit_walter(
     /* last calibrated 2015/11/19 */
     /* last calibrated 2018/05/25 */
     /* last calibrated 2018/05/26 */
+    /* last calibrated 2018/07/03 */
     switch(smode){
         case 1:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 20.9;
-                r0 = 2.09;
+                t_veg = 19.0;
+                r0 = 1.90;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
                 t_veg = 15.0;
                 r0 = 1.50;
@@ -365,11 +367,11 @@ void f_ch4_emit_walter(
                 t_veg = 1.45;
                 r0 = 0.145;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 1.14;
-                r0 = 0.114;
+                t_veg = 1.15;
+                r0 = 0.115;
             }else if(grid->veg_olson==23 || grid->veg_olson==24){
-                t_veg = 1.14;
-                r0 = 0.114;
+                t_veg = 1.15;
+                r0 = 0.115;
             }else{
                 t_veg = 1.445;
                 r0 = 0.1445;
@@ -377,8 +379,8 @@ void f_ch4_emit_walter(
             break;
         case 2:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 8.5;
-                r0 = 0.85;
+                t_veg = 8.0;
+                r0 = 0.80;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
                 t_veg = 5.8;
                 r0 = 0.58;
@@ -392,11 +394,11 @@ void f_ch4_emit_walter(
                 t_veg = 0.355;
                 r0 = 0.0355;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 0.245;
-                r0 = 0.0245;
+                t_veg = 0.247;
+                r0 = 0.0247;
             }else if(grid->veg_olson==23 || grid->veg_olson==24){
-                t_veg = 0.245;
-                r0 = 0.0245;
+                t_veg = 0.247;
+                r0 = 0.0247;
             }else{
                 t_veg = 0.42;
                 r0 = 0.042;

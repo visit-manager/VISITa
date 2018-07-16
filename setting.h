@@ -120,18 +120,19 @@
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_CARBON2 0
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
+#define OUTPUT_EROSION 0
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 /* output binary */
+#define BASE_GOUT 1
 #define C13_GOUT 0
 #define C14_GOUT 0
-#define PHYS_GOUT 1
+#define PHYS_GOUT 0
 
 /***********************************************************/
 /* total vegetation number */
@@ -415,7 +416,7 @@
 /* crop harvest */
 #define NECB_CROP 1
 
-#define EX_FIRE_GFED 1
+#define EX_FIRE_GFED 0
 /* 0:off, 1:on   2018/05/19 by A.Ito */
 /* 2: on with adjusting factor, 0.73 */
 
@@ -447,6 +448,11 @@
 /* 23: SSP5 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 24: ISI-MIP2b land-use data (2016/12/22 by A.Ito) */
 /* 25: ISI-MIP2b 2005 data (2017/11/01 by A.Ito) */
+
+/* extra land-use fixation combined with above scenarios: 2018/07/11 by A.Ito */
+#define EXTRA_LU_FIX 0
+/* 0: off (default) */
+/* 1: make grid->lucy = 1901 */
 
 #if ISIMIP_RUN==4
     #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
@@ -501,7 +507,7 @@
 /* 1: 2.0 */
 /* 2: 1.5 for litter, 2.5 for humus */
 
-/***************************************************/
+/********************************************************/
 /* PAR conversion */
 #define D_PAR 1
 /* 0: constant conversion factor */
@@ -539,7 +545,7 @@
 /* 0: off */
 /* 1: on */
 
-/***************************************************/
+/*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
 #define CH4_WH 1
 /* 0:off, 1:0n */
@@ -557,8 +563,12 @@
 /* Alternative land-cover data for CH4 */
 #define ALT_FWETLAND 0
 /* 0: not use alternative data */
-/* 1: use data */
+/* 1: use alternative data */
 /* 2: use Peregon-san data: 2014/02/04 */
+/* 3: use Maksyutov-san data: GLWD: 2017/07/03 */
+/* 4: use Maksyutov-san data: MERIS: 2017/07/03 */
+/* 5: use Maksyutov-san data: GLWD-MERIS: 2017/07/03 */
+/* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
 #define ALT_INUND 0
@@ -580,7 +590,7 @@
 
 #define FIX_STMP 0
 /* 0:off, 1:0n */
-/* fix NPP carbon input to wetland: 2015/03/23 by A.Ito */
+/* fix soil temperature in wetland: 2015/03/23 by A.Ito */
 
 #define FIX_CH4_NPP 0
 /* 0:off, 1:0n */

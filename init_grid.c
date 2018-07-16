@@ -1459,4 +1459,22 @@ void f_init_grid(
     grid->impressions_mask = 0;
     fscanf(fp_s[91],"%lf", &grid->nfert_potter);
     fscanf(fp_s[91],"%lf", &grid->nmanure_potter);
+    
+    /* Maksyutov-san's alternative wetland maps: 2018/07/03 by A.Ito */
+    fscanf(fp_s[92],"%lf", &grid->wet_glwd);
+    fscanf(fp_s[92],"%lf", &grid->wet_meris);
+    fscanf(fp_s[92],"%lf", &grid->wet_glwdmeris);
+
+    if(ALT_FWETLAND==3){
+        grid->f_wetland = grid->wet_glwd;
+    }
+    if(ALT_FWETLAND==4){
+        grid->f_wetland = grid->wet_meris;
+    }
+    if(ALT_FWETLAND==5){
+        grid->f_wetland = grid->wet_glwdmeris;
+    }
+    if(ALT_FWETLAND==6){ /* average of GLWD and MERIS */
+        grid->f_wetland = (grid->wet_glwd + grid->wet_meris) / 2.0;
+    }
 }
