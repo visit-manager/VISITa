@@ -80,6 +80,7 @@ void f_plant_stand_budget(
 
 	/** harvest **/
 	(flux->plant).net_crop[f] = (flux->c3).net_crop[f]*loct->c3ptn[f] + (flux->c4).net_crop[f]*loct->c4ptn[f];
+    (flux->plant).hvst_crop[f] = (flux->c3).hvst_crop[f]*loct->c3ptn[f] + (flux->c4).hvst_crop[f]*loct->c4ptn[f];
 
 	(flux->plant).emit_ch4_kirschbaum_mass[f] = (flux->c3).emit_ch4_kirschbaum_mass[f]*loct->c3ptn[f] 
 		+ (flux->c4).emit_ch4_kirschbaum_mass[f]*loct->c4ptn[f];

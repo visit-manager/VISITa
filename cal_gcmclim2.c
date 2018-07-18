@@ -114,10 +114,12 @@ void cal_projection(
         }
 
         /* for considering leap years: 2014/09/29 by A.Ito */
-        if(grid->climy%4 == 0){
+        if(grid->simy%4 == 0){
             MDN[1] = 29.0;
+            YDN = 366.0;
         }else{
             MDN[1] = 28.0;
+            YDN = 365.0;
         }
 
 		/* monthly loop *************************************/
@@ -333,7 +335,7 @@ void cal_projection(
         }
         avc3 = 0.0;
         for(f=0;f<ASTEP;f++){
-            avc3 += (loct->c3ptn[f] * MDN[f]/365.0);
+            avc3 += (loct->c3ptn[f] * MDN[f]/YDN);
         }
         if(avc3 > 0.0){
             iweight3 = iweight * (1.0 / avc3);  /* inverse weight */

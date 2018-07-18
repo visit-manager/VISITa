@@ -52,8 +52,8 @@ void f_ecophysiology(
             apar = fapar = 0.0;
         }
         
-        pchar->ppfd_db[grid->m] += loct->ppfd_h[f] * 3600.0 / 1000000.0;
-        pchar->appfd_db[grid->m] += apar * 3600.0 / 1000000.0;
+        pchar->ppfd_db[grid->m] += loct->ppfd_h[f] * HSN / 1000000.0;
+        pchar->appfd_db[grid->m] += apar * HSN / 1000000.0;
     }
     
 	/* for monthly simulation ***********************/
@@ -346,7 +346,7 @@ void opt_lai(
 	arg = pchar->lf[grid->m] * dmTc * 10000.0 / (pchar->sla)*(1.0 + pchar->rgf);
 	ar = arm + arg;
 
-	cc4 = (psat*grid->dlen[grid->m])/(psat*grid->dlen[grid->m] - ar*24.0);
+	cc4 = (psat*grid->dlen[grid->m])/(psat*grid->dlen[grid->m] - ar* DHN);
 	ccc = psat*(cc4 - 1.0);
 	
 	if(ccc > 0.0){

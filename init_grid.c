@@ -1192,7 +1192,7 @@ void f_init_grid(
 		fscanf(fp_s[48],"%ld", &aaa);
 		grid->inundation_ssmi[h] = (double)aaa/8.0;
 		
-		grid->inundation_ssmi_av += grid->inundation_ssmi[h] * MDN[h]/365.0;
+		grid->inundation_ssmi_av += grid->inundation_ssmi[h] * MDN[h]/YDN;
 		
 		if(grid->inundation_ssmi[h] > grid->inundation_ssmi_max){
 			grid->inundation_ssmi_max = grid->inundation_ssmi[h];

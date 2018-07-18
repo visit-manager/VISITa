@@ -149,8 +149,10 @@ void cal_historical(
         /* for considering leap years: 2014/09/29 by A.Ito */
         if(grid->simy%4 == 0){
             MDN[1] = 29.0;
+            YDN = 366.0;
         }else{
             MDN[1] = 28.0;
+            YDN = 365.0;
         }
 
  		if(grid->flag_histdata == 1){
@@ -317,11 +319,11 @@ void cal_historical(
                             aa = grid->nmanure_potter / grid->nfert_potter;
                             bb = aa * (base_nin/1000.0);
                             
-                            if(bb > 20.0*(grid->nmanure_potter * MDN[grid->m] / 365.0) ){
-                                bb = 20.0*(grid->nmanure_potter * MDN[grid->m] / 365.0);
+                            if(bb > 20.0*(grid->nmanure_potter * MDN[grid->m] / YDN) ){
+                                bb = 20.0*(grid->nmanure_potter * MDN[grid->m] / YDN);
                             }
                         }else{
-                            bb = icrop * grid->nmanure_potter  * MDN[grid->m] / 365.0;
+                            bb = icrop * grid->nmanure_potter  * MDN[grid->m] / YDN;
                         }
                         
                         if(bb < 0.0){
@@ -446,18 +448,18 @@ void cal_historical(
 				/* mean biome budget *******/
 				vo_npp[grid->veg_olson] += (flux->plant).npp[f]/10.0 * grid->area;
 				vo_nep[grid->veg_olson] += flux->nep[f]/10.0 * grid->area;
-				vo_lai[grid->veg_olson] += (mass->plant).lai[f] * MDN[f]/365.0/10.0 * grid->area;
-				vo_fol[grid->veg_olson] += (mass->plant).mfol[f] * MDN[f]/365.0/10.0 * grid->area;
-				vo_stm[grid->veg_olson] += (mass->plant).mstm[f] * MDN[f]/365.0/10.0 * grid->area;
-				vo_rot[grid->veg_olson] += (mass->plant).mrot[f] * MDN[f]/365.0/10.0 * grid->area;
-				vo_ltr[grid->veg_olson] += (mass->soil).ltr_m[f] * MDN[f]/365.0/10.0 * grid->area;
-				vo_msl[grid->veg_olson] += (mass->soil).msl_m[f] * MDN[f]/365.0/10.0 * grid->area;
+				vo_lai[grid->veg_olson] += (mass->plant).lai[f] * MDN[f]/YDN/10.0 * grid->area;
+				vo_fol[grid->veg_olson] += (mass->plant).mfol[f] * MDN[f]/YDN/10.0 * grid->area;
+				vo_stm[grid->veg_olson] += (mass->plant).mstm[f] * MDN[f]/YDN/10.0 * grid->area;
+				vo_rot[grid->veg_olson] += (mass->plant).mrot[f] * MDN[f]/YDN/10.0 * grid->area;
+				vo_ltr[grid->veg_olson] += (mass->soil).ltr_m[f] * MDN[f]/YDN/10.0 * grid->area;
+				vo_msl[grid->veg_olson] += (mass->soil).msl_m[f] * MDN[f]/YDN/10.0 * grid->area;
                 
-                vo_n_cnpy[grid->veg_olson] += (mass->plant).n_cnpy_m[f] * MDN[f]/365.0/10.0 * grid->area;
-                vo_n_strg[grid->veg_olson] += (mass->plant).n_strg_m[f] * MDN[f]/365.0/10.0 * grid->area;
-                vo_n_mcrb[grid->veg_olson] += (mass->soil).n_mcrb_m[f] * MDN[f]/365.0/10.0 * grid->area;
-                vo_n_ltr[grid->veg_olson] += (mass->soil).n_lttr_m[f] * MDN[f]/365.0/10.0 * grid->area;
-                vo_n_hms[grid->veg_olson] += (mass->soil).n_hums_m[f] * MDN[f]/365.0/10.0 * grid->area;
+                vo_n_cnpy[grid->veg_olson] += (mass->plant).n_cnpy_m[f] * MDN[f]/YDN/10.0 * grid->area;
+                vo_n_strg[grid->veg_olson] += (mass->plant).n_strg_m[f] * MDN[f]/YDN/10.0 * grid->area;
+                vo_n_mcrb[grid->veg_olson] += (mass->soil).n_mcrb_m[f] * MDN[f]/YDN/10.0 * grid->area;
+                vo_n_ltr[grid->veg_olson] += (mass->soil).n_lttr_m[f] * MDN[f]/YDN/10.0 * grid->area;
+                vo_n_hms[grid->veg_olson] += (mass->soil).n_hums_m[f] * MDN[f]/YDN/10.0 * grid->area;
 				
 				if(DF97==1){
 					vs_gpp[grid->veg_sage] += (flux->plant).gpp_df97[f]/10.0 * grid->area;
@@ -467,12 +469,12 @@ void cal_historical(
 				
 				vs_npp[grid->veg_sage] += (flux->plant).npp[f]/10.0 * grid->area;
 				vs_nep[grid->veg_sage] += flux->nep[f]/10.0 * grid->area;
-				vs_lai[grid->veg_sage] += (mass->plant).lai[f]*MDN[f]/365.0/10.0 * grid->area;
-				vs_fol[grid->veg_sage] += (mass->plant).mfol[f]*MDN[f]/365.0/10.0 * grid->area;
-				vs_stm[grid->veg_sage] += (mass->plant).mstm[f]*MDN[f]/365.0/10.0 * grid->area;
-				vs_rot[grid->veg_sage] += (mass->plant).mrot[f]*MDN[f]/365.0/10.0 * grid->area;
-				vs_ltr[grid->veg_sage] += (mass->soil).ltr_m[f]*MDN[f]/365.0/10.0 * grid->area;
-				vs_msl[grid->veg_sage] += (mass->soil).msl_m[f]*MDN[f]/365.0/10.0 * grid->area;
+				vs_lai[grid->veg_sage] += (mass->plant).lai[f]*MDN[f]/YDN/10.0 * grid->area;
+				vs_fol[grid->veg_sage] += (mass->plant).mfol[f]*MDN[f]/YDN/10.0 * grid->area;
+				vs_stm[grid->veg_sage] += (mass->plant).mstm[f]*MDN[f]/YDN/10.0 * grid->area;
+				vs_rot[grid->veg_sage] += (mass->plant).mrot[f]*MDN[f]/YDN/10.0 * grid->area;
+				vs_ltr[grid->veg_sage] += (mass->soil).ltr_m[f]*MDN[f]/YDN/10.0 * grid->area;
+				vs_msl[grid->veg_sage] += (mass->soil).msl_m[f]*MDN[f]/YDN/10.0 * grid->area;
                 
                 if(loct->v_type == 1){
                     fweight = 1.0 - grid->f_crop_con;
@@ -570,7 +572,7 @@ void cal_historical(
         }
         avc3 = 0.0;
         for(f=0;f<ASTEP;f++){
-            avc3 += (loct->c3ptn[f] * MDN[f]/365.0);
+            avc3 += (loct->c3ptn[f] * MDN[f]/YDN);
         }
         if(avc3 > 0.0){
             iweight3 = iweight * (1.0 / avc3);

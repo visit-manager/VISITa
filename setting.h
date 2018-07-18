@@ -19,6 +19,8 @@
 #define SLC 1367.0 /* solar constant */
 #define SBC (5.6703 / 100000000.0) /* Stephan-Boltzman Constant, W m-2 K-4 */
 #define GAC 9.8 /* gravity acceleration constant, m s-2 */
+#define DHN 24.0 /* hours per day */
+#define HSN 3600.0 /* seconds per hour */
 
 /***********************************************************/
 /* year time-step, 12=monthly */
@@ -37,7 +39,7 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 1
+#define CALC_STEP 10
 #define CALC_OFFET 0
 /* 1: every grid */
 /* 10: every 10 grid */

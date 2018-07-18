@@ -93,7 +93,7 @@ void f_init_clim(
             grid->prate_sfc[h] *= pre_var;
         }
 
-        grid->tmp_soil_am += grid->tmp200_soil_a[h] * MDN[h] / 365.0;
+        grid->tmp_soil_am += grid->tmp200_soil_a[h] * MDN[h] / YDN;
 
 		/* solar decrination and solar height */
 		grid->sl_dec[h] = f_solar_decl(grid);
@@ -326,7 +326,7 @@ void f_dyn_loct(
 		grid->tmp_soil_mean = 0.0;
 		for(h=0;h<ASTEP;h++){
 			/* annual mean temperature */
-			grid->tmp_sfc_am += grid->tmp_sfc[h] * MDN[h]/365.0;
+			grid->tmp_sfc_am += grid->tmp_sfc[h] * MDN[h]/YDN;
 			/* annual maximum */
 			grid->tmp_sfc_mx = (grid->tmp_sfc[h]>grid->tmp_sfc_mx)?grid->tmp_sfc[h]:grid->tmp_sfc_mx; 
 			/* annual minimum */
@@ -334,7 +334,7 @@ void f_dyn_loct(
 			/* annual total precipitation */
 			grid->prate_sfc_ann += grid->prate_sfc[h]; 
 			/* annual mean soil temperature */
-			grid->tmp_soil_mean += grid->tmp10_soil[h] * MDN[h]/365.0;
+			grid->tmp_soil_mean += grid->tmp10_soil[h] * MDN[h]/YDN;
 		}
 		loct->cum_dprec = 0.0;
         
@@ -343,7 +343,7 @@ void f_dyn_loct(
             
             tmp_ann = 0.0;
             for(h=0;h<ASTEP;h++){
-                tmp_ann = grid->tmp_2m[h]*MDN[h]/365.0;
+                tmp_ann = grid->tmp_2m[h]*MDN[h]/YDN;
             }
             
             tmp_var = tmp_ann - grid->tmp_base_permaforst;

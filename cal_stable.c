@@ -138,8 +138,10 @@ void cal_spinup(
         /* for considering leap years: 2014/09/29 by A.Ito */
         if(grid->y%4 == 0){
             MDN[1] = 29.0;
+            YDN = 366.0;
         }else{
             MDN[1] = 28.0;
+            YDN = 365.0;
         }
 			
         if(ISIMIP_RUN == 1 && grid->flag_histdata == 1){
@@ -317,11 +319,11 @@ void cal_spinup(
                             aa = grid->nmanure_potter / grid->nfert_potter;
                             bb = aa * ((flux->soil).n_fertin[grid->m]/1000.0);
                             
-                            if(bb > 20.0*(grid->nmanure_potter * MDN[grid->m] / 365.0) ){
-                                bb = 20.0*(grid->nmanure_potter * MDN[grid->m] / 365.0);
+                            if(bb > 20.0*(grid->nmanure_potter * MDN[grid->m] / YDN) ){
+                                bb = 20.0*(grid->nmanure_potter * MDN[grid->m] / YDN);
                             }
                         }else{
-                            bb = icrop * grid->nmanure_potter * MDN[grid->m] / 365.0;
+                            bb = icrop * grid->nmanure_potter * MDN[grid->m] / YDN;
                         }
                         
                         if(bb < 0.0){
@@ -382,7 +384,7 @@ void cal_spinup(
 			n_budget(grid, loct, mass, flux);
 						
 			/* annual average plant mass */
-			plantmass += (mass->plant).plant[f] * MDN[f]/365.0;
+			plantmass += (mass->plant).plant[f] * MDN[f]/YDN;
 			
 			if((echar->c3).v_type == 1){
 				/* corrected: A.Ito and E.Kato (2009/08/16) */
@@ -542,7 +544,7 @@ void cal_spinup(
     }
     avc3 = 0.0;
     for(f=0;f<ASTEP;f++){
-        avc3 += (loct->c3ptn[f] * MDN[f]/365.0);
+        avc3 += (loct->c3ptn[f] * MDN[f]/YDN);
     }
     if(avc3 > 0.0){
         iweight3 = iweight * (1.0 / avc3);

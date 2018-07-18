@@ -1096,7 +1096,7 @@ void read_gcm_clim(
                         /* kg m-2 s-1 => mm month–1 */
 						grid->proj_prec[f][g][h][i] *= (float)MDN[g];
 						if(SCENARIO_ID >= 1000){
-							grid->proj_prec[f][g][h][i] *= 3600.0*24.0;
+							grid->proj_prec[f][g][h][i] *= HSN * DHN;
 						}
 						
 						/* specific humidity (kg kg-1) to vapor pressure (hPa) */

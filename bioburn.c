@@ -101,7 +101,7 @@ void f_biomassburning(
 		0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; */
     double burn_eff[16] = {0.0,
         0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-        0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.0}; /* */ /* test: 2018/07/13 by A.Ito */
+        0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0}; /* */ /* test: 2018/07/13 by A.Ito */
 
 	double closs_leaf, closs_wood, closs_root, closs_litter, prm_ensen;
 	
@@ -174,7 +174,7 @@ void f_biomassburning(
 	
 	/* annual fraction of fire season */
 	if(n_fireseason >= 0.05){
-		ss = n_fireseason/365.0;	
+		ss = n_fireseason/YDN;	
 		
 		if(ss<=0.0){
 			ss = 0.0;

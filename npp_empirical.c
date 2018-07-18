@@ -32,18 +32,18 @@ void npp_empirical(
 		pet_ann += loct->pm_evp[f] + loct->pm_incep[f] + loct->pm_trn[f];
 		
 		/* annual mean net radiation, W m-2 */
-		loct->rad_net[f] = loct->rad_net_short[f] * 0.636619 * grid->dlen[f] / 24.0 - loct->rad_net_long[f];
-		rn_ann += loct->rad_net[f] * MDN[grid->m]/365.0;
+		loct->rad_net[f] = loct->rad_net_short[f] * 0.636619 * grid->dlen[f] / DHN - loct->rad_net_long[f];
+		rn_ann += loct->rad_net[f] * MDN[grid->m]/YDN;
 		
 		/* PRIESTRIE-TAYLOR PET model, mm ***/
 		lhvp = 1000000.0* (2.501 - 0.012/5.0*grid->tmp_2m[f]);
 		loct->pet_prty[f] = 1.26 * 0.667/(loct->slope_vps[f] + 0.667) * 
-				loct->rad_net[f]/lhvp*24.0*3600.0 * MDN[grid->m];
+				loct->rad_net[f]/lhvp* DHN * HSN * MDN[grid->m];
 		loct->pet_prty_ann += loct->pet_prty[f];
 		
 		if(grid->tmp_2m[f] >= 0.0){
 			n++;
-			par += grid->par[f] * 0.636619 * grid->dlen[f] / 24.0;
+			par += grid->par[f] * 0.636619 * grid->dlen[f] / DHN;
 			gdd += (grid->tmp_2m[f] - 5.0)* MDN[grid->m];
 		}
 	}
@@ -58,13 +58,13 @@ void npp_empirical(
 	}
     
     if(grid->prate_sfc_ann > 0.0){
-        rdi = (rn_ann * 24.0*3600.0*365.0) / 2500000.0 / grid->prate_sfc_ann;
+        rdi = (rn_ann * DHN * HSN *365.25) / 2500000.0 / grid->prate_sfc_ann;
     }else{
         rdi = 10.0;
     }
     
     /* Chikugo **************/
-    flux->npp_chikugo = cTdm * 0.29 * (exp(-0.216*rdi*rdi)) * (rn_ann*24.0*3600.0*365.0 / pow(10.0, 7.0) / 4.1868);
+    flux->npp_chikugo = cTdm * 0.29 * (exp(-0.216*rdi*rdi)) * (rn_ann* DHN * HSN *365.25 / pow(10.0, 7.0) / 4.1868);
 	
 	/* Lieth, H., 1975. Modeling the primary productivity of the world. 
 	In: H. Lieth and R.H. Whittaker (Editor), Primary productivity of the biosphere. 
@@ -112,7 +112,7 @@ void npp_empirical(
 	}
 	
 	flux->npp_madison_tp = 20.13/(1.0 + exp(9.5 - 2.25*grid->tmp_sfc_am)) 
-						* 45.83 * (1.0 - exp(-3.5 * grid->prate_sfc_ann/365.0)) * 0.01;
+						* 45.83 * (1.0 - exp(-3.5 * grid->prate_sfc_ann / YDN)) * 0.01;
 	
 	/* NCEAS model ****/
 	/* Del Grosso, S., W. Parton, T. Stohlgren, D. Zhang, D. Bachelet, S. Prince, 

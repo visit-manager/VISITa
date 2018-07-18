@@ -988,11 +988,11 @@ void f_ch4_emit_walter(
             loct->xx7[grid->m] += f_inundation * grid->f_wetland / (grid->f_wetland + grid->f_paddy) * 100.0*wtdepth;
         } */
         
-        efflux_plant = fa_wetland * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
-        efflux_ebul = fa_wetland * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
+        efflux_plant = fa_wetland * flux_plant / 1000.0 * DHN *16.0 * MDN[grid->m];
+        efflux_ebul = fa_wetland * flux_ebull * DHN *16.0 / 1000.0 * MDN[grid->m];
         efflux_diffs = fa_wetland * df[1]/(dpth[1] - dpth[0])*
-					(loct->prof_ch4[1] - loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
-        efflux_reles = fa_wetland * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
+					(loct->prof_ch4[1] - loct->prof_ch4[0]) * DHN *16.0 / 1000.0 * MDN[grid->m];
+        efflux_reles = fa_wetland * release * DHN * 16.0 / 1000.0 * MDN[grid->m];
 		
 		(flux->soil).ch4_wetland_wh_plant[grid->m] += efflux_plant;
 		(flux->soil).ch4_wetland_wh_ebull[grid->m] += efflux_ebul;
@@ -1007,11 +1007,11 @@ void f_ch4_emit_walter(
             loct->xx7[grid->m] += (1.0 - f_inundation) * grid->f_wetland / (grid->f_wetland + grid->f_paddy) * 100.0*wtdepth;
         } */
         
-        efflux_plant = fa_wetland * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
-        efflux_ebul = fa_wetland * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
+        efflux_plant = fa_wetland * flux_plant / 1000.0 * DHN *16.0 * MDN[grid->m];
+        efflux_ebul = fa_wetland * flux_ebull * DHN *16.0 / 1000.0 * MDN[grid->m];
         efflux_diffs = fa_wetland * df[1]/(dpth[1] - dpth[0])*
-					(loct->prof_ch4[1]-loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
-        efflux_reles = fa_wetland * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
+					(loct->prof_ch4[1]-loct->prof_ch4[0]) * DHN *16.0 / 1000.0 * MDN[grid->m];
+        efflux_reles = fa_wetland * release * DHN * 16.0 / 1000.0 * MDN[grid->m];
         
 		(flux->soil).ch4_wetland_wh_plant[grid->m] += efflux_ebul;
 		(flux->soil).ch4_wetland_wh_ebull[grid->m] += efflux_ebul;
@@ -1028,11 +1028,11 @@ void f_ch4_emit_walter(
             loct->xx7[grid->m] += f_inundation * grid->f_paddy / (grid->f_wetland + grid->f_paddy) * 100.0*wtdepth;
         } */
         
-        efflux_plant = fa_paddy * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
-        efflux_ebul = fa_paddy * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
+        efflux_plant = fa_paddy * flux_plant / 1000.0 * DHN *16.0 * MDN[grid->m];
+        efflux_ebul = fa_paddy * flux_ebull * DHN *16.0 / 1000.0 * MDN[grid->m];
         efflux_diffs = fa_paddy * df[1]/(dpth[1] - dpth[0])*
-					(loct->prof_ch4[1]-loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
-        efflux_reles = fa_paddy * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
+					(loct->prof_ch4[1]-loct->prof_ch4[0]) * DHN *16.0 / 1000.0 * MDN[grid->m];
+        efflux_reles = fa_paddy * release * DHN * 16.0 / 1000.0 * MDN[grid->m];
         
 		(flux->soil).ch4_paddy_wh_plant[grid->m] += efflux_plant;
 		(flux->soil).ch4_paddy_wh_ebull[grid->m] += efflux_ebul;
@@ -1047,11 +1047,11 @@ void f_ch4_emit_walter(
             loct->xx7[grid->m] += (1.0 - f_inundation) * grid->f_paddy / (grid->f_wetland + grid->f_paddy)  * 100.0*wtdepth;
         } */
         
-        efflux_plant = fa_paddy * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
-        efflux_ebul = fa_paddy * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
+        efflux_plant = fa_paddy * flux_plant / 1000.0 * DHN *16.0 * MDN[grid->m];
+        efflux_ebul = fa_paddy * flux_ebull * DHN *16.0 / 1000.0 * MDN[grid->m];
         efflux_diffs = fa_paddy * df[1]/(dpth[1] - dpth[0])*
-					(loct->prof_ch4[1]-loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
-        efflux_reles = fa_paddy * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
+					(loct->prof_ch4[1]-loct->prof_ch4[0]) * DHN *16.0 / 1000.0 * MDN[grid->m];
+        efflux_reles = fa_paddy * release * DHN * 16.0 / 1000.0 * MDN[grid->m];
         
 		(flux->soil).ch4_paddy_wh_plant[grid->m] += efflux_plant;
 		(flux->soil).ch4_paddy_wh_ebull[grid->m] += efflux_ebul;
@@ -1099,7 +1099,7 @@ void f_ch4_emit_veg(
 	/* C3, g m-2 month-1 */
 	if((echar->c3).season[grid->m]!=0){
 		(flux->c3).emit_ch4_kirschbaum_mass[grid->m] = ((mass->c3).mfol[grid->m]*dmTc*100.0) * 
-			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -9.0) * MDN[grid->m];
+			(sunshine*femit_sun + (DHN - sunshine)*femit_shade) * pow(10.0, -9.0) * MDN[grid->m];
 	}else{
 		(flux->c3).emit_ch4_kirschbaum_mass[grid->m] = 0.0;
 	}
@@ -1107,7 +1107,7 @@ void f_ch4_emit_veg(
 	/* C4, g m-2 month-1 */
 	if((echar->c4).season[grid->m]!=0){
 		(flux->c4).emit_ch4_kirschbaum_mass[grid->m] = ((mass->c4).mfol[grid->m]*dmTc*100.0) * 
-			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -9.0) * MDN[grid->m];
+			(sunshine*femit_sun + (DHN - sunshine)*femit_shade) * pow(10.0, -9.0) * MDN[grid->m];
 	}else{
 		(flux->c4).emit_ch4_kirschbaum_mass[grid->m] = 0.0;
 	}
@@ -1115,10 +1115,10 @@ void f_ch4_emit_veg(
 	/* PHOTO-based scaling up **/
 	if(sunshine > 0.0){
 		(flux->c3).emit_ch4_kirschbaum_photo[grid->m] = 2.0 * (16.0/12.0) * 
-			((flux->c3).npp[grid->m]*1000.0) / 30000.0 * (1.0 + (24.0 - sunshine)/sunshine * 
+			((flux->c3).npp[grid->m]*1000.0) / 30000.0 * (1.0 + (DHN - sunshine)/sunshine * 
 			femit_shade / femit_sun);
 		(flux->c4).emit_ch4_kirschbaum_photo[grid->m] = 2.0 * (16.0/12.0) * 
-			((flux->c4).npp[grid->m]*1000.0) / 30000.0 * (1.0 + (24.0 - sunshine)/sunshine * 
+			((flux->c4).npp[grid->m]*1000.0) / 30000.0 * (1.0 + (DHN - sunshine)/sunshine *
 			femit_shade / femit_sun);
 	}else{
 		(flux->c3).emit_ch4_kirschbaum_photo[grid->m] = 0.0;
