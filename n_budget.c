@@ -156,7 +156,9 @@ void f_biolfix(
 	aet *= 0.1; /* cm month-1 */
 	
 	/* Cleveland et al. (1999) Figure 1, Central */
-	total_nbiofix = 0.234 * aet - 0.172; /* kg N ha-1 yr-1 */
+	/* total_nbiofix = 0.234 * aet - 0.172; */ /* kg N ha-1 yr-1 */
+    /* Cleveland et al. (1999) Figure 1, lower: 2018/07/20 */
+    total_nbiofix = 0.102 * aet + 0.524; /* kg N ha-1 yr-1 */
 	total_nbiofix *= 1000.0; /* g N ha-1 yr-1 */
 	if(total_nbiofix < 0.0){
 		total_nbiofix = 0.0;
