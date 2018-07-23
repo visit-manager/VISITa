@@ -352,8 +352,8 @@ void f_ch4_emit_walter(
     switch(smode){
         case 1:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 18.5;
-                r0 = 1.85;
+                t_veg = 18.4;
+                r0 = 1.84;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
                 t_veg = 15.0;
                 r0 = 1.50;
@@ -366,12 +366,12 @@ void f_ch4_emit_walter(
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
                 t_veg = 1.45;
                 r0 = 0.145;
-            }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 1.3;
-                r0 = 0.13;
-            }else if(grid->veg_olson==23 || grid->veg_olson==24){
-                t_veg = 1.15;
-                r0 = 0.115;
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2018/07/23 by A.Ito */
+                t_veg = 1.4;
+                r0 = 0.14;
+            }else if(grid->veg_olson==23 || grid->veg_olson==24){ /* 2018/07/23 by A.Ito */
+                t_veg = 1.6;
+                r0 = 0.16;
             }else{
                 t_veg = 1.445;
                 r0 = 0.1445;
@@ -379,8 +379,8 @@ void f_ch4_emit_walter(
             break;
         case 2:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 7.8;
-                r0 = 0.78;
+                t_veg = 7.7;
+                r0 = 0.77;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
                 t_veg = 5.8;
                 r0 = 0.58;
@@ -393,12 +393,12 @@ void f_ch4_emit_walter(
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
                 t_veg = 0.355;
                 r0 = 0.0355;
-            }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 0.28;
-                r0 = 0.028;
-            }else if(grid->veg_olson==23 || grid->veg_olson==24){
-                t_veg = 0.247;
-                r0 = 0.0247;
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2018/07/23 by A.Ito */
+                t_veg = 0.30;
+                r0 = 0.030;
+            }else if(grid->veg_olson==23 || grid->veg_olson==24){ /* 2018/07/23 by A.Ito */
+                t_veg = 0.35;
+                r0 = 0.035;
             }else{
                 t_veg = 0.42;
                 r0 = 0.042;
