@@ -349,11 +349,12 @@ void f_ch4_emit_walter(
     /* last calibrated 2018/05/25 */
     /* last calibrated 2018/05/26 */
     /* last calibrated 2018/07/03 */
+    /* last calibrated 2018/07/28 */
     switch(smode){
         case 1:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 18.4;
-                r0 = 1.84;
+                t_veg = 18.35;
+                r0 = 1.835;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
                 t_veg = 15.0;
                 r0 = 1.50;
@@ -367,11 +368,11 @@ void f_ch4_emit_walter(
                 t_veg = 1.45;
                 r0 = 0.145;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2018/07/23 by A.Ito */
-                t_veg = 1.4;
-                r0 = 0.14;
+                t_veg = 1.41;
+                r0 = 0.141;
             }else if(grid->veg_olson==23 || grid->veg_olson==24){ /* 2018/07/23 by A.Ito */
-                t_veg = 1.6;
-                r0 = 0.16;
+                t_veg = 1.7;
+                r0 = 0.17;
             }else{
                 t_veg = 1.445;
                 r0 = 0.1445;
@@ -379,8 +380,8 @@ void f_ch4_emit_walter(
             break;
         case 2:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 7.7;
-                r0 = 0.77;
+                t_veg = 7.65;
+                r0 = 0.765;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
                 t_veg = 5.8;
                 r0 = 0.58;
@@ -394,11 +395,11 @@ void f_ch4_emit_walter(
                 t_veg = 0.355;
                 r0 = 0.0355;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2018/07/23 by A.Ito */
-                t_veg = 0.30;
-                r0 = 0.030;
+                t_veg = 0.31;
+                r0 = 0.031;
             }else if(grid->veg_olson==23 || grid->veg_olson==24){ /* 2018/07/23 by A.Ito */
-                t_veg = 0.35;
-                r0 = 0.035;
+                t_veg = 0.36;
+                r0 = 0.036;
             }else{
                 t_veg = 0.42;
                 r0 = 0.042;
