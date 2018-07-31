@@ -662,7 +662,8 @@ void f_n_uptake(
     
 	
 	/* NH4 uptake */
-    n_max = 0.07; /* 2016/08/15 by A.Ito */
+    /* n_max = 0.07; */ /* 2016/08/15 by A.Ito */
+    n_max = 0.08; /* 2018/07/30 by A.Ito */
 	navil = (mass->soil).n_nh4;
     /* C3 */
     max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
