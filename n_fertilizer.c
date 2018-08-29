@@ -250,7 +250,7 @@ void n_fertilizer_in(
     /* kg N / ha / month */
     /* including seasonality: 2018/02/09 by A.Ito */
     if(EX_NIN_SEASON == 0){
-        loct->n_frtlz_in = fin_base = fert_input * MDN[grid->m] / 365.0;
+        loct->n_frtlz_in = fin_base = fert_input * MDN[grid->m] / YDN;
     }else if(EX_NIN_SEASON == 1){
         if(grid->lat > 0.0 && grid->m == 3){
             loct->n_frtlz_in = fin_base = fert_input;
@@ -266,24 +266,24 @@ void n_fertilizer_in(
             loct->n_frtlz_in = fin_base = 0.0;
         }
     }else{
-        loct->n_frtlz_in = fin_base = fert_input * MDN[grid->m] / 365.0;
+        loct->n_frtlz_in = fin_base = fert_input * MDN[grid->m] / YDN;
     }
     
     /* biofuel experiments: 2015/09/03 revised by A.Ito */
     if(BIOFUEL_RUN == 1){
         /* current */
-        /* loct->n_frtlz_in = 80.0 * MDN[grid->m] / 365.0; */ /* 2015/08/27 by A.Ito */
+        /* loct->n_frtlz_in = 80.0 * MDN[grid->m] / YDN; */ /* 2015/08/27 by A.Ito */
         ;
     }
     if(BIOFUEL_RUN == 2){
         /* low */
-        /* loct->n_frtlz_in = 40.0 * MDN[grid->m] / 365.0; */ /* 2015/08/27 by A.Ito */
-        loct->n_frtlz_in = 10.0 * MDN[grid->m] / 365.0;
+        /* loct->n_frtlz_in = 40.0 * MDN[grid->m] / YDN; */ /* 2015/08/27 by A.Ito */
+        loct->n_frtlz_in = 10.0 * MDN[grid->m] / YDN;
     }
     if(BIOFUEL_RUN == 3){
         /* medium */
-        /* loct->n_frtlz_in = 120.0 * MDN[grid->m] / 365.0; */ /* 2015/08/27 by A.Ito */
-        loct->n_frtlz_in = 60.0 * MDN[grid->m] / 365.0;
+        /* loct->n_frtlz_in = 120.0 * MDN[grid->m] / YDN; */ /* 2015/08/27 by A.Ito */
+        loct->n_frtlz_in = 60.0 * MDN[grid->m] / YDN;
     }
     
     /* NMIP run: 2015/11/19 by A.Ito *****/
@@ -296,11 +296,11 @@ void n_fertilizer_in(
         }
     
         if(grid->niny>=FDY_NINY && grid->niny<=2016){
-            loct->n_frtlz_in = grid->mip_nfert[nyear - FDY_NINY] * MDN[grid->m] / 365.0;
+            loct->n_frtlz_in = grid->mip_nfert[nyear - FDY_NINY] * MDN[grid->m] / YDN;
         }else if(grid->niny<FDY_NINY){
-            loct->n_frtlz_in = grid->mip_nfert[0] * MDN[grid->m] / 365.0;
+            loct->n_frtlz_in = grid->mip_nfert[0] * MDN[grid->m] / YDN;
         }else if(grid->niny>2017){
-            loct->n_frtlz_in = grid->mip_nfert[2016 - FDY_NINY] * MDN[grid->m] / 365.0;
+            loct->n_frtlz_in = grid->mip_nfert[2016 - FDY_NINY] * MDN[grid->m] / YDN;
         }
         
         /* if(NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
@@ -312,11 +312,11 @@ void n_fertilizer_in(
             nyear = FDY_NINY+1;
         }
         if(grid->niny>=FDY_NINY && grid->niny<=2016){
-            loct->n_manure_in = grid->mip_manure[nyear - FDY_NINY] * MDN[grid->m] / 365.0;
+            loct->n_manure_in = grid->mip_manure[nyear - FDY_NINY] * MDN[grid->m] / YDN;
         }else if(grid->niny<FDY_NINY){
-            loct->n_manure_in = grid->mip_manure[0] * MDN[grid->m] / 365.0;
+            loct->n_manure_in = grid->mip_manure[0] * MDN[grid->m] / YDN;
         }else if(grid->niny>2017){
-            loct->n_manure_in = grid->mip_manure[2016 - FDY_NINY] * MDN[grid->m] / 365.0;
+            loct->n_manure_in = grid->mip_manure[2016 - FDY_NINY] * MDN[grid->m] / YDN;
         }
         
         /* if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
@@ -326,7 +326,7 @@ void n_fertilizer_in(
     }else{
         /* ISI-MIP2.1b: 2016/12/22 by A.Ito */
         if(ISIMIP_RUN == 4){
-            loct->n_frtlz_in = grid->mip_nfert[grid->niny - FDY_NINY] * MDN[grid->m] / 365.0;
+            loct->n_frtlz_in = grid->mip_nfert[grid->niny - FDY_NINY] * MDN[grid->m] / YDN;
         }else{
             ;
         }
@@ -345,9 +345,9 @@ void n_fertilizer_in(
         /* kg N / ha / month */
         if(grid->niny >= 2010 && grid->niny <= 2099){
             
-            /* loct->n_frtlz_in = f_adj * grid->est_nfert[grid->niny - 2010] * MDN[grid->m] / 365.0; */
+            /* loct->n_frtlz_in = f_adj * grid->est_nfert[grid->niny - 2010] * MDN[grid->m] / YDN; */
             
-            f_adj = (grid->est_nfert[grid->niny - 2010] - grid->est_nfert[0]) * MDN[grid->m] / 365.0;
+            f_adj = (grid->est_nfert[grid->niny - 2010] - grid->est_nfert[0]) * MDN[grid->m] / YDN;
             loct->n_frtlz_in = fin_base + f_adj;
             
             if(loct->n_frtlz_in < 0.0){

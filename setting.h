@@ -19,6 +19,8 @@
 #define SLC 1367.0 /* solar constant */
 #define SBC (5.6703 / 100000000.0) /* Stephan-Boltzman Constant, W m-2 K-4 */
 #define GAC 9.8 /* gravity acceleration constant, m s-2 */
+#define DHN 24.0 /* hours per day */
+#define HSN 3600.0 /* seconds per hour */
 
 /***********************************************************/
 /* year time-step, 12=monthly */
@@ -37,8 +39,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 1
-#define CALC_OFFET 0
+#define CALC_STEP 10
+#define CALC_OFFSET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -219,6 +221,7 @@
 #else
     #define FSY_HIST 1901 /* */
     /* #define LSY_HIST 2016 */ /* history */
+    /* #define LSY_HIST 1980 */ /* GCP-CH4 MERRA2 run: 2018/08/29 by A.Ito */
     #define LSY_HIST 2017 /* history */
 #endif
 
@@ -326,7 +329,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
-    #define DL_HCLIM 116  /* CRU TS3.25: AD 1901 - 2016 */
+    #define DL_HCLIM 117  /* CRU TS3.26: AD 1901 - 2017 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -339,7 +342,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -450,7 +453,7 @@
 /* 25: ISI-MIP2b 2005 data (2017/11/01 by A.Ito) */
 
 /* extra land-use fixation combined with above scenarios: 2018/07/11 by A.Ito */
-#define EXTRA_LU_FIX 1
+#define EXTRA_LU_FIX 0
 /* 0: off (default) */
 /* 1: make grid->lucy = 1901 */
 
@@ -562,7 +565,7 @@
 
 /* Alternative land-cover data for CH4 */
 #define ALT_FWETLAND 0
-/* 0: not use alternative data */
+/* 0: not use alternative data: default - GLWD */
 /* 1: use alternative data */
 /* 2: use Peregon-san data: 2014/02/04 */
 /* 3: use Maksyutov-san data: GLWD: 2017/07/03 */
@@ -571,25 +574,30 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 0
+#define ALT_INUND 7
 /* 0: default (SSMI) */
-/* 1: GCP-CH4  */
+/* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
+/* 3: GCP-CH4 V1 */
+/* 4: GCP-CH4 V1 */
+/* 5: GCP-CH4 V1 */
+/* 6: GCP-CH4 V1 */
+/* 7: GCP-CH4 V2: 2018/08/28 by A.Ito */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 
 /* change in wetland extent due to permafrost melting: 2012/10/26 by A.Ito */
 #define VAR_PFMWET 0
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 
 /* variable water-table depth: 2014/12/08 by A.Ito */
 #define VAR_WTD 1
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 
 #define FIX_STMP 0
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 /* fix soil temperature in wetland: 2015/03/23 by A.Ito */
 
 #define FIX_CH4_NPP 0

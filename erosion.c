@@ -107,7 +107,7 @@ void f_erosion(
 		/* parameterization */
 		/* fveg_a = 0.0;
 		for(f=0;f<12;f++){
-			fveg_a += loct->f_vegcov[f] * MDN[f]/365.0;
+			fveg_a += loct->f_vegcov[f] * MDN[f]/YDN;
 		}
 		
 		grid->f_erosion_c = (1.0 - grid->f_crop_con)*c_factor_v[grid->veg_sage]
@@ -115,7 +115,7 @@ void f_erosion(
 		
 		fveg_a = 0.0;
 		for(f=0;f<12;f++){
-			fveg_a += loct->f_vegcov[f] * MDN[f]/365.0;
+			fveg_a += loct->f_vegcov[f] * MDN[f]/YDN;
 		}
 		
 		/* case natural: 2011/12/15 (A.Ito) */

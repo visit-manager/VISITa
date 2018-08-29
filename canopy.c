@@ -123,6 +123,7 @@ double f_df97_gpp(
 	root1 = 1.0 - 0.5 * (exp(-0.3 * pchar->root_dist_a) + exp(-0.3 * pchar->root_dist_b));
 	root2 = 1.0 - root1;
 	
+    f_ds1 = f_ds2 = 0.5;
 	if(pchar->phototype==3){			/* C3 plants */
 		f_ds1 = 0.95 * loct->sw30 / (loct->sw30 + grid->field_cap1*0.5) + 0.05;
 		f_ds2 = 0.95 * loct->sww / (loct->sww + grid->field_cap2*0.5) + 0.05;
@@ -324,7 +325,7 @@ double f_df97_gpp(
 			
 			/* total CO2 assimilation */
 			if(mode == 1){
-				gpp_df += (assim_sn + assim_sd) * 3600.0 * 12.0 / 100000000.0;
+				gpp_df += (assim_sn + assim_sd) * HSN * 12.0 / 100000000.0;
 			}else if(mode == 2){
 				pchar->lue_df[grid->m] = (assim_sn + assim_sd) / 100.0;
 			}else if(mode == 3){

@@ -184,6 +184,24 @@ void open_input(
                 printf("No cru325_vap_1901-2016.txt\n");
                 exit(1);
             }
+        }else if(DL_HCLIM==117){
+            /* UEA-CRU data from 1901 - 2017: 2018/08/28 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/cru326_cld_1901-2017.txt","rt"))==NULL ){
+                printf("No cru326_cld_1901-2017.txt\n");
+                exit(1);
+            }
+            if( (fp_c[1]=fopen("./data/cru326_pre_1901-2017.txt","rt"))==NULL ){
+                printf("No cru326_pre_1901-2017.txt\n");
+                exit(1);
+            }
+            if( (fp_c[2]=fopen("./data/cru326_tmp_1901-2017.txt","rt"))==NULL ){
+                printf("No cru326_tmp_1901-2017.txt\n");
+                exit(1);
+            }
+            if( (fp_c[3]=fopen("./data/cru326_vap_1901-2017.txt","rt"))==NULL ){
+                printf("No cru326_vap_1901-2017.txt\n");
+                exit(1);
+            }
         }else{
             printf("No CRU data\n");
             exit(1);
@@ -1094,6 +1112,13 @@ void open_input(
     }else if(ALT_INUND == 6){
         if( (fp_s[84]=fopen("./data/fw_swamps-glwd_2000-2012.txt","rt"))==NULL ){
             printf("No fw_swamps-glwd_2000-2012.txt data\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[84] ++;
+        }
+    }else if(ALT_INUND == 7){ /* GCP-CH4 v2: 2018/08/28 by A.Ito */
+        if( (fp_s[84]=fopen("./data/fw_gcp-ch4_wetlands_2000-2017.txt","rt"))==NULL ){
+            printf("No fw_gcp-ch4_wetlands_2000-2017.txt data\n");
             exit(1);
         }else{
             Flag_FOPEN[84] ++;

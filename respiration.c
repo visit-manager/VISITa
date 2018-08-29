@@ -26,7 +26,7 @@ double frfm(
 		/* micro mol m-2 s-1 */
 		/* g g-1 */
 		rfmt0 = veg->n_conc_larea * veg->rd_n * 12.0 / 
-				1000000.0 *24.0*3600.0 / (10000.0/veg->sla * dmTc * 2.0);
+				1000000.0 * DHN * HSN / (10000.0/veg->sla * dmTc * 2.0);
 	}else{
 		/* g g-1 day-1 */
 		rfmt0 = veg->rmf/1000.0; 

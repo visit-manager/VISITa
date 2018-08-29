@@ -156,7 +156,9 @@ void f_biolfix(
 	aet *= 0.1; /* cm month-1 */
 	
 	/* Cleveland et al. (1999) Figure 1, Central */
-	total_nbiofix = 0.234 * aet - 0.172; /* kg N ha-1 yr-1 */
+	/* total_nbiofix = 0.234 * aet - 0.172; */ /* kg N ha-1 yr-1 */
+    /* Cleveland et al. (1999) Figure 1, lower: 2018/07/20 */
+    total_nbiofix = 0.102 * aet + 0.524; /* kg N ha-1 yr-1 */
 	total_nbiofix *= 1000.0; /* g N ha-1 yr-1 */
 	if(total_nbiofix < 0.0){
 		total_nbiofix = 0.0;
@@ -343,20 +345,20 @@ void f_n_deposit(
         pre_ann = grid->prate_sfc_ann + 1.0;
 
         if(nyear <= 1850){
-            ndepo_dry = f_dry * grid->ndepo[0] * MDN[grid->m]/365.0;
+            ndepo_dry = f_dry * grid->ndepo[0] * MDN[grid->m]/YDN;
             ndepo_wet = f_wet * grid->ndepo[0] * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
         }else if(nyear>1850 && nyear<=1993){
             aa = grid->ndepo[0] + (grid->ndepo[1] - grid->ndepo[0])*(double)(nyear - 1850)/143.0;
         
-            ndepo_dry = f_dry * aa * MDN[grid->m]/365.0;
+            ndepo_dry = f_dry * aa * MDN[grid->m]/YDN;
             ndepo_wet = f_wet * aa * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
         }else if(nyear>1993 && nyear<=2050){
             aa = grid->ndepo[1] + (grid->ndepo[2] - grid->ndepo[1])*(double)(nyear - 1993)/57.0;
         
-            ndepo_dry = f_dry * aa * MDN[grid->m]/365.0;
+            ndepo_dry = f_dry * aa * MDN[grid->m]/YDN;
             ndepo_wet = f_wet * aa * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
         }else{ /*  if(grid->climy>2050) */
-            ndepo_dry = grid->ndepo[2] * f_dry * MDN[grid->m]/365.0;
+            ndepo_dry = grid->ndepo[2] * f_dry * MDN[grid->m]/YDN;
             ndepo_wet = grid->ndepo[2] * f_wet * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
             /* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
         }
@@ -660,7 +662,8 @@ void f_n_uptake(
     
 	
 	/* NH4 uptake */
-    n_max = 0.07; /* 2016/08/15 by A.Ito */
+    /* n_max = 0.07; */ /* 2016/08/15 by A.Ito */
+    n_max = 0.08; /* 2018/07/30 by A.Ito */
 	navil = (mass->soil).n_nh4;
     /* C3 */
     max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;

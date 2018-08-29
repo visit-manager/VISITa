@@ -114,10 +114,12 @@ void cal_projection(
         }
 
         /* for considering leap years: 2014/09/29 by A.Ito */
-        if(grid->climy%4 == 0){
+        if(grid->simy%4 == 0){
             MDN[1] = 29.0;
+            YDN = 366.0;
         }else{
             MDN[1] = 28.0;
+            YDN = 365.0;
         }
 
 		/* monthly loop *************************************/
@@ -280,7 +282,7 @@ void cal_projection(
 			/* total ecosystem carbon storage */
 			mass->total[f] = (mass->c3).plant[f]*loct->c3ptn[f]+(mass->c4).plant[f]*loct->c4ptn[f]+(mass->soil).soil[f];
 			/** net carbon balance taking crop harvest into account **/
-			flux->ncb[f] = flux->nep[f] - (flux->plant).hvst_crop[f];
+			flux->ncb[f] = flux->nep[f] - (flux->plant).net_crop[f];
 			
 			/* carbon isotope */
 			f_cisotope_efflux(grid, loct, mass, flux);
@@ -333,7 +335,7 @@ void cal_projection(
         }
         avc3 = 0.0;
         for(f=0;f<ASTEP;f++){
-            avc3 += (loct->c3ptn[f] * MDN[f]/365.0);
+            avc3 += (loct->c3ptn[f] * MDN[f]/YDN);
         }
         if(avc3 > 0.0){
             iweight3 = iweight * (1.0 / avc3);  /* inverse weight */
@@ -465,7 +467,7 @@ void cal_projection(
             
             if(NECB_CROP == 1){
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
-                flux->nbp[f] -= 1.0 * (flux->plant).hvst_crop[f]; /* ! hvst is positive */
+                flux->nbp[f] -= 1.0 * (flux->plant).net_crop[f]; /* ! hvst is positive */
             }
 		}
 		

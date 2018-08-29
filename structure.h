@@ -317,7 +317,7 @@ struct Grid{
 	double	inundation_ssmi_max;
     
     double  inundation_gcp_av[ASTEP];
-    double  inundation_gcp_ts[15][ASTEP];
+    double  inundation_gcp_ts[18][ASTEP]; /* updated: 2018/08/28 by A.Ito */
     
     /* revised wetland maps: 2018/07/03 by A.Ito */
     double  wet_glwd;
@@ -823,8 +823,9 @@ struct Pflx{
 	double	lL[ASTEP];				/* total litterfall */
 	double	lf_c[ASTEP];			/* leaf shedding in C3/C4 altyeration in grassland */
 	
-	double	hvst_crop[ASTEP];			/* harvest of crops */
-	
+	double	net_crop[ASTEP];			/* net C budget of crops */
+	double  hvst_crop[ASTEP];           /* crop harvest */
+    
 	double	emit_ch4_kirschbaum_mass[ASTEP];		/* plant CH4 emission, mass-based */
 	double	emit_ch4_kirschbaum_photo[ASTEP];		/* plant CH4 emission, photosynthesis-based */
 	
@@ -856,7 +857,7 @@ struct Pflx{
 	double	d13c_lL[ASTEP];			/* total  */
 	double	d13c_lf_c[ASTEP];		
 
-	double	d13c_hvst_crop[ASTEP];		/* harvest */
+	double	d13c_net_crop[ASTEP];		/* harvest */
 
 	double	d14c_gpp[ASTEP];		/* GPP */
 	double	d14c_lL[ASTEP];			/* litter input */

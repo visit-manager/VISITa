@@ -18,7 +18,7 @@
 short Flag_FOPEN[IFILEN];
 
 extern short DF97;
-extern double MDN[ASTEP];
+extern double MDN[ASTEP],YDN;
 extern long SCENARIO_ID, CO2S, GCM_R, GCM_C;
 extern long PARAM_PTB, PARAM_ENS;   /* added by A.Ito (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3;   /* added by A.Ito (2010/07/02) */
@@ -39,7 +39,7 @@ extern double h_luc_1[PD_SIM], h_luc_2[PD_SIM], h_luc_3[PD_SIM];
 extern double h_gpp_df97[PD_SIM], h_gpp_c4[PD_SIM]; /* added by A.Ito (2009/08/31) */
 extern double h_pot_prmfrst[PD_SIM];
 extern double h_trnsp[PD_SIM], h_incepev[PD_SIM], h_ssurfev[PD_SIM];
-extern double h_nbp[PD_SIM], h_hvst_crop[PD_SIM], h_abgm[PD_SIM];
+extern double h_nbp[PD_SIM], h_net_crop[PD_SIM], h_hvst_crop[PD_SIM], h_abgm[PD_SIM];
 extern double h_sw1[PD_SIM], h_sw2[PD_SIM];
 extern double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
 extern double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
@@ -190,7 +190,7 @@ extern double rh_ci_r[N_REG][PD_SIM], rh_ci_r_d13c[N_REG][PD_SIM], rh_ci_r_d14c[
 extern double rh_ci_l[N_REG][PD_SIM], rh_ci_l_d13c[N_REG][PD_SIM], rh_ci_l_d14c[N_REG][PD_SIM];
 extern double rh_ci_h[N_REG][PD_SIM], rh_ci_h_d13c[N_REG][PD_SIM], rh_ci_h_d14c[N_REG][PD_SIM];
 
-extern double rh_hvst_crop[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
+extern double rh_net_crop[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
 extern double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
 extern double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
 

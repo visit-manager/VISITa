@@ -156,7 +156,7 @@ void read_cru_clim(
         avpr = 0.0;
         for(h=0;h<DL_ISIMIP;h++){
             for(g=0;g<ASTEP;g++){
-                grid->hist_pre[h][g] = (double)r_isimip_data[h*ASTEP + g] * (double)MDN[g] *24.0*3600.0;
+                grid->hist_pre[h][g] = (double)r_isimip_data[h*ASTEP + g] * (double)MDN[g] * DHN * HSN;
                 avpr += grid->hist_pre[h][g] / (double)DL_ISIMIP;
                 grid->hist_pre[h][g] = (grid->hist_pre[h][g]>0.0)?grid->hist_pre[h][g]:0.0;
             }
@@ -229,7 +229,7 @@ void read_cru_clim(
                     drad = 0.0;
                     grid->m = g;
                     for (f=0;f<24;f++) {
-                        drad += f_top_rad(grid, -180+15*f) / 24.0; 
+                        drad += f_top_rad(grid, -180+15*f) / DHN; 
                     }
                     
                     /* inverse estimation of cloudiness */
@@ -299,7 +299,7 @@ void read_cru_clim(
         avpr = 0.0;
         for(h=0;h<DL_GCM;h++){
             for(g=0;g<ASTEP;g++){
-                grid->proj_prec[h][g][0][0] = (double)r_gcm_data[h*ASTEP + g] * (double)MDN[g] *24.0 * 3600.0;
+                grid->proj_prec[h][g][0][0] = (double)r_gcm_data[h*ASTEP + g] * (double)MDN[g] * DHN * HSN;
                 grid->proj_prec[h][g][0][0] = (grid->proj_prec[h][g][0][0]>0.0)?grid->proj_prec[h][g][0][0]:0.0;
             }
         }

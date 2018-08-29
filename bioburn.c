@@ -94,12 +94,20 @@ void f_biomassburning(
     double ef_n2o[16] = {0.0,
         0.2, 0.2, 0.16, 0.16, 0.16, 0.41, 0.41, 38.0,
         0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
+    
+    /* ammonium: ref. Akagi et al. (2011): 2018/07/29 by A.Ito */
+    double ef_nh4[16] = {0.0,
+        0.00564, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0035, 0.00397, 0.0, 0.0, 0.0, 0.0, 0.0};
 
 	/* burning efficiency */
-	double burn_eff[16] = {0.0, 
+	/* double burn_eff[16] = {0.0,
 		0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-		0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-  		
+		0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; */
+    double burn_eff[16] = {0.0,
+        0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
+        0.4, 0.4, 0.4, 0.4, 0.3, 0.4, 0.0}; /* */ /* test: 2018/07/23 by A.Ito */
+
 	double closs_leaf, closs_wood, closs_root, closs_litter, prm_ensen;
 	
 	extern double MDN[ASTEP];
@@ -171,7 +179,7 @@ void f_biomassburning(
 	
 	/* annual fraction of fire season */
 	if(n_fireseason >= 0.05){
-		ss = n_fireseason/365.0;	
+		ss = n_fireseason/YDN;	
 		
 		if(ss<=0.0){
 			ss = 0.0;

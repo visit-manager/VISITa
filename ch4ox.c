@@ -333,7 +333,7 @@ void f_ch4oxy_casa(
 	
 	if(grid->tmp10_soil[grid->m] > -10.0){
 		/* Eq. 1 in Potter (1996) */
-		j_ch4 = d_ch4 * c_ch4 * (2.7 * pow(10.0, -4.0))* 30.0 * 24.0 * 3600.0;  /*  */
+		j_ch4 = d_ch4 * c_ch4 * (2.7 * pow(10.0, -4.0))* 30.0 * DHN * HSN;  /*  */
 	}else{
 		j_ch4 = 0.0;
 	}

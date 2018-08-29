@@ -313,8 +313,8 @@ void f_output_result(
 		pre_ann += grid->prate_sfc[f];
 		hrl_ann += (flux->soil).rl[f];
 		hrm_ann += (flux->soil).rh[f];
-		ltr_ann += (mass->soil).ltr_m[f] * MDN[f] /365.0;
-		msl_ann += (mass->soil).msl_m[f] * MDN[f] /365.0;
+		ltr_ann += (mass->soil).ltr_m[f] * MDN[f] /YDN;
+		msl_ann += (mass->soil).msl_m[f] * MDN[f] /YDN;
 	}
 
 	/* carbon budget ***********************************************/
@@ -352,7 +352,9 @@ void f_output_result(
             fprintf(fp_o[0],"%.4lf ",  flux->ncb[f]); /* */
             
             /* added: 2011/04/19 (A.Ito) */
+            /* fprintf(fp_o[0],"%.4lf ",  (flux->plant).net_crop[f]); */
             fprintf(fp_o[0],"%.4lf ",  (flux->plant).hvst_crop[f]);
+
             fprintf(fp_o[0],"%.4lf ",  (flux->soil).doc_boyer[f]);
             fprintf(fp_o[0],"%.4lf ",  flux->voc_isopr_g97[f]+flux->voc_monotrp_g97[f]
                     +flux->voc_methanl_g97[f]+flux->voc_acetone_g97[f]+flux->voc_actaldhd_g97[f]
@@ -773,6 +775,7 @@ void f_grid_av(
 	/* decadal periods **********/
     period = 0;
     length = 10.0;
+    YDN = 365.25;
     if(IMPRESSIONS_RUN == 0){
         length = 10.0;
         if(grid->climy>=1950 && grid->climy<1960){
@@ -833,9 +836,9 @@ void f_grid_av(
 		}
 #endif
 		
-		g_tmp[period][grid->row][grid->col] += fweight * grid->tmp_2m[grid->m]* MDN[grid->m]/365.0 /length;
+		g_tmp[period][grid->row][grid->col] += fweight * grid->tmp_2m[grid->m]* MDN[grid->m]/YDN /length;
 		g_prc[period][grid->row][grid->col] += fweight * grid->prate_sfc[grid->m] /10.0;
-		g_swr[period][grid->row][grid->col] += fweight * grid->gl_rad[grid->m]* MDN[grid->m]/365.0 /length;
+		g_swr[period][grid->row][grid->col] += fweight * grid->gl_rad[grid->m]* MDN[grid->m]/YDN /length;
 		if(DF97==1){
 			g_gpp[period][grid->row][grid->col] += fweight * (flux->plant).gpp_df97[grid->m] /length;
 		}else{
@@ -844,9 +847,9 @@ void f_grid_av(
 		g_npp[period][grid->row][grid->col] += fweight * (flux->plant).npp[grid->m] /length;
 		g_nep[period][grid->row][grid->col] += fweight * flux->nep[grid->m] /length;
 		g_pmas[period][grid->row][grid->col] += fweight * ((mass->plant).mfol[grid->m] + (mass->plant).mstm[grid->m] + 
-											(mass->plant).mrot[grid->m]) * MDN[grid->m] /365.0 /length;
+											(mass->plant).mrot[grid->m]) * MDN[grid->m] /YDN /length;
 		g_smas[period][grid->row][grid->col] += fweight * ((mass->soil).ltr_m[grid->m] + 
-											(mass->soil).msl_m[grid->m])* MDN[grid->m]/365.0 /length;
+											(mass->soil).msl_m[grid->m])* MDN[grid->m]/YDN /length;
 		
 		g_ch4e_cao[period][grid->row][grid->col] += fweight * ((flux->soil).ch4flux_paddy_cao[grid->m] 
 															   + (flux->soil).ch4flux_wetland_cao[grid->m]) /length;
@@ -859,14 +862,14 @@ void f_grid_av(
 		g_sr[period][grid->row][grid->col] += fweight * ((flux->plant).rrm[grid->m] + (flux->plant).rrg[grid->m] 
 														 + (flux->soil).hr[grid->m]) /length;
 		g_er[period][grid->row][grid->col] += (float)(fweight * flux->er[grid->m] /length);
-		g_snh4[period][grid->row][grid->col] += (float)(fweight * (mass->soil).n_nh4*MDN[grid->m]/365.0 /length);
-		g_sno3[period][grid->row][grid->col] += (float)(fweight * (mass->soil).n_no3*MDN[grid->m]/365.0 /length);
+		g_snh4[period][grid->row][grid->col] += (float)(fweight * (mass->soil).n_nh4*MDN[grid->m]/YDN /length);
+		g_sno3[period][grid->row][grid->col] += (float)(fweight * (mass->soil).n_no3*MDN[grid->m]/YDN /length);
 
 #if PHYS_GOUT==1
 		g_lai[period][grid->row][grid->col] += (loct->c3ptn[grid->m]*(mass->c3).lai[grid->m]+
-												loct->c4ptn[grid->m]*(mass->c4).lai[grid->m])*MDN[grid->m]/365.0 /length;
-		g_parb[period][grid->row][grid->col] += grid->par_bp[grid->m]*MDN[grid->m]/365.0 /length;
-		g_pard[period][grid->row][grid->col] += grid->par_dp[grid->m]*MDN[grid->m]/365.0 /length;
+												loct->c4ptn[grid->m]*(mass->c4).lai[grid->m])*MDN[grid->m]/YDN /length;
+		g_parb[period][grid->row][grid->col] += grid->par_bp[grid->m]*MDN[grid->m]/YDN /length;
+		g_pard[period][grid->row][grid->col] += grid->par_dp[grid->m]*MDN[grid->m]/YDN /length;
 		g_apar[period][grid->row][grid->col] += loct->fappfd_g[grid->m] /length;
 		if(DF97==1){
 			g_apar2[period][grid->row][grid->col] += loct->fapar_df[grid->m] /length;
@@ -875,11 +878,11 @@ void f_grid_av(
 		}
 		g_aet[period][grid->row][grid->col] += (loct->incep[grid->m]+loct->evpr[grid->m]+loct->trspr[grid->m]) /length;
 		g_rof[period][grid->row][grid->col] += loct->ro2[grid->m] /length;
-		g_rns[period][grid->row][grid->col] += loct->rad_net_short[grid->m]*MDN[grid->m]/365.0 /length;
-		g_rnl[period][grid->row][grid->col] += loct->rad_net_long[grid->m]*MDN[grid->m]/365.0 /length;
+		g_rns[period][grid->row][grid->col] += loct->rad_net_short[grid->m]*MDN[grid->m]/YDN /length;
+		g_rnl[period][grid->row][grid->col] += loct->rad_net_long[grid->m]*MDN[grid->m]/YDN /length;
 		g_sw1[period][grid->row][grid->col] += loct->msw30[grid->m] /length;
 		g_sw2[period][grid->row][grid->col] += loct->msww[grid->m] /length;
-		g_rnsd[period][grid->row][grid->col] += loct->nsw_d[grid->m]*MDN[grid->m]/365.0 /length;
+		g_rnsd[period][grid->row][grid->col] += loct->nsw_d[grid->m]*MDN[grid->m]/YDN /length;
 #endif
 		
 #if CH4_WH==1
@@ -899,19 +902,19 @@ void f_grid_av(
 #endif
 
 #if C13_GOUT==1
-		g_f13[period][grid->row][grid->col] += (mass->plant).d13c_mfol[grid->m]*MDN[grid->m]/365.0 /length;
-		g_c13[period][grid->row][grid->col] += (mass->plant).d13c_mstm[grid->m]*MDN[grid->m]/365.0 /length;
-		g_r13[period][grid->row][grid->col] += (mass->plant).d13c_mrot[grid->m]*MDN[grid->m]/365.0 /length;
-		g_l13[period][grid->row][grid->col] += (mass->soil).d13c_ltr_m[grid->m]*MDN[grid->m]/365.0 /length;
-		g_h13[period][grid->row][grid->col] += (mass->soil).d13c_msl_m[grid->m]*MDN[grid->m]/365.0 /length;
+		g_f13[period][grid->row][grid->col] += (mass->plant).d13c_mfol[grid->m]*MDN[grid->m]/YDN /length;
+		g_c13[period][grid->row][grid->col] += (mass->plant).d13c_mstm[grid->m]*MDN[grid->m]/YDN /length;
+		g_r13[period][grid->row][grid->col] += (mass->plant).d13c_mrot[grid->m]*MDN[grid->m]/YDN /length;
+		g_l13[period][grid->row][grid->col] += (mass->soil).d13c_ltr_m[grid->m]*MDN[grid->m]/YDN /length;
+		g_h13[period][grid->row][grid->col] += (mass->soil).d13c_msl_m[grid->m]*MDN[grid->m]/YDN /length;
 #endif
 		
 #if C14_GOUT==1				
-		g_f14[period][grid->row][grid->col] += (mass->plant).d14c_mfol[grid->m]*MDN[grid->m]/365.0 /length;
-		g_c14[period][grid->row][grid->col] += (mass->plant).d14c_mstm[grid->m]*MDN[grid->m]/365.0 /length;
-		g_r14[period][grid->row][grid->col] += (mass->plant).d14c_mrot[grid->m]*MDN[grid->m]/365.0 /length;
-		g_l14[period][grid->row][grid->col] += (mass->soil).d14c_ltr_m[grid->m]*MDN[grid->m]/365.0 /length;
-		g_h14[period][grid->row][grid->col] += (mass->soil).d14c_msl_m[grid->m]*MDN[grid->m]/365.0 /length;
+		g_f14[period][grid->row][grid->col] += (mass->plant).d14c_mfol[grid->m]*MDN[grid->m]/YDN /length;
+		g_c14[period][grid->row][grid->col] += (mass->plant).d14c_mstm[grid->m]*MDN[grid->m]/YDN /length;
+		g_r14[period][grid->row][grid->col] += (mass->plant).d14c_mrot[grid->m]*MDN[grid->m]/YDN /length;
+		g_l14[period][grid->row][grid->col] += (mass->soil).d14c_ltr_m[grid->m]*MDN[grid->m]/YDN /length;
+		g_h14[period][grid->row][grid->col] += (mass->soil).d14c_msl_m[grid->m]*MDN[grid->m]/YDN /length;
 #endif				
 	}
 }
