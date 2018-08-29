@@ -1116,7 +1116,7 @@ void open_input(
         }else{
             Flag_FOPEN[84] ++;
         }
-    }else if(ALT_INUND == 7){ /* GCP-CH4 v2: 2018/08/28 by A.Ito */
+    }else if(ALT_INUND == 7 || ALT_INUND == 8){ /* GCP-CH4 v2: 2018/08/28 by A.Ito */
         if( (fp_s[84]=fopen("./data/fw_gcp-ch4_wetlands_2000-2017.txt","rt"))==NULL ){
             printf("No fw_gcp-ch4_wetlands_2000-2017.txt data\n");
             exit(1);

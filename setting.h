@@ -574,7 +574,7 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 7
+#define ALT_INUND 8
 /* 0: default (SSMI) */
 /* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
@@ -583,6 +583,7 @@
 /* 5: GCP-CH4 V1 */
 /* 6: GCP-CH4 V1 */
 /* 7: GCP-CH4 V2: 2018/08/28 by A.Ito */
+/* 8: GCP-CH4 V2: 2018/08/29 by A.Ito : no limit by GLWD */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0
