@@ -1072,13 +1072,27 @@ void f_ch4_emit_walter(
         
         /* no limit by GLWD: 2018/08/29 by A.Ito */
         if(ALT_INUND == 8 && smode == 1){
-            fa_wetland = grid->inundation_gcp_ts[grid->climy-2000][grid->m];
+        
+            if(grid->climy >= 2000 && grid->climy <= 2017){
+                fa_wetland = grid->inundation_gcp_ts[grid->climy-2000][grid->m];
+            }else{
+                fa_wetland = grid->inundation_gcp_av[grid->m];
+            }
+            
         }else if(ALT_INUND == 8 && smode == 2){
         
-            if(grid->inundation_gcp_ts[grid->climy-2000][grid->m] > grid->f_wetland){
-                fa_wetland = 0.0;
+            if(grid->climy >= 2000 && grid->climy <= 2017){
+                if(grid->inundation_gcp_ts[grid->climy-2000][grid->m] > grid->f_wetland){
+                    fa_wetland = 0.0;
+                }else{
+                    if(f_inundation <= 1.0){
+                        fa_wetland = (1.0 - f_inundation) * grid->f_wetland;
+                    }else{
+                        fa_wetland = 0.0;
+                    }
+                }
             }else{
-                fa_wetland = (1.0 - f_inundation) * grid->f_wetland;
+                fa_wetland = grid->inundation_gcp_av[grid->m];
             }
         }
 	}
