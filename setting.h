@@ -45,7 +45,7 @@
 /* 10: every 10 grid */
 
 /***********************************************************/
-#define ISIMIP_RUN 0
+#define ISIMIP_RUN 1
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -127,7 +127,7 @@
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
-#define OUTPUT_GHG 1
+#define OUTPUT_GHG 0
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
@@ -574,7 +574,7 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 8
+#define ALT_INUND 0
 /* 0: default (SSMI) */
 /* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
