@@ -39,7 +39,7 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
+#define CALC_STEP 1
 #define CALC_OFFSET 0
 /* 1: every grid */
 /* 10: every 10 grid */
@@ -550,7 +550,7 @@
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
