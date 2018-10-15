@@ -45,7 +45,7 @@
 /* 10: every 10 grid */
 
 /***********************************************************/
-#define ISIMIP_RUN 0
+#define ISIMIP_RUN 1
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -127,7 +127,7 @@
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
-#define OUTPUT_GHG 1
+#define OUTPUT_GHG 0
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
@@ -221,6 +221,7 @@
 #else
     #define FSY_HIST 1901 /* */
     /* #define LSY_HIST 2016 */ /* history */
+    /* #define LSY_HIST 1980 */ /* GCP-CH4 MERRA2 run: 2018/08/29 by A.Ito */
     #define LSY_HIST 2017 /* history */
 #endif
 
@@ -328,7 +329,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
-    #define DL_HCLIM 116  /* CRU TS3.25: AD 1901 - 2016 */
+    #define DL_HCLIM 117  /* CRU TS3.26: AD 1901 - 2017 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -341,7 +342,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -549,7 +550,7 @@
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -564,7 +565,7 @@
 
 /* Alternative land-cover data for CH4 */
 #define ALT_FWETLAND 0
-/* 0: not use alternative data */
+/* 0: not use alternative data: default - GLWD */
 /* 1: use alternative data */
 /* 2: use Peregon-san data: 2014/02/04 */
 /* 3: use Maksyutov-san data: GLWD: 2017/07/03 */
@@ -575,23 +576,29 @@
 /* inundation data */
 #define ALT_INUND 0
 /* 0: default (SSMI) */
-/* 1: GCP-CH4  */
+/* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
+/* 3: GCP-CH4 V1 */
+/* 4: GCP-CH4 V1 */
+/* 5: GCP-CH4 V1 */
+/* 6: GCP-CH4 V1 */
+/* 7: GCP-CH4 V2: 2018/08/28 by A.Ito */
+/* 8: GCP-CH4 V2: 2018/08/29 by A.Ito : no limit by GLWD */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 
 /* change in wetland extent due to permafrost melting: 2012/10/26 by A.Ito */
 #define VAR_PFMWET 0
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 
 /* variable water-table depth: 2014/12/08 by A.Ito */
 #define VAR_WTD 1
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 
 #define FIX_STMP 0
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 /* fix soil temperature in wetland: 2015/03/23 by A.Ito */
 
 #define FIX_CH4_NPP 0

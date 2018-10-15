@@ -714,7 +714,7 @@ void f_init_grid(
 		/* default */
 		/* revised wetland data: by A.Ito (2009/07/14) */
 		fscanf(fp_s[21],"%lf %lf %lf %lf %lf", &lat, &lon, &total, &lake, &wetland); 
-		grid->f_wetland = wetland/grid->area;
+		grid->f_wetland = wetland / grid->area;
         
         /* WSL-Perogon welnad map: 2014/2/4 by A.Ito */
         fscanf(fp_s[83],"%ld %lf", &aaa, &wetland); 
@@ -722,12 +722,13 @@ void f_init_grid(
             grid->f_wetland = wetland;
         }
         
+        /* upper limit */
 		if(grid->f_wetland > 1.0){
 			grid->f_wetland = 1.0;
 		}
-
 	}
-	grid->f_lake = lake/grid->area;
+    
+	grid->f_lake = lake / grid->area;
 	if(grid->f_lake > 1.0){
 		grid->f_lake = 1.0;
 	}
@@ -1216,6 +1217,22 @@ void f_init_grid(
                 }
                 
                 grid->inundation_gcp_av[h] += grid->inundation_gcp_ts[g][h] / 13.0;
+            }
+        }
+    }else if(ALT_INUND == 7 || ALT_INUND == 8){
+        /* 2000/01-2017/12: GCP v2: 2018/08/28 by A.Ito */
+        for(h=0;h<ASTEP;h++){
+            grid->inundation_gcp_av[h] = 0.0;
+        }
+        for(g=0;g<18;g++){
+            for(h=0;h<ASTEP;h++){
+                fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+                
+                if(grid->inundation_gcp_ts[g][h] < 0.0){
+                    grid->inundation_gcp_ts[g][h] = 0.0;
+                }
+                
+                grid->inundation_gcp_av[h] += grid->inundation_gcp_ts[g][h] / 18.0;
             }
         }
     }else{
