@@ -626,10 +626,11 @@ void cal_spinup(
 	for(f=0;f<ASTEP;f++){
 		flux->nbp[f] = flux->nep[f];
 		
-		if((mass->c3).v_type == 1 && NECB_LUC == 1){
-            flux->nbp[f] -= iweight * (flux->lu_ten/12.0 + flux->lu_hund/12.0);
+        /* altered: 2018/10/16 by A.Ito */
+        if((mass->c3).v_type == 1 && NECB_LUC == 1){
+            flux->nbp[f] -= iweight * (flux->lu_conv/12.0 + flux->lu_ten/12.0 + flux->lu_hund/12.0);
         }
-        
+
         if(NECB_WHVST == 1){
             flux->nbp[f] -= flux->hvst_wood;
         }

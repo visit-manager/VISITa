@@ -581,7 +581,9 @@ void cal_historical(
             iweight3 = iweight;
         }
         
-        if((EX_BECCS==1 || EX_BECCS==2 || EX_BECCS==3) && NECB_LUC==1){
+        if(EX_BECCS==0 && NECB_LUC==1){
+            ;
+        }else if((EX_BECCS==1 || EX_BECCS==2 || EX_BECCS==3) && NECB_LUC==1){
             if(grid->f_luc>0.0 && grid->f_luc<1.0){
                 (mass->c3).fol *= (1.0 - grid->f_luc);
                 (mass->c3).stm *= (1.0 - grid->f_luc);
@@ -695,21 +697,26 @@ void cal_historical(
             /* base */
 			flux->nbp[f] = flux->nep[f];
             
+            /* altered: 2018/10/16 by A.Ito */
 			if((mass->c3).v_type == 1 && NECB_LUC == 1){
-				flux->nbp[f] -= iweight * (flux->lu_ten/12.0 + flux->lu_hund/12.0);
+				flux->nbp[f] -= iweight * (flux->lu_conv/12.0 + flux->lu_ten/12.0 + flux->lu_hund/12.0);
 			}
 			
+            if(NECB_WHVST == 1){
+                flux->nbp[f] -= flux->hvst_wood;
+            }
+
 			if(NECB_BB == 1){
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
             
 				flux->nbp[f] -= (flux->bb_co2_litter[f] + flux->bb_co2_leaf[f] 
-								 + flux->bb_co2_wood[f] + flux->bb_co2_root[f])/1000.0*12.0/44.0;
+								 + flux->bb_co2_wood[f] + flux->bb_co2_root[f])/1000.0 * 12.0/44.0;
 
                 flux->nbp[f] -= (flux->bb_co_litter[f] + flux->bb_co_leaf[f] 
-                                 + flux->bb_co_wood[f] + flux->bb_co_root[f])/1000.0*12.0/28.0;
+                                 + flux->bb_co_wood[f] + flux->bb_co_root[f])/1000.0 * 12.0/28.0;
 
                 flux->nbp[f] -= (flux->bb_ch4_litter[f] + flux->bb_ch4_leaf[f]
-                                 + flux->bb_ch4_wood[f] + flux->bb_ch4_root[f])/1000.0*12.0/16.0;
+                                 + flux->bb_ch4_wood[f] + flux->bb_ch4_root[f])/1000.0 * 12.0/16.0;
 
                 flux->nbp[f] -= (flux->bb_bc_litter[f] + flux->bb_bc_leaf[f]
                                  + flux->bb_bc_wood[f] + flux->bb_bc_root[f])/1000.0;
@@ -738,7 +745,7 @@ void cal_historical(
                 }
     
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
-                flux->nbp[f] -= flux->erod_carbon* (prm_ensen * 0.20) / 12.0;
+                flux->nbp[f] -= flux->erod_carbon * (prm_ensen * 0.20) / 12.0;
             }
             
             if(NECB_BVOC == 1){

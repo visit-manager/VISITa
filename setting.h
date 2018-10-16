@@ -39,13 +39,13 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 1
-#define CALC_OFFSET 0
+#define CALC_STEP 10
+#define CALC_OFFSET 6
 /* 1: every grid */
 /* 10: every 10 grid */
 
 /***********************************************************/
-#define ISIMIP_RUN 1
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -550,7 +550,7 @@
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
