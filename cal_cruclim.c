@@ -667,7 +667,7 @@ void cal_historical(
             }
     
 			total_hvst *= 1.0/1000.0 * 1.0/grid->area * prm_ensen;
-            
+   
             /* Note: only C3 tree species */
 			if((mass->c3).stm > (total_hvst + INT_C)){
         
@@ -689,7 +689,7 @@ void cal_historical(
 		}else{
 			flux->hvst_wood = 0.0;
 		}
-		
+        
 		/* net biome production (added by A.Ito: 2010/01/20) *************************/
 		for(f=0;f<ASTEP;f++){
             grid->m = f;
@@ -703,7 +703,7 @@ void cal_historical(
 			}
 			
             if(NECB_WHVST == 1){
-                flux->nbp[f] -= flux->hvst_wood;
+                flux->nbp[f] -= flux->hvst_wood / 12.0;
             }
 
 			if(NECB_BB == 1){

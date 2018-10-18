@@ -1091,4 +1091,5 @@ struct Flux{
 	
 	/* wood harvest: 2010/11/09 */
 	double	hvst_wood;
+    double  hvst_wood_ex;                      /* export per natural area */
 };

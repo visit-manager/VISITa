@@ -419,7 +419,7 @@ void cal_projection(
             }
 			
             if(NECB_WHVST == 1){
-                flux->nbp[f] -= flux->hvst_wood;
+                flux->nbp[f] -= flux->hvst_wood / 12.0;
             }
 
 			if(NECB_BB == 1){
