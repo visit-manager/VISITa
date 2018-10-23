@@ -74,6 +74,7 @@ double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
 double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
 double h_parb[PD_SIM], h_pard[PD_SIM];
 double h_arm[PD_SIM], h_bco2[PD_SIM]; /* added by A.Ito: 2018/10/22 */
+double h_lL[PD_SIM];
 
 double h_burnt_area[PD_SIM];
 double h_burnt_area_wood[PD_SIM];

@@ -132,6 +132,8 @@ void f_set_history_data(
         
         /* added by A.Ito: 2018/10/22 */
         h_bco2[year] += fweight * grid->bco2[f] * wmonth * grid->area;
+        
+        h_lL[year] += fweight * (flux->plant).lL[f] * grid->area;
 
 		/* added by A.Ito (2011/12/16) */
 		h_abgm[year] += fweight * ((mass->plant).mfol[f] + (mass->plant).mstm[f]) * wmonth * grid->area;
@@ -646,6 +648,7 @@ void f_glosum_output(
 
         fprintf(fp_glsum,"%lf ", h_bco2[h]); /* 2018/10/22 */
         fprintf(fp_glsum,"%lf ", h_luc_0[h]); /* 2018/10/23 */
+        fprintf(fp_glsum,"%lf ", h_lL[h]); /* 2018/10/23 */
 
 		fprintf(fp_glsum,"\n");
 	}

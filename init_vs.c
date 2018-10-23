@@ -32,7 +32,7 @@ void initVS(
 	parameterC3(grid, &(echar->c3));
 	/* C4 */
 	parameterC4(grid, &(echar->c4));
-	/* soil */
+	/* Soil */
 	parameterSoil(grid, &(echar->soil));
 
 	/* Sensitivity Analysis ***************************/
