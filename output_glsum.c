@@ -460,7 +460,10 @@ void f_set_history_data(
 		h_luc_1[year] += flux->lu_conv * grid->area;
 		h_luc_2[year] += flux->lu_ten * grid->area;
 		h_luc_3[year] += flux->lu_hund * grid->area;
-		
+        
+        /* added by A.Ito: 2018/10/23 */
+        h_luc_0[year] += flux->lu_detr * grid->area;
+
 		rh_luc[grid->reg_g][year] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
 		
         /* 2014/12/10 by A.Ito */
@@ -642,6 +645,7 @@ void f_glosum_output(
         fprintf(fp_glsum,"%lf ", h_hvst_crop[h]); /* 2018/07/16 */
 
         fprintf(fp_glsum,"%lf ", h_bco2[h]); /* 2018/10/22 */
+        fprintf(fp_glsum,"%lf ", h_luc_0[h]); /* 2018/10/23 */
 
 		fprintf(fp_glsum,"\n");
 	}
