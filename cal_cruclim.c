@@ -589,9 +589,9 @@ void cal_historical(
         
         if(NECB_LUC==1 && EX_BECCS==0){
             /* 2018/10/24 by A.Ito */
-            (mass->c3).fol -= flux->lu_fol;
-            (mass->c3).stm -= flux->lu_stm;
-            (mass->c3).rot -= flux->lu_rot + flux->lu_ltr;
+            (mass->c3).fol -= flux->lu_fol * iweight3;
+            (mass->c3).stm -= flux->lu_stm * iweight3;
+            (mass->c3).rot -= flux->lu_rot * iweight3 + flux->lu_ltr * iweight3;
             
             if((mass->c3).fol < INT_C){
                 (mass->c3).fol = INT_C;
