@@ -534,6 +534,12 @@ void cal_spinup(
 		flux->lu_conv = 0.0;
 		flux->lu_ten = 0.0;
 		flux->lu_hund = 0.0;
+
+        flux->lu_fol = 0.0;
+        flux->lu_stm = 0.0;
+        flux->lu_rot = 0.0;
+        flux->lu_ltr = 0.0;
+        flux->lu_msl = 0.0;
 	}
 	
     f_nat = 1.0 - grid->f_crop_con;

@@ -559,6 +559,12 @@ void cal_historical(
 			flux->lu_conv = 0.0;
 			flux->lu_ten = 0.0;
 			flux->lu_hund = 0.0;
+   
+            flux->lu_fol = 0.0;
+            flux->lu_stm = 0.0;
+            flux->lu_rot = 0.0;
+            flux->lu_ltr = 0.0;
+            flux->lu_msl = 0.0;
 		}
 		
         /* fraction of natural vegetation area */
@@ -581,9 +587,53 @@ void cal_historical(
             iweight3 = iweight;
         }
         
-        if(EX_BECCS==0 && NECB_LUC==1){
-            ;
-        }else if((EX_BECCS==1 || EX_BECCS==2 || EX_BECCS==3) && NECB_LUC==1){
+        if(NECB_LUC==1 && EX_BECCS==0){
+            /* 2018/10/24 by A.Ito */
+            (mass->c3).fol -= flux->lu_fol;
+            (mass->c3).stm -= flux->lu_stm;
+            (mass->c3).rot -= flux->lu_rot + flux->lu_ltr;
+            
+            if((mass->c3).fol < INT_C){
+                (mass->c3).fol = INT_C;
+            }
+            if((mass->c3).stm < INT_C){
+                (mass->c3).stm = INT_C;
+            }
+            if((mass->c3).rot < INT_C){
+                (mass->c3).rot = INT_C;
+            }
+
+            (mass->soil).ltr += flux->lu_ltr + flux->detr_ten[0] + flux->detr_hund[0];
+            (mass->soil).ltr -= flux->lu_ten + flux->lu_hund;
+
+            if((mass->soil).ltr < INT_C){
+                (mass->soil).ltr = INT_C;
+            }
+
+            (mass->c3).mfol[ASTEP-1] = (mass->c3).fol;
+            (mass->c3).mstm[ASTEP-1] = (mass->c3).stm;
+            (mass->c3).mrot[ASTEP-1] = (mass->c3).rot;
+
+            (mass->plant).fol = (mass->c3).fol*loct->c3ptn[ASTEP-1] + (mass->c4).fol*loct->c4ptn[ASTEP-1];
+            (mass->plant).stm = (mass->c3).stm*loct->c3ptn[ASTEP-1] + (mass->c4).stm*loct->c4ptn[ASTEP-1];
+            (mass->plant).rot = (mass->c3).rot*loct->c3ptn[ASTEP-1] + (mass->c4).rot*loct->c4ptn[ASTEP-1];
+            (mass->plant).mfol[ASTEP-1] = (mass->plant).fol;
+            (mass->plant).mstm[ASTEP-1] = (mass->plant).stm;
+            (mass->plant).mrot[ASTEP-1] = (mass->plant).rot;
+
+            (mass->c3).plant[ASTEP-1] = (mass->c3).fol + (mass->c3).stm + (mass->c3).rot;
+            (mass->c4).plant[ASTEP-1] = (mass->c4).fol + (mass->c4).stm + (mass->c4).rot;
+            (mass->plant).plant[ASTEP-1] = (mass->c3).plant[ASTEP-1]*loct->c3ptn[ASTEP-1]
+                                        + (mass->c4).plant[ASTEP-1]*loct->c4ptn[ASTEP-1];
+
+            (mass->c3).lai[ASTEP-1] = lai_mass(grid, &(mass->c3), &(echar->c3));
+            (mass->c4).lai[ASTEP-1] = lai_mass(grid, &(mass->c4), &(echar->c4));
+            (mass->plant).lai[ASTEP-1] = (mass->c3).lai[ASTEP-1] * loct->c3ptn[ASTEP-1]
+                                        + (mass->c4).lai[ASTEP-1] * loct->c4ptn[ASTEP-1];
+            loct->lai[ASTEP-1] = (mass->plant).lai[ASTEP-1];
+
+        }else if(NECB_LUC==1 && (EX_BECCS==1 || EX_BECCS==2 || EX_BECCS==3)){
+            /* used by BECCS experiment */
             if(grid->f_luc>0.0 && grid->f_luc<1.0){
                 (mass->c3).fol *= (1.0 - grid->f_luc);
                 (mass->c3).stm *= (1.0 - grid->f_luc);
