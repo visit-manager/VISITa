@@ -45,7 +45,7 @@
 /* 10: every 10 grid */
 
 /***********************************************************/
-#define ISIMIP_RUN 1
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -403,21 +403,21 @@
 /* 0: uncoupled */
 /* 1: coupled */
 /* erosion */
-#define NECB_ERSN 1
+#define NECB_ERSN 0
 /* biomass burning */
-#define NECB_BB 1
+#define NECB_BB 0
 /* bvoc */
-#define NECB_BVOC 1
+#define NECB_BVOC 0
 /* doc */
-#define NECB_DOC 1
+#define NECB_DOC 0
 /* CH4 */
-#define NECB_CH4 1
+#define NECB_CH4 0
 /* Wood harvest: 2010/10/15 by A.Ito */
-#define NECB_WHVST 1
+#define NECB_WHVST 0
 /* land-use change */
-#define NECB_LUC 1
+#define NECB_LUC 0
 /* crop harvest */
-#define NECB_CROP 1
+#define NECB_CROP 0
 
 #define EX_FIRE_GFED 0
 /* 0:off, 1:on   2018/05/19 by A.Ito */
@@ -451,6 +451,16 @@
 /* 23: SSP5 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 24: ISI-MIP2b land-use data (2016/12/22 by A.Ito) */
 /* 25: ISI-MIP2b 2005 data (2017/11/01 by A.Ito) */
+
+/* extra land-use fixation combined with above scenarios: 2018/10/26 by A.Ito */
+#define EXTRA_CO2_FIX 0
+/* 0: off (default) */
+/* 1: make grid->co2y = 1901 */
+
+/* extra land-use fixation combined with above scenarios: 2018/10/26 by A.Ito */
+#define EXTRA_CLIM_FIX 0
+/* 0: off (default) */
+/* 1: make grid->climy = 1901 */
 
 /* extra land-use fixation combined with above scenarios: 2018/07/11 by A.Ito */
 #define EXTRA_LU_FIX 0
@@ -550,7 +560,7 @@
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 

@@ -150,7 +150,7 @@ void f_cult_luc(
 		exit(1);
 	}
     
-    /************************/
+    /************************************************************************/
     if(NMIP_RUN >= 1){
         if(grid->lucy >= FDY_NINY && grid->lucy<=2015){
             grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_NINY];
@@ -626,7 +626,7 @@ void f_luc_emit(
 				flux->detr_ten[BGY_LUC-f] = 0.0;
 			}
 			/* corrected: A.Ito and E.Kato (2009/08/16) */
-			flux->lu_ten += mass_ten*0.1;
+			flux->lu_ten += mass_ten * 0.1;
 		}
 		
 		for(f=(BGY_LUC-99);f<=BGY_LUC;f++){
@@ -725,7 +725,7 @@ void f_luc_emit(
 
 		if(fluc_1 > 0.0){ /* deforested */
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
-			mass_detr = fluc_1 * 0.2*(mass->plant).rot;
+			mass_detr = fluc_1 * 0.2 * (mass->plant).rot;
 			mass_conv = fluc_1 * eff_mass * fe_conv/(fe_conv + fe_ten + fe_hund);
 			mass_ten = fluc_1 * eff_mass * fe_ten/(fe_conv + fe_ten + fe_hund);
 			mass_hund = fluc_1 * eff_mass * fe_hund/(fe_conv + fe_ten + fe_hund);
@@ -737,11 +737,26 @@ void f_luc_emit(
 			/* corrected: A.Ito and E.Kato (2009/08/16) */
 			flux->detr_ten[0] = mass_ten;
 			flux->detr_hund[0] = mass_hund;
+   
+            /* carbon loss for each compartment: 2018/10/24 by A.Ito  */
+   
+            flux->lu_fol = fluc_1 * (mass->plant).fol * fe_conv/(fe_conv + fe_ten + fe_hund);
+            flux->lu_stm = fluc_1 * (mass->plant).stm * fe_conv/(fe_conv + fe_ten + fe_hund);
+            flux->lu_rot = fluc_1 * 0.8 * (mass->plant).rot * fe_conv/(fe_conv + fe_ten + fe_hund);
+            flux->lu_ltr = fluc_1 * 0.2 * (mass->plant).rot;
+            flux->lu_msl = 0.0;
+   
 		}else{
 			flux->lu_detr = 0.0;
 			flux->lu_conv = 0.0;
 			flux->detr_ten[0] = 0.0;
 			flux->detr_hund[0] = 0.0;
+
+            flux->lu_fol = 0.0;
+            flux->lu_stm = 0.0;
+            flux->lu_rot = 0.0;
+            flux->lu_ltr = 0.0;
+            flux->lu_msl = 0.0;
 		}
         
         grid->f_luc = fluc_1;

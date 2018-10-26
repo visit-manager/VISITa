@@ -235,10 +235,11 @@ void f_init_sim(
         h_rns[f] = h_rnl[f] = 0.0; /* added by A.Ito (2013/01/02) */
 		h_rnsd[f] = h_cld[f] = h_apar[f] = h_ipar[f] = 0.0;
         h_parb[f] = h_pard[f] = 0.0;
-        h_arm[f] = 0.0;
+        h_arm[f] = h_bco2[f] = 0.0;
+        h_lL[f] = 0.0;
         
 		h_agrarea[f] = h_paddyarea[f] = h_luc[f] = 0.0;
-		h_luc_1[f] = h_luc_2[f] = h_luc_3[f] = 0.0;
+		h_luc_0[f] = h_luc_1[f] = h_luc_2[f] = h_luc_3[f] = 0.0;
 		h_burnt_area[f] = h_burnt_area_wood[f] = 0.0;
 		h_bioburn_co2[f] = h_bioburn_co[f] = h_bioburn_ch4[f] = 0.0;
 		h_bioburn_nmhc[f] = h_bioburn_oc[f] = h_bioburn_bc[f] = 0.0;

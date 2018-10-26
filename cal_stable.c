@@ -534,6 +534,12 @@ void cal_spinup(
 		flux->lu_conv = 0.0;
 		flux->lu_ten = 0.0;
 		flux->lu_hund = 0.0;
+
+        flux->lu_fol = 0.0;
+        flux->lu_stm = 0.0;
+        flux->lu_rot = 0.0;
+        flux->lu_ltr = 0.0;
+        flux->lu_msl = 0.0;
 	}
 	
     f_nat = 1.0 - grid->f_crop_con;
@@ -626,12 +632,13 @@ void cal_spinup(
 	for(f=0;f<ASTEP;f++){
 		flux->nbp[f] = flux->nep[f];
 		
-		if((mass->c3).v_type == 1 && NECB_LUC == 1){
-            flux->nbp[f] -= iweight * (flux->lu_ten/12.0 + flux->lu_hund/12.0);
+        /* altered: 2018/10/16 by A.Ito */
+        if((mass->c3).v_type == 1 && NECB_LUC == 1){
+            flux->nbp[f] -= iweight * (flux->lu_conv/12.0 + flux->lu_ten/12.0 + flux->lu_hund/12.0);
         }
-        
+
         if(NECB_WHVST == 1){
-            flux->nbp[f] -= flux->hvst_wood;
+            flux->nbp[f] -= flux->hvst_wood / 12.0;
         }
 		
 		if(NECB_BB == 1){

@@ -152,7 +152,13 @@ void ghg_flux_zero(
 	flux->lu_conv = 0.0;
 	flux->lu_ten = 0.0;
 	flux->lu_hund = 0.0;
-	
+
+    flux->lu_fol = 0.0;
+    flux->lu_stm = 0.0;
+    flux->lu_rot = 0.0;
+    flux->lu_ltr = 0.0;
+    flux->lu_msl = 0.0;
+
 	flux->npp_miami = 0.0;
 	flux->npp_montreal = 0.0;
 	flux->npp_schuur = 0.0;
@@ -300,7 +306,13 @@ void vanish(
 	flux->lu_conv = 0.0;
 	flux->lu_ten = 0.0;
 	flux->lu_hund = 0.0;
-	
+
+    flux->lu_fol = 0.0;
+    flux->lu_stm = 0.0;
+    flux->lu_rot = 0.0;
+    flux->lu_ltr = 0.0;
+    flux->lu_msl = 0.0;
+   
 	flux->npp_miami = 0.0;
 	flux->npp_montreal = 0.0;
 	flux->npp_schuur = 0.0;

@@ -227,6 +227,8 @@ struct Grid{
 	double	f_deforest_v;				/* in primary lands */
 	double	f_deforest_s;				/* in secondary lands */
 	
+    double  f_luc_gain, f_luc_loss;     /* 2018/10/24 by A.Ito */
+    
 	double	f_crop_base;				/* base cropland fraction in 2000 */
 	double	f_pasture_base;				/* base pasture fraction in 2000 */
 		
@@ -262,7 +264,7 @@ struct Grid{
 	double	t_vp_unh_hmnzed[DL_LUC];		/* conversion primary to pasture */
 	double	t_vs1_unh_hmnzed[DL_LUC];		/*  */
 	double	t_vs2_unh_hmnzed[DL_LUC];		/*  */
-	
+ 
 	/* wood harvest */
 	double	hvst_p1[DL_LUC];
 	double	hvst_p2[DL_LUC];
@@ -987,7 +989,14 @@ struct Flux{
 	/* historical land-use-generated detritus production */
 	double	detr_ten[10];			/* 10-year pool */
 	double	detr_hund[100];			/* 100-year pool */
-	
+ 
+    /* added by A.Ito: 2018/10/24 */
+    double  lu_fol;
+    double  lu_stm;
+    double  lu_rot;
+    double  lu_ltr;
+    double  lu_msl;
+
 	/* biomass burning */
 	double	f_burnt;				/* burnt fraction */
 	double	day_fire[ASTEP];		/* days of fire */
@@ -1091,4 +1100,5 @@ struct Flux{
 	
 	/* wood harvest: 2010/11/09 */
 	double	hvst_wood;
+    double  hvst_wood_ex;                      /* export per natural area */
 };
