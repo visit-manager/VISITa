@@ -73,10 +73,12 @@ void planting(
 	f_leaf_age(1, pchar, mass, emerge);
 
 	/* annual crops */
-	mass->fol += 0.4;
-	mass->stm += 0.3;
-	mass->rot += 0.3;
-	flux->hvst[grid->m] = 1.0;
+    if(NECB_CROP == 1){
+	    mass->fol += 0.4;
+	    mass->stm += 0.3;
+	    mass->rot += 0.3;
+    }
+	flux->net_crop[grid->m] = -1.0; /* palnting => negative harvest */
 	
 	f_leaf_age(0, pchar, mass, 0.4);
 
@@ -182,25 +184,46 @@ void harvesting(
 	struct Pflx *flux
 ){
 	double hvst_index, clear, nn;
+    double base_fol, base_stm, base_rot;
 	extern double MDN[ASTEP];
 	
 	nn = MDN[grid->m];
+ 
+    base_fol = mass->fol;
+    base_stm = mass->stm;
+    base_rot = mass->rot;
 		
 	/** harvest of crops **/
-	hvst_index = -0.45; /* harvest index -> 45% of biomass */
-	flux->hvst[grid->m] = hvst_index*(mass->fol + mass->stm + mass->rot);
+	hvst_index = 0.45; /* harvest index -> 45% of biomass */
+ 
+    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    if(PARAM_PTB == 20){
+        hvst_index *= 1.0 + 0.3 * f_pert[8];
+    }
+    if(hvst_index > 0.85){
+        hvst_index = 0.85;
+    }
 
-	mass->fol += (hvst_index * mass->fol);
-	mass->stm += (hvst_index * mass->stm);
-	mass->rot += (hvst_index * mass->rot);
+    /* litter: 2018/07/23 by A.Ito */
+    /* clear = 0.9 + hvst_index; */
+    clear = 0.5 * hvst_index;
+    if((hvst_index + clear) > 0.95){
+        clear = 0.95 - hvst_index;
+    }
+
+	flux->net_crop[grid->m] = flux->hvst_crop[grid->m] = hvst_index * (base_fol + base_stm + base_rot);
+    
+    if(NECB_CROP == 1){
+        mass->fol -= (hvst_index * base_fol);
+        mass->stm -= (hvst_index * base_stm);
+        mass->rot -= (hvst_index * base_rot);
+    }
 	
 	f_leaf_age(1, pchar, mass, hvst_index * mass->fol);
 
-	/* litter */
-	clear = 0.9 + hvst_index;
-	flux->lf[grid->m] = clear * mass->fol;
-	flux->lc[grid->m] = clear * mass->stm;
-	flux->lr[grid->m] = clear * mass->rot;
+	flux->lf[grid->m] = clear * base_fol;
+	flux->lc[grid->m] = clear * base_stm;
+	flux->lr[grid->m] = clear * base_rot;
 	/* stable carbon isotope */
 	flux->d13c_lf[grid->m] = mass->d13c_fol;
 	flux->d13c_lc[grid->m] = mass->d13c_stm;

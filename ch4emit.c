@@ -24,8 +24,8 @@ void f_ch4_emit_cao(
 	struct Loct *loct, 
 	struct Flux *flux
 ){
-	double f_inund_wet, f_inund_pad, wtable;	/* water table, cm */
-	double f_temp, f_wtable, f_wtable_lake;
+	double fv_inund_wet, fv_inund_pad, wtable;	/* water table, cm */
+	double fv_temp, fv_wtable, f_wtable_lake, fv_wetland, fv_lake;
 	double hr_decomp, gpp_factor, diff_wtd;
 	
 	/* soil decomposition rate. Mg C ha-1 month-1 */
@@ -36,43 +36,44 @@ void f_ch4_emit_cao(
 	
 	/* temperature (deg C) coefficient */
 	/* eq.7 */
-	f_temp = exp(grid->tmp10_soil[grid->m] * 0.0693) / 7.996;
-	if(f_temp < 0.0){
-		f_temp = 0.0;
+	fv_temp = exp(grid->tmp10_soil[grid->m] * 0.0693) / 7.996;
+	if(fv_temp < 0.0){
+		fv_temp = 0.0;
 	}
 	
 	/* CH4 emission, mg CH4 m-2 month-1 */
     
-    if(ALT_INUND==0){
-        f_inund_wet = grid->inundation_ssmi[grid->m];
-        f_inund_pad = grid->inundation_ssmi[grid->m];
+    if(ALT_INUND == 0){
+        /* standard */
+        fv_inund_wet = grid->inundation_ssmi[grid->m];
+        fv_inund_pad = grid->inundation_ssmi[grid->m];
     }else if(ALT_INUND==1 || ALT_INUND==3 || ALT_INUND==4 || ALT_INUND==5){
-    
+        /* for GCP-CH4 analyses */
         if(grid->climy>=1999 && grid->climy<=2013){
         
             if(grid->f_wetland > 0.0){
-                f_inund_wet = grid->inundation_gcp_ts[grid->climy - 1999][grid->m] / grid->f_wetland;
+                fv_inund_wet = grid->inundation_gcp_ts[grid->climy - 1999][grid->m] / grid->f_wetland;
                 
-                if(f_inund_wet > 1.0){
-                    f_inund_wet = 1.0;
+                if(fv_inund_wet > 1.0){
+                    fv_inund_wet = 1.0;
                 }
             }
             if(grid->f_paddy > 0.0){
                 /* f_inund_pad = grid->inundation_gcp_ts[grid->climy-1999][grid->m] / grid->f_paddy; */
                 
-                f_inund_pad = grid->inundation_ssmi[grid->m];
+                fv_inund_pad = grid->inundation_ssmi[grid->m];
                 
-                if(f_inund_pad > 1.0){
-                    f_inund_pad = 1.0;
+                if(fv_inund_pad > 1.0){
+                    fv_inund_pad = 1.0;
                 }
             }
         
         }else{
             if(grid->f_wetland > 0.0){
-                f_inund_wet = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
+                fv_inund_wet = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
                 
-                if(f_inund_wet > 1.0){
-                    f_inund_wet = 1.0;
+                if(fv_inund_wet > 1.0){
+                    fv_inund_wet = 1.0;
                 }else{
                 
                 }
@@ -80,10 +81,10 @@ void f_ch4_emit_cao(
             if(grid->f_paddy > 0.0){
                 /* f_inund_pad = grid->inundation_gcp_av[grid->m] / grid->f_paddy; */
                 
-                f_inund_pad = grid->inundation_ssmi[grid->m];
+                fv_inund_pad = grid->inundation_ssmi[grid->m];
                 
-                if(f_inund_pad > 1.0){
-                    f_inund_pad = 1.0;
+                if(fv_inund_pad > 1.0){
+                    fv_inund_pad = 1.0;
                 }
             }
         }
@@ -94,28 +95,28 @@ void f_ch4_emit_cao(
         if(grid->climy>=2000 && grid->climy<=2012){
         
             if(grid->f_wetland > 0.0){
-                f_inund_wet = grid->inundation_gcp_ts[grid->climy - 2000][grid->m] / grid->f_wetland;
+                fv_inund_wet = grid->inundation_gcp_ts[grid->climy - 2000][grid->m] / grid->f_wetland;
                 
-                if(f_inund_wet > 1.0){
-                    f_inund_wet = 1.0;
+                if(fv_inund_wet > 1.0){
+                    fv_inund_wet = 1.0;
                 }
             }
             if(grid->f_paddy > 0.0){
                 /* f_inund_pad = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
                 
-                f_inund_pad = grid->inundation_ssmi[grid->m];
+                fv_inund_pad = grid->inundation_ssmi[grid->m];
                 
-                if(f_inund_pad > 1.0){
-                    f_inund_pad = 1.0;
+                if(fv_inund_pad > 1.0){
+                    fv_inund_pad = 1.0;
                 }
             }
         
         }else{
             if(grid->f_wetland > 0.0){
-                f_inund_wet = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
+                fv_inund_wet = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
                 
-                if(f_inund_wet > 1.0){
-                    f_inund_wet = 1.0;
+                if(fv_inund_wet > 1.0){
+                    fv_inund_wet = 1.0;
                 }else{
                 
                 }
@@ -123,20 +124,69 @@ void f_ch4_emit_cao(
             if(grid->f_paddy > 0.0){
                 /* f_inund_pad = grid->inundation_gcp_av[grid->m] / grid->f_paddy; */
                 
-                f_inund_pad = grid->inundation_ssmi[grid->m];
+                fv_inund_pad = grid->inundation_ssmi[grid->m];
                 
-                if(f_inund_pad > 1.0){
-                    f_inund_pad = 1.0;
+                if(fv_inund_pad > 1.0){
+                    fv_inund_pad = 1.0;
                 }
             }
         }
+    }else if(ALT_INUND == 7 || ALT_INUND == 8){
+        /* for GCP-CH4 v2: fw_gcp-ch4_wetlands_2000-2017.txt */
+        /* added: 2018/08/19 by A.Ito */
+    
+        if(grid->climy>=2000 && grid->climy<=2017){
+        
+            if(grid->f_wetland > 0.0){
+                fv_inund_wet = grid->inundation_gcp_ts[grid->climy - 2000][grid->m] / grid->f_wetland;
+                
+                if(fv_inund_wet > 1.0){
+                    fv_inund_wet = 1.0;
+                }
+            }else{
+                fv_inund_wet = 0.0;
+            }
+            if(grid->f_paddy > 0.0){
+                /* f_inund_pad = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
+                
+                fv_inund_pad = grid->inundation_ssmi[grid->m];
+                
+                if(fv_inund_pad > 1.0){
+                    fv_inund_pad = 1.0;
+                }
+            }else{
+                fv_inund_pad = 0.0;
+            }
+        
+        }else{
+            if(grid->f_wetland > 0.0){
+                fv_inund_wet = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
+                
+                if(fv_inund_wet > 1.0){
+                    fv_inund_wet = 1.0;
+                }
+            }else{
+                fv_inund_wet = 0.0;
+            }
+            if(grid->f_paddy > 0.0){
+                /* f_inund_pad = grid->inundation_gcp_av[grid->m] / grid->f_paddy; */
+                
+                fv_inund_pad = grid->inundation_ssmi[grid->m];
+                
+                if(fv_inund_pad > 1.0){
+                    fv_inund_pad = 1.0;
+                }
+            }else{
+                fv_inund_pad = 0.0;
+            }
+        }
     }else{
-        f_inund_wet = grid->inundation_ssmi[grid->m];
-        f_inund_pad = grid->inundation_ssmi[grid->m];
+        fv_inund_wet = grid->inundation_ssmi[grid->m];
+        fv_inund_pad = grid->inundation_ssmi[grid->m];
     }
 
 	/* water table (cm relative to surface) coefficient */
-	/* wetland *********************************/
+	/* wetland *****************************************************************************/
 	/* eq.6 */
 	/* wtable = 5.0; */
 	/* f_wtable = 0.383 * (0.5*exp(0.096 * wtable) + 0.5*exp(0.096 * -5.0)); OLD */
@@ -161,27 +211,42 @@ void f_ch4_emit_cao(
         }
     }
     
-	f_wtable = 0.383 * (f_inund_wet * exp(0.096 * wtable)
-						+ (1.0 - f_inund_wet)*exp(0.096 * (wtable - 12.0)));
+	fv_wtable = 0.383 * (fv_inund_wet * exp(0.096 * wtable)
+						+ (1.0 - fv_inund_wet) * exp(0.096 * (wtable - 12.0)));
 	/* if(ALT_FWETLAND == 1){
 		f_wtable = 0.383 * (grid->f_wetland*exp(0.096 * wtable) 
 							+ (1.0-grid->f_wetland)*exp(0.096 * -25.0));
 	} */
-	if(f_wtable < 0.0){
-		f_wtable = 0.0;
+	if(fv_wtable < 0.0){
+		fv_wtable = 0.0;
 	}
      
 	/* lake: added by A.Ito (2009/07/14) */
 	/* f_wtable_lake = 0.383 * exp(0.096 * 5.0); */
 	/* lake: revised by A.Ito (2013/11/29) */
 	f_wtable_lake = 0.383 * exp(0.096 * 10.0);
+ 
+    if(ALT_INUND == 8){
+        if(grid->climy>=2000 && grid->climy<=2017){
+            fv_wetland = grid->inundation_gcp_ts[grid->climy - 2000][grid->m];
+        }else{
+            fv_wetland = grid->inundation_gcp_av[grid->m];
+        }
+        if(fv_wetland < grid->f_wetland){
+            fv_wetland = grid->f_wetland;
+        }
+        fv_lake = grid->f_lake;
+    }else{
+        fv_wetland = grid->f_wetland;
+        fv_lake = grid->f_lake;
+    }
 	
 	/* Mg C ha-1 month-1 */
-	(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * 
-					(f_wtable*grid->f_wetland + f_wtable_lake * 0.2 * grid->f_lake); /* 0.2: 090717 */
+	(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * fv_temp *
+					(fv_wtable * fv_wetland + f_wtable_lake * 0.2 * fv_lake); /* 0.2: 090717 */
 	if(ALT_FWETLAND == 1){
-		(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * f_temp * 
-			(f_wtable*grid->f_wetland + f_wtable_lake * 0.2*grid->f_lake);
+		(flux->soil).ch4prod_wetland_cao[grid->m] = hr_decomp * fv_temp *
+			        (fv_wtable * fv_wetland + f_wtable_lake * 0.2 * fv_lake);
 	}
 	
 	/* mg CH4 m-2 month-1 */
@@ -189,7 +254,7 @@ void f_ch4_emit_cao(
 	
 	/* CH4 oxidation */
 	if((flux->soil).ch4prod_wetland_cao[grid->m]>0.0 && loct->gpp_max>0.0){
-		gpp_factor = (flux->plant).gpp[grid->m]/loct->gpp_max;
+		gpp_factor = (flux->plant).gpp[grid->m] / loct->gpp_max;
 		gpp_factor = (gpp_factor>0.0)?gpp_factor:0.0;
 		gpp_factor = (gpp_factor<1.0)?gpp_factor:1.0;
 		
@@ -203,14 +268,13 @@ void f_ch4_emit_cao(
 	(flux->soil).ch4flux_wetland_cao[grid->m] = (flux->soil).ch4prod_wetland_cao[grid->m] 
 			- (flux->soil).ch4oxy_wetland_cao[grid->m];
 	
-    
     /* if((flux->soil).ch4flux_wetland_cao[grid->m] > 1000.0){
         printf("*****************************%ld %lf %lf\n", grid->n_olson, 
         (flux->soil).ch4flux_wetland_cao[grid->m], grid->tmp10_soil[grid->m]);
         exit(1);
     }*/
     
-	/* paddy field *********************************/
+	/* paddy field *****************************************************************************/
 	/* eq.6 */
 	/* if(grid->tmp_2m[grid->m] > 15.0 && grid->prate_sfc[grid->m] > 50.0){
 		wtable = 0.0;
@@ -226,15 +290,15 @@ void f_ch4_emit_cao(
     /* 2014/12/10 by A.Ito */
     wtable = 4.0;
     
-	f_wtable = 0.383 * (f_inund_pad * exp(0.096 * wtable)
-						+ (1.0 - f_inund_pad)*exp(0.096 * (wtable - 14.0)));
+	fv_wtable = 0.383 * (fv_inund_pad * exp(0.096 * wtable)
+						+ (1.0 - fv_inund_pad)*exp(0.096 * (wtable - 14.0)));
     
-	if(f_wtable < 0.0){
-        f_wtable = 0.0;
+	if(fv_wtable < 0.0){
+        fv_wtable = 0.0;
 	}
 	/* Mg C ha-1 month-1 */
 	/* assuming low decomposition at paddy field: 0.4, 2008/06/11 */
-	(flux->soil).ch4prod_paddy_cao[grid->m] = 0.5*hr_decomp * f_temp * f_wtable;
+	(flux->soil).ch4prod_paddy_cao[grid->m] = 0.5*hr_decomp * fv_temp * fv_wtable;
 	/* mg CH4 m-2 month-1 */
 	(flux->soil).ch4prod_paddy_cao[grid->m] *= 16.0/12.0 * 1000000000.0 / 10000.0;
 	(flux->soil).ch4prod_paddy_cao[grid->m] *= grid->f_paddy;
@@ -345,68 +409,72 @@ void f_ch4_emit_walter(
     /* last calibrated 2014/11/30 */
     /* last calibrated 2015/03/30 */
     /* last calibrated 2015/11/19 */
+    /* last calibrated 2018/05/25 */
+    /* last calibrated 2018/05/26 */
+    /* last calibrated 2018/07/03 */
+    /* last calibrated 2018/07/28 */
     switch(smode){
         case 1:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 16.0;
-                r0 = 1.6;
+                t_veg = 18.35;
+                r0 = 1.835;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 12.0;
-                r0 = 1.2;
+                t_veg = 15.0;
+                r0 = 1.50;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 4.8;
-                r0 = 0.48;
+                t_veg = 5.75;
+                r0 = 0.575;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 2.3;
-                r0 = 0.23;
+                t_veg = 2.75;
+                r0 = 0.275;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 1.28;
-                r0 = 0.128;
-            }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 1.0;
-                r0 = 0.10;
-            }else if(grid->veg_olson==23 || grid->veg_olson==24){
-                t_veg = 1.0;
-                r0 = 0.10;
+                t_veg = 1.45;
+                r0 = 0.145;
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2018/07/23 by A.Ito */
+                t_veg = 1.41;
+                r0 = 0.141;
+            }else if(grid->veg_olson==23 || grid->veg_olson==24){ /* 2018/07/30 by A.Ito */
+                t_veg = 1.75;
+                r0 = 0.175;
             }else{
-                t_veg = 1.2;
-                r0 = 0.12;
+                t_veg = 1.445;
+                r0 = 0.1445;
             }
             break;
         case 2:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 4.0;
-                r0 = 0.4;
+                t_veg = 7.64;
+                r0 = 0.764;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 2.8;
-                r0 = 0.28;
+                t_veg = 5.78;
+                r0 = 0.578;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 0.88;
-                r0 = 0.088;
+                t_veg = 1.19;
+                r0 = 0.119;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
-                t_veg = 0.44;
-                r0 = 0.044;
+                t_veg = 0.475;
+                r0 = 0.0475;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 0.33;
-                r0 = 0.033;
-            }else if(grid->veg_olson==21 || grid->veg_olson==22){
-                t_veg = 0.22;
-                r0 = 0.022;
-            }else if(grid->veg_olson==23 || grid->veg_olson==24){
-                t_veg = 0.22;
-                r0 = 0.022;
+                t_veg = 0.355;
+                r0 = 0.0355;
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2018/07/23 by A.Ito */
+                t_veg = 0.31;
+                r0 = 0.031;
+            }else if(grid->veg_olson==23 || grid->veg_olson==24){ /* 2018/07/30 by A.Ito */
+                t_veg = 0.37;
+                r0 = 0.037;
             }else{
-                t_veg = 0.3;
-                r0 = 0.03;
+                t_veg = 0.42;
+                r0 = 0.042;
             }
             break;
         case 3: /*  */
-            t_veg = 7.0;
-            r0 = 0.6;
+            t_veg = 7.4;
+            r0 = 0.7;
             break;
         case 4:
-            t_veg = 4.5;
-            r0 = 0.3;
+            t_veg = 4.4;
+            r0 = 0.4;
             break;
         default:
              t_veg = 1.0;
@@ -416,14 +484,20 @@ void f_ch4_emit_walter(
 	/* TIME */
 	cumtime = 600;
 	
+    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    if(PARAM_PTB == 20){
+        t_veg *= 1.0 + 0.3 * f_pert[2];
+    }
+    
 	/* characteristics ***************************************/
     wtdepth = 0.0;
     rdepth = 0.1;
 	if(smode == 1){	/* water-logged wetlands */
 		/* t_veg = 6.0; */  /* vegetation factor */
 		/* rdepth = 0.20; */		/* rooting depth, m */
-		rdepth = 0.30;		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
-        
+		/* rdepth = 0.30; */		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
+        rdepth = 0.25;        /* rooting depth, m */ /* revised 2018/05/29 by A.Ito */
+
         if(grid->veg_olson==9 || grid->veg_olson==10){
             rdepth = 0.20;
         }else if(grid->veg_olson==11 || grid->veg_olson==12 || grid->veg_olson==21 || grid->veg_olson==22
@@ -573,9 +647,11 @@ void f_ch4_emit_walter(
 	}
 	/* fgow: Eq. 20 */
 	if(tmp[5] < t_gr){
-		f_grow = 0.0;
+		/* f_grow = 0.0; */
+        f_grow = 0.5;
 	}else if(tmp[5] >= t_gr && tmp[5] <= t_mat){
-		f_grow = 0.0 + 4.0 * (1.0 - pow((t_mat - tmp[5])/(t_mat - t_gr), 2.0));
+		/* f_grow = 0.0 + 4.0 * (1.0 - pow((t_mat - tmp[5])/(t_mat - t_gr), 2.0)); */
+        f_grow = 0.5 + 3.5 * (1.0 - pow((t_mat - tmp[5])/(t_mat - t_gr), 2.0));
 	}else if(tmp[5] > t_mat){
 		f_grow = 4.0;
 	}else{
@@ -619,12 +695,15 @@ void f_ch4_emit_walter(
 	/* q10_ch4prod = 4.0; */
 	/* q10_ch4prod = 3.0; */
 	/* q10_ch4prod = 3.2; */
-	q10_ch4prod = 3.85;
+	/* q10_ch4prod = 3.85; */
     /* 2014/12/10 by A.Ito
     Yvon-Durocher, G., A. P. Allen, D. Bastviken, R. Conrad, C. Gudasz, A. St-Pierre, 
     N. Thanh-Duc, and P. A. del Giorgio (2014), 
     Methane fluxes show consistent temperature dependence across microbial to 
     ecosystem scales, Nature, 507, 488–491, doi:10.1038/nature13164.  */
+    /* q10_ch4prod = 2.5; */ /* 2018/05/25 by A.Ito */
+    /* q10_ch4prod = 2.4; */ /* 2018/05/26 by A.Ito */
+    q10_ch4prod = 2.0; /* 2018/05/28 by A.Ito */
 	if(EX_CH4_2 == 1){
 		q10_ch4prod = 3.0;
 	}else if(EX_CH4_2 == 2){
@@ -645,10 +724,10 @@ void f_ch4_emit_walter(
         if(PARAM_ENS==4){
             r0 *= 1.1;
         }
-        if(PARAM_PTB==5){
+        if(PARAM_ENS==5){
             r0 *= 1.2;
         }
-        if(PARAM_PTB==6){
+        if(PARAM_ENS==6){
             r0 *= 1.3;
         }
     }
@@ -848,6 +927,45 @@ void f_ch4_emit_walter(
                     }
                 }
             }
+        }else if(ALT_INUND == 7 || ALT_INUND == 8){
+            /* use GCP-CH4 v2 data: 2018/08/29 by A.Ito */
+            if(grid->climy >= 2000 && grid->climy <= 2017){
+        
+                if(grid->f_wetland > 0.0){
+                    f_inundation = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_gcp_ts[grid->climy-2000][grid->m] */;
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 0.0;
+                    }
+                }
+                if(grid->f_paddy > 0.0){
+                    /* f_inundation = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
+                    f_inundation = grid->inundation_ssmi[grid->m];
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 0.0;
+                    }
+                }
+            
+            }else{
+                if(grid->f_wetland > 0.0){
+                    f_inundation = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_gcp_av[grid->m] */;
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 0.0;
+                    }
+                }
+                if(grid->f_paddy > 0.0){
+                    /* f_inundation = grid->inundation_gcp_av[grid->m] / grid->f_paddy; */
+                    f_inundation = grid->inundation_ssmi[grid->m];
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 0.0;
+                    }
+                }
+            }
         }
 		
 		/* when using NASA/GISS wetland data: 2011/03/31 by A.Ito */
@@ -951,6 +1069,32 @@ void f_ch4_emit_walter(
 				fa_paddy = (1.0 - f_inundation) * grid->f_paddy;
 				break;
 		}
+        
+        /* no limit by GLWD: 2018/08/29 by A.Ito */
+        if(ALT_INUND == 8 && smode == 1){
+        
+            if(grid->climy >= 2000 && grid->climy <= 2017){
+                fa_wetland = grid->inundation_gcp_ts[grid->climy-2000][grid->m];
+            }else{
+                fa_wetland = grid->inundation_gcp_av[grid->m];
+            }
+            
+        }else if(ALT_INUND == 8 && smode == 2){
+        
+            if(grid->climy >= 2000 && grid->climy <= 2017){
+                if(grid->inundation_gcp_ts[grid->climy-2000][grid->m] > grid->f_wetland){
+                    fa_wetland = 0.0;
+                }else{
+                    if(f_inundation <= 1.0){
+                        fa_wetland = (1.0 - f_inundation) * grid->f_wetland;
+                    }else{
+                        fa_wetland = 0.0;
+                    }
+                }
+            }else{
+                fa_wetland = grid->inundation_gcp_av[grid->m];
+            }
+        }
 	}
 	
 	/* sensitivity analysis for lake area: 2010/08/18 (A.Ito)  */
@@ -973,11 +1117,11 @@ void f_ch4_emit_walter(
             loct->xx7[grid->m] += f_inundation * grid->f_wetland / (grid->f_wetland + grid->f_paddy) * 100.0*wtdepth;
         } */
         
-        efflux_plant = fa_wetland * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
-        efflux_ebul = fa_wetland * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
+        efflux_plant = fa_wetland * flux_plant / 1000.0 * DHN *16.0 * MDN[grid->m];
+        efflux_ebul = fa_wetland * flux_ebull * DHN *16.0 / 1000.0 * MDN[grid->m];
         efflux_diffs = fa_wetland * df[1]/(dpth[1] - dpth[0])*
-					(loct->prof_ch4[1] - loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
-        efflux_reles = fa_wetland * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
+					(loct->prof_ch4[1] - loct->prof_ch4[0]) * DHN *16.0 / 1000.0 * MDN[grid->m];
+        efflux_reles = fa_wetland * release * DHN * 16.0 / 1000.0 * MDN[grid->m];
 		
 		(flux->soil).ch4_wetland_wh_plant[grid->m] += efflux_plant;
 		(flux->soil).ch4_wetland_wh_ebull[grid->m] += efflux_ebul;
@@ -992,11 +1136,11 @@ void f_ch4_emit_walter(
             loct->xx7[grid->m] += (1.0 - f_inundation) * grid->f_wetland / (grid->f_wetland + grid->f_paddy) * 100.0*wtdepth;
         } */
         
-        efflux_plant = fa_wetland * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
-        efflux_ebul = fa_wetland * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
+        efflux_plant = fa_wetland * flux_plant / 1000.0 * DHN *16.0 * MDN[grid->m];
+        efflux_ebul = fa_wetland * flux_ebull * DHN *16.0 / 1000.0 * MDN[grid->m];
         efflux_diffs = fa_wetland * df[1]/(dpth[1] - dpth[0])*
-					(loct->prof_ch4[1]-loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
-        efflux_reles = fa_wetland * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
+					(loct->prof_ch4[1]-loct->prof_ch4[0]) * DHN *16.0 / 1000.0 * MDN[grid->m];
+        efflux_reles = fa_wetland * release * DHN * 16.0 / 1000.0 * MDN[grid->m];
         
 		(flux->soil).ch4_wetland_wh_plant[grid->m] += efflux_ebul;
 		(flux->soil).ch4_wetland_wh_ebull[grid->m] += efflux_ebul;
@@ -1013,11 +1157,11 @@ void f_ch4_emit_walter(
             loct->xx7[grid->m] += f_inundation * grid->f_paddy / (grid->f_wetland + grid->f_paddy) * 100.0*wtdepth;
         } */
         
-        efflux_plant = fa_paddy * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
-        efflux_ebul = fa_paddy * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
+        efflux_plant = fa_paddy * flux_plant / 1000.0 * DHN *16.0 * MDN[grid->m];
+        efflux_ebul = fa_paddy * flux_ebull * DHN *16.0 / 1000.0 * MDN[grid->m];
         efflux_diffs = fa_paddy * df[1]/(dpth[1] - dpth[0])*
-					(loct->prof_ch4[1]-loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
-        efflux_reles = fa_paddy * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
+					(loct->prof_ch4[1]-loct->prof_ch4[0]) * DHN *16.0 / 1000.0 * MDN[grid->m];
+        efflux_reles = fa_paddy * release * DHN * 16.0 / 1000.0 * MDN[grid->m];
         
 		(flux->soil).ch4_paddy_wh_plant[grid->m] += efflux_plant;
 		(flux->soil).ch4_paddy_wh_ebull[grid->m] += efflux_ebul;
@@ -1032,11 +1176,11 @@ void f_ch4_emit_walter(
             loct->xx7[grid->m] += (1.0 - f_inundation) * grid->f_paddy / (grid->f_wetland + grid->f_paddy)  * 100.0*wtdepth;
         } */
         
-        efflux_plant = fa_paddy * flux_plant / 1000.0 *24.0*16.0 * MDN[grid->m];
-        efflux_ebul = fa_paddy * flux_ebull *24.0*16.0 / 1000.0 * MDN[grid->m];
+        efflux_plant = fa_paddy * flux_plant / 1000.0 * DHN *16.0 * MDN[grid->m];
+        efflux_ebul = fa_paddy * flux_ebull * DHN *16.0 / 1000.0 * MDN[grid->m];
         efflux_diffs = fa_paddy * df[1]/(dpth[1] - dpth[0])*
-					(loct->prof_ch4[1]-loct->prof_ch4[0]) *24.0*16.0 / 1000.0 * MDN[grid->m];
-        efflux_reles = fa_paddy * release *24.0 * 16.0 / 1000.0 * MDN[grid->m];
+					(loct->prof_ch4[1]-loct->prof_ch4[0]) * DHN *16.0 / 1000.0 * MDN[grid->m];
+        efflux_reles = fa_paddy * release * DHN * 16.0 / 1000.0 * MDN[grid->m];
         
 		(flux->soil).ch4_paddy_wh_plant[grid->m] += efflux_plant;
 		(flux->soil).ch4_paddy_wh_ebull[grid->m] += efflux_ebul;
@@ -1084,7 +1228,7 @@ void f_ch4_emit_veg(
 	/* C3, g m-2 month-1 */
 	if((echar->c3).season[grid->m]!=0){
 		(flux->c3).emit_ch4_kirschbaum_mass[grid->m] = ((mass->c3).mfol[grid->m]*dmTc*100.0) * 
-			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -9.0) * MDN[grid->m];
+			(sunshine*femit_sun + (DHN - sunshine)*femit_shade) * pow(10.0, -9.0) * MDN[grid->m];
 	}else{
 		(flux->c3).emit_ch4_kirschbaum_mass[grid->m] = 0.0;
 	}
@@ -1092,7 +1236,7 @@ void f_ch4_emit_veg(
 	/* C4, g m-2 month-1 */
 	if((echar->c4).season[grid->m]!=0){
 		(flux->c4).emit_ch4_kirschbaum_mass[grid->m] = ((mass->c4).mfol[grid->m]*dmTc*100.0) * 
-			(sunshine*femit_sun + (24.0 - sunshine)*femit_shade) * pow(10.0, -9.0) * MDN[grid->m];
+			(sunshine*femit_sun + (DHN - sunshine)*femit_shade) * pow(10.0, -9.0) * MDN[grid->m];
 	}else{
 		(flux->c4).emit_ch4_kirschbaum_mass[grid->m] = 0.0;
 	}
@@ -1100,10 +1244,10 @@ void f_ch4_emit_veg(
 	/* PHOTO-based scaling up **/
 	if(sunshine > 0.0){
 		(flux->c3).emit_ch4_kirschbaum_photo[grid->m] = 2.0 * (16.0/12.0) * 
-			((flux->c3).npp[grid->m]*1000.0) / 30000.0 * (1.0 + (24.0 - sunshine)/sunshine * 
+			((flux->c3).npp[grid->m]*1000.0) / 30000.0 * (1.0 + (DHN - sunshine)/sunshine * 
 			femit_shade / femit_sun);
 		(flux->c4).emit_ch4_kirschbaum_photo[grid->m] = 2.0 * (16.0/12.0) * 
-			((flux->c4).npp[grid->m]*1000.0) / 30000.0 * (1.0 + (24.0 - sunshine)/sunshine * 
+			((flux->c4).npp[grid->m]*1000.0) / 30000.0 * (1.0 + (DHN - sunshine)/sunshine *
 			femit_shade / femit_sun);
 	}else{
 		(flux->c3).emit_ch4_kirschbaum_photo[grid->m] = 0.0;

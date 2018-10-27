@@ -24,13 +24,13 @@ struct Flux flux_agr;
 
 /* global variables ********************************************/
 
-double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0};
+double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0}, YDN=365.0;
 
 /* experimental variables ************/
 long SCENARIO_ID, CO2S, GCM_R, GCM_C; /* */
 long PARAM_PTB, PARAM_ENS; /* added by A.Ito (2010/05/10) */
 long EX_CH4_1, EX_CH4_2, EX_CH4_3; /* added by A.Ito (2010/07/02) */
-long EX_SRM, EX_CCPL;
+long EX_SRM;
 long IMP_DT, IMP_DP, IMP_CD;
 /* experiment: geoengeneering, solar radiation management *********/
 /* EX SRM: 2013/06/04 by A.Ito *******************/
@@ -63,24 +63,25 @@ double h_tmp[PD_SIM], h_pre[PD_SIM], h_dswr[PD_SIM], h_aet[PD_SIM], h_rof[PD_SIM
 double h_gpp[PD_SIM], h_npp[PD_SIM], h_nep[PD_SIM], h_plant[PD_SIM], h_soil[PD_SIM];
 double h_sr[PD_SIM], h_ersn_c[PD_SIM], h_agrersn_c[PD_SIM], h_doc[PD_SIM];
 double h_agrarea[PD_SIM], h_paddyarea[PD_SIM], h_luc[PD_SIM];
-double h_luc_1[PD_SIM], h_luc_2[PD_SIM], h_luc_3[PD_SIM];
+double h_luc_0[PD_SIM], h_luc_1[PD_SIM], h_luc_2[PD_SIM], h_luc_3[PD_SIM]; /* added by A.Ito (2018/10/23) */
 double h_gpp_df97[PD_SIM];
 double h_gpp_c4[PD_SIM];	/* added by A.Ito (2009/08/31) */
 double h_pot_prmfrst[PD_SIM];
 double h_trnsp[PD_SIM], h_incepev[PD_SIM], h_ssurfev[PD_SIM];
-double h_nbp[PD_SIM], h_hvst[PD_SIM], h_abgm[PD_SIM];
+double h_nbp[PD_SIM], h_net_crop[PD_SIM], h_hvst_crop[PD_SIM], h_abgm[PD_SIM];
 double h_sw1[PD_SIM], h_sw2[PD_SIM];
 double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
 double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
 double h_parb[PD_SIM], h_pard[PD_SIM];
-double h_arm[PD_SIM];
+double h_arm[PD_SIM], h_bco2[PD_SIM]; /* added by A.Ito: 2018/10/22 */
+double h_lL[PD_SIM];
 
 double h_burnt_area[PD_SIM];
 double h_burnt_area_wood[PD_SIM];
 double h_bioburn_co2[PD_SIM], h_bioburn_ch4[PD_SIM], h_bioburn_co[PD_SIM];
 double h_bioburn_nmhc[PD_SIM], h_bioburn_oc[PD_SIM], h_bioburn_bc[PD_SIM];
 double h_bioburn_nox[PD_SIM], h_bioburn_so2[PD_SIM], h_bioburn_pm25[PD_SIM];
-double h_bioburn_tpm[PD_SIM], h_bioburn_tec[PD_SIM];
+double h_bioburn_tpm[PD_SIM], h_bioburn_tec[PD_SIM], h_bioburn_n2o[PD_SIM];
 
 double h_ch4ox1[PD_SIM], h_ch4ox2[PD_SIM], h_ch4ox3[PD_SIM], h_ch4ox4[PD_SIM];
 double h_ch4emit_cao_paddy[PD_SIM], h_ch4emit_cao_wetland[PD_SIM];
@@ -98,9 +99,10 @@ double h_n2o_emit_ngas_agr[PD_SIM], h_n2o_emit_casa_agr[PD_SIM];
 double h_nh3_emit_agr[PD_SIM];
 double h_no3_leach[PD_SIM];
 double h_n_fertin[PD_SIM], h_n_manurein[PD_SIM], h_n_depoin[PD_SIM]; /* added by A.Ito (2010/05/02) */
-double h_n_mcrb[PD_SIM],h_n_no3[PD_SIM],h_n_nh4[PD_SIM]; /* 2016/06/23 by A.Ito */
+double h_n_mcrb[PD_SIM], h_n_no3[PD_SIM],h_n_nh4[PD_SIM]; /* 2016/06/23 by A.Ito */
 double h_n_cnpy[PD_SIM], h_n_strg[PD_SIM], h_n_lttr[PD_SIM], h_n_hums[PD_SIM];
-double h_n_immbl[PD_SIM],h_n_lmnrl[PD_SIM],h_n_hmnrl[PD_SIM],h_n_cabdn[PD_SIM],h_n_sabdn[PD_SIM],h_n_uptk[PD_SIM];
+double h_n_immbl[PD_SIM], h_n_lmnrl[PD_SIM],h_n_hmnrl[PD_SIM],h_n_cabdn[PD_SIM];
+double h_n_sabdn[PD_SIM], h_n_uptk[PD_SIM];
 
 double h_voc_isopr_g97[PD_SIM], h_voc_monotrp_g97[PD_SIM], h_voc_methanl_g97[PD_SIM];
 double h_voc_acetone_g97[PD_SIM], h_voc_actaldhd_g97[PD_SIM], h_voc_frmardhd_g97[PD_SIM];
@@ -132,7 +134,7 @@ double rh_gpp[N_REG][PD_SIM], rh_npp[N_REG][PD_SIM], rh_nep[N_REG][PD_SIM];
 double rh_evpr[N_REG][PD_SIM], rh_trsp[N_REG][PD_SIM], rh_incp[N_REG][PD_SIM], rh_rnof[N_REG][PD_SIM];
 
 /* added by A.Ito (2009/11/15) */
-double rh_hvst[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
+double rh_net_crop[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
 double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
 double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
 
@@ -290,4 +292,7 @@ double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
 double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
 double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
 double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
+
+/* Burnt area by GFED4s: 2018/05/19 by A.Ito */
+double bf_gfed4s[20][N_REG+1];
 

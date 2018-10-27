@@ -21,7 +21,7 @@
 /*
 Boyer, E.W., Hornberger, G.M., Bencala, K.E. and McKnight, D., 1996. 
 Overview of a simple model describing variation of dissolved organic 
-carbn in an upland catchment. Ecological Modelling, 86:183-188.
+carbon in an upland catchment. Ecological Modelling, 86:183-188.
 */
 void f_doc_boyer(
 	struct Grid *grid,  
@@ -75,6 +75,12 @@ void f_doc_boyer(
         }
     }
 	
+    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    if(PARAM_PTB == 20){
+        /* prm_ensen = 1.0 + 0.3 * f_pert[4]; */
+        prm_ensen = 1.0 + 0.15 * f_pert[4];
+    }
+    
 	/* DOC mass, mg/L */
 	mass->doc = doc_est * prm_ensen;
 	mass->doc_m[grid->m] = mass->doc;

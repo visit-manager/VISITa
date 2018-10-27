@@ -150,7 +150,7 @@ void f_cult_luc(
 		exit(1);
 	}
     
-    /************************/
+    /************************************************************************/
     if(NMIP_RUN >= 1){
         if(grid->lucy >= FDY_NINY && grid->lucy<=2015){
             grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_NINY];
@@ -210,10 +210,10 @@ void f_cult_luc(
     }
     
     /* decouple land-use emission (fix to 2000 land cover): 2014/11/20 by A.Ito */
-    if(EX_CCPL == 3 || EX_CCPL == 8){
+    /* if(EX_CCPL == 3 || EX_CCPL == 8){
         grid->f_crop_con = grid->fcrop_unh_hmnzed[2000 - FDY_LUC];
         grid->f_pasture_con = grid->fpast_unh_hmnzed[2000 - FDY_LUC];
-    }
+    } */
 	
     /* biofuel experiment: 2015/08/21 by A.Ito */
     if(LANDUSE==17 || BIOFUEL_RUN >= 1){
@@ -377,22 +377,22 @@ void f_cult_luc(
     /* parameter ensemble: 2014/11/19 by A.Ito */
     prm_ensen = 1.0;
     if(PARAM_PTB == 7){
-        if(PARAM_PTB == 1){
+        if(PARAM_ENS == 1){
             prm_ensen *= 0.7;
         }
-        if(PARAM_PTB == 2){
+        if(PARAM_ENS == 2){
             prm_ensen *= 0.8;
         }
-        if(PARAM_PTB == 3){
+        if(PARAM_ENS == 3){
             prm_ensen *= 0.9;
         }
-        if(PARAM_PTB == 4){
+        if(PARAM_ENS == 4){
             prm_ensen *= 1.1;
         }
-        if(PARAM_PTB == 5){
+        if(PARAM_ENS == 5){
             prm_ensen *= 1.2;
         }
-        if(PARAM_PTB == 6){
+        if(PARAM_ENS == 6){
             prm_ensen *= 1.3;
         }
         grid->f_deforest *= prm_ensen;
@@ -400,6 +400,15 @@ void f_cult_luc(
         grid->f_deforest_s *= prm_ensen;
     }
 	
+    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    if(PARAM_PTB == 20){
+        prm_ensen = 1.0 + 0.3 * f_pert[6];
+
+        grid->f_deforest *= prm_ensen;
+        grid->f_deforest_v *= prm_ensen;
+        grid->f_deforest_s *= prm_ensen;
+    }
+    
 	/* abandonment */
 	if(grid->f_deforest < 0.0){
 		grid->f_deforest = 0.0;
@@ -617,7 +626,7 @@ void f_luc_emit(
 				flux->detr_ten[BGY_LUC-f] = 0.0;
 			}
 			/* corrected: A.Ito and E.Kato (2009/08/16) */
-			flux->lu_ten += mass_ten*0.1;
+			flux->lu_ten += mass_ten * 0.1;
 		}
 		
 		for(f=(BGY_LUC-99);f<=BGY_LUC;f++){
@@ -716,7 +725,7 @@ void f_luc_emit(
 
 		if(fluc_1 > 0.0){ /* deforested */
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
-			mass_detr = fluc_1 * 0.2*(mass->plant).rot;
+			mass_detr = fluc_1 * 0.2 * (mass->plant).rot;
 			mass_conv = fluc_1 * eff_mass * fe_conv/(fe_conv + fe_ten + fe_hund);
 			mass_ten = fluc_1 * eff_mass * fe_ten/(fe_conv + fe_ten + fe_hund);
 			mass_hund = fluc_1 * eff_mass * fe_hund/(fe_conv + fe_ten + fe_hund);
@@ -728,11 +737,26 @@ void f_luc_emit(
 			/* corrected: A.Ito and E.Kato (2009/08/16) */
 			flux->detr_ten[0] = mass_ten;
 			flux->detr_hund[0] = mass_hund;
+   
+            /* carbon loss for each compartment: 2018/10/24 by A.Ito  */
+   
+            flux->lu_fol = fluc_1 * (mass->plant).fol * fe_conv/(fe_conv + fe_ten + fe_hund);
+            flux->lu_stm = fluc_1 * (mass->plant).stm * fe_conv/(fe_conv + fe_ten + fe_hund);
+            flux->lu_rot = fluc_1 * 0.8 * (mass->plant).rot * fe_conv/(fe_conv + fe_ten + fe_hund);
+            flux->lu_ltr = fluc_1 * 0.2 * (mass->plant).rot;
+            flux->lu_msl = 0.0;
+   
 		}else{
 			flux->lu_detr = 0.0;
 			flux->lu_conv = 0.0;
 			flux->detr_ten[0] = 0.0;
 			flux->detr_hund[0] = 0.0;
+
+            flux->lu_fol = 0.0;
+            flux->lu_stm = 0.0;
+            flux->lu_rot = 0.0;
+            flux->lu_ltr = 0.0;
+            flux->lu_msl = 0.0;
 		}
         
         grid->f_luc = fluc_1;

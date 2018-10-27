@@ -19,6 +19,8 @@
 #define SLC 1367.0 /* solar constant */
 #define SBC (5.6703 / 100000000.0) /* Stephan-Boltzman Constant, W m-2 K-4 */
 #define GAC 9.8 /* gravity acceleration constant, m s-2 */
+#define DHN 24.0 /* hours per day */
+#define HSN 3600.0 /* seconds per hour */
 
 /***********************************************************/
 /* year time-step, 12=monthly */
@@ -38,12 +40,12 @@
 #define INT_C 0.01
 
 #define CALC_STEP 1
-#define CALC_OFFET 0
+#define CALC_OFFSET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
 /***********************************************************/
-#define ISIMIP_RUN 4
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -119,19 +121,20 @@
 
 /***********************************************************/
 /* output text files */
-#define OUTPUT_CARBON1 1
+#define OUTPUT_CARBON1 0
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
-#define OUTPUT_HYDMET 1
+#define OUTPUT_HYDMET 0
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 0
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
+#define BASE_GOUT 1
 #define C13_GOUT 0
 #define C14_GOUT 0
-#define PHYS_GOUT 1
+#define PHYS_GOUT 0
 
 /***********************************************************/
 /* total vegetation number */
@@ -218,6 +221,7 @@
 #else
     #define FSY_HIST 1901 /* */
     /* #define LSY_HIST 2016 */ /* history */
+    /* #define LSY_HIST 1980 */ /* GCP-CH4 MERRA2 run: 2018/08/29 by A.Ito */
     #define LSY_HIST 2017 /* history */
 #endif
 
@@ -325,7 +329,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
-    #define DL_HCLIM 116  /* CRU TS3.25: AD 1901 - 2016 */
+    #define DL_HCLIM 117  /* CRU TS3.26: AD 1901 - 2017 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -415,8 +419,12 @@
 /* crop harvest */
 #define NECB_CROP 1
 
+#define EX_FIRE_GFED 0
+/* 0:off, 1:on   2018/05/19 by A.Ito */
+/* 2: on with adjusting factor, 0.73 */
+
 /* land use change setting ********************************/
-#define LANDUSE 24
+#define LANDUSE 10
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -443,6 +451,21 @@
 /* 23: SSP5 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 24: ISI-MIP2b land-use data (2016/12/22 by A.Ito) */
 /* 25: ISI-MIP2b 2005 data (2017/11/01 by A.Ito) */
+
+/* extra land-use fixation combined with above scenarios: 2018/10/26 by A.Ito */
+#define EXTRA_CO2_FIX 0
+/* 0: off (default) */
+/* 1: make grid->co2y = 1901 */
+
+/* extra land-use fixation combined with above scenarios: 2018/10/26 by A.Ito */
+#define EXTRA_CLIM_FIX 0
+/* 0: off (default) */
+/* 1: make grid->climy = 1901 */
+
+/* extra land-use fixation combined with above scenarios: 2018/07/11 by A.Ito */
+#define EXTRA_LU_FIX 0
+/* 0: off (default) */
+/* 1: make grid->lucy = 1901 */
 
 #if ISIMIP_RUN==4
     #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
@@ -497,7 +520,7 @@
 /* 1: 2.0 */
 /* 2: 1.5 for litter, 2.5 for humus */
 
-/***************************************************/
+/********************************************************/
 /* PAR conversion */
 #define D_PAR 1
 /* 0: constant conversion factor */
@@ -535,9 +558,9 @@
 /* 0: off */
 /* 1: on */
 
-/***************************************************/
+/*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -552,31 +575,41 @@
 
 /* Alternative land-cover data for CH4 */
 #define ALT_FWETLAND 0
-/* 0: not use alternative data */
-/* 1: use data */
+/* 0: not use alternative data: default - GLWD */
+/* 1: use alternative data */
 /* 2: use Peregon-san data: 2014/02/04 */
+/* 3: use Maksyutov-san data: GLWD: 2017/07/03 */
+/* 4: use Maksyutov-san data: MERIS: 2017/07/03 */
+/* 5: use Maksyutov-san data: GLWD-MERIS: 2017/07/03 */
+/* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
 #define ALT_INUND 0
 /* 0: default (SSMI) */
-/* 1: GCP-CH4  */
+/* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
+/* 3: GCP-CH4 V1 */
+/* 4: GCP-CH4 V1 */
+/* 5: GCP-CH4 V1 */
+/* 6: GCP-CH4 V1 */
+/* 7: GCP-CH4 V2: 2018/08/28 by A.Ito */
+/* 8: GCP-CH4 V2: 2018/08/29 by A.Ito : no limit by GLWD */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 
 /* change in wetland extent due to permafrost melting: 2012/10/26 by A.Ito */
 #define VAR_PFMWET 0
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 
 /* variable water-table depth: 2014/12/08 by A.Ito */
 #define VAR_WTD 1
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 
 #define FIX_STMP 0
-/* 0:off, 1:0n */
-/* fix NPP carbon input to wetland: 2015/03/23 by A.Ito */
+/* 0:off, 1:on */
+/* fix soil temperature in wetland: 2015/03/23 by A.Ito */
 
 #define FIX_CH4_NPP 0
 /* 0:off, 1:0n */
@@ -602,11 +635,11 @@
 /* 0:off, 1:0n */
 
 /* parameter ensemble experiment ****/
-#define ENSEMBLE_RUN 0
+#define ENSEMBLE_RUN 1
 /* 0: off */
 /* 1: on */
 
-/* parameter ensemble */
+/* number of parameters for ensemble */
 #define N_PARA_ENS 20
 
 /********************************************************/
@@ -635,7 +668,7 @@
 /* 9: 50:50 ammonium and nitrate */
 
 /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
-#define EX_NITR_N2O 2
+#define EX_NITR_N2O 7
 /* 0: off (control) */
 /* 01: 1.0% (N20-driven) */
 /* 02: 0.5% (N20-driven) */
@@ -643,6 +676,9 @@
 /* 04: 1.0% (nitrification-driven) */
 /* 05: 0.5% (nitrification-driven) */
 /* 06: 2.0% (nitrification-driven) */
+
+/* 07: meta-analysis-derived empirical (N20-driven): 2018/05/14 by A.Ito */
+/* 08: meta-analysis-derived empirical (nitrification-driven): 2018/05/14 by A.Ito */
 
 /* 21: DNDC (N20-driven) */
 /* 22: DLEM (N20-driven) */
@@ -653,21 +689,17 @@
 /* 33: CLM-CN (nitrification-driven) */
 
 /* meta-analysis: 2017/09/15 */
-/* 51: 0.051% (N20-driven) */
-/* 52: 0.086% (N20-driven) */
-/* 53: 0.789% (N20-driven) */
-/* 54: 2.974% (N20-driven) */
-/* 55: 1.612% (N20-driven) */
-/* 56: 0.923% (N20-driven) */
-/* 57: 2.014% (N20-driven) */
+/* 51: 0.016490 (N20-driven) */
+/* 52: 0.006008 (N20-driven) */
+/* 53: 0.047718 (N20-driven) */
+/* 54: 0.001004 (N20-driven) */
+/* 55: 0.003565 (N20-driven) */
 
-/* 61: 0.051% (nitrification-driven) */
-/* 62: 0.086% (nitrification-driven) */
-/* 63: 0.789% (nitrification-driven) */
-/* 64: 2.974% (nitrification-driven) */
-/* 65: 1.612% (nitrification-driven) */
-/* 66: 0.923% (nitrification-driven) */
-/* 67: 2.014% (nitrification-driven) */
+/* 61: 0.016490 (nitrification-driven) */
+/* 62: 0.006008 (nitrification-driven) */
+/* 63: 0.047718 (nitrification-driven) */
+/* 64: 0.001004 (nitrification-driven) */
+/* 65: 0.003565 (nitrification-driven) */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
 #define EX_NFERT 0

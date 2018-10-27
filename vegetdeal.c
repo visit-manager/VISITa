@@ -79,7 +79,8 @@ void f_plant_stand_budget(
 	(flux->plant).lf_c[f] = (flux->c3).lf_c[f]*loct->c3ptn[f] + (flux->c4).lf_c[f]*loct->c4ptn[f]; 
 
 	/** harvest **/
-	(flux->plant).hvst[f] = (flux->c3).hvst[f]*loct->c3ptn[f] + (flux->c4).hvst[f]*loct->c4ptn[f];
+	(flux->plant).net_crop[f] = (flux->c3).net_crop[f]*loct->c3ptn[f] + (flux->c4).net_crop[f]*loct->c4ptn[f];
+    (flux->plant).hvst_crop[f] = (flux->c3).hvst_crop[f]*loct->c3ptn[f] + (flux->c4).hvst_crop[f]*loct->c4ptn[f];
 
 	(flux->plant).emit_ch4_kirschbaum_mass[f] = (flux->c3).emit_ch4_kirschbaum_mass[f]*loct->c3ptn[f] 
 		+ (flux->c4).emit_ch4_kirschbaum_mass[f]*loct->c4ptn[f];
@@ -1071,9 +1072,9 @@ long region_giorgi(
 	}else if((lat>-12.0&&lat<18.0)&&(lon>22.0&&lon<52.0)){
 		reg = 14;
 	}else if((lat>-35.0&&lat<-12.0)&&(lon>-10.0&&lon<52.0)){
-		reg=15;
+		reg = 15;
 	}else if((lat>18.0&&lat<30.0)&&(lon>-20.0&&lon<65.0)){
-		reg=16;
+		reg = 16;
 	}else if((lat>-11.0&&lat<20.0)&&(lon>95.0&&lon<155.0)){
 		reg = 17;
 	}else if((lat>20.0&&lat<50.0)&&(lon>100.0&&lon<145.0)){

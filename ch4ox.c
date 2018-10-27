@@ -333,7 +333,7 @@ void f_ch4oxy_casa(
 	
 	if(grid->tmp10_soil[grid->m] > -10.0){
 		/* Eq. 1 in Potter (1996) */
-		j_ch4 = d_ch4 * c_ch4 * (2.7 * pow(10.0, -4.0))* 30.0 * 24.0 * 3600.0;  /*  */
+		j_ch4 = d_ch4 * c_ch4 * (2.7 * pow(10.0, -4.0))* 30.0 * DHN * HSN;  /*  */
 	}else{
 		j_ch4 = 0.0;
 	}
@@ -664,6 +664,11 @@ void f_ch4oxy_curry(
         if(PARAM_ENS == 6){
             prm_ensen = 1.3;
         }
+    }
+    
+    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    if(PARAM_PTB == 20){
+        prm_ensen = 1.0 + 0.3 * f_pert[3];
     }
     
 	/* eq.6 */

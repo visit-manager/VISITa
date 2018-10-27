@@ -141,23 +141,30 @@ int main(
 	/* config: 7 parameter perturbation */
     /* note: no perturbation for PARAM_PTB<=0 */
     if(ENSEMBLE_RUN == 1){
-        fscanf(fp_setting,"%s %ld %ld", s_config, &l_config, &rpert);
-        printf("config  7: %s %ld %ld\n", s_config, l_config, rpert);
+        /* fscanf(fp_setting,"%s %ld %ld", s_config, &l_config, &rpert);
+        printf("config  7: %s %ld %ld\n", s_config, l_config, rpert); */
+        fscanf(fp_setting,"%s %ld", s_config, &l_config);
+        printf("config  7: %s %ld\n", s_config, l_config);
         PARAM_PTB = (long)atol(argv[1]);
         PARAM_ENS = (long)atol(argv[2]);
-        EX_CCPL = (long)atol(argv[3]);
+        /* EX_CCPL = (long)atol(argv[3]); */
+        rpert = (long)atol(argv[3]);
     }else{
         fscanf(fp_setting,"%s %ld", s_config, &l_config);
         printf("config  7: %s %ld\n", s_config, l_config);
-        //PARAM_PTB = 0;
+        /* PARAM_PTB = 0; */
         PARAM_PTB = l_config;
         PARAM_ENS = 0;
-        EX_CCPL = 0;
+        /* EX_CCPL = 0; */
         rpert = 0;
     }
     
+    /* NOTE: 2018/06/05 for C-budget parameter ensemble */
+    /* PARAM_PTB: 20 for C-budget parameter ensemble  */
+    /* PARAM_ENS: 1-120  */
+
     if(EX_ALBEDO == 1){
-        srand((long)atol(argv[1]) + clock()%1000);
+        srand((long)atol(argv[1]) + clock()%10000);
     
         snprintf(num, 4, "%03d", (short)atol(argv[1]));
 		strcat(s_date, "E");
@@ -168,7 +175,8 @@ int main(
         }
     }else{
         if(PARAM_PTB >= 1){
-            srand((unsigned int)(rpert + clock()%1000));
+            /* mean = 0.0, stdev = 1.0 */
+            srand((unsigned int)(rpert + clock()%10000));
             rand();
             for(f=0;f<N_PARA_ENS;f++){
                 f_pert[f] = 0.0;
@@ -183,23 +191,14 @@ int main(
                 if(f_pert[f] < -3.0){
                     f_pert[f] = -3.0;
                 }
+                
+                printf("%3ld %lf\n", f, f_pert[f]);
             }
             strcat(s_date, "E");
-            switch(PARAM_PTB){
-                case 2: strcat(s_date, "02"); break;
-                case 3: strcat(s_date, "03"); break;
-                case 4: strcat(s_date, "04"); break;
-                case 5: strcat(s_date, "05"); break;
-                case 6: strcat(s_date, "06"); break;
-                case 7: strcat(s_date, "07"); break;
-                case 8: strcat(s_date, "08"); break;
-                case 9: strcat(s_date, "09"); break;
-                case 10: strcat(s_date, "10"); break;
-                case 11: strcat(s_date, "11"); break;
-                default: break;
-            }
+            snprintf(num, 4, "%02d", (short)PARAM_PTB);
+            strcat(s_date, num);
             strcat(s_date, "_");
-            snprintf(num, 4, "%03d", (short)PARAM_ENS);
+            snprintf(num, 4, "%04d", (short)PARAM_ENS);
             strcat(s_date, num);
             strcat(s_date, "_");
         }else{
@@ -210,7 +209,7 @@ int main(
     }
     
     /* small carbon flow coupling/decoupling runs */
-    switch(EX_CCPL){
+    /* switch(EX_CCPL){
         case 1: strcat(s_date, "UC1_"); break;
         case 2: strcat(s_date, "UC2_"); break;
         case 3: strcat(s_date, "UC3_"); break;
@@ -220,7 +219,7 @@ int main(
         case 7: strcat(s_date, "UC7_"); break;
         case 8: strcat(s_date, "UC8_"); break;
         default: break;
-    }
+    } */
 	
 	/* config: 8 CH4 experiment */
 	fscanf(fp_setting,"%s %ld %ld %ld", s_config, &EX_CH4_1, &EX_CH4_2, &EX_CH4_3);
@@ -310,7 +309,7 @@ int main(
 			}
 		}
 		
-		/* grid area */	/* -> vegetdeal.c */
+		/* grid area, ha */	/* -> vegetdeal.c */
 		grid.area = grid_area(90.0-0.5*(double)f, 89.5-0.5*(double)f, 0.0, 0.5);
 
 		/* longitude loop: west to east ****************************************/
@@ -356,7 +355,7 @@ int main(
 			if(grid.veg_olson!=0 && grid.veg_olson!=33 && grid.flag_histdata==1
 					/* && (g+5)%10==0  */
 					/* && (g+0)%1==0 */
-					&& (g + CALC_OFFET)%CALC_STEP == 0 /* */
+					&& (g + CALC_OFFSET)%CALC_STEP == 0 /* */
 					&& grid.lat<=area_t&&grid.lat>=area_b && grid.lon>=area_l&&grid.lon<=area_r
 					/* && grid.lat<90.0&&grid.lat>-90.0 && grid.lon>-180.0&&grid.lon<180.0 */
 					/* && grid.lat<65.0&&grid.lat>55.0 && grid.lon>65.0&&grid.lon<85.0 */
@@ -492,6 +491,7 @@ int main(
 	
 	/* decadal average grid values */
     /* used for IMPRESSIONS analysis: 2015/08/11 by A.Ito */
+#if BASE_GOUT==1
 	fwrite(g_tmp, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 0-4
 	fwrite(g_prc, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 5-9
 	fwrite(g_swr, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 10-14
@@ -510,6 +510,7 @@ int main(
 	fwrite(g_luc, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 75-79
 	fwrite(g_er, sizeof(float), 5*N_ROW*N_COL, fp_binout);		// 80-84
 	fwrite(g_ch4ep_cao, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 85-89
+#endif
 
 #if C13_GOUT==1	
 	fwrite(g_gpp13, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 90

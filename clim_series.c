@@ -42,6 +42,7 @@ void set_hist_clim(
             /* 1901-2014:CRU TS3.23 */
             /* 1901-2015:CRU TS3.24 */
             /* 1901-2016:CRU TS3.25 */
+            /* 1901-2017:CRU TS3.26 */
             for(h=0;h<ASTEP;h++){
                 grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h] 
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
@@ -198,18 +199,18 @@ void set_hist_clim(
 	if(PRT_CLIM == 1){
 		if(PARAM_PTB == 1){
 			for(h=0;h<ASTEP;h++){
-				grid->tmp_sfc[h] += 0.2*f_pert[11];
-				grid->tmp_2m[h] += 0.2*f_pert[11];
-				grid->tmp10_soil[h] += 0.2*f_pert[11];
-				grid->tmp200_soil[h] += 0.2*f_pert[11];
+				grid->tmp_sfc[h] += 0.2 * f_pert[11];
+				grid->tmp_2m[h] += 0.2 * f_pert[11];
+				grid->tmp10_soil[h] += 0.2 * f_pert[11];
+				grid->tmp200_soil[h] += 0.2 * f_pert[11];
 				
-				grid->prate_sfc[h] *= 1.0 + 0.1*f_pert[12];
-				grid->tcdc_clm[h] *= 1.0 + 0.1*f_pert[13];
-				if(grid->tcdc_clm[h]<0.0){
-					grid->tcdc_clm[h]=0.0;
+				grid->prate_sfc[h] *= 1.0 + 0.1 * f_pert[12];
+				grid->tcdc_clm[h] *= 1.0 + 0.1 * f_pert[13];
+				if(grid->tcdc_clm[h] < 0.0){
+					grid->tcdc_clm[h] = 0.0;
 				}
-				if(grid->tcdc_clm[h]>1.0){
-					grid->tcdc_clm[h]=1.0;
+				if(grid->tcdc_clm[h] > 1.0){
+					grid->tcdc_clm[h] = 1.0;
 				}
 			}
 		}
