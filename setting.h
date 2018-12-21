@@ -39,8 +39,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
-#define CALC_OFFSET 9
+#define CALC_STEP 1
+#define CALC_OFFSET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -125,7 +125,7 @@
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
-#define OUTPUT_HYDMET 0
+#define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 0
 #define OUTPUT_BB 0
@@ -451,6 +451,19 @@
 /* 23: SSP5 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 24: ISI-MIP2b land-use data (2016/12/22 by A.Ito) */
 /* 25: ISI-MIP2b 2005 data (2017/11/01 by A.Ito) */
+/* 26: CMIP6 histoirical data (2018/12/21 by A.Ito) */
+/* 27: CMIP6 histoirical data - high (2018/12/21 by A.Ito) */
+/* 28: CMIP6 histoirical data - low (2018/12/21 by A.Ito) */
+
+/* extra land-use fixation combined with above scenarios: 2018/10/26 by A.Ito */
+#define EXTRA_CO2_FIX 0
+/* 0: off (default) */
+/* 1: make grid->co2y = 1901 */
+
+/* extra land-use fixation combined with above scenarios: 2018/10/26 by A.Ito */
+#define EXTRA_CLIM_FIX 0
+/* 0: off (default) */
+/* 1: make grid->climy = 1901 */
 
 /* extra land-use fixation combined with above scenarios: 2018/07/11 by A.Ito */
 #define EXTRA_LU_FIX 0
@@ -462,6 +475,7 @@
 #else
     #define DL_LUC 601 /* */  /* 1500-2100 */
     /* #define DL_LUC 306 */ /* 1700-2000/2005 */
+    /* #define DL_LUC 265 */ /* 1751-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
 #endif
 
 /* begin year of land-use DATA */
@@ -690,6 +704,14 @@
 /* 63: 0.047718 (nitrification-driven) */
 /* 64: 0.001004 (nitrification-driven) */
 /* 65: 0.003565 (nitrification-driven) */
+
+/* meta-analysis: 2018/12/21 */
+/* 51: 0.01922 (N20-driven) */ /* all mean */
+/* 52: 0.004260 (N20-driven) */ /* selected mean */
+/* 53: 0.051670 (N20-driven) */ /* paper mean */
+/* 54: 0.001920 (N20-driven) */ /* all median */
+/* 55: 0.001390 (N20-driven) */ /* selected median */
+/* 56: 0.005730 (N20-driven) */ /* paper median */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
 #define EX_NFERT 0

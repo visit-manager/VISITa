@@ -705,10 +705,12 @@ void f_ch4_emit_walter(
     /* q10_ch4prod = 2.4; */ /* 2018/05/26 by A.Ito */
     q10_ch4prod = 2.0; /* 2018/05/28 by A.Ito */
 	if(EX_CH4_2 == 1){
-		q10_ch4prod = 3.0;
+		q10_ch4prod = 1.5;
 	}else if(EX_CH4_2 == 2){
-		q10_ch4prod = 9.0;
-	}
+		q10_ch4prod = 6.0;
+	}else if(EX_CH4_2 == 3){
+        q10_ch4prod = 3.85;
+    }
     
     /* parameter ensemble: 2014/11/19 by A.Ito */
     if(PARAM_PTB == 5){
