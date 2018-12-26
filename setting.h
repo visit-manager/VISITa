@@ -45,7 +45,7 @@
 /* 10: every 10 grid */
 
 /***********************************************************/
-#define ISIMIP_RUN 1
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -124,7 +124,7 @@
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
+#define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 1
@@ -565,7 +565,7 @@
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
