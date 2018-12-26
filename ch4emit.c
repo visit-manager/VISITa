@@ -696,19 +696,24 @@ void f_ch4_emit_walter(
 	/* q10_ch4prod = 3.0; */
 	/* q10_ch4prod = 3.2; */
 	/* q10_ch4prod = 3.85; */
-    /* 2014/12/10 by A.Ito
-    Yvon-Durocher, G., A. P. Allen, D. Bastviken, R. Conrad, C. Gudasz, A. St-Pierre, 
-    N. Thanh-Duc, and P. A. del Giorgio (2014), 
-    Methane fluxes show consistent temperature dependence across microbial to 
-    ecosystem scales, Nature, 507, 488–491, doi:10.1038/nature13164.  */
     /* q10_ch4prod = 2.5; */ /* 2018/05/25 by A.Ito */
     /* q10_ch4prod = 2.4; */ /* 2018/05/26 by A.Ito */
     q10_ch4prod = 2.0; /* 2018/05/28 by A.Ito */
 	if(EX_CH4_2 == 1){
-		q10_ch4prod = 3.0;
+		q10_ch4prod = 1.5;
 	}else if(EX_CH4_2 == 2){
-		q10_ch4prod = 9.0;
-	}
+		q10_ch4prod = 2.5;
+	}else if(EX_CH4_2 == 3){
+        /* original Walter-Heimann (2001) value */
+        q10_ch4prod = 6.0;
+    }else if(EX_CH4_2 == 4){
+        /* 2014/12/10 by A.Ito
+        Yvon-Durocher, G., A. P. Allen, D. Bastviken, R. Conrad, C. Gudasz, A. St-Pierre,
+        N. Thanh-Duc, and P. A. del Giorgio (2014),
+        Methane fluxes show consistent temperature dependence across microbial to
+        ecosystem scales, Nature, 507, 488–491, doi:10.1038/nature13164.  */
+        q10_ch4prod = 3.85;
+    }
     
     /* parameter ensemble: 2014/11/19 by A.Ito */
     if(PARAM_PTB == 5){

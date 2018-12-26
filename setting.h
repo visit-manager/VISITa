@@ -45,7 +45,7 @@
 /* 10: every 10 grid */
 
 /***********************************************************/
-#define ISIMIP_RUN 0
+#define ISIMIP_RUN 1
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
@@ -127,7 +127,7 @@
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
+#define OUTPUT_GHG 1
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
@@ -259,12 +259,12 @@
     #define PD_HIST 112 /* */ /* AD 1901 - 2012 */ /* ISI-MIP2 (historical watch): 2016/05/06 by A.Ito */
 #elif ISIMIP_RUN==4
     #define PD_HIST 639  /* AD 1661 - 2299 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
-    /* #define PD_HIST 439 */  /* AD 1661 - 2099 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
+    /* #define PD_HIST 439 */ /* AD 1661 - 2099 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
 #elif GEOMIP_RUN==1
-    #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
+    #define PD_HIST 105 /* */ /* AD 1901 - 2005 --GEOMIP */
 #elif NMIP_RUN>=1
-    /* #define PD_HIST 155	*/	/* AD 1861 - 2015 */
-    #define PD_HIST 156    /* */    /* AD 1861 - 2016 */
+    /* #define PD_HIST 155	*/ /* AD 1861 - 2015 */
+    #define PD_HIST 156    /* */ /* AD 1861 - 2016 */
 #elif IMPRESSIONS_RUN==2
     #define PD_HIST 115
 #elif IMPRESSIONS_RUN==3
@@ -403,21 +403,21 @@
 /* 0: uncoupled */
 /* 1: coupled */
 /* erosion */
-#define NECB_ERSN 0
+#define NECB_ERSN 1
 /* biomass burning */
-#define NECB_BB 0
+#define NECB_BB 1
 /* bvoc */
-#define NECB_BVOC 0
+#define NECB_BVOC 1
 /* doc */
-#define NECB_DOC 0
+#define NECB_DOC 1
 /* CH4 */
-#define NECB_CH4 0
+#define NECB_CH4 1
 /* Wood harvest: 2010/10/15 by A.Ito */
-#define NECB_WHVST 0
+#define NECB_WHVST 1
 /* land-use change */
-#define NECB_LUC 0
+#define NECB_LUC 1
 /* crop harvest */
-#define NECB_CROP 0
+#define NECB_CROP 1
 
 #define EX_FIRE_GFED 0
 /* 0:off, 1:on   2018/05/19 by A.Ito */
@@ -451,13 +451,16 @@
 /* 23: SSP5 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 24: ISI-MIP2b land-use data (2016/12/22 by A.Ito) */
 /* 25: ISI-MIP2b 2005 data (2017/11/01 by A.Ito) */
+/* 26: CMIP6 histoirical data (2018/12/21 by A.Ito) */
+/* 27: CMIP6 histoirical data - high (2018/12/21 by A.Ito) */
+/* 28: CMIP6 histoirical data - low (2018/12/21 by A.Ito) */
 
-/* extra land-use fixation combined with above scenarios: 2018/10/26 by A.Ito */
+/* extra co2 fixation combined with above scenarios: 2018/10/26 by A.Ito */
 #define EXTRA_CO2_FIX 0
 /* 0: off (default) */
 /* 1: make grid->co2y = 1901 */
 
-/* extra land-use fixation combined with above scenarios: 2018/10/26 by A.Ito */
+/* extra climate fixation combined with above scenarios: 2018/10/26 by A.Ito */
 #define EXTRA_CLIM_FIX 0
 /* 0: off (default) */
 /* 1: make grid->climy = 1901 */
@@ -472,6 +475,7 @@
 #else
     #define DL_LUC 601 /* */  /* 1500-2100 */
     /* #define DL_LUC 306 */ /* 1700-2000/2005 */
+    /* #define DL_LUC 150 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
 #endif
 
 /* begin year of land-use DATA */
@@ -480,6 +484,7 @@
 #else
     #define FDY_LUC 1500 /* */
     /* #define FDY_LUC 1700 */
+    /* #define DL_LUC 1866 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
 #endif
 
 /* begin year of land-use SIMULATION */
@@ -700,6 +705,14 @@
 /* 63: 0.047718 (nitrification-driven) */
 /* 64: 0.001004 (nitrification-driven) */
 /* 65: 0.003565 (nitrification-driven) */
+
+/* meta-analysis: 2018/12/21 */
+/* 51: 0.01922 (N20-driven) */ /* all mean */
+/* 52: 0.004260 (N20-driven) */ /* selected mean */
+/* 53: 0.051670 (N20-driven) */ /* paper mean */
+/* 54: 0.001920 (N20-driven) */ /* all median */
+/* 55: 0.001390 (N20-driven) */ /* selected median */
+/* 56: 0.005730 (N20-driven) */ /* paper median */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
 #define EX_NFERT 0

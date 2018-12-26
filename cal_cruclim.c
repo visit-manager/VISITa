@@ -682,7 +682,7 @@ void cal_historical(
         
 		/* wood harvest: 2010/10/15 by A.Ito ***************/
 		total_hvst = 0.0;
-		if((mass->c3).v_type == 1 && NECB_WHVST == 1){
+		if((mass->c3).v_type == 1){
 			dyr = grid->lucy - FDY_LUC;
 			
 			/* assumption for the period later than 2004: A.Ito (2010/11/11) */
@@ -728,23 +728,25 @@ void cal_historical(
 			total_hvst *= 1.0/1000.0 * 1.0/grid->area * prm_ensen;
    
             /* Note: only C3 tree species */
-			if((mass->c3).stm > (total_hvst + INT_C)){
-        
-                if((mass->c3).stm > (total_hvst * iweight3 + INT_C)){
-                    (mass->c3).stm -= total_hvst * iweight3;
-                    flux->hvst_wood = total_hvst * iweight3;
+            if(NECB_WHVST == 1){
+                if((mass->c3).stm > (total_hvst + INT_C)){
+            
+                    if((mass->c3).stm > (total_hvst * iweight3 + INT_C)){
+                        (mass->c3).stm -= total_hvst * iweight3;
+                        flux->hvst_wood = total_hvst * iweight3;
+                    }else{
+                        (mass->c3).stm -= total_hvst;
+                        flux->hvst_wood = total_hvst;
+                    }
                 }else{
-                    (mass->c3).stm -= total_hvst;
-                    flux->hvst_wood = total_hvst;
+                    flux->hvst_wood = total_hvst - INT_C;
+                    (mass->c3).stm = INT_C;
                 }
-            }else{
-                flux->hvst_wood = total_hvst - INT_C;
-                (mass->c3).stm = INT_C;
+                
+                if((mass->c3).stm < INT_C){
+                    (mass->c3).stm = INT_C;
+                }
             }
-			
-			if((mass->c3).stm < INT_C){
-				(mass->c3).stm = INT_C;
-			}
 		}else{
 			flux->hvst_wood = 0.0;
 		}
@@ -758,11 +760,11 @@ void cal_historical(
             
             /* altered: 2018/10/16 by A.Ito */
 			if((mass->c3).v_type == 1 && NECB_LUC == 1){
-				flux->nbp[f] -= iweight * (flux->lu_conv/12.0 + flux->lu_ten/12.0 + flux->lu_hund/12.0);
+				flux->nbp[f] -= iweight * (flux->lu_conv/(double)ASTEP + flux->lu_ten/(double)ASTEP + flux->lu_hund/(double)ASTEP);
 			}
 			
             if(NECB_WHVST == 1){
-                flux->nbp[f] -= flux->hvst_wood / 12.0;
+                flux->nbp[f] -= flux->hvst_wood /(double)ASTEP;
             }
 
 			if(NECB_BB == 1){
@@ -804,7 +806,7 @@ void cal_historical(
                 }
     
                 /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
-                flux->nbp[f] -= flux->erod_carbon * (prm_ensen * 0.20) / 12.0;
+                flux->nbp[f] -= flux->erod_carbon * (prm_ensen * 0.20) /(double)ASTEP;
             }
             
             if(NECB_BVOC == 1){

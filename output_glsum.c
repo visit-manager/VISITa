@@ -40,7 +40,7 @@ void f_set_history_data(
 			fweight = 1.0 - grid->f_crop_con;
 			
 			if(NECB_LUC == 0){
-				fweight = 1.0 - grid->fcrop_unh_hmnzed[200];
+				fweight = 1.0 - grid->fcrop_luh_hmnzed[200];
 			}
 			
 			fweight_nat = 1.0;

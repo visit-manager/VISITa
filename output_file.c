@@ -352,8 +352,8 @@ void f_output_result(
             fprintf(fp_o[0],"%.4lf ",  flux->ncb[f]); /* */
             
             /* added: 2011/04/19 (A.Ito) */
-            /* fprintf(fp_o[0],"%.4lf ",  (flux->plant).net_crop[f]); */
             fprintf(fp_o[0],"%.4lf ",  (flux->plant).hvst_crop[f]);
+            fprintf(fp_o[0],"%.4lf ",  (flux->plant).net_crop[f]); /* */
 
             fprintf(fp_o[0],"%.4lf ",  (flux->soil).doc_boyer[f]);
             fprintf(fp_o[0],"%.4lf ",  flux->voc_isopr_g97[f]+flux->voc_monotrp_g97[f]
@@ -368,7 +368,22 @@ void f_output_result(
             
             /* added: 2014/09/02 (A.Ito) */
             fprintf(fp_o[0],"%.3lf ", flux->a_burnt[f]);
-            fprintf(fp_o[0],"%.3lf ", flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+flux->bb_co2_wood[f]+flux->bb_co2_root[f]);
+            /* revised: 2018/11/01 (A.Ito) */
+            fprintf(fp_o[0],"%.3lf ", (flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+flux->bb_co2_wood[f]+flux->bb_co2_root[f])*12.0/44.0+
+                                (flux->bb_co_litter[f]+flux->bb_co_leaf[f]+flux->bb_co_wood[f]+flux->bb_co_root[f])*12.0/28.0+
+                                (flux->bb_ch4_litter[f]+flux->bb_ch4_leaf[f]+flux->bb_ch4_wood[f]+flux->bb_ch4_root[f])*12.0/16.0+
+                                (flux->bb_bc_litter[f]+flux->bb_bc_leaf[f]+flux->bb_bc_wood[f]+flux->bb_bc_root[f]));
+            
+            /* added: 2018/11/01 (A.Ito) */
+            if((echar->soil).v_type == 1){
+                fprintf(fp_o[0],"%.3lf ", (flux->soil).ch4_wetland_wh_plant[f]+(flux->soil).ch4_wetland_wh_ebull[f]+
+                            (flux->soil).ch4_wetland_wh_diff[f]+(flux->soil).ch4_wetland_wh_release[f]
+                            - (1.0-loct->f_inund_wet_wh[f])*(flux->soil).ch4oxy_curry[f]);
+            }else if((echar->soil).v_type == 2){
+                fprintf(fp_o[0],"%.3lf ", (flux->soil).ch4_paddy_wh_plant[f]+(flux->soil).ch4_paddy_wh_ebull[f]+
+                            (flux->soil).ch4_paddy_wh_diff[f]+(flux->soil).ch4_paddy_wh_release[f]
+                            - (1.0-loct->f_inund_pad_wh[f])*(flux->soil).ch4oxy_curry[f]);
+            }
         }
         fprintf(fp_o[0],"%.4lf ", flux->lu_detr);
         fprintf(fp_o[0],"%.4lf ", flux->lu_conv);
@@ -376,14 +391,14 @@ void f_output_result(
         fprintf(fp_o[0],"%.4lf ", flux->lu_hund); /* */
         
         /* added 2014/02/17 by A.Ito */
-        fprintf(fp_o[0],"%.4lf ", flux->npp_miami);
+        /* fprintf(fp_o[0],"%.4lf ", flux->npp_miami);
         fprintf(fp_o[0],"%.4lf ", flux->npp_montreal); 
         fprintf(fp_o[0],"%.4lf ", flux->npp_schuur);
         fprintf(fp_o[0],"%.4lf ", flux->npp_nceas);
         fprintf(fp_o[0],"%.4lf ", flux->npp_chikugo);
         fprintf(fp_o[0],"%.4lf ", flux->npp_madison_parwsi);
         fprintf(fp_o[0],"%.4lf ", flux->npp_madison_gddswsi);
-        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_tp); /* */
+        fprintf(fp_o[0],"%.4lf ", flux->npp_madison_tp); */
 	
         /* added: 2011/04/19 (A.Ito) */
         fprintf(fp_o[0],"%.4lf ", flux->erod_carbon);
@@ -688,6 +703,9 @@ void f_output_result(
             fprintf(fp_o[7],"%.4lf ", loct->f_ch4_substrate[f]);
             fprintf(fp_o[7],"%.4lf ", loct->dlt_ch4_d13c[f]);
             fprintf(fp_o[7],"%.4lf ", loct->d13c_ch4[f]);
+            
+            /* 2018/10/31 by A.Ito */
+            fprintf(fp_o[7],"%.4lf ", (flux->plant).d14c_gpp[f]);
         }
         fprintf(fp_o[7],"\n");
     }

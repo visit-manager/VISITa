@@ -195,7 +195,7 @@ int main(
                 printf("%3ld %lf\n", f, f_pert[f]);
             }
             strcat(s_date, "E");
-            snprintf(num, 4, "%03d", (short)PARAM_PTB);
+            snprintf(num, 4, "%02d", (short)PARAM_PTB);
             strcat(s_date, num);
             strcat(s_date, "_");
             snprintf(num, 4, "%03d", (short)PARAM_ENS);

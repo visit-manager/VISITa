@@ -2051,7 +2051,51 @@ void open_input(
             exit(1); 
         }
     }
-	
+    
+    /* CMIP6 historical data: 1886-2015: 2018/12/21 by A.Ito */
+    if(LANDUSE == 26){
+        if( (fp_s[26]=fopen("./data/luh2_state_5-05_1866-2015.txt","rt"))==NULL ){
+            printf("No luh2_state_5-05_1866-2015.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[26] ++;
+        }
+        if( (fp_s[27]=fopen("./data/luh2_transition_5-05_1866-2015.txt","rt"))==NULL ){
+            printf("No luh2_transition_5-05_1866-2015.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[27] ++;
+        }
+    }
+    if(LANDUSE == 27){
+        if( (fp_s[26]=fopen("./data/luh2_state_5-05_1866-2015_high.txt","rt"))==NULL ){
+            printf("No luh2_state_5-05_1866-2015_high.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[26] ++;
+        }
+        if( (fp_s[27]=fopen("./data/luh2_transition_5-05_1866-2015_high.txt","rt"))==NULL ){
+            printf("No luh2_transition_5-05_1866-2015_high.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[27] ++;
+        }
+    }
+    if(LANDUSE == 28){
+        if( (fp_s[26]=fopen("./data/luh2_state_5-05_1866-2015_low.txt","rt"))==NULL ){
+            printf("No luh2_state_5-05_1866-2015_low.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[26] ++;
+        }
+        if( (fp_s[27]=fopen("./data/luh2_transition_5-05_1866-2015_low.txt","rt"))==NULL ){
+            printf("No luh2_transition_5-05_1866-2015_low.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[27] ++;
+        }
+    }
+
 	/***************************************************/
 	/* 0: stable */
 	/* 1: gradual rise (SRES A1 or A1B) */
@@ -2158,7 +2202,9 @@ void open_input(
 		if((fp_s[23]=fopen("./data/image_b1_fcrop.dat","rt"))==NULL){
 			printf("NO DATA !!\n");
 			exit(1);
-		}
+		}else{
+            Flag_FOPEN[23] ++;
+        }
         if((fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt"))==NULL){
 			printf("NO DATA:image_b1_fgrass.dat !!\n");
 			exit(1);
@@ -2239,6 +2285,8 @@ void open_input(
             if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
                 printf("NO image_a1b_fcrop.dat !!\n");
                 exit(1);
+            }else{
+                Flag_FOPEN[23] ++;
             }
             fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
         }
@@ -2251,7 +2299,9 @@ void open_input(
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
 			printf("NO image_a1b_fcrop.dat !!\n");
 			exit(1);
-		}
+		}else{
+            Flag_FOPEN[23] ++;
+        }
 		fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
     }
     
@@ -2896,22 +2946,32 @@ void open_input(
         if( (fp_s[53]=fopen("./data/luh_gvbh1_1500_2005.txt","rt"))==NULL ){  
             printf("No luh_gvbh1_1500_2005.txt\n");  
             exit(1); 
+        }else{
+            Flag_FOPEN[53] ++;
         }
         if( (fp_s[54]=fopen("./data/luh_gvbh2_1500_2005.txt","rt"))==NULL ){  
             printf("No luh_gvbh2_1500_2005.txt\n");  
             exit(1); 
+        }else{
+            Flag_FOPEN[54] ++;
         }
         if( (fp_s[55]=fopen("./data/luh_gsbh1_1500_2005.txt","rt"))==NULL ){  
             printf("No luh_gsbh1_1500_2005.txt\n");  
             exit(1); 
+        }else{
+            Flag_FOPEN[55] ++;
         }
         if( (fp_s[56]=fopen("./data/luh_gsbh2_1500_2005.txt","rt"))==NULL ){  
             printf("No luh_gsbh2_1500_2005.txt\n");  
             exit(1); 
+        }else{
+            Flag_FOPEN[56] ++;
         }
         if( (fp_s[57]=fopen("./data/luh_gsbh3_1500_2005.txt","rt"))==NULL ){  
             printf("No luh_gsbh3_1500_2005.txt\n");  
             exit(1); 
+        }else{
+            Flag_FOPEN[57] ++;
         }
     }else{
         if( (fp_s[53]=fopen("./data/luc_eos2_gvbh1_1700-2005.dat","rt"))==NULL ){  
