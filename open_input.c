@@ -2052,44 +2052,44 @@ void open_input(
         }
     }
     
-    /* CMIP6 historical data: 1751-2015: 2018/12/21 by A.Ito */
+    /* CMIP6 historical data: 1886-2015: 2018/12/21 by A.Ito */
     if(LANDUSE == 26){
-        if( (fp_s[26]=fopen("./data/luh2_state_5-05.txt","rt"))==NULL ){
-            printf("No luh2_state_5-05.txt\n");
+        if( (fp_s[26]=fopen("./data/luh2_state_5-05_1866-2015.txt","rt"))==NULL ){
+            printf("No luh2_state_5-05_1866-2015.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[26] ++;
         }
-        if( (fp_s[27]=fopen("./data/luh2_transition_5-05.txt","rt"))==NULL ){
-            printf("No luh2_transition_5-05.txt\n");
+        if( (fp_s[27]=fopen("./data/luh2_transition_5-05_1866-2015.txt","rt"))==NULL ){
+            printf("No luh2_transition_5-05_1866-2015.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[27] ++;
         }
     }
     if(LANDUSE == 27){
-        if( (fp_s[26]=fopen("./data/luh2_state_high_5-05.txt","rt"))==NULL ){
-            printf("No luh2_state_high_5-05.txt\n");
+        if( (fp_s[26]=fopen("./data/luh2_state_5-05_1866-2015_high.txt","rt"))==NULL ){
+            printf("No luh2_state_5-05_1866-2015_high.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[26] ++;
         }
-        if( (fp_s[27]=fopen("./data/luh2_transition_high_5-05.txt","rt"))==NULL ){
-            printf("No luh2_transition_high_5-05.txt\n");
+        if( (fp_s[27]=fopen("./data/luh2_transition_5-05_1866-2015_high.txt","rt"))==NULL ){
+            printf("No luh2_transition_5-05_1866-2015_high.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[27] ++;
         }
     }
     if(LANDUSE == 28){
-        if( (fp_s[26]=fopen("./data/luh2_state_low_5-05.txt","rt"))==NULL ){
-            printf("No luh2_state_low_5-05.txt\n");
+        if( (fp_s[26]=fopen("./data/luh2_state_5-05_1866-2015_low.txt","rt"))==NULL ){
+            printf("No luh2_state_5-05_1866-2015_low.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[26] ++;
         }
-        if( (fp_s[27]=fopen("./data/luh2_transition_low_5-05.txt","rt"))==NULL ){
-            printf("No luh2_transition_low_5-05.txt\n");
+        if( (fp_s[27]=fopen("./data/luh2_transition_5-05_1866-2015_low.txt","rt"))==NULL ){
+            printf("No luh2_transition_5-05_1866-2015_low.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[27] ++;

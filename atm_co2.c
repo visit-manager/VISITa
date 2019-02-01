@@ -169,16 +169,45 @@ void f_co2_trend(
 	grid->bco2[grid->m] = base + lgrd + season;  /*   + 350.0  */
 		
 	/*  grid->d13c_bco2[grid->m]=-7.0;  */
-	grid->d13c_bco2[grid->m] = -6.0 + (-0.02 * (base - 280.0)) + (0.05 * season);
+    if(grid->co2y>=1850 && grid->co2y<=2015){
+        grid->d13c_bco2[grid->m] = d13c_graven[grid->co2y - 1850];
+    }else{
+	    grid->d13c_bco2[grid->m] = -6.0 + (-0.02 * (base - 280.0)) + (0.05 * season);
+    }
 	
 	/* radiocarbon (d14C, D14C) of atmospheric CO2 *********************/
 	/* added 2009/06/23 by A.Ito */
 	/* fitting curves derived from data by U.S. ORNL CDIAC */
-	if(time < 1964.0){
+	/* if(time < 1964.0){
 		grid->d14c_bco2[grid->m] = exp(0.6655532*(time - 1953.686));
 	}else{
 		grid->d14c_bco2[grid->m] = 1462.196 * exp(-0.06327057 * (time - 1954.282));
-	}
+	} */
+    if(grid->co2y >= 1850 && grid->co2y <= 2015){
+        if(grid->lat >= 30.0){
+            grid->d14c_bco2[grid->m] = d14c1_graven[grid->co2y - 1850];
+        }else if(grid->lat < 30.0 && grid->lat > -30.0){
+            grid->d14c_bco2[grid->m] = d14c2_graven[grid->co2y - 1850];
+        }else if(grid->lat <= -30.0){
+            grid->d14c_bco2[grid->m] = d14c3_graven[grid->co2y - 1850];
+        }
+    }else if(grid->co2y < 1850){
+        if(grid->lat >= 30.0){
+            grid->d14c_bco2[grid->m] = d14c1_graven[0];
+        }else if(grid->lat < 30.0 && grid->lat > -30.0){
+            grid->d14c_bco2[grid->m] = d14c2_graven[0];
+        }else if(grid->lat <= -30.0){
+            grid->d14c_bco2[grid->m] = d14c3_graven[0];
+        }
+    }else if(grid->co2y > 2015){
+        if(grid->lat >= 30.0){
+            grid->d14c_bco2[grid->m] = d14c1_graven[165];
+        }else if(grid->lat < 30.0 && grid->lat > -30.0){
+            grid->d14c_bco2[grid->m] = d14c2_graven[165];
+        }else if(grid->lat <= -30.0){
+            grid->d14c_bco2[grid->m] = d14c3_graven[165];
+        }
+    }
 }
 
 /* Intra-canopy CO2-d13C *************************************/

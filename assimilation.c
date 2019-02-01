@@ -140,7 +140,7 @@ void pc_sat(
 	}
 	
 	/* acclimation ************************************************ 2009/04/29 A.Ito */
-	if(loct->aco2[grid->m]>400.0 && SENS_RAD==11){
+	if(loct->aco2[grid->m]>400.0 && SENS_RAD == 11){
 		f_acclim = (1.16 - (loct->aco2[grid->m] - 400.0)*0.00075)/1.16;
 	}else{
 		f_acclim = 1.0;

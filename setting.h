@@ -222,7 +222,7 @@
     #define FSY_HIST 1901 /* */
     /* #define LSY_HIST 2016 */ /* history */
     /* #define LSY_HIST 1980 */ /* GCP-CH4 MERRA2 run: 2018/08/29 by A.Ito */
-    #define LSY_HIST 2017 /* history */
+    #define LSY_HIST 2018 /* history */
 #endif
 
 /* start year (AD) of CO2 time series */
@@ -259,12 +259,12 @@
     #define PD_HIST 112 /* */ /* AD 1901 - 2012 */ /* ISI-MIP2 (historical watch): 2016/05/06 by A.Ito */
 #elif ISIMIP_RUN==4
     #define PD_HIST 639  /* AD 1661 - 2299 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
-    /* #define PD_HIST 439 */  /* AD 1661 - 2099 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
+    /* #define PD_HIST 439 */ /* AD 1661 - 2099 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
 #elif GEOMIP_RUN==1
-    #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
+    #define PD_HIST 105 /* */ /* AD 1901 - 2005 --GEOMIP */
 #elif NMIP_RUN>=1
-    /* #define PD_HIST 155	*/	/* AD 1861 - 2015 */
-    #define PD_HIST 156    /* */    /* AD 1861 - 2016 */
+    /* #define PD_HIST 155	*/ /* AD 1861 - 2015 */
+    #define PD_HIST 156    /* */ /* AD 1861 - 2016 */
 #elif IMPRESSIONS_RUN==2
     #define PD_HIST 115
 #elif IMPRESSIONS_RUN==3
@@ -282,7 +282,8 @@
     /* #define PD_HIST 114  */	/* AD 1901 - 2014 */
     /* #define PD_HIST 115	*/	/* AD 1901 - 2015 */
     /* #define PD_HIST 116	*/	/* AD 1901 - 2016 */
-    #define PD_HIST 117    /* */    /* AD 1901 - 2017 */
+    /* #define PD_HIST 117  */    /* AD 1901 - 2017 */
+    #define PD_HIST 118    /* */    /* AD 1901 - 2018 */
 #endif
 
 /* start year (AD) of climate ***/
@@ -342,7 +343,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -354,7 +355,8 @@
 /* #define DL_NCEP 67 */   /* 1948-2014 */
 /* #define DL_NCEP 68 */   /* 1948-2015 */
 /* #define DL_NCEP 69 */   /* 1948-2016 */
-#define DL_NCEP 70   /* 1948-2017 */
+/* #define DL_NCEP 70 */   /* 1948-2017 */
+#define DL_NCEP 71   /* 1948-2018 */
 
 /* Simulation using ISI-MIP data (yr) */
 /* spinup 1951-1980 */
@@ -389,10 +391,15 @@
     /* start year of GCM data (AD) */
     #define FDY_GCM 1970  /* --GEOMIP */
 #else
-    #define DL_GCM 94 /* 2006-2099 --ISI-MIP2 */
-    #define BGY_GCM 2006  /* --PLUME */
+    /* #define DL_GCM 94 */ /* 2006-2099 --ISI-MIP2 */
+    /* #define BGY_GCM 2006 */  /* --PLUME */
+    /* #define ENY_GCM 2099 */
+    /* #define FDY_GCM 2006 */   /* --PLUME */
+
+    #define DL_GCM 1 /* no-use GCM data */
+    #define BGY_GCM 2016
     #define ENY_GCM 2099
-    #define FDY_GCM 2006   /* --PLUME */
+    #define FDY_GCM 2016
 #endif
 /* #define DL_GCM 241 */ /* 1860-2100 */
 /* #define FDY_GCM 2001 */
@@ -424,7 +431,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 10
+#define LANDUSE 26
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -455,12 +462,12 @@
 /* 27: CMIP6 histoirical data - high (2018/12/21 by A.Ito) */
 /* 28: CMIP6 histoirical data - low (2018/12/21 by A.Ito) */
 
-/* extra land-use fixation combined with above scenarios: 2018/10/26 by A.Ito */
+/* extra co2 fixation combined with above scenarios: 2018/10/26 by A.Ito */
 #define EXTRA_CO2_FIX 0
 /* 0: off (default) */
 /* 1: make grid->co2y = 1901 */
 
-/* extra land-use fixation combined with above scenarios: 2018/10/26 by A.Ito */
+/* extra climate fixation combined with above scenarios: 2018/10/26 by A.Ito */
 #define EXTRA_CLIM_FIX 0
 /* 0: off (default) */
 /* 1: make grid->climy = 1901 */
@@ -473,17 +480,18 @@
 #if ISIMIP_RUN==4
     #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
 #else
-    #define DL_LUC 601 /* */  /* 1500-2100 */
+    /* #define DL_LUC 601 */  /* 1500-2100 */
     /* #define DL_LUC 306 */ /* 1700-2000/2005 */
-    /* #define DL_LUC 265 */ /* 1751-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
+    #define DL_LUC 150 /* */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
 #endif
 
 /* begin year of land-use DATA */
 #if ISIMIP_RUN==4
     #define FDY_LUC 1661 /* ISI-MIP2b (2016/12/22 by A.Ito) */
 #else
-    #define FDY_LUC 1500 /* */
+    /* #define FDY_LUC 1500 */
     /* #define FDY_LUC 1700 */
+    #define FDY_LUC 1866 /* */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
 #endif
 
 /* begin year of land-use SIMULATION */

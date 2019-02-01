@@ -40,7 +40,7 @@ void f_set_history_data(
 			fweight = 1.0 - grid->f_crop_con;
 			
 			if(NECB_LUC == 0){
-				fweight = 1.0 - grid->fcrop_unh_hmnzed[200];
+				fweight = 1.0 - grid->fcrop_luh_hmnzed[200];
 			}
 			
 			fweight_nat = 1.0;
@@ -198,14 +198,15 @@ void f_set_history_data(
 		h_n_depoin[year] += fweight * (loct->depo_nh4[f] + loct->depo_no3[f]) * grid->area;
 		
         /* 2016/06/23 by A.Ito */
-        h_n_mcrb[year] += fweight * (mass->soil).n_mcrb_m[f] * grid->area;
-        h_n_no3[year] += fweight * (mass->soil).n_no3_m[f] * grid->area;
-        h_n_nh4[year] += fweight * (mass->soil).n_nh4_m[f] * grid->area;
+        /* revised " * wmonth": 2019/01/29 by A.Ito */
+        h_n_mcrb[year] += fweight * (mass->soil).n_mcrb_m[f] * wmonth * grid->area;
+        h_n_no3[year] += fweight * (mass->soil).n_no3_m[f] * wmonth * grid->area;
+        h_n_nh4[year] += fweight * (mass->soil).n_nh4_m[f] * wmonth * grid->area;
         
-        h_n_cnpy[year] += fweight * (mass->plant).n_cnpy_m[f] * grid->area;
-        h_n_strg[year] += fweight * (mass->plant).n_strg_m[f] * grid->area;
-        h_n_lttr[year] += fweight * (mass->soil).n_lttr_m[f] * grid->area;
-        h_n_hums[year] += fweight * (mass->soil).n_hums_m[f] * grid->area;
+        h_n_cnpy[year] += fweight * (mass->plant).n_cnpy_m[f] * wmonth * grid->area;
+        h_n_strg[year] += fweight * (mass->plant).n_strg_m[f] * wmonth * grid->area;
+        h_n_lttr[year] += fweight * (mass->soil).n_lttr_m[f] * wmonth * grid->area;
+        h_n_hums[year] += fweight * (mass->soil).n_hums_m[f] * wmonth * grid->area;
 
 		if(loct->v_type == 1 && REPLACE_OLSON_CROP == 0){ /* added by A.Ito (2009/06/16) */
 			if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32){
@@ -272,7 +273,7 @@ void f_set_history_data(
 		ci_aco2[year] += fweight * loct->aco2[f] * grid->area * wmonth;
 		
 		/* GPP */
-		if(DF97==1){
+		if(DF97 == 1){
 			if((flux->plant).gpp_df97[f] > 0.0){
 				ci_gpp_d13c[year] = d13c_addition((flux->plant).d13c_gpp[f], (flux->plant).gpp_df97[f] 
 											* grid->area, ci_gpp_d13c[year], ci_gpp[year]);
