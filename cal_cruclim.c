@@ -690,7 +690,13 @@ void cal_historical(
                     grid->lucy > (FDY_LUC+DL_LUC-1)){
 				dyr = (FDY_LUC + DL_LUC - 1);
 			}
-            
+
+            /* assumption for the period later than 2016: A.Ito (2019/02/11) */
+            if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28) &&
+                    grid->lucy > (FDY_LUC+DL_LUC-1)){
+                dyr = (FDY_LUC + DL_LUC - 1);
+            }
+
             /* from total grid */
 			/* total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
 						+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr]; */
