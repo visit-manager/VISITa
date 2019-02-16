@@ -33,7 +33,7 @@ void cal_historical(
 	(echar->soil).rh = (echar->soil).rh0;
     
     /* all deforestation and regrowth: 2016/12/28 by A.Ito */
-    if(EX_DEFOREST==4 && (mass->soil).v_type == 1){
+    if(EX_DEFOREST == 4 && (mass->soil).v_type == 1){
         
         mass_luc = 0.95* ((mass->c3).fol + (mass->c3).stm + (mass->c3).rot);
         
@@ -596,7 +596,7 @@ void cal_historical(
             iweight3 = iweight;
         }
         
-        if(NECB_LUC==1 && EX_BECCS==0){
+        if(NECB_LUC == 1 && EX_BECCS == 0){
             /* 2018/10/24 by A.Ito */
             (mass->c3).fol -= flux->lu_fol * iweight3;
             (mass->c3).stm -= flux->lu_stm * iweight3;
@@ -690,7 +690,13 @@ void cal_historical(
                     grid->lucy > (FDY_LUC+DL_LUC-1)){
 				dyr = (FDY_LUC + DL_LUC - 1);
 			}
-            
+
+            /* assumption for the period later than 2016: A.Ito (2019/02/11) */
+            if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28) &&
+                    grid->lucy > (FDY_LUC+DL_LUC-1)){
+                dyr = (DL_LUC - 1);
+            }
+
             /* from total grid */
 			/* total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
 						+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr]; */
@@ -724,7 +730,8 @@ void cal_historical(
             if(PARAM_PTB == 20){
                 prm_ensen = 1.0 + 0.3 * f_pert[1];
             }
-    
+            
+            /* into MgC/ha */
 			total_hvst *= 1.0/1000.0 * 1.0/grid->area * prm_ensen;
    
             /* Note: only C3 tree species */
@@ -833,14 +840,6 @@ void cal_historical(
 		grid->f_crop_p = grid->f_crop_con;
 		grid->f_pasture_p = grid->f_pasture_con;
 		
-		if(grid->simy >= 1950 && grid->simy < 1960){
-			g_ersn[0][grid->row][grid->col] += flux->erod_carbon /10.0;
-			g_luc[0][grid->row][grid->col] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) /10.0;
-		}
-		if(grid->simy >= 1990 && grid->simy < 2000){
-			g_ersn[1][grid->row][grid->col] += flux->erod_carbon /10.0;
-			g_luc[1][grid->row][grid->col] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) /10.0;
-		}
 	}
     
     for(f=0;f<OFILEN;f++){

@@ -370,7 +370,6 @@ void read_cru_clim(
                 }
             }
         }
-        
     }
 	
 	/*  printf("done\n");  */

@@ -57,6 +57,8 @@ double an2o_a1[DL_AGHG], an2o_a2[DL_AGHG], an2o_b1[DL_AGHG], an2o_b2[DL_AGHG];
 /* a2 => RCP8.5 */
 /* b1 => RCP2.6 */
 /* b2 => RCP4.5 */
+/* Atmospheric d13C, D14C by Graven: 2019/1/17 by A.Ito */
+double d13c_graven[166], d14c1_graven[166], d14c2_graven[166], d14c3_graven[166];
 
 /* historical results: 201 years, spinup+1901-2100 *************/
 double h_tmp[PD_SIM], h_pre[PD_SIM], h_dswr[PD_SIM], h_aet[PD_SIM], h_rof[PD_SIM];
@@ -165,73 +167,6 @@ double vs_gpp[NVEG_SAGE], vs_npp[NVEG_SAGE], vs_nep[NVEG_SAGE];
 double vs_lai[NVEG_SAGE], vs_fol[NVEG_SAGE], vs_stm[NVEG_SAGE], vs_rot[NVEG_SAGE], vs_ltr[NVEG_SAGE], vs_msl[NVEG_SAGE];
 
 double vo_n_cnpy[NVEG_OLSON], vo_n_strg[NVEG_OLSON], vo_n_mcrb[NVEG_OLSON], vo_n_ltr[NVEG_OLSON], vo_n_hms[NVEG_OLSON];
-
-/* 0: 1950s */
-/* 1: 1990s */ /* IMPRESSIONS: 1981-2010 */
-/* 2: 2020s */
-/* 3: 2050s */
-/* 4: 2080s */
-float g_tmp[5][N_ROW][N_COL];
-float g_prc[5][N_ROW][N_COL];
-float g_swr[5][N_ROW][N_COL];
-float g_gpp[5][N_ROW][N_COL];
-float g_npp[5][N_ROW][N_COL];
-float g_nep[5][N_ROW][N_COL];
-float g_pmas[5][N_ROW][N_COL];
-float g_smas[5][N_ROW][N_COL];
-float g_ch4e_cao[5][N_ROW][N_COL];
-float g_ch4ep_cao[5][N_ROW][N_COL];
-float g_ch4o_curry[5][N_ROW][N_COL];
-float g_n2oe[5][N_ROW][N_COL];
-float g_bbco2[5][N_ROW][N_COL];
-float g_ersn[5][N_ROW][N_COL];
-float g_isopr[5][N_ROW][N_COL];
-float g_sr[5][N_ROW][N_COL];
-float g_luc[5][N_ROW][N_COL]; 
-float g_er[5][N_ROW][N_COL]; 
-float g_snh4[5][N_ROW][N_COL]; 
-float g_sno3[5][N_ROW][N_COL]; 
-
-#if C13_GOUT==1
-float g_f13[5][N_ROW][N_COL]; 
-float g_c13[5][N_ROW][N_COL]; 
-float g_r13[5][N_ROW][N_COL]; 
-float g_l13[5][N_ROW][N_COL]; 
-float g_h13[5][N_ROW][N_COL]; 
-float g_gpp13[5][N_ROW][N_COL]; 
-float g_er13[5][N_ROW][N_COL]; 
-#endif
-
-#if C14_GOUT==1
-float g_f14[5][N_ROW][N_COL]; 
-float g_c14[5][N_ROW][N_COL]; 
-float g_r14[5][N_ROW][N_COL]; 
-float g_l14[5][N_ROW][N_COL]; 
-float g_h14[5][N_ROW][N_COL]; 
-float g_gpp14[5][N_ROW][N_COL]; 
-float g_er14[5][N_ROW][N_COL]; 
-#endif
-
-#if PHYS_GOUT==1
-float g_lai[5][N_ROW][N_COL]; 
-float g_parb[5][N_ROW][N_COL]; 
-float g_pard[5][N_ROW][N_COL]; 
-float g_apar[5][N_ROW][N_COL]; 
-float g_apar2[5][N_ROW][N_COL]; 
-float g_aet[5][N_ROW][N_COL]; 
-float g_rof[5][N_ROW][N_COL]; 
-float g_rns[5][N_ROW][N_COL];
-float g_rnl[5][N_ROW][N_COL]; 
-float g_sw1[5][N_ROW][N_COL]; 
-float g_sw2[5][N_ROW][N_COL]; 
-float g_rnsd[5][N_ROW][N_COL];
-#endif
-
-#if CH4_WH==1
-float g_ch4ep_wh[5][N_ROW][N_COL];
-float g_ch4ew_wh[5][N_ROW][N_COL];
-float gm_ch4ep_wh[12][N_ROW][N_COL];
-#endif
 
 double glat_area[N_ROW];
 double glat_gpp[ASTEP][N_ROW],glat_npp[ASTEP][N_ROW],glat_nep[ASTEP][N_ROW];
