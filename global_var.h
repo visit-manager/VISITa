@@ -24,7 +24,7 @@ struct Flux flux_agr;
 
 /* global variables ********************************************/
 
-double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0};
+double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0}, YDN=365.0;
 
 /* experimental variables ************/
 long SCENARIO_ID, CO2S, GCM_R, GCM_C; /* */
@@ -57,23 +57,29 @@ double an2o_a1[DL_AGHG], an2o_a2[DL_AGHG], an2o_b1[DL_AGHG], an2o_b2[DL_AGHG];
 /* a2 => RCP8.5 */
 /* b1 => RCP2.6 */
 /* b2 => RCP4.5 */
+/* Atmospheric d13C, D14C by Graven: 2019/1/17 by A.Ito */
+double d13c_graven[166], d14c1_graven[166], d14c2_graven[166], d14c3_graven[166];
 
 /* historical results: 201 years, spinup+1901-2100 *************/
 double h_tmp[PD_SIM], h_pre[PD_SIM], h_dswr[PD_SIM], h_aet[PD_SIM], h_rof[PD_SIM];
 double h_gpp[PD_SIM], h_npp[PD_SIM], h_nep[PD_SIM], h_plant[PD_SIM], h_soil[PD_SIM];
 double h_sr[PD_SIM], h_ersn_c[PD_SIM], h_agrersn_c[PD_SIM], h_doc[PD_SIM];
 double h_agrarea[PD_SIM], h_paddyarea[PD_SIM], h_luc[PD_SIM];
-double h_luc_1[PD_SIM], h_luc_2[PD_SIM], h_luc_3[PD_SIM];
+double h_luc_0[PD_SIM], h_luc_1[PD_SIM], h_luc_2[PD_SIM], h_luc_3[PD_SIM]; /* added by A.Ito (2018/10/23) */
 double h_gpp_df97[PD_SIM];
 double h_gpp_c4[PD_SIM];	/* added by A.Ito (2009/08/31) */
 double h_pot_prmfrst[PD_SIM];
 double h_trnsp[PD_SIM], h_incepev[PD_SIM], h_ssurfev[PD_SIM];
-double h_nbp[PD_SIM], h_hvst_crop[PD_SIM], h_abgm[PD_SIM];
+double h_nbp[PD_SIM], h_net_crop[PD_SIM], h_hvst_crop[PD_SIM], h_abgm[PD_SIM];
 double h_sw1[PD_SIM], h_sw2[PD_SIM];
 double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
 double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
 double h_parb[PD_SIM], h_pard[PD_SIM];
-double h_arm[PD_SIM];
+double h_arm[PD_SIM], h_bco2[PD_SIM]; /* added by A.Ito: 2018/10/22 */
+double h_lL[PD_SIM];
+
+/* seasonal-cycle amplitude: 2019/03/02 by A.Ito */
+double hm_sca_gpp_nh[PD_SIM][12], hm_sca_re_nh[PD_SIM][12], hm_sca_nep_nh[PD_SIM][12];
 
 double h_burnt_area[PD_SIM];
 double h_burnt_area_wood[PD_SIM];
@@ -98,9 +104,10 @@ double h_n2o_emit_ngas_agr[PD_SIM], h_n2o_emit_casa_agr[PD_SIM];
 double h_nh3_emit_agr[PD_SIM];
 double h_no3_leach[PD_SIM];
 double h_n_fertin[PD_SIM], h_n_manurein[PD_SIM], h_n_depoin[PD_SIM]; /* added by A.Ito (2010/05/02) */
-double h_n_mcrb[PD_SIM],h_n_no3[PD_SIM],h_n_nh4[PD_SIM]; /* 2016/06/23 by A.Ito */
+double h_n_mcrb[PD_SIM], h_n_no3[PD_SIM],h_n_nh4[PD_SIM]; /* 2016/06/23 by A.Ito */
 double h_n_cnpy[PD_SIM], h_n_strg[PD_SIM], h_n_lttr[PD_SIM], h_n_hums[PD_SIM];
-double h_n_immbl[PD_SIM],h_n_lmnrl[PD_SIM],h_n_hmnrl[PD_SIM],h_n_cabdn[PD_SIM],h_n_sabdn[PD_SIM],h_n_uptk[PD_SIM];
+double h_n_immbl[PD_SIM], h_n_lmnrl[PD_SIM],h_n_hmnrl[PD_SIM],h_n_cabdn[PD_SIM];
+double h_n_sabdn[PD_SIM], h_n_uptk[PD_SIM];
 
 double h_voc_isopr_g97[PD_SIM], h_voc_monotrp_g97[PD_SIM], h_voc_methanl_g97[PD_SIM];
 double h_voc_acetone_g97[PD_SIM], h_voc_actaldhd_g97[PD_SIM], h_voc_frmardhd_g97[PD_SIM];
@@ -108,6 +115,10 @@ double h_voc_formacd_g97[PD_SIM], h_voc_acetacd_g97[PD_SIM], h_voc_co_g97[PD_SIM
 double h_voc_afarnesene[PD_SIM], h_voc_bcaryophyllene[PD_SIM], h_voc_othersesqui[PD_SIM];
 
 double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM], h_deforest[PD_SIM];
+
+/* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01 by A.Ito */
+double h_gpp_trp[PD_SIM], h_npp_trp[PD_SIM], h_nep_trp[PD_SIM], h_nbp_trp[PD_SIM];
+double h_luc_trp[PD_SIM], h_bb_trp[PD_SIM];
 
 double ci_aco2[PD_SIM], ci_aco2_d13c[PD_SIM], ci_aco2_d14c[PD_SIM];
 double ci_gpp[PD_SIM], ci_gpp_d13c[PD_SIM], ci_gpp_d14c[PD_SIM];
@@ -132,7 +143,7 @@ double rh_gpp[N_REG][PD_SIM], rh_npp[N_REG][PD_SIM], rh_nep[N_REG][PD_SIM];
 double rh_evpr[N_REG][PD_SIM], rh_trsp[N_REG][PD_SIM], rh_incp[N_REG][PD_SIM], rh_rnof[N_REG][PD_SIM];
 
 /* added by A.Ito (2009/11/15) */
-double rh_hvst_crop[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
+double rh_net_crop[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
 double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
 double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
 
@@ -163,73 +174,6 @@ double vs_gpp[NVEG_SAGE], vs_npp[NVEG_SAGE], vs_nep[NVEG_SAGE];
 double vs_lai[NVEG_SAGE], vs_fol[NVEG_SAGE], vs_stm[NVEG_SAGE], vs_rot[NVEG_SAGE], vs_ltr[NVEG_SAGE], vs_msl[NVEG_SAGE];
 
 double vo_n_cnpy[NVEG_OLSON], vo_n_strg[NVEG_OLSON], vo_n_mcrb[NVEG_OLSON], vo_n_ltr[NVEG_OLSON], vo_n_hms[NVEG_OLSON];
-
-/* 0: 1950s */
-/* 1: 1990s */ /* IMPRESSIONS: 1981-2010 */
-/* 2: 2020s */
-/* 3: 2050s */
-/* 4: 2080s */
-float g_tmp[5][N_ROW][N_COL];
-float g_prc[5][N_ROW][N_COL];
-float g_swr[5][N_ROW][N_COL];
-float g_gpp[5][N_ROW][N_COL];
-float g_npp[5][N_ROW][N_COL];
-float g_nep[5][N_ROW][N_COL];
-float g_pmas[5][N_ROW][N_COL];
-float g_smas[5][N_ROW][N_COL];
-float g_ch4e_cao[5][N_ROW][N_COL];
-float g_ch4ep_cao[5][N_ROW][N_COL];
-float g_ch4o_curry[5][N_ROW][N_COL];
-float g_n2oe[5][N_ROW][N_COL];
-float g_bbco2[5][N_ROW][N_COL];
-float g_ersn[5][N_ROW][N_COL];
-float g_isopr[5][N_ROW][N_COL];
-float g_sr[5][N_ROW][N_COL];
-float g_luc[5][N_ROW][N_COL]; 
-float g_er[5][N_ROW][N_COL]; 
-float g_snh4[5][N_ROW][N_COL]; 
-float g_sno3[5][N_ROW][N_COL]; 
-
-#if C13_GOUT==1
-float g_f13[5][N_ROW][N_COL]; 
-float g_c13[5][N_ROW][N_COL]; 
-float g_r13[5][N_ROW][N_COL]; 
-float g_l13[5][N_ROW][N_COL]; 
-float g_h13[5][N_ROW][N_COL]; 
-float g_gpp13[5][N_ROW][N_COL]; 
-float g_er13[5][N_ROW][N_COL]; 
-#endif
-
-#if C14_GOUT==1
-float g_f14[5][N_ROW][N_COL]; 
-float g_c14[5][N_ROW][N_COL]; 
-float g_r14[5][N_ROW][N_COL]; 
-float g_l14[5][N_ROW][N_COL]; 
-float g_h14[5][N_ROW][N_COL]; 
-float g_gpp14[5][N_ROW][N_COL]; 
-float g_er14[5][N_ROW][N_COL]; 
-#endif
-
-#if PHYS_GOUT==1
-float g_lai[5][N_ROW][N_COL]; 
-float g_parb[5][N_ROW][N_COL]; 
-float g_pard[5][N_ROW][N_COL]; 
-float g_apar[5][N_ROW][N_COL]; 
-float g_apar2[5][N_ROW][N_COL]; 
-float g_aet[5][N_ROW][N_COL]; 
-float g_rof[5][N_ROW][N_COL]; 
-float g_rns[5][N_ROW][N_COL];
-float g_rnl[5][N_ROW][N_COL]; 
-float g_sw1[5][N_ROW][N_COL]; 
-float g_sw2[5][N_ROW][N_COL]; 
-float g_rnsd[5][N_ROW][N_COL];
-#endif
-
-#if CH4_WH==1
-float g_ch4ep_wh[5][N_ROW][N_COL];
-float g_ch4ew_wh[5][N_ROW][N_COL];
-float gm_ch4ep_wh[12][N_ROW][N_COL];
-#endif
 
 double glat_area[N_ROW];
 double glat_gpp[ASTEP][N_ROW],glat_npp[ASTEP][N_ROW],glat_nep[ASTEP][N_ROW];

@@ -136,8 +136,9 @@ void plant_flux_zero(
 	flux->tpc[month] = 0.0; 		
 	flux->tpr[month] = 0.0; 	
 	
-	flux->hvst_crop[month] = 0.0; 
-	
+	flux->net_crop[month] = 0.0; 
+    flux->hvst_crop[month] = 0.0;
+
 	flux->emit_ch4_kirschbaum_mass[month] = 0.0;
 	flux->emit_ch4_kirschbaum_photo[month] = 0.0;
 }
@@ -151,7 +152,13 @@ void ghg_flux_zero(
 	flux->lu_conv = 0.0;
 	flux->lu_ten = 0.0;
 	flux->lu_hund = 0.0;
-	
+
+    flux->lu_fol = 0.0;
+    flux->lu_stm = 0.0;
+    flux->lu_rot = 0.0;
+    flux->lu_ltr = 0.0;
+    flux->lu_msl = 0.0;
+
 	flux->npp_miami = 0.0;
 	flux->npp_montreal = 0.0;
 	flux->npp_schuur = 0.0;
@@ -299,7 +306,13 @@ void vanish(
 	flux->lu_conv = 0.0;
 	flux->lu_ten = 0.0;
 	flux->lu_hund = 0.0;
-	
+
+    flux->lu_fol = 0.0;
+    flux->lu_stm = 0.0;
+    flux->lu_rot = 0.0;
+    flux->lu_ltr = 0.0;
+    flux->lu_msl = 0.0;
+   
 	flux->npp_miami = 0.0;
 	flux->npp_montreal = 0.0;
 	flux->npp_schuur = 0.0;
@@ -396,7 +409,7 @@ void f_init_c_isotpes(
 		(flux->c3).d13c_tpc[f] = (flux->c4).d13c_tpc[f] = (flux->plant).d13c_tpc[f] = grid->d13c_bco2[f]; 
 		(flux->c3).d13c_tpr[f] = (flux->c4).d13c_tpr[f] = (flux->plant).d13c_tpr[f] = grid->d13c_bco2[f]; 
 		
-		(flux->c3).d13c_hvst_crop[f] = (flux->c4).d13c_hvst_crop[f] = (flux->plant).d13c_hvst_crop[f] = grid->d13c_bco2[f]; 	
+		(flux->c3).d13c_net_crop[f] = (flux->c4).d13c_net_crop[f] = (flux->plant).d13c_net_crop[f] = grid->d13c_bco2[f]; 	
 		
 		(flux->soil).d13c_lL[f] = grid->d13c_bco2[f]; 
 		(flux->soil).d13c_rl[f] = grid->d13c_bco2[f]; 

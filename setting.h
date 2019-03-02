@@ -19,6 +19,8 @@
 #define SLC 1367.0 /* solar constant */
 #define SBC (5.6703 / 100000000.0) /* Stephan-Boltzman Constant, W m-2 K-4 */
 #define GAC 9.8 /* gravity acceleration constant, m s-2 */
+#define DHN 24.0 /* hours per day */
+#define HSN 3600.0 /* seconds per hour */
 
 /***********************************************************/
 /* year time-step, 12=monthly */
@@ -37,15 +39,16 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
-#define CALC_OFFET 4
+#define CALC_STEP 1
+#define CALC_OFFSET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
 /***********************************************************/
-#define ISIMIP_RUN 0
+#define ISIMIP_RUN 1
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
+/*    MIROC-INTEG LUC run (2019/02/21 by A.Ito) */
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
 /* 3: ISI-MIP 2a historical runs */
 /* 4: ISI-MIP 2b 1.5 or 2.0 deg target */
@@ -119,13 +122,13 @@
 
 /***********************************************************/
 /* output text files */
-#define OUTPUT_CARBON1 0
+#define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
-#define OUTPUT_HYDMET 0
+#define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
+#define OUTPUT_GHG 1
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
@@ -219,7 +222,8 @@
 #else
     #define FSY_HIST 1901 /* */
     /* #define LSY_HIST 2016 */ /* history */
-    #define LSY_HIST 2017 /* history */
+    /* #define LSY_HIST 1980 */ /* GCP-CH4 MERRA2 run: 2018/08/29 by A.Ito */
+    #define LSY_HIST 2018 /* history */
 #endif
 
 /* start year (AD) of CO2 time series */
@@ -247,7 +251,7 @@
 /* total historical run: using CRU, NCEP, etc. ***/
 #if ISIMIP_RUN==1
     #define PD_HIST 150  /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
-                         /* and BIOFUEL RUN */
+                         /* and BIOFUEL RUN, MIROC-INTEG LUC */
 #elif ISIMIP_RUN==2
     #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
@@ -256,12 +260,12 @@
     #define PD_HIST 112 /* */ /* AD 1901 - 2012 */ /* ISI-MIP2 (historical watch): 2016/05/06 by A.Ito */
 #elif ISIMIP_RUN==4
     #define PD_HIST 639  /* AD 1661 - 2299 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
-    /* #define PD_HIST 439 */  /* AD 1661 - 2099 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
+    /* #define PD_HIST 439 */ /* AD 1661 - 2099 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
 #elif GEOMIP_RUN==1
-    #define PD_HIST 105 /* */  /* AD 1901 - 2005 --GEOMIP */
+    #define PD_HIST 105 /* */ /* AD 1901 - 2005 --GEOMIP */
 #elif NMIP_RUN>=1
-    /* #define PD_HIST 155	*/	/* AD 1861 - 2015 */
-    #define PD_HIST 156    /* */    /* AD 1861 - 2016 */
+    /* #define PD_HIST 155	*/ /* AD 1861 - 2015 */
+    #define PD_HIST 156    /* */ /* AD 1861 - 2016 */
 #elif IMPRESSIONS_RUN==2
     #define PD_HIST 115
 #elif IMPRESSIONS_RUN==3
@@ -279,7 +283,8 @@
     /* #define PD_HIST 114  */	/* AD 1901 - 2014 */
     /* #define PD_HIST 115	*/	/* AD 1901 - 2015 */
     /* #define PD_HIST 116	*/	/* AD 1901 - 2016 */
-    #define PD_HIST 117    /* */    /* AD 1901 - 2017 */
+    /* #define PD_HIST 117  */    /* AD 1901 - 2017 */
+    #define PD_HIST 118    /* */    /* AD 1901 - 2018 */
 #endif
 
 /* start year (AD) of climate ***/
@@ -326,7 +331,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
-    #define DL_HCLIM 116  /* CRU TS3.25: AD 1901 - 2016 */
+    #define DL_HCLIM 117  /* CRU TS3.26: AD 1901 - 2017 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -339,7 +344,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -351,7 +356,8 @@
 /* #define DL_NCEP 67 */   /* 1948-2014 */
 /* #define DL_NCEP 68 */   /* 1948-2015 */
 /* #define DL_NCEP 69 */   /* 1948-2016 */
-#define DL_NCEP 70   /* 1948-2017 */
+/* #define DL_NCEP 70 */   /* 1948-2017 */
+#define DL_NCEP 71   /* 1948-2018 */
 
 /* Simulation using ISI-MIP data (yr) */
 /* spinup 1951-1980 */
@@ -386,10 +392,20 @@
     /* start year of GCM data (AD) */
     #define FDY_GCM 1970  /* --GEOMIP */
 #else
-    #define DL_GCM 94 /* 2006-2099 --ISI-MIP2 */
-    #define BGY_GCM 2006  /* --PLUME */
+    /* #define DL_GCM 94 */ /* 2006-2099 --ISI-MIP2 */
+    /* #define BGY_GCM 2006 */  /* --PLUME */
+    /* #define ENY_GCM 2099 */
+    /* #define FDY_GCM 2006 */   /* --PLUME */
+
+    /* #define DL_GCM 1 */ /* no-use GCM data */
+    /* #define BGY_GCM 2016 */
+    /* #define ENY_GCM 2099 */
+    /* #define FDY_GCM 2016 */
+
+    #define DL_GCM 1 /* no-use GCM data */
+    #define BGY_GCM 2006
     #define ENY_GCM 2099
-    #define FDY_GCM 2006   /* --PLUME */
+    #define FDY_GCM 2006
 #endif
 /* #define DL_GCM 241 */ /* 1860-2100 */
 /* #define FDY_GCM 2001 */
@@ -421,7 +437,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 10
+#define LANDUSE 29
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -448,6 +464,20 @@
 /* 23: SSP5 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 24: ISI-MIP2b land-use data (2016/12/22 by A.Ito) */
 /* 25: ISI-MIP2b 2005 data (2017/11/01 by A.Ito) */
+/* 26: CMIP6 historical data (2018/12/21 by A.Ito) */
+/* 27: CMIP6 historical data - high (2018/12/21 by A.Ito) */
+/* 28: CMIP6 historical data - low (2018/12/21 by A.Ito) */
+/* 29: MIROC-INTEG TELUMO LUC (2019/02/21 by A.Ito) */
+
+/* extra co2 fixation combined with above scenarios: 2018/10/26 by A.Ito */
+#define EXTRA_CO2_FIX 0
+/* 0: off (default) */
+/* 1: make grid->co2y = 1901 */
+
+/* extra climate fixation combined with above scenarios: 2018/10/26 by A.Ito */
+#define EXTRA_CLIM_FIX 0
+/* 0: off (default) */
+/* 1: make grid->climy = 1901 */
 
 /* extra land-use fixation combined with above scenarios: 2018/07/11 by A.Ito */
 #define EXTRA_LU_FIX 0
@@ -457,16 +487,20 @@
 #if ISIMIP_RUN==4
     #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
 #else
-    #define DL_LUC 601 /* */  /* 1500-2100 */
+    /* #define DL_LUC 601 */  /* 1500-2100 */
     /* #define DL_LUC 306 */ /* 1700-2000/2005 */
+    /* #define DL_LUC 150 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
+    #define DL_LUC 601 /* */ /* 1500-2005 + 2005-2100 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
 #endif
 
 /* begin year of land-use DATA */
 #if ISIMIP_RUN==4
     #define FDY_LUC 1661 /* ISI-MIP2b (2016/12/22 by A.Ito) */
 #else
-    #define FDY_LUC 1500 /* */
+    /* #define FDY_LUC 1500 */
     /* #define FDY_LUC 1700 */
+    /* #define FDY_LUC 1866 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
+    #define FDY_LUC 1500 /* */ /* historical + TELUMO: 2019/02/21 by A.Ito */
 #endif
 
 /* begin year of land-use SIMULATION */
@@ -547,7 +581,7 @@
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -562,7 +596,7 @@
 
 /* Alternative land-cover data for CH4 */
 #define ALT_FWETLAND 0
-/* 0: not use alternative data */
+/* 0: not use alternative data: default - GLWD */
 /* 1: use alternative data */
 /* 2: use Peregon-san data: 2014/02/04 */
 /* 3: use Maksyutov-san data: GLWD: 2017/07/03 */
@@ -573,23 +607,29 @@
 /* inundation data */
 #define ALT_INUND 0
 /* 0: default (SSMI) */
-/* 1: GCP-CH4  */
+/* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
+/* 3: GCP-CH4 V1 */
+/* 4: GCP-CH4 V1 */
+/* 5: GCP-CH4 V1 */
+/* 6: GCP-CH4 V1 */
+/* 7: GCP-CH4 V2: 2018/08/28 by A.Ito */
+/* 8: GCP-CH4 V2: 2018/08/29 by A.Ito : no limit by GLWD */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 
 /* change in wetland extent due to permafrost melting: 2012/10/26 by A.Ito */
 #define VAR_PFMWET 0
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 
 /* variable water-table depth: 2014/12/08 by A.Ito */
 #define VAR_WTD 1
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 
 #define FIX_STMP 0
-/* 0:off, 1:0n */
+/* 0:off, 1:on */
 /* fix soil temperature in wetland: 2015/03/23 by A.Ito */
 
 #define FIX_CH4_NPP 0
@@ -681,6 +721,14 @@
 /* 63: 0.047718 (nitrification-driven) */
 /* 64: 0.001004 (nitrification-driven) */
 /* 65: 0.003565 (nitrification-driven) */
+
+/* meta-analysis: 2018/12/21 */
+/* 51: 0.01922 (N20-driven) */ /* all mean */
+/* 52: 0.004260 (N20-driven) */ /* selected mean */
+/* 53: 0.051670 (N20-driven) */ /* paper mean */
+/* 54: 0.001920 (N20-driven) */ /* all median */
+/* 55: 0.001390 (N20-driven) */ /* selected median */
+/* 56: 0.005730 (N20-driven) */ /* paper median */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
 #define EX_NFERT 0
@@ -1131,6 +1179,8 @@
 /* 5042: III: HadGEM2-ES PH62 + PH66 + PH20052005 */
 
 /** ISI-MIP2b EX IV-VII: 2018/02/09 by A.Ito  *****/
+/** ISI-MIP2b EX VIII for RCP8.5: 2018/02/25 by A.Ito  *****/
+/** ISI-MIP2b EX IX for RCP6.0 with improved EWEMBI: 2018/03/01 by A.Ito  */
 /* updated 2018/02/28 */
 /* 5013:  IV: GFDL PPPP + PH22 + PH22100 */
 /* 5014:   V: GFDL PPPP + PPPP + PP62 */
@@ -1140,6 +1190,8 @@
 /* 5061: IIb: GFDL PH22 + PH22 + rcp60soc */
 /* 5062:IIIa: GFDL PH2005 + PH2005 + PH2005 */
 /* 5063:IIIb: GFDL PH62 + PH62 + PH1860*/
+/* 5017:VIII: GFDL PH82 + PH82 + PH20052005 */
+/* 5018:IX  : GFDL PH62 + PH62 + PH20052005 (improved ewembi) */
 
 /* 5023:  IV: IPSL PPPP + PH22 + PH22100 */
 /* 5024:   V: IPSL PPPP + PPPP + PP62 */
@@ -1149,6 +1201,8 @@
 /* 5071: IIb: IPSL PH22 + PH22 + rcp60soc */
 /* 5072:IIIa: IPSL PH2005 + PH2005 + PH2005 */
 /* 5073:IIIb: IPSL PH62 + PH62 + PH1860*/
+/* 5027:VIII: IPSL PH82 + PH82 + PH20052005 */
+/* 5028:IX  : IPSL PH62 + PH62 + PH20052005 (improved ewembi) */
 
 /* 5033:  IV: MIROC5 PPPP + PH22 + PH22100 */
 /* 5034:   V: MIROC5 PPPP + PPPP + PP62 */
@@ -1158,6 +1212,8 @@
 /* 5081: IIb: MIROC5 PH22 + PH22 + rcp60soc */
 /* 5082:IIIa: MIROC5 PH2005 + PH2005 + PH2005 */
 /* 5083:IIIb: MIROC5 PH62 + PH62 + PH1860*/
+/* 5037:VIII: MIROC5 PH82 + PH82 + PH20052005 */
+/* 5038:IX  : MIROC5 PH62 + PH62 + PH20052005 (improved ewembi) */
 
 /* 5043:  IV: HadGEM PPPP + PH22 + PH22100 */
 /* 5044:   V: HadGEM PPPP + PPPP + PP62 */
@@ -1167,6 +1223,8 @@
 /* 5091: IIb: HadGEM PH22 + PH22 + rcp60soc */
 /* 5092:IIIa: HadGEM PH2005 + PH2005 + PH2005 */
 /* 5093:IIIb: HadGEM PH62 + PH62 + PH1860*/
+/* 5047:VIII: HadGEM PH82 + PH82 + PH20052005 */
+/* 5048:IX  : HadGEM PH62 + PH62 + PH20052005 (improved ewembi) */
 
 
 /** IMPRESSIONS: 2015/07/17 *****************************************/

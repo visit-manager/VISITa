@@ -325,7 +325,7 @@ double f_df97_gpp(
 			
 			/* total CO2 assimilation */
 			if(mode == 1){
-				gpp_df += (assim_sn + assim_sd) * 3600.0 * 12.0 / 100000000.0;
+				gpp_df += (assim_sn + assim_sd) * HSN * 12.0 / 100000000.0;
 			}else if(mode == 2){
 				pchar->lue_df[grid->m] = (assim_sn + assim_sd) / 100.0;
 			}else if(mode == 3){

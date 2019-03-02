@@ -420,7 +420,7 @@ void f_net_rad(
         
         /* latent heat, W m-2, approximated by the previous year's value */
         latheat = (loct->incep[grid->m] + loct->trspr[grid->m] + loct->evpr[grid->m])
-                * (2.5*1000000.0) / 24.0 / 3600.0 / MDN[grid->m];
+                * (2.5*1000000.0) / DHN / HSN / MDN[grid->m];
         
         /* net shortwave radiation, W m-2 */
         //rn_short_base = (1.0 - albedo_base) * grid->gl_rad[grid->m];
@@ -581,7 +581,7 @@ void f_net_rad(
     }
     fff = (fff<0.99)?fff:0.99;
     fff = (fff>0.01)?fff:0.01;
-	rad_net_g = (1.0 - fff) * ddd1 * grid->gl_rad[grid->m] - net_long*ddd2;
+	rad_net_g = (1.0 - fff) * ddd1 * grid->gl_rad[grid->m] - net_long * ddd2;
 	rad_net_g = (rad_net_g >= 0.0)?rad_net_g:0.0;
 	loct->rad_net_g[grid->m] = rad_net_g;
 }

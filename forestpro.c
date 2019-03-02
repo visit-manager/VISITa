@@ -83,7 +83,7 @@ void greenperiod(
 	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m] - pchar->photo_13c_frac[grid->m];
 	
 	/* GPP by de Pury & Farquhar scheme */
-	if(DF97==1){
+	if(DF97 == 1){
 		flux->gpp_df97[grid->m] = f_df97_gpp(1, grid, loct, pchar, mass);
 	}
 	
@@ -98,7 +98,7 @@ void greenperiod(
 	flux->d13c_rrm[grid->m] = mass->d13c_rot;
 	
 	/* tentative primary production */	
-	if(DF97==1){
+	if(DF97 == 1){
 		flux->epp[grid->m] = flux->gpp_df97[grid->m] - flux->arm[grid->m];
 	}else{
 		flux->epp[grid->m] = flux->gpp[grid->m] - flux->arm[grid->m];
@@ -195,9 +195,9 @@ void leaffall(
 	}
 
 	/* maintenance respirations */
-	flux->rfm[grid->m] = nn*frfm(grid, pchar, mass);
-	flux->rcm[grid->m] = nn*frcm(grid, pchar, mass);
-	flux->rrm[grid->m] = nn*frrm(grid, pchar, mass);
+	flux->rfm[grid->m] = nn * frfm(grid, pchar, mass);
+	flux->rcm[grid->m] = nn * frcm(grid, pchar, mass);
+	flux->rrm[grid->m] = nn * frrm(grid, pchar, mass);
 	flux->arm[grid->m] = flux->rfm[grid->m] + flux->rcm[grid->m] + flux->rrm[grid->m];
 	/* stable carbon isotope */
 	flux->d13c_rfm[grid->m] = mass->d13c_fol;
@@ -324,7 +324,7 @@ void leafemergence(
 	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m] - pchar->photo_13c_frac[grid->m];
 	
 	/* GPP by de Pury & Farquhar scheme */
-	if(DF97==1){
+	if(DF97 == 1){
 		flux->gpp_df97[grid->m] = f_df97_gpp(1, grid, loct, pchar, mass);
 	}
 

@@ -18,7 +18,7 @@
 short Flag_FOPEN[IFILEN];
 
 extern short DF97;
-extern double MDN[ASTEP];
+extern double MDN[ASTEP],YDN;
 extern long SCENARIO_ID, CO2S, GCM_R, GCM_C;
 extern long PARAM_PTB, PARAM_ENS;   /* added by A.Ito (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3;   /* added by A.Ito (2010/07/02) */
@@ -29,22 +29,28 @@ extern double f_pert[20];
 extern double aco2_1[DL_AGHG], aco2_2[DL_AGHG], aco2_3[DL_AGHG], aco2_4[DL_AGHG];
 extern double ach4_a1[DL_AGHG], ach4_a2[DL_AGHG], ach4_b1[DL_AGHG], ach4_b2[DL_AGHG];
 extern double an2o_a1[DL_AGHG], an2o_a2[DL_AGHG], an2o_b1[DL_AGHG], an2o_b2[DL_AGHG];
+/* Atmospheric d13C, D14C by Graven: 2019/1/17 by A.Ito */
+extern double d13c_graven[166], d14c1_graven[166], d14c2_graven[166], d14c3_graven[166];
 
 extern double glandarea;
 extern double h_tmp[PD_SIM], h_pre[PD_SIM], h_dswr[PD_SIM], h_aet[PD_SIM], h_rof[PD_SIM];
 extern double h_gpp[PD_SIM], h_npp[PD_SIM], h_nep[PD_SIM], h_plant[PD_SIM], h_soil[PD_SIM];
 extern double h_sr[PD_SIM], h_ersn_c[PD_SIM], h_agrersn_c[PD_SIM], h_doc[PD_SIM];
 extern double h_agrarea[PD_SIM], h_paddyarea[PD_SIM], h_luc[PD_SIM];
-extern double h_luc_1[PD_SIM], h_luc_2[PD_SIM], h_luc_3[PD_SIM];
+extern double h_luc_0[PD_SIM], h_luc_1[PD_SIM], h_luc_2[PD_SIM], h_luc_3[PD_SIM];
 extern double h_gpp_df97[PD_SIM], h_gpp_c4[PD_SIM]; /* added by A.Ito (2009/08/31) */
 extern double h_pot_prmfrst[PD_SIM];
 extern double h_trnsp[PD_SIM], h_incepev[PD_SIM], h_ssurfev[PD_SIM];
-extern double h_nbp[PD_SIM], h_hvst_crop[PD_SIM], h_abgm[PD_SIM];
+extern double h_nbp[PD_SIM], h_net_crop[PD_SIM], h_hvst_crop[PD_SIM], h_abgm[PD_SIM];
 extern double h_sw1[PD_SIM], h_sw2[PD_SIM];
 extern double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
 extern double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
 extern double h_parb[PD_SIM], h_pard[PD_SIM];
-extern double h_arm[PD_SIM];
+extern double h_arm[PD_SIM], h_bco2[PD_SIM];
+extern double h_lL[PD_SIM];
+
+/* seasonal-cycle amplitude: 2019/03/02 by A.Ito */
+extern double hm_sca_gpp_nh[PD_SIM][12], hm_sca_re_nh[PD_SIM][12], hm_sca_nep_nh[PD_SIM][12];
 
 extern double h_burnt_area[PD_SIM],h_burnt_area_wood[PD_SIM];
 extern double h_bioburn_co2[PD_SIM], h_bioburn_ch4[PD_SIM], h_bioburn_co[PD_SIM];
@@ -79,6 +85,10 @@ extern double h_voc_afarnesene[PD_SIM], h_voc_bcaryophyllene[PD_SIM], h_voc_othe
 
 extern double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM], h_deforest[PD_SIM];
 
+/* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01 by A.Ito */
+extern double h_gpp_trp[PD_SIM], h_npp_trp[PD_SIM], h_nep_trp[PD_SIM], h_nbp_trp[PD_SIM];
+extern double h_luc_trp[PD_SIM], h_bb_trp[PD_SIM];
+
 extern double ci_aco2[PD_SIM], ci_aco2_d13c[PD_SIM], ci_aco2_d14c[PD_SIM];
 extern double ci_gpp[PD_SIM], ci_gpp_d13c[PD_SIM], ci_gpp_d14c[PD_SIM];
 extern double ci_er[PD_SIM], ci_er_d13c[PD_SIM], ci_er_d14c[PD_SIM];
@@ -108,69 +118,6 @@ extern double vs_lai[16], vs_fol[16], vs_stm[16], vs_rot[16], vs_ltr[16], vs_msl
 
 extern double vo_n_cnpy[NVEG_OLSON], vo_n_strg[NVEG_OLSON], vo_n_mcrb[NVEG_OLSON], vo_n_ltr[NVEG_OLSON], vo_n_hms[NVEG_OLSON];
 
-extern float g_tmp[5][N_ROW][N_COL];
-extern float g_prc[5][N_ROW][N_COL];
-extern float g_swr[5][N_ROW][N_COL];
-extern float g_gpp[5][N_ROW][N_COL];
-extern float g_npp[5][N_ROW][N_COL];
-extern float g_nep[5][N_ROW][N_COL];
-extern float g_pmas[5][N_ROW][N_COL];
-extern float g_smas[5][N_ROW][N_COL];
-extern float g_ch4e_cao[5][N_ROW][N_COL];
-extern float g_ch4o_curry[5][N_ROW][N_COL];
-extern float g_n2oe[5][N_ROW][N_COL];
-extern float g_bbco2[5][N_ROW][N_COL];
-extern float g_ersn[5][N_ROW][N_COL];
-extern float g_isopr[5][N_ROW][N_COL];
-extern float g_sr[5][N_ROW][N_COL];
-extern float g_luc[5][N_ROW][N_COL];
-
-#if C13_GOUT==1
-extern float g_f13[5][N_ROW][N_COL]; 
-extern float g_c13[5][N_ROW][N_COL]; 
-extern float g_r13[5][N_ROW][N_COL]; 
-extern float g_l13[5][N_ROW][N_COL]; 
-extern float g_h13[5][N_ROW][N_COL]; 
-extern float g_gpp13[5][N_ROW][N_COL]; 
-extern float g_er13[5][N_ROW][N_COL]; 
-#endif
-
-#if C14_GOUT==1
-extern float g_f14[5][N_ROW][N_COL]; 
-extern float g_c14[5][N_ROW][N_COL]; 
-extern float g_r14[5][N_ROW][N_COL]; 
-extern float g_l14[5][N_ROW][N_COL]; 
-extern float g_h14[5][N_ROW][N_COL]; 
-extern float g_gpp14[5][N_ROW][N_COL]; 
-extern float g_er14[5][N_ROW][N_COL]; 
-#endif
-
-extern float g_er[5][N_ROW][N_COL]; 
-extern float g_snh4[5][N_ROW][N_COL]; 
-extern float g_sno3[5][N_ROW][N_COL]; 
-
-#if PHYS_GOUT==1
-extern float g_lai[5][N_ROW][N_COL]; 
-extern float g_parb[5][N_ROW][N_COL]; 
-extern float g_pard[5][N_ROW][N_COL]; 
-extern float g_apar[5][N_ROW][N_COL]; 
-extern float g_apar2[5][N_ROW][N_COL];
-extern float g_aet[5][N_ROW][N_COL]; 
-extern float g_rof[5][N_ROW][N_COL]; 
-extern float g_rns[5][N_ROW][N_COL]; 
-extern float g_rnl[5][N_ROW][N_COL]; 
-extern float g_sw1[5][N_ROW][N_COL]; 
-extern float g_sw2[5][N_ROW][N_COL]; 
-extern float g_rnsd[5][N_ROW][N_COL];
-#endif
-
-#if CH4_WH==1
-extern float g_ch4ep_wh[5][N_ROW][N_COL]; 
-extern float g_ch4ew_wh[5][N_ROW][N_COL]; 
-extern float gm_ch4ep_wh[12][N_ROW][N_COL];
-#endif
-extern float g_ch4ep_cao[5][N_ROW][N_COL];
-
 extern double glat_area[N_ROW];
 extern double glat_gpp[ASTEP][N_ROW],glat_npp[ASTEP][N_ROW],glat_nep[ASTEP][N_ROW];
 extern double glat_ch4_cao[ASTEP][N_ROW], glat_ch4_wh[ASTEP][N_ROW];
@@ -190,7 +137,7 @@ extern double rh_ci_r[N_REG][PD_SIM], rh_ci_r_d13c[N_REG][PD_SIM], rh_ci_r_d14c[
 extern double rh_ci_l[N_REG][PD_SIM], rh_ci_l_d13c[N_REG][PD_SIM], rh_ci_l_d14c[N_REG][PD_SIM];
 extern double rh_ci_h[N_REG][PD_SIM], rh_ci_h_d13c[N_REG][PD_SIM], rh_ci_h_d14c[N_REG][PD_SIM];
 
-extern double rh_hvst_crop[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
+extern double rh_net_crop[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
 extern double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
 extern double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
 
