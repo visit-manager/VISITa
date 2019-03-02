@@ -384,7 +384,7 @@ void set_gcm_clim(
             grid->gl_rad[h] = grid->proj_rad[grid->climy-FDY_GCM][h][grid->gcm_row][grid->gcm_col];
         }
         
-        if(grid->gl_rad[h]<0.0){
+        if(grid->gl_rad[h] < 0.0){
             grid->gl_rad[h] = 0.0;
         }
         

@@ -613,7 +613,8 @@ void f_output_result(
             fprintf(fp_o[6],"%.2lf ", grid->par_dp[f]);
             fprintf(fp_o[6],"%.2lf ", loct->vpd[f]);
             fprintf(fp_o[6],"%.2lf ", loct->rad_net_long[f]);
-            fprintf(fp_o[6],"%.2lf ", loct->rad_net_short[f]);
+            /* fprintf(fp_o[6],"%.2lf ", loct->rad_net_short[f]); */
+            fprintf(fp_o[6],"%.2lf ", loct->nsw_d[f]);
             fprintf(fp_o[6],"%.2lf ", loct->msw30[f]);
             fprintf(fp_o[6],"%.2lf ", loct->msww[f]);
             fprintf(fp_o[6],"%.2lf ", loct->incep[f]);

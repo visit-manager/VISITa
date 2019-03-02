@@ -79,7 +79,7 @@ void cal_historical(
 		}else if(CC_CD == 5){
             grid->co2y = 2000;
         }
-        /* ISI-MIP no-co2 run: 2012/07/31 by A.Ito */
+        /* ISI-MIP no-co2-change run: 2012/07/31 by A.Ito */
         if((SCENARIO_ID==2005 ||SCENARIO_ID==2006 ||SCENARIO_ID==2007 ||SCENARIO_ID==2008 ||
             SCENARIO_ID==2015 ||SCENARIO_ID==2016 ||SCENARIO_ID==2017 ||SCENARIO_ID==2018 ||
             SCENARIO_ID==2025 ||SCENARIO_ID==2026 ||SCENARIO_ID==2027 ||SCENARIO_ID==2028 ||
@@ -694,7 +694,7 @@ void cal_historical(
             /* assumption for the period later than 2016: A.Ito (2019/02/11) */
             if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28) &&
                     grid->lucy > (FDY_LUC+DL_LUC-1)){
-                dyr = (FDY_LUC + DL_LUC - 1);
+                dyr = (DL_LUC - 1);
             }
 
             /* from total grid */
@@ -730,7 +730,8 @@ void cal_historical(
             if(PARAM_PTB == 20){
                 prm_ensen = 1.0 + 0.3 * f_pert[1];
             }
-    
+            
+            /* into MgC/ha */
 			total_hvst *= 1.0/1000.0 * 1.0/grid->area * prm_ensen;
    
             /* Note: only C3 tree species */

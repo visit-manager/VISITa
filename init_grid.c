@@ -590,40 +590,40 @@ void f_init_grid(
     if(LANDUSE == 19 || LANDUSE == 20 ||LANDUSE == 21 ||LANDUSE == 22 ||LANDUSE == 23){
         /* CD-LINK 2016/11/17 */
         for(h=0;h<111;h++){
-            fscanf(fp_s[23],"%lf", &(grid->fcrop3_future[h]));
-            grid->fcrop4_future[h] = 0.0;
+            fscanf(fp_s[23],"%lf", &(grid->fcrop3_image[h]));
+            grid->fcrop4_image[h] = 0.0;
         }
         for(h=0;h<111;h++){
-            fscanf(fp_s[45],"%lf", &(grid->fgrass3_future[h]));
+            fscanf(fp_s[45],"%lf", &(grid->fgrass3_image[h]));
         }
         for(h=0;h<111;h++){
-            fscanf(fp_s[45],"%lf", &(grid->fgrass4_future[h])); 
+            fscanf(fp_s[45],"%lf", &(grid->fgrass4_image[h])); 
         }
     }else{
         if(SCENARIO_ID>=2100 && SCENARIO_ID<=2999){
             /* ICARUS 2016/08/12 */
             for(h=0;h<111;h++){
-                fscanf(fp_s[23],"%lf", &(grid->fcrop3_future[h]));
-                grid->fcrop4_future[h] = 0.0;
+                fscanf(fp_s[23],"%lf", &(grid->fcrop3_image[h]));
+                grid->fcrop4_image[h] = 0.0;
             }
             for(h=0;h<111;h++){
-                fscanf(fp_s[45],"%lf", &(grid->fgrass3_future[h]));
+                fscanf(fp_s[45],"%lf", &(grid->fgrass3_image[h]));
             }
             for(h=0;h<111;h++){
-                fscanf(fp_s[45],"%lf", &(grid->fgrass4_future[h])); 
+                fscanf(fp_s[45],"%lf", &(grid->fgrass4_image[h])); 
             }
         }else{
             for(h=0;h<111;h++){
-                fscanf(fp_s[23],"%lf", &(grid->fcrop3_future[h])); 
+                fscanf(fp_s[23],"%lf", &(grid->fcrop3_image[h])); 
             }
             for(h=0;h<111;h++){
-                fscanf(fp_s[23],"%lf", &(grid->fcrop4_future[h])); 
+                fscanf(fp_s[23],"%lf", &(grid->fcrop4_image[h])); 
             }
             for(h=0;h<111;h++){
-                fscanf(fp_s[45],"%lf", &(grid->fgrass3_future[h])); 
+                fscanf(fp_s[45],"%lf", &(grid->fgrass3_image[h])); 
             }
             for(h=0;h<111;h++){
-                fscanf(fp_s[45],"%lf", &(grid->fgrass4_future[h])); 
+                fscanf(fp_s[45],"%lf", &(grid->fgrass4_image[h])); 
             }
         }
     }
@@ -1089,6 +1089,73 @@ void f_init_grid(
                 }
             }
         }
+    }if(LANDUSE == 29){
+        
+        for(h=0;h<DL_LUC;h++){
+            /* fractional cover */
+            if(h<(BGY_GCM - FDY_LUC -1)){  /* 1500-2004 */
+                fscanf(fp_s[26],"%lf", &grid->fcrop_luh_hmnzed[h]);
+                fscanf(fp_s[27],"%lf", &grid->fpast_luh_hmnzed[h]);
+                fscanf(fp_s[28],"%lf", &grid->fprim_luh_hmnzed[h]);
+                fscanf(fp_s[29],"%lf", &grid->fsecd_luh_hmnzed[h]);
+                fscanf(fp_s[30],"%lf", &grid->ssma_luh_hmnzed[h]);
+                fscanf(fp_s[31],"%lf", &grid->ssmb_luh_hmnzed[h]);
+                fscanf(fp_s[32],"%lf", &grid->t_cp_luh_hmnzed[h]);
+                fscanf(fp_s[33],"%lf", &grid->t_cs_luh_hmnzed[h]);
+                fscanf(fp_s[34],"%lf", &grid->t_pc_luh_hmnzed[h]);
+                fscanf(fp_s[35],"%lf", &grid->t_ps_luh_hmnzed[h]);
+                fscanf(fp_s[36],"%lf", &grid->t_sc_luh_hmnzed[h]);
+                fscanf(fp_s[37],"%lf", &grid->t_sp_luh_hmnzed[h]);
+                fscanf(fp_s[38],"%lf", &grid->t_ss1_luh_hmnzed[h]);
+                fscanf(fp_s[39],"%lf", &grid->t_ss2_luh_hmnzed[h]);
+                fscanf(fp_s[40],"%lf", &grid->t_ss3_luh_hmnzed[h]);
+                fscanf(fp_s[41],"%lf", &grid->t_vc_luh_hmnzed[h]);
+                fscanf(fp_s[42],"%lf", &grid->t_vp_luh_hmnzed[h]);
+                fscanf(fp_s[43],"%lf", &grid->t_vs1_luh_hmnzed[h]);
+                fscanf(fp_s[44],"%lf", &grid->t_vs2_luh_hmnzed[h]);
+            }else{  /* 2005-2100 */
+                fscanf(fp_s[59],"%lf", &grid->fcrop_luh_hmnzed[h]);
+                fscanf(fp_s[60],"%lf", &grid->fpast_luh_hmnzed[h]);
+                fscanf(fp_s[61],"%lf", &ddummy);
+                fscanf(fp_s[62],"%lf", &grid->fsecd_luh_hmnzed[h]);
+                fscanf(fp_s[63],"%lf", &ddummy);
+                fscanf(fp_s[64],"%lf", &ddummy);
+                fscanf(fp_s[65],"%lf", &ddummy);
+                fscanf(fp_s[66],"%lf", &ddummy);
+                fscanf(fp_s[67],"%lf", &ddummy);
+                fscanf(fp_s[68],"%lf", &ddummy);
+                fscanf(fp_s[69],"%lf", &ddummy);
+                fscanf(fp_s[70],"%lf", &ddummy);
+                fscanf(fp_s[71],"%lf", &grid->t_sc_luh_hmnzed[h]);
+                fscanf(fp_s[72],"%lf", &grid->t_sp_luh_hmnzed[h]);
+                fscanf(fp_s[73],"%lf", &ddummy);
+                fscanf(fp_s[74],"%lf", &grid->t_vc_luh_hmnzed[h]);
+                fscanf(fp_s[75],"%lf", &grid->t_vp_luh_hmnzed[h]);
+                fscanf(fp_s[76],"%lf", &grid->t_vs1_luh_hmnzed[h]);
+                fscanf(fp_s[77],"%lf", &ddummy);
+            }
+        }
+        
+        /* skip Hist - 2005 data */
+        fscanf(fp_s[26],"%lf", &ddummy);
+        fscanf(fp_s[27],"%lf", &ddummy);
+        fscanf(fp_s[28],"%lf", &ddummy);
+        fscanf(fp_s[29],"%lf", &ddummy);
+        fscanf(fp_s[30],"%lf", &ddummy);
+        fscanf(fp_s[31],"%lf", &ddummy);
+        fscanf(fp_s[32],"%lf", &ddummy);
+        fscanf(fp_s[33],"%lf", &ddummy);
+        fscanf(fp_s[34],"%lf", &ddummy);
+        fscanf(fp_s[35],"%lf", &ddummy);
+        fscanf(fp_s[36],"%lf", &ddummy);
+        fscanf(fp_s[37],"%lf", &ddummy);
+        fscanf(fp_s[38],"%lf", &ddummy);
+        fscanf(fp_s[39],"%lf", &ddummy);
+        fscanf(fp_s[40],"%lf", &ddummy);
+        fscanf(fp_s[41],"%lf", &ddummy);
+        fscanf(fp_s[42],"%lf", &ddummy);
+        fscanf(fp_s[43],"%lf", &ddummy);
+        fscanf(fp_s[44],"%lf", &ddummy);
     }
 	
 	/* wood harvest based on RCP-harmonized data: LUHa.v1 */

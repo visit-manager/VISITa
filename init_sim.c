@@ -284,6 +284,8 @@ void f_init_sim(
         h_n_cabdn[f] = h_n_sabdn[f] = h_n_uptk[f] = 0.0;
 
 		h_hvst_wood[f] = h_wetarea[f] = h_deforest[f] = 0.0;
+        h_gpp_trp[f] = h_npp_trp[f] = h_nep_trp[f] = h_nbp_trp[f] = 0.0;
+        h_luc_trp[f] = h_bb_trp[f] = 0.0;
 
 		h_voc_isopr_g97[f] = h_voc_monotrp_g97[f] = h_voc_methanl_g97[f] = 0.0;
 		h_voc_acetone_g97[f] = h_voc_actaldhd_g97[f] = h_voc_frmardhd_g97[f] = 0.0;
@@ -300,6 +302,8 @@ void f_init_sim(
 		ci_h[f] = ci_h_d13c[f] = ci_h_d14c[f] = 0.0;
 		
 		for(g=0;g<ASTEP;g++){
+            hm_sca_gpp_nh[f][g] = hm_sca_re_nh[f][g] = hm_sca_nep_nh[f][g] = 0.0;
+        
 			hm_temp[f][g] = 0.0;
 			hm_prec[f][g] = 0.0;
 			hm_ch4_wh[f][g] = 0.0;

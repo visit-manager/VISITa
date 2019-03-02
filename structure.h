@@ -239,10 +239,10 @@ struct Grid{
 	double	fpast_rk[308];				/* pasture fraction by Ramankutty & Kimball (2010) */
 	
 	/* future, 1990-2100, IMAGE2, Wang et al. */
-	double 	fcrop3_future[111];				/* C3 crop */
-	double 	fcrop4_future[111];				/* C4 crop */
-	double 	fgrass3_future[111];			/* C3 pasture grass */
-	double 	fgrass4_future[111];			/* C4 pasture grass */
+	double 	fcrop3_image[111];				/* C3 crop */
+	double 	fcrop4_image[111];				/* C4 crop */
+	double 	fgrass3_image[111];			/* C3 pasture grass */
+	double 	fgrass4_image[111];			/* C4 pasture grass */
 
 	/* EOS-WEBSTER, 1700-2000/2005, Hurtt et al. */
     /* name changed: unh => luh: 2018/12/24 by A.Ito */

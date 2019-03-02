@@ -581,7 +581,7 @@ void f_net_rad(
     }
     fff = (fff<0.99)?fff:0.99;
     fff = (fff>0.01)?fff:0.01;
-	rad_net_g = (1.0 - fff) * ddd1 * grid->gl_rad[grid->m] - net_long*ddd2;
+	rad_net_g = (1.0 - fff) * ddd1 * grid->gl_rad[grid->m] - net_long * ddd2;
 	rad_net_g = (rad_net_g >= 0.0)?rad_net_g:0.0;
 	loct->rad_net_g[grid->m] = rad_net_g;
 }

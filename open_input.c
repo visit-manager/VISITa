@@ -21,6 +21,8 @@ void open_input(
 	FILE *fp_s[IFILEN], 
 	FILE *fp_c[4]
 ){
+    char filename[128], telumoid[16];
+
     if(ISIMIP_RUN==0){
         if(DL_HCLIM == 102){
             /* UEA-CRU data from 1901 - 2002 */
@@ -928,7 +930,79 @@ void open_input(
                     exit(1); 
                 }
                 break;
-        }
+             case 5017:
+                if( (fp_c[0]=fopen("./data/tas_mon_GFDL-ESM2M_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No tas_mon_GFDL-ESM2M_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/pr_mon_GFDL-ESM2M_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No pr_mon_GFDL-ESM2M_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/huss_mon_GFDL-ESM2M_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No huss_mon_GFDL-ESM2M_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/rsds_mon_GFDL-ESM2M_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No rsds_mon_GFDL-ESM2M_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                break;
+             case 5027:
+                if( (fp_c[0]=fopen("./data/tas_mon_IPSL-CM5A-LR_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No tas_mon_IPSL-CM5A-LR_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/pr_mon_IPSL-CM5A-LR_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No pr_mon_IPSL-CM5A-LR_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/huss_mon_IPSL-CM5A-LR_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No huss_mon_IPSL-CM5A-LR_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/rsds_mon_IPSL-CM5A-LR_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No rsds_mon_IPSL-CM5A-LR_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                break;
+             case 5037:
+                if( (fp_c[0]=fopen("./data/tas_mon_MIROC5_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No tas_mon_MIROC5_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/pr_mon_MIROC5_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No pr_mon_MIROC5_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/huss_mon_MIROC5_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No huss_mon_MIROC5_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/rsds_mon_MIROC5_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No rsds_mon_MIROC5_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                break;
+             case 5047:
+                if( (fp_c[0]=fopen("./data/tas_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No tas_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/pr_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No pr_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/huss_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No huss_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/rsds_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
+                    printf("No rsds_mon_HadGEM2-ES_r1i1p1_EWEMBI_landonly_pihir60_1661-2299.flt\n");
+                    exit(1);
+                }
+                break;
+       }
     }
     
     /*********************************************************************/
@@ -1406,7 +1480,7 @@ void open_input(
 	if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13
         || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17
         || LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 || LANDUSE == 21
-        || LANDUSE == 22 || LANDUSE == 23){
+        || LANDUSE == 22 || LANDUSE == 23 || LANDUSE == 29){
         if( (fp_s[26]=fopen("./data/luh_gcrop_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gcrop_1500_2005.txt\n");  
 			exit(1); 
@@ -1440,59 +1514,87 @@ void open_input(
 		if( (fp_s[31]=fopen("./data/luh_gssmb_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gssmb_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[31] ++;
+        }
 		if( (fp_s[32]=fopen("./data/luh_gflcp_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gflcp_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[32] ++;
+        }
 		if( (fp_s[33]=fopen("./data/luh_gflcs_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gflcs_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[33] ++;
+        }
 		if( (fp_s[34]=fopen("./data/luh_gflpc_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gflpc_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[34] ++;
+        }
 		if( (fp_s[35]=fopen("./data/luh_gflps_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gflps_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[35] ++;
+        }
 		if( (fp_s[36]=fopen("./data/luh_gflsc_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gflsc_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[36] ++;
+        }
 		if( (fp_s[37]=fopen("./data/luh_gflsp_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gflsp_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[37] ++;
+        }
 		if( (fp_s[38]=fopen("./data/luh_gfsh1_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gfsh1_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[38] ++;
+        }
 		if( (fp_s[39]=fopen("./data/luh_gfsh2_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gfsh2_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[39] ++;
+        }
 		if( (fp_s[40]=fopen("./data/luh_gfsh3_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gfsh3_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[40] ++;
+        }
 		if( (fp_s[41]=fopen("./data/luh_gflvc_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gflvc_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[41] ++;
+        }
 		if( (fp_s[42]=fopen("./data/luh_gflvp_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gflvp_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[42] ++;
+        }
 		if( (fp_s[43]=fopen("./data/luh_gfvh1_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gfvh1_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[43] ++;
+        }
 		if( (fp_s[44]=fopen("./data/luh_gfvh2_1500_2005.txt","rt"))==NULL ){  
 			printf("No luh_gfvh2_1500_2005.txt\n");  
 			exit(1); 
-		}
+		}else{
+            Flag_FOPEN[44] ++;
+        }
     }
     
     /* land-use: projection *************************************/
@@ -2052,6 +2154,186 @@ void open_input(
         }
     }
     
+    /* TELUMO LUC (2019/02/21 by A.Ito) */
+    if(LANDUSE == 29){
+        switch(SCENARIO_ID){
+            case 2001: strcpy(telumoid,"./h26/"); break;
+            case 2011: strcpy(telumoid,"./i26/"); break;
+            case 2021: strcpy(telumoid,"./g26/"); break;
+            case 2031: strcpy(telumoid,"./m26/"); break;
+            case 2041: strcpy(telumoid,"./n26/"); break;
+            case 2002: strcpy(telumoid,"./h85/"); break;
+            case 2012: strcpy(telumoid,"./i85/"); break;
+            case 2022: strcpy(telumoid,"./g85/"); break;
+            case 2032: strcpy(telumoid,"./m85/"); break;
+            case 2042: strcpy(telumoid,"./n85/"); break;
+            case 2003: strcpy(telumoid,"./h45/"); break;
+            case 2013: strcpy(telumoid,"./i45/"); break;
+            case 2023: strcpy(telumoid,"./g45/"); break;
+            case 2033: strcpy(telumoid,"./m45/"); break;
+            case 2043: strcpy(telumoid,"./n45/"); break;
+            case 2004: strcpy(telumoid,"./h85/"); break;
+            case 2014: strcpy(telumoid,"./i85/"); break;
+            case 2024: strcpy(telumoid,"./g85/"); break;
+            case 2034: strcpy(telumoid,"./m85/"); break;
+            case 2044: strcpy(telumoid,"./n85/"); break;
+            default:
+                printf("!!!! BAD TELUMO LUC ID\n"); exit(1); break;
+        }
+        
+        strcpy(filename,telumoid); strcat(filename,"luc_crop_telmo_2005-2100.txt");
+        if( (fp_s[59]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_crop_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[59] ++;
+        }
+        
+        strcpy(filename,telumoid); strcat(filename,"luc_pasture_telmo_2005-2100.txt");
+        if( (fp_s[60]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_pasture_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[60] ++;
+        }
+        
+        strcpy(filename,telumoid); strcat(filename,"luc_other_telmo_2005-2100.txt");
+        if( (fp_s[61]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_other_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[61] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_mf_telmo_2005-2100.txt");
+        if( (fp_s[62]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_mf_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[62] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_grass_telmo_2005-2100.txt");
+        if( (fp_s[63]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_grass_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[63] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_umf_telmo_2005-2100.txt");
+        if( (fp_s[64]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_umf_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[64] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_c2p_telmo_2005-2100.txt");
+        if( (fp_s[65]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_c2p_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[65] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_c2s_telmo_2005-2100.txt");
+        if( (fp_s[66]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_c2s_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[66] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_c2u_telmo_2005-2100.txt");
+        if( (fp_s[67]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_c2u_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[67] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_p2c_telmo_2005-2100.txt");
+        if( (fp_s[68]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_p2c_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[68] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_p2s_telmo_2005-2100.txt");
+        if( (fp_s[69]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_p2s_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[69] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_p2u_telmo_2005-2100.txt");
+        if( (fp_s[70]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_p2u_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[70] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_s2c_telmo_2005-2100.txt");
+        if( (fp_s[71]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_s2c_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[71] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_s2p_telmo_2005-2100.txt");
+        if( (fp_s[72]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_s2p_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[72] ++;
+        }
+        
+        strcpy(filename,telumoid); strcat(filename,"luc_s2u_telmo_2005-2100.txt");
+        if( (fp_s[73]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_s2u_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[73] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_v2c_telmo_2005-2100.txt");
+        if( (fp_s[74]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_v2c_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[74] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_v2p_telmo_2005-2100.txt");
+        if( (fp_s[75]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_v2p_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[75] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_v2s_telmo_2005-2100.txt");
+        if( (fp_s[76]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_v2s_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[76] ++;
+        }
+
+        strcpy(filename,telumoid); strcat(filename,"luc_v2u_telmo_2005-2100.txt");
+        if( (fp_s[77]=fopen(filename,"rt"))==NULL ){
+            printf("No luc_v2u_telmo_2005-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[77] ++;
+        }
+    }
+    
     /* CMIP6 historical data: 1886-2015: 2018/12/21 by A.Ito */
     if(LANDUSE == 26){
         if( (fp_s[26]=fopen("./data/luh2_state_5-05_1866-2015.txt","rt"))==NULL ){
@@ -2105,7 +2387,7 @@ void open_input(
 	/* 5: gradual rise (SRES B1) */
 	/* 6: gradual rise (SRES B2) */
 	/* 7: uniform rise */
-	if(SCENARIO_ID == 0 || (SCENARIO_ID==6001 || SCENARIO_ID==6002)){
+	if(SCENARIO_ID == 0 || (SCENARIO_ID == 6001 || SCENARIO_ID == 6002)){
 		CO2S = 4;
 		fp_s[23] = fopen("./data/image_a2_fcrop.dat","rt");
 		fp_s[45] = fopen("./data/image_a2_fgrass.dat","rt");
@@ -2205,7 +2487,7 @@ void open_input(
 		}else{
             Flag_FOPEN[23] ++;
         }
-        if((fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt"))==NULL){
+        if((fp_s[45] = fopen("./data/image_b1_fgrass.dat","rt"))==NULL){
 			printf("NO DATA:image_b1_fgrass.dat !!\n");
 			exit(1);
         }else{
@@ -2215,7 +2497,7 @@ void open_input(
     
     /* CD-LINKS: 2016/11/17 by A.Ito */
     if(LANDUSE == 19){
-        if((fp_s[23]=fopen("./data/fcrop_ipsl_aim_ssp1_rcp45_v1.txt","rt"))==NULL){
+        if((fp_s[23] = fopen("./data/fcrop_ipsl_aim_ssp1_rcp45_v1.txt","rt"))==NULL){
             printf("NO ./data/fcrop_ipsl_aim_ssp1_rcp45_v1.txt !!\n");
             exit(1);
         }
@@ -2259,17 +2541,17 @@ void open_input(
             fp_s[45]=fopen("./data/image_b1_fgrass.dat","rt");
         }else if(SCENARIO_ID==2002 || SCENARIO_ID==2012 || SCENARIO_ID==2022 || SCENARIO_ID==2032 || SCENARIO_ID==2042
             || SCENARIO_ID==2006 || SCENARIO_ID==2016 || SCENARIO_ID==2026 || SCENARIO_ID==2036 || SCENARIO_ID==2046
-             || SCENARIO_ID==4012 || SCENARIO_ID==4022){
+            || SCENARIO_ID==4012 || SCENARIO_ID==4022){
             CO2S = 4; /* RCP8.5 */
             /**/
-            if((fp_s[23]=fopen("./data/image_a2_fcrop.dat","rt"))==NULL){
+            if((fp_s[23] = fopen("./data/image_a2_fcrop.dat","rt"))==NULL){
                 printf("NO image_a2_fcrop.dat !!\n");
                 exit(1);
             }
             fp_s[45]=fopen("./data/image_a2_fgrass.dat","rt");
         }else if(SCENARIO_ID==2003 || SCENARIO_ID==2013 || SCENARIO_ID==2023 || SCENARIO_ID==2033 || SCENARIO_ID==2043
             || SCENARIO_ID==2007 || SCENARIO_ID==2017 || SCENARIO_ID==2027 || SCENARIO_ID==2037 || SCENARIO_ID==2047
-             || SCENARIO_ID==4011|| SCENARIO_ID==4021){
+            || SCENARIO_ID==4011|| SCENARIO_ID==4021){
             CO2S = 2; /* RCP4.5 */
             /**/
             if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
@@ -2293,7 +2575,7 @@ void open_input(
     }
     
     /* GEO-MIP */
-    if(SCENARIO_ID>=3000 && SCENARIO_ID<=3999){
+    if(SCENARIO_ID >= 3000 && SCENARIO_ID <= 3999){
         CO2S = 2; /* RCP4.5 */
         /**/
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
@@ -2814,7 +3096,11 @@ void open_input(
         if(SCENARIO_ID == 5063 || SCENARIO_ID == 5073 || SCENARIO_ID == 5083 || SCENARIO_ID == 5093){
             CO2S = 3;
         }
-        
+        if(SCENARIO_ID == 5017 || SCENARIO_ID == 5027 || SCENARIO_ID == 5037 || SCENARIO_ID == 5047){
+            /* RCP8.5: added 2019/02/25 by A.Ito */
+            CO2S = 4;
+        }
+
         /* dummy: won't be used */
         if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
             printf("NO image_a1b_fcrop.dat !!\n");
@@ -2906,6 +3192,13 @@ void open_input(
         if( (fp_s[25]=fopen("./data/ndepo_ann_rcp60_1661-2299.flt","rb"))==NULL ){
             printf("No ndepo_ann_rcp60_1661-2299.flt\n");
             exit(1); 
+        }else{
+            Flag_FOPEN[25] ++;
+        }
+    }else if(SCENARIO_ID==5017 || SCENARIO_ID==5027 || SCENARIO_ID==5037 || SCENARIO_ID==5047){
+        if( (fp_s[25]=fopen("./data/ndepo_ann_rcp85_1661-2299.flt","rb"))==NULL ){
+            printf("No ndepo_ann_rcp85_1661-2299.flt\n");
+            exit(1);
         }else{
             Flag_FOPEN[25] ++;
         }
@@ -3222,7 +3515,7 @@ void open_input(
                 }else{
                     Flag_FOPEN[87] ++;
                 }
-            }else if(SCENARIO_ID==5011){
+            }else if(SCENARIO_ID==5011 || SCENARIO_ID==5017){
                 if( (fp_s[87]=fopen("./data/landuse_ann_1860_hist_2005_2005_1661-2299.flt","rb"))==NULL ){
                     printf("No landuse_ann_1860_hist_2005_2005_1661-2299.flt\n");
                     exit(1);
@@ -3266,7 +3559,7 @@ void open_input(
                 }else{
                     Flag_FOPEN[87] ++;
                 }
-            }else if(SCENARIO_ID==5021){
+            }else if(SCENARIO_ID==5021 || SCENARIO_ID==5027){
                 if( (fp_s[87]=fopen("./data/landuse_ann_1860_hist_2005_2005_1661-2299.flt","rb"))==NULL ){
                     printf("No landuse_ann_1860_hist_2005_2005_1661-2299.flt\n");
                     exit(1);
@@ -3310,7 +3603,7 @@ void open_input(
                 }else{
                     Flag_FOPEN[87] ++;
                 }
-            }else if(SCENARIO_ID==5031){
+            }else if(SCENARIO_ID==5031 || SCENARIO_ID==5037){
                 if( (fp_s[87]=fopen("./data/landuse_ann_1860_hist_2005_2005_1661-2299.flt","rb"))==NULL ){
                     printf("No landuse_ann_1860_hist_2005_2005_1661-2299.flt\n");
                     exit(1);
@@ -3354,7 +3647,7 @@ void open_input(
                 }else{
                     Flag_FOPEN[87] ++;
                 }
-            }else if(SCENARIO_ID==5041){
+            }else if(SCENARIO_ID==5041 || SCENARIO_ID==5047){
                 if( (fp_s[87]=fopen("./data/landuse_ann_1860_hist_2005_2005_1661-2299.flt","rb"))==NULL ){
                     printf("No landuse_ann_1860_hist_2005_2005_1661-2299.flt\n");
                     exit(1);
