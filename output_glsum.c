@@ -278,7 +278,6 @@ void f_set_history_data(
             h_npp_trp[year] += fweight * (flux->plant).npp[f] * grid->area;
             h_nep_trp[year] += fweight * flux->nep[f] * grid->area;
             h_nbp_trp[year] += fweight * flux->nbp[f] * grid->area;
-            h_luc_trp[year] +=
             h_bb_trp[year] += fweight * (flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+
                                           flux->bb_co2_wood[f]+flux->bb_co2_root[f]) * grid->area;
         }
@@ -1120,11 +1119,20 @@ void f_glosum_output(
 	fprintf(fp_glsum,"\n");
 	
 	for(h=0;h<PD_SIM;h++){
+        fprintf(fp_glsum,"%ld %ld ", h+(FSY_HIST-1), i+1);
 		for(i=0;i<ASTEP;i++){
-			fprintf(fp_glsum,"%ld %ld %lf %lf %lf %lf ", h+(FSY_HIST-1), i+1,
-				hm_temp[h][i], hm_prec[h][i], hm_ch4_wh[h][i], hm_inund[h][i]);
+			fprintf(fp_glsum,"%lf ",hm_temp[h][i]);
 		}
-        
+        for(i=0;i<ASTEP;i++){
+            fprintf(fp_glsum,"%lf ",hm_prec[h][i]);
+        }
+        for(i=0;i<ASTEP;i++){
+            fprintf(fp_glsum,"%lf ",hm_ch4_wh[h][i]);
+        }
+        for(i=0;i<ASTEP;i++){
+            fprintf(fp_glsum,"%lf ",hm_inund[h][i]);
+        }
+
         /* seasonal-cycle amplitude: 2019/03/02 by A.Ito */
         for(i=0;i<ASTEP;i++){
             fprintf(fp_glsum,"%.2lf ", hm_sca_gpp_nh[h][i]);
