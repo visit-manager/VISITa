@@ -395,7 +395,7 @@ struct Loct{
 	double	rdi;						/* radiative dryness index by Budyko */
     
     /* added: 2013/01/10 by A.Ito */
-    double  grad_d[ASTEP];              /* daily average downward SW radiation, W m-2 */
+    double  glrad_dav[ASTEP];              /* daily average downward SW radiation, W m-2 */
     double  nsw_d[ASTEP];               /* daily average net SW radiation, W m-2 */
  	
                                         /* micro mol photon m-2 s-1 */

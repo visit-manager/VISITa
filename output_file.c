@@ -641,6 +641,9 @@ void f_output_result(
             /* added 2015/08/12 by A.Ito */
             fprintf(fp_o[6],"%.2lf ", loct->ippfd_g[f]);
 
+            /* added 2019/04/03 by A.Ito */
+            fprintf(fp_o[6],"%.2lf ", loct->glrad_dav[f]);
+
             /* 2014/01/22 for WSL output */
             /* 2015/02/18 for WTD check */
             /* fprintf(fp_o[6],"%.3lf ", loct->xx1[f]);

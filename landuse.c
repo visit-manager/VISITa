@@ -570,8 +570,9 @@ void f_luc_emit(
 	
 	/* mass fraction of secondary forest */
 	/* Nelson et al. (2000) Bioscience 50:419-431 */
-	f_mass_secfor = 0.1;
-	
+	/* f_mass_secfor = 0.1; */
+    f_mass_secfor = 0.3;
+
 	switch(grid->veg_sage){
 		/* detritus production by land-use change:
 		 McGuire, A. D., et al., 2001: Carbon balance of the terrestrial biosphere 

@@ -428,14 +428,17 @@ void f_ch4_emit_walter(
                 t_veg = 2.75;
                 r0 = 0.275;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 1.45;
-                r0 = 0.145;
-            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2018/07/23 by A.Ito */
-                t_veg = 1.41;
-                r0 = 0.141;
-            }else if(grid->veg_olson==23 || grid->veg_olson==24){ /* 2018/07/30 by A.Ito */
+                t_veg = 1.48;
+                r0 = 0.148;
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03 by A.Ito */
+                t_veg = 1.60;
+                r0 = 0.160;
+            }else if(grid->veg_olson==23){ /* 2019/04/03 by A.Ito */
                 t_veg = 1.75;
                 r0 = 0.175;
+            }else if(grid->veg_olson==24){ /* 2019/04/03 by A.Ito */
+                t_veg = 1.90;
+                r0 = 0.190;
             }else{
                 t_veg = 1.445;
                 r0 = 0.1445;
@@ -455,14 +458,17 @@ void f_ch4_emit_walter(
                 t_veg = 0.475;
                 r0 = 0.0475;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 0.355;
-                r0 = 0.0355;
-            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2018/07/23 by A.Ito */
-                t_veg = 0.31;
-                r0 = 0.031;
-            }else if(grid->veg_olson==23 || grid->veg_olson==24){ /* 2018/07/30 by A.Ito */
+                t_veg = 0.36;
+                r0 = 0.036;
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03 by A.Ito */
+                t_veg = 0.33;
+                r0 = 0.033;
+            }else if(grid->veg_olson==23){ /* 2019/04/03 by A.Ito */
                 t_veg = 0.37;
                 r0 = 0.037;
+            }else if(grid->veg_olson==24){ /* 2019/04/03 by A.Ito */
+                t_veg = 0.40;
+                r0 = 0.040;
             }else{
                 t_veg = 0.42;
                 r0 = 0.042;
