@@ -36,7 +36,7 @@ void npp_empirical(
 		rn_ann += loct->rad_net[f] * MDN[grid->m]/YDN;
 		
 		/* PRIESTRIE-TAYLOR PET model, mm ***/
-		lhvp = 1000000.0* (2.501 - 0.012/5.0*grid->tmp_2m[f]);
+		lhvp = 1000000.0 * (2.501 - 0.012/5.0 * grid->tmp_2m[f]);
 		loct->pet_prty[f] = 1.26 * 0.667/(loct->slope_vps[f] + 0.667) * 
 				loct->rad_net[f]/lhvp* DHN * HSN * MDN[grid->m];
 		loct->pet_prty_ann += loct->pet_prty[f];
@@ -103,7 +103,7 @@ void npp_empirical(
 	}
 	
     if(gdd>0.0 && gdd<10.0){
-        flux->npp_madison_gddswsi = (3.96 / (1.0 + exp(6.33 - 1.5*gdd))) * (39.58 * wsi - 14.52) * 0.01;
+        flux->npp_madison_gddswsi = (3.96 / (1.0 + exp(6.33 - 1.5 * gdd))) * (39.58 * wsi - 14.52) * 0.01;
     }else{
         flux->npp_madison_gddswsi = 3.96 * (39.58 * wsi - 14.52) * 0.01;
     }
@@ -128,7 +128,7 @@ void npp_empirical(
 			}
 			break;
 		case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8:
-			npp_tem = 25.4 / (1.0 + exp(1.584 - 0.0622*grid->tmp_sfc_am));
+			npp_tem = 25.4 / (1.0 + exp(1.584 - 0.0622 * grid->tmp_sfc_am));
 			npp_pre = 0.551 * pow(grid->prate_sfc_ann, 1.055) / exp(0.000306 * grid->prate_sfc_ann)/100.0;
 			flux->npp_nceas = (npp_tem<npp_pre)?npp_tem:npp_pre;
 			break;
