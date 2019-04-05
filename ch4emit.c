@@ -428,11 +428,11 @@ void f_ch4_emit_walter(
                 t_veg = 2.75;
                 r0 = 0.275;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 1.48;
-                r0 = 0.148;
+                t_veg = 1.6;
+                r0 = 0.16;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03 by A.Ito */
-                t_veg = 1.8;
-                r0 = 0.18;
+                t_veg = 2.0;
+                r0 = 0.20;
             }else if(grid->veg_olson==23){ /* 2019/04/03 by A.Ito */
                 t_veg = 1.75;
                 r0 = 0.175;
@@ -458,11 +458,11 @@ void f_ch4_emit_walter(
                 t_veg = 0.475;
                 r0 = 0.0475;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 0.36;
-                r0 = 0.036;
+                t_veg = 0.40;
+                r0 = 0.040;
             }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03 by A.Ito */
-                t_veg = 0.38;
-                r0 = 0.038;
+                t_veg = 0.40;
+                r0 = 0.040;
             }else if(grid->veg_olson==23){ /* 2019/04/03 by A.Ito */
                 t_veg = 0.37;
                 r0 = 0.037;
