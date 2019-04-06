@@ -429,16 +429,16 @@ void f_ch4_emit_walter(
                 r0 = 0.275;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
                 t_veg = 1.6;
-                r0 = 0.16;
+                r0 = 0.25; /* 2019/04/06 */
             }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03 by A.Ito */
                 t_veg = 2.0;
-                r0 = 0.20;
+                r0 = 0.3; /* 2019/04/06 */
             }else if(grid->veg_olson==23){ /* 2019/04/03 by A.Ito */
                 t_veg = 1.75;
-                r0 = 0.175;
+                r0 = 0.18;
             }else if(grid->veg_olson==24){ /* 2019/04/03 by A.Ito */
                 t_veg = 2.2;
-                r0 = 0.22;
+                r0 = 0.30; /* 2019/04/06 */
             }else{
                 t_veg = 1.45;
                 r0 = 0.145;
@@ -446,32 +446,32 @@ void f_ch4_emit_walter(
             break;
         case 2:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 7.64;
-                r0 = 0.764;
+                t_veg = 7.65;
+                r0 = 0.765;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 5.78;
-                r0 = 0.578;
+                t_veg = 5.8;
+                r0 = 0.58;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 1.19;
-                r0 = 0.119;
+                t_veg = 1.2;
+                r0 = 0.12;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
                 t_veg = 0.475;
                 r0 = 0.0475;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
                 t_veg = 0.40;
-                r0 = 0.040;
+                r0 = 0.048; /* 2019/04/06 */
             }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03 by A.Ito */
                 t_veg = 0.40;
-                r0 = 0.040;
+                r0 = 0.048; /* 2019/04/06 */
             }else if(grid->veg_olson==23){ /* 2019/04/03 by A.Ito */
-                t_veg = 0.37;
-                r0 = 0.037;
+                t_veg = 0.38;
+                r0 = 0.039;
             }else if(grid->veg_olson==24){ /* 2019/04/03 by A.Ito */
                 t_veg = 0.45;
-                r0 = 0.045;
+                r0 = 0.050; /* 2019/04/06 */
             }else{
-                t_veg = 0.42;
-                r0 = 0.042;
+                t_veg = 0.43;
+                r0 = 0.043;
             }
             break;
         case 3: /*  */
