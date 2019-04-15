@@ -39,8 +39,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
-#define CALC_OFFSET 5
+#define CALC_STEP 1
+#define CALC_OFFSET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -1182,8 +1182,8 @@
 
 /** ISI-MIP2b EX IV-VII: 2018/02/09 by A.Ito  *****/
 /** ISI-MIP2b EX VIII for RCP8.5: 2018/02/25 by A.Ito  *****/
-/** ISI-MIP2b EX IX for RCP6.0 with improved EWEMBI: 2018/03/01 by A.Ito  */
-/** ISI-MIP2b EX IIIc for RCP8.5+2005CO2: 2018/03/04 by A.Ito  *****/
+/** ISI-MIP2b EX IX for RCP6.0 with improved EWEMBI: 2019/03/01 by A.Ito  */
+/** ISI-MIP2b EX IIIc for RCP8.5+2005CO2: 2019/03/04 by A.Ito  *****/
 /* updated 2018/02/28 */
 /* 5013:  IV: GFDL PPPP + PH22 + PH22100 */
 /* 5014:   V: GFDL PPPP + PPPP + PP62 */
@@ -1232,7 +1232,6 @@
 /* 5094:IIIc: HadGEM PH82 + PH82 + PH2005 */
 /* 5047:VIII: HadGEM PH82 + PH82 + PH20052005 */
 /* 5048:IX  : HadGEM PH62 + PH62 + PH20052005 (improved ewembi) */
-
 
 /** IMPRESSIONS: 2015/07/17 *****************************************/
 /* 6001: phase 1 */
