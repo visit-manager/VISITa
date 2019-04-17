@@ -426,19 +426,19 @@ void f_ch4_emit_walter(
                 r0 = 0.575;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
                 t_veg = 2.75;
-                r0 = 0.275;
+                r0 = 0.29;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
                 t_veg = 1.6;
-                r0 = 0.30; /* 2019/04/06 */
+                r0 = 0.39; /* 2019/04/17 */
             }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03 by A.Ito */
                 t_veg = 2.0;
-                r0 = 0.35; /* 2019/04/06 */
+                r0 = 0.47; /* 2019/04/17 */
             }else if(grid->veg_olson==23){ /* 2019/04/03 by A.Ito */
                 t_veg = 1.75;
-                r0 = 0.18;
+                r0 = 0.175;
             }else if(grid->veg_olson==24){ /* 2019/04/03 by A.Ito */
                 t_veg = 2.2;
-                r0 = 0.36; /* 2019/04/06 */
+                r0 = 0.46; /* 2019/04/17 */
             }else{
                 t_veg = 1.45;
                 r0 = 0.145;
@@ -456,19 +456,19 @@ void f_ch4_emit_walter(
                 r0 = 0.12;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
                 t_veg = 0.475;
-                r0 = 0.0475;
+                r0 = 0.049;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
                 t_veg = 0.40;
-                r0 = 0.060; /* 2019/04/06 */
+                r0 = 0.074; /* 2019/04/17 */
             }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03 by A.Ito */
                 t_veg = 0.40;
-                r0 = 0.060; /* 2019/04/06 */
+                r0 = 0.085; /* 2019/04/17 */
             }else if(grid->veg_olson==23){ /* 2019/04/03 by A.Ito */
                 t_veg = 0.38;
-                r0 = 0.040;
+                r0 = 0.038;
             }else if(grid->veg_olson==24){ /* 2019/04/03 by A.Ito */
                 t_veg = 0.45;
-                r0 = 0.070; /* 2019/04/06 */
+                r0 = 0.085; /* 2019/04/17 */
             }else{
                 t_veg = 0.43;
                 r0 = 0.043;
