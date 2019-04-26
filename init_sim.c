@@ -220,6 +220,20 @@ void f_init_sim(
         }
         fclose(fpi);
     }
+    
+    /* Atmospheric d13C, D14C by Graven: 2019/1/17 by A.Ito */
+    if((fpi = fopen("./data/d1314_air_graven.txt","rt"))==NULL){
+        printf("No d1314_air_graven.txt\n");
+        exit(1);
+    }
+    for(f=0;f<166;f++){
+        fscanf(fpi,"%ld", &year);
+        fscanf(fpi,"%lf", &d13c_graven[f]);
+        fscanf(fpi,"%lf", &d14c1_graven[f]); /* 90-30N */
+        fscanf(fpi,"%lf", &d14c2_graven[f]); /* 30N-30S */
+        fscanf(fpi,"%lf", &d14c3_graven[f]); /* 30-90S */
+    }
+    fclose(fpi);
 	
 	/* global analysis initialization ********************************/
 	go_landarea = gs_landarea = 0.0;
@@ -270,6 +284,8 @@ void f_init_sim(
         h_n_cabdn[f] = h_n_sabdn[f] = h_n_uptk[f] = 0.0;
 
 		h_hvst_wood[f] = h_wetarea[f] = h_deforest[f] = 0.0;
+        h_gpp_trp[f] = h_npp_trp[f] = h_nep_trp[f] = h_nbp_trp[f] = 0.0;
+        h_luc_trp[f] = h_bb_trp[f] = 0.0;
 
 		h_voc_isopr_g97[f] = h_voc_monotrp_g97[f] = h_voc_methanl_g97[f] = 0.0;
 		h_voc_acetone_g97[f] = h_voc_actaldhd_g97[f] = h_voc_frmardhd_g97[f] = 0.0;
@@ -286,6 +302,8 @@ void f_init_sim(
 		ci_h[f] = ci_h_d13c[f] = ci_h_d14c[f] = 0.0;
 		
 		for(g=0;g<ASTEP;g++){
+            hm_sca_gpp_nh[f][g] = hm_sca_re_nh[f][g] = hm_sca_nep_nh[f][g] = 0.0;
+        
 			hm_temp[f][g] = 0.0;
 			hm_prec[f][g] = 0.0;
 			hm_ch4_wh[f][g] = 0.0;
@@ -310,82 +328,6 @@ void f_init_sim(
 		vs_gpp[f] = vs_npp[f] = vs_nep[f] = 0.0;
 		vs_lai[f] = vs_fol[f] = vs_stm[f] = vs_rot[f] = vs_ltr[f] = vs_msl[f] = 0.0;
 	}
-
-	for(g=0;g<N_ROW;g++){
-		for(h=0;h<N_COL;h++){
-			for(f=0;f<5;f++){
-				g_tmp[f][g][h] = 0.0;
-				g_prc[f][g][h] = 0.0;
-				g_swr[f][g][h] = 0.0;
-				g_gpp[f][g][h] = 0.0;
-				g_npp[f][g][h] = 0.0;
-				g_nep[f][g][h] = 0.0;
-				g_pmas[f][g][h] = 0.0;
-				g_smas[f][g][h] = 0.0;
-				g_ch4e_cao[f][g][h] = 0.0;
-				g_ch4ep_cao[f][g][h] = 0.0;
-				g_ch4o_curry[f][g][h] = 0.0;
-				g_n2oe[f][g][h] = 0.0;
-				g_bbco2[f][g][h] = 0.0;
-				g_ersn[f][g][h] = 0.0;
-				g_isopr[f][g][h] = 0.0;
-				g_sr[f][g][h] = 0.0;
-				g_luc[f][g][h] = 0.0;
-				g_er[f][g][h] = 0.0; 
-				g_snh4[f][g][h] = 0.0; 
-				g_sno3[f][g][h] = 0.0; 
-				
-#if C13_GOUT==1				
-				g_f13[f][g][h] = 0.0; 
-				g_c13[f][g][h] = 0.0; 
-				g_r13[f][g][h] = 0.0; 
-				g_l13[f][g][h] = 0.0; 
-				g_h13[f][g][h] = 0.0; 
-				g_gpp13[f][g][h] = 0.0; 
-				g_er13[f][g][h] = 0.0; 
-#endif
-				
-#if C14_GOUT==1				
-				g_f14[f][g][h] = 0.0; 
-				g_c14[f][g][h] = 0.0; 
-				g_r14[f][g][h] = 0.0; 
-				g_l14[f][g][h] = 0.0; 
-				g_h14[f][g][h] = 0.0; 
-				g_gpp14[f][g][h] = 0.0; 
-				g_er14[f][g][h] = 0.0; 
-#endif				
-				
-#if PHYS_GOUT==1
-				g_lai[f][g][h] = 0.0;
-				g_parb[f][g][h] = 0.0;
-				g_pard[f][g][h] = 0.0;
-				g_apar[f][g][h] = 0.0;
-				g_apar2[f][g][h] = 0.0;
-				g_aet[f][g][h] = 0.0;
-				g_rof[f][g][h] = 0.0;
-				g_rns[f][g][h] = 0.0;
-				g_rnl[f][g][h] = 0.0;
-				g_sw1[f][g][h] = 0.0;
-				g_sw2[f][g][h] = 0.0;
-				g_rnsd[f][g][h] = 0.0;
-#endif
-			}
-		}
-	}  /* */
-	
-#if CH4_WH==1
-	for(g=0;g<N_ROW;g++){
-		for(h=0;h<N_COL;h++){
-			for(f=0;f<5;f++){
-				g_ch4ep_wh[f][g][h] = 0.0;
-				g_ch4ew_wh[f][g][h] = 0.0;
-			}
-			for(f=0;f<ASTEP;f++){
-				gm_ch4ep_wh[f][g][h] = 0.0;
-			}
-		}
-	}
-#endif	
 	
 	/* regional historical */
 	for(f=0;f<N_REG;f++){

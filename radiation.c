@@ -423,11 +423,11 @@ void f_net_rad(
                 * (2.5*1000000.0) / DHN / HSN / MDN[grid->m];
         
         /* net shortwave radiation, W m-2 */
-        //rn_short_base = (1.0 - albedo_base) * grid->gl_rad[grid->m];
-        //rn_short_var = (1.0 - albedo_var) * grid->gl_rad[grid->m];
+        //rn_short_base = (1.0 - albedo_base) * loct->glrad_dav[grid->m];
+        //rn_short_var = (1.0 - albedo_var) * loct->glrad_dav[grid->m];
 
-        rn_short_base = (1.0 - albedo_base) * loct->grad_d[grid->m];
-        rn_short_var = (1.0 - albedo_var) * loct->grad_d[grid->m];
+        rn_short_base = (1.0 - albedo_base) * grid->gl_rad[grid->m];
+        rn_short_var = (1.0 - albedo_var) * grid->gl_rad[grid->m];
         
         /* base temperature: default albedo */
         nn = 0; crit = 10.0;
@@ -541,7 +541,7 @@ void f_net_rad(
     }
  
     /* added: 2013/01/10 by A.Ito */
-    loct->nsw_d[grid->m] = (1.0 - loct->albedo_sfc[grid->m]) * loct->grad_d[grid->m];
+    loct->nsw_d[grid->m] = (1.0 - loct->albedo_sfc[grid->m]) * loct->glrad_dav[grid->m];
 	
 	/** global radiation under the canopy or at the soil surface **/
 	loct->gl_rad_g[grid->m] = grid->gl_rad[grid->m]*ddd1;
@@ -581,7 +581,7 @@ void f_net_rad(
     }
     fff = (fff<0.99)?fff:0.99;
     fff = (fff>0.01)?fff:0.01;
-	rad_net_g = (1.0 - fff) * ddd1 * grid->gl_rad[grid->m] - net_long*ddd2;
+	rad_net_g = (1.0 - fff) * ddd1 * grid->gl_rad[grid->m] - net_long * ddd2;
 	rad_net_g = (rad_net_g >= 0.0)?rad_net_g:0.0;
 	loct->rad_net_g[grid->m] = rad_net_g;
 }

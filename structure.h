@@ -239,31 +239,33 @@ struct Grid{
 	double	fpast_rk[308];				/* pasture fraction by Ramankutty & Kimball (2010) */
 	
 	/* future, 1990-2100, IMAGE2, Wang et al. */
-	double 	fcrop3_future[111];				/* C3 crop */
-	double 	fcrop4_future[111];				/* C4 crop */
-	double 	fgrass3_future[111];			/* C3 pasture grass */
-	double 	fgrass4_future[111];			/* C4 pasture grass */
+	double 	fcrop3_image[111];				/* C3 crop */
+	double 	fcrop4_image[111];				/* C4 crop */
+	double 	fgrass3_image[111];			/* C3 pasture grass */
+	double 	fgrass4_image[111];			/* C4 pasture grass */
 
 	/* EOS-WEBSTER, 1700-2000/2005, Hurtt et al. */
-	double	fcrop_unh_hmnzed[DL_LUC];		/* cropland fraction */
-	double	fpast_unh_hmnzed[DL_LUC];		/* pasture fraction */
-	double	fprim_unh_hmnzed[DL_LUC];		/* primary land fraction */
-	double	fsecd_unh_hmnzed[DL_LUC];		/* secondary land fraction */
-	double	ssma_unh_hmnzed[DL_LUC];		/* secondary land property 1 */
-	double	ssmb_unh_hmnzed[DL_LUC];		/* secondary land property 2 */
-	double	t_cp_unh_hmnzed[DL_LUC];		/* conversion crop to pasture */
-	double	t_cs_unh_hmnzed[DL_LUC];		/* conversion crop to secondary */
-	double	t_pc_unh_hmnzed[DL_LUC];		/* conversion pasture to crop */
-	double	t_ps_unh_hmnzed[DL_LUC];		/* conversion pasture to secondary */
-	double	t_sc_unh_hmnzed[DL_LUC];		/* conversion secondary to crop */
-	double	t_sp_unh_hmnzed[DL_LUC];		/* conversion secondary to pasture */
-	double	t_ss1_unh_hmnzed[DL_LUC];		/*  */
-	double	t_ss2_unh_hmnzed[DL_LUC];		/*  */
-	double	t_ss3_unh_hmnzed[DL_LUC];		/*  */
-	double	t_vc_unh_hmnzed[DL_LUC];		/* conversion primary to crop */
-	double	t_vp_unh_hmnzed[DL_LUC];		/* conversion primary to pasture */
-	double	t_vs1_unh_hmnzed[DL_LUC];		/*  */
-	double	t_vs2_unh_hmnzed[DL_LUC];		/*  */
+    /* name changed: unh => luh: 2018/12/24 by A.Ito */
+	double	fcrop_luh_hmnzed[DL_LUC];		/* cropland fraction */
+	double	fpast_luh_hmnzed[DL_LUC];		/* pasture fraction */
+	double	fprim_luh_hmnzed[DL_LUC];		/* primary land fraction */
+	double	fsecd_luh_hmnzed[DL_LUC];		/* secondary land fraction */
+	double	ssma_luh_hmnzed[DL_LUC];		/* secondary land property 1 */
+	double	ssmb_luh_hmnzed[DL_LUC];		/* secondary land property 2 */
+	double	t_cp_luh_hmnzed[DL_LUC];		/* conversion crop to pasture */
+	double	t_cs_luh_hmnzed[DL_LUC];		/* conversion crop to secondary */
+	double	t_pc_luh_hmnzed[DL_LUC];		/* conversion pasture to crop */
+	double	t_ps_luh_hmnzed[DL_LUC];		/* conversion pasture to secondary */
+	double	t_sc_luh_hmnzed[DL_LUC];		/* conversion secondary to crop */
+	double	t_sp_luh_hmnzed[DL_LUC];		/* conversion secondary to pasture */
+	double	t_ss1_luh_hmnzed[DL_LUC];		/*  */
+	double	t_ss2_luh_hmnzed[DL_LUC];		/*  */
+	double	t_ss3_luh_hmnzed[DL_LUC];		/*  */
+	double	t_vc_luh_hmnzed[DL_LUC];		/* conversion primary to crop */
+	double	t_vp_luh_hmnzed[DL_LUC];		/* conversion primary to pasture */
+    double  t_vs_luh_hmnzed[DL_LUC];        /* conversion primary to secondary */
+	double	t_vs1_luh_hmnzed[DL_LUC];		/*  */
+	double	t_vs2_luh_hmnzed[DL_LUC];		/*  */
  
 	/* wood harvest */
 	double	hvst_p1[DL_LUC];
@@ -393,7 +395,7 @@ struct Loct{
 	double	rdi;						/* radiative dryness index by Budyko */
     
     /* added: 2013/01/10 by A.Ito */
-    double  grad_d[ASTEP];              /* daily average downward SW radiation, W m-2 */
+    double  glrad_dav[ASTEP];              /* daily average downward SW radiation, W m-2 */
     double  nsw_d[ASTEP];               /* daily average net SW radiation, W m-2 */
  	
                                         /* micro mol photon m-2 s-1 */

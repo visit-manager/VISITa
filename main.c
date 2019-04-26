@@ -73,7 +73,6 @@ int main(
 	FILE *fp_c[4];
 	FILE *fp_c2[4];
 	FILE *fp_o1[OFILEN], *fp_o2[OFILEN];
-	FILE *fp_binout;
 	FILE *fp_setting;
     
     for(f=0;f<IFILEN;f++){
@@ -198,7 +197,7 @@ int main(
             snprintf(num, 4, "%02d", (short)PARAM_PTB);
             strcat(s_date, num);
             strcat(s_date, "_");
-            snprintf(num, 4, "%04d", (short)PARAM_ENS);
+            snprintf(num, 4, "%03d", (short)PARAM_ENS);
             strcat(s_date, num);
             strcat(s_date, "_");
         }else{
@@ -243,14 +242,6 @@ int main(
     for(f=0;f<IFILEN;f++){
         printf("   file %3ld: %2d\n",f,Flag_FOPEN[f]);
     }
-	printf("done\n");
-	
-	/* open result file **************************************************/
-	printf("Create output binary file...");
-	strcpy(filename, s_date);
-	strcat(filename, s_case);
-	strcat(filename,"output.bin");
-	fp_binout = fopen(filename, "wb");
 	printf("done\n");
 	
 	/**********************************************************************/
@@ -488,75 +479,7 @@ int main(
 		}
 	}
 	/* end of latitudinal loop *************************************/
-	
-	/* decadal average grid values */
-    /* used for IMPRESSIONS analysis: 2015/08/11 by A.Ito */
-#if BASE_GOUT==1
-	fwrite(g_tmp, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 0-4
-	fwrite(g_prc, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 5-9
-	fwrite(g_swr, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 10-14
-	fwrite(g_gpp, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 15-19
-	fwrite(g_npp, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 20-24
-	fwrite(g_nep, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 25-29
-	fwrite(g_pmas, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 30-34
-	fwrite(g_smas, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 35-39
-	fwrite(g_ch4e_cao, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 40-44
-	fwrite(g_ch4o_curry, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 45-49
-	fwrite(g_n2oe, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 50-54
-	fwrite(g_bbco2, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 55-59
-	fwrite(g_ersn, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 60-64
-	fwrite(g_isopr, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 65-69
-	fwrite(g_sr, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 70-74
-	fwrite(g_luc, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 75-79
-	fwrite(g_er, sizeof(float), 5*N_ROW*N_COL, fp_binout);		// 80-84
-	fwrite(g_ch4ep_cao, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 85-89
-#endif
-
-#if C13_GOUT==1	
-	fwrite(g_gpp13, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 90
-	fwrite(g_er13, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 95
-	fwrite(g_f13, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 100
-	fwrite(g_c13, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 105
-	fwrite(g_r13, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 110
-	fwrite(g_l13, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 115
-	fwrite(g_h13, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 120
-#endif
-	
-#if C14_GOUT==1	
-	fwrite(g_gpp14, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 125
-	fwrite(g_er14, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 130
-	fwrite(g_f14, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 135
-	fwrite(g_c14, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 140
-	fwrite(g_r14, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 145
-	fwrite(g_l14, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 150
-	fwrite(g_h14, sizeof(float), 5*N_ROW*N_COL, fp_binout);  // 155
-#endif
-
-#if PHYS_GOUT==1
-	fwrite(g_lai, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 160 90
-	fwrite(g_parb, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 165 95
-	fwrite(g_pard, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 170 100
-	fwrite(g_apar, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 175 105
-	fwrite(g_apar2, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 180 110
-	fwrite(g_aet, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 185
-	fwrite(g_rof, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 190 120
-	fwrite(g_rns, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 195
-	fwrite(g_rnl, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 200 130
-	fwrite(g_sw1, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 205
-	fwrite(g_sw2, sizeof(float), 5*N_ROW*N_COL, fp_binout);     // 210 140
-	fwrite(g_snh4, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 215
-	fwrite(g_sno3, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 220 150
-	fwrite(g_rnsd, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 225 added: 2013/01/10 by A.Ito
-#endif
-	
-#if CH4_WH==1	
-	fwrite(g_ch4ep_wh, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 225
-	fwrite(g_ch4ew_wh, sizeof(float), 5*N_ROW*N_COL, fp_binout);	// 230
-	fwrite(gm_ch4ep_wh, sizeof(float), 12*N_ROW*N_COL, fp_binout);	// 235
-#endif
-	
-	fclose(fp_binout);
-	
+		
 	/* close files *************/
     printf("Closing files\n");
 	for(h=0;h<4;h++){

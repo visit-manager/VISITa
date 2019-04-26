@@ -426,46 +426,52 @@ void f_ch4_emit_walter(
                 r0 = 0.575;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
                 t_veg = 2.75;
-                r0 = 0.275;
+                r0 = 0.29;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 1.45;
-                r0 = 0.145;
-            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2018/07/23 by A.Ito */
-                t_veg = 1.41;
-                r0 = 0.141;
-            }else if(grid->veg_olson==23 || grid->veg_olson==24){ /* 2018/07/30 by A.Ito */
+                t_veg = 1.6;
+                r0 = 0.39; /* 2019/04/17 */
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03 by A.Ito */
+                t_veg = 2.0;
+                r0 = 0.47; /* 2019/04/17 */
+            }else if(grid->veg_olson==23){ /* 2019/04/03 by A.Ito */
                 t_veg = 1.75;
                 r0 = 0.175;
+            }else if(grid->veg_olson==24){ /* 2019/04/03 by A.Ito */
+                t_veg = 2.2;
+                r0 = 0.46; /* 2019/04/17 */
             }else{
-                t_veg = 1.445;
-                r0 = 0.1445;
+                t_veg = 1.45;
+                r0 = 0.145;
             }
             break;
         case 2:
             if(grid->veg_olson==1 || grid->veg_olson==2 || grid->veg_olson==3){
-                t_veg = 7.64;
-                r0 = 0.764;
+                t_veg = 7.65;
+                r0 = 0.765;
             }else if(grid->veg_olson==4 || grid->veg_olson==5 || grid->veg_olson==6){
-                t_veg = 5.78;
-                r0 = 0.578;
+                t_veg = 5.8;
+                r0 = 0.58;
             }else if(grid->veg_olson==7 || grid->veg_olson==8){
-                t_veg = 1.19;
-                r0 = 0.119;
+                t_veg = 1.2;
+                r0 = 0.12;
             }else if(grid->veg_olson==9 || grid->veg_olson==10){
                 t_veg = 0.475;
-                r0 = 0.0475;
+                r0 = 0.049;
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
-                t_veg = 0.355;
-                r0 = 0.0355;
-            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2018/07/23 by A.Ito */
-                t_veg = 0.31;
-                r0 = 0.031;
-            }else if(grid->veg_olson==23 || grid->veg_olson==24){ /* 2018/07/30 by A.Ito */
-                t_veg = 0.37;
-                r0 = 0.037;
+                t_veg = 0.40;
+                r0 = 0.074; /* 2019/04/17 */
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03 by A.Ito */
+                t_veg = 0.40;
+                r0 = 0.085; /* 2019/04/17 */
+            }else if(grid->veg_olson==23){ /* 2019/04/03 by A.Ito */
+                t_veg = 0.38;
+                r0 = 0.038;
+            }else if(grid->veg_olson==24){ /* 2019/04/03 by A.Ito */
+                t_veg = 0.45;
+                r0 = 0.085; /* 2019/04/17 */
             }else{
-                t_veg = 0.42;
-                r0 = 0.042;
+                t_veg = 0.43;
+                r0 = 0.043;
             }
             break;
         case 3: /*  */
@@ -696,19 +702,24 @@ void f_ch4_emit_walter(
 	/* q10_ch4prod = 3.0; */
 	/* q10_ch4prod = 3.2; */
 	/* q10_ch4prod = 3.85; */
-    /* 2014/12/10 by A.Ito
-    Yvon-Durocher, G., A. P. Allen, D. Bastviken, R. Conrad, C. Gudasz, A. St-Pierre, 
-    N. Thanh-Duc, and P. A. del Giorgio (2014), 
-    Methane fluxes show consistent temperature dependence across microbial to 
-    ecosystem scales, Nature, 507, 488–491, doi:10.1038/nature13164.  */
     /* q10_ch4prod = 2.5; */ /* 2018/05/25 by A.Ito */
     /* q10_ch4prod = 2.4; */ /* 2018/05/26 by A.Ito */
     q10_ch4prod = 2.0; /* 2018/05/28 by A.Ito */
 	if(EX_CH4_2 == 1){
-		q10_ch4prod = 3.0;
+		q10_ch4prod = 1.5;
 	}else if(EX_CH4_2 == 2){
-		q10_ch4prod = 9.0;
-	}
+		q10_ch4prod = 2.5;
+	}else if(EX_CH4_2 == 3){
+        /* original Walter-Heimann (2001) value */
+        q10_ch4prod = 6.0;
+    }else if(EX_CH4_2 == 4){
+        /* 2014/12/10 by A.Ito
+        Yvon-Durocher, G., A. P. Allen, D. Bastviken, R. Conrad, C. Gudasz, A. St-Pierre,
+        N. Thanh-Duc, and P. A. del Giorgio (2014),
+        Methane fluxes show consistent temperature dependence across microbial to
+        ecosystem scales, Nature, 507, 488–491, doi:10.1038/nature13164.  */
+        q10_ch4prod = 3.85;
+    }
     
     /* parameter ensemble: 2014/11/19 by A.Ito */
     if(PARAM_PTB == 5){

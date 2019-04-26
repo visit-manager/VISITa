@@ -25,11 +25,11 @@ void f_init_grid(
 	FILE *fp_s[IFILEN], 
 	struct Grid *grid
 ){
-	long e, h, g, country, region, aaa;
+	long e, h, g, country, region, aaa, ldummy;
 	double tmp_sfc, tmp_2m,tmp10_soil, tmp200_soil, dswrf_toa, dswrf_sfc, tcdc_clm;
 	double prate_sfc, spfh_2m, soilw10, soilw200, ugrd_10m, vgrd_10m;
 	double geo_prop, crit_tension;
-	double lat, lon, total, wetland, lake, paddy, ddummy;
+	double lat, lon, total, wetland, lake, paddy, ddummy, dluh2;
     double nfert_m, nfert_r, nfert_sw, nfert_ww;
     float rfdat[ASTEP], is2bdat[DL_NINPUT];
 	
@@ -590,40 +590,40 @@ void f_init_grid(
     if(LANDUSE == 19 || LANDUSE == 20 ||LANDUSE == 21 ||LANDUSE == 22 ||LANDUSE == 23){
         /* CD-LINK 2016/11/17 */
         for(h=0;h<111;h++){
-            fscanf(fp_s[23],"%lf", &(grid->fcrop3_future[h]));
-            grid->fcrop4_future[h] = 0.0;
+            fscanf(fp_s[23],"%lf", &(grid->fcrop3_image[h]));
+            grid->fcrop4_image[h] = 0.0;
         }
         for(h=0;h<111;h++){
-            fscanf(fp_s[45],"%lf", &(grid->fgrass3_future[h]));
+            fscanf(fp_s[45],"%lf", &(grid->fgrass3_image[h]));
         }
         for(h=0;h<111;h++){
-            fscanf(fp_s[45],"%lf", &(grid->fgrass4_future[h])); 
+            fscanf(fp_s[45],"%lf", &(grid->fgrass4_image[h])); 
         }
     }else{
         if(SCENARIO_ID>=2100 && SCENARIO_ID<=2999){
             /* ICARUS 2016/08/12 */
             for(h=0;h<111;h++){
-                fscanf(fp_s[23],"%lf", &(grid->fcrop3_future[h]));
-                grid->fcrop4_future[h] = 0.0;
+                fscanf(fp_s[23],"%lf", &(grid->fcrop3_image[h]));
+                grid->fcrop4_image[h] = 0.0;
             }
             for(h=0;h<111;h++){
-                fscanf(fp_s[45],"%lf", &(grid->fgrass3_future[h]));
+                fscanf(fp_s[45],"%lf", &(grid->fgrass3_image[h]));
             }
             for(h=0;h<111;h++){
-                fscanf(fp_s[45],"%lf", &(grid->fgrass4_future[h])); 
+                fscanf(fp_s[45],"%lf", &(grid->fgrass4_image[h])); 
             }
         }else{
             for(h=0;h<111;h++){
-                fscanf(fp_s[23],"%lf", &(grid->fcrop3_future[h])); 
+                fscanf(fp_s[23],"%lf", &(grid->fcrop3_image[h])); 
             }
             for(h=0;h<111;h++){
-                fscanf(fp_s[23],"%lf", &(grid->fcrop4_future[h])); 
+                fscanf(fp_s[23],"%lf", &(grid->fcrop4_image[h])); 
             }
             for(h=0;h<111;h++){
-                fscanf(fp_s[45],"%lf", &(grid->fgrass3_future[h])); 
+                fscanf(fp_s[45],"%lf", &(grid->fgrass3_image[h])); 
             }
             for(h=0;h<111;h++){
-                fscanf(fp_s[45],"%lf", &(grid->fgrass4_future[h])); 
+                fscanf(fp_s[45],"%lf", &(grid->fgrass4_image[h])); 
             }
         }
     }
@@ -799,6 +799,34 @@ void f_init_grid(
 	 Global Change Biology, 12, 1-22.
 	 */
     /* revised by A.Ito (2013/12/20) */
+    for(h=0;h<DL_LUC;h++){
+        grid->fcrop_luh_hmnzed[h] = 0.0;
+        grid->fpast_luh_hmnzed[h] = 0.0;
+        grid->fprim_luh_hmnzed[h] = 0.0;
+        grid->fsecd_luh_hmnzed[h] = 0.0;
+        grid->ssma_luh_hmnzed[h] = 0.0;
+        grid->ssmb_luh_hmnzed[h] = 0.0;
+        grid->t_cp_luh_hmnzed[h] = 0.0;
+        grid->t_cs_luh_hmnzed[h] = 0.0;
+        grid->t_pc_luh_hmnzed[h] = 0.0;
+        grid->t_ps_luh_hmnzed[h] = 0.0;
+        grid->t_sc_luh_hmnzed[h] = 0.0;
+        grid->t_sp_luh_hmnzed[h] = 0.0;
+        grid->t_ss1_luh_hmnzed[h] = 0.0;
+        grid->t_ss2_luh_hmnzed[h] = 0.0;
+        grid->t_ss3_luh_hmnzed[h] = 0.0;
+        grid->t_vc_luh_hmnzed[h] = 0.0;
+        grid->t_vp_luh_hmnzed[h] = 0.0;
+        grid->t_vs1_luh_hmnzed[h] = 0.0;
+        grid->t_vs2_luh_hmnzed[h] = 0.0;
+
+        grid->hvst_p1[h] = 0.0;
+        grid->hvst_p2[h] = 0.0;
+        grid->hvst_s1[h] = 0.0;
+        grid->hvst_s2[h] = 0.0;
+        grid->hvst_s3[h] = 0.0;
+    }
+
 	if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 ||
          LANDUSE==13 || LANDUSE==17|| LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 || LANDUSE == 21
         || LANDUSE == 22 || LANDUSE == 23){
@@ -806,45 +834,45 @@ void f_init_grid(
 		for(h=0;h<DL_LUC;h++){
 			/* fractional cover */
             if(h<(BGY_GCM - FDY_LUC -1)){  /* 1500-2004 */
-                fscanf(fp_s[26],"%lf", &grid->fcrop_unh_hmnzed[h]);
-                fscanf(fp_s[27],"%lf", &grid->fpast_unh_hmnzed[h]);
-                fscanf(fp_s[28],"%lf", &grid->fprim_unh_hmnzed[h]);
-                fscanf(fp_s[29],"%lf", &grid->fsecd_unh_hmnzed[h]);
-                fscanf(fp_s[30],"%lf", &grid->ssma_unh_hmnzed[h]);
-                fscanf(fp_s[31],"%lf", &grid->ssmb_unh_hmnzed[h]);
-                fscanf(fp_s[32],"%lf", &grid->t_cp_unh_hmnzed[h]);
-                fscanf(fp_s[33],"%lf", &grid->t_cs_unh_hmnzed[h]);
-                fscanf(fp_s[34],"%lf", &grid->t_pc_unh_hmnzed[h]);
-                fscanf(fp_s[35],"%lf", &grid->t_ps_unh_hmnzed[h]);
-                fscanf(fp_s[36],"%lf", &grid->t_sc_unh_hmnzed[h]);
-                fscanf(fp_s[37],"%lf", &grid->t_sp_unh_hmnzed[h]);
-                fscanf(fp_s[38],"%lf", &grid->t_ss1_unh_hmnzed[h]);
-                fscanf(fp_s[39],"%lf", &grid->t_ss2_unh_hmnzed[h]);
-                fscanf(fp_s[40],"%lf", &grid->t_ss3_unh_hmnzed[h]);
-                fscanf(fp_s[41],"%lf", &grid->t_vc_unh_hmnzed[h]);
-                fscanf(fp_s[42],"%lf", &grid->t_vp_unh_hmnzed[h]);
-                fscanf(fp_s[43],"%lf", &grid->t_vs1_unh_hmnzed[h]);
-                fscanf(fp_s[44],"%lf", &grid->t_vs2_unh_hmnzed[h]);
+                fscanf(fp_s[26],"%lf", &grid->fcrop_luh_hmnzed[h]);
+                fscanf(fp_s[27],"%lf", &grid->fpast_luh_hmnzed[h]);
+                fscanf(fp_s[28],"%lf", &grid->fprim_luh_hmnzed[h]);
+                fscanf(fp_s[29],"%lf", &grid->fsecd_luh_hmnzed[h]);
+                fscanf(fp_s[30],"%lf", &grid->ssma_luh_hmnzed[h]);
+                fscanf(fp_s[31],"%lf", &grid->ssmb_luh_hmnzed[h]);
+                fscanf(fp_s[32],"%lf", &grid->t_cp_luh_hmnzed[h]);
+                fscanf(fp_s[33],"%lf", &grid->t_cs_luh_hmnzed[h]);
+                fscanf(fp_s[34],"%lf", &grid->t_pc_luh_hmnzed[h]);
+                fscanf(fp_s[35],"%lf", &grid->t_ps_luh_hmnzed[h]);
+                fscanf(fp_s[36],"%lf", &grid->t_sc_luh_hmnzed[h]);
+                fscanf(fp_s[37],"%lf", &grid->t_sp_luh_hmnzed[h]);
+                fscanf(fp_s[38],"%lf", &grid->t_ss1_luh_hmnzed[h]);
+                fscanf(fp_s[39],"%lf", &grid->t_ss2_luh_hmnzed[h]);
+                fscanf(fp_s[40],"%lf", &grid->t_ss3_luh_hmnzed[h]);
+                fscanf(fp_s[41],"%lf", &grid->t_vc_luh_hmnzed[h]);
+                fscanf(fp_s[42],"%lf", &grid->t_vp_luh_hmnzed[h]);
+                fscanf(fp_s[43],"%lf", &grid->t_vs1_luh_hmnzed[h]);
+                fscanf(fp_s[44],"%lf", &grid->t_vs2_luh_hmnzed[h]);
             }else{  /* 2005-2100 */
-                fscanf(fp_s[59],"%lf", &grid->fcrop_unh_hmnzed[h]);
-                fscanf(fp_s[60],"%lf", &grid->fpast_unh_hmnzed[h]);
-                fscanf(fp_s[61],"%lf", &grid->fprim_unh_hmnzed[h]);
-                fscanf(fp_s[62],"%lf", &grid->fsecd_unh_hmnzed[h]);
-                fscanf(fp_s[63],"%lf", &grid->ssma_unh_hmnzed[h]);
-                fscanf(fp_s[64],"%lf", &grid->ssmb_unh_hmnzed[h]);
-                fscanf(fp_s[65],"%lf", &grid->t_cp_unh_hmnzed[h]);
-                fscanf(fp_s[66],"%lf", &grid->t_cs_unh_hmnzed[h]);
-                fscanf(fp_s[67],"%lf", &grid->t_pc_unh_hmnzed[h]);
-                fscanf(fp_s[68],"%lf", &grid->t_ps_unh_hmnzed[h]);
-                fscanf(fp_s[69],"%lf", &grid->t_sc_unh_hmnzed[h]);
-                fscanf(fp_s[70],"%lf", &grid->t_sp_unh_hmnzed[h]);
-                fscanf(fp_s[71],"%lf", &grid->t_ss1_unh_hmnzed[h]);
-                fscanf(fp_s[72],"%lf", &grid->t_ss2_unh_hmnzed[h]);
-                fscanf(fp_s[73],"%lf", &grid->t_ss3_unh_hmnzed[h]);
-                fscanf(fp_s[74],"%lf", &grid->t_vc_unh_hmnzed[h]);
-                fscanf(fp_s[75],"%lf", &grid->t_vp_unh_hmnzed[h]);
-                fscanf(fp_s[76],"%lf", &grid->t_vs1_unh_hmnzed[h]);
-                fscanf(fp_s[77],"%lf", &grid->t_vs2_unh_hmnzed[h]);
+                fscanf(fp_s[59],"%lf", &grid->fcrop_luh_hmnzed[h]);
+                fscanf(fp_s[60],"%lf", &grid->fpast_luh_hmnzed[h]);
+                fscanf(fp_s[61],"%lf", &grid->fprim_luh_hmnzed[h]);
+                fscanf(fp_s[62],"%lf", &grid->fsecd_luh_hmnzed[h]);
+                fscanf(fp_s[63],"%lf", &grid->ssma_luh_hmnzed[h]);
+                fscanf(fp_s[64],"%lf", &grid->ssmb_luh_hmnzed[h]);
+                fscanf(fp_s[65],"%lf", &grid->t_cp_luh_hmnzed[h]);
+                fscanf(fp_s[66],"%lf", &grid->t_cs_luh_hmnzed[h]);
+                fscanf(fp_s[67],"%lf", &grid->t_pc_luh_hmnzed[h]);
+                fscanf(fp_s[68],"%lf", &grid->t_ps_luh_hmnzed[h]);
+                fscanf(fp_s[69],"%lf", &grid->t_sc_luh_hmnzed[h]);
+                fscanf(fp_s[70],"%lf", &grid->t_sp_luh_hmnzed[h]);
+                fscanf(fp_s[71],"%lf", &grid->t_ss1_luh_hmnzed[h]);
+                fscanf(fp_s[72],"%lf", &grid->t_ss2_luh_hmnzed[h]);
+                fscanf(fp_s[73],"%lf", &grid->t_ss3_luh_hmnzed[h]);
+                fscanf(fp_s[74],"%lf", &grid->t_vc_luh_hmnzed[h]);
+                fscanf(fp_s[75],"%lf", &grid->t_vp_luh_hmnzed[h]);
+                fscanf(fp_s[76],"%lf", &grid->t_vs1_luh_hmnzed[h]);
+                fscanf(fp_s[77],"%lf", &grid->t_vs2_luh_hmnzed[h]);
             }
 		}
         
@@ -900,93 +928,93 @@ void f_init_grid(
         for(h=FDY_LUC;h<(FDY_LUC+DL_LUC);h++){
 			/* fractional cover */
             if(h < (BGY_GCM-1)){  /* 1500-2005 */
-                fscanf(fp_s[26],"%lf", &grid->fcrop_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[27],"%lf", &grid->fpast_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[28],"%lf", &grid->fprim_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[29],"%lf", &grid->fsecd_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[30],"%lf", &grid->ssma_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[31],"%lf", &grid->ssmb_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[32],"%lf", &grid->t_cp_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[33],"%lf", &grid->t_cs_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[34],"%lf", &grid->t_pc_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[35],"%lf", &grid->t_ps_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[36],"%lf", &grid->t_sc_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[37],"%lf", &grid->t_sp_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[38],"%lf", &grid->t_ss1_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[39],"%lf", &grid->t_ss2_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[40],"%lf", &grid->t_ss3_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[41],"%lf", &grid->t_vc_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[42],"%lf", &grid->t_vp_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[43],"%lf", &grid->t_vs1_unh_hmnzed[h-FDY_LUC]);
-                fscanf(fp_s[44],"%lf", &grid->t_vs2_unh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[26],"%lf", &grid->fcrop_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[27],"%lf", &grid->fpast_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[28],"%lf", &grid->fprim_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[29],"%lf", &grid->fsecd_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[30],"%lf", &grid->ssma_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[31],"%lf", &grid->ssmb_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[32],"%lf", &grid->t_cp_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[33],"%lf", &grid->t_cs_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[34],"%lf", &grid->t_pc_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[35],"%lf", &grid->t_ps_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[36],"%lf", &grid->t_sc_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[37],"%lf", &grid->t_sp_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[38],"%lf", &grid->t_ss1_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[39],"%lf", &grid->t_ss2_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[40],"%lf", &grid->t_ss3_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[41],"%lf", &grid->t_vc_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[42],"%lf", &grid->t_vp_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[43],"%lf", &grid->t_vs1_luh_hmnzed[h-FDY_LUC]);
+                fscanf(fp_s[44],"%lf", &grid->t_vs2_luh_hmnzed[h-FDY_LUC]);
             }
             
             if(h >= (BGY_GCM-1)){  /* 2005-2100 */
-                fscanf(fp_s[59],"%lf", &grid->fcrop_unh_hmnzed[h-FDY_LUC]);
-                if(grid->fcrop_unh_hmnzed[h-FDY_LUC] < 0.0){
-                    grid->fcrop_unh_hmnzed[h-FDY_LUC] = 0.0;
+                fscanf(fp_s[59],"%lf", &grid->fcrop_luh_hmnzed[h-FDY_LUC]);
+                if(grid->fcrop_luh_hmnzed[h-FDY_LUC] < 0.0){
+                    grid->fcrop_luh_hmnzed[h-FDY_LUC] = 0.0;
                 }
-                fscanf(fp_s[60],"%lf", &grid->fpast_unh_hmnzed[h-FDY_LUC]);
-                if(grid->fpast_unh_hmnzed[h-FDY_LUC] < 0.0){
-                    grid->fpast_unh_hmnzed[h-FDY_LUC] = 0.0;
+                fscanf(fp_s[60],"%lf", &grid->fpast_luh_hmnzed[h-FDY_LUC]);
+                if(grid->fpast_luh_hmnzed[h-FDY_LUC] < 0.0){
+                    grid->fpast_luh_hmnzed[h-FDY_LUC] = 0.0;
                 }
                 fscanf(fp_s[61],"%lf", &ddummy); /* other */
-                fscanf(fp_s[62],"%lf", &grid->fsecd_unh_hmnzed[h-FDY_LUC]);
-                if(grid->fsecd_unh_hmnzed[h-FDY_LUC] < 0.0){
-                    grid->fsecd_unh_hmnzed[h-FDY_LUC] = 0.0;
+                fscanf(fp_s[62],"%lf", &grid->fsecd_luh_hmnzed[h-FDY_LUC]);
+                if(grid->fsecd_luh_hmnzed[h-FDY_LUC] < 0.0){
+                    grid->fsecd_luh_hmnzed[h-FDY_LUC] = 0.0;
                 }
                 fscanf(fp_s[63],"%lf", &ddummy); /* grass */
-                fscanf(fp_s[64],"%lf", &grid->fprim_unh_hmnzed[h-FDY_LUC]);
-                if(grid->fprim_unh_hmnzed[h-FDY_LUC] < 0.0){
-                    grid->fprim_unh_hmnzed[h-FDY_LUC] = 0.0;
+                fscanf(fp_s[64],"%lf", &grid->fprim_luh_hmnzed[h-FDY_LUC]);
+                if(grid->fprim_luh_hmnzed[h-FDY_LUC] < 0.0){
+                    grid->fprim_luh_hmnzed[h-FDY_LUC] = 0.0;
                 }
-                fscanf(fp_s[65],"%lf", &grid->t_cp_unh_hmnzed[h-FDY_LUC]);
-                if(grid->t_cp_unh_hmnzed[h-FDY_LUC] < 0.0){
-                    grid->t_cp_unh_hmnzed[h-FDY_LUC] = 0.0;
+                fscanf(fp_s[65],"%lf", &grid->t_cp_luh_hmnzed[h-FDY_LUC]);
+                if(grid->t_cp_luh_hmnzed[h-FDY_LUC] < 0.0){
+                    grid->t_cp_luh_hmnzed[h-FDY_LUC] = 0.0;
                 }
-                fscanf(fp_s[66],"%lf", &grid->t_cs_unh_hmnzed[h-FDY_LUC]);
-                if(grid->t_cs_unh_hmnzed[h-FDY_LUC] < 0.0){
-                    grid->t_cs_unh_hmnzed[h-FDY_LUC] = 0.0;
+                fscanf(fp_s[66],"%lf", &grid->t_cs_luh_hmnzed[h-FDY_LUC]);
+                if(grid->t_cs_luh_hmnzed[h-FDY_LUC] < 0.0){
+                    grid->t_cs_luh_hmnzed[h-FDY_LUC] = 0.0;
                 }
                 fscanf(fp_s[67],"%lf", &ddummy);
-                fscanf(fp_s[68],"%lf", &grid->t_pc_unh_hmnzed[h-FDY_LUC]);
-                if(grid->t_pc_unh_hmnzed[h-FDY_LUC] < 0.0){
-                    grid->t_pc_unh_hmnzed[h-FDY_LUC] = 0.0;
+                fscanf(fp_s[68],"%lf", &grid->t_pc_luh_hmnzed[h-FDY_LUC]);
+                if(grid->t_pc_luh_hmnzed[h-FDY_LUC] < 0.0){
+                    grid->t_pc_luh_hmnzed[h-FDY_LUC] = 0.0;
                 }
-                fscanf(fp_s[69],"%lf", &grid->t_ps_unh_hmnzed[h-FDY_LUC]);
-                if(grid->t_ps_unh_hmnzed[h-FDY_LUC] < 0.0){
-                    grid->t_ps_unh_hmnzed[h-FDY_LUC] = 0.0;
+                fscanf(fp_s[69],"%lf", &grid->t_ps_luh_hmnzed[h-FDY_LUC]);
+                if(grid->t_ps_luh_hmnzed[h-FDY_LUC] < 0.0){
+                    grid->t_ps_luh_hmnzed[h-FDY_LUC] = 0.0;
                 }
                 fscanf(fp_s[70],"%lf", &ddummy);
-                fscanf(fp_s[71],"%lf", &grid->t_sc_unh_hmnzed[h-FDY_LUC]);
-                if(grid->t_sc_unh_hmnzed[h-FDY_LUC] < 0.0){
-                    grid->t_sc_unh_hmnzed[h-FDY_LUC] = 0.0;
+                fscanf(fp_s[71],"%lf", &grid->t_sc_luh_hmnzed[h-FDY_LUC]);
+                if(grid->t_sc_luh_hmnzed[h-FDY_LUC] < 0.0){
+                    grid->t_sc_luh_hmnzed[h-FDY_LUC] = 0.0;
                 }
-                fscanf(fp_s[72],"%lf", &grid->t_sp_unh_hmnzed[h-FDY_LUC]);
-                if(grid->t_sp_unh_hmnzed[h-FDY_LUC] < 0.0){
-                    grid->t_sp_unh_hmnzed[h-FDY_LUC] = 0.0;
+                fscanf(fp_s[72],"%lf", &grid->t_sp_luh_hmnzed[h-FDY_LUC]);
+                if(grid->t_sp_luh_hmnzed[h-FDY_LUC] < 0.0){
+                    grid->t_sp_luh_hmnzed[h-FDY_LUC] = 0.0;
                 }
                 fscanf(fp_s[73],"%lf", &ddummy);
-                fscanf(fp_s[74],"%lf", &grid->t_vc_unh_hmnzed[h-FDY_LUC]);
-                if(grid->t_vc_unh_hmnzed[h-FDY_LUC] < 0.0){
-                    grid->t_vc_unh_hmnzed[h-FDY_LUC] = 0.0;
+                fscanf(fp_s[74],"%lf", &grid->t_vc_luh_hmnzed[h-FDY_LUC]);
+                if(grid->t_vc_luh_hmnzed[h-FDY_LUC] < 0.0){
+                    grid->t_vc_luh_hmnzed[h-FDY_LUC] = 0.0;
                 }
-                fscanf(fp_s[75],"%lf", &grid->t_vp_unh_hmnzed[h-FDY_LUC]);
-                if(grid->t_vp_unh_hmnzed[h-FDY_LUC] < 0.0){
-                    grid->t_vp_unh_hmnzed[h-FDY_LUC] = 0.0;
+                fscanf(fp_s[75],"%lf", &grid->t_vp_luh_hmnzed[h-FDY_LUC]);
+                if(grid->t_vp_luh_hmnzed[h-FDY_LUC] < 0.0){
+                    grid->t_vp_luh_hmnzed[h-FDY_LUC] = 0.0;
                 }
-                fscanf(fp_s[76],"%lf", &grid->t_vs1_unh_hmnzed[h-FDY_LUC]);
-                if(grid->t_vs1_unh_hmnzed[h-FDY_LUC] < 0.0){
-                    grid->t_vs1_unh_hmnzed[h-FDY_LUC] = 0.0;
+                fscanf(fp_s[76],"%lf", &grid->t_vs1_luh_hmnzed[h-FDY_LUC]);
+                if(grid->t_vs1_luh_hmnzed[h-FDY_LUC] < 0.0){
+                    grid->t_vs1_luh_hmnzed[h-FDY_LUC] = 0.0;
                 }
                 fscanf(fp_s[77],"%lf", &ddummy);
                 
-                grid->t_vs2_unh_hmnzed[h-FDY_LUC] = 0.0;
-                grid->ssma_unh_hmnzed[h-FDY_LUC] = 0.0;
-                grid->ssmb_unh_hmnzed[h-FDY_LUC] = 0.0;
-                grid->t_ss1_unh_hmnzed[h-FDY_LUC] = 0.0;
-                grid->t_ss2_unh_hmnzed[h-FDY_LUC] = 0.0;
-                grid->t_ss3_unh_hmnzed[h-FDY_LUC] = 0.0;
+                grid->t_vs2_luh_hmnzed[h-FDY_LUC] = 0.0;
+                grid->ssma_luh_hmnzed[h-FDY_LUC] = 0.0;
+                grid->ssmb_luh_hmnzed[h-FDY_LUC] = 0.0;
+                grid->t_ss1_luh_hmnzed[h-FDY_LUC] = 0.0;
+                grid->t_ss2_luh_hmnzed[h-FDY_LUC] = 0.0;
+                grid->t_ss3_luh_hmnzed[h-FDY_LUC] = 0.0;
             }
         }
         
@@ -1010,29 +1038,125 @@ void f_init_grid(
         fscanf(fp_s[42],"%lf", &ddummy);
         fscanf(fp_s[43],"%lf", &ddummy);
         fscanf(fp_s[44],"%lf", &ddummy);
-    }else{
-		for(h=0;h<DL_LUC;h++){
-			grid->fcrop_unh_hmnzed[h] = 0.0;
-			grid->fpast_unh_hmnzed[h] = 0.0;
-			grid->fprim_unh_hmnzed[h] = 0.0;
-			grid->fsecd_unh_hmnzed[h] = 0.0;
-			grid->ssma_unh_hmnzed[h] = 0.0;
-			grid->ssmb_unh_hmnzed[h] = 0.0;
-            grid->t_cp_unh_hmnzed[h] = 0.0;
-            grid->t_cs_unh_hmnzed[h] = 0.0;
-            grid->t_pc_unh_hmnzed[h] = 0.0;
-            grid->t_ps_unh_hmnzed[h] = 0.0;
-            grid->t_sc_unh_hmnzed[h] = 0.0;
-            grid->t_sp_unh_hmnzed[h] = 0.0;
-            grid->t_ss1_unh_hmnzed[h] = 0.0;
-            grid->t_ss2_unh_hmnzed[h] = 0.0;
-            grid->t_ss3_unh_hmnzed[h] = 0.0;
-            grid->t_vc_unh_hmnzed[h] = 0.0;
-            grid->t_vp_unh_hmnzed[h] = 0.0;
-            grid->t_vs1_unh_hmnzed[h] = 0.0;
-            grid->t_vs2_unh_hmnzed[h] = 0.0;
-		}
-	}
+    }else if(LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28){
+        
+        fscanf(fp_s[26],"%ld %lf", &ldummy, &dluh2);
+        if(dluh2 > 0.0){
+            /* LUH2 for CMIP6: 2018/12/24 by A.Ito */
+            for(h=FDY_LUC;h<(FDY_LUC+DL_LUC);h++){
+                /* fractional cover */
+                if(h < (BGY_GCM)){  /* 1866-2015 */
+                    fscanf(fp_s[26],"%lf", &ddummy); /* water */
+                    fscanf(fp_s[26],"%lf", &grid->fprim_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[26],"%lf", &grid->fsecd_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[26],"%lf", &ddummy); /* urban */
+                    fscanf(fp_s[26],"%lf", &grid->fcrop_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[26],"%lf", &grid->fpast_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[26],"%lf", &grid->ssma_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[26],"%lf", &grid->ssmb_luh_hmnzed[h-FDY_LUC]);
+                }
+            }
+        }
+
+        fscanf(fp_s[27],"%ld %lf", &ldummy, &dluh2);
+        if(dluh2 > 0.0){
+            /* LUH2 for CMIP6: 2018/12/24 by A.Ito */
+            for(h=FDY_LUC;h<(FDY_LUC+DL_LUC);h++){
+                /* fractional cover */
+                if(h < (BGY_GCM)){  /* 1866-2015 */
+                    fscanf(fp_s[27],"%lf", &grid->t_vs_luh_hmnzed[h-FDY_LUC]); /* primary to secondary */
+                    fscanf(fp_s[27],"%lf", &ddummy); /* primary to urban */
+                    fscanf(fp_s[27],"%lf", &grid->t_vc_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[27],"%lf", &grid->t_vp_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[27],"%lf", &ddummy); /* secondary to urban */
+                    fscanf(fp_s[27],"%lf", &grid->t_sc_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[27],"%lf", &grid->t_sp_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[27],"%lf", &ddummy); /* urban to secondary */
+                    fscanf(fp_s[27],"%lf", &ddummy); /* urban to crop */
+                    fscanf(fp_s[27],"%lf", &ddummy); /* urban to pasture */
+                    fscanf(fp_s[27],"%lf", &grid->t_cs_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[27],"%lf", &ddummy); /* crop to urban */
+                    fscanf(fp_s[27],"%lf", &grid->t_cp_luh_hmnzed[h-FDY_LUC]); /* 12 */
+                    fscanf(fp_s[27],"%lf", &grid->t_ps_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[27],"%lf", &ddummy); /* pasture to urban */
+                    fscanf(fp_s[27],"%lf", &grid->t_pc_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[27],"%lf", &ddummy); /* range to pasture */
+                    
+                    fscanf(fp_s[27],"%lf", &grid->t_vs1_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[27],"%lf", &grid->t_ss1_luh_hmnzed[h-FDY_LUC]);
+                    fscanf(fp_s[27],"%lf", &grid->hvst_p1[h-FDY_LUC]);
+                    fscanf(fp_s[27],"%lf", &grid->hvst_s1[h-FDY_LUC]);
+                }
+            }
+        }
+    }if(LANDUSE == 29){
+        
+        for(h=0;h<DL_LUC;h++){
+            /* fractional cover */
+            if(h<(BGY_GCM - FDY_LUC -1)){  /* 1500-2004 */
+                fscanf(fp_s[26],"%lf", &grid->fcrop_luh_hmnzed[h]);
+                fscanf(fp_s[27],"%lf", &grid->fpast_luh_hmnzed[h]);
+                fscanf(fp_s[28],"%lf", &grid->fprim_luh_hmnzed[h]);
+                fscanf(fp_s[29],"%lf", &grid->fsecd_luh_hmnzed[h]);
+                fscanf(fp_s[30],"%lf", &grid->ssma_luh_hmnzed[h]);
+                fscanf(fp_s[31],"%lf", &grid->ssmb_luh_hmnzed[h]);
+                fscanf(fp_s[32],"%lf", &grid->t_cp_luh_hmnzed[h]);
+                fscanf(fp_s[33],"%lf", &grid->t_cs_luh_hmnzed[h]);
+                fscanf(fp_s[34],"%lf", &grid->t_pc_luh_hmnzed[h]);
+                fscanf(fp_s[35],"%lf", &grid->t_ps_luh_hmnzed[h]);
+                fscanf(fp_s[36],"%lf", &grid->t_sc_luh_hmnzed[h]);
+                fscanf(fp_s[37],"%lf", &grid->t_sp_luh_hmnzed[h]);
+                fscanf(fp_s[38],"%lf", &grid->t_ss1_luh_hmnzed[h]);
+                fscanf(fp_s[39],"%lf", &grid->t_ss2_luh_hmnzed[h]);
+                fscanf(fp_s[40],"%lf", &grid->t_ss3_luh_hmnzed[h]);
+                fscanf(fp_s[41],"%lf", &grid->t_vc_luh_hmnzed[h]);
+                fscanf(fp_s[42],"%lf", &grid->t_vp_luh_hmnzed[h]);
+                fscanf(fp_s[43],"%lf", &grid->t_vs1_luh_hmnzed[h]);
+                fscanf(fp_s[44],"%lf", &grid->t_vs2_luh_hmnzed[h]);
+            }else{  /* 2005-2100 */
+                fscanf(fp_s[59],"%lf", &grid->fcrop_luh_hmnzed[h]);
+                fscanf(fp_s[60],"%lf", &grid->fpast_luh_hmnzed[h]);
+                fscanf(fp_s[61],"%lf", &ddummy);
+                fscanf(fp_s[62],"%lf", &grid->fsecd_luh_hmnzed[h]);
+                fscanf(fp_s[63],"%lf", &ddummy);
+                fscanf(fp_s[64],"%lf", &ddummy);
+                fscanf(fp_s[65],"%lf", &ddummy);
+                fscanf(fp_s[66],"%lf", &ddummy);
+                fscanf(fp_s[67],"%lf", &ddummy);
+                fscanf(fp_s[68],"%lf", &ddummy);
+                fscanf(fp_s[69],"%lf", &ddummy);
+                fscanf(fp_s[70],"%lf", &ddummy);
+                fscanf(fp_s[71],"%lf", &grid->t_sc_luh_hmnzed[h]);
+                fscanf(fp_s[72],"%lf", &grid->t_sp_luh_hmnzed[h]);
+                fscanf(fp_s[73],"%lf", &ddummy);
+                fscanf(fp_s[74],"%lf", &grid->t_vc_luh_hmnzed[h]);
+                fscanf(fp_s[75],"%lf", &grid->t_vp_luh_hmnzed[h]);
+                fscanf(fp_s[76],"%lf", &grid->t_vs1_luh_hmnzed[h]);
+                fscanf(fp_s[77],"%lf", &ddummy);
+            }
+        }
+        
+        /* skip Hist - 2005 data */
+        fscanf(fp_s[26],"%lf", &ddummy);
+        fscanf(fp_s[27],"%lf", &ddummy);
+        fscanf(fp_s[28],"%lf", &ddummy);
+        fscanf(fp_s[29],"%lf", &ddummy);
+        fscanf(fp_s[30],"%lf", &ddummy);
+        fscanf(fp_s[31],"%lf", &ddummy);
+        fscanf(fp_s[32],"%lf", &ddummy);
+        fscanf(fp_s[33],"%lf", &ddummy);
+        fscanf(fp_s[34],"%lf", &ddummy);
+        fscanf(fp_s[35],"%lf", &ddummy);
+        fscanf(fp_s[36],"%lf", &ddummy);
+        fscanf(fp_s[37],"%lf", &ddummy);
+        fscanf(fp_s[38],"%lf", &ddummy);
+        fscanf(fp_s[39],"%lf", &ddummy);
+        fscanf(fp_s[40],"%lf", &ddummy);
+        fscanf(fp_s[41],"%lf", &ddummy);
+        fscanf(fp_s[42],"%lf", &ddummy);
+        fscanf(fp_s[43],"%lf", &ddummy);
+        fscanf(fp_s[44],"%lf", &ddummy);
+    }
 	
 	/* wood harvest based on RCP-harmonized data: LUHa.v1 */
 	/* added by A.Ito (2010/10/15) */
@@ -1103,6 +1227,8 @@ void f_init_grid(
         fscanf(fp_s[56],"%lf", &ddummy);
         fscanf(fp_s[57],"%lf", &ddummy);
 
+    }else  if(LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28){
+        ;
     }else{
         for(h=0;h<DL_LUC;h++){
             grid->hvst_p1[h] = 0.0;
@@ -1135,8 +1261,8 @@ void f_init_grid(
 	}
 	
 	/* base cropland and pasture area at 2000 */
-	grid->f_crop_base = grid->fcrop_unh_hmnzed[2000 - 1700];
-	grid->f_pasture_base = grid->fpast_unh_hmnzed[2000 - 1700];
+	grid->f_crop_base = grid->fcrop_luh_hmnzed[2000 - FDY_LUC];
+	grid->f_pasture_base = grid->fpast_luh_hmnzed[2000 - FDY_LUC];
 	
 	/* crop type ******************************************/	
 	fscanf(fp_s[46],"%lf", &grid->fcrop);
