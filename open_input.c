@@ -1004,7 +1004,7 @@ void open_input(
                 break;
             case 5018:
                 if( (fp_c[0]=fopen("./data/tas_mon_GFDL-ESM2M_r1i1p1_EWEMBI2_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
-                    printf("No tas_mon_GFDL-ESM2M_r1i1p1_EWEMBI2_landonly_pi_1661-2299.flt\n");
+                    printf("No tas_mon_GFDL-ESM2M_r1i1p1_EWEMBI2_landonly_pihir60_1661-2299.flt\n");
                     exit(1);
                 }
                 if( (fp_c[1]=fopen("./data/pr_mon_GFDL-ESM2M_r1i1p1_EWEMBI2_landonly_pihir60_1661-2299.flt","rb"))==NULL ){

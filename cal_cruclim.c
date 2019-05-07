@@ -91,7 +91,8 @@ void cal_historical(
         /* IIa: 2017/05/18 by A.Ito *****/
         if(ISIMIP2_FIXCD == 1 || (
             SCENARIO_ID==5011 || SCENARIO_ID==5021 || SCENARIO_ID==5031 || SCENARIO_ID==5041 ||
-            SCENARIO_ID==5062 || SCENARIO_ID==5072 || SCENARIO_ID==5082 || SCENARIO_ID==5092)){
+            SCENARIO_ID==5062 || SCENARIO_ID==5072 || SCENARIO_ID==5082 || SCENARIO_ID==5092 ||
+            SCENARIO_ID==5064 || SCENARIO_ID==5074 || SCENARIO_ID==5084 || SCENARIO_ID==5094)){
             /* fix CO2 after 2006 */
             if(grid->simy >= 2006){
                 grid->co2y = 2005;
