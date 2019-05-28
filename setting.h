@@ -40,7 +40,7 @@
 #define INT_C 0.01
 
 #define CALC_STEP 10
-#define CALC_OFFSET 1
+#define CALC_OFFSET 6
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -122,11 +122,11 @@
 
 /***********************************************************/
 /* output text files */
-#define OUTPUT_CARBON1 0
+#define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
-#define OUTPUT_HYDMET 0
+#define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 0
 #define OUTPUT_BB 0
@@ -331,7 +331,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
-    #define DL_HCLIM 117  /* CRU TS3.26: AD 1901 - 2017 */
+    #define DL_HCLIM 118  /* CRU TS4.03: AD 1901 - 2018 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -341,10 +341,11 @@
     /* 114: TS3.23 */
     /* 115: TS3.24 */
     /* 116: TS3.25 */
+    /* 117: TS3.26 */
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -439,7 +440,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 26
+#define LANDUSE 24
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */

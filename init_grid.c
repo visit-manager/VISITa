@@ -662,7 +662,7 @@ void f_init_grid(
 		grid->pc_clay = olveg_pclay[grid->veg_olson];
 	}
 	fscanf(fp_s[19],"%lf", &(grid->pc_sand)); 
-	if(grid->pc_sand<= 0.1){
+	if(grid->pc_sand <= 0.1){
 		grid->pc_sand = olveg_psand[grid->veg_olson];
 	}
 	
@@ -686,8 +686,8 @@ void f_init_grid(
 	/* soil physical properties by Saxton (1986) ************/
 	/* Saxton, K. E., et al. (1986), Estimating generalized soil-water characteristics 
 	from texture, Soil Science Society of America Journal, 50, 1031-1036. */
-	grid->a_sw = exp(-4.396 -0.0715*grid->pc_clay -4.488*0.0001*grid->pc_clay*grid->pc_clay 
-					- 4.285*0.00001*grid->pc_sand*grid->pc_sand*grid->pc_clay)*100.0;
+	grid->a_sw = exp(-4.396 -0.0715 * grid->pc_clay -4.488*0.0001 * grid->pc_clay*grid->pc_clay
+					- 4.285*0.00001 * grid->pc_sand*grid->pc_sand*grid->pc_clay)*100.0;
 	grid->b_sw = -3.14 -0.00222 * grid->pc_clay * grid->pc_clay
 					-3.484 * 0.00001 * grid->pc_sand * grid->pc_sand * grid->pc_clay;
 	
@@ -783,7 +783,7 @@ void f_init_grid(
         }
         
     }else{
-        /* N deposition: Gallway & Dentener */
+        /* N deposition: Galloway & Dentener */
         /* URL  daac.ornl.gov/CLIMATE/guides/global_N_deposition_maps.html */
         fscanf(fp_s[25],"%lf", &lat);
         fscanf(fp_s[25],"%lf", &lon); 
@@ -828,8 +828,8 @@ void f_init_grid(
     }
 
 	if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 ||
-         LANDUSE==13 || LANDUSE==17|| LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 || LANDUSE == 21
-        || LANDUSE == 22 || LANDUSE == 23){
+         LANDUSE==13 || LANDUSE==17|| LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 || LANDUSE == 21 || 
+        LANDUSE == 22 || LANDUSE == 23){
         
 		for(h=0;h<DL_LUC;h++){
 			/* fractional cover */

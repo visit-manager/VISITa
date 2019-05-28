@@ -204,6 +204,24 @@ void open_input(
                 printf("No cru326_vap_1901-2017.txt\n");
                 exit(1);
             }
+        }else if(DL_HCLIM==118){
+            /* UEA-CRU data from 1901 - 2018: 2019/05/28 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/cru403_cld_1901-2018.txt","rt"))==NULL ){
+                printf("No cru403_cld_1901-2018.txt\n");
+                exit(1);
+            }
+            if( (fp_c[1]=fopen("./data/cru403_pre_1901-2018.txt","rt"))==NULL ){
+                printf("No cru403_pre_1901-2018.txt\n");
+                exit(1);
+            }
+            if( (fp_c[2]=fopen("./data/cru403_tmp_1901-2018.txt","rt"))==NULL ){
+                printf("No cru403_tmp_1901-2018.txt\n");
+                exit(1);
+            }
+            if( (fp_c[3]=fopen("./data/cru403_vap_1901-2018.txt","rt"))==NULL ){
+                printf("No cru403_vap_1901-2018.txt\n");
+                exit(1);
+            }
         }else{
             printf("No CRU data\n");
             exit(1);
@@ -1004,7 +1022,7 @@ void open_input(
                 break;
             case 5018:
                 if( (fp_c[0]=fopen("./data/tas_mon_GFDL-ESM2M_r1i1p1_EWEMBI2_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
-                    printf("No tas_mon_GFDL-ESM2M_r1i1p1_EWEMBI2_landonly_pi_1661-2299.flt\n");
+                    printf("No tas_mon_GFDL-ESM2M_r1i1p1_EWEMBI2_landonly_pihir60_1661-2299.flt\n");
                     exit(1);
                 }
                 if( (fp_c[1]=fopen("./data/pr_mon_GFDL-ESM2M_r1i1p1_EWEMBI2_landonly_pihir60_1661-2299.flt","rb"))==NULL ){
