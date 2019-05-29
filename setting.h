@@ -440,7 +440,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 24
+#define LANDUSE 26
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
