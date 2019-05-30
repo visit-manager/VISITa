@@ -297,7 +297,7 @@ void f_dyn_loct(
 	if(grid->flag_histdata == 1){
     
         /* daily-mean and hourly: added: 2013/01/10 by A.Ito */
-        loct->grad_d[grid->m] = 0.0;
+        loct->glrad_dav[grid->m] = 0.0;
         for(h=0;h<DSTEP;h++){
             grid->h = h;
         
@@ -306,7 +306,7 @@ void f_dyn_loct(
             /* surface, hourly */
             grid->gl_rad[grid->m] = f_gl_rad(grid);
             /* daily mean */
-            loct->grad_d[grid->m] += f_gl_rad(grid)/(double)DSTEP;
+            loct->glrad_dav[grid->m] += f_gl_rad(grid)/(double)DSTEP;
             
             /* hourly PAR, micro mol photon m-2 s-1 */
             f_par_h(grid, loct);

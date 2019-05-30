@@ -78,6 +78,9 @@ double h_parb[PD_SIM], h_pard[PD_SIM];
 double h_arm[PD_SIM], h_bco2[PD_SIM]; /* added by A.Ito: 2018/10/22 */
 double h_lL[PD_SIM];
 
+/* seasonal-cycle amplitude: 2019/03/02 by A.Ito */
+double hm_sca_gpp_nh[PD_SIM][12], hm_sca_re_nh[PD_SIM][12], hm_sca_nep_nh[PD_SIM][12];
+
 double h_burnt_area[PD_SIM];
 double h_burnt_area_wood[PD_SIM];
 double h_bioburn_co2[PD_SIM], h_bioburn_ch4[PD_SIM], h_bioburn_co[PD_SIM];
@@ -112,6 +115,10 @@ double h_voc_formacd_g97[PD_SIM], h_voc_acetacd_g97[PD_SIM], h_voc_co_g97[PD_SIM
 double h_voc_afarnesene[PD_SIM], h_voc_bcaryophyllene[PD_SIM], h_voc_othersesqui[PD_SIM];
 
 double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM], h_deforest[PD_SIM];
+
+/* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01 by A.Ito */
+double h_gpp_trp[PD_SIM], h_npp_trp[PD_SIM], h_nep_trp[PD_SIM], h_nbp_trp[PD_SIM];
+double h_luc_trp[PD_SIM], h_bb_trp[PD_SIM];
 
 double ci_aco2[PD_SIM], ci_aco2_d13c[PD_SIM], ci_aco2_d14c[PD_SIM];
 double ci_gpp[PD_SIM], ci_gpp_d13c[PD_SIM], ci_gpp_d14c[PD_SIM];

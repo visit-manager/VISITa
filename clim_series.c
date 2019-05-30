@@ -43,6 +43,7 @@ void set_hist_clim(
             /* 1901-2015:CRU TS3.24 */
             /* 1901-2016:CRU TS3.25 */
             /* 1901-2017:CRU TS3.26 */
+            /* 1901-2018:CRU TS4.03 */
             for(h=0;h<ASTEP;h++){
                 grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h] 
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
@@ -384,7 +385,7 @@ void set_gcm_clim(
             grid->gl_rad[h] = grid->proj_rad[grid->climy-FDY_GCM][h][grid->gcm_row][grid->gcm_col];
         }
         
-        if(grid->gl_rad[h]<0.0){
+        if(grid->gl_rad[h] < 0.0){
             grid->gl_rad[h] = 0.0;
         }
         

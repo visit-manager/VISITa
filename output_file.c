@@ -613,7 +613,8 @@ void f_output_result(
             fprintf(fp_o[6],"%.2lf ", grid->par_dp[f]);
             fprintf(fp_o[6],"%.2lf ", loct->vpd[f]);
             fprintf(fp_o[6],"%.2lf ", loct->rad_net_long[f]);
-            fprintf(fp_o[6],"%.2lf ", loct->rad_net_short[f]);
+            /* fprintf(fp_o[6],"%.2lf ", loct->rad_net_short[f]); */
+            fprintf(fp_o[6],"%.2lf ", loct->nsw_d[f]);
             fprintf(fp_o[6],"%.2lf ", loct->msw30[f]);
             fprintf(fp_o[6],"%.2lf ", loct->msww[f]);
             fprintf(fp_o[6],"%.2lf ", loct->incep[f]);
@@ -639,6 +640,9 @@ void f_output_result(
             
             /* added 2015/08/12 by A.Ito */
             fprintf(fp_o[6],"%.2lf ", loct->ippfd_g[f]);
+
+            /* added 2019/04/03 by A.Ito */
+            fprintf(fp_o[6],"%.2lf ", loct->glrad_dav[f]);
 
             /* 2014/01/22 for WSL output */
             /* 2015/02/18 for WTD check */
