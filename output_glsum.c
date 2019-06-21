@@ -1173,6 +1173,9 @@ void f_glosum_output(
             fprintf(fp_glsum,"%lf ", glat_ch4_wh[i][h]);
         }
         
+        fprintf(fp_glsum,"%lf ", glat_agb[h]);
+        fprintf(fp_glsum,"%lf ", glat_soc[h]);
+        
         fprintf(fp_glsum,"\n");
     }
 	

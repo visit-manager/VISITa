@@ -25,7 +25,7 @@ void f_init_grid(
 	FILE *fp_s[IFILEN], 
 	struct Grid *grid
 ){
-	long e, h, g, country, region, aaa, ldummy;
+	long e, g, h, country, region, aaa, ldummy;
 	double tmp_sfc, tmp_2m,tmp10_soil, tmp200_soil, dswrf_toa, dswrf_sfc, tcdc_clm;
 	double prate_sfc, spfh_2m, soilw10, soilw200, ugrd_10m, vgrd_10m;
 	double geo_prop, crit_tension;
@@ -828,8 +828,9 @@ void f_init_grid(
     }
 
 	if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 ||
-         LANDUSE==13 || LANDUSE==17|| LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 || LANDUSE == 21 || 
-        LANDUSE == 22 || LANDUSE == 23){
+        LANDUSE==13 || LANDUSE==17|| LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 ||
+        LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 || LANDUSE == 38 || LANDUSE == 39 ||
+        LANDUSE == 40 || LANDUSE == 41){
         
 		for(h=0;h<DL_LUC;h++){
 			/* fractional cover */
@@ -876,9 +877,10 @@ void f_init_grid(
             }
 		}
         
-        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13 ||
-            LANDUSE==17 || LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 ||
-            LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
+        if(LANDUSE == 9 || LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13 ||
+            LANDUSE == 17 || LANDUSE == 18 || LANDUSE == 19 || LANDUSE == 20 ||
+            LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 ||
+            LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
             /* skip Hist - 2005 data */
             fscanf(fp_s[26],"%lf", &ddummy);
             fscanf(fp_s[27],"%lf", &ddummy);
@@ -1157,13 +1159,35 @@ void f_init_grid(
         fscanf(fp_s[43],"%lf", &ddummy);
         fscanf(fp_s[44],"%lf", &ddummy);
     }
+    
+    /* AIM Land-use: 2019/06/21 by A.Ito */
+    if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
+        
+        fscanf(fp_s[87],"%lf",&grid->aim_luc_fcrop[0]);
+        
+        for(g=0;g<10;g++){
+            fscanf(fp_s[87],"%lf",&ddummy);
+        }
+        
+        for(g=0;g<100;g++){
+            fscanf(fp_s[87],"%lf",&grid->aim_luc_fcrop[g+1]);
+            
+            if(grid->aim_luc_fcrop[g+1] < 0.0){
+                grid->aim_luc_fcrop[g+1] = 0.0;
+            }
+            if(grid->aim_luc_fcrop[g+1] > 1.0){
+                grid->aim_luc_fcrop[g+1] = 1.0;
+            }
+        }
+    }
 	
 	/* wood harvest based on RCP-harmonized data: LUHa.v1 */
 	/* added by A.Ito (2010/10/15) */
 	/* revised by A.Ito (2013/12/20, 24) */
     
     if(LANDUSE == 6 || LANDUSE == 8 || LANDUSE == 9 || LANDUSE == 10 ||
-                LANDUSE==11 || LANDUSE==12 || LANDUSE==13 || LANDUSE==17){
+                LANDUSE==11 || LANDUSE==12 || LANDUSE==13 || LANDUSE==17 ||
+                LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
         
         for(h=0;h<DL_LUC;h++){
             if(h<(BGY_GCM - FDY_LUC - 1)){
@@ -1181,7 +1205,8 @@ void f_init_grid(
             }
         }
         
-        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13 || LANDUSE==17){
+        if(LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13 || LANDUSE==17 ||
+            LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
             fscanf(fp_s[53],"%lf", &ddummy);
             fscanf(fp_s[54],"%lf", &ddummy);
             fscanf(fp_s[55],"%lf", &ddummy);

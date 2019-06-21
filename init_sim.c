@@ -354,6 +354,7 @@ void f_init_sim(
     
     for(h=0;h<N_COL;h++){
         glat_area[h] = 0.0;
+        glat_agb[h] =  glat_soc[h] = 0.0;
     }
 	for(g=0;g<ASTEP;g++){
 		for(h=0;h<N_COL;h++){

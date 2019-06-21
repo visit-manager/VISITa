@@ -121,6 +121,7 @@ extern double vo_n_cnpy[NVEG_OLSON], vo_n_strg[NVEG_OLSON], vo_n_mcrb[NVEG_OLSON
 extern double glat_area[N_ROW];
 extern double glat_gpp[ASTEP][N_ROW],glat_npp[ASTEP][N_ROW],glat_nep[ASTEP][N_ROW];
 extern double glat_ch4_cao[ASTEP][N_ROW], glat_ch4_wh[ASTEP][N_ROW];
+extern double glat_agb[N_ROW],glat_soc[N_ROW];
 
 /* regional historical */
 extern double rh_area[N_REG];

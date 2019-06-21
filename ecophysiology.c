@@ -29,7 +29,7 @@ void f_ecophysiology(
     /* for GEOMIP fapar estimation: 2015/02/25 by A.Ito */
     pchar->ppfd_db[grid->m] = pchar->appfd_db[grid->m] = 0.0;
     for(f=0;f<DSTEP;f++){
-        hangle = -180.0 + ((double)f+0.5)*15.0;
+        hangle = -180.0 + ((double)f + 0.5)*15.0;
     
         /* canopy radiation absorption */
         sinb = sin(grid->lat*dTr) * sin(grid->sl_dec[grid->m]*dTr)
@@ -69,8 +69,8 @@ void f_ecophysiology(
 		irr_b = (1.0 - sqrt(1.0 - 0.15))/(1.0 + sqrt(1.0 - 0.15));
 		rfl_b = 1.0 - exp(-2.0 * irr_b * ke_b1)/(1.0 + ke_b1);
 		
-		pchar->apar_bp[grid->m] = (1.0 - rfl_b)*grid->par_bp[grid->m] * (1.0 - exp(-ke_b2*mass->lai[grid->m]));
-		pchar->apar_dp[grid->m] = (1.0 - 0.036)*grid->par_dp[grid->m] * (1.0 - exp(-0.719*mass->lai[grid->m]));
+		pchar->apar_bp[grid->m] = (1.0 - rfl_b)*grid->par_bp[grid->m] * (1.0 - exp(-ke_b2 * mass->lai[grid->m]));
+		pchar->apar_dp[grid->m] = (1.0 - 0.036)*grid->par_dp[grid->m] * (1.0 - exp(-0.719 * mass->lai[grid->m]));
 		
 		apar = pchar->apar_bp[grid->m] + pchar->apar_dp[grid->m];
 		fapar = apar / grid->par[grid->m];
@@ -257,7 +257,7 @@ void stom_cond(
 	 Leuning, R. (1995), A critical appraisal of a combined stomatal-photosynthesis 
 	 model for C3 plants, Plant, Cell and Environment, 18, 339-355.
 	*/
-	b1d = pchar->gs_b1/((aco2 - pchar->cmpcd[grid->m])*(1.0+loct->vpd[grid->m]/pchar->gs_b2)); /* */
+	b1d = pchar->gs_b1/((aco2 - pchar->cmpcd[grid->m])*(1.0 + loct->vpd[grid->m]/pchar->gs_b2)); /* */
 	/* insensitive to CO2 */
 	/* b1d=plant->gs_b1/(( 350.0 - 40.0 )*(1.0+loct->vpd[grid->m]/plant->gs_b2)); */
 

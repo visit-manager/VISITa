@@ -473,6 +473,20 @@
 /* 28: CMIP6 historical data - low (2018/12/21 by A.Ito) */
 /* 29: MIROC-INTEG TELUMO LUC (2019/02/21 by A.Ito) */
 
+/* 30: LUH2 historical (1866-2015) + ssp1rcp19 (2016-2100) */
+/* 31: LUH2 historical (1866-2015) + ssp1rcp26 (2016-2100) */
+/* 32: LUH2 historical (1866-2015) + ssp2rcp45 (2016-2100) */
+/* 33: LUH2 historical (1866-2015) + ssp3rcp70 (2016-2100) */
+/* 34: LUH2 historical (1866-2015) + ssp4rcp34 (2016-2100) */
+/* 35: LUH2 historical (1866-2015) + ssp4rcp60 (2016-2100) */
+/* 36: LUH2 historical (1866-2015) + ssp5rcp34 (2016-2100) */
+/* 37: LUH2 historical (1866-2015) + ssp5rcp85 (2016-2100) */
+
+/* 38: AIM SSP1 BAU (2010-2100) (2019/06/21 by A.Ito) */
+/* 39: AIM SSP2 26W (2010-2100) (2019/06/21 by A.Ito) */
+/* 40: AIM SSP2 BAU (2010-2100) (2019/06/21 by A.Ito) */
+/* 41: AIM SSP3 BAU (2010-2100) (2019/06/21 by A.Ito) */
+
 /* extra co2 fixation combined with above scenarios: 2018/10/26 by A.Ito */
 #define EXTRA_CO2_FIX 0
 /* 0: off (default) */
@@ -509,7 +523,8 @@
 
 /* begin year of land-use SIMULATION */
 #if ISIMIP_RUN==1
-    #define BGY_LUC 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
+    /* #define BGY_LUC 2000 */    /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define BGY_LUC 1950    /* AIM: 2019/06/21 by A.Ito */
 #elif ISIMIP_RUN==2
     #define BGY_LUC 2000    /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
@@ -585,7 +600,7 @@
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
