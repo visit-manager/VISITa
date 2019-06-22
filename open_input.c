@@ -3838,6 +3838,37 @@ void open_input(
             printf("BAD land-use setting for ISI-MIP2b\n");
             exit(1);
         }
+    }else if(ISIMIP_RUN == 1 && (LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41)){
+        /* AIM Land-use: 2019/06/22 by A.Ito */
+        if(LANDUSE == 38){
+            if( (fp_s[87]=fopen("./data/landuse_aim_ssp1_bau_2010-2100_luha.txt","rt"))==NULL ){
+                printf("No landuse_aim_ssp1_bau_2010-2100.txt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[87] ++;
+            }
+        }else if(LANDUSE == 39){
+            if( (fp_s[87]=fopen("./data/landuse_aim_ssp2_26w_2010-2100_luha.txt","rt"))==NULL ){
+                printf("No landuse_aim_ssp2_26w_2010-2100.txt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[87] ++;
+            }
+        }else if(LANDUSE == 40){
+            if( (fp_s[87]=fopen("./data/landuse_aim_ssp2_bau_2010-2100_luha.txt","rt"))==NULL ){
+                printf("No landuse_aim_ssp2_bau_2010-2100.txt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[87] ++;
+            }
+        }else if(LANDUSE == 41){
+            if( (fp_s[87]=fopen("./data/landuse_aim_ssp3_bau_2010-2100_luha.txt","rt"))==NULL ){
+                printf("No landuse_aim_ssp3_bau_2010-2100.txt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[87] ++;
+            }
+        }
     }else if(EX_BECCS == 2){
         /* BECCS data for GCP-MgNET-IIASA workshop, 2017/02/20 */
         if( (fp_s[87]=fopen("./data/beccs_201702.txt","rt"))==NULL ){
@@ -3892,37 +3923,6 @@ void open_input(
             }else{
                 Flag_FOPEN[87] ++;
             }
-        }
-    }
-    
-    /* AIM Land-use: 2019/06/21 by A.Ito */
-    if(LANDUSE == 38){
-        if( (fp_s[87]=fopen("./data/landuse_aim_ssp1_bau_2010-2100_luha.txt","rt"))==NULL ){
-            printf("No landuse_aim_ssp1_bau_2010-2100.txt\n");
-            exit(1);
-        }else{
-            Flag_FOPEN[87] ++;
-        }
-    }else if(LANDUSE == 39){
-        if( (fp_s[87]=fopen("./data/landuse_aim_ssp2_26w_2010-2100_luha.txt","rt"))==NULL ){
-            printf("No landuse_aim_ssp2_26w_2010-2100.txt\n");
-            exit(1);
-        }else{
-            Flag_FOPEN[87] ++;
-        }
-    }else if(LANDUSE == 40){
-        if( (fp_s[87]=fopen("./data/landuse_aim_ssp2_bau_2010-2100_luha.txt","rt"))==NULL ){
-            printf("No landuse_aim_ssp2_bau_2010-2100.txt\n");
-            exit(1);
-        }else{
-            Flag_FOPEN[87] ++;
-        }
-    }else if(LANDUSE == 41){
-        if( (fp_s[87]=fopen("./data/landuse_aim_ssp3_bau_2010-2100_luha.txt","rt"))==NULL ){
-            printf("No landuse_aim_ssp3_bau_2010-2100.txt\n");
-            exit(1);
-        }else{
-            Flag_FOPEN[87] ++;
         }
     }
     

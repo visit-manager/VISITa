@@ -171,7 +171,7 @@ void f_cult_luc(
         /* AIM data, 2019/06/21 by A.Ito */
         if(grid->lucy < 1950){
             grid->f_crop_con = grid->fcrop_luh_hmnzed[1949 - FDY_LUC];
-        }else if(grid->lucy >= 1950 && grid->lucy < 1999){
+        }else if(grid->lucy >= 1950 && grid->lucy <= 1999){
             grid->f_crop_con = grid->fcrop_luh_hmnzed[grid->lucy - FDY_LUC];
         }else if(grid->lucy >= 2000 && grid->lucy <= 2100){
             grid->f_crop_con = grid->aim_luc_fcrop[grid->lucy-2000];
