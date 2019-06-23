@@ -1475,6 +1475,8 @@ void f_init_grid(
         for(e=0;e<DL_NINPUT;e++){
             grid->mip_frcrop[e] = is2bdat[e];
         }
+    }else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
+        ;
     }else if(EX_BECCS == 2){
         /* BECCS scenario: 2017/02/20 by A.Ito */
         fscanf(fp_s[87],"%lf", &grid->beccs_s2b);

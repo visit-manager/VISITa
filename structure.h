@@ -267,7 +267,7 @@ struct Grid{
 	double	t_vs1_luh_hmnzed[DL_LUC];		/*  */
 	double	t_vs2_luh_hmnzed[DL_LUC];		/*  */
  
-    double  aim_luc_fcrop[101];             /* LUC data by AIM 2019/06/21 by A.Ito */
+    double  aim_luc_fcrop[111];             /* LUC data by AIM 2019/06/21 by A.Ito */
  
 	/* wood harvest */
 	double	hvst_p1[DL_LUC];
