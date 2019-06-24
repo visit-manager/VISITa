@@ -82,7 +82,7 @@ void cal_spinup(
 		grid->f_pasture_p = 0.0;
 	}else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
         /* AIM land use, 2019/06/21 by A.Ito */
-        grid->f_crop_p = grid->fcrop_net[1950 - FDY_LUC];
+        grid->f_crop_p = grid->fcrop_luh_hmnzed[1950 - FDY_LUC];
         grid->f_pasture_p = 0.0;
     }
 	

@@ -39,8 +39,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
-#define CALC_OFFSET 6
+#define CALC_STEP 50
+#define CALC_OFFSET 1
 /* 1: every grid */
 /* 10: every 10 grid */
 
