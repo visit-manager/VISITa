@@ -284,11 +284,11 @@ void f_set_history_data(
         
         /* IAM land-use analysis: 2019/06/24 by A.Ito ******/
         if(loct->v_type == 1){
-            h_ans1[year] += fweight * flux->nbp[f] * grid->area;
-            h_ans3[year] += (1.0 - grid->f_crop_ans) * flux->nbp[f] * grid->area;
+            h_ans1[year] += fweight * flux->nep[f] * grid->area;
+            h_ans3[year] += (1.0 - grid->f_crop_ans) * flux->nep[f] * grid->area;
         }else if(loct->v_type == 2){
-            h_ans2[year] += fweight * flux->nbp[f] * grid->area;
-            h_ans4[year] += grid->f_crop_ans * flux->nbp[f] * grid->area;
+            h_ans2[year] += fweight * flux->nep[f] * grid->area;
+            h_ans4[year] += grid->f_crop_ans * flux->nep[f] * grid->area;
         }
 
 		/* d13c & d14c : added by A.Ito (2009/07/15) ***************/

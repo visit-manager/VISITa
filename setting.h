@@ -40,7 +40,7 @@
 #define INT_C 0.01
 
 #define CALC_STEP 50
-#define CALC_OFFSET 1
+#define CALC_OFFSET 2
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -420,15 +420,15 @@
 /* 0: uncoupled */
 /* 1: coupled */
 /* erosion */
-#define NECB_ERSN 1
+#define NECB_ERSN 0
 /* biomass burning */
-#define NECB_BB 1
+#define NECB_BB 0
 /* bvoc */
-#define NECB_BVOC 1
+#define NECB_BVOC 0
 /* doc */
-#define NECB_DOC 1
+#define NECB_DOC 0
 /* CH4 */
-#define NECB_CH4 1
+#define NECB_CH4 0
 /* Wood harvest: 2010/10/15 by A.Ito */
 #define NECB_WHVST 1
 /* land-use change */
