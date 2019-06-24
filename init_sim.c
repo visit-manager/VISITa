@@ -291,6 +291,8 @@ void f_init_sim(
 		h_voc_acetone_g97[f] = h_voc_actaldhd_g97[f] = h_voc_frmardhd_g97[f] = 0.0;
 		h_voc_formacd_g97[f] = h_voc_acetacd_g97[f] = h_voc_co_g97[f] = 0.0;
 		h_voc_afarnesene[f] = h_voc_bcaryophyllene[f] = h_voc_othersesqui[f] = 0.0;
+  
+        h_ans1[f] = h_ans2[f] = h_ans3[f] = h_ans4[f] = h_ans5[f] = 0.0;
 		
 		ci_aco2[f] = ci_aco2_d13c[f] = ci_aco2_d14c[f] = 0.0;
 		ci_gpp[f] = ci_gpp_d13c[f] = ci_gpp_d14c[f] = 0.0;

@@ -183,6 +183,11 @@ void f_cult_luc(
 		printf("Wrong land-use setting ID\n");
 		exit(1);
 	}
+ 
+    grid->f_crop_ans = grid->f_crop_con;
+    if(EXTRA_LU_FIX == 2){
+        grid->f_crop_con = 0.0;
+    }
     
     /************************************************************************/
     if(NMIP_RUN >= 1){
@@ -318,6 +323,9 @@ void f_cult_luc(
         }else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
             /* AIM land use, 2019/06/21 by A.Ito */
             grid->f_deforest = grid->fcrop_luh_hmnzed[1950 - FDY_LUC] - grid->fcrop_luh_hmnzed[1949 - FDY_LUC];
+            if(EXTRA_LU_FIX == 2){
+                grid->f_deforest = 0.0;
+            }
         }
 		/* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
         

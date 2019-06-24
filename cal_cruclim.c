@@ -146,7 +146,8 @@ void cal_historical(
         }
         
         if(EXTRA_LU_FIX == 1){
-            grid->lucy = 1901; /* 1901 */
+            grid->lucy = 1901; /* */ /* 1901 */
+            /* grid->lucy = 2000; */ /* 2000 */
         }
 
         /*************/

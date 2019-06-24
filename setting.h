@@ -122,11 +122,11 @@
 
 /***********************************************************/
 /* output text files */
-#define OUTPUT_CARBON1 1
+#define OUTPUT_CARBON1 0
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
-#define OUTPUT_HYDMET 1
+#define OUTPUT_HYDMET 0
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 0
 #define OUTPUT_BB 0
@@ -501,6 +501,7 @@
 #define EXTRA_LU_FIX 0
 /* 0: off (default) */
 /* 1: make grid->lucy = 1901 */
+/* 2: make grid->fcrop = zero */
 
 #if ISIMIP_RUN==4
     #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */

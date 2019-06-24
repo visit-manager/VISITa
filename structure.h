@@ -222,6 +222,8 @@ struct Grid{
 	double 	f_pasture_con;				/* contemporary pasture fraction */
 	double 	f_pasture_p;				/* previous pasture fraction */
 	double 	f_pasture_trend;			/* trend of pasture conversion, fraction/yr */
+ 
+    double  f_crop_ans;                 /* fraction of cropland for analysis: 2019/06/24 by A.Ito */
 	
 	double	f_deforest;					/* deforestation rate */
 	double	f_deforest_v;				/* in primary lands */
