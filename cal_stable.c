@@ -80,7 +80,11 @@ void cal_spinup(
             LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
 		grid->f_crop_p = grid->fcrop_luh_hmnzed[1989 - FDY_LUC];
 		grid->f_pasture_p = 0.0;
-	}
+	}else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
+        /* AIM land use, 2019/06/21 by A.Ito */
+        grid->f_crop_p = grid->fcrop_luh_hmnzed[1950 - FDY_LUC];
+        grid->f_pasture_p = 0.0;
+    }
 	
     /* historical fertilizer */
     grid->niny = 1901;

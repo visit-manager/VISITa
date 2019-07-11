@@ -281,6 +281,15 @@ void f_set_history_data(
             h_bb_trp[year] += fweight * (flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+
                                           flux->bb_co2_wood[f]+flux->bb_co2_root[f]) * grid->area;
         }
+        
+        /* IAM land-use analysis: 2019/06/24 by A.Ito ******/
+        if(loct->v_type == 1){
+            h_ans1[year] += fweight * flux->nep[f] * grid->area;
+            h_ans3[year] += (1.0 - grid->f_crop_ans) * flux->nep[f] * grid->area;
+        }else if(loct->v_type == 2){
+            h_ans2[year] += fweight * flux->nep[f] * grid->area;
+            h_ans4[year] += grid->f_crop_ans * flux->nep[f] * grid->area;
+        }
 
 		/* d13c & d14c : added by A.Ito (2009/07/15) ***************/
 		ci_aco2_d13c[year] = d13c_addition(loct->d13c_aco2[f], loct->aco2[f]*grid->area * wmonth,
@@ -681,6 +690,12 @@ void f_glosum_output(
         fprintf(fp_glsum,"%lf ", h_nbp_trp[h]); /* 2019/03/01 */
         fprintf(fp_glsum,"%lf ", h_bb_trp[h]); /* 2019/03/01 */
         fprintf(fp_glsum,"%lf ", h_luc_trp[h]); /* 2019/03/01 */
+        
+        fprintf(fp_glsum,"%lf ", h_ans1[h]); /* 2019/06/24 */
+        fprintf(fp_glsum,"%lf ", h_ans2[h]); /* 2019/06/24 */
+        fprintf(fp_glsum,"%lf ", h_ans3[h]); /* 2019/06/24 */
+        fprintf(fp_glsum,"%lf ", h_ans4[h]); /* 2019/06/24 */
+        fprintf(fp_glsum,"%lf ", h_ans5[h]); /* 2019/06/24 */
 
 		fprintf(fp_glsum,"\n");
 	}
@@ -1172,6 +1187,9 @@ void f_glosum_output(
         for(i=0;i<ASTEP;i++){
             fprintf(fp_glsum,"%lf ", glat_ch4_wh[i][h]);
         }
+        
+        fprintf(fp_glsum,"%lf ", glat_agb[h]);
+        fprintf(fp_glsum,"%lf ", glat_soc[h]);
         
         fprintf(fp_glsum,"\n");
     }

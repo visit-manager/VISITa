@@ -222,6 +222,8 @@ struct Grid{
 	double 	f_pasture_con;				/* contemporary pasture fraction */
 	double 	f_pasture_p;				/* previous pasture fraction */
 	double 	f_pasture_trend;			/* trend of pasture conversion, fraction/yr */
+ 
+    double  f_crop_ans;                 /* fraction of cropland for analysis: 2019/06/24 by A.Ito */
 	
 	double	f_deforest;					/* deforestation rate */
 	double	f_deforest_v;				/* in primary lands */
@@ -266,6 +268,8 @@ struct Grid{
     double  t_vs_luh_hmnzed[DL_LUC];        /* conversion primary to secondary */
 	double	t_vs1_luh_hmnzed[DL_LUC];		/*  */
 	double	t_vs2_luh_hmnzed[DL_LUC];		/*  */
+ 
+    double  aim_luc_fcrop[111];             /* LUC data by AIM 2019/06/21 by A.Ito */
  
 	/* wood harvest */
 	double	hvst_p1[DL_LUC];

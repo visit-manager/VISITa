@@ -39,8 +39,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
-#define CALC_OFFSET 6
+#define CALC_STEP 1
+#define CALC_OFFSET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -393,16 +393,17 @@
     /* start year of GCM data (AD) */
     #define FDY_GCM 1970  /* --GEOMIP */
 #else
-    /* #define DL_GCM 94 */ /* 2006-2099 --ISI-MIP2 */
-    /* #define BGY_GCM 2006 */  /* --PLUME */
-    /* #define ENY_GCM 2099 */
-    /* #define FDY_GCM 2006 */   /* --PLUME */
+    /* 2006-2099 --ISI-MIP2 */
+    #define DL_GCM 94
+    #define BGY_GCM 2006
+    #define ENY_GCM 2099
+    #define FDY_GCM 2006
 
     /* CMIP6 LUC data */
-    #define DL_GCM 1
+    /* #define DL_GCM 1
     #define BGY_GCM 2016
     #define ENY_GCM 2099
-    #define FDY_GCM 2016
+    #define FDY_GCM 2016 */
 
     /* TELUMO LUC data */
     /* #define DL_GCM 1
@@ -472,6 +473,20 @@
 /* 28: CMIP6 historical data - low (2018/12/21 by A.Ito) */
 /* 29: MIROC-INTEG TELUMO LUC (2019/02/21 by A.Ito) */
 
+/* 30: LUH2 historical (1866-2015) + ssp1rcp19 (2016-2100) */
+/* 31: LUH2 historical (1866-2015) + ssp1rcp26 (2016-2100) */
+/* 32: LUH2 historical (1866-2015) + ssp2rcp45 (2016-2100) */
+/* 33: LUH2 historical (1866-2015) + ssp3rcp70 (2016-2100) */
+/* 34: LUH2 historical (1866-2015) + ssp4rcp34 (2016-2100) */
+/* 35: LUH2 historical (1866-2015) + ssp4rcp60 (2016-2100) */
+/* 36: LUH2 historical (1866-2015) + ssp5rcp34 (2016-2100) */
+/* 37: LUH2 historical (1866-2015) + ssp5rcp85 (2016-2100) */
+
+/* 38: AIM SSP1 BAU (2010-2100) (2019/06/21 by A.Ito) */
+/* 39: AIM SSP2 26W (2010-2100) (2019/06/21 by A.Ito) */
+/* 40: AIM SSP2 BAU (2010-2100) (2019/06/21 by A.Ito) */
+/* 41: AIM SSP3 BAU (2010-2100) (2019/06/21 by A.Ito) */
+
 /* extra co2 fixation combined with above scenarios: 2018/10/26 by A.Ito */
 #define EXTRA_CO2_FIX 0
 /* 0: off (default) */
@@ -486,13 +501,14 @@
 #define EXTRA_LU_FIX 0
 /* 0: off (default) */
 /* 1: make grid->lucy = 1901 */
+/* 2: make grid->fcrop = zero */
 
 #if ISIMIP_RUN==4
     #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
 #else
-    /* #define DL_LUC 601 */  /* 1500-2100 */
+    #define DL_LUC 601 /* */  /* 1500-2100: LUH 1500-2005/2005-2100 */
     /* #define DL_LUC 306 */ /* 1700-2000/2005 */
-    #define DL_LUC 150 /* */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
+    /* #define DL_LUC 150 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
     /* #define DL_LUC 601 */ /* 1500-2005 + 2005-2100 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
 #endif
 
@@ -500,15 +516,16 @@
 #if ISIMIP_RUN==4
     #define FDY_LUC 1661 /* ISI-MIP2b (2016/12/22 by A.Ito) */
 #else
-    /* #define FDY_LUC 1500 */
+    #define FDY_LUC 1500 /* */
     /* #define FDY_LUC 1700 */
-    #define FDY_LUC 1866 /* */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
+    /* #define FDY_LUC 1866 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
     /* #define FDY_LUC 1500 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
 #endif
 
 /* begin year of land-use SIMULATION */
 #if ISIMIP_RUN==1
-    #define BGY_LUC 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
+    /* #define BGY_LUC 2000 */    /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define BGY_LUC 1950    /* AIM: 2019/06/21 by A.Ito */
 #elif ISIMIP_RUN==2
     #define BGY_LUC 2000    /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
