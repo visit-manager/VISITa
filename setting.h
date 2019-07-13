@@ -394,16 +394,16 @@
     #define FDY_GCM 1970  /* --GEOMIP */
 #else
     /* 2006-2099 --ISI-MIP2 */
-    #define DL_GCM 94
+    /* #define DL_GCM 94
     #define BGY_GCM 2006
     #define ENY_GCM 2099
-    #define FDY_GCM 2006
+    #define FDY_GCM 2006 */
 
     /* CMIP6 LUC data */
-    /* #define DL_GCM 1
+    #define DL_GCM 1
     #define BGY_GCM 2016
     #define ENY_GCM 2099
-    #define FDY_GCM 2016 */
+    #define FDY_GCM 2016 /* */
 
     /* TELUMO LUC data */
     /* #define DL_GCM 1
@@ -506,9 +506,9 @@
 #if ISIMIP_RUN==4
     #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
 #else
-    #define DL_LUC 601 /* */  /* 1500-2100: LUH 1500-2005/2005-2100 */
+    /* #define DL_LUC 601 */  /* 1500-2100: LUH 1500-2005/2005-2100 */
     /* #define DL_LUC 306 */ /* 1700-2000/2005 */
-    /* #define DL_LUC 150 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
+    #define DL_LUC 150 /* */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
     /* #define DL_LUC 601 */ /* 1500-2005 + 2005-2100 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
 #endif
 
