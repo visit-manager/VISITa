@@ -86,10 +86,10 @@ void cal_projection(
 		
 		/* historical change in fertilizer input: 2010/05/11 by A.Ito */
         f_fert = 1.0;
-		if(grid->rank_nat==1){
+		if(grid->rank_nat == 1){
 			/* developing countries */
 			f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - (double)grid->climy)))+0.0014929171;
-		}else if(grid->rank_nat==2){
+		}else if(grid->rank_nat == 2){
 			/* developed countries */
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
 		}

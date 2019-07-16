@@ -119,9 +119,9 @@ void f_cult_luc(
         /* 9: fixed land-use at 2000 --GEOMIP */
         grid->f_crop_con = grid->fcrop_luh_hmnzed[2000 - FDY_LUC];
         grid->f_pasture_con = grid->fpast_luh_hmnzed[2000 - FDY_LUC];
-    }else if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13
-        || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17
-        || LANDUSE==26 || LANDUSE==27 || LANDUSE==28){
+    }else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13
+        || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 17
+        || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28){
 		/* UNH harmonized land-use change, 1500-2100 (added 2013/12/20) */
             if((grid->lucy - FDY_LUC) < DL_LUC){
                 grid->f_crop_con = grid->fcrop_luh_hmnzed[grid->lucy - FDY_LUC];
@@ -699,7 +699,7 @@ void f_luc_emit(
 				fluc_10 = 0.0;
 			}else if(LANDUSE>=1 && LANDUSE<=5){
 				fluc_10 = grid->fcrop_net[f - FDY_LUC] - grid->fcrop_net[f - FDY_LUC - 1];
-			}else if(LANDUSE==6 || LANDUSE==8 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 ||
+			}else if(LANDUSE == 6 || LANDUSE == 8 || LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 ||
                     LANDUSE==13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17
                     || LANDUSE==26 || LANDUSE==27 || LANDUSE==28 || LANDUSE == 29){
 				fluc_10 = (grid->t_vc_luh_hmnzed[f - FDY_LUC] + grid->t_vp_luh_hmnzed[f - FDY_LUC])
@@ -742,7 +742,7 @@ void f_luc_emit(
 				fluc_100 = 0.0;
 			}else if(LANDUSE >= 1 && LANDUSE <= 5){
 				fluc_100 = grid->fcrop_net[f - FDY_LUC] - grid->fcrop_net[f - FDY_LUC-1];
-			}else if(LANDUSE==6 || LANDUSE==8 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 ||
+			}else if(LANDUSE == 6 || LANDUSE == 8 || LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 ||
                     LANDUSE==13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17
                     || LANDUSE==26 || LANDUSE==27 || LANDUSE==28 || LANDUSE == 29){
 				fluc_100 = (grid->t_vc_luh_hmnzed[f - FDY_LUC] + grid->t_vp_luh_hmnzed[f - FDY_LUC])

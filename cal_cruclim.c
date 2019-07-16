@@ -150,7 +150,7 @@ void cal_historical(
             grid->lucy = 1901; /* */ /* 1901 */
         }
 
-        /*************/
+        /* climate year modifications ************/
         if(grid->simy < BGY_CLIM){
             grid->climy = BGY_CLIM + g%20;
         }else if(grid->simy > (BGY_CLIM + DL_HCLIM - 1)){
