@@ -139,7 +139,8 @@ void cal_historical(
         /*************/
         /* added by A.Ito: 2018/10/26 */
         if(EXTRA_CO2_FIX == 1){
-            grid->co2y = 1901; /* 1901 */
+            /* grid->co2y = 1901; */ /* 1901 */
+            grid->lucy = 1950; /* */ /* 1950 */
         }
         if(EXTRA_CLIM_FIX == 1){
             grid->climy = 1901; /* 1901 */
@@ -147,10 +148,9 @@ void cal_historical(
         
         if(EXTRA_LU_FIX == 1){
             grid->lucy = 1901; /* */ /* 1901 */
-            /* grid->lucy = 2000; */ /* 2000 */
         }
 
-        /*************/
+        /* climate year modifications ************/
         if(grid->simy < BGY_CLIM){
             grid->climy = BGY_CLIM + g%20;
         }else if(grid->simy > (BGY_CLIM + DL_HCLIM - 1)){

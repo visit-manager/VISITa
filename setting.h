@@ -39,8 +39,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 50
-#define CALC_OFFSET 2
+#define CALC_STEP 10
+#define CALC_OFFSET 7
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -122,11 +122,11 @@
 
 /***********************************************************/
 /* output text files */
-#define OUTPUT_CARBON1 0
+#define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
-#define OUTPUT_HYDMET 0
+#define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 0
 #define OUTPUT_BB 0
@@ -365,7 +365,7 @@
 /* historical 1951-2005 */
 /* projection 2006-2099 */
 #if ISIMIP_RUN==1
-    #define DL_ISIMIP 180  /* SU 30 + AD 1950 - 2009 */
+    #define DL_ISIMIP 180  /* SU 30 + AD 1950 - 2099 */
 #elif ISIMIP_RUN==2
     #define DL_ISIMIP 135  /* SU 30 + AD 1901 - 2005 */
 #elif ISIMIP_RUN==3
@@ -394,16 +394,16 @@
     #define FDY_GCM 1970  /* --GEOMIP */
 #else
     /* 2006-2099 --ISI-MIP2 */
-    #define DL_GCM 94
+    /* #define DL_GCM 94
     #define BGY_GCM 2006
     #define ENY_GCM 2099
-    #define FDY_GCM 2006
+    #define FDY_GCM 2006 */
 
     /* CMIP6 LUC data */
-    /* #define DL_GCM 1
+    #define DL_GCM 1
     #define BGY_GCM 2016
     #define ENY_GCM 2099
-    #define FDY_GCM 2016 */
+    #define FDY_GCM 2016 /* */
 
     /* TELUMO LUC data */
     /* #define DL_GCM 1
@@ -420,15 +420,15 @@
 /* 0: uncoupled */
 /* 1: coupled */
 /* erosion */
-#define NECB_ERSN 0
+#define NECB_ERSN 1
 /* biomass burning */
-#define NECB_BB 0
+#define NECB_BB 1
 /* bvoc */
-#define NECB_BVOC 0
+#define NECB_BVOC 1
 /* doc */
-#define NECB_DOC 0
+#define NECB_DOC 1
 /* CH4 */
-#define NECB_CH4 0
+#define NECB_CH4 1
 /* Wood harvest: 2010/10/15 by A.Ito */
 #define NECB_WHVST 1
 /* land-use change */
@@ -441,7 +441,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 38
+#define LANDUSE 31
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -506,19 +506,20 @@
 #if ISIMIP_RUN==4
     #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
 #else
-    #define DL_LUC 601 /* */  /* 1500-2100: LUH 1500-2005/2005-2100 */
+    /* #define DL_LUC 601 */  /* 1500-2100: LUH 1500-2005/2005-2100 */
     /* #define DL_LUC 306 */ /* 1700-2000/2005 */
     /* #define DL_LUC 150 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
     /* #define DL_LUC 601 */ /* 1500-2005 + 2005-2100 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
+    #define DL_LUC 235 /* */ /* 1866-2015 + 2016-2100 */ /* from CMIP6: 2019/07/18 by A.Ito */
 #endif
 
 /* begin year of land-use DATA */
 #if ISIMIP_RUN==4
     #define FDY_LUC 1661 /* ISI-MIP2b (2016/12/22 by A.Ito) */
 #else
-    #define FDY_LUC 1500 /* */
+    /* #define FDY_LUC 1500 */
     /* #define FDY_LUC 1700 */
-    /* #define FDY_LUC 1866 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
+    #define FDY_LUC 1866 /* */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
     /* #define FDY_LUC 1500 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
 #endif
 
@@ -601,7 +602,7 @@
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -625,7 +626,7 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 0
+#define ALT_INUND 7
 /* 0: default (SSMI) */
 /* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
