@@ -123,14 +123,14 @@
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 0
-#define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
+#define OUTPUT_CARBON2 1
+#define OUTPUT_ISOTOPE 1
+#define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
-#define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
+#define OUTPUT_EROSION 1
+#define OUTPUT_GHG 1
+#define OUTPUT_BB 1
+#define OUTPUT_BVOC 1
 /* output binary */
 #define BASE_GOUT 1
 #define C13_GOUT 0
@@ -365,7 +365,7 @@
 /* historical 1951-2005 */
 /* projection 2006-2099 */
 #if ISIMIP_RUN==1
-    #define DL_ISIMIP 180  /* SU 30 + AD 1950 - 2009 */
+    #define DL_ISIMIP 180  /* SU 30 + AD 1950 - 2099 */
 #elif ISIMIP_RUN==2
     #define DL_ISIMIP 135  /* SU 30 + AD 1901 - 2005 */
 #elif ISIMIP_RUN==3
@@ -441,7 +441,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 26
+#define LANDUSE 31
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -491,6 +491,7 @@
 #define EXTRA_CO2_FIX 0
 /* 0: off (default) */
 /* 1: make grid->co2y = 1901 */
+/* 1: make grid->co2y = 1950 */
 
 /* extra climate fixation combined with above scenarios: 2018/10/26 by A.Ito */
 #define EXTRA_CLIM_FIX 0
@@ -508,8 +509,9 @@
 #else
     /* #define DL_LUC 601 */  /* 1500-2100: LUH 1500-2005/2005-2100 */
     /* #define DL_LUC 306 */ /* 1700-2000/2005 */
-    #define DL_LUC 150 /* */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
+    /* #define DL_LUC 150 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
     /* #define DL_LUC 601 */ /* 1500-2005 + 2005-2100 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
+    #define DL_LUC 235 /* */ /* 1866-2015 + 2016-2100 */ /* from CMIP6: 2019/07/18 by A.Ito */
 #endif
 
 /* begin year of land-use DATA */
@@ -560,6 +562,12 @@
 /* 0: default (Lloyd & Taylor) */
 /* 1: 2.0 */
 /* 2: 1.5 for litter, 2.5 for humus */
+
+/* experiments on BVOC: 2019/08/13 by A.Ito */
+#define EX_BVOC 0
+/* 0: off */
+/* 1: isoprene emission factor to Saito et al. (2008) */
+/* 2: CO2 inhibition on isoprene */
 
 /********************************************************/
 /* PAR conversion */
@@ -625,7 +633,7 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 0
+#define ALT_INUND 7
 /* 0: default (SSMI) */
 /* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */

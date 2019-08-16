@@ -139,7 +139,9 @@ void cal_historical(
         /*************/
         /* added by A.Ito: 2018/10/26 */
         if(EXTRA_CO2_FIX == 1){
-            /* grid->co2y = 1901; */ /* 1901 */
+            grid->co2y = 1901; /* */ /* 1901 */
+        }
+        if(EXTRA_CO2_FIX == 2){
             grid->lucy = 1950; /* */ /* 1950 */
         }
         if(EXTRA_CLIM_FIX == 1){
