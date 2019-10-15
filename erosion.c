@@ -59,13 +59,13 @@ void f_erosion(
 	}
 	
 	/* R: rain */
-	if(grid->prate_sfc_ann<=850.0){
+	if(grid->prate_sfc_ann <= 850.0){
 		grid->f_erosion_r = 0.0483 * pow(grid->prate_sfc_ann, 1.610);
 	}else{
 		grid->f_erosion_r = 587.8 - 1.219 * grid->prate_sfc_ann
 				+ 0.004105*grid->prate_sfc_ann * grid->prate_sfc_ann;
 	}
-	if(grid->f_erosion_r<0.0){
+	if(grid->f_erosion_r < 0.0){
 		grid->f_erosion_r = 0.0;
 	}
 	
@@ -82,7 +82,7 @@ void f_erosion(
 	}
 
 	/* C: land cover */
-	if(PARA_VEGCV==0){
+	if(PARA_VEGCV == 0){
 		/* conventional */
 		/* grid->f_erosion_c = (1.0-grid->f_crop)*c_factor_v[grid->veg_sage] + grid->f_crop*0.5; */
 		/* grid->f_erosion_c = (1.0-grid->f_crop_con)*c_factor_v[grid->veg_sage] 
@@ -103,7 +103,7 @@ void f_erosion(
 			}
 		}
 		
-	}else if(PARA_VEGCV==1){
+	}else if(PARA_VEGCV == 1){
 		/* parameterization */
 		/* fveg_a = 0.0;
 		for(f=0;f<12;f++){

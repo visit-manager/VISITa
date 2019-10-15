@@ -292,7 +292,7 @@ void n_fertilizer_in(
         nyear = grid->niny;
 
         if(NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
-            nyear = FDY_NINY+1;
+            nyear = FDY_NINY + 1;
         }
     
         if(grid->niny>=FDY_NINY && grid->niny<=2016){
@@ -313,9 +313,9 @@ void n_fertilizer_in(
         }
         if(grid->niny>=FDY_NINY && grid->niny<=2016){
             loct->n_manure_in = grid->mip_manure[nyear - FDY_NINY] * MDN[grid->m] / YDN;
-        }else if(grid->niny<FDY_NINY){
+        }else if(grid->niny < FDY_NINY){
             loct->n_manure_in = grid->mip_manure[0] * MDN[grid->m] / YDN;
-        }else if(grid->niny>2017){
+        }else if(grid->niny > 2017){
             loct->n_manure_in = grid->mip_manure[2016 - FDY_NINY] * MDN[grid->m] / YDN;
         }
         

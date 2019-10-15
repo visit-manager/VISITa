@@ -120,6 +120,16 @@ double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM], h_deforest[PD_SIM];
 double h_gpp_trp[PD_SIM], h_npp_trp[PD_SIM], h_nep_trp[PD_SIM], h_nbp_trp[PD_SIM];
 double h_luc_trp[PD_SIM], h_bb_trp[PD_SIM];
 
+/* for additional analysis: 2019/06/24 by A.Ito */
+double h_ans1[PD_SIM],h_ans2[PD_SIM],h_ans3[PD_SIM],h_ans4[PD_SIM],h_ans5[PD_SIM];
+
+/* Monthly */
+double hm_temp[PD_SIM][ASTEP];
+double hm_prec[PD_SIM][ASTEP];
+double hm_ch4_wh[PD_SIM][ASTEP];
+double hm_inund[PD_SIM][ASTEP];
+
+/* Isotopes *****************/
 double ci_aco2[PD_SIM], ci_aco2_d13c[PD_SIM], ci_aco2_d14c[PD_SIM];
 double ci_gpp[PD_SIM], ci_gpp_d13c[PD_SIM], ci_gpp_d14c[PD_SIM];
 double ci_er[PD_SIM], ci_er_d13c[PD_SIM], ci_er_d14c[PD_SIM];
@@ -129,12 +139,7 @@ double ci_r[PD_SIM], ci_r_d13c[PD_SIM], ci_r_d14c[PD_SIM];
 double ci_l[PD_SIM], ci_l_d13c[PD_SIM], ci_l_d14c[PD_SIM];
 double ci_h[PD_SIM], ci_h_d13c[PD_SIM], ci_h_d14c[PD_SIM];
 
-double hm_temp[PD_SIM][ASTEP];
-double hm_prec[PD_SIM][ASTEP];
-double hm_ch4_wh[PD_SIM][ASTEP];
-double hm_inund[PD_SIM][ASTEP];
-
-/* regional historical */
+/* regional historical *****************/
 double rh_area[N_REG];
 double rh_temp[N_REG][PD_SIM], rh_prec[N_REG][PD_SIM], rh_dswrf[N_REG][PD_SIM];
 double rh_rns[N_REG][PD_SIM], rh_rnl[N_REG][PD_SIM];
@@ -178,6 +183,7 @@ double vo_n_cnpy[NVEG_OLSON], vo_n_strg[NVEG_OLSON], vo_n_mcrb[NVEG_OLSON], vo_n
 double glat_area[N_ROW];
 double glat_gpp[ASTEP][N_ROW],glat_npp[ASTEP][N_ROW],glat_nep[ASTEP][N_ROW];
 double glat_ch4_cao[ASTEP][N_ROW], glat_ch4_wh[ASTEP][N_ROW];
+double glat_agb[N_ROW],glat_soc[N_ROW];
 
 /* float gs_gpp_1[12][N_ROW][N_COL], gs_gpp_2[12][N_ROW][N_COL], gs_gpp_3[12][N_ROW][N_COL];
 float gs_ipar_1[12][N_ROW][N_COL], gs_ipar_2[12][N_ROW][N_COL], gs_ipar_3[12][N_ROW][N_COL];

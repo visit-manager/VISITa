@@ -297,7 +297,7 @@ void f_dyn_loct(
 	if(grid->flag_histdata == 1){
     
         /* daily-mean and hourly: added: 2013/01/10 by A.Ito */
-        loct->grad_d[grid->m] = 0.0;
+        loct->glrad_dav[grid->m] = 0.0;
         for(h=0;h<DSTEP;h++){
             grid->h = h;
         
@@ -306,7 +306,7 @@ void f_dyn_loct(
             /* surface, hourly */
             grid->gl_rad[grid->m] = f_gl_rad(grid);
             /* daily mean */
-            loct->grad_d[grid->m] += f_gl_rad(grid)/(double)DSTEP;
+            loct->glrad_dav[grid->m] += f_gl_rad(grid)/(double)DSTEP;
             
             /* hourly PAR, micro mol photon m-2 s-1 */
             f_par_h(grid, loct);
@@ -438,13 +438,13 @@ void f_dyn_loct(
 			/* loct->vp[grid->m] = loct->prsr[grid->m]*grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]);  */
 			
 			/* revided by A.Ito (2009/08/17) */
-			vpres_var = grid->proj_hum[grid->climy - FDY_GCM-1][grid->m][grid->gcm_row][grid->gcm_col] -
+			vpres_var = grid->proj_hum[grid->climy - FDY_FUTURE-1][grid->m][grid->gcm_row][grid->gcm_col] -
 							grid->proj_hum_b[grid->m][grid->gcm_row][grid->gcm_col];
 			
 			loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;
             
             if(ISIMIP_RUN == 2){
-                loct->vp[grid->m] = grid->proj_hum[grid->climy - FDY_GCM][grid->m][0][0];
+                loct->vp[grid->m] = grid->proj_hum[grid->climy - FDY_FUTURE][grid->m][0][0];
             }
 		}
 		if(loct->vp[grid->m] < 0.0){

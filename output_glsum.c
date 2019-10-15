@@ -40,7 +40,7 @@ void f_set_history_data(
 			fweight = 1.0 - grid->f_crop_con;
 			
 			if(NECB_LUC == 0){
-				fweight = 1.0 - grid->fcrop_luh_hmnzed[200];
+				fweight = 1.0 - grid->fcrop_luh[200];
 			}
 			
 			fweight_nat = 1.0;
@@ -278,9 +278,17 @@ void f_set_history_data(
             h_npp_trp[year] += fweight * (flux->plant).npp[f] * grid->area;
             h_nep_trp[year] += fweight * flux->nep[f] * grid->area;
             h_nbp_trp[year] += fweight * flux->nbp[f] * grid->area;
-            h_luc_trp[year] +=
             h_bb_trp[year] += fweight * (flux->bb_co2_litter[f]+flux->bb_co2_leaf[f]+
                                           flux->bb_co2_wood[f]+flux->bb_co2_root[f]) * grid->area;
+        }
+        
+        /* IAM land-use analysis: 2019/06/24 by A.Ito ******/
+        if(loct->v_type == 1){
+            h_ans1[year] += fweight * flux->nep[f] * grid->area;
+            h_ans3[year] += (1.0 - grid->f_crop_ans) * flux->nep[f] * grid->area;
+        }else if(loct->v_type == 2){
+            h_ans2[year] += fweight * flux->nep[f] * grid->area;
+            h_ans4[year] += grid->f_crop_ans * flux->nep[f] * grid->area;
         }
 
 		/* d13c & d14c : added by A.Ito (2009/07/15) ***************/
@@ -682,6 +690,12 @@ void f_glosum_output(
         fprintf(fp_glsum,"%lf ", h_nbp_trp[h]); /* 2019/03/01 */
         fprintf(fp_glsum,"%lf ", h_bb_trp[h]); /* 2019/03/01 */
         fprintf(fp_glsum,"%lf ", h_luc_trp[h]); /* 2019/03/01 */
+        
+        fprintf(fp_glsum,"%lf ", h_ans1[h]); /* 2019/06/24 */
+        fprintf(fp_glsum,"%lf ", h_ans2[h]); /* 2019/06/24 */
+        fprintf(fp_glsum,"%lf ", h_ans3[h]); /* 2019/06/24 */
+        fprintf(fp_glsum,"%lf ", h_ans4[h]); /* 2019/06/24 */
+        fprintf(fp_glsum,"%lf ", h_ans5[h]); /* 2019/06/24 */
 
 		fprintf(fp_glsum,"\n");
 	}
@@ -1120,11 +1134,20 @@ void f_glosum_output(
 	fprintf(fp_glsum,"\n");
 	
 	for(h=0;h<PD_SIM;h++){
+        fprintf(fp_glsum,"%ld %ld ", h+(FSY_HIST-1), i+1);
 		for(i=0;i<ASTEP;i++){
-			fprintf(fp_glsum,"%ld %ld %lf %lf %lf %lf ", h+(FSY_HIST-1), i+1,
-				hm_temp[h][i], hm_prec[h][i], hm_ch4_wh[h][i], hm_inund[h][i]);
+			fprintf(fp_glsum,"%lf ",hm_temp[h][i]);
 		}
-        
+        for(i=0;i<ASTEP;i++){
+            fprintf(fp_glsum,"%lf ",hm_prec[h][i]);
+        }
+        for(i=0;i<ASTEP;i++){
+            fprintf(fp_glsum,"%lf ",hm_ch4_wh[h][i]);
+        }
+        for(i=0;i<ASTEP;i++){
+            fprintf(fp_glsum,"%lf ",hm_inund[h][i]);
+        }
+
         /* seasonal-cycle amplitude: 2019/03/02 by A.Ito */
         for(i=0;i<ASTEP;i++){
             fprintf(fp_glsum,"%.2lf ", hm_sca_gpp_nh[h][i]);
@@ -1164,6 +1187,9 @@ void f_glosum_output(
         for(i=0;i<ASTEP;i++){
             fprintf(fp_glsum,"%lf ", glat_ch4_wh[i][h]);
         }
+        
+        fprintf(fp_glsum,"%lf ", glat_agb[h]);
+        fprintf(fp_glsum,"%lf ", glat_soc[h]);
         
         fprintf(fp_glsum,"\n");
     }
