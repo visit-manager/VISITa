@@ -40,7 +40,7 @@
 #define INT_C 0.01
 
 #define CALC_STEP 10
-#define CALC_OFFSET 9
+#define CALC_OFFSET 8
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -540,6 +540,18 @@
 
 /* Forest management: 2019/10/15 by A.Ito *********/
 #define EX_FORMAN 0
+/* 0: none */
+/* 1: half cropland reforestation */
+/* 2: half wood harvest */
+/* 3: double wood harvest */
+
+/* deforestation ************************************/
+#define EX_DEFOREST 0
+/* 0: as present */
+/* 1: entire deforestation, replaced by 19 */
+/* 2: entire deforestation, replaced by 13 */
+/* 3: entire deforestation, replaced by 31 */
+/* 4: entire deforestation and regrowth: 2016/12/28 by A.Ito */
 
 /*******************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
@@ -881,14 +893,6 @@
 /* 1: actual CO2 rise */
 /* 2: no CO2 rise */
 /* 3: fix CO2 after 2020 for GeoMIP runs */
-
-/* deforestation ************************************/
-#define EX_DEFOREST 0
-/* 0: as present */
-/* 1: entire deforestation, replaced by 19 */
-/* 2: entire deforestation, replaced by 13 */
-/* 3: entire deforestation, replaced by 31 */
-/* 4: entire deforestation and regrowth: 2016/12/28 by A.Ito */
 
 /****************************************************/
 /* 0: no GCM */
