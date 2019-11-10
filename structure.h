@@ -128,11 +128,11 @@ struct Grid{
 	
 	/* GCM climate: year x month x row x column */
 	/* 160 x 320   */
-#if GCM_RUN==1
-	float	proj_tmp2m[DL_GCM][ASTEP][160][320];		/* temperature */
-	float	proj_prec[DL_GCM][ASTEP][160][320];			/* precipitation */
-	float	proj_hum[DL_GCM][ASTEP][160][320];			/* specific humidity */
-	float	proj_rad[DL_GCM][ASTEP][160][320];			/* surface downward solar radiation */
+#if FUTURE_RUN==1
+	float	proj_tmp2m[DL_FUTURE][ASTEP][160][320];		/* temperature */
+	float	proj_prec[DL_FUTURE][ASTEP][160][320];			/* precipitation */
+	float	proj_hum[DL_FUTURE][ASTEP][160][320];			/* specific humidity */
+	float	proj_rad[DL_FUTURE][ASTEP][160][320];			/* surface downward solar radiation */
 	/* 1970-1999 average: month x row x column [ASTEP][160][320] */
 	float	proj_tmp2m_b[ASTEP][160][320];				/* temperature */
 	float	proj_prec_b[ASTEP][160][320];				/* precipitation */
@@ -222,6 +222,8 @@ struct Grid{
 	double 	f_pasture_con;				/* contemporary pasture fraction */
 	double 	f_pasture_p;				/* previous pasture fraction */
 	double 	f_pasture_trend;			/* trend of pasture conversion, fraction/yr */
+ 
+    double  f_crop_ans;                 /* fraction of cropland for analysis: 2019/06/24 by A.Ito */
 	
 	double	f_deforest;					/* deforestation rate */
 	double	f_deforest_v;				/* in primary lands */
@@ -246,26 +248,28 @@ struct Grid{
 
 	/* EOS-WEBSTER, 1700-2000/2005, Hurtt et al. */
     /* name changed: unh => luh: 2018/12/24 by A.Ito */
-	double	fcrop_luh_hmnzed[DL_LUC];		/* cropland fraction */
-	double	fpast_luh_hmnzed[DL_LUC];		/* pasture fraction */
-	double	fprim_luh_hmnzed[DL_LUC];		/* primary land fraction */
-	double	fsecd_luh_hmnzed[DL_LUC];		/* secondary land fraction */
-	double	ssma_luh_hmnzed[DL_LUC];		/* secondary land property 1 */
-	double	ssmb_luh_hmnzed[DL_LUC];		/* secondary land property 2 */
-	double	t_cp_luh_hmnzed[DL_LUC];		/* conversion crop to pasture */
-	double	t_cs_luh_hmnzed[DL_LUC];		/* conversion crop to secondary */
-	double	t_pc_luh_hmnzed[DL_LUC];		/* conversion pasture to crop */
-	double	t_ps_luh_hmnzed[DL_LUC];		/* conversion pasture to secondary */
-	double	t_sc_luh_hmnzed[DL_LUC];		/* conversion secondary to crop */
-	double	t_sp_luh_hmnzed[DL_LUC];		/* conversion secondary to pasture */
-	double	t_ss1_luh_hmnzed[DL_LUC];		/*  */
-	double	t_ss2_luh_hmnzed[DL_LUC];		/*  */
-	double	t_ss3_luh_hmnzed[DL_LUC];		/*  */
-	double	t_vc_luh_hmnzed[DL_LUC];		/* conversion primary to crop */
-	double	t_vp_luh_hmnzed[DL_LUC];		/* conversion primary to pasture */
-    double  t_vs_luh_hmnzed[DL_LUC];        /* conversion primary to secondary */
-	double	t_vs1_luh_hmnzed[DL_LUC];		/*  */
-	double	t_vs2_luh_hmnzed[DL_LUC];		/*  */
+	double	fcrop_luh[DL_LUC];		/* cropland fraction */
+	double	fpast_luh[DL_LUC];		/* pasture fraction */
+	double	fprim_luh[DL_LUC];		/* primary land fraction */
+	double	fsecd_luh[DL_LUC];		/* secondary land fraction */
+	double	ssma_luh[DL_LUC];		/* secondary land property 1 */
+	double	ssmb_luh[DL_LUC];		/* secondary land property 2 */
+	double	t_cp_luh[DL_LUC];		/* conversion crop to pasture */
+	double	t_cs_luh[DL_LUC];		/* conversion crop to secondary */
+	double	t_pc_luh[DL_LUC];		/* conversion pasture to crop */
+	double	t_ps_luh[DL_LUC];		/* conversion pasture to secondary */
+	double	t_sc_luh[DL_LUC];		/* conversion secondary to crop */
+	double	t_sp_luh[DL_LUC];		/* conversion secondary to pasture */
+	double	t_ss1_luh[DL_LUC];		/*  */
+	double	t_ss2_luh[DL_LUC];		/*  */
+	double	t_ss3_luh[DL_LUC];		/*  */
+	double	t_vc_luh[DL_LUC];		/* conversion primary to crop */
+	double	t_vp_luh[DL_LUC];		/* conversion primary to pasture */
+    double  t_vs_luh[DL_LUC];        /* conversion primary to secondary */
+	double	t_vs1_luh[DL_LUC];		/*  */
+	double	t_vs2_luh[DL_LUC];		/*  */
+ 
+    double  aim_luc_fcrop[111];             /* LUC data by AIM 2019/06/21 by A.Ito */
  
 	/* wood harvest */
 	double	hvst_p1[DL_LUC];

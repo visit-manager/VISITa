@@ -139,17 +139,20 @@ void cal_historical(
         /*************/
         /* added by A.Ito: 2018/10/26 */
         if(EXTRA_CO2_FIX == 1){
-            grid->co2y = 1901; /* 1901 */
+            grid->co2y = 1901; /* */ /* 1901 */
+        }
+        if(EXTRA_CO2_FIX == 2){
+            grid->lucy = 1950; /* */ /* 1950 */
         }
         if(EXTRA_CLIM_FIX == 1){
             grid->climy = 1901; /* 1901 */
         }
         
         if(EXTRA_LU_FIX == 1){
-            grid->lucy = 1901; /* 1901 */
+            grid->lucy = 1901; /* */ /* 1901 */
         }
 
-        /*************/
+        /* climate year modifications ************/
         if(grid->simy < BGY_CLIM){
             grid->climy = BGY_CLIM + g%20;
         }else if(grid->simy > (BGY_CLIM + DL_HCLIM - 1)){
@@ -439,7 +442,8 @@ void cal_historical(
 			}
 			
 			/* statistics *******************************************/
-			if(g>=90 && g<=99){
+			/* if(g>=90 && g<=99){ */
+            if(grid->simy>=2000 && grid->simy<=2009){
 				/* mean seasonal change *******/
 				m_ch4ox1[f] += (flux->soil).ch4oxy_ridg[f] * grid->area *10000.0/1000.0 / 10.0;
 				m_ch4ox2[f] += (flux->soil).ch4oxy_casa[f] * grid->area *10000.0/1000.0 / 10.0;
@@ -494,7 +498,10 @@ void cal_historical(
                 glat_gpp[f][grid->row] += fweight * grid->area * (flux->plant).gpp[f]/10.0;
                 glat_npp[f][grid->row] += fweight * grid->area * (flux->plant).npp[f]/10.0;
                 glat_nep[f][grid->row] += fweight * grid->area * flux->nep[f]/10.0;
-                
+
+                glat_agb[grid->row] += fweight * grid->area * ((mass->plant).mfol[f] + (mass->plant).mstm[f])*MDN[f]/YDN/10.0;
+                glat_soc[grid->row] += fweight * grid->area * ((mass->soil).ltr_m[f] + (mass->soil).msl_m[f])*MDN[f]/YDN/10.0;
+
                 if(loct->v_type == 1){
                     glat_ch4_cao[f][grid->row] += grid->area * (flux->soil).ch4flux_wetland_cao[f] / 10.0;
                     glat_ch4_wh[f][grid->row] += grid->area * ((flux->soil).ch4_wetland_wh_plant[f]
@@ -732,6 +739,14 @@ void cal_historical(
                 prm_ensen = 1.0 + 0.3 * f_pert[1];
             }
             
+            /* Forest management: 2019/10/17 by A.Ito */
+            if(EX_FORMAN == 2){
+                prm_ensen = 0.5;
+            }
+            if(EX_FORMAN == 3){
+                prm_ensen = 2.0;
+            }
+
             /* into MgC/ha */
 			total_hvst *= 1.0/1000.0 * 1.0/grid->area * prm_ensen;
    

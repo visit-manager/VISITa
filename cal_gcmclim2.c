@@ -37,18 +37,18 @@ void cal_projection(
 	}else if(TEMP_GC == 3 || TEMP_GC == 4){
 		simyr = 200;
 	}else{
-		simyr = ENY_GCM - BGY_GCM +1; /*** AD 2001-2100 ***/
+		simyr = ENY_FUTURE - BGY_FUTURE +1; /*** AD 2001-2100 ***/
 	}
 	
 	/* LOOP to dynamic stage ***************************************/
-	for(g=BGY_GCM;g<=ENY_GCM;g++){ 
+	for(g=BGY_FUTURE;g<=ENY_FUTURE;g++){ 
 	
 		/* simulation year ********************/
 		grid->simy = g;
  
 		/* CO2 change ********************/
 		if(CO2S == 0){
-			grid->co2y = BGY_GCM; 
+			grid->co2y = BGY_FUTURE; 
 		}else if(CO2S == 7){
 			grid->co2y = 2081;
 		}else{
@@ -86,10 +86,10 @@ void cal_projection(
 		
 		/* historical change in fertilizer input: 2010/05/11 by A.Ito */
         f_fert = 1.0;
-		if(grid->rank_nat==1){
+		if(grid->rank_nat == 1){
 			/* developing countries */
 			f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - (double)grid->climy)))+0.0014929171;
-		}else if(grid->rank_nat==2){
+		}else if(grid->rank_nat == 2){
 			/* developed countries */
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
 		}
@@ -180,7 +180,7 @@ void cal_projection(
 				(flux->plant).lL[f] = flux->lL0[f];
 			}
 			if(EX_ACCLM == 4){
-				rl_a = (echar->soil).rl0*(1.0 - 0.001*(double)((grid->climy - BGY_GCM)+1));
+				rl_a = (echar->soil).rl0*(1.0 - 0.001*(double)((grid->climy - BGY_FUTURE)+1));
 				if((mass->soil).ltr+(flux->plant).lL[f]){
 					(echar->soil).rl = ((echar->soil).rl*(mass->soil).ltr + 
 							rl_a*(flux->plant).lL[f])/((mass->soil).ltr + (flux->plant).lL[f]);

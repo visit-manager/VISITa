@@ -46,8 +46,8 @@ void f_waterbudget(
 	/* aa=0.75; */ /*2003-06-27*/
 	/* aa=0.80; */ /*2003-06-27*/
 	aa = 0.75; 
-	bb = (rain)+loct->pm_incep[grid->m];
-	cc = (rain)*loct->pm_incep[grid->m];
+	bb = (rain) + loct->pm_incep[grid->m];
+	cc = (rain) * loct->pm_incep[grid->m];
 	loct->incep[grid->m] = (bb-sqrt(bb*bb-4.0*aa*cc))/(2.0*aa); /* actual */
 	if(loct->incep[grid->m] < 0.0){
 		loct->incep[grid->m] = 0.0;
@@ -68,10 +68,10 @@ void f_waterbudget(
 	
 	/** runoff 1, estimated by the bucket model **/
 	dry_inx = grid->field_cap1 - loct->sw30;
-	gain1 = rain+loct->thaw[grid->m];
-	aa = gain1*gain1*gain1;
-	bb = dry_inx*dry_inx*dry_inx;
-	cc = aa+bb;
+	gain1 = rain + loct->thaw[grid->m];
+	aa = gain1 * gain1 * gain1;
+	bb = dry_inx * dry_inx * dry_inx;
+	cc = aa + bb;
 	cc = (cc>=0.0)?cc:0.0;
 	loct->ro1[grid->m] = pow(cc,0.33333) - dry_inx;
 	loct->ro1[grid->m] = (loct->ro1[grid->m]>=0.0)?loct->ro1[grid->m]:0.0;

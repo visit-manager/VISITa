@@ -85,6 +85,9 @@ extern double h_voc_afarnesene[PD_SIM], h_voc_bcaryophyllene[PD_SIM], h_voc_othe
 
 extern double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM], h_deforest[PD_SIM];
 
+/* for additional analysis: 2019/06/24 by A.Ito */
+extern double h_ans1[PD_SIM],h_ans2[PD_SIM],h_ans3[PD_SIM],h_ans4[PD_SIM],h_ans5[PD_SIM];
+
 /* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01 by A.Ito */
 extern double h_gpp_trp[PD_SIM], h_npp_trp[PD_SIM], h_nep_trp[PD_SIM], h_nbp_trp[PD_SIM];
 extern double h_luc_trp[PD_SIM], h_bb_trp[PD_SIM];
@@ -121,6 +124,7 @@ extern double vo_n_cnpy[NVEG_OLSON], vo_n_strg[NVEG_OLSON], vo_n_mcrb[NVEG_OLSON
 extern double glat_area[N_ROW];
 extern double glat_gpp[ASTEP][N_ROW],glat_npp[ASTEP][N_ROW],glat_nep[ASTEP][N_ROW];
 extern double glat_ch4_cao[ASTEP][N_ROW], glat_ch4_wh[ASTEP][N_ROW];
+extern double glat_agb[N_ROW],glat_soc[N_ROW];
 
 /* regional historical */
 extern double rh_area[N_REG];

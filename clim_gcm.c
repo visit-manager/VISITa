@@ -1058,7 +1058,7 @@ void read_gcm_clim(
         /* altitude */
 		alt = (grid->topo>=0.0)?grid->topo:0.0;
         
-		for(f=0;f<DL_GCM;f++){   /*  131 => 1970-2100 */
+		for(f=0;f<DL_FUTURE;f++){   /*  131 => 1970-2100 */
 			for(g=0;g<ASTEP;g++){
 				fscanf(fp_c2[0],"%ld %ld", &yr, &mon);
 				fscanf(fp_c2[1],"%ld %ld", &yr, &mon);
@@ -1113,7 +1113,7 @@ void read_gcm_clim(
         /* PLUME: 2014/07/31 by A.Ito */
         /* read sequentially for each grid in clim_cru.c */
     
-        for(f=0;f<DL_GCM;f++){
+        for(f=0;f<DL_FUTURE;f++){
 			for(g=0;g<ASTEP;g++){
 				for(h=0;h<GCM_R;h++){
 					for(i=0;i<GCM_C;i++){
@@ -1127,7 +1127,7 @@ void read_gcm_clim(
 		}
     }else{
         /* no SCENARIO_ID data */
-		for(f=0;f<DL_GCM;f++){
+		for(f=0;f<DL_FUTURE;f++){
 			for(g=0;g<ASTEP;g++){
 				for(h=0;h<GCM_R;h++){
 					for(i=0;i<GCM_C;i++){

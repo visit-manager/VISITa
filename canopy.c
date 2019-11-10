@@ -104,9 +104,9 @@ double f_df97_gpp(
 	/* Michaelis constant of carboxylation and oxygenation rates */
 	/* Eq.8 in De Pury and Farquhar (1997) */
 	/* Rubisco carboxylation */
-	kc = 40.4 * exp(59400.0*(temp-25.0)/(298.15*UGC*(temp+ZAT)));
+	kc = 40.4 * exp(59400.0*(temp-25.0) / (298.15*UGC*(temp+ZAT)));
 	/* Rubisco oxygenation */
-	ko = 24800.0 * exp(36000.0*(temp-25.0)/(298.15*UGC*(temp+ZAT)));
+	ko = 24800.0 * exp(36000.0*(temp-25.0) / (298.15*UGC*(temp+ZAT)));
 	/* effective Michaelis constant of Rubisco */
 	k_effc = kc*(1.0 + o2_i / ko);
 	

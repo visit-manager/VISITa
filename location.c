@@ -438,13 +438,13 @@ void f_dyn_loct(
 			/* loct->vp[grid->m] = loct->prsr[grid->m]*grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]);  */
 			
 			/* revided by A.Ito (2009/08/17) */
-			vpres_var = grid->proj_hum[grid->climy - FDY_GCM-1][grid->m][grid->gcm_row][grid->gcm_col] -
+			vpres_var = grid->proj_hum[grid->climy - FDY_FUTURE-1][grid->m][grid->gcm_row][grid->gcm_col] -
 							grid->proj_hum_b[grid->m][grid->gcm_row][grid->gcm_col];
 			
 			loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;
             
             if(ISIMIP_RUN == 2){
-                loct->vp[grid->m] = grid->proj_hum[grid->climy - FDY_GCM][grid->m][0][0];
+                loct->vp[grid->m] = grid->proj_hum[grid->climy - FDY_FUTURE][grid->m][0][0];
             }
 		}
 		if(loct->vp[grid->m] < 0.0){

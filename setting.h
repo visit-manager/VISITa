@@ -39,8 +39,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
-#define CALC_OFFSET 6
+#define CALC_STEP 1
+#define CALC_OFFSET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -204,7 +204,7 @@
 /* for memory preparation; not always actual experimental length */
 
 #if ISIMIP_RUN==1
-    #define FSY_HIST 1950 /* ISI-MIP */
+    #define FSY_HIST 1950 /* ISI-MIP 1 */
     #define LSY_HIST 2099
 #elif ISIMIP_RUN==4
     #define FSY_HIST 1661 /* ISI-MIP2b */
@@ -233,7 +233,7 @@
 /* dcd 2081 */
 /* NCEP1 1948 */
 #if ISIMIP_RUN==1
-    #define BGY_CO2Y 1950  /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define BGY_CO2Y 1950  /* ISI-MIP 1: 2012/06/27 by A.Ito */
 #elif ISIMIP_RUN==2
     #define BGY_CO2Y 1901  /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
@@ -310,7 +310,7 @@
 
 /* historical climate (e.g., CRU) data length: 2010/01/04 (A.Ito) ***/
 #if ISIMIP_RUN==1
-    #define DL_HCLIM 180  /* SU 30 + AD 1950 - 2009 */
+    #define DL_HCLIM 180  /* SU 30 + AD 1950 - 2099 */
     /* note that DL_HCLIM data is not used in PLUME runs */
 #elif ISIMIP_RUN==2
     /* PLUME: 2014/07/31 by A.Ito */
@@ -331,7 +331,7 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
-    #define DL_HCLIM 117  /* CRU TS3.26: AD 1901 - 2017 */
+    #define DL_HCLIM 118  /* CRU TS4.03: AD 1901 - 2018 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -341,6 +341,7 @@
     /* 114: TS3.23 */
     /* 115: TS3.24 */
     /* 116: TS3.25 */
+    /* 117: TS3.26 */
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
@@ -364,7 +365,7 @@
 /* historical 1951-2005 */
 /* projection 2006-2099 */
 #if ISIMIP_RUN==1
-    #define DL_ISIMIP 180  /* SU 30 + AD 1950 - 2009 */
+    #define DL_ISIMIP 180  /* SU 30 + AD 1950 - 2099 */
 #elif ISIMIP_RUN==2
     #define DL_ISIMIP 135  /* SU 30 + AD 1901 - 2005 */
 #elif ISIMIP_RUN==3
@@ -381,37 +382,38 @@
 
 /* future projection *******************************************/
 /* simulation suing GCM-derived projection scenarios */
-#define GCM_RUN 0
+#define FUTURE_RUN 0
 /* 0: no  1:yes */
 
 /* year of GCM data (AD) */
 #if GEOMIP_RUN==1
-    #define DL_GCM 131 /* 1970-2100 --GEOMIP */
-    #define BGY_GCM 2006  /* --GEOMIP PLUME */
-    #define ENY_GCM 2100
+    #define DL_FUTURE 131 /* 1970-2100 --GEOMIP */
+    #define BGY_FUTURE 2006  /* --GEOMIP PLUME */
+    #define ENY_FUTURE 2100
     /* start year of GCM data (AD) */
-    #define FDY_GCM 1970  /* --GEOMIP */
+    #define FDY_FUTURE 1970  /* --GEOMIP */
 #else
-    /* #define DL_GCM 94 */ /* 2006-2099 --ISI-MIP2 */
-    /* #define BGY_GCM 2006 */  /* --PLUME */
-    /* #define ENY_GCM 2099 */
-    /* #define FDY_GCM 2006 */   /* --PLUME */
+    /* 2006-2099 --ISI-MIP2 */
+    /* #define DL_FUTURE 94
+    #define BGY_FUTURE 2006
+    #define ENY_FUTURE 2099
+    #define FDY_FUTURE 2006 */
 
-    /* CMIP6 LUC data */
-    #define DL_GCM 1
-    #define BGY_GCM 2016
-    #define ENY_GCM 2099
-    #define FDY_GCM 2016
+    /* CMIP6-LUH2 data */
+    #define DL_FUTURE 1
+    #define BGY_FUTURE 2016
+    #define ENY_FUTURE 2099
+    #define FDY_FUTURE 2016 /* */
 
     /* TELUMO LUC data */
-    /* #define DL_GCM 1
-    #define BGY_GCM 2006
-    #define ENY_GCM 2099
-    #define FDY_GCM 2006 */
+    /* #define DL_FUTURE 1
+    #define BGY_FUTURE 2006
+    #define ENY_FUTURE 2099
+    #define FDY_FUTURE 2006 */
 #endif
-/* #define DL_GCM 241 */ /* 1860-2100 */
-/* #define FDY_GCM 2001 */
-/* #define FDY_GCM 1860 */
+/* #define DL_FUTURE 241 */ /* 1860-2100 */
+/* #define FDY_FUTURE 2001 */
+/* #define FDY_FUTURE 1860 */
 
 /*********************************************************/
 /* NECB: coupling carbon loss */
@@ -471,10 +473,25 @@
 /* 28: CMIP6 historical data - low (2018/12/21 by A.Ito) */
 /* 29: MIROC-INTEG TELUMO LUC (2019/02/21 by A.Ito) */
 
+/* 30: LUH2 historical (1866-2015) + ssp1rcp19 (2016-2100) */
+/* 31: LUH2 historical (1866-2015) + ssp1rcp26 (2016-2100) */
+/* 32: LUH2 historical (1866-2015) + ssp2rcp45 (2016-2100) */
+/* 33: LUH2 historical (1866-2015) + ssp3rcp70 (2016-2100) */
+/* 34: LUH2 historical (1866-2015) + ssp4rcp34 (2016-2100) */
+/* 35: LUH2 historical (1866-2015) + ssp4rcp60 (2016-2100) */
+/* 36: LUH2 historical (1866-2015) + ssp5rcp34 (2016-2100) */
+/* 37: LUH2 historical (1866-2015) + ssp5rcp85 (2016-2100) */
+
+/* 38: AIM SSP1 BAU (2010-2100) (2019/06/21 by A.Ito) */
+/* 39: AIM SSP2 26W (2010-2100) (2019/06/21 by A.Ito) */
+/* 40: AIM SSP2 BAU (2010-2100) (2019/06/21 by A.Ito) */
+/* 41: AIM SSP3 BAU (2010-2100) (2019/06/21 by A.Ito) */
+
 /* extra co2 fixation combined with above scenarios: 2018/10/26 by A.Ito */
 #define EXTRA_CO2_FIX 0
 /* 0: off (default) */
 /* 1: make grid->co2y = 1901 */
+/* 1: make grid->co2y = 1950 */
 
 /* extra climate fixation combined with above scenarios: 2018/10/26 by A.Ito */
 #define EXTRA_CLIM_FIX 0
@@ -485,14 +502,16 @@
 #define EXTRA_LU_FIX 0
 /* 0: off (default) */
 /* 1: make grid->lucy = 1901 */
+/* 2: make grid->fcrop = zero */
 
 #if ISIMIP_RUN==4
     #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
 #else
-    /* #define DL_LUC 601 */  /* 1500-2100 */
-    /* #define DL_LUC 306 */ /* 1700-2000/2005 */
-    #define DL_LUC 150 /* */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
-    /* #define DL_LUC 601 */ /* 1500-2005 + 2005-2100 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
+    /* #define DL_LUC 601 */  /* 1500-2100: LUH 1500-2005/2005-2100 */
+    /* #define DL_LUC 306 */  /* 1700-2000/2005 */
+    /* #define DL_LUC 150 */  /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
+    /* #define DL_LUC 601 */  /* 1500-2005 + 2005-2100 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
+    #define DL_LUC 235 /* */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18 by A.Ito */
 #endif
 
 /* begin year of land-use DATA */
@@ -507,7 +526,8 @@
 
 /* begin year of land-use SIMULATION */
 #if ISIMIP_RUN==1
-    #define BGY_LUC 2000    /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define BGY_LUC 2000 /* */   /* ISI-MIP: 2012/06/27 by A.Ito */
+    /* #define BGY_LUC 1950 */   /* AIM: 2019/06/21 by A.Ito */
 #elif ISIMIP_RUN==2
     #define BGY_LUC 2000    /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
@@ -517,6 +537,21 @@
 #else
     #define BGY_LUC 1900
 #endif
+
+/* Forest management: 2019/10/15 by A.Ito *********/
+#define EX_FORMAN 0
+/* 0: none */
+/* 1: half cropland reforestation */
+/* 2: half wood harvest */
+/* 3: double wood harvest */
+
+/* deforestation ************************************/
+#define EX_DEFOREST 0
+/* 0: as present */
+/* 1: entire deforestation, replaced by 19 */
+/* 2: entire deforestation, replaced by 13 */
+/* 3: entire deforestation, replaced by 31 */
+/* 4: entire deforestation and regrowth: 2016/12/28 by A.Ito */
 
 /*******************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
@@ -542,6 +577,12 @@
 /* 0: default (Lloyd & Taylor) */
 /* 1: 2.0 */
 /* 2: 1.5 for litter, 2.5 for humus */
+
+/* experiments on BVOC: 2019/08/13 by A.Ito */
+#define EX_BVOC 0
+/* 0: off */
+/* 1: isoprene emission factor to Saito et al. (2008) */
+/* 2: CO2 inhibition on isoprene */
 
 /********************************************************/
 /* PAR conversion */
@@ -583,7 +624,7 @@
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -607,7 +648,7 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 0
+#define ALT_INUND 7
 /* 0: default (SSMI) */
 /* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
@@ -852,14 +893,6 @@
 /* 1: actual CO2 rise */
 /* 2: no CO2 rise */
 /* 3: fix CO2 after 2020 for GeoMIP runs */
-
-/* deforestation ************************************/
-#define EX_DEFOREST 0
-/* 0: as present */
-/* 1: entire deforestation, replaced by 19 */
-/* 2: entire deforestation, replaced by 13 */
-/* 3: entire deforestation, replaced by 31 */
-/* 4: entire deforestation and regrowth: 2016/12/28 by A.Ito */
 
 /****************************************************/
 /* 0: no GCM */
