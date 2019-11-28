@@ -39,11 +39,12 @@ void f_output_file_open(
 			exit (1);
 	}
 	
-	strcpy(filename, s_date);	
+    snprintf(num, 4, "%02d", zone);
+
+	strcpy(filename, s_date);
 	strcat(filename, s_case);
 	strcat(filename, svtype);
 	strcat(filename, "crbn_");
-	snprintf(num, 4, "%02d", zone);
 	strcat(filename, num);
 	strcat(filename, ".txt");
 	if( (fp[0] = fopen(filename,"wt"))==NULL ){  
@@ -55,7 +56,6 @@ void f_output_file_open(
 	strcat(filename, s_case);
 	strcat(filename, svtype);
 	strcat(filename, "nitr_");
-	snprintf(num, 4, "%02d", zone);
 	strcat(filename, num);
 	strcat(filename, ".txt");
 	if( (fp[1] = fopen(filename,"wt"))==NULL ){  
@@ -67,7 +67,6 @@ void f_output_file_open(
 	strcat(filename, s_case);
 	strcat(filename, svtype);
 	strcat(filename, "ersn_");
-	snprintf(num, 4, "%02d", zone);
 	strcat(filename, num);
 	strcat(filename, ".txt");
 	if( (fp[2] = fopen(filename,"wt"))==NULL ){  
@@ -79,7 +78,6 @@ void f_output_file_open(
 	strcat(filename, s_case);
 	strcat(filename, svtype);
 	strcat(filename, "ghg_");
-	snprintf(num, 4, "%02d", zone);
 	strcat(filename, num);
 	strcat(filename, ".txt");
 	if( (fp[3] = fopen(filename,"wt"))==NULL ){  
@@ -91,7 +89,6 @@ void f_output_file_open(
 	strcat(filename, s_case);
 	strcat(filename, svtype);
 	strcat(filename, "bb_");
-	snprintf(num, 4, "%02d", zone);
 	strcat(filename, num);
 	strcat(filename, ".txt");
 	if( (fp[4] = fopen(filename,"wt"))==NULL ){  
@@ -103,7 +100,6 @@ void f_output_file_open(
 	strcat(filename, s_case);
 	strcat(filename, svtype);
 	strcat(filename, "bvoc_");
-	snprintf(num, 4, "%02d", zone);
 	strcat(filename, num);
 	strcat(filename, ".txt");
 	if( (fp[5] = fopen(filename,"wt"))==NULL ){  
@@ -115,7 +111,6 @@ void f_output_file_open(
 	strcat(filename, s_case);
 	strcat(filename, svtype);
 	strcat(filename, "hydmet_");
-	snprintf(num, 4, "%02d", zone);
 	strcat(filename, num);
 	strcat(filename, ".txt");
 	if( (fp[6] = fopen(filename,"wt"))==NULL ){  
@@ -127,7 +122,6 @@ void f_output_file_open(
 	strcat(filename, s_case);
 	strcat(filename, svtype);
 	strcat(filename, "cistp_");
-	snprintf(num, 4, "%02d", zone);
 	strcat(filename, num);
 	strcat(filename, ".txt");
 	if( (fp[7] = fopen(filename,"wt"))==NULL ){  
@@ -139,7 +133,6 @@ void f_output_file_open(
 	strcat(filename, s_case);
 	strcat(filename, svtype);
 	strcat(filename, "cadd_");
-	snprintf(num, 4, "%02d", zone);
 	strcat(filename, num);
 	strcat(filename, ".txt");
 	if( (fp[8] = fopen(filename,"wt"))==NULL ){  
