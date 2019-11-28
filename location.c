@@ -403,8 +403,13 @@ void f_dyn_loct(
 
 	/* initial soil CH4 concentration */
 	for(h=0;h<=(N_SLAYER+1);h++){
-		loct->prof_ch4[h] = ach4_a1[grid->co2y - 1750]/1000.0 
-			* loct->prsr[grid->m] / (UGC * (grid->tmp10_soil[grid->m] + ZAT));
+        if(grid->co2y >= FDY_AGHG){
+            loct->prof_ch4[h] = ach4_a1[grid->co2y - FDY_AGHG]/1000.0
+                * loct->prsr[grid->m] / (UGC * (grid->tmp10_soil[grid->m] + ZAT));
+        }else{
+            loct->prof_ch4[h] = ach4_a1[0]/1000.0
+                * loct->prsr[grid->m] / (UGC * (grid->tmp10_soil[grid->m] + ZAT));
+        }
 	}
     
     offset = 0;
@@ -438,13 +443,13 @@ void f_dyn_loct(
 			/* loct->vp[grid->m] = loct->prsr[grid->m]*grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]);  */
 			
 			/* revided by A.Ito (2009/08/17) */
-			vpres_var = grid->proj_hum[grid->climy - FDY_GCM-1][grid->m][grid->gcm_row][grid->gcm_col] -
+			vpres_var = grid->proj_hum[grid->climy - FDY_FUTURE-1][grid->m][grid->gcm_row][grid->gcm_col] -
 							grid->proj_hum_b[grid->m][grid->gcm_row][grid->gcm_col];
 			
 			loct->vp[grid->m] = grid->hist_vap_b[grid->m] + vpres_var;
             
             if(ISIMIP_RUN == 2){
-                loct->vp[grid->m] = grid->proj_hum[grid->climy - FDY_GCM][grid->m][0][0];
+                loct->vp[grid->m] = grid->proj_hum[grid->climy - FDY_FUTURE][grid->m][0][0];
             }
 		}
 		if(loct->vp[grid->m] < 0.0){

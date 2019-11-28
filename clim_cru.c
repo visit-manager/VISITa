@@ -285,9 +285,9 @@ void read_cru_clim(
         /* 2006-2091:   future projection */
         
         /* ait tempetaure, deg-C */
-        fread(r_gcm_data,sizeof(float), ASTEP*DL_GCM, fp_c2[0]);
+        fread(r_gcm_data,sizeof(float), ASTEP*DL_FUTURE, fp_c2[0]);
         
-        for(h=0;h<DL_GCM;h++){
+        for(h=0;h<DL_FUTURE;h++){
             for(g=0;g<ASTEP;g++){
                 /* K => degC */
                 grid->proj_tmp2m[h][g][0][0] = (double)r_gcm_data[h*ASTEP + g] - ZAT;
@@ -295,9 +295,9 @@ void read_cru_clim(
         }
         
         /* precipitation, mm month-1 */
-        fread(r_gcm_data,sizeof(float), ASTEP*DL_GCM, fp_c2[1]);
+        fread(r_gcm_data,sizeof(float), ASTEP*DL_FUTURE, fp_c2[1]);
         avpr = 0.0;
-        for(h=0;h<DL_GCM;h++){
+        for(h=0;h<DL_FUTURE;h++){
             for(g=0;g<ASTEP;g++){
                 grid->proj_prec[h][g][0][0] = (double)r_gcm_data[h*ASTEP + g] * (double)MDN[g] * DHN * HSN;
                 grid->proj_prec[h][g][0][0] = (grid->proj_prec[h][g][0][0]>0.0)?grid->proj_prec[h][g][0][0]:0.0;
@@ -305,9 +305,9 @@ void read_cru_clim(
         }
         
         /* relative humidity (%) => vapor pressure (hPa) */
-        fread(r_gcm_data,sizeof(float), ASTEP*DL_GCM, fp_c2[2]);
+        fread(r_gcm_data,sizeof(float), ASTEP*DL_FUTURE, fp_c2[2]);
         if(grid->flag_histdata == 1){
-            for(h=0;h<DL_GCM;h++){
+            for(h=0;h<DL_FUTURE;h++){
                 for(g=0;g<ASTEP;g++){
                 
                     /* relative humidity to vapor pressure */
@@ -326,7 +326,7 @@ void read_cru_clim(
                 }
             }
         }else{
-            for(h=0;h<DL_GCM;h++){
+            for(h=0;h<DL_FUTURE;h++){
                 for(g=0;g<ASTEP;g++){
                     grid->proj_hum[h][g][0][0] = 0.0;
                 }
@@ -334,16 +334,16 @@ void read_cru_clim(
         }
         
         /* radiation => cloudiness, fraction */
-        fread(r_gcm_data, sizeof(float), ASTEP*DL_GCM, fp_c2[3]);
+        fread(r_gcm_data, sizeof(float), ASTEP*DL_FUTURE, fp_c2[3]);
         if(grid->flag_histdata == 1){
-            for(h=0;h<DL_GCM;h++){
+            for(h=0;h<DL_FUTURE;h++){
                 for(g=0;g<ASTEP;g++){
                     grid->proj_rad[h][g][0][0] = (double)r_gcm_data[h*ASTEP+g];
                     grid->proj_rad[h][g][0][0] = (grid->proj_rad[h][g][0][0]>0.0)?grid->proj_rad[h][g][0][0]:0.0;
                 }
             }
         }else{
-            for(h=0;h<DL_GCM;h++){
+            for(h=0;h<DL_FUTURE;h++){
                 for(g=0;g<ASTEP;g++){
                     grid->proj_rad[h][g][0][0] = 0.0;
                 }

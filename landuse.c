@@ -268,6 +268,17 @@ void f_cult_luc(
         grid->f_pasture_con = 0.0;
     }
     
+    /* Forest management: 2019/10/15 by A.Ito *********/
+    if(EX_FORMAN == 1){
+        if(grid->lucy<=2000){
+            grid->f_crop_con = grid->fcrop_luh[grid->lucy - FDY_LUC];
+            grid->f_pasture_con = grid->fpast_luh[grid->lucy - FDY_LUC];
+        }else{
+            grid->f_crop_con = grid->fcrop_luh[2000 - FDY_LUC] * (1.0 - (double)(grid->lucy-2000)*0.005 );
+            grid->f_pasture_con = grid->fpast_luh[2000 - FDY_LUC];
+        }
+    }
+    
 	/*********************************/
 	if(grid->f_crop_con < 0.0){
 		grid->f_crop_con = 0.0;
@@ -458,6 +469,11 @@ void f_cult_luc(
                     grid->f_deforest = grid->f_deforest_v = grid->f_deforest_s = 0.0;
                 }
             }
+        }
+        
+        /* Forest management: 2019/10/15 by A.Ito *********/
+        if(EX_FORMAN == 1){
+            grid->f_deforest = 0.0;
         }
 	}
     

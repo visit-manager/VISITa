@@ -128,11 +128,11 @@ struct Grid{
 	
 	/* GCM climate: year x month x row x column */
 	/* 160 x 320   */
-#if GCM_RUN==1
-	float	proj_tmp2m[DL_GCM][ASTEP][160][320];		/* temperature */
-	float	proj_prec[DL_GCM][ASTEP][160][320];			/* precipitation */
-	float	proj_hum[DL_GCM][ASTEP][160][320];			/* specific humidity */
-	float	proj_rad[DL_GCM][ASTEP][160][320];			/* surface downward solar radiation */
+#if FUTURE_RUN==1
+	float	proj_tmp2m[DL_FUTURE][ASTEP][160][320];		/* temperature */
+	float	proj_prec[DL_FUTURE][ASTEP][160][320];			/* precipitation */
+	float	proj_hum[DL_FUTURE][ASTEP][160][320];			/* specific humidity */
+	float	proj_rad[DL_FUTURE][ASTEP][160][320];			/* surface downward solar radiation */
 	/* 1970-1999 average: month x row x column [ASTEP][160][320] */
 	float	proj_tmp2m_b[ASTEP][160][320];				/* temperature */
 	float	proj_prec_b[ASTEP][160][320];				/* precipitation */

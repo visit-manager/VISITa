@@ -739,6 +739,14 @@ void cal_historical(
                 prm_ensen = 1.0 + 0.3 * f_pert[1];
             }
             
+            /* Forest management: 2019/10/17 by A.Ito */
+            if(EX_FORMAN == 2){
+                prm_ensen = 0.5;
+            }
+            if(EX_FORMAN == 3){
+                prm_ensen = 2.0;
+            }
+
             /* into MgC/ha */
 			total_hvst *= 1.0/1000.0 * 1.0/grid->area * prm_ensen;
    
