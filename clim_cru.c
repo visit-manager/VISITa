@@ -183,9 +183,11 @@ void read_cru_clim(
                         /* relative humidity */
                         /* saturated water vapor pressure */
                         if(grid->hist_tmp[h][g] > 0.0){ /* at water surface */
-                            vps = 6.1078 * pow(10.0, (7.5 * grid->hist_tmp[h][g])/(237.3 + grid->hist_tmp[h][g]));
+                            vps = 6.1078 * pow(10.0, (7.5 * grid->hist_tmp[h][g])/
+                                    (237.3 + grid->hist_tmp[h][g]));
                         }else{ /* at ice surface */  /*  if(grid->tmp_2m[grid->m]<=0.0) */
-                            vps = 6.1078 * pow(10.0, (9.5 * grid->hist_tmp[h][g])/(265.3 + grid->hist_tmp[h][g]));
+                            vps = 6.1078 * pow(10.0, (9.5 * grid->hist_tmp[h][g])/
+                                    (265.3 + grid->hist_tmp[h][g]));
                         }
                         vps = (vps>=0.0)?vps:0.0;
                         grid->hist_vap[h][g] = vps * (double)r_isimip_data[h*ASTEP+g] / 100.0;
@@ -229,7 +231,7 @@ void read_cru_clim(
                     drad = 0.0;
                     grid->m = g;
                     for (f=0;f<24;f++) {
-                        drad += f_top_rad(grid, -180+15*f) / DHN; 
+                        drad += f_top_rad(grid, (short)(-180+15*f) ) / DHN;
                     }
                     
                     /* inverse estimation of cloudiness */
@@ -285,7 +287,7 @@ void read_cru_clim(
         /* 2006-2091:   future projection */
         
         /* ait tempetaure, deg-C */
-        fread(r_gcm_data,sizeof(float), ASTEP*DL_FUTURE, fp_c2[0]);
+        fread(r_gcm_data, sizeof(float), ASTEP*DL_FUTURE, fp_c2[0]);
         
         for(h=0;h<DL_FUTURE;h++){
             for(g=0;g<ASTEP;g++){
@@ -315,9 +317,11 @@ void read_cru_clim(
                     
                     /* saturated water vapor pressure */
                     if(grid->proj_tmp2m[h][g][0][0] > 0.0){ /* at water surface */
-                        vps = 6.1078*pow(10.0, (7.5*grid->proj_tmp2m[h][g][0][0])/(237.3 + grid->proj_tmp2m[h][g][0][0]));
+                        vps = 6.1078*pow(10.0, (7.5*grid->proj_tmp2m[h][g][0][0])/
+                                (237.3 + grid->proj_tmp2m[h][g][0][0]));
                     }else{ /* at ice surface */  /*  if(grid->tmp_2m[grid->m]<=0.0) */
-                        vps = 6.1078*pow(10.0, (9.5*grid->proj_tmp2m[h][g][0][0])/(265.3 + grid->proj_tmp2m[h][g][0][0]));
+                        vps = 6.1078*pow(10.0, (9.5*grid->proj_tmp2m[h][g][0][0])/
+                                (265.3 + grid->proj_tmp2m[h][g][0][0]));
                     }
                     vps = (vps>=0.0)?vps:0.0;
         

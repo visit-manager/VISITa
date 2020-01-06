@@ -578,11 +578,20 @@ void f_cult_luc(
             || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
             || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
         
-        if(grid->f_paddy_b > 0.0 && grid->fcrop_luh[2000 - FDY_LUC] > 0.0){
-            grid->f_paddy = grid->f_paddy_b * 
-                (grid->fcrop_luh[grid->lucy - FDY_LUC] / grid->fcrop_luh[2000 - FDY_LUC]);
+        if((grid->lucy - FDY_LUC) < DL_LUC){
+            if(grid->f_paddy_b > 0.0 && grid->fcrop_luh[2000 - FDY_LUC] > 0.0){
+                grid->f_paddy = grid->f_paddy_b *
+                    (grid->fcrop_luh[grid->lucy - FDY_LUC] / grid->fcrop_luh[2000 - FDY_LUC]);
+            }else{
+                grid->f_paddy = 0.0;
+            }
         }else{
-            grid->f_paddy = 0.0;
+            if(grid->f_paddy_b > 0.0 && grid->fcrop_luh[2000 - FDY_LUC] > 0.0){
+                grid->f_paddy = grid->f_paddy_b *
+                    (grid->fcrop_luh[DL_LUC - 1] / grid->fcrop_luh[2000 - FDY_LUC]);
+            }else{
+                grid->f_paddy = 0.0;
+            }
         }
         
         if(grid->f_paddy > 1.0){

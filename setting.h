@@ -128,7 +128,7 @@
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
+#define OUTPUT_GHG 1
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
@@ -284,7 +284,8 @@
     /* #define PD_HIST 115	*/	/* AD 1901 - 2015 */
     /* #define PD_HIST 116	*/	/* AD 1901 - 2016 */
     /* #define PD_HIST 117  */    /* AD 1901 - 2017 */
-    #define PD_HIST 118    /* */    /* AD 1901 - 2018 */
+    /* #define PD_HIST 118    */    /* AD 1901 - 2018 */
+    #define PD_HIST 119    /* */    /* AD 1901 - 2019 */
 #endif
 
 /* start year (AD) of climate ***/
@@ -345,7 +346,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -358,7 +359,8 @@
 /* #define DL_NCEP 68 */   /* 1948-2015 */
 /* #define DL_NCEP 69 */   /* 1948-2016 */
 /* #define DL_NCEP 70 */   /* 1948-2017 */
-#define DL_NCEP 71   /* 1948-2018 */
+/* #define DL_NCEP 71 */   /* 1948-2018 */
+#define DL_NCEP 72   /* 1948-2019 */
 
 /* Simulation using ISI-MIP data (yr) */
 /* spinup 1951-1980 */
@@ -509,9 +511,9 @@
 #else
     /* #define DL_LUC 601 */  /* 1500-2100: LUH 1500-2005/2005-2100 */
     /* #define DL_LUC 306 */  /* 1700-2000/2005 */
-    /* #define DL_LUC 150 */  /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
+    #define DL_LUC 150 /* */  /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
     /* #define DL_LUC 601 */  /* 1500-2005 + 2005-2100 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
-    #define DL_LUC 235 /* */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18 by A.Ito */
+    /* #define DL_LUC 235 */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18 by A.Ito */
 #endif
 
 /* begin year of land-use DATA */

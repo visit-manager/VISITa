@@ -575,8 +575,8 @@ void f_init_grid(
 		x += (double)h;
 		xx += (double)h * (double)h;
 		y += grid->fcrop_net[280+h];
-		yy += grid->fcrop_net[280+h]*grid->fcrop_net[280+h];
-		xy += (double)h*grid->fcrop_net[280+h];
+		yy += grid->fcrop_net[280+h] * grid->fcrop_net[280+h];
+		xy += (double)h * grid->fcrop_net[280+h];
 	}
 	grid->f_crop_trend = (10.0*xy - x*y)/(10.0*xx - x*x);
 	
@@ -794,8 +794,9 @@ void f_init_grid(
 		
 	/* EOS-WEBSTER Land-use change data *********************/
 	/*
-	 Hurtt, G. C., et al. (2006), The underpinnings of land-use history: three centuries of 
-	 global gridded land-use transitions, wood-harvest activity, and resulting secondary lands, 
+	 Hurtt, G. C., et al. (2006), The underpinnings of land-use
+     history: three centuries of global gridded land-use transitions,
+     wood-harvest activity, and resulting secondary lands,
 	 Global Change Biology, 12, 1-22.
 	 */
     /* revised by A.Ito (2013/12/20) */
@@ -1096,8 +1097,8 @@ void f_init_grid(
         }
         
         /* Future */
-        if(LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 || LANDUSE == 34 ||
-                LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
+        if(LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 ||
+                LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
             
             /* Historical */
             fscanf(fp_s[28],"%ld %lf", &ldummy, &dluh2);
