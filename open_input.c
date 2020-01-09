@@ -1289,22 +1289,30 @@ void open_input(
         }
     }else{
         if( (fp_s[84]=fopen("./data/fw_swamp-biascor_1999-2013.txt","rt"))==NULL ){
-            printf("No GCP-CH4 inundation data\n");
+            printf("No fw_swamp-biascor_1999-2013.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[84] ++;
         }
 	}
 
-	if(ALT_FWETLAND == 1){
+	if(ALT_PADDY == 1){
 		/* Alternative data (SAGE): 2011/03/30 by A.Ito */
 		if( (fp_s[22]=fopen("./data/fpaddy_iis_sage.txt","rt"))==NULL ){  
-			printf("No major_crps_rice_0.50x0.50.asc\n");  
+			printf("No fpaddy_iis_sage.txt\n");
 			exit(1); 
 		}else{
             Flag_FOPEN[22] ++;
         }
-	}else{
+	}else if(ALT_PADDY == 2){
+        /* Alternative data (Inoue): 2020/01/08 by A.Ito */
+        if( (fp_s[22]=fopen("./data/fpaddy_v1_hd.txt","rt"))==NULL ){
+            printf("No fpaddy_v1_hd.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[22] ++;
+        }
+    }else{
 		if( (fp_s[22]=fopen("./data/rice_sage_05.dat","rt"))==NULL ){  
 			printf("No rice_sage_05.dat\n");  
 			exit(1); 

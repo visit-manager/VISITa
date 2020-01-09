@@ -737,7 +737,7 @@ void f_init_grid(
     grid->f_wetland0 = grid->f_wetland;
 	
 	/* paddy fraction *****************/
-	if(ALT_FWETLAND == 1){
+	if(ALT_PADDY == 1){
 		/* Alternative data (IIS-UT + SAGE): 2011/03/30 by A.Ito */
 		fscanf(fp_s[22],"%lf", &paddy); 
 		if(paddy>0.0){
@@ -747,7 +747,17 @@ void f_init_grid(
 			grid->f_paddy = 0.0;
 			grid->f_paddy_b = 0.0;
 		}
-	}else{
+	}else if(ALT_PADDY == 2){
+        /* Alternative data (Inooue): 2020/01/08 by A.Ito */
+        fscanf(fp_s[22],"%lf", &paddy);
+        if(paddy>0.0){
+            grid->f_paddy = paddy;
+            grid->f_paddy_b = paddy;
+        }else{
+            grid->f_paddy = 0.0;
+            grid->f_paddy_b = 0.0;
+        }
+    }else{
 		/* default: data by U.Wisconsin SAGE (Leff et al.) */
 		fscanf(fp_s[22],"%lf", &paddy); 
 		if(paddy > 0.0){

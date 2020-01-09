@@ -178,7 +178,7 @@ void f_init_loct(
 		for(h=0;h<ASTEP;h++){
 			if(grid->tmp10_soil[h] > -20.0){
 				ftmp10b += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02))); 
-				if(T_D==0){
+				if(T_D == 0){
 					ftmp10 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02)));
 				}else if(T_D==1){
 					ftmp10 += 0.05 + 0.95*exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp10_soil[h]+46.02)));
@@ -195,15 +195,15 @@ void f_init_loct(
 			}
 			if(grid->tmp200_soil[h] > -20.0){
 				ftmp200b += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
-				if(T_D==0){
+				if(T_D == 0){
 					ftmp200 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
-				}else if(T_D==1){
+				}else if(T_D == 1){
 					ftmp200 += 0.05 + 0.95*exp(308.56*1.3*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
-				}else if(T_D==2){
+				}else if(T_D == 2){
 					ftmp200 += 0.05 + 0.95*exp(308.56*0.7*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02)));
-				}else if(T_D==3){
+				}else if(T_D == 3){
 					ftmp200 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02*1.3)));
-				}else if(T_D==4){
+				}else if(T_D == 4){
 					ftmp200 += 0.05 + 0.95*exp(308.56*(1.0/56.02-1.0/(grid->tmp200_soil[h]+46.02*0.7)));
 				}
 			}else{
@@ -216,8 +216,8 @@ void f_init_loct(
 	}
 	
 	/* water condition - Sim-HYDRO *****************/
-	loct->sw30 = 0.5*grid->field_cap1;
-	loct->sww = 0.5*grid->field_cap2; 
+	loct->sw30 = 0.5 * grid->field_cap1;
+	loct->sww = 0.5 * grid->field_cap2;
 	loct->snwa = 0.0;
 	loct->m_m_pre = 0.24;
 	nn = 0; 
@@ -392,7 +392,8 @@ void f_dyn_loct(
 	/* altitude */
 	alt = (grid->topo>=0.0)?grid->topo:0.0; 
 	/* air pressure */
-	loct->prsr[grid->m] = 1013.25 * exp(-1.0 * (28.964 * 0.001) * GAC * alt / (UGC * (grid->tmp_2m[grid->m] + ZAT)));
+	loct->prsr[grid->m] = 1013.25 * exp(-1.0 * (28.964 * 0.001) * GAC * alt /
+                        (UGC * (grid->tmp_2m[grid->m] + ZAT)));
 	
 	/* saturated vapour pressure, hPa */
 	loct->vps[grid->m] = vap_pre_sat(grid); 
@@ -514,7 +515,7 @@ void f_dyn_loct(
 	loct->m_vmc[grid->m] = loct->sw30/300.0;
 	loct->m_pet[grid->m] = loct->pm_incep[grid->m] + loct->pm_evp[grid->m] + loct->pm_trn[grid->m];
 	
-	loct->wfps[grid->m] = ((loct->m_vmc[grid->m]*100.0) / ((1.0 - grid->bulkdens/2.65)*100.0));
+	loct->wfps[grid->m] = ((loct->m_vmc[grid->m]*100.0) / ((1.0 - grid->bulkdens/2.65) * 100.0));
 	
 	if(loct->wfps[grid->m] > 1.5){
 		loct->wfps[grid->m] = 1.5;

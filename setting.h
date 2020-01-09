@@ -661,6 +661,12 @@
 /* 7: GCP-CH4 V2: 2018/08/28 by A.Ito */
 /* 8: GCP-CH4 V2: 2018/08/29 by A.Ito : no limit by GLWD */
 
+/* rice paddy map data */
+#define ALT_PADDY 0
+/* 0: default */
+/* 1: UT IIS */
+/* 2: Inoue 2020/01/08 */
+
 /* specific scheme on permaforst */
 #define EX_PERFROST 0
 /* 0:off, 1:on */

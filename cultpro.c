@@ -251,7 +251,7 @@ void harvesting(
 	flux->rfm[grid->m] = nn * frfm(grid, pchar, mass);
 	flux->rcm[grid->m] = nn * frcm(grid, pchar, mass);
 	flux->rrm[grid->m] = nn * frrm(grid, pchar, mass);
-	flux->arm[grid->m] = flux->rfm[grid->m]+flux->rcm[grid->m] + flux->rrm[grid->m];
+	flux->arm[grid->m] = flux->rfm[grid->m] + flux->rcm[grid->m] + flux->rrm[grid->m];
 	/* stable carbon isotope */
 	flux->d13c_rfm[grid->m] = mass->d13c_fol;
 	flux->d13c_rcm[grid->m] = mass->d13c_stm;
@@ -399,19 +399,19 @@ void interval(
 	f_leaf_age(0, pchar, mass, (flux->tpf[grid->m]-flux->rfg[grid->m]));
 	
 	/* stable carbon isotope */
-	if((flux->tpf[grid->m]-flux->rfg[grid->m])>0.0){
+	if((flux->tpf[grid->m]-flux->rfg[grid->m]) > 0.0){
 		mass->d13c_fol = d13c_addition(mass->d13c_fol, mass->fol, 
 			flux->d13c_tpf[grid->m], (flux->tpf[grid->m]-flux->rfg[grid->m]));
 	}else if((flux->tpf[grid->m]-flux->rfg[grid->m]) < 0.0){
 		mass->d13c_fol = mass->d13c_fol;
 	}
-	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
+	if((flux->tpc[grid->m]-flux->rcg[grid->m]) > 0.0){
 		mass->d13c_stm = d13c_addition(mass->d13c_stm, mass->stm, 
 			flux->d13c_tpc[grid->m], (flux->tpc[grid->m]-flux->rcg[grid->m]));
 	}else if((flux->tpf[grid->m]-flux->rfg[grid->m]) < 0.0){
 		mass->d13c_stm = mass->d13c_stm;
 	}
-	if((flux->tpc[grid->m]-flux->rcg[grid->m])>0.0){
+	if((flux->tpc[grid->m]-flux->rcg[grid->m]) > 0.0){
 		mass->d13c_rot = d13c_addition(mass->d13c_rot, mass->rot, 
 			flux->d13c_tpr[grid->m], (flux->tpr[grid->m]-flux->rrg[grid->m]));
 	}else if((flux->tpr[grid->m]-flux->rrg[grid->m]) < 0.0){

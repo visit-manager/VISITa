@@ -45,7 +45,7 @@ void read_cru_clim(
     if(ISIMIP_RUN == 0){
         flag = 0;
         
-        /* read CRU TS Cloud data */
+        /* read CRU TS cloud data */
         fscanf(fp_c[0],"%ld", &kk[0]);
         if(kk[0]!=0){
             flag++;
