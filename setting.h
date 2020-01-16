@@ -686,6 +686,11 @@
 #define FIX_CH4_NPP 0
 /* 0:off, 1:0n */
 
+/* experiments for paddy management for mitigation */
+#define EX_PADDY 1
+/* 0: default */
+/* 1: low water-table */
+
 /*****************************************************/
 /* parameter perturbation */
 /* climate perturbation */

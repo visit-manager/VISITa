@@ -586,6 +586,9 @@ void f_ch4_emit_walter(
 		
 		/* water-table depth, m from surface */
 		loct->water_table_depth = -0.03;
+        if(EX_PADDY == 1){
+            loct->water_table_depth = 0.15;
+        }
 		wtdepth = loct->water_table_depth;
         /* loct->xx3[grid->m] = wtdepth; */
 		
@@ -597,12 +600,15 @@ void f_ch4_emit_walter(
 		
 		/* water-table depth, m from surface */
 		loct->water_table_depth = 0.5;
+        if(EX_PADDY == 1){
+            loct->water_table_depth = 0.9;
+        }
 		wtdepth = loct->water_table_depth;
         /*  loct->xx4[grid->m] = wtdepth; */
 		
 		/* tuning parameter (cf. Table 2) */
 		/* r0 = 0.4;  */  /* 1.0 => 0.7: 2009/08/20 */
- 	}	
+ 	}
 	
 	/* porosity */
 	poro = 0.45*f_sand + 0.20*(1.0 - f_sand - f_clay) + 0.14*f_clay + 0.45*0.03;	
