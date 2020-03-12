@@ -575,8 +575,8 @@ void f_init_grid(
 		x += (double)h;
 		xx += (double)h * (double)h;
 		y += grid->fcrop_net[280+h];
-		yy += grid->fcrop_net[280+h]*grid->fcrop_net[280+h];
-		xy += (double)h*grid->fcrop_net[280+h];
+		yy += grid->fcrop_net[280+h] * grid->fcrop_net[280+h];
+		xy += (double)h * grid->fcrop_net[280+h];
 	}
 	grid->f_crop_trend = (10.0*xy - x*y)/(10.0*xx - x*x);
 	
@@ -737,7 +737,7 @@ void f_init_grid(
     grid->f_wetland0 = grid->f_wetland;
 	
 	/* paddy fraction *****************/
-	if(ALT_FWETLAND == 1){
+	if(ALT_PADDY == 1){
 		/* Alternative data (IIS-UT + SAGE): 2011/03/30 by A.Ito */
 		fscanf(fp_s[22],"%lf", &paddy); 
 		if(paddy>0.0){
@@ -747,7 +747,17 @@ void f_init_grid(
 			grid->f_paddy = 0.0;
 			grid->f_paddy_b = 0.0;
 		}
-	}else{
+	}else if(ALT_PADDY == 2){
+        /* Alternative data (Inooue): 2020/01/08 by A.Ito */
+        fscanf(fp_s[22],"%lf", &paddy);
+        if(paddy>0.0){
+            grid->f_paddy = paddy;
+            grid->f_paddy_b = paddy;
+        }else{
+            grid->f_paddy = 0.0;
+            grid->f_paddy_b = 0.0;
+        }
+    }else{
 		/* default: data by U.Wisconsin SAGE (Leff et al.) */
 		fscanf(fp_s[22],"%lf", &paddy); 
 		if(paddy > 0.0){
@@ -794,8 +804,9 @@ void f_init_grid(
 		
 	/* EOS-WEBSTER Land-use change data *********************/
 	/*
-	 Hurtt, G. C., et al. (2006), The underpinnings of land-use history: three centuries of 
-	 global gridded land-use transitions, wood-harvest activity, and resulting secondary lands, 
+	 Hurtt, G. C., et al. (2006), The underpinnings of land-use
+     history: three centuries of global gridded land-use transitions,
+     wood-harvest activity, and resulting secondary lands,
 	 Global Change Biology, 12, 1-22.
 	 */
     /* revised by A.Ito (2013/12/20) */
@@ -834,7 +845,7 @@ void f_init_grid(
         
 		for(h=0;h<DL_LUC;h++){
 			/* fractional cover */
-            if(h<(BGY_GCM - FDY_LUC -1)){  /* 1500-2004 */
+            if(h<(BGY_FUTURE - FDY_LUC -1)){  /* 1500-2004 */
                 fscanf(fp_s[26],"%lf", &grid->fcrop_luh[h]);
                 fscanf(fp_s[27],"%lf", &grid->fpast_luh[h]);
                 fscanf(fp_s[28],"%lf", &grid->fprim_luh[h]);
@@ -929,7 +940,7 @@ void f_init_grid(
     
         for(h=FDY_LUC;h<(FDY_LUC+DL_LUC);h++){
 			/* fractional cover */
-            if(h < (BGY_GCM-1)){  /* 1500-2005 */
+            if(h < (BGY_FUTURE-1)){  /* 1500-2005 */
                 fscanf(fp_s[26],"%lf", &grid->fcrop_luh[h-FDY_LUC]);
                 fscanf(fp_s[27],"%lf", &grid->fpast_luh[h-FDY_LUC]);
                 fscanf(fp_s[28],"%lf", &grid->fprim_luh[h-FDY_LUC]);
@@ -951,7 +962,7 @@ void f_init_grid(
                 fscanf(fp_s[44],"%lf", &grid->t_vs2_luh[h-FDY_LUC]);
             }
             
-            if(h >= (BGY_GCM-1)){  /* 2005-2100 */
+            if(h >= (BGY_FUTURE-1)){  /* 2005-2100 */
                 fscanf(fp_s[59],"%lf", &grid->fcrop_luh[h-FDY_LUC]);
                 if(grid->fcrop_luh[h-FDY_LUC] < 0.0){
                     grid->fcrop_luh[h-FDY_LUC] = 0.0;
@@ -1050,7 +1061,7 @@ void f_init_grid(
             /* LUH2 for CMIP6: 2018/12/24 by A.Ito */
             for(h=FDY_LUC;h<(FDY_LUC+DL_LUC);h++){
                 /* fractional cover */
-                if(h < (BGY_GCM)){  /* 1866-2015 */
+                if(h < (BGY_FUTURE)){  /* 1866-2015 */
                     fscanf(fp_s[26],"%lf", &ddummy); /* water */
                     fscanf(fp_s[26],"%lf", &grid->fprim_luh[h-FDY_LUC]);
                     fscanf(fp_s[26],"%lf", &grid->fsecd_luh[h-FDY_LUC]);
@@ -1068,7 +1079,7 @@ void f_init_grid(
             /* LUH2 for CMIP6: 2018/12/24 by A.Ito */
             for(h=FDY_LUC;h<(FDY_LUC+DL_LUC);h++){
                 /* fractional cover */
-                if(h < (BGY_GCM)){  /* 1866-2015 */
+                if(h < (BGY_FUTURE)){  /* 1866-2015 */
                     fscanf(fp_s[27],"%lf", &grid->t_vs_luh[h-FDY_LUC]); /* primary to secondary */
                     fscanf(fp_s[27],"%lf", &ddummy); /* primary to urban */
                     fscanf(fp_s[27],"%lf", &grid->t_vc_luh[h-FDY_LUC]);
@@ -1096,8 +1107,8 @@ void f_init_grid(
         }
         
         /* Future */
-        if(LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 || LANDUSE == 34 ||
-                LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
+        if(LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 ||
+                LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
             
             /* Historical */
             fscanf(fp_s[28],"%ld %lf", &ldummy, &dluh2);
@@ -1105,7 +1116,7 @@ void f_init_grid(
                 /* LUH2 for CMIP6: 2019/07/18 by A.Ito */
                 for(h=FDY_LUC;h<(FDY_LUC+DL_LUC);h++){
                     /* fractional cover */
-                    if(h >= (BGY_GCM)){  /* 2016-2100 */
+                    if(h >= (BGY_FUTURE)){  /* 2016-2100 */
                         fscanf(fp_s[28],"%lf", &ddummy); /* water */
                         fscanf(fp_s[28],"%lf", &grid->fprim_luh[h-FDY_LUC]);
                         fscanf(fp_s[28],"%lf", &grid->fsecd_luh[h-FDY_LUC]);
@@ -1124,7 +1135,7 @@ void f_init_grid(
                 /* LUH2 for CMIP6: 2019/07/18 by A.Ito */
                 for(h=FDY_LUC;h<(FDY_LUC+DL_LUC);h++){
                     /* fractional cover */
-                    if(h >= (BGY_GCM)){  /* 2016-2100 */
+                    if(h >= (BGY_FUTURE)){  /* 2016-2100 */
                         fscanf(fp_s[29],"%lf", &grid->t_vs_luh[h-FDY_LUC]); /* primary to secondary */
                         fscanf(fp_s[29],"%lf", &ddummy); /* primary to urban */
                         fscanf(fp_s[29],"%lf", &grid->t_vc_luh[h-FDY_LUC]);
@@ -1155,7 +1166,7 @@ void f_init_grid(
         
         for(h=0;h<DL_LUC;h++){
             /* fractional cover */
-            if(h<(BGY_GCM - FDY_LUC -1)){  /* 1500-2004 */
+            if(h<(BGY_FUTURE - FDY_LUC -1)){  /* 1500-2004 */
                 fscanf(fp_s[26],"%lf", &grid->fcrop_luh[h]);
                 fscanf(fp_s[27],"%lf", &grid->fpast_luh[h]);
                 fscanf(fp_s[28],"%lf", &grid->fprim_luh[h]);
@@ -1250,7 +1261,7 @@ void f_init_grid(
                 LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
         
         for(h=0;h<DL_LUC;h++){
-            if(h<(BGY_GCM - FDY_LUC - 1)){
+            if(h<(BGY_FUTURE - FDY_LUC - 1)){
                 fscanf(fp_s[53],"%lf", &grid->hvst_p1[h]);
                 fscanf(fp_s[54],"%lf", &grid->hvst_p2[h]);
                 fscanf(fp_s[55],"%lf", &grid->hvst_s1[h]);
@@ -1282,7 +1293,7 @@ void f_init_grid(
         
         for(h=FDY_LUC;h<(FDY_LUC+DL_LUC);h++){
 
-            if(h < (BGY_GCM-1)){ /* 1500-2004 */
+            if(h < (BGY_FUTURE-1)){ /* 1500-2004 */
                 fscanf(fp_s[53],"%lf", &grid->hvst_p1[h-FDY_LUC]);
                 fscanf(fp_s[54],"%lf", &grid->hvst_p2[h-FDY_LUC]);
                 fscanf(fp_s[55],"%lf", &grid->hvst_s1[h-FDY_LUC]);
@@ -1290,7 +1301,7 @@ void f_init_grid(
                 fscanf(fp_s[57],"%lf", &grid->hvst_s3[h-FDY_LUC]);
             }
         
-            if(h >= (BGY_GCM-1)){ /* 2005-2100 */
+            if(h >= (BGY_FUTURE-1)){ /* 2005-2100 */
                 fscanf(fp_s[78],"%lf", &grid->hvst_p1[h-FDY_LUC]);
                 if(grid->hvst_p1[h-FDY_LUC] < 0.0){
                     grid->hvst_p1[h-FDY_LUC] = 0.0;

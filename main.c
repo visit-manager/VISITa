@@ -45,7 +45,7 @@ Ito, A., Inatomi, M., 2012. Water-use efficiency of the terrestrial
 /* prototypes */
 #include"prototype.h"
 
-#define FROWS 10
+#define FROWS 360
 
 /*  how to run the model?
  
@@ -273,7 +273,7 @@ int main(
 		printf("Reading NCEP/NCAR reanalysis climate data...");
 		read_ncep_clim(&grid);
 	}
-	if(GCM_RUN == 1){
+	if(FUTURE_RUN == 1){
 		printf("Reading GCM climate projection...");
 		read_gcm_clim(fp_c2, &grid);
 	}
@@ -407,7 +407,7 @@ int main(
                     cal_historical(&grid, &loct, &echar, &mass, &flux, fp_o1);	
 
                     /* future: 2001-2100 */
-                    if(GCM_RUN==1){
+                    if(FUTURE_RUN==1){
                         cal_projection(&grid, &loct, &echar, &mass, &flux, fp_o1);
                     }
                     
@@ -453,7 +453,7 @@ int main(
                     cal_historical(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2); 
 
                     /* future: 2001-2100 */
-                    if(GCM_RUN == 1){
+                    if(FUTURE_RUN == 1){
                         cal_projection(&grid, &loct_agr, &echar_agr, &mass_agr, &flux_agr, fp_o2);
                     }
                     
@@ -486,7 +486,7 @@ int main(
 		fclose(fp_c[h]);
         
         /* revised 2015/8/12 by A.Ito */
-        if(GCM_RUN == 1 && SCENARIO_ID >= 1){
+        if(FUTURE_RUN == 1 && SCENARIO_ID >= 1){
             fclose(fp_c2[h]);
         }
 	}

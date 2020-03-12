@@ -139,7 +139,9 @@ void cal_historical(
         /*************/
         /* added by A.Ito: 2018/10/26 */
         if(EXTRA_CO2_FIX == 1){
-            /* grid->co2y = 1901; */ /* 1901 */
+            grid->co2y = 1901; /* */ /* 1901 */
+        }
+        if(EXTRA_CO2_FIX == 2){
             grid->lucy = 1950; /* */ /* 1950 */
         }
         if(EXTRA_CLIM_FIX == 1){
@@ -154,7 +156,11 @@ void cal_historical(
         if(grid->simy < BGY_CLIM){
             grid->climy = BGY_CLIM + g%20;
         }else if(grid->simy > (BGY_CLIM + DL_HCLIM - 1)){
-            grid->climy = (BGY_CLIM + DL_HCLIM - 1);
+            if(NCEP_RUN == 1 && grid->simy <(FDY_NCEP+DL_NCEP) ){
+                ;
+            }else{
+                grid->climy = (BGY_CLIM + DL_HCLIM - 1);
+            }
         }
         
         /* for considering leap years: 2014/09/29 by A.Ito */
@@ -737,6 +743,14 @@ void cal_historical(
                 prm_ensen = 1.0 + 0.3 * f_pert[1];
             }
             
+            /* Forest management: 2019/10/17 by A.Ito */
+            if(EX_FORMAN == 2){
+                prm_ensen = 0.5;
+            }
+            if(EX_FORMAN == 3){
+                prm_ensen = 2.0;
+            }
+
             /* into MgC/ha */
 			total_hvst *= 1.0/1000.0 * 1.0/grid->area * prm_ensen;
    

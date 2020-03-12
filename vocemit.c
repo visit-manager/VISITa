@@ -94,7 +94,7 @@ void f_voc_emit_guenther97(
         2.0, 100.0};
 	long f, idveg;
 	double foliar_dens, leaf_temp, parday, prm_ensen;
-	double f_ppfd, f_temp_isopr, f_temp_monotrp, f_phenology;
+	double f_ppfd, f_temp_isopr, f_temp_monotrp, f_phenology, f_co2;
 	double aa, bb, cc, cc2, dd, laiage[49], t_lai, total_closs;
 	extern double MDN[ASTEP];
 	
@@ -123,6 +123,21 @@ void f_voc_emit_guenther97(
         idveg = 16;
     }else{
         idveg = grid->veg_sage;
+    }
+    
+    /* BVOC experiments: 2019/08/13 by A.Ito */
+    /* change isoprene emission factor to Saito et al. (2008) */
+    if(EX_BVOC == 1){
+        emit_potent_isopr[1] = 9.0;
+    }
+    /* inhibition by elevated CO2 on isoprene */
+    f_co2 = 1.0;
+    if(EX_BVOC == 2){
+        if(loct->aco2[grid->m] <= 350.0){
+            f_co2 = 1.0;
+        }else{
+            f_co2 = 1.0 - 0.0005 * (loct->aco2[grid->m] - 350.0);
+        }
     }
 
 	/* foliar density, g d.m. C / m2   *********************/
@@ -242,7 +257,7 @@ void f_voc_emit_guenther97(
     }
 
 	/* VOC emission, micro g C m-2 month-1  */
-	flux->voc_isopr_g97[grid->m] = emit_potent_isopr[idveg] * cc * f_ppfd * f_temp_isopr * f_phenology * prm_ensen;
+	flux->voc_isopr_g97[grid->m] = emit_potent_isopr[idveg] * cc * f_ppfd * f_temp_isopr * f_phenology * f_co2 * prm_ensen;
 	flux->voc_monotrp_g97[grid->m] = emit_potent_monotrp[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;
 	flux->voc_methanl_g97[grid->m] = emit_potent_methanl[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;
 	flux->voc_acetone_g97[grid->m] = emit_potent_acetone[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;

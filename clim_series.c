@@ -66,6 +66,7 @@ void set_hist_clim(
             /* 2015-2015: extrapolation using NCEP/NCAR data: 2016/01/04 by A.Ito */
             /* 2016-2017: extrapolation using NCEP/NCAR data: 2018/01/03 by A.Ito */
             /* 2017-2018: extrapolation using NCEP/NCAR data: 2019/01/03 by A.Ito */
+            /* 2018-2019: extrapolation using NCEP/NCAR data: 2020/01/09 by A.Ito */
             for(h=0;h<ASTEP;h++){
                 /* temperature */
                 tmp_var = grid->ncep_tmp2m[grid->climy - FDY_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
@@ -259,7 +260,7 @@ void set_gcm_clim(
             tmp_var = 6.0/100.0 * (double)(grid->climy-2000);
         }else if(TEMP_GC ==0){
             if(CC_T == 1){
-                tmp_var = grid->proj_tmp2m[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col] -
+                tmp_var = grid->proj_tmp2m[grid->climy - FDY_FUTURE][h][grid->gcm_row][grid->gcm_col] -
                             grid->proj_tmp2m_b[h][grid->gcm_row][grid->gcm_col];
             }else{
                 tmp_var = 0.0;
@@ -285,12 +286,12 @@ void set_gcm_clim(
         
         if(ISIMIP_RUN == 2){
             /* PLUME: 2014/07/31 by A.Ito */
-            grid->tmp_2m[h] = grid->proj_tmp2m[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col];
-            grid->tmp_sfc[h] = grid->proj_tmp2m[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col]
+            grid->tmp_2m[h] = grid->proj_tmp2m[grid->climy - FDY_FUTURE][h][grid->gcm_row][grid->gcm_col];
+            grid->tmp_sfc[h] = grid->proj_tmp2m[grid->climy - FDY_FUTURE][h][grid->gcm_row][grid->gcm_col]
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
-            grid->tmp10_soil[h] = grid->proj_tmp2m[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col]
+            grid->tmp10_soil[h] = grid->proj_tmp2m[grid->climy - FDY_FUTURE][h][grid->gcm_row][grid->gcm_col]
                                 + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-            grid->tmp200_soil[h] = grid->proj_tmp2m[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col]
+            grid->tmp200_soil[h] = grid->proj_tmp2m[grid->climy - FDY_FUTURE][h][grid->gcm_row][grid->gcm_col]
                                 + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
        }
         
@@ -299,7 +300,7 @@ void set_gcm_clim(
             pre_var = 0.0;
         }else{
             if(CC_P == 1){
-                pre_var = grid->proj_prec[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col] -
+                pre_var = grid->proj_prec[grid->climy - FDY_FUTURE][h][grid->gcm_row][grid->gcm_col] -
                             grid->proj_prec_b[h][grid->gcm_row][grid->gcm_col];
             }else{
                 pre_var = 0.0;
@@ -309,7 +310,7 @@ void set_gcm_clim(
        
         if(ISIMIP_RUN == 2){
             /* PLUME: 2014/07/31 by A.Ito */
-            grid->prate_sfc[h] = grid->proj_prec[grid->climy-FDY_GCM][h][grid->gcm_row][grid->gcm_col];
+            grid->prate_sfc[h] = grid->proj_prec[grid->climy-FDY_FUTURE][h][grid->gcm_row][grid->gcm_col];
         }
         
         if(grid->prate_sfc[h] <= 0.0){
@@ -337,10 +338,10 @@ void set_gcm_clim(
             apres = 1013.25*exp(-1.0 * (28.964*0.001) * GAC * alt/(UGC * (grid->tmp_2m[h] + ZAT)));
             
             if(CC_H == 1){
-                rvap = grid->proj_hum[grid->climy - FDY_GCM][h][grid->gcm_row][grid->gcm_col] / apres;
+                rvap = grid->proj_hum[grid->climy - FDY_FUTURE][h][grid->gcm_row][grid->gcm_col] / apres;
                 grid->spfh_2m[h] = 0.622 * rvap / (1.0 - 0.378 * rvap);
                 
-                /* shm_var = grid->proj_hum[grid->climy-FDY_GCM-1][h][grid->gcm_row][grid->gcm_col] - 
+                /* shm_var = grid->proj_hum[grid->climy-FDY_FUTURE-1][h][grid->gcm_row][grid->gcm_col] - 
                             grid->proj_hum_b[h][grid->gcm_row][grid->gcm_col]; */
             }else{
                 rvap = grid->proj_hum_b[h][grid->gcm_row][grid->gcm_col] / apres;
@@ -363,7 +364,7 @@ void set_gcm_clim(
             rad_var = 0.0;
         }else{
             if(CC_R == 1 || CC_R == 2){
-                rad_var = grid->proj_rad[grid->climy-FDY_GCM][h][grid->gcm_row][grid->gcm_col] - 
+                rad_var = grid->proj_rad[grid->climy-FDY_FUTURE][h][grid->gcm_row][grid->gcm_col] - 
                             grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
             }else if(CC_R == 0 || CC_R == 3){
                 rad_var = 0.0;	/* mean SW & PAR */
@@ -382,7 +383,7 @@ void set_gcm_clim(
         
         if(ISIMIP_RUN == 2){
             /* PLUME: 2014/07/31 by A.Ito */
-            grid->gl_rad[h] = grid->proj_rad[grid->climy-FDY_GCM][h][grid->gcm_row][grid->gcm_col];
+            grid->gl_rad[h] = grid->proj_rad[grid->climy-FDY_FUTURE][h][grid->gcm_row][grid->gcm_col];
         }
         
         if(grid->gl_rad[h] < 0.0){
@@ -416,7 +417,7 @@ void set_gcm_clim(
             grid->gl_rad[h] = grid->rad_a[h];	/* mean SW */
         }
         if(CC_R == 3){
-            rad_var = grid->proj_rad[grid->climy-FDY_GCM-1][h][grid->gcm_row][grid->gcm_col] - 
+            rad_var = grid->proj_rad[grid->climy-FDY_FUTURE-1][h][grid->gcm_row][grid->gcm_col] - 
                     grid->proj_rad_b[h][grid->gcm_row][grid->gcm_col];
                     
             grid->gl_rad[h] = grid->rad_a[h] + rad_var;

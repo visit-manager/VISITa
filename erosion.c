@@ -63,7 +63,7 @@ void f_erosion(
 		grid->f_erosion_r = 0.0483 * pow(grid->prate_sfc_ann, 1.610);
 	}else{
 		grid->f_erosion_r = 587.8 - 1.219 * grid->prate_sfc_ann
-				+ 0.004105*grid->prate_sfc_ann * grid->prate_sfc_ann;
+				+ 0.004105 * grid->prate_sfc_ann * grid->prate_sfc_ann;
 	}
 	if(grid->f_erosion_r < 0.0){
 		grid->f_erosion_r = 0.0;
@@ -71,13 +71,13 @@ void f_erosion(
 	
 	/* K: soil erodibility */
 	grid->f_erosion_k = grid->fk_edodibility;
-	if(grid->f_erosion_k<0.0){
+	if(grid->f_erosion_k < 0.0){
 		grid->f_erosion_k = 0.0;
 	}
 
 	/* LS: slope */
 	grid->f_erosion_ls = grid->fls_slope;
-	if(grid->f_erosion_ls<0.0){
+	if(grid->f_erosion_ls < 0.0){
 		grid->f_erosion_ls = 0.0;
 	}
 
