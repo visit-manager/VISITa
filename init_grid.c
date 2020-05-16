@@ -768,6 +768,12 @@ void f_init_grid(
 			grid->f_paddy_b = 0.0;
 		}
 	}
+    
+    /* No paddy experiment: 2020/05/16 by A.Ito */
+    if(EX_PADDY == 2){
+        grid->f_paddy = 0.0;
+        grid->f_paddy_b = 0.0;
+    }
 	
 	grid->f_upland = 1.0 - grid->f_wetland - grid->f_lake - grid->f_paddy;
 	if(grid->f_upland < 0.0){

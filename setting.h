@@ -223,7 +223,7 @@
     #define FSY_HIST 1901 /* */
     /* #define LSY_HIST 2016 */ /* history */
     /* #define LSY_HIST 1980 */ /* GCP-CH4 MERRA2 run: 2018/08/29 by A.Ito */
-    #define LSY_HIST 2018 /* history */
+    #define LSY_HIST 2019 /* history */
 #endif
 
 /* start year (AD) of CO2 time series */
@@ -283,9 +283,9 @@
     /* #define PD_HIST 114  */	/* AD 1901 - 2014 */
     /* #define PD_HIST 115	*/	/* AD 1901 - 2015 */
     /* #define PD_HIST 116	*/	/* AD 1901 - 2016 */
-    /* #define PD_HIST 117  */    /* AD 1901 - 2017 */
-    /* #define PD_HIST 118    */    /* AD 1901 - 2018 */
-    #define PD_HIST 119    /* */    /* AD 1901 - 2019 */
+    /* #define PD_HIST 117  */  /* AD 1901 - 2017 */
+    /* #define PD_HIST 118  */  /* AD 1901 - 2018 */
+    #define PD_HIST 119    /* */  /* AD 1901 - 2019 */
 #endif
 
 /* start year (AD) of climate ***/
@@ -332,7 +332,8 @@
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
-    #define DL_HCLIM 118  /* CRU TS4.03: AD 1901 - 2018 */
+    /* #define DL_HCLIM 118 */  /* CRU TS4.03: AD 1901 - 2018 */
+    #define DL_HCLIM 119  /* CRU TS4.04: AD 1901 - 2019 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -346,7 +347,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -439,7 +440,7 @@
 #define NECB_CROP 1
 
 #define EX_FIRE_GFED 0
-/* 0:off, 1:on   2018/05/19 by A.Ito */
+/* 0: off, 1: on   2018/05/19 by A.Ito */
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
@@ -639,7 +640,7 @@
 /* 3: bubble 450 microM */
 /* 4: bubble 550 microM */
 
-/* Alternative land-cover data for CH4 */
+/* alternative land-cover data for CH4 */
 #define ALT_FWETLAND 0
 /* 0: not use alternative data: default - GLWD */
 /* 1: use alternative data */
@@ -687,19 +688,20 @@
 /* 0:off, 1:0n */
 
 /* experiments for paddy management for mitigation */
-#define EX_PADDY 1
+#define EX_PADDY 0
 /* 0: default */
 /* 1: low water-table */
+/* 2: no paddy: 2020/05/16 by A.Ito */
 
 /*****************************************************/
 /* parameter perturbation */
 /* climate perturbation */
 #define PRT_CLIM 0
-/* 0:off, 1:0n */
+/* 0: off, 1: on */
 
 /* fixed CO2 for gs: separation of CO2 effects */
 #define FIX_GSCO2 0
-/* 0:off, 1:0n */
+/* 0: off, 1: on */
 
 /* carbon-nitrogen coupling */
 #define CN_COUPLE 0
@@ -709,7 +711,7 @@
 
 /* sensitivity run of biomass burning emission factor */
 #define SENS_FIRE 0
-/* 0:off, 1:0n */
+/* 0: off, 1: on */
 
 /* parameter ensemble experiment ****/
 #define ENSEMBLE_RUN 0
