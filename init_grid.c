@@ -768,6 +768,12 @@ void f_init_grid(
 			grid->f_paddy_b = 0.0;
 		}
 	}
+    
+    /* No paddy experiment: 2020/05/16 by A.Ito */
+    if(EX_PADDY == 2){
+        grid->f_paddy = 0.0;
+        grid->f_paddy_b = 0.0;
+    }
 	
 	grid->f_upland = 1.0 - grid->f_wetland - grid->f_lake - grid->f_paddy;
 	if(grid->f_upland < 0.0){
@@ -780,7 +786,7 @@ void f_init_grid(
 		grid->total_n_1m = 0.0;
 	}
 	
-    if(ISIMIP_RUN==4 && (SCENARIO_ID>=5010 && SCENARIO_ID<=5100)){
+    if(ISIMIP_RUN==4 && (SCENARIO_ID>=5010 && SCENARIO_ID<5100)){
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         fread(is2bdat,sizeof(float),DL_AGHG, fp_s[25]);
         for(e=0;e<DL_NINPUT;e++){

@@ -21,6 +21,9 @@ Mitchell, T. D., and P. D. Jones (2005), An improved method of constructing a da
 Harris, I., P. D. Jones, T. J. Osborn, and D. H. Lister, 2014: Updated
  high-resolution grids of monthly climatic observations – the CRU TS3.10 Dataset.
  International Journal of Climatology, 34, 623–642.
+Harris I, Osborn TJ, Jones P, Lister D (2020) Version 4 of the CRU TS monthly
+ high-resolution gridded multivariate climate dataset. Scientific Data 7: 109.
+ DOI: 10.1038/s41597-020-0453-3
 */
 void read_cru_clim(
 	FILE *fp_c[4], 

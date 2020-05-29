@@ -97,6 +97,7 @@ void f_set_history_data(
         h_rns[year] += fweight * loct->rad_net_short[f]* wmonth * grid->area;
         h_rnl[year] += fweight * loct->rad_net_long[f]* wmonth * grid->area;
         h_rnsd[year] += fweight * loct->nsw_d[f]* wmonth * grid->area;
+        h_dswd[year] += fweight * loct->glrad_dav[f]* wmonth * grid->area;
         h_cld[year] += fweight * grid->tcdc_clm[f]* wmonth * grid->area;
         
         h_apar[year] += fweight * loct->appfd_g[f]* wmonth * grid->area;
@@ -696,6 +697,8 @@ void f_glosum_output(
         fprintf(fp_glsum,"%lf ", h_ans3[h]); /* 2019/06/24 */
         fprintf(fp_glsum,"%lf ", h_ans4[h]); /* 2019/06/24 */
         fprintf(fp_glsum,"%lf ", h_ans5[h]); /* 2019/06/24 */
+
+        fprintf(fp_glsum,"%lf ", h_dswd[h]); /* 2020/05/29 */
 
 		fprintf(fp_glsum,"\n");
 	}

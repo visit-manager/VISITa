@@ -44,6 +44,7 @@ void set_hist_clim(
             /* 1901-2016:CRU TS3.25 */
             /* 1901-2017:CRU TS3.26 */
             /* 1901-2018:CRU TS4.03 */
+            /* 1901-2019:CRU TS4.04 */
             for(h=0;h<ASTEP;h++){
                 grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h] 
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
@@ -198,7 +199,7 @@ void set_hist_clim(
         }
     }
 	
-	/* perturbation for uncertainty analysis: 2010/05/17 (A.Ito) ***************/
+    /* perturbation for uncertainty analysis: 2010/05/17 (A.Ito) ***************/
 	if(PRT_CLIM == 1){
 		if(PARAM_PTB == 1){
 			for(h=0;h<ASTEP;h++){

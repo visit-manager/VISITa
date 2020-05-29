@@ -410,7 +410,7 @@ void f_net_rad(
     } */
     
     /* temperature change due to albedo: 2014/5/19 by A.Ito */
-    if(EX_TVAR == 1 && EX_ALBEDO>=1){
+    if(EX_TVAR == 1 && EX_ALBEDO >= 1){
  
         if(grid->phase == 0){
             grid->tmp_sfc[grid->m] = grid->tmp_sfc_a[grid->m];
@@ -420,7 +420,7 @@ void f_net_rad(
         
         /* latent heat, W m-2, approximated by the previous year's value */
         latheat = (loct->incep[grid->m] + loct->trspr[grid->m] + loct->evpr[grid->m])
-                * (2.5*1000000.0) / DHN / HSN / MDN[grid->m];
+                    * (2.5*1000000.0) / DHN / HSN / MDN[grid->m];
         
         /* net shortwave radiation, W m-2 */
         //rn_short_base = (1.0 - albedo_base) * loct->glrad_dav[grid->m];
@@ -523,15 +523,15 @@ void f_net_rad(
     }
     
     /****/
-	ddd1 = exp(-1.0 * eee * (1.0 - transmittance)); /*2003-06-27*/
-	ddd2 = exp(-1.0 * eee); /*2003-06-27*/
+	ddd1 = exp(-1.0 * eee * (1.0 - transmittance)); /* 2003-06-27 */
+	ddd2 = exp(-1.0 * eee); /* 2003-06-27 */
    
     /* absorbed PAR */
     loct->appfd_g[grid->m] = loct->c3ptn[grid->m] * (echar->c3).appfd_db[grid->m]
                            + loct->c4ptn[grid->m] * (echar->c4).appfd_db[grid->m];
  
     loct->ippfd_g[grid->m] = loct->c3ptn[grid->m] * (echar->c3).ppfd_db[grid->m]
-           + loct->c4ptn[grid->m] * (echar->c4).ppfd_db[grid->m];
+                            + loct->c4ptn[grid->m] * (echar->c4).ppfd_db[grid->m];
 
     /* fapar */
     if(loct->ippfd_g[grid->m] > 0.0){
@@ -544,7 +544,7 @@ void f_net_rad(
     loct->nsw_d[grid->m] = (1.0 - loct->albedo_sfc[grid->m]) * loct->glrad_dav[grid->m];
 	
 	/** global radiation under the canopy or at the soil surface **/
-	loct->gl_rad_g[grid->m] = grid->gl_rad[grid->m]*ddd1;
+	loct->gl_rad_g[grid->m] = grid->gl_rad[grid->m] * ddd1;
 	
 	/** net radiation of plant canopy, W m-2 **/
 	fff = loct->c3ptn[grid->m]*(echar->c3).albedo + loct->c4ptn[grid->m]*(echar->c4).albedo;

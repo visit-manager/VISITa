@@ -73,7 +73,7 @@ double h_trnsp[PD_SIM], h_incepev[PD_SIM], h_ssurfev[PD_SIM];
 double h_nbp[PD_SIM], h_net_crop[PD_SIM], h_hvst_crop[PD_SIM], h_abgm[PD_SIM];
 double h_sw1[PD_SIM], h_sw2[PD_SIM];
 double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
-double h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
+double h_dswd[PD_SIM], h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
 double h_parb[PD_SIM], h_pard[PD_SIM];
 double h_arm[PD_SIM], h_bco2[PD_SIM]; /* added by A.Ito: 2018/10/22 */
 double h_lL[PD_SIM];

@@ -222,6 +222,24 @@ void open_input(
                 printf("No cru403_vap_1901-2018.txt\n");
                 exit(1);
             }
+        }else if(DL_HCLIM == 119){
+            /* UEA-CRU data from 1901 - 2019: 2020/05/16 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/cru404_cld_1901-2019.txt","rt"))==NULL ){
+                printf("No cru404_cld_1901-2019.txt\n");
+                exit(1);
+            }
+            if( (fp_c[1]=fopen("./data/cru404_pre_1901-2019.txt","rt"))==NULL ){
+                printf("No cru404_pre_1901-2019.txt\n");
+                exit(1);
+            }
+            if( (fp_c[2]=fopen("./data/cru404_tmp_1901-2019.txt","rt"))==NULL ){
+                printf("No cru404_tmp_1901-2019.txt\n");
+                exit(1);
+            }
+            if( (fp_c[3]=fopen("./data/cru404_vap_1901-2019.txt","rt"))==NULL ){
+                printf("No cru404_vap_1901-2019.txt\n");
+                exit(1);
+            }
         }else{
             printf("No CRU data\n");
             exit(1);
@@ -1306,8 +1324,9 @@ void open_input(
         }
 	}else if(ALT_PADDY == 2){
         /* Alternative data (Inoue): 2020/01/08 by A.Ito */
-        if( (fp_s[22]=fopen("./data/fpaddy_v1_hd.txt","rt"))==NULL ){
-            printf("No fpaddy_v1_hd.txt\n");
+        /* Alternative data (Inoue): 2020/03/12 by A.Ito */
+        if( (fp_s[22]=fopen("./data/fpaddy_v2_sage_hd.txt","rt"))==NULL ){
+            printf("No fpaddy_v2_sage_hd.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[22] ++;
@@ -3505,7 +3524,7 @@ void open_input(
         }else{
             Flag_FOPEN[45] ++;
         }
-    }else if(SCENARIO_ID>=5010 && SCENARIO_ID<=5100){
+    }else if(SCENARIO_ID>=5010 && SCENARIO_ID<5100){
         /* ISI-MIP2b (1.5/2.0deg) */
         
         if(SCENARIO_ID == 5010 || SCENARIO_ID == 5020 || SCENARIO_ID == 5030 || SCENARIO_ID == 5040){
@@ -4184,7 +4203,7 @@ void open_input(
     
     /* N fertilizer ***************************************************************************/
     /* updated: 2016/10/20 by A.Ito */
-    if(SCENARIO_ID>=5010 && SCENARIO_ID<=5100){
+    if(SCENARIO_ID>=5010 && SCENARIO_ID<5100){
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         if( (fp_s[88]=fopen("./data/nfert_ann_soc_1661-2299.flt","rb"))==NULL ){
             printf("No nfert_ann_soc_1661-2299.flt\n");
