@@ -195,7 +195,7 @@ void cal_historical(
         
         if((echar->soil).v_type == 2){
             /* NMIP input: 2015/11/19 by A.Ito */
-            if(NMIP_RUN >= 1 || EX_NFERT >= 1 || ISIMIP_RUN == 4){
+            if(NMIP_RUN >= 1 || EX_NFERT >= 1 || ISIMIP_RUN == 4 || EX_NFERT == 102){
                 n_fertilizer_in(grid, loct);
                 f_fert = 1.0; /* driven by data */
             }

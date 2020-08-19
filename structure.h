@@ -353,8 +353,10 @@ struct Grid{
     double  nin_nh4[50][ASTEP];
     
     /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
+    /* manure by Feng: 2020/08/19 by A.Ito  */
     double  est_nfert[90];
-    
+    double  est_nmanure[90];
+
     /* BECCS scenario: 2017/02/20 by A.Ito */
     double  beccs_s2b;                  /* secondary to biofuel */
     double  beccs_v2b;                  /* primary to biofuel */

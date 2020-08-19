@@ -529,6 +529,8 @@ void set_gcm_index(
 	char s_case[]
 ){
 	switch(SCENARIO_ID){
+        case 999:    strcpy(s_case,"CON_"); break;
+
 		case 1000:	strcpy(s_case,"MHA11_"); break;
 		case 1001:	strcpy(s_case,"MHB11_"); break;
 
@@ -914,13 +916,110 @@ void set_gcm_index(
         case 5092:    strcpy(s_case,"ISM2bH-IIIa_"); break;
         case 5093:    strcpy(s_case,"ISM2bH-IIIb_"); break;
         case 5094:    strcpy(s_case,"ISM2bH-IIIc_"); break;
+        
+        /* ISIMIP3a; 2020/05/26 by A.Ito */
+        case 5100:      strcpy(s_case,"ISM3a-ev-hist_"); break;
+        case 5101:      strcpy(s_case,"ISM3a-ev-2015_"); break;
+        case 5102:      strcpy(s_case,"ISM3a-ev-nat_"); break;
+        case 5103:      strcpy(s_case,"ISM3a-cc-hist_"); break;
+        case 5104:      strcpy(s_case,"ISM3a-cc-2015_"); break;
+        case 5105:      strcpy(s_case,"ISM3a-cc-nat_"); break;
+        case 5106:      strcpy(s_case,"ISM3a-co2-hist_"); break;
+        case 5107:      strcpy(s_case,"ISM3a-co2-2015_"); break;
+        case 5108:      strcpy(s_case,"ISM3a-co2-nat_"); break;
+
+        /* ISIMIP3b; 2020/05/26 by A.Ito */
+        case 5120:      strcpy(s_case,"ISM3b-pi-hist-g_"); break;
+        case 5121:      strcpy(s_case,"ISM3b-pi-2015-g_"); break;
+        case 5122:      strcpy(s_case,"ISM3b-pi-nat-g_"); break;
+        case 5123:      strcpy(s_case,"ISM3b-r26-hist-g_"); break;
+        case 5124:      strcpy(s_case,"ISM3b-r26-2015-g_"); break;
+        case 5125:      strcpy(s_case,"ISM3b-r26-nat-g_"); break;
+        case 5126:      strcpy(s_case,"ISM3b-r26-co2-hist-g_"); break;
+        case 5127:      strcpy(s_case,"ISM3b-r70-hist-g_"); break;
+        case 5128:      strcpy(s_case,"ISM3b-r70-2015-g_"); break;
+        case 5129:      strcpy(s_case,"ISM3b-r70-nat-g_"); break;
+        case 5130:      strcpy(s_case,"ISM3b-r85-hist-g_"); break;
+        case 5131:      strcpy(s_case,"ISM3b-r85-2015-g_"); break;
+        case 5132:      strcpy(s_case,"ISM3b-r85-nat-g_"); break;
+        case 5133:      strcpy(s_case,"ISM3b-r85-co2-hist-g_"); break;
+        case 5134:      strcpy(s_case,"ISM3b-r85-co2-2015-g_"); break;
+        case 5135:      strcpy(s_case,"ISM3b-r85-co2-nat-g_"); break;
+
+        case 5140:      strcpy(s_case,"ISM3b-pi-hist-u_"); break;
+        case 5141:      strcpy(s_case,"ISM3b-pi-2015-u_"); break;
+        case 5142:      strcpy(s_case,"ISM3b-pi-nat-u_"); break;
+        case 5143:      strcpy(s_case,"ISM3b-r26-hist-u_"); break;
+        case 5144:      strcpy(s_case,"ISM3b-r26-2015-u_"); break;
+        case 5145:      strcpy(s_case,"ISM3b-r26-nat-u_"); break;
+        case 5146:      strcpy(s_case,"ISM3b-r26-co2-hist-u_"); break;
+        case 5147:      strcpy(s_case,"ISM3b-r70-hist-u_"); break;
+        case 5148:      strcpy(s_case,"ISM3b-r70-2015-u_"); break;
+        case 5149:      strcpy(s_case,"ISM3b-r70-nat-u_"); break;
+        case 5150:      strcpy(s_case,"ISM3b-r85-hist-u_"); break;
+        case 5151:      strcpy(s_case,"ISM3b-r85-2015-u_"); break;
+        case 5152:      strcpy(s_case,"ISM3b-r85-nat-u_"); break;
+        case 5153:      strcpy(s_case,"ISM3b-r85-co2-hist-u_"); break;
+        case 5154:      strcpy(s_case,"ISM3b-r85-co2-2015-u_"); break;
+        case 5155:      strcpy(s_case,"ISM3b-r85-co2-nat-u_"); break;
+
+        case 5160:      strcpy(s_case,"ISM3b-pi-hist-m_"); break;
+        case 5161:      strcpy(s_case,"ISM3b-pi-2015-m_"); break;
+        case 5162:      strcpy(s_case,"ISM3b-pi-nat-m_"); break;
+        case 5163:      strcpy(s_case,"ISM3b-r26-hist-m_"); break;
+        case 5164:      strcpy(s_case,"ISM3b-r26-2015-m_"); break;
+        case 5165:      strcpy(s_case,"ISM3b-r26-nat-m_"); break;
+        case 5166:      strcpy(s_case,"ISM3b-r26-co2-hist-m_"); break;
+        case 5167:      strcpy(s_case,"ISM3b-r70-hist-m_"); break;
+        case 5168:      strcpy(s_case,"ISM3b-r70-2015-m_"); break;
+        case 5169:      strcpy(s_case,"ISM3b-r70-nat-m_"); break;
+        case 5170:      strcpy(s_case,"ISM3b-r85-hist-m_"); break;
+        case 5171:      strcpy(s_case,"ISM3b-r85-2015-m_"); break;
+        case 5172:      strcpy(s_case,"ISM3b-r85-nat-m_"); break;
+        case 5173:      strcpy(s_case,"ISM3b-r85-co2-hist-m_"); break;
+        case 5174:      strcpy(s_case,"ISM3b-r85-co2-2015-m_"); break;
+        case 5175:      strcpy(s_case,"ISM3b-r85-co2-nat-m_"); break;
+
+        case 5180:      strcpy(s_case,"ISM3b-pi-hist-i_"); break;
+        case 5181:      strcpy(s_case,"ISM3b-pi-2015-i_"); break;
+        case 5182:      strcpy(s_case,"ISM3b-pi-nat-i_"); break;
+        case 5183:      strcpy(s_case,"ISM3b-r26-hist-i_"); break;
+        case 5184:      strcpy(s_case,"ISM3b-r26-2015-i_"); break;
+        case 5185:      strcpy(s_case,"ISM3b-r26-nat-i_"); break;
+        case 5186:      strcpy(s_case,"ISM3b-r26-co2-hist-i_"); break;
+        case 5187:      strcpy(s_case,"ISM3b-r70-hist-i_"); break;
+        case 5188:      strcpy(s_case,"ISM3b-r70-2015-i_"); break;
+        case 5189:      strcpy(s_case,"ISM3b-r70-nat-i_"); break;
+        case 5190:      strcpy(s_case,"ISM3b-r85-hist-i_"); break;
+        case 5191:      strcpy(s_case,"ISM3b-r85-2015-i_"); break;
+        case 5192:      strcpy(s_case,"ISM3b-r85-nat-i_"); break;
+        case 5193:      strcpy(s_case,"ISM3b-r85-co2-hist-i_"); break;
+        case 5194:      strcpy(s_case,"ISM3b-r85-co2-2015-i_"); break;
+        case 5195:      strcpy(s_case,"ISM3b-r85-co2-nat-i_"); break;
+
+        case 5200:      strcpy(s_case,"ISM3b-pi-hist-k_"); break;
+        case 5201:      strcpy(s_case,"ISM3b-pi-2015-k_"); break;
+        case 5202:      strcpy(s_case,"ISM3b-pi-nat-k_"); break;
+        case 5203:      strcpy(s_case,"ISM3b-r26-hist-k_"); break;
+        case 5204:      strcpy(s_case,"ISM3b-r26-2015-k_"); break;
+        case 5205:      strcpy(s_case,"ISM3b-r26-nat-k_"); break;
+        case 5206:      strcpy(s_case,"ISM3b-r26-co2-hist-k_"); break;
+        case 5207:      strcpy(s_case,"ISM3b-r70-hist-k_"); break;
+        case 5208:      strcpy(s_case,"ISM3b-r70-2015-k_"); break;
+        case 5209:      strcpy(s_case,"ISM3b-r70-nat-k_"); break;
+        case 5210:      strcpy(s_case,"ISM3b-r85-hist-k_"); break;
+        case 5211:      strcpy(s_case,"ISM3b-r85-2015-k_"); break;
+        case 5212:      strcpy(s_case,"ISM3b-r85-nat-k_"); break;
+        case 5213:      strcpy(s_case,"ISM3b-r85-co2-hist-k_"); break;
+        case 5214:      strcpy(s_case,"ISM3b-r85-co2-2015-k_"); break;
+        case 5215:      strcpy(s_case,"ISM3b-r85-co2-nat-k_"); break;
 
         /* IMPRESSIONS *********/
 		case 6001:	strcpy(s_case,"IMP1"); break;
 		case 6002:	strcpy(s_case,"IMP2"); break;
         
 		default:
-			strcpy(s_case,"STCLIM_"); 
+			strcpy(s_case,"NULL_");
 			printf("NULL CASE !!!");
 		break;
 		/* fl1 */

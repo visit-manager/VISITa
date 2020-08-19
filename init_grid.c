@@ -786,7 +786,7 @@ void f_init_grid(
 		grid->total_n_1m = 0.0;
 	}
 	
-    if(ISIMIP_RUN==4 && (SCENARIO_ID>=5010 && SCENARIO_ID<=5100)){
+    if(ISIMIP_RUN==4 && (SCENARIO_ID>=5010 && SCENARIO_ID<5100)){
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         fread(is2bdat,sizeof(float),DL_AGHG, fp_s[25]);
         for(e=0;e<DL_NINPUT;e++){
@@ -1663,6 +1663,53 @@ void f_init_grid(
         for(e=0;e<90;e++){
             grid->est_nfert[e] = 0.0;
         }
+    }else if(EX_NFERT == 102){
+        /* 102: PKU data 1961-2014: 2020/08/18 by A.Ito */
+        fscanf(fp_s[89],"%lf %lf", &ddummy, &ddummy);
+
+        for(e=0;e<90;e++){
+            grid->est_nfert[e] = 0.0;
+        }
+        
+        /* crop residue: rice */
+        for(e=0;e<54;e++){
+            fscanf(fp_s[89],"%lf", &ddummy);
+            if(ddummy<0.0){ ddummy = 0.0; }
+            //grid->est_nfert[e] = +ddummy;
+        }
+        /* crop residue: upland */
+        for(e=0;e<54;e++){
+            fscanf(fp_s[89],"%lf", &ddummy);
+            if(ddummy<0.0){ ddummy = 0.0; }
+            //grid->est_nfert[e] = +ddummy;
+        }
+
+        /* manure: rice */
+        for(e=0;e<54;e++){
+            fscanf(fp_s[89],"%lf", &ddummy);
+            if(ddummy<0.0){ ddummy = 0.0; }
+            //grid->est_nfert[e] = +ddummy;
+        }
+        /* manure: upland */
+        for(e=0;e<54;e++){
+            fscanf(fp_s[89],"%lf", &ddummy);
+            if(ddummy<0.0){ ddummy = 0.0; }
+            //grid->est_nfert[e] = +ddummy;
+        }
+
+        /* chemical fertilizer: rice */
+        for(e=0;e<54;e++){
+            fscanf(fp_s[89],"%lf", &ddummy);
+            if(ddummy<0.0){ ddummy = 0.0; }
+            grid->est_nfert[e] = +ddummy;
+        }
+        /* chemical fertilizer: upland */
+        for(e=0;e<54;e++){
+            fscanf(fp_s[89],"%lf", &ddummy);
+            if(ddummy<0.0){ ddummy = 0.0; }
+            grid->est_nfert[e] = +ddummy;
+        }
+
     }else{
         /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
         for(e=0;e<90;e++){
@@ -1705,25 +1752,32 @@ void f_init_grid(
     fscanf(fp_s[90],"%ld", &grid->impressions_mask);
 
     /* Manure input based on Potter: 2017/05/02 by A.Ito */
-    grid->impressions_mask = 0;
-    fscanf(fp_s[91],"%lf", &grid->nfert_potter);
-    fscanf(fp_s[91],"%lf", &grid->nmanure_potter);
+    if(EX_NFERT == 102){
+        /* manure by Feng: 2020/08/19 by A.Ito */
+        fread(is2bdat,4,54, fp_s[91]);
+        for(e=0;e<54;e++){
+            grid->est_nmanure[e] = is2bdat[e];
+        }
+    }else{
+        fscanf(fp_s[91],"%lf", &grid->nfert_potter);
+        fscanf(fp_s[91],"%lf", &grid->nmanure_potter);
+    }
     
     /* Maksyutov-san's alternative wetland maps: 2018/07/03 by A.Ito */
     fscanf(fp_s[92],"%lf", &grid->wet_glwd);
     fscanf(fp_s[92],"%lf", &grid->wet_meris);
     fscanf(fp_s[92],"%lf", &grid->wet_glwdmeris);
 
-    if(ALT_FWETLAND==3){
+    if(ALT_FWETLAND == 3){
         grid->f_wetland = grid->wet_glwd;
     }
-    if(ALT_FWETLAND==4){
+    if(ALT_FWETLAND == 4){
         grid->f_wetland = grid->wet_meris;
     }
-    if(ALT_FWETLAND==5){
+    if(ALT_FWETLAND == 5){
         grid->f_wetland = grid->wet_glwdmeris;
     }
-    if(ALT_FWETLAND==6){ /* average of GLWD and MERIS */
+    if(ALT_FWETLAND == 6){ /* average of GLWD and MERIS */
         grid->f_wetland = (grid->wet_glwd + grid->wet_meris) / 2.0;
     }
 }

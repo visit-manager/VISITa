@@ -247,7 +247,7 @@ void f_init_sim(
 		h_nbp[f] = h_net_crop[f] = h_hvst_crop[f] = h_abgm[f] = 0.0;
 		h_sw1[f] = h_sw2[f] = 0.0;
         h_rns[f] = h_rnl[f] = 0.0; /* added by A.Ito (2013/01/02) */
-		h_rnsd[f] = h_cld[f] = h_apar[f] = h_ipar[f] = 0.0;
+		h_dswd[f] = h_rnsd[f] = h_cld[f] = h_apar[f] = h_ipar[f] = 0.0;
         h_parb[f] = h_pard[f] = 0.0;
         h_arm[f] = h_bco2[f] = 0.0;
         h_lL[f] = 0.0;

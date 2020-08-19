@@ -45,6 +45,23 @@
 /* 10: every 10 grid */
 
 /***********************************************************/
+/* output text files */
+#define OUTPUT_CARBON1 1
+#define OUTPUT_CARBON2 0
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 1
+#define OUTPUT_HYDMET 1
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 1
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
+/* output binary */
+#define BASE_GOUT 1
+#define C13_GOUT 0
+#define C14_GOUT 0
+#define PHYS_GOUT 0
+
+/***********************************************************/
 #define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
@@ -52,6 +69,9 @@
 /* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
 /* 3: ISI-MIP 2a historical runs */
 /* 4: ISI-MIP 2b 1.5 or 2.0 deg target */
+/* 5: ISI-MIP 3a */
+/* 6: ISI-MIP 3b */
+
 #define ISIMIP2_FIXCD 0
 /* ISI-MIP2b IIb (fixed CO2 after 2005) */
 
@@ -114,28 +134,19 @@
     /* ISI-MIP2b */
     #define DL_NINPUT 639
     #define FDY_NINY 1661
+#elif ISIMIP_RUN==5
+    /* ISI-MIP3a */
+    #define DL_NINPUT 169
+    #define FDY_NINY 1850
+#elif ISIMIP_RUN==6
+    /* ISI-MIP3b */
+    #define DL_NINPUT 500
+    #define FDY_NINY 1601
 #else
     /* #define DL_NINPUT 156 */
     #define DL_NINPUT 157 /* updated: 2017/10/19 by A.Ito */
     #define FDY_NINY 1860
 #endif
-
-/***********************************************************/
-/* output text files */
-#define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 0
-#define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
-#define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
-#define OUTPUT_GHG 1
-#define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
-/* output binary */
-#define BASE_GOUT 1
-#define C13_GOUT 0
-#define C14_GOUT 0
-#define PHYS_GOUT 0
 
 /***********************************************************/
 /* total vegetation number */
@@ -177,6 +188,14 @@
     /* ISI-MIP2b: 2016/12/22 by A.Ito */
     #define DL_AGHG 639
     #define FDY_AGHG 1661
+#elif ISIMIP_RUN==5
+    /* ISI-MIP3a: 2020/05/27 by A.Ito */
+    #define DL_AGHG 159
+    #define FDY_AGHG 1860
+#elif ISIMIP_RUN==6
+    /* ISI-MIP3b: 2020/05/27 by A.Ito */
+    #define DL_AGHG 336
+    #define FDY_AGHG 1765
 #elif GEOMIP_RUN==1
     /* GEO-MIP: 2012/06/27 by A.Ito */
     #define DL_AGHG 736
@@ -198,6 +217,8 @@
 /* simulation framework duration (years) */
 #if ISIMIP_RUN==4
     #define PD_SIM 640 /* */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
+#elif ISIMIP_RUN==6
+    #define PD_SIM 500 /* */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
 #else
     #define PD_SIM 201
 #endif
@@ -210,6 +231,12 @@
     #define FSY_HIST 1661 /* ISI-MIP2b */
     #define LSY_HIST 2299
     /* #define LSY_HIST 2099 */ /* ISI-MIP2b (rcp6.0) */
+#elif ISIMIP_RUN==5
+    #define FSY_HIST 1850 /* ISI-MIP3a */
+    #define LSY_HIST 2018
+#elif ISIMIP_RUN==6
+    #define FSY_HIST 1601 /* ISI-MIP3b */
+    #define LSY_HIST 2100
 #elif IMPRESSIONS_RUN==2
     #define FSY_HIST 1901 /* IMPRESSIONS 2 */
     #define LSY_HIST 2015
@@ -218,7 +245,7 @@
     #define LSY_HIST 2015
 #elif NMIP_RUN>=1
     #define FSY_HIST 1861 /* NMIP */
-    #define LSY_HIST 2016 /* NMIP */
+    #define LSY_HIST 2016 
 #else
     #define FSY_HIST 1901 /* */
     /* #define LSY_HIST 2016 */ /* history */
@@ -240,6 +267,10 @@
     #define BGY_CO2Y 1901  /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
 #elif ISIMIP_RUN==4
     #define BGY_CO2Y 1661  /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
+#elif ISIMIP_RUN==5
+    #define BGY_CO2Y 1850  /* ISI-MIP3a: 2020/05/27 by A.Ito */
+#elif ISIMIP_RUN==6
+    #define BGY_CO2Y 1601  /* ISI-MIP3b : 2020/05/27 by A.Ito */
 #elif IMPRESSIONS_RUN==2
     #define BGY_CO2Y 1901
 #elif IMPRESSIONS_RUN==3
@@ -261,6 +292,10 @@
 #elif ISIMIP_RUN==4
     #define PD_HIST 639  /* AD 1661 - 2299 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
     /* #define PD_HIST 439 */ /* AD 1661 - 2099 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
+#elif ISIMIP_RUN==5
+    #define PD_HIST 169  /* AD 1850 - 2018 */ /* ISI-MIP3a: 2020/05/27 by A.Ito */
+#elif ISIMIP_RUN==6
+    #define PD_HIST 500  /* AD 1601 - 2100 */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
 #elif GEOMIP_RUN==1
     #define PD_HIST 105 /* */ /* AD 1901 - 2005 --GEOMIP */
 #elif NMIP_RUN>=1
@@ -301,6 +336,10 @@
     #define BGY_CLIM 1901  /* ISI-MIP2a (historical): 2014/11/30 by A.Ito */
 #elif ISIMIP_RUN==4
     #define BGY_CLIM 1661  /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
+#elif ISIMIP_RUN==5
+    #define BGY_CLIM 1850  /* ISI-MIP3a: 2020/05/27 by A.Ito */
+#elif ISIMIP_RUN==6
+    #define BGY_CLIM 1601  /* ISI-MIP3b : 2020/05/27 by A.Ito */
 #elif IMPRESSIONS_RUN==2
     #define BGY_CLIM 1901
 #elif IMPRESSIONS_RUN==3
@@ -325,6 +364,10 @@
     /* ISI-MIP2b (1.5/2.0deg): 2016/12/24 by A.Ito */
     #define DL_HCLIM 639  /* AD 1661 - 2299 */
     /* #define DL_HCLIM 439 */  /* AD 1661 - 2099 */
+#elif ISIMIP_RUN==5
+    #define DL_HCLIM 169  /* ISI-MIP3a: 2020/05/27 by A.Ito */
+#elif ISIMIP_RUN==6
+    #define DL_HCLIM 500  /* ISI-MIP3b : 2020/05/27 by A.Ito */
 #elif IMPRESSIONS_RUN==2
     #define DL_HCLIM 115
 #elif IMPRESSIONS_RUN==3
@@ -379,6 +422,10 @@
     /* ISI-MIP2b (historical): 2014/11/30 by A.Ito */
     #define DL_ISIMIP 639  /* AD 1661 - 2299 */
     /* #define DL_ISIMIP 439 */  /* AD 1661 - 2099 */
+#elif ISIMIP_RUN==5
+    #define DL_ISIMIP 169  /* AD 1850 - 2018 */
+#elif ISIMIP_RUN==6
+    #define DL_ISIMIP 500  /* AD 1601 - 2100 */
 #else
     #define DL_ISIMIP 1
 #endif
@@ -693,7 +740,7 @@
 /* 1: low water-table */
 /* 2: no paddy: 2020/05/16 by A.Ito */
 
-/*****************************************************/
+/***********************************************************/
 /* parameter perturbation */
 /* climate perturbation */
 #define PRT_CLIM 0
@@ -721,7 +768,7 @@
 /* number of parameters for ensemble */
 #define N_PARA_ENS 20
 
-/********************************************************/
+/***********************************************************/
 /* 2016/06/08 by A.Ito */
 #define EX_NITROGEN 0
 /* 0: off (control) */
@@ -804,6 +851,8 @@
 /* 11: MIROC + RCP4.5 + SSP2 */
 /* 12: MIROC + RCP4.5 + SSP3 */
 /* 101: Nishina ESSD data: 2017/02/13 by A.Ito */
+/* 102: PKU data: 2020/08/18 by A.Ito */
+
 #define EX_NFERT_SA 0
 /* 0: reference */
 /* 1: fix fertilizer */
@@ -820,7 +869,7 @@
 /* 1: once in April (NH) or October (SH) */
 /* 101: all January */
 
-/****************************************************/
+/**********************************************************/
 /* sensitivity analysis *****************/
 /* temperature */
 #define TM 0
@@ -891,7 +940,7 @@
 /* 6: +10% WHC30/WHC */
 /* 7: fixed LAI (1990s av) in 2000-2100 */
 
-/* climate change ********************************/
+/* climate change **************************************/
 /* 0:off   1:on */
 /* temperature */
 #define CC_T 1
@@ -909,8 +958,9 @@
 /* 2: no CO2 rise */
 /* 3: fix CO2 after 2020 for GeoMIP runs */
 
-/****************************************************/
+/*******************************************************/
 /* 0: no GCM */
+/* 999: default */
 
 /*** AR3 ***/
 /* 1: CCSR/NIES A1 */
@@ -1107,7 +1157,7 @@
 /* 1266: NCAR PCM + A2 3 */
 /* 1267: NCAR PCM + A2 4 */
 
-/*** ISI-MIP Phase 1: 2012/06/27 by A.Ito ********/
+/*** ISI-MIP Phase 1: 2012/06/27 by A.Ito ***********/
 /* CD-LINK 2016/11/17 */
 /* 2001: HadGEM2-ES RCP 2.6 +co2 */
 /* 2002: HadGEM2-ES RCP 8.5 +co2 */
@@ -1199,7 +1249,7 @@
 /* 3100: NorESM RCP4.5 */
 /* 3101: NorESM G4cdcn */
 
-/** PLUME: 2014/07/31 by A.Ito *************/
+/** PLUME: 2014/07/31 by A.Ito *******************/
 /* 4011: GFDL RCP 4.5 */
 /* 4012: GFDL RCP 8.5 */
 
@@ -1208,7 +1258,7 @@
 /* 4023: IPSL RCP 2.6 */
 /* 4024: IPSL RCP 6.0 */
 
-/** ISI-MIP2a: 2014/11/30 by A.Ito ***********/
+/** ISI-MIP2a: 2014/11/30 by A.Ito *****************/
 /* 5001: historical GSWP3 */
 /* 5002: historical PGFv2.1 (2016/05/06) */
 /* 5003: historical WATCH */
@@ -1280,6 +1330,106 @@
 /* 5094:IIIc: HadGEM PH82 + PH82 + PH2005 */
 /* 5047:VIII: HadGEM PH82 + PH82 + PH20052005 */
 /* 5048:IX  : HadGEM PH62 + PH62 + PH20052005 (improved ewembi) */
+
+/* ISI-MIP3a: 2020/05/26 by A.Ito **********/
+/* 5100: model evaluation, histsoc */
+/* 5101: model evaluation, 2015soc */
+/* 5102: model evaluation, nat */
+/* 5103: counterfactual climate, histsoc */
+/* 5104: counterfactual climate, 2015soc */
+/* 5105: counterfactual climate, nat */
+/* 5106: CO2 sensitivity, histsoc */
+/* 5107: CO2 sensitivity, 2015soc */
+
+/* ISI-MIP3b: 2020/05/26 by A.Ito **********/
+/* 5120: pi control, histsoc, GFDL-ESM4 */
+/* 5121: pi control, 2015soc, GFDL-ESM4 */
+/* 5122: pi control, nat, GFDL-ESM4 */
+/* 5123: rcp2.6, histsoc, GFDL-ESM4 */
+/* 5124: rcp2.6, 2015soc, GFDL-ESM4 */
+/* 5125: rcp2.6, nat, GFDL-ESM4 */
+/* 5126: CO2 sensitivity rcp2.6, histsoc, GFDL-ESM4 */
+/* 5127: rcp7.0, histsoc, GFDL-ESM4 */
+/* 5128: rcp7.0, 2015soc, GFDL-ESM4 */
+/* 5129: rcp7.0, nat, GFDL-ESM4 */
+/* 5130: rcp8.5, histsoc, GFDL-ESM4 */
+/* 5131: rcp8.5, 2015soc, GFDL-ESM4 */
+/* 5132: rcp8.5, nat, GFDL-ESM4 */
+/* 5133: CO2 sensitivity rcp8.5, histsoc, GFDL-ESM4 */
+/* 5134: CO2 sensitivity rcp8.5, 2015soc, GFDL-ESM4 */
+/* 5135: CO2 sensitivity rcp8.5, nat, GFDL-ESM4 */
+
+/* 5140: pi control, UKESM-1-0-LL */
+/* 5140: pi control, histsoc, UKESM-1-0-LL */
+/* 5141: pi control, 2015soc, UKESM-1-0-LL */
+/* 5142: pi control, nat, UKESM-1-0-LL */
+/* 5143: rcp2.6, histsoc, UKESM-1-0-LL */
+/* 5144: rcp2.6, 2015soc, UKESM-1-0-LL */
+/* 5145: rcp2.6, nat, UKESM-1-0-LL */
+/* 5146: CO2 sensitivity rcp2.6, histsoc, UKESM-1-0-LL */
+/* 5147: rcp7.0, histsoc, UKESM-1-0-LL */
+/* 5148: rcp7.0, 2015soc, UKESM-1-0-LL */
+/* 5149: rcp7.0, nat, UKESM-1-0-LL */
+/* 5150: rcp8.5, histsoc, UKESM-1-0-LL */
+/* 5151: rcp8.5, 2015soc, UKESM-1-0-LL */
+/* 5152: rcp8.5, nat, UKESM-1-0-LL */
+/* 5153: CO2 sensitivity rcp8.5, histsoc, UKESM-1-0-LL */
+/* 5154: CO2 sensitivity rcp8.5, 2015soc, UKESM-1-0-LL */
+/* 5155: CO2 sensitivity rcp8.5, nat, UKESM-1-0-LL */
+
+/* 5160: pi control, MPI-ESM1-2-HR */
+/* 5160: pi control, histsoc, MPI-ESM1-2-HR */
+/* 5161: pi control, 2015soc, MPI-ESM1-2-HR */
+/* 5162: pi control, nat, MPI-ESM1-2-HR */
+/* 5163: rcp2.6, histsoc, MPI-ESM1-2-HR */
+/* 5164: rcp2.6, 2015soc, MPI-ESM1-2-HR */
+/* 5165: rcp2.6, nat, MPI-ESM1-2-HR */
+/* 5166: CO2 sensitivity rcp2.6, histsoc, MPI-ESM1-2-HR */
+/* 5167: rcp7.0, histsoc, MPI-ESM1-2-HR */
+/* 5168: rcp7.0, 2015soc, MPI-ESM1-2-HR */
+/* 5169: rcp7.0, nat, MPI-ESM1-2-HR */
+/* 5170: rcp8.5, histsoc, MPI-ESM1-2-HR */
+/* 5171: rcp8.5, 2015soc, MPI-ESM1-2-HR */
+/* 5172: rcp8.5, nat, MPI-ESM1-2-HR */
+/* 5173: CO2 sensitivity rcp8.5, histsoc, MPI-ESM1-2-HR */
+/* 5174: CO2 sensitivity rcp8.5, 2015soc, MPI-ESM1-2-HR */
+/* 5175: CO2 sensitivity rcp8.5, nat, MPI-ESM1-2-HR */
+
+/* 5180: pi control, IPSL-CM6A-LR */
+/* 5180: pi control, histsoc, IPSL-CM6A-LR */
+/* 5181: pi control, 2015soc, IPSL-CM6A-LR */
+/* 5182: pi control, nat, IPSL-CM6A-LR */
+/* 5183: rcp2.6, histsoc, IPSL-CM6A-LR */
+/* 5184: rcp2.6, 2015soc, IPSL-CM6A-LR */
+/* 5185: rcp2.6, nat, IPSL-CM6A-LR */
+/* 5186: CO2 sensitivity rcp2.6, histsoc, IPSL-CM6A-LR */
+/* 5187: rcp7.0, histsoc, IPSL-CM6A-LR */
+/* 5188: rcp7.0, 2015soc, IPSL-CM6A-LR */
+/* 5189: rcp7.0, nat, IPSL-CM6A-LR */
+/* 5190: rcp8.5, histsoc, IPSL-CM6A-LR */
+/* 5191: rcp8.5, 2015soc, IPSL-CM6A-LR */
+/* 5192: rcp8.5, nat, IPSL-CM6A-LR */
+/* 5193: CO2 sensitivity rcp8.5, histsoc, IPSL-CM6A-LR */
+/* 5194: CO2 sensitivity rcp8.5, 2015soc, IPSL-CM6A-LR */
+/* 5195: CO2 sensitivity rcp8.5, nat, IPSL-CM6A-LR */
+
+/* 5200: pi control, MRI-ESM2-0 */
+/* 5200: pi control, histsoc, MRI-ESM2-0 */
+/* 5201: pi control, 2015soc, MRI-ESM2-0 */
+/* 5202: pi control, nat, MRI-ESM2-0 */
+/* 5203: rcp2.6, histsoc, MRI-ESM2-0 */
+/* 5204: rcp2.6, 2015soc, MRI-ESM2-0 */
+/* 5205: rcp2.6, nat, MRI-ESM2-0 */
+/* 5206: CO2 sensitivity rcp2.6, histsoc, MRI-ESM2-0 */
+/* 5207: rcp7.0, histsoc, MRI-ESM2-0 */
+/* 5208: rcp7.0, 2015soc, MRI-ESM2-0 */
+/* 5209: rcp7.0, nat, MRI-ESM2-0 */
+/* 5210: rcp8.5, histsoc, MRI-ESM2-0 */
+/* 5211: rcp8.5, 2015soc, MRI-ESM2-0 */
+/* 5212: rcp8.5, nat, MRI-ESM2-0 */
+/* 5213: CO2 sensitivity rcp8.5, histsoc, MRI-ESM2-0 */
+/* 5214: CO2 sensitivity rcp8.5, 2015soc, MRI-ESM2-0 */
+/* 5215: CO2 sensitivity rcp8.5, nat, MRI-ESM2-0 */
 
 /** IMPRESSIONS: 2015/07/17 *****************************************/
 /* 6001: phase 1 */
