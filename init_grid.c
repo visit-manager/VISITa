@@ -1751,14 +1751,19 @@ void f_init_grid(
     grid->impressions_mask = 0;
     fscanf(fp_s[90],"%ld", &grid->impressions_mask);
 
-    /* Manure input based on Potter: 2017/05/02 by A.Ito */
+    /* Manure input */
     if(EX_NFERT == 102){
         /* manure by Feng: 2020/08/19 by A.Ito */
         fread(is2bdat,4,54, fp_s[91]);
         for(e=0;e<54;e++){
-            grid->est_nmanure[e] = is2bdat[e];
+            grid->est_nmanure_rice[e] = is2bdat[e];
+        }
+        fread(is2bdat,4,54, fp_s[91]);
+        for(e=0;e<54;e++){
+            grid->est_nmanure_upland[e] = is2bdat[e];
         }
     }else{
+        /* Manure input based on Potter: 2017/05/02 by A.Ito */
         fscanf(fp_s[91],"%lf", &grid->nfert_potter);
         fscanf(fp_s[91],"%lf", &grid->nmanure_potter);
     }

@@ -232,7 +232,7 @@ void f_cult_luc(
                         + (double)(grid->lucy - 1999) * (grid->beccs_s2b
                              + grid->beccs_v2b + grid->beccs_v2s)/100.0;
                 
-                if(EX_BECCS_SUB==2){
+                if(EX_BECCS_SUB == 2){
                     grid->f_crop_con = grid->fcrop_luh[2000 - FDY_LUC];
                             /* + (double)(grid->lucy - 1999) * (grid->beccs_s2b
                                  + grid->beccs_v2b + grid->beccs_v2s)/100.0; */

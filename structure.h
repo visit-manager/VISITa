@@ -355,7 +355,12 @@ struct Grid{
     /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
     /* manure by Feng: 2020/08/19 by A.Ito  */
     double  est_nfert[90];
-    double  est_nmanure[90];
+    double  est_nmanure_rice[90];
+    double  est_nmanure_upland[90];
+    
+    /* N fertilizer & manure of Potter: 2017/06/13 by A.Ito */
+    double  nfert_potter;               /* fertilizer */
+    double  nmanure_potter;             /* manure */
 
     /* BECCS scenario: 2017/02/20 by A.Ito */
     double  beccs_s2b;                  /* secondary to biofuel */
@@ -364,10 +369,6 @@ struct Grid{
     
     /* IMPRESSIONS mask: 2017/05/02 by A.Ito */
     long    impressions_mask;
-    
-    /* N fertilizer & manure of Potter: 2017/06/13 by A.Ito */
-    double  nfert_potter;               /* fertilizer */
-    double  nmanure_potter;             /* manure */
 };
 
 /* grid conditions, derived from submodules *******************************************/

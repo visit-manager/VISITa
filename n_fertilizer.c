@@ -386,16 +386,28 @@ void n_fertilizer_in(
     
     /* 102: Feng manure data: 2020/08/19 by A.Ito */
     if(EX_NFERT == 102){
-        if(grid->niny < 1961){
-            loct->n_manure_in = grid->est_nmanure[0];
-        }else if(grid->niny >= 1961 && grid->niny <= 2014){
-            loct->n_manure_in = grid->est_nmanure[grid->niny - 1961];
-        }else if(grid->niny > 2014){
-            loct->n_manure_in = grid->est_nmanure[53];
-        }
-        
-        if(loct->n_manure_in < 0.0){
-            loct->n_manure_in = 0.0;
+        if(grid->type_crop==2 && grid->f_paddy>0.0){
+            if(grid->niny < 1961){
+                loct->n_manure_in = grid->est_nmanure_rice[0];
+            }else if(grid->niny >= 1961 && grid->niny <= 2014){
+                loct->n_manure_in = grid->est_nmanure_rice[grid->niny - 1961];
+            }else if(grid->niny > 2014){
+                loct->n_manure_in = grid->est_nmanure_rice[53];
+            }
+            if(loct->n_manure_in < 0.0){
+                loct->n_manure_in = 0.0;
+            }
+        }else{
+            if(grid->niny < 1961){
+                loct->n_manure_in = grid->est_nmanure_upland[0];
+            }else if(grid->niny >= 1961 && grid->niny <= 2014){
+                loct->n_manure_in = grid->est_nmanure_upland[grid->niny - 1961];
+            }else if(grid->niny > 2014){
+                loct->n_manure_in = grid->est_nmanure_upland[53];
+            }
+            if(loct->n_manure_in < 0.0){
+                loct->n_manure_in = 0.0;
+            }
         }
     }
     

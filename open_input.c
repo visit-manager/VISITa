@@ -4395,8 +4395,8 @@ void open_input(
         }
     }else if(EX_NFERT == 102){
         /* PKU data: nitrogen input, 2020/08/18 by A.Ito ********/
-        if( (fp_s[89]=fopen("./data/ninput_nfert_pku.txt","rt"))==NULL ){
-            printf("No ninput_nfert_pku.txt\n");
+        if( (fp_s[89]=fopen("./data/nfert_pku.txt","rt"))==NULL ){
+            printf("No nfert_pku.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[89] ++;
@@ -4418,9 +4418,10 @@ void open_input(
     }
     
     if(EX_NFERT == 102){
-        /* manure by Feng: 2020/08/19 by A.Ito  */
-        if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng.flt","rb"))==NULL ){
-            printf("No Manure_1961_2014_Feng.flt\n");
+        /* manure by Feng: 2020/08/19 and 2020/08/24 by A.Ito  */
+        //if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng.flt","rb"))==NULL ){
+        if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng_merged.flt","rb"))==NULL ){
+            printf("No Manure_1961_2014_Feng_merged.flt\n");
             exit(1);
         }else{
             Flag_FOPEN[91] ++;

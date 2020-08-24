@@ -836,7 +836,7 @@
 /* 56: 0.005730 (N20-driven) */ /* paper median */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
-#define EX_NFERT 0
+#define EX_NFERT 102
 /* 0: off */
 /* 1: HadGEM + RCP2.6 + SSP1 */
 /* 2: HadGEM + RCP2.6 + SSP2 */

@@ -320,10 +320,10 @@ void read_cru_clim(
                     
                     /* saturated water vapor pressure */
                     if(grid->proj_tmp2m[h][g][0][0] > 0.0){ /* at water surface */
-                        vps = 6.1078*pow(10.0, (7.5*grid->proj_tmp2m[h][g][0][0])/
+                        vps = 6.1078 * pow(10.0, (7.5*grid->proj_tmp2m[h][g][0][0])/
                                 (237.3 + grid->proj_tmp2m[h][g][0][0]));
                     }else{ /* at ice surface */  /*  if(grid->tmp_2m[grid->m]<=0.0) */
-                        vps = 6.1078*pow(10.0, (9.5*grid->proj_tmp2m[h][g][0][0])/
+                        vps = 6.1078 * pow(10.0, (9.5*grid->proj_tmp2m[h][g][0][0])/
                                 (265.3 + grid->proj_tmp2m[h][g][0][0]));
                     }
                     vps = (vps>=0.0)?vps:0.0;
