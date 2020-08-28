@@ -4418,9 +4418,10 @@ void open_input(
     }
     
     if(EX_NFERT == 102){
-        /* manure by Feng: 2020/08/19 and 2020/08/24 by A.Ito  */
+        /* manure by Feng: 2020/08/19, 2020/08/24, 2020/08/28 by A.Ito  */
         //if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng.flt","rb"))==NULL ){
-        if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng_merged.flt","rb"))==NULL ){
+        //if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng_merged.flt","rb"))==NULL ){
+        if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng_merged2.flt","rb"))==NULL ){
             printf("No Manure_1961_2014_Feng_merged.flt\n");
             exit(1);
         }else{
