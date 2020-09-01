@@ -723,16 +723,22 @@ void f_init_grid(
         }
         
         /* upper limit */
-		if(grid->f_wetland > 1.0){
-			grid->f_wetland = 1.0;
+		if(grid->f_wetland > 0.99){
+			grid->f_wetland = 0.99;
 		}
+        if(grid->f_wetland < 0.0){
+            grid->f_wetland = 0.0;
+        }
 	}
     
 	grid->f_lake = lake / grid->area;
-	if(grid->f_lake > 1.0){
-		grid->f_lake = 1.0;
+	if(grid->f_lake > 0.99){
+		grid->f_lake = 0.99;
 	}
-    
+    if(grid->f_lake < 0.0){
+        grid->f_lake = 0.0;
+    }
+
     /* base wetland extent: 2012/10/26 by A.Ito */
     grid->f_wetland0 = grid->f_wetland;
 	
@@ -768,18 +774,33 @@ void f_init_grid(
 			grid->f_paddy_b = 0.0;
 		}
 	}
-    
+    if(grid->f_paddy > 0.99){
+        grid->f_paddy = 0.99;
+    }
+    if(grid->f_paddy < 0.0){
+        grid->f_paddy = 0.0;
+    }
+
     /* No paddy experiment: 2020/05/16 by A.Ito */
     if(EX_PADDY == 2){
         grid->f_paddy = 0.0;
         grid->f_paddy_b = 0.0;
     }
 	
+    /* adjuestment of total land fractions: 2020/09/01 by A.Ito */
+    if((grid->f_paddy + grid->f_wetland) > (0.99 - grid->f_lake)){
+        grid->f_wetland = (0.99 - grid->f_lake) - grid->f_paddy;
+    }
+
 	grid->f_upland = 1.0 - grid->f_wetland - grid->f_lake - grid->f_paddy;
 	if(grid->f_upland < 0.0){
 		grid->f_upland = 0.0;
 	}
-	
+    if(grid->f_upland > 1.0){
+        grid->f_upland = 1.0;
+    }
+
+    /*****************************/
 	/* soil total nitrogen */
 	fscanf(fp_s[24],"%lf", &grid->total_n_1m); 
 	if(grid->total_n_1m < 0.0){
