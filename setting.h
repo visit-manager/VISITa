@@ -47,14 +47,14 @@
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 0
-#define OUTPUT_ISOTOPE 0
+#define OUTPUT_CARBON2 1
+#define OUTPUT_ISOTOPE 1
 #define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
+#define OUTPUT_EROSION 1
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
+#define OUTPUT_BB 1
+#define OUTPUT_BVOC 1
 /* output binary */
 #define BASE_GOUT 1
 #define C13_GOUT 0
@@ -794,7 +794,7 @@
 /* 9: 50:50 ammonium and nitrate */
 
 /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
-#define EX_NITR_N2O 7
+#define EX_NITR_N2O 0
 /* 0: off (control) */
 /* 01: 1.0% (N20-driven) */
 /* 02: 0.5% (N20-driven) */
@@ -836,7 +836,7 @@
 /* 56: 0.005730 (N20-driven) */ /* paper median */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
-#define EX_NFERT 102
+#define EX_NFERT 101
 /* 0: off */
 /* 1: HadGEM + RCP2.6 + SSP1 */
 /* 2: HadGEM + RCP2.6 + SSP2 */
@@ -1204,7 +1204,7 @@
 /* 2047: NorESM1-M RCP 4.5 +noco2 */
 /* 2048: NorESM1-M RCP 6.0 +noco2 */
 
-/** GEO-MIP: 2013/11/26 by A.Ito ***********/
+/*** GEO-MIP: 2013/11/26 by A.Ito ***********/
 /* revised 2015/07/21 */
 /* 3000: BNU-ESM RCP4.5 */
 /* 3001: BNU-ESM G3 */
@@ -1431,7 +1431,7 @@
 /* 5214: CO2 sensitivity rcp8.5, 2015soc, MRI-ESM2-0 */
 /* 5215: CO2 sensitivity rcp8.5, nat, MRI-ESM2-0 */
 
-/** IMPRESSIONS: 2015/07/17 *****************************************/
+/*** IMPRESSIONS: 2015/07/17 *****************************************/
 /* 6001: phase 1 */
 /* temperature */
 /* IMPRESSIONS_DT */
@@ -1577,4 +1577,3 @@
 /* 2601: SSP1 no climate change  */
 /* 2602: SSP2 no climate change  */
 /* 2603: SSP3 no climate change  */
-

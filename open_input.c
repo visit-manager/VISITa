@@ -4422,7 +4422,7 @@ void open_input(
         //if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng.flt","rb"))==NULL ){
         //if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng_merged.flt","rb"))==NULL ){
         if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng_merged2.flt","rb"))==NULL ){
-            printf("No Manure_1961_2014_Feng_merged.flt\n");
+            printf("No Manure_1961_2014_Feng_merged2.flt\n");
             exit(1);
         }else{
             Flag_FOPEN[91] ++;
