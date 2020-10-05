@@ -584,7 +584,7 @@ void f_ch4oxy_curry(
 	/* total porosity */
 	phi = 1.0 - grid->bulkdens / 2.65;
 	/* fractional water+ice content */
-	theta = loct->sw30/300.0; 
+	theta = loct->sw30 / 300.0;
 	/* air-filled porosity */
 	phi_air = phi - theta;
 	if(phi_air<0.0){
@@ -595,7 +595,7 @@ void f_ch4oxy_curry(
 	b = 15.9 * grid->pc_clay/100.0 + 2.91;
 	/* soil water factor */
 	/* eq.5 */
-	g_soil = pow(phi, 4.0/3.0) * pow((phi_air/phi), (1.5 + 3.0/b));
+	g_soil = pow(phi, 4.0/3.0) * pow( (phi_air/phi), (1.5 + 3.0/b) );
 	
 	/* diffusion coefficient in soil, cm2 s-1 */
 	/* eq.4 */

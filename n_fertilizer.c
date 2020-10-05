@@ -269,6 +269,21 @@ void n_fertilizer_in(
         loct->n_frtlz_in = fin_base = fert_input * MDN[grid->m] / YDN;
     }
     
+    /* 102: PKU data: 2020/08/18 by A.Ito */
+    if(EX_NFERT == 102){
+        if(grid->niny < 1961){
+            loct->n_frtlz_in = grid->est_nfert[0];
+        }else if(grid->niny >= 1961 && grid->niny <= 2014){
+            loct->n_frtlz_in = grid->est_nfert[grid->niny - 1961];
+        }else if(grid->niny > 2014){
+            loct->n_frtlz_in = grid->est_nfert[53];
+        }
+
+        if(loct->n_frtlz_in < 0.0){
+            loct->n_frtlz_in = 0.0;
+        }
+    }
+    
     /* biofuel experiments: 2015/09/03 revised by A.Ito */
     if(BIOFUEL_RUN == 1){
         /* current */
@@ -330,6 +345,13 @@ void n_fertilizer_in(
         }else{
             ;
         }
+        /* ISI-MIP3: 2020/10/01 by A.Ito */
+        if(ISIMIP_RUN == 5){
+            /* FDY_NINY = 1850 */
+            loct->n_frtlz_in = grid->mip_nfert[grid->niny - FDY_NINY] * MDN[grid->m] / YDN;
+        }else{
+            ;
+        }
         loct->n_manure_in = 0.0;
     }
     
@@ -367,6 +389,33 @@ void n_fertilizer_in(
         }
         
         loct->n_manure_in = 0.0;
+    }
+    
+    /* 102: Feng manure data: 2020/08/19 by A.Ito */
+    if(EX_NFERT == 102){
+        if(grid->type_crop==2 && grid->f_paddy>0.0){
+            if(grid->niny < 1961){
+                loct->n_manure_in = grid->est_nmanure_rice[0];
+            }else if(grid->niny >= 1961 && grid->niny <= 2014){
+                loct->n_manure_in = grid->est_nmanure_rice[grid->niny - 1961];
+            }else if(grid->niny > 2014){
+                loct->n_manure_in = grid->est_nmanure_rice[53];
+            }
+            if(loct->n_manure_in < 0.0){
+                loct->n_manure_in = 0.0;
+            }
+        }else{
+            if(grid->niny < 1961){
+                loct->n_manure_in = grid->est_nmanure_upland[0];
+            }else if(grid->niny >= 1961 && grid->niny <= 2014){
+                loct->n_manure_in = grid->est_nmanure_upland[grid->niny - 1961];
+            }else if(grid->niny > 2014){
+                loct->n_manure_in = grid->est_nmanure_upland[53];
+            }
+            if(loct->n_manure_in < 0.0){
+                loct->n_manure_in = 0.0;
+            }
+        }
     }
     
     /* 2016/07/25 by A.Ito */

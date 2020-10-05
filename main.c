@@ -45,7 +45,7 @@ Ito, A., Inatomi, M., 2012. Water-use efficiency of the terrestrial
 /* prototypes */
 #include"prototype.h"
 
-#define FROWS 10
+#define FROWS 360
 
 /*  how to run the model?
  

@@ -33,7 +33,7 @@ void npp_empirical(
 		
 		/* annual mean net radiation, W m-2 */
 		loct->rad_net[f] = loct->rad_net_short[f] * 0.636619 * grid->dlen[f] / DHN - loct->rad_net_long[f];
-		rn_ann += loct->rad_net[f] * MDN[grid->m]/YDN;
+		rn_ann += loct->rad_net[f] * MDN[grid->m] / YDN;
 		
 		/* PRIESTRIE-TAYLOR PET model, mm ***/
 		lhvp = 1000000.0 * (2.501 - 0.012/5.0 * grid->tmp_2m[f]);
@@ -44,7 +44,7 @@ void npp_empirical(
 		if(grid->tmp_2m[f] >= 0.0){
 			n++;
 			par += grid->par[f] * 0.636619 * grid->dlen[f] / DHN;
-			gdd += (grid->tmp_2m[f] - 5.0)* MDN[grid->m];
+			gdd += (grid->tmp_2m[f] - 5.0) * MDN[grid->m];
 		}
 	}
 	if(n>0){
@@ -64,7 +64,8 @@ void npp_empirical(
     }
     
     /* Chikugo **************/
-    flux->npp_chikugo = cTdm * 0.29 * (exp(-0.216*rdi*rdi)) * (rn_ann* DHN * HSN *365.25 / pow(10.0, 7.0) / 4.1868);
+    flux->npp_chikugo = cTdm * 0.29 * (exp(-0.216 * rdi * rdi)) *
+                (rn_ann* DHN * HSN *365.25 / pow(10.0, 7.0) / 4.1868);
 	
 	/* Lieth, H., 1975. Modeling the primary productivity of the world. 
 	In: H. Lieth and R.H. Whittaker (Editor), Primary productivity of the biosphere. 
@@ -103,7 +104,8 @@ void npp_empirical(
 	}
 	
     if(gdd>0.0 && gdd<10.0){
-        flux->npp_madison_gddswsi = (3.96 / (1.0 + exp(6.33 - 1.5 * gdd))) * (39.58 * wsi - 14.52) * 0.01;
+        flux->npp_madison_gddswsi = (3.96 / (1.0 + exp(6.33 - 1.5 * gdd))) *
+                                (39.58 * wsi - 14.52) * 0.01;
     }else{
         flux->npp_madison_gddswsi = 3.96 * (39.58 * wsi - 14.52) * 0.01;
     }
@@ -152,7 +154,7 @@ void npp_empirical(
     mat = grid->tmp_sfc_am;
     
     /* model4 */
-    lll = 0.571 + 0.637*wi - 0.498*wi*wi*wi - 0.254*wi*wi + 0.003*mat;
+    lll = 0.571 + 0.637 *wi - 0.498 *wi*wi*wi - 0.254 *wi*wi + 0.003 *mat;
     if(lll < -2.0){
         lll = -2.0;
     }
@@ -161,7 +163,8 @@ void npp_empirical(
     }
     
     /* model5 */
-    lll = 0.532191 + 0.593486*wi - 0.441269*wi*wi*wi - 0.245266*wi*wi + 0.0164922*mat - 0.000620463*mat*mat;
+    lll = 0.532191 + 0.593486 * wi - 0.441269 *wi*wi*wi -
+                    0.245266 *wi*wi + 0.0164922 *mat - 0.000620463 *mat*mat;
     if(lll < -2.0){
         lll = -2.0;
     }

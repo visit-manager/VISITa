@@ -330,7 +330,6 @@ void vlzero(
 	struct Pmas *mass, 
 	struct Pflx *flux
 ){
-
 	mass->fol = 0.0;
 	mass->stm = 0.0;
 	mass->rot = 0.0;

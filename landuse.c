@@ -60,8 +60,8 @@ void f_cult_luc(
 				case 5:
 					/* IMAGE-based scenario */
 					grid->f_crop_con = grid->fcrop_net[290] + ((grid->fcrop3_image[grid->lucy - 1990]
-						+ grid->fcrop4_image[grid->lucy - 1990])
-						- (grid->fcrop3_image[0] + grid->fcrop4_image[0]))/100.0;
+						    + grid->fcrop4_image[grid->lucy - 1990])
+						    - (grid->fcrop3_image[0] + grid->fcrop4_image[0]))/100.0;
 					break;
                 default:
                     break;
@@ -181,6 +181,17 @@ void f_cult_luc(
             grid->f_crop_con = grid->aim_luc_fcrop[2100-2000];
         }
         grid->f_pasture_con = 0.0;
+    }else if(LANDUSE == 45){
+        /* ISIMIP3a: 2020/10/01 by A.Ito */
+        if(grid->climy < 1850){
+            grid->lucy = 1850;
+        }else if(grid->climy >= 1850 && grid->climy <= 2018){
+            grid->lucy = grid->climy;
+        }else{
+            grid->lucy = 2018;
+        }
+        grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_NINY];
+        
     }else{
 		printf("Wrong land-use setting ID\n");
 		exit(1);
@@ -232,7 +243,7 @@ void f_cult_luc(
                         + (double)(grid->lucy - 1999) * (grid->beccs_s2b
                              + grid->beccs_v2b + grid->beccs_v2s)/100.0;
                 
-                if(EX_BECCS_SUB==2){
+                if(EX_BECCS_SUB == 2){
                     grid->f_crop_con = grid->fcrop_luh[2000 - FDY_LUC];
                             /* + (double)(grid->lucy - 1999) * (grid->beccs_s2b
                                  + grid->beccs_v2b + grid->beccs_v2s)/100.0; */
@@ -341,6 +352,10 @@ void f_cult_luc(
             if(EXTRA_LU_FIX == 2){
                 grid->f_deforest = 0.0;
             }
+        }else if(LANDUSE == 45){
+            /* ISIMIP3a: 2020/10/01 by A.Ito */
+            /* spin-up: 1801–1900 */
+            grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
         }
 		/* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
         
@@ -438,6 +453,8 @@ void f_cult_luc(
             }
         }else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
             /* AIM land use, 2019/06/21 by A.Ito */
+            grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
+        }else if(LANDUSE == 45){
             grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
         }
         
@@ -578,11 +595,20 @@ void f_cult_luc(
             || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
             || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
         
-        if(grid->f_paddy_b > 0.0 && grid->fcrop_luh[2000 - FDY_LUC] > 0.0){
-            grid->f_paddy = grid->f_paddy_b * 
-                (grid->fcrop_luh[grid->lucy - FDY_LUC] / grid->fcrop_luh[2000 - FDY_LUC]);
+        if((grid->lucy - FDY_LUC) < DL_LUC){
+            if(grid->f_paddy_b > 0.0 && grid->fcrop_luh[2000 - FDY_LUC] > 0.0){
+                grid->f_paddy = grid->f_paddy_b *
+                    (grid->fcrop_luh[grid->lucy - FDY_LUC] / grid->fcrop_luh[2000 - FDY_LUC]);
+            }else{
+                grid->f_paddy = 0.0;
+            }
         }else{
-            grid->f_paddy = 0.0;
+            if(grid->f_paddy_b > 0.0 && grid->fcrop_luh[2000 - FDY_LUC] > 0.0){
+                grid->f_paddy = grid->f_paddy_b *
+                    (grid->fcrop_luh[DL_LUC - 1] / grid->fcrop_luh[2000 - FDY_LUC]);
+            }else{
+                grid->f_paddy = 0.0;
+            }
         }
         
         if(grid->f_paddy > 1.0){
@@ -591,9 +617,9 @@ void f_cult_luc(
 		if(grid->f_paddy < 0.0){
 			grid->f_paddy = 0.0;
 		}
-    }else if(LANDUSE == 18|| LANDUSE == 19 || LANDUSE == 20
+    }else if(LANDUSE == 18 || LANDUSE == 19 || LANDUSE == 20
             || LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23
-            || LANDUSE == 24 || LANDUSE == 25){
+            || LANDUSE == 24 || LANDUSE == 25 || LANDUSE == 45){
         grid->f_paddy = grid->f_paddy_b;
     }else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
         /* AIM land use, 2019/06/21 by A.Ito */
@@ -697,7 +723,7 @@ void f_luc_emit(
 					+(grid->fpast_rk[BGY_LUC-FDY_LUC] - grid->fpast_rk[BGY_LUC-FDY_LUC-1]);
 		}else if(LANDUSE == 18|| LANDUSE == 19 || LANDUSE == 20
                 || LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23
-                || LANDUSE == 24 || LANDUSE == 25){
+                || LANDUSE == 24 || LANDUSE == 25 || LANDUSE == 45){
 			fluc_1 = 0.0;
 		}else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
             /* AIM land use, 2019/06/21 by A.Ito */
@@ -738,7 +764,7 @@ void f_luc_emit(
 				fluc_10 = (grid->fcrop_rk[f - FDY_LUC] - grid->fcrop_rk[f-FDY_LUC-1])
 						+ (grid->fpast_rk[f - FDY_LUC] - grid->fpast_rk[f-FDY_LUC-1]);
 			}else if(LANDUSE == 18 || LANDUSE == 19 || LANDUSE == 20 ||
-                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 || LANDUSE == 24 || LANDUSE == 25){
+                LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 || LANDUSE == 24 || LANDUSE == 25 || LANDUSE == 45){
                 fluc_10 = 0.0;
             }else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
                 /* AIM land use, 2019/06/21 by A.Ito */
@@ -783,7 +809,7 @@ void f_luc_emit(
 						+ (grid->fpast_rk[f - FDY_LUC] - grid->fpast_rk[f-FDY_LUC-1]);
 			}else if(LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 ||
                 LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 ||
-                LANDUSE == 24 || LANDUSE == 25){
+                LANDUSE == 24 || LANDUSE == 25 || LANDUSE == 45){
                 fluc_100 = 0.0;
             }else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
                 /* AIM land use, 2019/06/21 by A.Ito */
@@ -848,7 +874,7 @@ void f_luc_emit(
 			fluc_1 = grid->f_deforest;
 		}else if(LANDUSE == 18 || LANDUSE == 19 || LANDUSE == 20
                 || LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23
-                || LANDUSE == 24 || LANDUSE == 25){
+                || LANDUSE == 24 || LANDUSE == 25 || LANDUSE == 45){
             fluc_1 = grid->f_deforest;
         }else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
             /* AIM land use, 2019/06/21 by A.Ito */

@@ -219,6 +219,25 @@ void f_init_sim(
             an2o_b2[f] = an2o_a1[f] = an2o_a2[f] = an2o_b1[f];
         }
         fclose(fpi);
+    }else if(ISIMIP_RUN == 5){
+        if((fpi = fopen("./data/ghg_isimip3a.txt","rt"))==NULL){
+            printf("No ghg_isimip3a.txt\n");
+            exit(1);
+        }
+        for(f=0;f<DL_AGHG;f++){
+            fscanf(fpi,"%ld", &year);
+            fscanf(fpi,"%lf", &aco2_1[f]); /* obsclim */
+            fscanf(fpi,"%lf", &aco2_2[f]); /* counterclim */
+            aco2_3[f] = aco2_4[f] = aco2_1[f];
+            
+            /* rcp26 CH4 */
+            fscanf(fpi,"%lf", &ach4_b1[f]);
+            ach4_b2[f] = ach4_a1[f] = ach4_a2[f] = ach4_b1[f];
+            /* rcp26 N2O */
+            fscanf(fpi,"%lf", &an2o_b1[f]);
+            an2o_b2[f] = an2o_a1[f] = an2o_a2[f] = an2o_b1[f];
+        }
+        fclose(fpi);
     }
     
     /* Atmospheric d13C, D14C by Graven: 2019/1/17 by A.Ito */
@@ -247,7 +266,7 @@ void f_init_sim(
 		h_nbp[f] = h_net_crop[f] = h_hvst_crop[f] = h_abgm[f] = 0.0;
 		h_sw1[f] = h_sw2[f] = 0.0;
         h_rns[f] = h_rnl[f] = 0.0; /* added by A.Ito (2013/01/02) */
-		h_rnsd[f] = h_cld[f] = h_apar[f] = h_ipar[f] = 0.0;
+		h_dswd[f] = h_rnsd[f] = h_cld[f] = h_apar[f] = h_ipar[f] = 0.0;
         h_parb[f] = h_pard[f] = 0.0;
         h_arm[f] = h_bco2[f] = 0.0;
         h_lL[f] = 0.0;

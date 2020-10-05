@@ -29,14 +29,14 @@ double frfm(
 				1000000.0 * DHN * HSN / (10000.0/veg->sla * dmTc * 2.0);
 	}else{
 		/* g g-1 day-1 */
-		rfmt0 = veg->rmf/1000.0; 
+		rfmt0 = veg->rmf / 1000.0;
 	}
 	
 	/* temperature dependence, exponential */
 	ft = exp(log(veg->qTf[grid->m]) / 10.0*(grid->tmp_sfc[grid->m] - t0));
 	
 	if(mass->fol>=0.0){	
-		rfm = mass->fol * rfmt0*ft;
+		rfm = mass->fol * rfmt0 * ft;
 	}else{
 		rfm = 0.0;
 	}
