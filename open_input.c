@@ -3741,6 +3741,32 @@ void open_input(
             Flag_FOPEN[45] ++;
         }
     }
+    
+    /* ISIMIP3a: 2020/10/05 by A.Ito */
+    if(SCENARIO_ID>=5100 && SCENARIO_ID<5120){
+        if(SCENARIO_ID == 5100 || SCENARIO_ID == 5101 || SCENARIO_ID == 5102
+            || SCENARIO_ID == 5110 || SCENARIO_ID == 5111 || SCENARIO_ID == 5112){
+            CO2S = 1;
+        }
+        if(SCENARIO_ID == 5103 || SCENARIO_ID == 5104 || SCENARIO_ID == 5105 || SCENARIO_ID == 5106 || SCENARIO_ID == 5107
+             || SCENARIO_ID == 5113 || SCENARIO_ID == 5114 || SCENARIO_ID == 5115 || SCENARIO_ID == 5116 || SCENARIO_ID == 5117){
+            CO2S = 2;
+        }
+
+        /* dummy: won't be used */
+        if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt")) == NULL){
+            printf("NO image_a1b_fcrop.dat !!\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[23] ++;
+        }
+        if((fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt")) == NULL){
+             printf("NO image_a1b_fgrass.dat !!\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[45] ++;
+        }
+    }
 
     /* land-use and harvest ************************************************************************/
     /* SAGE crop data */

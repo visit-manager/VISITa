@@ -599,6 +599,21 @@ void f_init_grid(
         for(h=0;h<111;h++){
             fscanf(fp_s[45],"%lf", &(grid->fgrass4_image[h])); 
         }
+    }else if(LANDUSE == 26){
+        /* ISIMIP3a 2020/10/05 by A.Ito */
+        for(h=0;h<111;h++){
+            fscanf(fp_s[23],"%lf", &(grid->fcrop3_image[h]));
+            grid->fcrop4_image[h] = 0.0;
+        }
+        for(h=0;h<111;h++){
+            fscanf(fp_s[45],"%lf", &(grid->fgrass3_image[h]));
+        }
+        for(h=0;h<111;h++){
+            fscanf(fp_s[45],"%lf", &(grid->fgrass3_image[h]));
+        }
+        for(h=0;h<111;h++){
+            fscanf(fp_s[45],"%lf", &(grid->fgrass4_image[h]));
+        }
     }else{
         if(SCENARIO_ID>=2100 && SCENARIO_ID<=2999){
             /* ICARUS 2016/08/12 */
