@@ -293,7 +293,7 @@
     #define PD_HIST 639  /* AD 1661 - 2299 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
     /* #define PD_HIST 439 */ /* AD 1661 - 2099 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
 #elif ISIMIP_RUN==5
-    #define PD_HIST 167  /* AD 1850 - 2016 */ /* ISIMIP3a: 2020/05/27 by A.Ito */
+    #define PD_HIST 166  /* AD 1851 - 2016 */ /* ISIMIP3a: 2020/05/27 by A.Ito */
 #elif ISIMIP_RUN==6
     #define PD_HIST 500  /* AD 1601 - 2100 */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
 #elif GEOMIP_RUN==1
