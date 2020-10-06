@@ -204,9 +204,10 @@ void set_hist_clim(
             offset = 0;
         }else if(grid->phase == 1 || grid->phase == 2){
             /* skip spin-up data: 1801-1900 */
-            offset = 100;
+            offset = 0;
         }
         
+        /* BGY_CLIM = 1801 */
         for(h=0;h<ASTEP;h++){
             grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h]
                             + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);

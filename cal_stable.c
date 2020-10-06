@@ -132,7 +132,7 @@ void cal_spinup(
     }
     if(ISIMIP_RUN == 5){
         /* ISIMIP3a */
-        grid->simy = 1800;
+        grid->simy = 1850;
     }
 
 	/* LOOP to stable stage ************************************************/

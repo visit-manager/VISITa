@@ -232,7 +232,7 @@
     #define LSY_HIST 2299
     /* #define LSY_HIST 2099 */ /* ISI-MIP2b (rcp6.0) */
 #elif ISIMIP_RUN==5
-    #define FSY_HIST 1850 /* ISIMIP3a */
+    #define FSY_HIST 1851 /* ISIMIP3a */
     #define LSY_HIST 2018
 #elif ISIMIP_RUN==6
     #define FSY_HIST 1601 /* ISI-MIP3b */
@@ -492,7 +492,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 26
+#define LANDUSE 45
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
