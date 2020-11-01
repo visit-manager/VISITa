@@ -137,7 +137,7 @@ void f_init_sim(
         }
         
         /* SRES Scenario CO2 */
-        for(f=0;f<111;f++){
+        for(f=0;f<DL_ADD;f++){
             fscanf(fpi,"%ld %lf", &year, &data);
             sres_co2[f] = data;
         }
@@ -210,6 +210,25 @@ void f_init_sim(
             fscanf(fpi,"%lf", &aco2_4[f]); /* piControl + historical + rcp2.6 */
             fscanf(fpi,"%lf", &aco2_1[f]); /* piControl + historical + rcp6.0 */
             aco2_2[f] = aco2_1[f];
+            
+            /* rcp26 CH4 */
+            fscanf(fpi,"%lf", &ach4_b1[f]);
+            ach4_b2[f] = ach4_a1[f] = ach4_a2[f] = ach4_b1[f];
+            /* rcp26 N2O */
+            fscanf(fpi,"%lf", &an2o_b1[f]);
+            an2o_b2[f] = an2o_a1[f] = an2o_a2[f] = an2o_b1[f];
+        }
+        fclose(fpi);
+    }else if(ISIMIP_RUN == 5){
+        if((fpi = fopen("./data/ghg_isimip3a.txt","rt"))==NULL){
+            printf("No ghg_isimip3a.txt\n");
+            exit(1);
+        }
+        for(f=0;f<DL_AGHG;f++){
+            fscanf(fpi,"%ld", &year);
+            fscanf(fpi,"%lf", &aco2_1[f]); /* obsclim */
+            fscanf(fpi,"%lf", &aco2_2[f]); /* counterclim */
+            aco2_3[f] = aco2_4[f] = aco2_1[f];
             
             /* rcp26 CH4 */
             fscanf(fpi,"%lf", &ach4_b1[f]);
@@ -356,7 +375,7 @@ void f_init_sim(
     
     for(h=0;h<N_COL;h++){
         glat_area[h] = 0.0;
-        glat_agb[h] =  glat_soc[h] = 0.0;
+        glat_agb[h] = glat_soc[h] = 0.0;
     }
 	for(g=0;g<ASTEP;g++){
 		for(h=0;h<N_COL;h++){

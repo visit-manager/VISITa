@@ -121,7 +121,7 @@ void read_cru_clim(
             /* unavailable CRU TS data, for example on ocean */
             grid->flag_histdata = 0;
         }
-    }else if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2 ||ISIMIP_RUN == 3 ||ISIMIP_RUN == 4){
+    }else if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2 ||ISIMIP_RUN == 3 ||ISIMIP_RUN == 4 ||ISIMIP_RUN == 5){
         
         /* ISI-MIP: 2012/06/27 by A.Ito ****************/
         /* also for ICARUS */
@@ -142,6 +142,10 @@ void read_cru_clim(
         /* 1861-2005:           historical */
         /* 2006-2099:           projection */
         /* 2100-2299:           extended projection */
+
+        /* ISIMIP3a: 2020/11/30 by A.Ito ****************/
+        /* 1801-1900-detrended: spi-up */
+        /* 1901-2016:           historical */
 
         /* ait tempetaure, deg-C */
         fread(r_isimip_data, sizeof(float), ASTEP * DL_ISIMIP, fp_c[0]);
@@ -195,7 +199,7 @@ void read_cru_clim(
                         vps = (vps>=0.0)?vps:0.0;
                         grid->hist_vap[h][g] = vps * (double)r_isimip_data[h*ASTEP+g] / 100.0;
                         
-                    }else if(ISIMIP_RUN == 3 || ISIMIP_RUN == 4){
+                    }else if(ISIMIP_RUN == 3 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5){
                         /* specific humidity */
                         /* altitude */
                         alt = (grid->topo>=0.0)?grid->topo:0.0;
@@ -320,10 +324,10 @@ void read_cru_clim(
                     
                     /* saturated water vapor pressure */
                     if(grid->proj_tmp2m[h][g][0][0] > 0.0){ /* at water surface */
-                        vps = 6.1078*pow(10.0, (7.5*grid->proj_tmp2m[h][g][0][0])/
+                        vps = 6.1078 * pow(10.0, (7.5*grid->proj_tmp2m[h][g][0][0])/
                                 (237.3 + grid->proj_tmp2m[h][g][0][0]));
                     }else{ /* at ice surface */  /*  if(grid->tmp_2m[grid->m]<=0.0) */
-                        vps = 6.1078*pow(10.0, (9.5*grid->proj_tmp2m[h][g][0][0])/
+                        vps = 6.1078 * pow(10.0, (9.5*grid->proj_tmp2m[h][g][0][0])/
                                 (265.3 + grid->proj_tmp2m[h][g][0][0]));
                     }
                     vps = (vps>=0.0)?vps:0.0;

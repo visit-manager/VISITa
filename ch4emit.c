@@ -558,9 +558,9 @@ void f_ch4_emit_walter(
 		/* loct->water_table_depth = 0.20; */
 		loct->water_table_depth = 0.20;  /* revised 2015/04/02 by A.Ito */
 		if(EX_CH4_1 == 1){
-			loct->water_table_depth = 0.25 - loct->cum_dprec*0.0002;
+			loct->water_table_depth = 0.25 - loct->cum_dprec * 0.0002;
 		}else if(EX_CH4_1 == 2){
-			loct->water_table_depth = 0.25 - loct->cum_dprec*0.001;
+			loct->water_table_depth = 0.25 - loct->cum_dprec * 0.001;
 		}
         /* 2014/12/08 by A.Ito */
         if(VAR_WTD == 1){

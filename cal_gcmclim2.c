@@ -99,7 +99,7 @@ void cal_projection(
             f_fert = 1.0; /* driven by data */
         }
 				
-        if(EX_NFERT >= 1){
+        if(EX_NFERT >= 1 || EX_NFERT == 102){
             n_fertilizer_in(grid, loct);
             f_fert = 1.0; /* driven by data */
         }

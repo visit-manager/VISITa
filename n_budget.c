@@ -413,15 +413,21 @@ void f_n_deposit(
     /* NMIP: 2015/11/19 by A.Ito *******/
     /* updated 2016/10/20, 2017/10/19 by A.Ito */
     /* ISI-MIP2b: 2016/12/24 by A.Ito */
-    if(NMIP_RUN >= 1){
+    /* ISIMIP3a: 2020/10/01 by A.Ito */
+    if(NMIP_RUN >= 1 || ISIMIP_RUN == 5){
     
         nyear = grid->niny;
         if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
             nyear = FDY_NINY+1; /* for fixing */
+            uconv = 1.0;
         }
         
-        loct->depo_no3[grid->m] = grid->mip_ndep_ccmi_noy[nyear - FDY_NINY][grid->m];
-        loct->depo_nh4[grid->m] = grid->mip_ndep_ccmi_nh4[nyear - FDY_NINY][grid->m];
+        if(ISIMIP_RUN == 5){
+            uconv = 10000.0; /* m2 => ha */
+        }
+        
+        loct->depo_no3[grid->m] = uconv * grid->mip_ndep_mon_noy[nyear - FDY_NINY][grid->m];
+        loct->depo_nh4[grid->m] = uconv * grid->mip_ndep_mon_nh4[nyear - FDY_NINY][grid->m];
 
     }else if(ISIMIP_RUN == 4){
         nyear = grid->niny;

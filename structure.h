@@ -18,7 +18,7 @@
 /* l: litter */
 /* h: humus */
 
-double sres_co2[111];
+double sres_co2[DL_ADD];
 
 /* grid conditions, derived from data files ***************************************/
 struct Grid{ 
@@ -241,10 +241,10 @@ struct Grid{
 	double	fpast_rk[308];				/* pasture fraction by Ramankutty & Kimball (2010) */
 	
 	/* future, 1990-2100, IMAGE2, Wang et al. */
-	double 	fcrop3_image[111];				/* C3 crop */
-	double 	fcrop4_image[111];				/* C4 crop */
-	double 	fgrass3_image[111];			/* C3 pasture grass */
-	double 	fgrass4_image[111];			/* C4 pasture grass */
+	double 	fcrop3_image[DL_ADD];			/* C3 crop */
+	double 	fcrop4_image[DL_ADD];			/* C4 crop */
+	double 	fgrass3_image[DL_ADD];			/* C3 pasture grass */
+	double 	fgrass4_image[DL_ADD];			/* C4 pasture grass */
 
 	/* EOS-WEBSTER, 1700-2000/2005, Hurtt et al. */
     /* name changed: unh => luh: 2018/12/24 by A.Ito */
@@ -268,9 +268,17 @@ struct Grid{
     double  t_vs_luh[DL_LUC];        /* conversion primary to secondary */
 	double	t_vs1_luh[DL_LUC];		/*  */
 	double	t_vs2_luh[DL_LUC];		/*  */
- 
-    double  aim_luc_fcrop[111];             /* LUC data by AIM 2019/06/21 by A.Ito */
- 
+    
+    /* DL_ADD = 111 */
+    double  aim_luc_fcrop[DL_ADD];         /* LUC data by AIM 2019/06/21 by A.Ito */
+    double  aim_luc_bioen[DL_ADD];         /* bioenergy: 2020/10/08 by A.Ito */
+    double  aim_luc_grass[DL_ADD];         /* grassland  */
+    double  aim_luc_forunm[DL_ADD];         /* unmanaged forest */
+    double  aim_luc_forman[DL_ADD];         /* managed forest */
+    double  aim_luc_restored[DL_ADD];         /* restored */
+    double  aim_luc_other[DL_ADD];         /* others */
+    double  aim_luc_builup[DL_ADD];         /* build-up */
+
 	/* wood harvest */
 	double	hvst_p1[DL_LUC];
 	double	hvst_p2[DL_LUC];
@@ -344,8 +352,8 @@ struct Grid{
     double  mip_manure[DL_NINPUT];               /* manure */
     double  mip_frcrop[DL_NINPUT];               /* cropland fraction */
     /* added: 2017/10/19 by A.Ito */
-    double  mip_ndep_ccmi_noy[DL_NINPUT][12];    /* NOy deposition, monthly */
-    double  mip_ndep_ccmi_nh4[DL_NINPUT][12];    /* NH4 fertilizer, monthly */
+    double  mip_ndep_mon_noy[DL_NINPUT][12];    /* NOy deposition, monthly */
+    double  mip_ndep_mon_nh4[DL_NINPUT][12];    /* NH4 fertilizer, monthly */
 
     /* N input by Nishina ESSD data: 2017/02/13 by A.Ito */
     double  nin_date[ASTEP];
@@ -353,8 +361,15 @@ struct Grid{
     double  nin_nh4[50][ASTEP];
     
     /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
+    /* manure by Feng: 2020/08/19 by A.Ito  */
     double  est_nfert[90];
+    double  est_nmanure_rice[90];
+    double  est_nmanure_upland[90];
     
+    /* N fertilizer & manure of Potter: 2017/06/13 by A.Ito */
+    double  nfert_potter;               /* fertilizer */
+    double  nmanure_potter;             /* manure */
+
     /* BECCS scenario: 2017/02/20 by A.Ito */
     double  beccs_s2b;                  /* secondary to biofuel */
     double  beccs_v2b;                  /* primary to biofuel */
@@ -362,10 +377,6 @@ struct Grid{
     
     /* IMPRESSIONS mask: 2017/05/02 by A.Ito */
     long    impressions_mask;
-    
-    /* N fertilizer & manure of Potter: 2017/06/13 by A.Ito */
-    double  nfert_potter;               /* fertilizer */
-    double  nmanure_potter;             /* manure */
 };
 
 /* grid conditions, derived from submodules *******************************************/
