@@ -197,6 +197,28 @@ void set_hist_clim(
             grid->tcdc_clm[h] = grid->hist_cld[grid->climy - BGY_CLIM + offset][h];
             grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM + offset][h];  
         }
+    }else if(ISIMIP_RUN == 5){
+        
+        /* ISIMIP3a climate data: 2020/09/30 by A.Ito */
+        if(grid->phase == 0){
+            offset = 0;
+        }else if(grid->phase == 1 || grid->phase == 2){
+            /* skip spin-up data: 1801-1900 */
+            offset = 0;
+        }
+        
+        /* BGY_CLIM = 1801 */
+        for(h=0;h<ASTEP;h++){
+            grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h]
+                            + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
+            grid->tmp_2m[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h];
+            grid->tmp10_soil[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h]
+                            + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
+            grid->tmp200_soil[h] = grid->hist_tmp[grid->climy - BGY_CLIM + offset][h]
+                            + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
+            grid->tcdc_clm[h] = grid->hist_cld[grid->climy - BGY_CLIM + offset][h];
+            grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM + offset][h];
+        }
     }
 	
     /* perturbation for uncertainty analysis: 2010/05/17 (A.Ito) ***************/

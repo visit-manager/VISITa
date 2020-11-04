@@ -52,6 +52,7 @@ void cal_spinup(
 	/* land-use change ***********/
 	f_cult_luc(grid);
 	if(LANDUSE == 0){
+        /* natural */
 		grid->f_crop_p = 0.0;
 		grid->f_pasture_p = 0.0;
 	}else if(LANDUSE>=1 && LANDUSE<=5){
@@ -102,9 +103,10 @@ void cal_spinup(
         loct->n_manure_in = 0.0;
     }
     
-    if(NMIP_RUN >= 1 || ISIMIP_RUN == 4){
+    if(NMIP_RUN >= 1 || ISIMIP_RUN == 4|| ISIMIP_RUN == 5){
         /* NMIP input: 2015/11/19 by A.Ito */
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
+        /* ISIMIP3a: 2020/10/01 by A.Ito */
         f_fert = 1.0; /* driven by data */
     }else{
         if(grid->rank_nat == 1){
@@ -128,7 +130,11 @@ void cal_spinup(
     if(ISIMIP_RUN == 4){
         grid->simy = FSY_HIST - 1; /* 1660 */
     }
-	
+    if(ISIMIP_RUN == 5){
+        /* ISIMIP3a */
+        grid->simy = 1850;
+    }
+
 	/* LOOP to stable stage ************************************************/
 	nn = 0; 
 	ann_nep = 10.0;
@@ -165,6 +171,11 @@ void cal_spinup(
             ann_nep = 10.0;
             grid->climy = grid->lucy = nn%30 + FSY_HIST;
 			set_hist_clim(grid);
+        }else if(ISIMIP_RUN == 5 && grid->flag_histdata == 1){
+            /* ISIMIP3a */
+            ann_nep = 10.0;
+            grid->climy = grid->lucy = nn%100 + 1801;
+            set_hist_clim(grid);
         }
         
         /* NMIP: 2015/11/19 by A.Ito **/
@@ -173,6 +184,20 @@ void cal_spinup(
             grid->niny = FSY_HIST-1;
         }else if(ISIMIP_RUN == 4){
             grid->niny = FSY_HIST;
+        }else if(ISIMIP_RUN == 5){
+            /* ISIMIP3a */
+            if(grid->climy < 1850){
+                grid->niny = 1850;
+            }else{
+                grid->niny = grid->climy;
+            }
+            if(SCENARIO_ID == 5106 || SCENARIO_ID == 5107 || SCENARIO_ID == 5116 || SCENARIO_ID == 5117){
+                /* fixed CO2 */
+                grid->co2y = 1901;
+            }else{
+                grid->co2y = grid->climy;
+            }
+            n_fertilizer_in(grid, loct);
         }else{
             grid->niny = 1901;
         }
@@ -448,8 +473,9 @@ void cal_spinup(
             }else{  /*  if(nn>=term_time) */
                 break; /**** 3. stop by 2000 years ****/	
             }
-        }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3 || ISIMIP_RUN == 4){
+        }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5){
             /* spin-up 3000 years (30 x 100 times): 2012/07/02 by A.Ito */
+            /* spin-up 3000 years (100 x 30 times): 2020/10/01 by A.Ito */
             ann_nep = 10.0;
             if(nn == 3000){
                 ann_nep = 0.0;

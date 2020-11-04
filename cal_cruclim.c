@@ -52,7 +52,8 @@ void cal_historical(
         /* ISI-MIP2 (hist): 1901-2010 */
         /* ISI-MIP2b (1.5/2.0): 1661-2299 (2099) */
         /* NMIP: 1901-2012 => 1861–2015 */
-		
+        /* ISIMIP3a: 1850-2016 (FSY_HIST = 1850) */
+
 		/* simulation year ********************/
         /* updated: 2016/10/20 */
         grid->simy = FSY_HIST + g;
@@ -136,6 +137,10 @@ void cal_historical(
             grid->climy = 1901; /* 1901 */
         }
         
+        if(grid->simy = EX_FORCED_AFFOREST_2_YR){
+            ;
+        }
+        
         /*************/
         /* added by A.Ito: 2018/10/26 */
         if(EXTRA_CO2_FIX == 1){
@@ -195,7 +200,7 @@ void cal_historical(
         
         if((echar->soil).v_type == 2){
             /* NMIP input: 2015/11/19 by A.Ito */
-            if(NMIP_RUN >= 1 || EX_NFERT >= 1 || ISIMIP_RUN == 4 || EX_NFERT == 102){
+            if(NMIP_RUN >= 1 || EX_NFERT >= 1 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5 || EX_NFERT == 102){
                 n_fertilizer_in(grid, loct);
                 f_fert = 1.0; /* driven by data */
             }
@@ -522,7 +527,7 @@ void cal_historical(
 			/******************/
 			f_grid_av(grid, loct, echar, mass, flux);
 		}
-        //printf("\n");
+        /* printf("\n"); */
 		
 		/* empirical NPP models */
 		npp_empirical(grid, loct, flux);

@@ -345,6 +345,13 @@ void n_fertilizer_in(
         }else{
             ;
         }
+        /* ISI-MIP3: 2020/10/01 by A.Ito */
+        if(ISIMIP_RUN == 5){
+            /* FDY_NINY = 1850 */
+            loct->n_frtlz_in = grid->mip_nfert[grid->niny - FDY_NINY] * MDN[grid->m] / YDN;
+        }else{
+            ;
+        }
         loct->n_manure_in = 0.0;
     }
     

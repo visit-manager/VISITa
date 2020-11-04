@@ -255,7 +255,7 @@ void f_biomassburning(
 	
 	for(f=0;f<ASTEP;f++){
 		/* seasonal change: fire-day length */
-		if(n_fireseason>=0.05){
+		if(n_fireseason >= 0.05){
 			aa = flux->day_fire[f]/n_fireseason;
 		}else{
 			aa = 0.0;
