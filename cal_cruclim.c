@@ -133,11 +133,11 @@ void cal_historical(
             }
         }
         
-        if(NMIP_RUN == 7 ){
+        if(NMIP_RUN == 7){
             grid->climy = 1901; /* 1901 */
         }
         
-        if(grid->simy = EX_FORCED_AFFOREST_2_YR){
+        if(grid->simy == EX_FORCED_AFFOREST_2_YR){
             ;
         }
         

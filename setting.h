@@ -494,7 +494,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 32
+#define LANDUSE 0
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -616,7 +616,7 @@
 /* 3: entire deforestation, replaced by 31 */
 /* 4: entire deforestation and regrowth: 2016/12/28 by A.Ito */
 
-# define EX_FORCED_AFFOREST_1 0
+# define EX_FORCED_AFFOREST_1 1
 /* forced afforestation: from the beginning */
 /* 0: off */
 /* 1: forced to 1:tropical & subtropical evergreen forest */

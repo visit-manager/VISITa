@@ -1051,7 +1051,7 @@ void set_gcm_index(
     
     if(EX_FORCED_AFFOREST_1 >= 1){
         /* forced afforestation experiment: 2020/11/02 by A.Ito */
-        strcat(s_case,"FAFR_");
+        strcat(s_case,"FAF_");
     }
     
     /* IMPRESSIONS 1 */
