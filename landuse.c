@@ -307,6 +307,12 @@ void f_cult_luc(
         }
     }
     
+    /* forced afforestation: 2020/11/09 by A.Ito */
+    if((EX_FORCED_AFFOREST_2 >=1 && EX_FORCED_AFFOREST_2 <=12) && grid->lucy >= EX_FORCED_AFFOREST_2_YR){
+        grid->f_crop_con = 0.0;
+        grid->f_pasture_con = 0.0;
+    }
+    
 	/*********************************/
 	if(grid->f_crop_con < 0.0){
 		grid->f_crop_con = 0.0;
@@ -520,6 +526,13 @@ void f_cult_luc(
     /* updated 2016/10/20 by A.Ito */
     if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
         grid->f_deforest = 0.0;
+    }
+
+    /* forced afforestation: 2020/11/09 by A.Ito */
+    if((EX_FORCED_AFFOREST_2 >=1 && EX_FORCED_AFFOREST_2 <=12) && grid->lucy >= EX_FORCED_AFFOREST_2_YR){
+        grid->f_deforest = 0.0;
+        grid->f_deforest_v = 0.0;
+        grid->f_deforest_s = 0.0;
     }
 
     /* parameter ensemble: 2014/11/19 by A.Ito */

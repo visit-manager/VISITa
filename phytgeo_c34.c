@@ -51,6 +51,11 @@ void c34composition(
 					loct->c4ptn[f] = 0.0;
 					loct->c3ptn[f] = 1.0;
 			}
+   
+            if((EX_FORCED_AFFOREST_2 >=1 && EX_FORCED_AFFOREST_2 <=12) && grid->lucy >= EX_FORCED_AFFOREST_2_YR){
+                loct->c4ptn[f] = 0.0;
+                loct->c3ptn[f] = 1.0;
+            }
 		}
 	}else if(v_type == 2){ /* crop */
 		for(f=0;f<ASTEP;f++){

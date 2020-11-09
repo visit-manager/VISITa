@@ -39,8 +39,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 1
-#define CALC_OFFSET 0
+#define CALC_STEP 10
+#define CALC_OFFSET 2
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -494,7 +494,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 0
+#define LANDUSE 32
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -616,7 +616,7 @@
 /* 3: entire deforestation, replaced by 31 */
 /* 4: entire deforestation and regrowth: 2016/12/28 by A.Ito */
 
-# define EX_FORCED_AFFOREST_1 1
+# define EX_FORCED_AFFOREST_1 0
 /* forced afforestation: from the beginning */
 /* 0: off */
 /* 1: forced to 1:tropical & subtropical evergreen forest */
@@ -632,7 +632,7 @@
 /* 11: forced to 11:northern evergreen taiga */
 /* 12: forced to 12:northern deciduous taiga */
 
-#define EX_FORCED_AFFOREST_2 0
+#define EX_FORCED_AFFOREST_2 1
 /* forced afforestation: in specific year */
 /* 0: off */
 /* 1: forced to 1:tropical & subtropical evergreen forest */

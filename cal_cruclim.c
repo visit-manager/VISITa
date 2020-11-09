@@ -137,8 +137,38 @@ void cal_historical(
             grid->climy = 1901; /* 1901 */
         }
         
-        if(grid->simy == EX_FORCED_AFFOREST_2_YR){
-            ;
+        /* forced afforestation: 2020/11/09 by A.Ito */
+        if((EX_FORCED_AFFOREST_2 >=1 && EX_FORCED_AFFOREST_2 <=12) && grid->lucy == EX_FORCED_AFFOREST_2_YR){
+            
+            (mass->c3).fol = (mass->c3).fol_p = (mass->c3).stm = (mass->c3).rot = INT_C;
+            for(f=0;f<ASTEP;f++){
+                (mass->c3).mfol[f] = (mass->c3).mstm[f] = (mass->c3).mrot[f] = INT_C;
+            }
+
+            (mass->c4).fol = (mass->c4).fol_p = (mass->c4).stm= (mass->c4).rot= INT_C;
+            for(f=0;f<ASTEP;f++){
+                (mass->c4).mfol[f] = (mass->c4).mstm[f] = (mass->c4).mrot[f] = INT_C;   
+            }
+            
+            switch(EX_FORCED_AFFOREST_2){
+                case 1: grid->veg_olson = 1; break;
+                case 2: grid->veg_olson = 2; break;
+                case 3: grid->veg_olson = 3; break;
+                case 4: grid->veg_olson = 4; break;
+                case 5: grid->veg_olson = 5; break;
+                case 6: grid->veg_olson = 6; break;
+                case 7: grid->veg_olson = 7; break;
+                case 8: grid->veg_olson = 8; break;
+                case 9: grid->veg_olson = 9; break;
+                case 10: grid->veg_olson = 10; break;
+                case 11: grid->veg_olson = 11; break;
+                case 12: grid->veg_olson = 12; break;
+            }
+
+            /* C3 */
+            parameterC3(grid, &(echar->c3));
+            /* C4 */
+            parameterC4(grid, &(echar->c4));
         }
         
         /*************/
