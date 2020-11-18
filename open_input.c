@@ -4141,6 +4141,52 @@ void open_input(
         }
     }
 
+    /* ISIMIP3b: 2020/11/18 by A.Ito */
+    if(SCENARIO_ID>=5120 && SCENARIO_ID<5220){
+        if(SCENARIO_ID == 5120 || SCENARIO_ID == 5121 || SCENARIO_ID == 5122 ||
+           SCENARIO_ID == 5140 || SCENARIO_ID == 5141 || SCENARIO_ID == 5142 ||
+           SCENARIO_ID == 5160 || SCENARIO_ID == 5161 || SCENARIO_ID == 5162 ||
+           SCENARIO_ID == 5180 || SCENARIO_ID == 5181 || SCENARIO_ID == 5182 ||
+           SCENARIO_ID == 5200 || SCENARIO_ID == 5201 || SCENARIO_ID == 5202){
+            CO2S = 1;
+        }
+        if(SCENARIO_ID == 5123 || SCENARIO_ID == 5124 || SCENARIO_ID == 5125 || SCENARIO_ID ==5126 ||
+           SCENARIO_ID == 5143 || SCENARIO_ID == 5144 || SCENARIO_ID == 5145 || SCENARIO_ID ==5146 ||
+           SCENARIO_ID == 5163 || SCENARIO_ID == 5164 || SCENARIO_ID == 5165 || SCENARIO_ID ==5166 ||
+           SCENARIO_ID == 5183 || SCENARIO_ID == 5184 || SCENARIO_ID == 5185 || SCENARIO_ID ==5186 ||
+           SCENARIO_ID == 5203 || SCENARIO_ID == 5204 || SCENARIO_ID == 5205 || SCENARIO_ID ==5206){
+            CO2S = 2;
+        }
+        if(SCENARIO_ID == 5127 || SCENARIO_ID == 5128 || SCENARIO_ID == 5129 || SCENARIO_ID ==5130 ||
+           SCENARIO_ID == 5147 || SCENARIO_ID == 5148 || SCENARIO_ID == 5149 || SCENARIO_ID ==5150 ||
+           SCENARIO_ID == 5167 || SCENARIO_ID == 5168 || SCENARIO_ID == 5169 || SCENARIO_ID ==5170 ||
+           SCENARIO_ID == 5187 || SCENARIO_ID == 5188 || SCENARIO_ID == 5189 || SCENARIO_ID ==5190 ||
+           SCENARIO_ID == 5207 || SCENARIO_ID == 5208 || SCENARIO_ID == 5209 || SCENARIO_ID ==5210){
+            CO2S = 3;
+        }
+        if(SCENARIO_ID == 5131 || SCENARIO_ID == 5132 || SCENARIO_ID == 5133 || SCENARIO_ID ==5134 || SCENARIO_ID ==5135 ||
+           SCENARIO_ID == 5151 || SCENARIO_ID == 5152 || SCENARIO_ID == 5153 || SCENARIO_ID ==5154 || SCENARIO_ID ==5155 ||
+           SCENARIO_ID == 5171 || SCENARIO_ID == 5172 || SCENARIO_ID == 5173 || SCENARIO_ID ==5174 || SCENARIO_ID ==5175 ||
+           SCENARIO_ID == 5191 || SCENARIO_ID == 5192 || SCENARIO_ID == 5193 || SCENARIO_ID ==5194 || SCENARIO_ID ==5195 ||
+           SCENARIO_ID == 5211 || SCENARIO_ID == 5212 || SCENARIO_ID == 5213 || SCENARIO_ID ==5214 || SCENARIO_ID ==5215){
+            CO2S = 3;
+        }
+
+        /* dummy: won't be used */
+        if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt")) == NULL){
+            printf("NO image_a1b_fcrop.dat !!\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[23] ++;
+        }
+        if((fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt")) == NULL){
+             printf("NO image_a1b_fgrass.dat !!\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[45] ++;
+        }
+    }
+
     /* land-use and harvest ************************************************************************/
     /* SAGE crop data */
     if( (fp_s[46]=fopen("./data/sage_crops.dat","rt")) == NULL ){
@@ -5077,8 +5123,8 @@ void open_input(
     
     if(EX_NFERT == 102){
         /* manure by Feng: 2020/08/19, 2020/08/24, 2020/08/28 by A.Ito  */
-        //if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng.flt","rb"))==NULL ){
-        //if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng_merged.flt","rb"))==NULL ){
+        /* if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng.flt","rb"))==NULL ){ */
+        /* if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng_merged.flt","rb"))==NULL ){ */
         if( (fp_s[91]=fopen("./data/Manure_1961_2014_Feng_merged2.flt","rb"))==NULL ){
             printf("No Manure_1961_2014_Feng_merged2.flt\n");
             exit(1);

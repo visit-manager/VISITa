@@ -1468,7 +1468,7 @@ void f_init_grid(
             grid->hvst_s3[h] = 0.0;
         }
     }
-	
+    
 	/* crop and pasture fractions: 1700-2007 */
 	/* Ramankutty & Kimball: added 2010/01/07 (A.Ito) */
     if(LANDUSE == 7){
@@ -1833,26 +1833,26 @@ void f_init_grid(
         for(e=0;e<54;e++){
             fscanf(fp_s[89],"%lf", &ddummy);
             if(ddummy<0.0){ ddummy = 0.0; }
-            //grid->est_nfert[e] = +ddummy;
+            /* grid->est_nfert[e] = +ddummy; */
         }
         /* crop residue: upland */
         for(e=0;e<54;e++){
             fscanf(fp_s[89],"%lf", &ddummy);
             if(ddummy<0.0){ ddummy = 0.0; }
-            //grid->est_nfert[e] = +ddummy;
+            /* grid->est_nfert[e] = +ddummy; */
         }
 
         /* manure: rice */
         for(e=0;e<54;e++){
             fscanf(fp_s[89],"%lf", &ddummy);
             if(ddummy<0.0){ ddummy = 0.0; }
-            //grid->est_nfert[e] = +ddummy;
+            /* grid->est_nfert[e] = +ddummy; */
         }
         /* manure: upland */
         for(e=0;e<54;e++){
             fscanf(fp_s[89],"%lf", &ddummy);
             if(ddummy<0.0){ ddummy = 0.0; }
-            //grid->est_nfert[e] = +ddummy;
+            /* grid->est_nfert[e] = +ddummy; */
         }
 
         /* chemical fertilizer: rice */

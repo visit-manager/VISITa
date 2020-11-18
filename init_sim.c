@@ -243,6 +243,7 @@ void f_init_sim(
             printf("No co2_isimip3b.txt\n");
             exit(1);
         }
+        /* DL_AGHG = 336 */
         for(f=0;f<DL_AGHG;f++){
             fscanf(fpi,"%ld", &year);
             fscanf(fpi,"%lf", &aco2_1[f]); /* picontrol */
