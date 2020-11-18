@@ -27,8 +27,8 @@ extern long IMP_DT, IMP_DP, IMP_CD;
 
 extern double f_pert[20];
 extern double aco2_1[DL_AGHG], aco2_2[DL_AGHG], aco2_3[DL_AGHG], aco2_4[DL_AGHG];
-extern double ach4_a1[DL_AGHG], ach4_a2[DL_AGHG], ach4_b1[DL_AGHG], ach4_b2[DL_AGHG];
-extern double an2o_a1[DL_AGHG], an2o_a2[DL_AGHG], an2o_b1[DL_AGHG], an2o_b2[DL_AGHG];
+extern double ach4_1[DL_AGHG], ach4_2[DL_AGHG], ach4_3[DL_AGHG], ach4_4[DL_AGHG];
+extern double an2o_1[DL_AGHG], an2o_2[DL_AGHG], an2o_3[DL_AGHG], an2o_4[DL_AGHG];
 /* Atmospheric d13C, D14C by Graven: 2019/1/17 by A.Ito */
 extern double d13c_graven[166], d14c1_graven[166], d14c2_graven[166], d14c3_graven[166];
 

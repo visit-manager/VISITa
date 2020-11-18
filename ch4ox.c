@@ -141,16 +141,16 @@ void f_ch4oxy_ridgewell(
 	/*Atmospheric CH4 */
 	switch(CO2S){
 		case 1:
-			co_ch4 = ach4_a1[grid->co2y - FDY_AGHG]/1000.0;
+			co_ch4 = ach4_1[grid->co2y - FDY_AGHG]/1000.0;
 			break;
 		case 4:
-			co_ch4 = ach4_a2[grid->co2y - FDY_AGHG]/1000.0;
+			co_ch4 = ach4_2[grid->co2y - FDY_AGHG]/1000.0;
 			break;
 		case 5:
-			co_ch4 = ach4_b1[grid->co2y - FDY_AGHG]/1000.0;
+			co_ch4 = ach4_3[grid->co2y - FDY_AGHG]/1000.0;
 			break;
 		default:
-			co_ch4 = ach4_a1[grid->co2y - FDY_AGHG]/1000.0;
+			co_ch4 = ach4_1[grid->co2y - FDY_AGHG]/1000.0;
 			break;
 	}
 	
@@ -249,32 +249,32 @@ void f_ch4oxy_casa(
 	/* c_ch4 = 0.04; */ /* default */
 	switch(SCENARIO_ID){
 		case 1000: case 1010: case 1070: case 1080: case 1090: case 1110:
-			c_ch4 = ach4_a1[grid->co2y-1750]/1000.0/30.0;
+			c_ch4 = ach4_1[grid->co2y-1750]/1000.0/30.0;
 			break;
 		case 1013: case 1071: case 1081: case 1091: case 1111:
-			c_ch4 = ach4_a2[grid->co2y-1750]/1000.0/30.0;
+			c_ch4 = ach4_2[grid->co2y-1750]/1000.0/30.0;
 			break;
 		case 1001: case 1016: case 1072: case 1082: case 1092: case 1112:
-			c_ch4 = ach4_b1[grid->co2y-1750]/1000.0/30.0;
+			c_ch4 = ach4_3[grid->co2y-1750]/1000.0/30.0;
 			break;
         default:
-            c_ch4 = ach4_a1[grid->co2y-1750]/1000.0/30.0;
+            c_ch4 = ach4_1[grid->co2y-1750]/1000.0/30.0;
             break;
 	}
     
     if(ISIMIP_RUN==1 || ISIMIP_RUN==2 || ISIMIP_RUN==3|| ISIMIP_RUN==4){
         switch(CO2S){
             case 1:
-                c_ch4 = ach4_a1[grid->co2y - FDY_AGHG]/1000.0/30.0;
+                c_ch4 = ach4_1[grid->co2y - FDY_AGHG]/1000.0/30.0;
                 break;
             case 4:
-                c_ch4 = ach4_a2[grid->co2y - FDY_AGHG]/1000.0/30.0;
+                c_ch4 = ach4_2[grid->co2y - FDY_AGHG]/1000.0/30.0;
                 break;
             case 5:
-                c_ch4 = ach4_b1[grid->co2y - FDY_AGHG]/1000.0/30.0;
+                c_ch4 = ach4_3[grid->co2y - FDY_AGHG]/1000.0/30.0;
                 break;
             default:
-                c_ch4 = ach4_a1[grid->co2y - FDY_AGHG]/1000.0/30.0;
+                c_ch4 = ach4_1[grid->co2y - FDY_AGHG]/1000.0/30.0;
                 break;
         }
     }
@@ -543,16 +543,16 @@ void f_ch4oxy_curry(
 	/*Atmospheric CH4 */
 	switch(CO2S){
 		case 1:
-			c_0 = ach4_a1[grid->co2y - FDY_AGHG]/1000.0;
+			c_0 = ach4_1[grid->co2y - FDY_AGHG]/1000.0;
 			break;
 		case 4:
-			c_0 = ach4_a2[grid->co2y - FDY_AGHG]/1000.0;
+			c_0 = ach4_2[grid->co2y - FDY_AGHG]/1000.0;
 			break;
 		case 5:
-			c_0 = ach4_b1[grid->co2y - FDY_AGHG]/1000.0;
+			c_0 = ach4_3[grid->co2y - FDY_AGHG]/1000.0;
 			break;
 		default:
-			c_0 = ach4_a1[grid->co2y - FDY_AGHG]/1000.0;
+			c_0 = ach4_1[grid->co2y - FDY_AGHG]/1000.0;
 			break;
 	}
 

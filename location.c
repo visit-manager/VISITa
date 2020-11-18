@@ -405,10 +405,10 @@ void f_dyn_loct(
 	/* initial soil CH4 concentration */
 	for(h=0;h<=(N_SLAYER+1);h++){
         if(grid->co2y >= FDY_AGHG){
-            loct->prof_ch4[h] = ach4_a1[grid->co2y - FDY_AGHG]/1000.0
+            loct->prof_ch4[h] = ach4_1[grid->co2y - FDY_AGHG]/1000.0
                 * loct->prsr[grid->m] / (UGC * (grid->tmp10_soil[grid->m] + ZAT));
         }else{
-            loct->prof_ch4[h] = ach4_a1[0]/1000.0
+            loct->prof_ch4[h] = ach4_1[0]/1000.0
                 * loct->prsr[grid->m] / (UGC * (grid->tmp10_soil[grid->m] + ZAT));
         }
 	}

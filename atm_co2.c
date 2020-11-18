@@ -88,12 +88,44 @@ void f_co2_trend(
         /** ISI-MIP 3a runs **/
         switch(SCENARIO_ID){
             case 5100: case 5101: case 5102:   /* obsclim */
-             case 5110: case 5111: case 5112:
+            case 5110: case 5111: case 5112:
                 base = aco2_1[grid->co2y - FDY_AGHG];
                 break;
             case 5103: case 5104: case 5105: case 5106: case 5107: /* counterclim */
-             case 5113: case 5114: case 5115: case 5116: case 5117:
+            case 5113: case 5114: case 5115: case 5116: case 5117:
                 base = aco2_2[grid->co2y - FDY_AGHG];
+                break;
+        }
+    }else if(ISIMIP_RUN == 6){
+        /** ISI-MIP 3b runs **/
+        switch(SCENARIO_ID){
+            case 5120: case 5121: case 5122:
+            case 5140: case 5141: case 5142:
+            case 5160: case 5161: case 5162:
+            case 5180: case 5181: case 5182:
+            case 5200: case 5201: case 5202:
+                base = aco2_1[grid->co2y - FDY_AGHG]; /* Pi control */
+                break;
+            case 5123: case 5124: case 5125: case 5126:
+            case 5143: case 5144: case 5145: case 5146:
+            case 5163: case 5164: case 5165: case 5166:
+            case 5183: case 5184: case 5185: case 5186:
+            case 5203: case 5204: case 5205: case 5206:
+                base = aco2_2[grid->co2y - FDY_AGHG]; /* RCP2.6 */
+                break;
+            case 5127: case 5128: case 5129: case 5130:
+            case 5147: case 5148: case 5149: case 5150:
+            case 5167: case 5168: case 5169: case 5170:
+            case 5187: case 5188: case 5189: case 5190:
+            case 5207: case 5208: case 5209: case 5210:
+                base = aco2_3[grid->co2y - FDY_AGHG]; /* RCP7.0 */
+                break;
+            case 5131: case 5132: case 5133: case 5134: case 5135: case 5136:
+            case 5151: case 5152: case 5153: case 5154: case 5155: case 5156:
+            case 5171: case 5172: case 5173: case 5174: case 5175: case 5176:
+            case 5191: case 5192: case 5193: case 5194: case 5195: case 5196:
+            case 5211: case 5212: case 5213: case 5214: case 5215: case 5216:
+                base = aco2_4[grid->co2y - FDY_AGHG]; /* RCP8.5 */
                 break;
         }
     }else if(IMPRESSIONS_RUN == 2 || IMPRESSIONS_RUN == 3){

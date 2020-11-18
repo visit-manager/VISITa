@@ -50,8 +50,8 @@ double f_pert[N_PARA_ENS];
 
 /* atm. GHG scenario */
 double aco2_1[DL_AGHG], aco2_2[DL_AGHG], aco2_3[DL_AGHG], aco2_4[DL_AGHG];
-double ach4_a1[DL_AGHG], ach4_a2[DL_AGHG], ach4_b1[DL_AGHG], ach4_b2[DL_AGHG];
-double an2o_a1[DL_AGHG], an2o_a2[DL_AGHG], an2o_b1[DL_AGHG], an2o_b2[DL_AGHG];
+double ach4_1[DL_AGHG], ach4_2[DL_AGHG], ach4_3[DL_AGHG], ach4_4[DL_AGHG];
+double an2o_1[DL_AGHG], an2o_2[DL_AGHG], an2o_3[DL_AGHG], an2o_4[DL_AGHG];
 /* for ISI-MIP: 2012/06/27 by A.Ito */
 /* a1 => RCP6.0 */
 /* a2 => RCP8.5 */

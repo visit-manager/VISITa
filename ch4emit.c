@@ -863,7 +863,7 @@ void f_ch4_emit_walter(
 		/* global */
         if(ALT_INUND == 0){
             f_inundation = grid->inundation_ssmi[grid->m]; /* */
-        }else if(ALT_INUND==1 || ALT_INUND==3 || ALT_INUND==4 || ALT_INUND==5){
+        }else if(ALT_INUND == 1 || ALT_INUND == 3 || ALT_INUND == 4 || ALT_INUND == 5){
             if(grid->climy >= 1999 && grid->climy <= 2013){
         
                 if(grid->f_wetland > 0.0){
@@ -986,7 +986,7 @@ void f_ch4_emit_walter(
         }
 		
 		/* when using NASA/GISS wetland data: 2011/03/31 by A.Ito */
-		if(ALT_FWETLAND == 1 && (smode==1||smode==2)){
+		if(ALT_FWETLAND == 1 && (smode == 1 || smode == 2)){
 			/* to avoid double-counting of inundation fraction */
 			f_inundation = 1.0;
 		}
@@ -1251,7 +1251,7 @@ void f_ch4_emit_veg(
 	}
 
 	/* C4, g m-2 month-1 */
-	if((echar->c4).season[grid->m]!=0){
+	if((echar->c4).season[grid->m] != 0){
 		(flux->c4).emit_ch4_kirschbaum_mass[grid->m] = ( (mass->c4).mfol[grid->m] * dmTc * 100.0 ) * 
 			(sunshine*femit_sun + (DHN - sunshine)*femit_shade) * pow(10.0, -9.0) * MDN[grid->m];
 	}else{

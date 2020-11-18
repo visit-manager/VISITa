@@ -476,6 +476,7 @@ void open_input(
                 break;
             case 2031: case 2035:
                 case 2261: case 2263: case 2268: case 2270:
+                case 2071: case 2072: case 2073: case 2074:
                 if( (fp_c[0]=fopen("./data/tas_rcp2p6_isimip_miroc_1950-2099.flt","rb"))==NULL ){  
                     printf("No tas_rcp2p6_isimip_miroc_1950-2099.flt\n");  
                     exit(1); 
@@ -1187,6 +1188,378 @@ void open_input(
                 }
                 break;
         }
+    }else if(ISIMIP_RUN == 6){
+        /* ISIMIP3b: 2020/11/13 by A.Ito */
+        switch(SCENARIO_ID){
+            /* GFDL */
+             case 5120: case 5121: case 5122:
+                if( (fp_c[0]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5123: case 5124: case 5125: case 5126:
+                if( (fp_c[0]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5127: case 5128: case 5129: case 5130:
+                if( (fp_c[0]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5131: case 5132: case 5133: case 5134: case 5135: case 5136:
+                if( (fp_c[0]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/gfdl-esm4_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No gfdl-esm4_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                break;
+
+            /* UKESM */
+             case 5140: case 5141: case 5142:
+                if( (fp_c[0]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_tas_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_tas_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_pr_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_pr_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_huss_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_huss_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_rsds_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_rsds_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5143: case 5144: case 5145: case 5146:
+                if( (fp_c[0]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_tas_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_tas_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_pr_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_pr_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_huss_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_huss_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5147: case 5148: case 5149: case 5150:
+                if( (fp_c[0]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_tas_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_tas_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_pr_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_pr_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_huss_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_huss_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5151: case 5152: case 5153: case 5154: case 5155: case 5156:
+                if( (fp_c[0]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_tas_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_tas_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_pr_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_pr_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_huss_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_huss_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/ukesm1-0-ll_r1i1p1f2_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No ukesm1-0-ll_r1i1p1f2_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                break;
+
+            /* MPI */
+             case 5160: case 5161: case 5162:
+                if( (fp_c[0]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5163: case 5164: case 5165: case 5166:
+                if( (fp_c[0]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5167: case 5168: case 5169: case 5170:
+                if( (fp_c[0]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5171: case 5172: case 5173: case 5174: case 5175: case 5176:
+                if( (fp_c[0]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/mpi-esm1-2-hr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No mpi-esm1-2-hr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                break;
+            /* IPSL */
+             case 5180: case 5181: case 5182:
+                if( (fp_c[0]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5183: case 5184: case 5185: case 5186:
+                if( (fp_c[0]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5187: case 5188: case 5189: case 5190:
+                if( (fp_c[0]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5191: case 5192: case 5193: case 5194: case 5195: case 5196:
+                if( (fp_c[0]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No ipsl-cm6a-lr_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                break;
+            /* MRI */
+             case 5200: case 5201: case 5202:
+                if( (fp_c[0]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_picontrol_picontrol.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_picontrol_picontrol.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5203: case 5204: case 5205: case 5206:
+                if( (fp_c[0]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp126.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp126.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5207: case 5208: case 5209: case 5210:
+                if( (fp_c[0]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/ipsl-cm6a-lr_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp370.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp370.flt\n");
+                    exit(1);
+                }
+                break;
+              case 5211: case 5212: case 5213: case 5214: case 5215: case 5216:
+                if( (fp_c[0]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_tas_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[1]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_pr_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[2]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_huss_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                if( (fp_c[3]=fopen("./data/mri-esm2-0_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp585.flt","rb"))==NULL ){
+                    printf("No mri-esm2-0_r1i1p1f1_w5e5_rsds_mon_1601-2100_picontrol_historical_ssp585.flt\n");
+                    exit(1);
+                }
+                break;
+       }
+        
     }
     
     /*********************************************************************/
@@ -2645,8 +3018,8 @@ void open_input(
         }
     }
     
-    /* CMIP6 historical data: 1886-2015: 2018/12/21 by A.Ito */
-    if(LANDUSE == 26){
+    /* CMIP6 historical data: 1866-2015: 2018/12/21 by A.Ito */
+    if(LANDUSE == 26 || LANDUSE == 47){
         if( (fp_s[26]=fopen("./data/luh2_state_5-05_1866-2015.txt","rt"))==NULL ){
             printf("No luh2_state_5-05_1866-2015.txt\n");
             exit(1);
@@ -3803,18 +4176,20 @@ void open_input(
     
     /* crop and pasture fractions: 1700-2007 */
     /* Ramankutty & Kimball: added 2010/07/07 (A.Ito) */
-    if( (fp_s[50]=fopen("./data/glcrop_1700-2007_0.5.dat","rt")) == NULL ){
-        printf("No glcrop_1700-2007_0.5.dat\n");
-        exit(1);
-    }else{
-        Flag_FOPEN[50] ++;
-    }
-    
-    if( (fp_s[51]=fopen("./data/glpast_1700-2007_0.5.dat","rt")) == NULL ){
-        printf("No glpast_1700-2007_0.5.dat\n");
-        exit(1);
-    }else{
-        Flag_FOPEN[51] ++;
+    if(LANDUSE == 7){
+        if( (fp_s[50]=fopen("./data/glcrop_1700-2007_0.5.dat","rt")) == NULL ){
+            printf("No glcrop_1700-2007_0.5.dat\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[50] ++;
+        }
+        
+        if( (fp_s[51]=fopen("./data/glpast_1700-2007_0.5.dat","rt")) == NULL ){
+            printf("No glpast_1700-2007_0.5.dat\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[51] ++;
+        }
     }
     
 	/* wood harvest based on RCP-harmonized data: LUHa.v1 *************/
@@ -4413,6 +4788,83 @@ void open_input(
         }
     }
     
+    /* 2-2002 S1: 2020/10/07 by A.Ito */
+    if(LANDUSE == 47){
+        if(SCENARIO_ID == 2701){
+            if( (fp_s[87]=fopen("./data/landuse_aim_2-2002-S1_baseline_2005-2100_2.txt","rt")) == NULL ){
+                printf("No landuse_aim_2-2002-S1_baseline_2005-2100_2.txt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[87] ++;
+            }
+        }
+        if(SCENARIO_ID == 2702){
+            if( (fp_s[87]=fopen("./data/landuse_aim_2-2002-S1_mitigation-full_2005-2100_2.txt","rt")) == NULL ){
+                printf("No landuse_aim_2-2002-S1_mitigation-full_2005-2100_2.txt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[87] ++;
+            }
+        }
+        if(SCENARIO_ID == 2703){
+            if( (fp_s[87]=fopen("./data/landuse_aim_2-2002-S1_mitigation-noaff_2005-2100_2.txt","rt")) == NULL ){
+                printf("No landuse_aim_2-2002-S1_mitigation-noaff_2005-2100_2.txt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[87] ++;
+            }
+        }
+        if(SCENARIO_ID == 2704){
+            if( (fp_s[87]=fopen("./data/landuse_aim_2-2002-S1_mitigation-nobio_2005-2100_2.txt","rt")) == NULL ){
+                printf("No landuse_aim_2-2002-S1_mitigation-nobio_2005-2100_2.txt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[87] ++;
+            }
+        }
+    }
+    
+    /* ISIMIP3b: 2020/10/11 by A.Ito */
+    if(LANDUSE == 46){
+        if(SCENARIO_ID == 5120 || SCENARIO_ID == 5123 || SCENARIO_ID == 5127 || SCENARIO_ID == 5131 || SCENARIO_ID == 5134
+            || SCENARIO_ID == 5140 || SCENARIO_ID == 5143 || SCENARIO_ID == 5147 || SCENARIO_ID == 5151 || SCENARIO_ID == 5154
+            || SCENARIO_ID == 5160 || SCENARIO_ID == 5163 || SCENARIO_ID == 5167 || SCENARIO_ID == 5171 || SCENARIO_ID == 5174
+            || SCENARIO_ID == 5180 || SCENARIO_ID == 5183 || SCENARIO_ID == 5187 || SCENARIO_ID == 5191 || SCENARIO_ID == 5194
+            || SCENARIO_ID == 5200 || SCENARIO_ID == 5203 || SCENARIO_ID == 5207 || SCENARIO_ID == 5211 || SCENARIO_ID == 5214){
+            if( (fp_s[87]=fopen("./data/landuse_1601-2100_1850soc_histsoc_2015soc.flt","rb")) == NULL ){
+                printf("No landuse_1601-2100_1850soc_histsoc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[87] ++;
+            }
+        }
+        if(SCENARIO_ID == 5121 || SCENARIO_ID == 5124 || SCENARIO_ID == 5126 || SCENARIO_ID == 5128
+             || SCENARIO_ID == 5130 || SCENARIO_ID == 5132 || SCENARIO_ID == 5135
+             || SCENARIO_ID == 5141 || SCENARIO_ID == 5144 || SCENARIO_ID == 5146 || SCENARIO_ID == 5148
+             || SCENARIO_ID == 5150 || SCENARIO_ID == 5152 || SCENARIO_ID == 5155
+             || SCENARIO_ID == 5161 || SCENARIO_ID == 5164 || SCENARIO_ID == 5166 || SCENARIO_ID == 5168
+             || SCENARIO_ID == 5170 || SCENARIO_ID == 5172 || SCENARIO_ID == 5175
+             || SCENARIO_ID == 5181 || SCENARIO_ID == 5184 || SCENARIO_ID == 5186 || SCENARIO_ID == 5188
+             || SCENARIO_ID == 5190 || SCENARIO_ID == 5192 || SCENARIO_ID == 5195
+             || SCENARIO_ID == 5201 || SCENARIO_ID == 5204 || SCENARIO_ID == 5206 || SCENARIO_ID == 5208
+             || SCENARIO_ID == 5210 || SCENARIO_ID == 5212 || SCENARIO_ID == 5215){
+            if( (fp_s[87]=fopen("./data/landuse_1601-2100_2015soc_2015soc_2015soc.flt","rb")) == NULL ){
+                printf("No landuse_1601-2100_2015soc_2015soc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[87] ++;
+            }
+        }
+        if(Flag_FOPEN[87]==0){
+            if( (fp_s[87]=fopen("./data/landuse_1601-2100_2015soc_2015soc_2015soc.flt","rb")) == NULL ){
+                printf("No landuse_1601-2100_2015soc_2015soc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[87] ++;
+            }
+        }
+    }
+    
     /* N fertilizer ***************************************************************************/
     /* updated: 2016/10/20 by A.Ito */
     if(SCENARIO_ID>=5010 && SCENARIO_ID<5100){
@@ -4458,6 +4910,47 @@ void open_input(
         if(SCENARIO_ID == 5102 || SCENARIO_ID == 5105 || SCENARIO_ID == 5112 || SCENARIO_ID == 5115){
             if( (fp_s[88]=fopen("./data/nfert_1850-2018_histsoc_histsoc.flt","rb")) == NULL ){
                 printf("No nfert_1850-2018_histsoc_histsoc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[88] ++;
+            }
+        }
+    }
+
+    /* ISIMIP3b: 2020/10/11 by A.Ito */
+    if(LANDUSE == 46){
+        if(SCENARIO_ID == 5120 || SCENARIO_ID == 5123 || SCENARIO_ID == 5127 || SCENARIO_ID == 5131 || SCENARIO_ID == 5134
+            || SCENARIO_ID == 5140 || SCENARIO_ID == 5143 || SCENARIO_ID == 5147 || SCENARIO_ID == 5151 || SCENARIO_ID == 5154
+            || SCENARIO_ID == 5160 || SCENARIO_ID == 5163 || SCENARIO_ID == 5167 || SCENARIO_ID == 5171 || SCENARIO_ID == 5174
+            || SCENARIO_ID == 5180 || SCENARIO_ID == 5183 || SCENARIO_ID == 5187 || SCENARIO_ID == 5191 || SCENARIO_ID == 5194
+            || SCENARIO_ID == 5200 || SCENARIO_ID == 5203 || SCENARIO_ID == 5207 || SCENARIO_ID == 5211 || SCENARIO_ID == 5214){
+            if( (fp_s[88]=fopen("./data/nfert_1601-2100_1850soc_histsoc_2015soc.flt","rb")) == NULL ){
+                printf("No nfert_1601-2100_1850soc_histsoc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[88] ++;
+            }
+        }
+        if(SCENARIO_ID == 5121 || SCENARIO_ID == 5124 || SCENARIO_ID == 5126 || SCENARIO_ID == 5128
+             || SCENARIO_ID == 5130 || SCENARIO_ID == 5132 || SCENARIO_ID == 5135
+             || SCENARIO_ID == 5141 || SCENARIO_ID == 5144 || SCENARIO_ID == 5146 || SCENARIO_ID == 5148
+             || SCENARIO_ID == 5150 || SCENARIO_ID == 5152 || SCENARIO_ID == 5155
+             || SCENARIO_ID == 5161 || SCENARIO_ID == 5164 || SCENARIO_ID == 5166 || SCENARIO_ID == 5168
+             || SCENARIO_ID == 5170 || SCENARIO_ID == 5172 || SCENARIO_ID == 5175
+             || SCENARIO_ID == 5181 || SCENARIO_ID == 5184 || SCENARIO_ID == 5186 || SCENARIO_ID == 5188
+             || SCENARIO_ID == 5190 || SCENARIO_ID == 5192 || SCENARIO_ID == 5195
+             || SCENARIO_ID == 5201 || SCENARIO_ID == 5204 || SCENARIO_ID == 5206 || SCENARIO_ID == 5208
+             || SCENARIO_ID == 5210 || SCENARIO_ID == 5212 || SCENARIO_ID == 5215){
+            if( (fp_s[88]=fopen("./data/nfert_1601-2100_2015soc_2015soc_2015soc.flt","rb")) == NULL ){
+                printf("No nfert_1601-2100_2015soc_2015soc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[88] ++;
+            }
+        }
+        if(Flag_FOPEN[88]==0){
+            if( (fp_s[88]=fopen("./data/nfert_1601-2100_2015soc_2015soc_2015soc.flt","rb")) == NULL ){
+                printf("No nfert_1601-2100_2015soc_2015soc_2015soc.flt\n");
                 exit(1);
             }else{
                 Flag_FOPEN[88] ++;
@@ -4708,4 +5201,46 @@ void open_input(
             }
         }
     }
+
+    /* ISIMIP3b: 2020/10/11 by A.Ito */
+    if(LANDUSE == 46){
+        if(SCENARIO_ID == 5120 || SCENARIO_ID == 5123 || SCENARIO_ID == 5127 || SCENARIO_ID == 5131 || SCENARIO_ID == 5134
+            || SCENARIO_ID == 5140 || SCENARIO_ID == 5143 || SCENARIO_ID == 5147 || SCENARIO_ID == 5151 || SCENARIO_ID == 5154
+            || SCENARIO_ID == 5160 || SCENARIO_ID == 5163 || SCENARIO_ID == 5167 || SCENARIO_ID == 5171 || SCENARIO_ID == 5174
+            || SCENARIO_ID == 5180 || SCENARIO_ID == 5183 || SCENARIO_ID == 5187 || SCENARIO_ID == 5191 || SCENARIO_ID == 5194
+            || SCENARIO_ID == 5200 || SCENARIO_ID == 5203 || SCENARIO_ID == 5207 || SCENARIO_ID == 5211 || SCENARIO_ID == 5214){
+            if( (fp_s[25]=fopen("./data/ndepo_1601-2100_1850soc_histsoc_2015soc.flt","rb")) == NULL ){
+                printf("No ndepo_1601-2100_1850soc_histsoc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
+        }
+        if(SCENARIO_ID == 5121 || SCENARIO_ID == 5124 || SCENARIO_ID == 5126 || SCENARIO_ID == 5128
+             || SCENARIO_ID == 5130 || SCENARIO_ID == 5132 || SCENARIO_ID == 5135
+             || SCENARIO_ID == 5141 || SCENARIO_ID == 5144 || SCENARIO_ID == 5146 || SCENARIO_ID == 5148
+             || SCENARIO_ID == 5150 || SCENARIO_ID == 5152 || SCENARIO_ID == 5155
+             || SCENARIO_ID == 5161 || SCENARIO_ID == 5164 || SCENARIO_ID == 5166 || SCENARIO_ID == 5168
+             || SCENARIO_ID == 5170 || SCENARIO_ID == 5172 || SCENARIO_ID == 5175
+             || SCENARIO_ID == 5181 || SCENARIO_ID == 5184 || SCENARIO_ID == 5186 || SCENARIO_ID == 5188
+             || SCENARIO_ID == 5190 || SCENARIO_ID == 5192 || SCENARIO_ID == 5195
+             || SCENARIO_ID == 5201 || SCENARIO_ID == 5204 || SCENARIO_ID == 5206 || SCENARIO_ID == 5208
+             || SCENARIO_ID == 5210 || SCENARIO_ID == 5212 || SCENARIO_ID == 5215){
+            if( (fp_s[25]=fopen("./data/ndepo_1601-2100_2015soc_2015soc_2015soc.flt","rb")) == NULL ){
+                printf("No ndepo_1601-2100_2015soc_2015soc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
+        }
+        if(Flag_FOPEN[87] == 0){
+            if( (fp_s[87]=fopen("./data/ndepo_1601-2100_2015soc_2015soc_2015soc.flt","rb")) == NULL ){
+                printf("No ndepo_1601-2100_2015soc_2015soc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
+        }
+    }
+
 }

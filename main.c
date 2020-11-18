@@ -372,7 +372,7 @@ int main(
                 
                 /* Olson map */
                 if(CALC_OLSON == 1){
-                    /* sequential number */
+                    /* sequential grid number */
                     grid.n_olson++;
                     /* total area */
                     go_landarea += grid.area; /* total land */
@@ -421,7 +421,7 @@ int main(
                     grid.veg_olson = 31;
                     vo_area[grid.veg_olson] += grid.area;
                     
-                    /* sequential number */
+                    /* sequential grid number */
                     grid.n_crop++;
                     /* total area */
 

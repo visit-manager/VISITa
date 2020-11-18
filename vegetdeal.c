@@ -791,6 +791,12 @@ void set_gcm_index(
         case 2601:	strcpy(s_case,"ICS1_"); break;
         case 2602:	strcpy(s_case,"ICS2_"); break;
         case 2603:	strcpy(s_case,"ICS3_"); break;
+        
+        /* 2-2002 S1: 2020/10/07 by A.Ito */
+        case 2701:    strcpy(s_case,"AIMS1_1_"); break; /* 2701: baseline */
+        case 2702:    strcpy(s_case,"AIMS1_2_"); break; /* 2702: mitigation-full */
+        case 2703:    strcpy(s_case,"AIMS1_3_"); break; /* 2703: mitigation-noaff */
+        case 2704:    strcpy(s_case,"AIMS1_4_"); break; /* 2704: mitigation-nobio */
 
         /* GEO-MIP runs: 2013/11/26 by A.Ito */
 		case 3000:	strcpy(s_case,"GEBN45_"); break;
@@ -1043,6 +1049,15 @@ void set_gcm_index(
         strcat(s_case,"FXCD_");
     }
     
+    if(EX_FORCED_AFFOREST_1 >= 1){
+        /* forced afforestation experiment: 2020/11/02 by A.Ito */
+        strcat(s_case,"FAF1_");
+    }
+    if(EX_FORCED_AFFOREST_2 >= 1){
+        /* forced afforestation experiment: 2020/11/13 by A.Ito */
+        strcat(s_case,"FAF2_");
+    }
+
     /* IMPRESSIONS 1 */
     if(SCENARIO_ID == 6001){
         switch(IMP_DT){
