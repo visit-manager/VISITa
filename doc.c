@@ -84,7 +84,7 @@ void f_doc_boyer(
 	/* DOC mass, mg/L */
 	mass->doc = doc_est * prm_ensen;
 	mass->doc_m[grid->m] = mass->doc;
-	
+ 
 	/* runoff DOC, mg/L -> gC/ha/month */
 	flux->doc_boyer[grid->m] = mass->doc * loct->ro2[grid->m] * 10000.0 / 1000.0;
 	

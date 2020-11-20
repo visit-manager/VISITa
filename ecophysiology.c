@@ -58,8 +58,8 @@ void f_ecophysiology(
     
 	/* for monthly simulation ***********************/
 	/* midday canopy radiation absorption  */
-	sinb = sin(grid->lat*dTr)*sin(grid->sl_dec[grid->m]*dTr) 
-			+ cos(grid->lat*dTr)*cos(grid->sl_dec[grid->m]*dTr)*1.0;
+	sinb = sin(grid->lat*dTr) * sin(grid->sl_dec[grid->m]*dTr)
+			+ cos(grid->lat*dTr) * cos(grid->sl_dec[grid->m]*dTr)*1.0;
 	sinb = (sinb<=1.0)?sinb:1.0; 
 	sinb = (sinb>=-1.0)?sinb:-1.0;
 	
@@ -69,8 +69,8 @@ void f_ecophysiology(
 		irr_b = (1.0 - sqrt(1.0 - 0.15))/(1.0 + sqrt(1.0 - 0.15));
 		rfl_b = 1.0 - exp(-2.0 * irr_b * ke_b1)/(1.0 + ke_b1);
 		
-		pchar->apar_bp[grid->m] = (1.0 - rfl_b)*grid->par_bp[grid->m] * (1.0 - exp(-ke_b2 * mass->lai[grid->m]));
-		pchar->apar_dp[grid->m] = (1.0 - 0.036)*grid->par_dp[grid->m] * (1.0 - exp(-0.719 * mass->lai[grid->m]));
+		pchar->apar_bp[grid->m] = (1.0 - rfl_b) * grid->par_bp[grid->m] * (1.0 - exp(-ke_b2 * mass->lai[grid->m]));
+		pchar->apar_dp[grid->m] = (1.0 - 0.036) * grid->par_dp[grid->m] * (1.0 - exp(-0.719 * mass->lai[grid->m]));
 		
 		apar = pchar->apar_bp[grid->m] + pchar->apar_dp[grid->m];
 		fapar = apar / grid->par[grid->m];

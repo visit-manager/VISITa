@@ -414,15 +414,17 @@ void f_n_deposit(
     /* updated 2016/10/20, 2017/10/19 by A.Ito */
     /* ISI-MIP2b: 2016/12/24 by A.Ito */
     /* ISIMIP3a: 2020/10/01 by A.Ito */
-    if(NMIP_RUN >= 1 || ISIMIP_RUN == 5){
+    /* ISIMIP3b: 2020/11/18 by A.Ito */
+    if(NMIP_RUN >= 1 || ISIMIP_RUN == 5|| ISIMIP_RUN == 6){
     
         nyear = grid->niny;
+        uconv = 1.0;
         if(NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
             nyear = FDY_NINY+1; /* for fixing */
             uconv = 1.0;
         }
         
-        if(ISIMIP_RUN == 5){
+        if(ISIMIP_RUN == 5 || ISIMIP_RUN == 6){
             uconv = 10000.0; /* m2 => ha */
         }
         

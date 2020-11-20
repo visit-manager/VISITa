@@ -19,6 +19,7 @@ short Flag_FOPEN[IFILEN];
 
 extern short DF97;
 extern double MDN[ASTEP],YDN;
+extern double sres_co2[DL_ADD];
 extern long SCENARIO_ID, CO2S, GCM_R, GCM_C;
 extern long PARAM_PTB, PARAM_ENS;   /* added by A.Ito (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3;   /* added by A.Ito (2010/07/02) */
@@ -27,8 +28,8 @@ extern long IMP_DT, IMP_DP, IMP_CD;
 
 extern double f_pert[20];
 extern double aco2_1[DL_AGHG], aco2_2[DL_AGHG], aco2_3[DL_AGHG], aco2_4[DL_AGHG];
-extern double ach4_a1[DL_AGHG], ach4_a2[DL_AGHG], ach4_b1[DL_AGHG], ach4_b2[DL_AGHG];
-extern double an2o_a1[DL_AGHG], an2o_a2[DL_AGHG], an2o_b1[DL_AGHG], an2o_b2[DL_AGHG];
+extern double ach4_1[DL_AGHG], ach4_2[DL_AGHG], ach4_3[DL_AGHG], ach4_4[DL_AGHG];
+extern double an2o_1[DL_AGHG], an2o_2[DL_AGHG], an2o_3[DL_AGHG], an2o_4[DL_AGHG];
 /* Atmospheric d13C, D14C by Graven: 2019/1/17 by A.Ito */
 extern double d13c_graven[166], d14c1_graven[166], d14c2_graven[166], d14c3_graven[166];
 

@@ -158,15 +158,15 @@ void f_init_sim(
             fscanf(fpi,"%lf", &aco2_2[f]);
             fscanf(fpi,"%lf", &aco2_4[f]);
             /* CH4, ppbv */
-            fscanf(fpi,"%lf", &ach4_a1[f]);
-            fscanf(fpi,"%lf", &ach4_b1[f]);
-            fscanf(fpi,"%lf", &ach4_a2[f]);
-            fscanf(fpi,"%lf", &ach4_b2[f]);
+            fscanf(fpi,"%lf", &ach4_1[f]);
+            fscanf(fpi,"%lf", &ach4_3[f]);
+            fscanf(fpi,"%lf", &ach4_2[f]);
+            fscanf(fpi,"%lf", &ach4_4[f]);
             /* N2O, ppbv */
-            fscanf(fpi,"%lf", &an2o_a1[f]);
-            fscanf(fpi,"%lf", &an2o_b1[f]);
-            fscanf(fpi,"%lf", &an2o_a2[f]);
-            fscanf(fpi,"%lf", &an2o_b2[f]);
+            fscanf(fpi,"%lf", &an2o_1[f]);
+            fscanf(fpi,"%lf", &an2o_3[f]);
+            fscanf(fpi,"%lf", &an2o_2[f]);
+            fscanf(fpi,"%lf", &an2o_4[f]);
         }
         fclose(fpi);
     }else if(ISIMIP_RUN==1 || ISIMIP_RUN==2 || ISIMIP_RUN==3 || GEOMIP_RUN==1
@@ -183,20 +183,20 @@ void f_init_sim(
             
             /* RCP2.6 */
             fscanf(fpi,"%lf", &aco2_3[f]);
-            fscanf(fpi,"%lf", &ach4_b1[f]);
-            fscanf(fpi,"%lf", &an2o_b1[f]);
+            fscanf(fpi,"%lf", &ach4_3[f]);
+            fscanf(fpi,"%lf", &an2o_3[f]);
             /* RCP4.5 */
             fscanf(fpi,"%lf", &aco2_4[f]);
-            fscanf(fpi,"%lf", &ach4_b2[f]);
-            fscanf(fpi,"%lf", &an2o_b2[f]);
+            fscanf(fpi,"%lf", &ach4_4[f]);
+            fscanf(fpi,"%lf", &an2o_4[f]);
             /* RCP6.0 */
             fscanf(fpi,"%lf", &aco2_1[f]);
-            fscanf(fpi,"%lf", &ach4_a1[f]);
-            fscanf(fpi,"%lf", &an2o_a1[f]);
+            fscanf(fpi,"%lf", &ach4_1[f]);
+            fscanf(fpi,"%lf", &an2o_1[f]);
             /* RCP8.5 */
             fscanf(fpi,"%lf", &aco2_2[f]);
-            fscanf(fpi,"%lf", &ach4_a2[f]);
-            fscanf(fpi,"%lf", &an2o_a2[f]);
+            fscanf(fpi,"%lf", &ach4_2[f]);
+            fscanf(fpi,"%lf", &an2o_2[f]);
         }
         fclose(fpi);
     }else if(ISIMIP_RUN == 4){
@@ -212,11 +212,11 @@ void f_init_sim(
             aco2_2[f] = aco2_1[f];
             
             /* rcp26 CH4 */
-            fscanf(fpi,"%lf", &ach4_b1[f]);
-            ach4_b2[f] = ach4_a1[f] = ach4_a2[f] = ach4_b1[f];
+            fscanf(fpi,"%lf", &ach4_3[f]);
+            ach4_4[f] = ach4_1[f] = ach4_2[f] = ach4_3[f];
             /* rcp26 N2O */
-            fscanf(fpi,"%lf", &an2o_b1[f]);
-            an2o_b2[f] = an2o_a1[f] = an2o_a2[f] = an2o_b1[f];
+            fscanf(fpi,"%lf", &an2o_3[f]);
+            an2o_4[f] = an2o_1[f] = an2o_2[f] = an2o_3[f];
         }
         fclose(fpi);
     }else if(ISIMIP_RUN == 5){
@@ -231,11 +231,36 @@ void f_init_sim(
             aco2_3[f] = aco2_4[f] = aco2_1[f];
             
             /* rcp26 CH4 */
-            fscanf(fpi,"%lf", &ach4_b1[f]);
-            ach4_b2[f] = ach4_a1[f] = ach4_a2[f] = ach4_b1[f];
+            fscanf(fpi,"%lf", &ach4_3[f]);
+            ach4_4[f] = ach4_1[f] = ach4_2[f] = ach4_3[f];
             /* rcp26 N2O */
-            fscanf(fpi,"%lf", &an2o_b1[f]);
-            an2o_b2[f] = an2o_a1[f] = an2o_a2[f] = an2o_b1[f];
+            fscanf(fpi,"%lf", &an2o_3[f]);
+            an2o_4[f] = an2o_1[f] = an2o_2[f] = an2o_3[f];
+        }
+        fclose(fpi);
+    }else if(ISIMIP_RUN == 6){
+        if((fpi = fopen("./data/ghg_isimip3b.txt","rt"))==NULL){
+            printf("No ghg_isimip3b.txt\n");
+            exit(1);
+        }
+        /* DL_AGHG = 336 */
+        for(f=0;f<DL_AGHG;f++){
+            fscanf(fpi,"%ld", &year);
+            fscanf(fpi,"%lf", &aco2_1[f]); /* picontrol */
+            fscanf(fpi,"%lf", &aco2_2[f]); /* obs + ssp126 */
+            fscanf(fpi,"%lf", &aco2_3[f]); /* obs + ssp370 */
+            fscanf(fpi,"%lf", &aco2_4[f]); /* obs + ssp585 */
+            
+            /* rcp CH4 */
+            fscanf(fpi,"%lf", &ach4_1[f]);
+            fscanf(fpi,"%lf", &ach4_2[f]);
+            fscanf(fpi,"%lf", &ach4_3[f]);
+            fscanf(fpi,"%lf", &ach4_4[f]);
+            /* rcp N2O */
+            fscanf(fpi,"%lf", &an2o_1[f]);
+            fscanf(fpi,"%lf", &an2o_2[f]);
+            fscanf(fpi,"%lf", &an2o_3[f]);
+            fscanf(fpi,"%lf", &an2o_4[f]);
         }
         fclose(fpi);
     }

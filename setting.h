@@ -39,8 +39,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 1
-#define CALC_OFFSET 0
+#define CALC_STEP 10
+#define CALC_OFFSET 2
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -62,7 +62,7 @@
 #define PHYS_GOUT 0
 
 /***********************************************************/
-#define ISIMIP_RUN 5
+#define ISIMIP_RUN 6
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /*    MIROC-INTEG LUC run (2019/02/21 by A.Ito) */
@@ -139,7 +139,7 @@
     #define DL_NINPUT 169 /* 1850-2016 */
     #define FDY_NINY 1850
 #elif ISIMIP_RUN==6
-    /* ISI-MIP3b */
+    /* ISI-MIP3b: 1601-2100 */
     #define DL_NINPUT 500
     #define FDY_NINY 1601
 #else
@@ -218,7 +218,7 @@
 #if ISIMIP_RUN==4
     #define PD_SIM 640 /* */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
 #elif ISIMIP_RUN==6
-    #define PD_SIM 500 /* */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
+    #define PD_SIM 501 /* */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
 #else
     #define PD_SIM 201
 #endif
@@ -494,7 +494,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 45
+#define LANDUSE 46
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -565,12 +565,14 @@
     #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
 #elif ISIMIP_RUN==5
     #define DL_LUC 169 /* 1850-2018: ISI-MIP3a (2020/10/05 by A.Ito) */
+#elif ISIMIP_RUN==6
+    #define DL_LUC 500 /* 1601-2100: ISI-MIP3b (2020/11/13 by A.Ito) */
 #else
     /* #define DL_LUC 601 */  /* 1500-2100: LUH 1500-2005/2005-2100 */
     /* #define DL_LUC 306 */  /* 1700-2000/2005 */
-    #define DL_LUC 150 /* */  /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
+    /* #define DL_LUC 150 */  /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
     /* #define DL_LUC 601 */  /* 1500-2005 + 2005-2100 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
-    /* #define DL_LUC 235 */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18 by A.Ito */
+    #define DL_LUC 235 /* */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18 by A.Ito */
 #endif
 
 /* begin year of land-use DATA */
@@ -578,6 +580,8 @@
     #define FDY_LUC 1661 /* ISI-MIP2b (2016/12/22 by A.Ito) */
 #elif ISIMIP_RUN==5
     #define FDY_LUC 1850 /* ISIMIP3a (2020/10/01 by A.Ito) */
+#elif ISIMIP_RUN==6
+    #define FDY_LUC 1601 /* ISIMIP3b (2020/11/13 by A.Ito) */
 #else
     /* #define FDY_LUC 1500 */
     /* #define FDY_LUC 1700 */
@@ -587,8 +591,8 @@
 
 /* begin year of land-use SIMULATION */
 #if ISIMIP_RUN==1
-    #define BGY_LUC 2000 /* */   /* ISI-MIP: 2012/06/27 by A.Ito */
-    /* #define BGY_LUC 1950 */   /* AIM: 2019/06/21 by A.Ito */
+    /* #define BGY_LUC 2000 */   /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define BGY_LUC 1950 /* */   /* LUH2 or AIM: 2019/06/21 by A.Ito */
 #elif ISIMIP_RUN==2
     #define BGY_LUC 2000    /* PLUME: 2014/07/31 by A.Ito */
 #elif ISIMIP_RUN==3
@@ -597,6 +601,8 @@
     #define BGY_LUC 1661    /* ISI-MIP2b (2016/12/22 by A.Ito) */
 #elif ISIMIP_RUN==5
     #define BGY_LUC 1850    /* ISIMIP3a (2020/10/01 by A.Ito) */
+#elif ISIMIP_RUN==6
+    #define BGY_LUC 1601    /* ISIMIP3b (2020/11/13 by A.Ito) */
 #else
     #define BGY_LUC 1900
 #endif
@@ -615,6 +621,39 @@
 /* 2: entire deforestation, replaced by 13 */
 /* 3: entire deforestation, replaced by 31 */
 /* 4: entire deforestation and regrowth: 2016/12/28 by A.Ito */
+
+# define EX_FORCED_AFFOREST_1 0
+/* forced afforestation: from the beginning */
+/* 0: off */
+/* 1: forced to 1:tropical & subtropical evergreen forest */
+/* 2: forced to 2:tropical montane forest */
+/* 3: forced to 3:tropical & subtropical dry forest */
+/* 4: forced to 4:mid-latitude mixed forest */
+/* 5: forced to 5:mid-latitude broad-leaved forest */
+/* 6: forced to 6:semiarid wood or low forest */
+/* 7: forced to 7:coniferous evergreen forest */
+/* 8: forced to 8:southern taiga */
+/* 9: forced to 9:main evergreen taiga */
+/* 10: forced to 10:main deciduous taiga */
+/* 11: forced to 11:northern evergreen taiga */
+/* 12: forced to 12:northern deciduous taiga */
+
+#define EX_FORCED_AFFOREST_2 0
+/* forced afforestation: in specific year */
+/* 0: off */
+/* 1: forced to 1:tropical & subtropical evergreen forest */
+/* 2: forced to 2:tropical montane forest */
+/* 3: forced to 3:tropical & subtropical dry forest */
+/* 4: forced to 4:mid-latitude mixed forest */
+/* 5: forced to 5:mid-latitude broad-leaved forest */
+/* 6: forced to 6:semiarid wood or low forest */
+/* 7: forced to 7:coniferous evergreen forest */
+/* 8: forced to 8:southern taiga */
+/* 9: forced to 9:main evergreen taiga */
+/* 10: forced to 10:main deciduous taiga */
+/* 11: forced to 11:northern evergreen taiga */
+/* 12: forced to 12:northern deciduous taiga */
+#define EX_FORCED_AFFOREST_2_YR 2010
 
 /*******************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
@@ -849,7 +888,7 @@
 /* 56: 0.005730 (N20-driven) */ /* paper median */
 
 /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
-#define EX_NFERT 101
+#define EX_NFERT 0
 /* 0: off */
 /* 1: HadGEM + RCP2.6 + SSP1 */
 /* 2: HadGEM + RCP2.6 + SSP2 */

@@ -1049,6 +1049,15 @@ void set_gcm_index(
         strcat(s_case,"FXCD_");
     }
     
+    if(EX_FORCED_AFFOREST_1 >= 1){
+        /* forced afforestation experiment: 2020/11/02 by A.Ito */
+        strcat(s_case,"FAF1_");
+    }
+    if(EX_FORCED_AFFOREST_2 >= 1){
+        /* forced afforestation experiment: 2020/11/13 by A.Ito */
+        strcat(s_case,"FAF2_");
+    }
+
     /* IMPRESSIONS 1 */
     if(SCENARIO_ID == 6001){
         switch(IMP_DT){

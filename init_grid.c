@@ -397,6 +397,27 @@ void f_init_grid(
 			grid->veg_olson = 31;
 		}
 	}
+    
+    /* forced afforestation experiment: 2020/11/02 by A.Ito */
+    if( (aaa>=1 && aaa<=33) && (EX_FORCED_AFFOREST_1>=1 && EX_FORCED_AFFOREST_1<=12)){
+        switch(EX_FORCED_AFFOREST_1){
+            case 1: grid->veg_olson = 1; break;
+            case 2: grid->veg_olson = 2; break;
+            case 3: grid->veg_olson = 3; break;
+            case 4: grid->veg_olson = 4; break;
+            case 5: grid->veg_olson = 5; break;
+            case 6: grid->veg_olson = 6; break;
+            case 7: grid->veg_olson = 7; break;
+            case 8: grid->veg_olson = 8; break;
+            case 9: grid->veg_olson = 9; break;
+            case 10: grid->veg_olson = 10; break;
+            case 11: grid->veg_olson = 11; break;
+            case 12: grid->veg_olson = 12; break;
+            default: break;
+        }
+    }else{
+        ;
+    }
 	
 	/* input soil properties *************************************/
 	fscanf(fp_s[3],"%lf", &geo_prop);
@@ -557,7 +578,27 @@ void f_init_grid(
 			}
 		}
 	}
-	
+ 
+    if(EX_FORCED_AFFOREST_1 >= 1 && EX_FORCED_AFFOREST_1 <= 12){
+        switch(EX_FORCED_AFFOREST_1){
+            case 1: grid->veg_sage = 1; break;
+            case 2: grid->veg_sage = 1; break;
+            case 3: grid->veg_sage = 1; break;
+            case 4: grid->veg_sage = 8; break;
+            case 5: grid->veg_sage = 3; break;
+            case 6: grid->veg_sage = 11; break;
+            case 7: grid->veg_sage = 4; break;
+            case 8: grid->veg_sage = 4; break;
+            case 9: grid->veg_sage = 6; break;
+            case 10: grid->veg_sage = 7; break;
+            case 11: grid->veg_sage = 6; break;
+            case 12: grid->veg_sage = 7; break;
+            default: break;
+        }
+    }else{
+        ;
+    }
+
 	/* experiment for biodiversity: 2011/01/15 (A.Ito) **********************************/
 	if(grid->veg_olson >= 1 && grid->veg_olson <= 12){
 		/* reduced biodiversity of forests */
@@ -846,6 +887,18 @@ void f_init_grid(
             grid->mip_ndep_mon_noy[e/12][e%12] = is3adat_mon[e];
         }
         
+    }else if(ISIMIP_RUN==6){
+        /* ISIMIP3b: 2020/11/18 by A.Ito */
+        fread(is3adat_mon,sizeof(float),12*DL_NINPUT, fp_s[25]);
+        for(e=0;e<12*DL_NINPUT;e++){
+            grid->mip_ndep_mon_nh4[e/12][e%12] = is3adat_mon[e];
+        }
+        
+        fread(is3adat_mon,sizeof(float),12*DL_NINPUT, fp_s[25]);
+        for(e=0;e<12*DL_NINPUT;e++){
+            grid->mip_ndep_mon_noy[e/12][e%12] = is3adat_mon[e];
+        }
+        
     }else{
         /* N deposition: Galloway & Dentener */
         /* URL  daac.ornl.gov/CLIMATE/guides/global_N_deposition_maps.html */
@@ -891,9 +944,20 @@ void f_init_grid(
         grid->hvst_s2[h] = 0.0;
         grid->hvst_s3[h] = 0.0;
     }
+    
+    for(h=0;h<DL_ADD;h++){
+        grid->aim_luc_fcrop[h] = 0.0;
+        grid->aim_luc_bioen[h] = 0.0;
+        grid->aim_luc_grass[h] = 0.0;
+        grid->aim_luc_forunm[h] = 0.0;
+        grid->aim_luc_forman[h] = 0.0;
+        grid->aim_luc_restored[h] = 0.0;
+        grid->aim_luc_other[h] = 0.0;
+        grid->aim_luc_builup[h] = 0.0;
+    }
 
-	if(LANDUSE==6 || LANDUSE==8 || LANDUSE==9 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12 ||
-        LANDUSE==13 || LANDUSE==17|| LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 ||
+	if(LANDUSE == 6 || LANDUSE == 8 || LANDUSE == 9 || LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 ||
+        LANDUSE == 13 || LANDUSE == 17|| LANDUSE == 18|| LANDUSE == 19 || LANDUSE == 20 ||
         LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 || LANDUSE == 38 || LANDUSE == 39 ||
         LANDUSE == 40 || LANDUSE == 41){
         
@@ -1404,7 +1468,7 @@ void f_init_grid(
             grid->hvst_s3[h] = 0.0;
         }
     }
-	
+    
 	/* crop and pasture fractions: 1700-2007 */
 	/* Ramankutty & Kimball: added 2010/01/07 (A.Ito) */
     if(LANDUSE == 7){
@@ -1673,6 +1737,14 @@ void f_init_grid(
             grid->mip_nfert[e] = is2bdat[e];
         }
         
+    }else if(ISIMIP_RUN == 6){
+        /* ISIMIP3a: 2020/11/18 by A.Ito */
+        fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[88]);
+        for(e=0;e<DL_NINPUT;e++){
+            /* kg N /ha / yr */
+            grid->mip_nfert[e] = is2bdat[e];
+        }
+        
     }else{
         /* NMIP input: 2015/11/19 by A.Ito *************/
         for(e=0;e<DL_NINPUT;e++){
@@ -1761,26 +1833,26 @@ void f_init_grid(
         for(e=0;e<54;e++){
             fscanf(fp_s[89],"%lf", &ddummy);
             if(ddummy<0.0){ ddummy = 0.0; }
-            //grid->est_nfert[e] = +ddummy;
+            /* grid->est_nfert[e] = +ddummy; */
         }
         /* crop residue: upland */
         for(e=0;e<54;e++){
             fscanf(fp_s[89],"%lf", &ddummy);
             if(ddummy<0.0){ ddummy = 0.0; }
-            //grid->est_nfert[e] = +ddummy;
+            /* grid->est_nfert[e] = +ddummy; */
         }
 
         /* manure: rice */
         for(e=0;e<54;e++){
             fscanf(fp_s[89],"%lf", &ddummy);
             if(ddummy<0.0){ ddummy = 0.0; }
-            //grid->est_nfert[e] = +ddummy;
+            /* grid->est_nfert[e] = +ddummy; */
         }
         /* manure: upland */
         for(e=0;e<54;e++){
             fscanf(fp_s[89],"%lf", &ddummy);
             if(ddummy<0.0){ ddummy = 0.0; }
-            //grid->est_nfert[e] = +ddummy;
+            /* grid->est_nfert[e] = +ddummy; */
         }
 
         /* chemical fertilizer: rice */
