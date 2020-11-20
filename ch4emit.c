@@ -506,8 +506,8 @@ void f_ch4_emit_walter(
 
         if(grid->veg_olson==9 || grid->veg_olson==10){
             rdepth = 0.20;
-        }else if(grid->veg_olson==11 || grid->veg_olson==12 || grid->veg_olson==21 || grid->veg_olson==22
-             || grid->veg_olson==23){
+        }else if(grid->veg_olson==11 || grid->veg_olson==12 || grid->veg_olson==21 ||
+            grid->veg_olson==22 || grid->veg_olson==23){
             rdepth = 0.15;
         }
 		
@@ -1159,7 +1159,7 @@ void f_ch4_emit_walter(
 					(loct->prof_ch4[1]-loct->prof_ch4[0]) * DHN * 16.0 / 1000.0 * MDN[grid->m];
         efflux_reles = fa_wetland * release * DHN * 16.0 / 1000.0 * MDN[grid->m];
         
-		(flux->soil).ch4_wetland_wh_plant[grid->m] += efflux_ebul;
+		(flux->soil).ch4_wetland_wh_plant[grid->m] += efflux_plant;
 		(flux->soil).ch4_wetland_wh_ebull[grid->m] += efflux_ebul;
 		(flux->soil).ch4_wetland_wh_diff[grid->m] += efflux_diffs;
 		(flux->soil).ch4_wetland_wh_release[grid->m] += efflux_reles;

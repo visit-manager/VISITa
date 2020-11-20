@@ -126,7 +126,7 @@ void cal_projection(
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;
 									
-			/* initialize N fluxes */
+			/* initialize GHG fluxes */
 			ghg_flux_zero(f, flux);
 			
 			/* atmospheric CO2 */

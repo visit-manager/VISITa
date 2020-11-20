@@ -194,14 +194,14 @@ void f_cult_luc(
         
     }else if(LANDUSE == 46){
         /* ISIMIP3b: 2020/11/18 by A.Ito */
-        if(grid->climy < 1601){
+        if(grid->lucy < 1601){
             grid->lucy = 1601;
-        }else if(grid->climy >= 1601 && grid->climy <= 2100){
-            grid->lucy = grid->climy;
+        }else if(grid->lucy >= 1601 && grid->lucy <= 2100){
+            ;
         }else{
             grid->lucy = 2100;
         }
-        grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_NINY];
+        grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_LUC];
     
     }else if(LANDUSE == 47){
         /* 2-2002 S1: 2020/10/08 by A.Ito */

@@ -186,7 +186,7 @@ void cal_spinup(
         }else if(ISIMIP_RUN == 6 && grid->flag_histdata == 1){
             /* ISIMIP3b */
             ann_nep = 10.0;
-            grid->climy = grid->lucy = nn%100 + 1601;
+            grid->climy = grid->lucy = nn%100 + FSY_HIST;
             set_hist_clim(grid);
         }
         
@@ -211,7 +211,7 @@ void cal_spinup(
             }
             n_fertilizer_in(grid, loct);
         }else if(ISIMIP_RUN == 6){
-            /* ISIMIP3a */
+            /* ISIMIP3b */
             if(grid->climy < 1601){
                 grid->niny = 1601;
             }else{
@@ -224,9 +224,14 @@ void cal_spinup(
                 SCENARIO_ID == 5200 || SCENARIO_ID == 5201 || SCENARIO_ID == 5202
             ){
                 /* fixed CO2 */
-                grid->co2y = 1765;
+                grid->co2y = FDY_AGHG;
             }else{
                 grid->co2y = grid->climy;
+                if(grid->co2y < FDY_AGHG){
+                    grid->co2y = FDY_AGHG;
+                }else if(grid->co2y > 2100){
+                    grid->co2y = 2100;
+                }
             }
             n_fertilizer_in(grid, loct);
         }else{
@@ -477,7 +482,7 @@ void cal_spinup(
 		f_erosion(grid, loct, echar, mass, flux);
 		
 		/* empirical model NPP *****************/
-		/* if(grid->y==0){ /* for the first year */
+		/* if(grid->y==0){ */ /* for the first year */
 			npp_empirical(grid, loct, flux);
 		/* } */
         

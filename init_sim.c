@@ -239,8 +239,8 @@ void f_init_sim(
         }
         fclose(fpi);
     }else if(ISIMIP_RUN == 6){
-        if((fpi = fopen("./data/co2_isimip3b.txt","rt"))==NULL){
-            printf("No co2_isimip3b.txt\n");
+        if((fpi = fopen("./data/ghg_isimip3b.txt","rt"))==NULL){
+            printf("No ghg_isimip3b.txt\n");
             exit(1);
         }
         /* DL_AGHG = 336 */

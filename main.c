@@ -372,6 +372,7 @@ int main(
                 
                 /* Olson map */
                 if(CALC_OLSON == 1){
+                    loct.v_type = 1;
                     /* sequential grid number */
                     grid.n_olson++;
                     /* total area */
@@ -416,6 +417,7 @@ int main(
                             
                 /* croplands */
                 if(CALC_CROP == 1){
+                    loct_agr.v_type = 2;
                     /* generic cropland */
                     
                     grid.veg_olson = 31;

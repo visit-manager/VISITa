@@ -671,6 +671,10 @@ void f_ch4oxy_curry(
         prm_ensen = 1.0 + 0.3 * f_pert[3];
     }
     
+    loct->xx1[grid->m] = ach4_1[grid->co2y - FDY_AGHG]/1000.0;
+    loct->xx2[grid->m] = r_sm;
+    loct->xx3[grid->m] = d_soil;
+
 	/* eq.6 */
 	k = k_0 * r_t * r_sm;
 	
