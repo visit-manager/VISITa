@@ -92,14 +92,14 @@ void soil_processes(
 	/* d14c: revised by A.Ito (2009/11/17) *********/
 	if((flux->sf[grid->m] + mass->msl) > 0.0){
 		mass->d14c_msl = (mass->d14c_ltr * flux->sf[grid->m] + mass->d14c_msl * mass->msl) / 
-						(flux->sf[grid->m] + mass->msl);	
+						(flux->sf[grid->m] + mass->msl);
 	}else{
 		mass->d14c_msl = grid->d14c_bco2[grid->m];
 	}
 	
 	if((flux->lL[grid->m] + mass->ltr) > 0.0){
 		mass->d14c_ltr = (flux->d14c_lL[grid->m]*flux->lL[grid->m] + mass->d14c_ltr*mass->ltr) / 
-						(flux->lL[grid->m] + mass->ltr);		
+						(flux->lL[grid->m] + mass->ltr);
 	}else{
 		mass->d14c_ltr = grid->d14c_bco2[grid->m];
 	}

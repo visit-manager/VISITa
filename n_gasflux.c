@@ -250,9 +250,9 @@ void f_n2o_emit_ngas(
         day_d_n2 = 0.0;
     }
     
-    loct->xx1[grid->m] = fr_no3;
+    /* loct->xx1[grid->m] = fr_no3;
     loct->xx2[grid->m] = fr_co2;
-    loct->xx3[grid->m] = fr_wfps;
+    loct->xx3[grid->m] = fr_wfps; */
 	
 	/* nitrification */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.01 * MDN[grid->m]; */ /* revised by A.Ito (2009/07/18) */

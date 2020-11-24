@@ -218,7 +218,7 @@
 #if ISIMIP_RUN==4
     #define PD_SIM 640 /* */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
 #elif ISIMIP_RUN==6
-    #define PD_SIM 500 /* */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
+    #define PD_SIM 501 /* */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
 #else
     #define PD_SIM 201
 #endif

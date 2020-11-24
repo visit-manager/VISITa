@@ -558,7 +558,7 @@ void f_ch4oxy_curry(
 
 	/* upland */
 	f_i = grid->f_wetland + grid->f_paddy;
-	if(f_i>1.0){
+	if(f_i > 1.0){
 		f_i = 1.0;
 	}
 	r_w = 1.0 - f_i;
@@ -587,7 +587,7 @@ void f_ch4oxy_curry(
 	theta = loct->sw30 / 300.0;
 	/* air-filled porosity */
 	phi_air = phi - theta;
-	if(phi_air<0.0){
+	if(phi_air < 0.0){
 		phi_air = 0.0;
 	}
 	
@@ -671,10 +671,6 @@ void f_ch4oxy_curry(
         prm_ensen = 1.0 + 0.3 * f_pert[3];
     }
     
-    loct->xx1[grid->m] = ach4_1[grid->co2y - FDY_AGHG]/1000.0;
-    loct->xx2[grid->m] = r_sm;
-    loct->xx3[grid->m] = d_soil;
-
 	/* eq.6 */
 	k = k_0 * r_t * r_sm;
 	
@@ -684,6 +680,10 @@ void f_ch4oxy_curry(
 	
 	/* mg CH4 m-2 month-1 */
 	(flux->soil).ch4oxy_curry[grid->m] = j_0 * MDN[grid->m];
+
+    loct->xx1[grid->m] = ach4_1[grid->co2y - FDY_AGHG]/1000.0;
+    loct->xx2[grid->m] = k;
+    loct->xx3[grid->m] = d_soil;
 
 	/* (flux->soil).ch4oxy_curry[grid->m] = 0.0; */
 }

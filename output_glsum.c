@@ -80,7 +80,7 @@ void f_set_history_data(
         wmonth = MDN[f]/YDN;
  
 		/* climate */
-		//h_tmp[year] += fweight * grid->tmp_2m[f]* wmonth * grid->area;
+		/* h_tmp[year] += fweight * grid->tmp_2m[f]* wmonth * grid->area; */
 		h_tmp[year] += fweight * grid->tmp_sfc[f]* wmonth * grid->area;
 		h_pre[year] += fweight * grid->prate_sfc[f] * grid->area;
 		h_dswr[year] += fweight * grid->gl_rad[f]* wmonth * grid->area;

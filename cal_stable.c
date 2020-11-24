@@ -139,7 +139,7 @@ void cal_spinup(
     }
     if(ISIMIP_RUN == 6){
         /* ISIMIP3b */
-        grid->simy = 1601;
+        grid->simy = FSY_HIST - 1; /* 1600 */
     }
 
 	/* LOOP to stable stage ************************************************/
@@ -182,41 +182,17 @@ void cal_spinup(
             /* ISIMIP3a */
             ann_nep = 10.0;
             grid->climy = grid->lucy = nn%100 + 1801;
-            set_hist_clim(grid);
-        }else if(ISIMIP_RUN == 6 && grid->flag_histdata == 1){
-            /* ISIMIP3b */
-            ann_nep = 10.0;
-            grid->climy = grid->lucy = nn%100 + FSY_HIST;
-            set_hist_clim(grid);
-        }
-        
-        /* NMIP: 2015/11/19 by A.Ito **/
-        /* updated: 2016/10/20 */
-        if(ISIMIP_RUN == 1){
-            grid->niny = FSY_HIST-1;
-        }else if(ISIMIP_RUN == 4){
-            grid->niny = FSY_HIST;
-        }else if(ISIMIP_RUN == 5){
-            /* ISIMIP3a */
-            if(grid->climy < 1850){
-                grid->niny = 1850;
-            }else{
-                grid->niny = grid->climy;
-            }
             if(SCENARIO_ID == 5106 || SCENARIO_ID == 5107 || SCENARIO_ID == 5116 || SCENARIO_ID == 5117){
                 /* fixed CO2 */
                 grid->co2y = 1901;
             }else{
                 grid->co2y = grid->climy;
             }
-            n_fertilizer_in(grid, loct);
-        }else if(ISIMIP_RUN == 6){
+            set_hist_clim(grid);
+        }else if(ISIMIP_RUN == 6 && grid->flag_histdata == 1){
             /* ISIMIP3b */
-            if(grid->climy < 1601){
-                grid->niny = 1601;
-            }else{
-                grid->niny = grid->climy;
-            }
+            ann_nep = 10.0;
+            grid->climy = grid->lucy = grid->niny = nn%100 + FSY_HIST;
             if(SCENARIO_ID == 5120 || SCENARIO_ID == 5121 || SCENARIO_ID == 5122 ||
                 SCENARIO_ID == 5140 || SCENARIO_ID == 5141 || SCENARIO_ID == 5142 ||
                 SCENARIO_ID == 5160 || SCENARIO_ID == 5161 || SCENARIO_ID == 5162 ||
@@ -233,6 +209,25 @@ void cal_spinup(
                     grid->co2y = 2100;
                 }
             }
+            set_hist_clim(grid);
+        }
+        
+        /* NMIP: 2015/11/19 by A.Ito **/
+        /* updated: 2016/10/20 */
+        if(ISIMIP_RUN == 1){
+            grid->niny = FSY_HIST-1;
+        }else if(ISIMIP_RUN == 4){
+            grid->niny = FSY_HIST;
+        }else if(ISIMIP_RUN == 5){
+            /* ISIMIP3a */
+            if(grid->climy < 1850){
+                grid->niny = 1850;
+            }else{
+                grid->niny = grid->climy;
+            }
+            n_fertilizer_in(grid, loct);
+        }else if(ISIMIP_RUN == 6){
+            /* ISIMIP3b */
             n_fertilizer_in(grid, loct);
         }else{
             grid->niny = 1901;
