@@ -191,9 +191,10 @@ void f_cult_luc(
             grid->lucy = 2018;
         }
         grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_NINY];
-        
+        grid->f_pasture_con = 0.0;
     }else if(LANDUSE == 46){
         /* ISIMIP3b: 2020/11/18 by A.Ito */
+        /* FDY_LUC = 1601 */
         if(grid->lucy < 1601){
             grid->lucy = 1601;
         }else if(grid->lucy >= 1601 && grid->lucy <= 2100){
@@ -202,7 +203,8 @@ void f_cult_luc(
             grid->lucy = 2100;
         }
         grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_LUC];
-    
+        grid->f_pasture_con = 0.0;
+        
     }else if(LANDUSE == 47){
         /* 2-2002 S1: 2020/10/08 by A.Ito */
         /* FDY_LUC = 1866 */

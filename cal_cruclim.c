@@ -53,6 +53,7 @@ void cal_historical(
         /* ISI-MIP2b (1.5/2.0): 1661-2299 (2099) */
         /* NMIP: 1901-2012 => 1861–2015 */
         /* ISIMIP3a: 1850-2016 (FSY_HIST = 1850) */
+        /* ISIMIP3b: 1601-2100 (FSY_HIST = 1601) */
 
 		/* simulation year ********************/
         /* updated: 2016/10/20 */
