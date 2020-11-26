@@ -194,8 +194,8 @@
     #define FDY_AGHG 1800
 #elif ISIMIP_RUN==6
     /* ISI-MIP3b: 2020/05/27 by A.Ito */
-    #define DL_AGHG 336
-    #define FDY_AGHG 1765
+    #define DL_AGHG 501
+    #define FDY_AGHG 1600
 #elif GEOMIP_RUN==1
     /* GEO-MIP: 2012/06/27 by A.Ito */
     #define DL_AGHG 736

@@ -117,6 +117,9 @@ void cal_historical(
                     ;
                 }
         }
+        if(grid->co2y < FDY_AGHG){
+            grid->co2y = FDY_AGHG;
+        }
 
         /* land-use year *****************/
         grid->lucy = grid->simy;
