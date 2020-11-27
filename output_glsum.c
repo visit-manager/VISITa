@@ -680,7 +680,7 @@ void f_glosum_output(
         fprintf(fp_glsum,"%lf ", h_hvst_crop[h]); /* 2018/07/16 */
 
         fprintf(fp_glsum,"%lf ", h_bco2[h]); /* 2018/10/22 */
-        fprintf(fp_glsum,"%lf ", h_luc_0[h]); /* 2018/10/23 */
+        fprintf(fp_glsum,"%lf ", h_luc_0[h]); /* DN */ /* 2018/10/23 */
         fprintf(fp_glsum,"%lf ", h_lL[h]); /* 2018/10/23 */
 
         fprintf(fp_glsum,"%lf ", h_lL[h]); /* 2018/10/23 */
