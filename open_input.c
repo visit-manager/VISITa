@@ -5148,43 +5148,112 @@ void open_input(
     }
 
     /* N deposition ****************************************************************/
-    if(SCENARIO_ID==5010 || SCENARIO_ID==5020 || SCENARIO_ID==5030 || SCENARIO_ID==5040 ||
-        SCENARIO_ID==5060 || SCENARIO_ID==5070 || SCENARIO_ID==5080 || SCENARIO_ID==5090){
-        if( (fp_s[25]=fopen("./data/ndepo_ann_2005soc_1661-2299.flt","rb"))==NULL ){
-            printf("No ndepo_ann_2005soc_1661-2299.flt\n");
-            exit(1);
-        }else{
-            Flag_FOPEN[25] ++;
+    if(ISIMIP_RUN == 4){
+        if(SCENARIO_ID==5010 || SCENARIO_ID==5020 || SCENARIO_ID==5030 || SCENARIO_ID==5040 ||
+            SCENARIO_ID==5060 || SCENARIO_ID==5070 || SCENARIO_ID==5080 || SCENARIO_ID==5090){
+            if( (fp_s[25]=fopen("./data/ndepo_ann_2005soc_1661-2299.flt","rb"))==NULL ){
+                printf("No ndepo_ann_2005soc_1661-2299.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
+        }else if(SCENARIO_ID==5011 || SCENARIO_ID==5021 || SCENARIO_ID==5031 || SCENARIO_ID==5041 ||
+                SCENARIO_ID==5013 || SCENARIO_ID==5023 || SCENARIO_ID==5033 || SCENARIO_ID==5043 ||
+                SCENARIO_ID==5015 || SCENARIO_ID==5025 || SCENARIO_ID==5035 || SCENARIO_ID==5045 ||
+                SCENARIO_ID==5061 || SCENARIO_ID==5071 || SCENARIO_ID==5081 || SCENARIO_ID==5091){
+            if( (fp_s[25]=fopen("./data/ndepo_ann_rcp26_1661-2299.flt","rb"))==NULL ){
+                printf("No ndepo_ann_rcp26_1661-2299.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
+        }else if(SCENARIO_ID==5012 || SCENARIO_ID==5022 || SCENARIO_ID==5032 || SCENARIO_ID==5042 ||
+                SCENARIO_ID==5014 || SCENARIO_ID==5024 || SCENARIO_ID==5034 || SCENARIO_ID==5044 ||
+                SCENARIO_ID==5016 || SCENARIO_ID==5026 || SCENARIO_ID==5036 || SCENARIO_ID==5046 ||
+                SCENARIO_ID==5062 || SCENARIO_ID==5072 || SCENARIO_ID==5082 || SCENARIO_ID==5092 ||
+                SCENARIO_ID==5063 || SCENARIO_ID==5073 || SCENARIO_ID==5083 || SCENARIO_ID==5093 ||
+                SCENARIO_ID==5018 || SCENARIO_ID==5028 || SCENARIO_ID==5038 || SCENARIO_ID==5048){
+            if( (fp_s[25]=fopen("./data/ndepo_ann_rcp60_1661-2299.flt","rb"))==NULL ){
+                printf("No ndepo_ann_rcp60_1661-2299.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
+        }else if(SCENARIO_ID==5017 || SCENARIO_ID==5027 || SCENARIO_ID==5037 || SCENARIO_ID==5047 ||
+                SCENARIO_ID==5064 || SCENARIO_ID==5074 || SCENARIO_ID==5084 || SCENARIO_ID==5094){
+            if( (fp_s[25]=fopen("./data/ndepo_ann_rcp85_1661-2299.flt","rb"))==NULL ){
+                printf("No ndepo_ann_rcp85_1661-2299.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
         }
-    }else if(SCENARIO_ID==5011 || SCENARIO_ID==5021 || SCENARIO_ID==5031 || SCENARIO_ID==5041 ||
-            SCENARIO_ID==5013 || SCENARIO_ID==5023 || SCENARIO_ID==5033 || SCENARIO_ID==5043 ||
-            SCENARIO_ID==5015 || SCENARIO_ID==5025 || SCENARIO_ID==5035 || SCENARIO_ID==5045 ||
-            SCENARIO_ID==5061 || SCENARIO_ID==5071 || SCENARIO_ID==5081 || SCENARIO_ID==5091){
-        if( (fp_s[25]=fopen("./data/ndepo_ann_rcp26_1661-2299.flt","rb"))==NULL ){
-            printf("No ndepo_ann_rcp26_1661-2299.flt\n");
-            exit(1);
-        }else{
-            Flag_FOPEN[25] ++;
+    }else if(ISIMIP_RUN == 5){
+        /* ISIMIP3a: 2020/10/01 by A.Ito */
+        if(LANDUSE == 45 && (SCENARIO_ID == 5100 || SCENARIO_ID == 5103 || SCENARIO_ID == 5106
+                   || SCENARIO_ID == 5110 || SCENARIO_ID == 5113|| SCENARIO_ID == 5116)){
+            if( (fp_s[25]=fopen("./data/ndepo_1850-2018_histsoc_histsoc.flt","rb")) == NULL ){
+                printf("No ndepo_1850-2018_histsoc_histsoc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
         }
-    }else if(SCENARIO_ID==5012 || SCENARIO_ID==5022 || SCENARIO_ID==5032 || SCENARIO_ID==5042 ||
-            SCENARIO_ID==5014 || SCENARIO_ID==5024 || SCENARIO_ID==5034 || SCENARIO_ID==5044 ||
-            SCENARIO_ID==5016 || SCENARIO_ID==5026 || SCENARIO_ID==5036 || SCENARIO_ID==5046 ||
-            SCENARIO_ID==5062 || SCENARIO_ID==5072 || SCENARIO_ID==5082 || SCENARIO_ID==5092 ||
-            SCENARIO_ID==5063 || SCENARIO_ID==5073 || SCENARIO_ID==5083 || SCENARIO_ID==5093 ||
-            SCENARIO_ID==5018 || SCENARIO_ID==5028 || SCENARIO_ID==5038 || SCENARIO_ID==5048){
-        if( (fp_s[25]=fopen("./data/ndepo_ann_rcp60_1661-2299.flt","rb"))==NULL ){
-            printf("No ndepo_ann_rcp60_1661-2299.flt\n");
-            exit(1);
-        }else{
-            Flag_FOPEN[25] ++;
+        if(LANDUSE == 45 && (SCENARIO_ID == 5101 || SCENARIO_ID == 5104 || SCENARIO_ID == 5107
+                   || SCENARIO_ID == 5111 || SCENARIO_ID == 5114|| SCENARIO_ID == 5117)){
+            if( (fp_s[25]=fopen("./data/ndepo_1850-2018_2015soc_2015soc.flt","rb")) == NULL ){
+                printf("No ndepo_1850-2018_2015soc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
         }
-    }else if(SCENARIO_ID==5017 || SCENARIO_ID==5027 || SCENARIO_ID==5037 || SCENARIO_ID==5047 ||
-            SCENARIO_ID==5064 || SCENARIO_ID==5074 || SCENARIO_ID==5084 || SCENARIO_ID==5094){
-        if( (fp_s[25]=fopen("./data/ndepo_ann_rcp85_1661-2299.flt","rb"))==NULL ){
-            printf("No ndepo_ann_rcp85_1661-2299.flt\n");
-            exit(1);
+        
+        /* natural (fertilizer should not be used): data for dummy */
+        if(SCENARIO_ID == 5102 || SCENARIO_ID == 5105 || SCENARIO_ID == 5112 || SCENARIO_ID == 5115){
+            if( (fp_s[25]=fopen("./data/ndepo_1850-2018_histsoc_histsoc.flt","rb")) == NULL ){
+                printf("No ndepo_1850-2018_histsoc_histsoc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
+        }
+    }else if(ISIMIP_RUN==6){
+        /* ISIMIP3b: 2020/10/11 by A.Ito */
+        if(SCENARIO_ID == 5120 || SCENARIO_ID == 5123 || SCENARIO_ID == 5127 || SCENARIO_ID == 5131 || SCENARIO_ID == 5134
+            || SCENARIO_ID == 5140 || SCENARIO_ID == 5143 || SCENARIO_ID == 5147 || SCENARIO_ID == 5151 || SCENARIO_ID == 5154
+            || SCENARIO_ID == 5160 || SCENARIO_ID == 5163 || SCENARIO_ID == 5167 || SCENARIO_ID == 5171 || SCENARIO_ID == 5174
+            || SCENARIO_ID == 5180 || SCENARIO_ID == 5183 || SCENARIO_ID == 5187 || SCENARIO_ID == 5191 || SCENARIO_ID == 5194
+            || SCENARIO_ID == 5200 || SCENARIO_ID == 5203 || SCENARIO_ID == 5207 || SCENARIO_ID == 5211 || SCENARIO_ID == 5214){
+            if( (fp_s[25]=fopen("./data/ndepo_1601-2100_1850soc_histsoc_2015soc.flt","rb")) == NULL ){
+                printf("No ndepo_1601-2100_1850soc_histsoc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
+        }else if(SCENARIO_ID == 5121 || SCENARIO_ID == 5124 || SCENARIO_ID == 5126 || SCENARIO_ID == 5128
+             || SCENARIO_ID == 5130 || SCENARIO_ID == 5132 || SCENARIO_ID == 5135
+             || SCENARIO_ID == 5141 || SCENARIO_ID == 5144 || SCENARIO_ID == 5146 || SCENARIO_ID == 5148
+             || SCENARIO_ID == 5150 || SCENARIO_ID == 5152 || SCENARIO_ID == 5155
+             || SCENARIO_ID == 5161 || SCENARIO_ID == 5164 || SCENARIO_ID == 5166 || SCENARIO_ID == 5168
+             || SCENARIO_ID == 5170 || SCENARIO_ID == 5172 || SCENARIO_ID == 5175
+             || SCENARIO_ID == 5181 || SCENARIO_ID == 5184 || SCENARIO_ID == 5186 || SCENARIO_ID == 5188
+             || SCENARIO_ID == 5190 || SCENARIO_ID == 5192 || SCENARIO_ID == 5195
+             || SCENARIO_ID == 5201 || SCENARIO_ID == 5204 || SCENARIO_ID == 5206 || SCENARIO_ID == 5208
+             || SCENARIO_ID == 5210 || SCENARIO_ID == 5212 || SCENARIO_ID == 5215){
+            if( (fp_s[25]=fopen("./data/ndepo_1601-2100_2015soc_2015soc_2015soc.flt","rb")) == NULL ){
+                printf("No ndepo_1601-2100_2015soc_2015soc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
         }else{
-            Flag_FOPEN[25] ++;
+            if( (fp_s[25]=fopen("./data/ndepo_1601-2100_1850soc_1850soc_1850soc.flt","rb")) == NULL ){
+                printf("No ndepo_1601-2100_1850soc_1850soc_1850soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
         }
     }else{
         /* by Galloway & Dentener */
@@ -5215,78 +5284,4 @@ void open_input(
     }else{
         Flag_FOPEN[86] ++;
     }
-    
-    /* ISIMIP3a: 2020/10/01 by A.Ito */
-    if(ISIMIP_RUN == 5){
-        if(LANDUSE == 45 && (SCENARIO_ID == 5100 || SCENARIO_ID == 5103 || SCENARIO_ID == 5106
-                   || SCENARIO_ID == 5110 || SCENARIO_ID == 5113|| SCENARIO_ID == 5116)){
-            if( (fp_s[25]=fopen("./data/ndepo_1850-2018_histsoc_histsoc.flt","rb")) == NULL ){
-                printf("No ndepo_1850-2018_histsoc_histsoc.flt\n");
-                exit(1);
-            }else{
-                Flag_FOPEN[25] ++;
-            }
-        }
-        if(LANDUSE == 45 && (SCENARIO_ID == 5101 || SCENARIO_ID == 5104 || SCENARIO_ID == 5107
-                   || SCENARIO_ID == 5111 || SCENARIO_ID == 5114|| SCENARIO_ID == 5117)){
-            if( (fp_s[25]=fopen("./data/ndepo_1850-2018_2015soc_2015soc.flt","rb")) == NULL ){
-                printf("No ndepo_1850-2018_2015soc_2015soc.flt\n");
-                exit(1);
-            }else{
-                Flag_FOPEN[25] ++;
-            }
-        }
-        
-        /* natural (fertilizer should not be used): data for dummy */
-        if(SCENARIO_ID == 5102 || SCENARIO_ID == 5105 || SCENARIO_ID == 5112 || SCENARIO_ID == 5115){
-            if( (fp_s[25]=fopen("./data/ndepo_1850-2018_histsoc_histsoc.flt","rb")) == NULL ){
-                printf("No ndepo_1850-2018_histsoc_histsoc.flt\n");
-                exit(1);
-            }else{
-                Flag_FOPEN[25] ++;
-            }
-        }
-    }
-
-    /* ISIMIP3b: 2020/10/11 by A.Ito */
-    if(LANDUSE == 46){
-        if(SCENARIO_ID == 5120 || SCENARIO_ID == 5123 || SCENARIO_ID == 5127 || SCENARIO_ID == 5131 || SCENARIO_ID == 5134
-            || SCENARIO_ID == 5140 || SCENARIO_ID == 5143 || SCENARIO_ID == 5147 || SCENARIO_ID == 5151 || SCENARIO_ID == 5154
-            || SCENARIO_ID == 5160 || SCENARIO_ID == 5163 || SCENARIO_ID == 5167 || SCENARIO_ID == 5171 || SCENARIO_ID == 5174
-            || SCENARIO_ID == 5180 || SCENARIO_ID == 5183 || SCENARIO_ID == 5187 || SCENARIO_ID == 5191 || SCENARIO_ID == 5194
-            || SCENARIO_ID == 5200 || SCENARIO_ID == 5203 || SCENARIO_ID == 5207 || SCENARIO_ID == 5211 || SCENARIO_ID == 5214){
-            if( (fp_s[25]=fopen("./data/ndepo_1601-2100_1850soc_histsoc_2015soc.flt","rb")) == NULL ){
-                printf("No ndepo_1601-2100_1850soc_histsoc_2015soc.flt\n");
-                exit(1);
-            }else{
-                Flag_FOPEN[25] ++;
-            }
-        }
-        if(SCENARIO_ID == 5121 || SCENARIO_ID == 5124 || SCENARIO_ID == 5126 || SCENARIO_ID == 5128
-             || SCENARIO_ID == 5130 || SCENARIO_ID == 5132 || SCENARIO_ID == 5135
-             || SCENARIO_ID == 5141 || SCENARIO_ID == 5144 || SCENARIO_ID == 5146 || SCENARIO_ID == 5148
-             || SCENARIO_ID == 5150 || SCENARIO_ID == 5152 || SCENARIO_ID == 5155
-             || SCENARIO_ID == 5161 || SCENARIO_ID == 5164 || SCENARIO_ID == 5166 || SCENARIO_ID == 5168
-             || SCENARIO_ID == 5170 || SCENARIO_ID == 5172 || SCENARIO_ID == 5175
-             || SCENARIO_ID == 5181 || SCENARIO_ID == 5184 || SCENARIO_ID == 5186 || SCENARIO_ID == 5188
-             || SCENARIO_ID == 5190 || SCENARIO_ID == 5192 || SCENARIO_ID == 5195
-             || SCENARIO_ID == 5201 || SCENARIO_ID == 5204 || SCENARIO_ID == 5206 || SCENARIO_ID == 5208
-             || SCENARIO_ID == 5210 || SCENARIO_ID == 5212 || SCENARIO_ID == 5215){
-            if( (fp_s[25]=fopen("./data/ndepo_1601-2100_2015soc_2015soc_2015soc.flt","rb")) == NULL ){
-                printf("No ndepo_1601-2100_2015soc_2015soc_2015soc.flt\n");
-                exit(1);
-            }else{
-                Flag_FOPEN[25] ++;
-            }
-        }
-        if(Flag_FOPEN[87] == 0){
-            if( (fp_s[87]=fopen("./data/ndepo_1601-2100_2015soc_2015soc_2015soc.flt","rb")) == NULL ){
-                printf("No ndepo_1601-2100_2015soc_2015soc_2015soc.flt\n");
-                exit(1);
-            }else{
-                Flag_FOPEN[25] ++;
-            }
-        }
-    }
-
 }

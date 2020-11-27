@@ -546,17 +546,17 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_nep[h]);
 		fprintf(fp_glsum,"%lf ", h_sr[h]);
 		fprintf(fp_glsum,"%lf ", h_plant[h]);
-		fprintf(fp_glsum,"%lf ", h_soil[h]);  //11
+		fprintf(fp_glsum,"%lf ", h_soil[h]);
 		
 		fprintf(fp_glsum,"%lf ", h_ersn_c[h]);
 		fprintf(fp_glsum,"%lf ", h_agrersn_c[h]);
-		fprintf(fp_glsum,"%lf ", h_doc[h]); // O
+		fprintf(fp_glsum,"%lf ", h_doc[h]);
 		
 		fprintf(fp_glsum,"%lf ", h_agrarea[h]);
-		fprintf(fp_glsum,"%lf ", h_luc[h]);
+		fprintf(fp_glsum,"%lf ", h_luc[h]); /* Q */
 		
 		fprintf(fp_glsum,"%lf ", h_burnt_area[h]);
-		fprintf(fp_glsum,"%lf ", h_bioburn_co2[h]);  //18
+		fprintf(fp_glsum,"%lf ", h_bioburn_co2[h]);
 		fprintf(fp_glsum,"%lf ", h_bioburn_co[h]);
 		fprintf(fp_glsum,"%lf ", h_bioburn_ch4[h]);
 		fprintf(fp_glsum,"%lf ", h_bioburn_nmhc[h]);
@@ -566,9 +566,9 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_bioburn_so2[h]);
 		fprintf(fp_glsum,"%lf ", h_bioburn_pm25[h]);
 		fprintf(fp_glsum,"%lf ", h_bioburn_tpm[h]);
-		fprintf(fp_glsum,"%lf ", h_bioburn_tec[h]);  //28
+		fprintf(fp_glsum,"%lf ", h_bioburn_tec[h]);
 		
-		fprintf(fp_glsum,"%lf ", h_n2o_emit_ngas[h]);
+		fprintf(fp_glsum,"%lf ", h_n2o_emit_ngas[h]); /* AD */
 		fprintf(fp_glsum,"%lf ", h_n2_emit_ngas[h]);
 		fprintf(fp_glsum,"%lf ", h_n2o_emit_casa[h]);
 		fprintf(fp_glsum,"%lf ", h_n2_emit_casa[h]);
@@ -582,7 +582,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_ch4emit_cao_paddy[h]);
 		fprintf(fp_glsum,"%lf ", h_ch4emit_cao_wetland[h]);
 		fprintf(fp_glsum,"%lf ", h_ch4_emit_mass[h]);
-		fprintf(fp_glsum,"%lf ", h_ch4_emit_photo[h]);  //43
+		fprintf(fp_glsum,"%lf ", h_ch4_emit_photo[h]);
 	
 		fprintf(fp_glsum,"%lf ", h_voc_isopr_g97[h]);
 		fprintf(fp_glsum,"%lf ", h_voc_monotrp_g97[h]);
@@ -594,7 +594,7 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_voc_acetacd_g97[h]);
 		fprintf(fp_glsum,"%lf ", h_voc_co_g97[h]);
 		
-		fprintf(fp_glsum,"%lf ", h_luc_1[h]);
+		fprintf(fp_glsum,"%lf ", h_luc_1[h]); /* BB */
 		fprintf(fp_glsum,"%lf ", h_luc_2[h]);
 		fprintf(fp_glsum,"%lf ", h_luc_3[h]);
 
@@ -604,7 +604,7 @@ void f_glosum_output(
 		
 		fprintf(fp_glsum,"%lf ", h_n2o_emit_ngas_agr[h]); /* added by A.Ito (2009/06/16) */
 		fprintf(fp_glsum,"%lf ", h_n2o_emit_casa_agr[h]);
-		fprintf(fp_glsum,"%lf ", h_nh3_emit_agr[h]);  //61
+		fprintf(fp_glsum,"%lf ", h_nh3_emit_agr[h]);
 		
 		/* added by A.Ito (2009/08/31) */
 		fprintf(fp_glsum,"%lf ", h_ch4emit_paddy_wh_diff[h]); 
@@ -618,12 +618,12 @@ void f_glosum_output(
 
 		fprintf(fp_glsum,"%lf ", h_gpp_c4[h]); /* added by A.Ito (2009/08/31) */
 		fprintf(fp_glsum,"%lf ", h_pot_prmfrst[h]); /* added by A.Ito (2010/03/27) */
-		fprintf(fp_glsum,"%lf ", h_no3_leach[h]); /* added by A.Ito (2010/03/29) */
+		fprintf(fp_glsum,"%lf ", h_no3_leach[h]); /* BU */ /* added by A.Ito (2010/03/29) */
 
 		fprintf(fp_glsum,"%lf ", h_n_fertin[h]); /* added by A.Ito (2010/05/02) */
 		fprintf(fp_glsum,"%lf ", h_n_depoin[h]); /* added by A.Ito (2010/05/02) */
 		
-		fprintf(fp_glsum,"%lf ", h_hvst_wood[h]); /* added by A.Ito (2010/11/09) */
+		fprintf(fp_glsum,"%lf ", h_hvst_wood[h]); /* BX */ /* added by A.Ito (2010/11/09) */
 		
 		fprintf(fp_glsum,"%lf ", h_trnsp[h]);  /* added by A.Ito (2010/11/18) */
 		fprintf(fp_glsum,"%lf ", h_incepev[h]); 
@@ -650,11 +650,11 @@ void f_glosum_output(
 
 		fprintf(fp_glsum,"%lf ", h_arm[h]); /* added by A.Ito (2014/02/14) */
 
-		fprintf(fp_glsum,"%lf ", h_voc_afarnesene[h]); /* added 2014/9/11 by A.Ito */
+		fprintf(fp_glsum,"%lf ", h_voc_afarnesene[h]); /* CQ */ /* added 2014/9/11 by A.Ito */
 		fprintf(fp_glsum,"%lf ", h_voc_bcaryophyllene[h]);
 		fprintf(fp_glsum,"%lf ", h_voc_othersesqui[h]);
 
-		fprintf(fp_glsum,"%lf ", h_deforest[h]); /* added by A.Ito (2014/09/22) */
+		fprintf(fp_glsum,"%lf ", h_deforest[h]); /* CT */ /* added by A.Ito (2014/09/22) */
 
 		fprintf(fp_glsum,"%lf ", h_ipar[h]); /* added by A.Ito (2015/07/27) */  //98
         

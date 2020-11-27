@@ -40,7 +40,7 @@
 #define INT_C 0.01
 
 #define CALC_STEP 10
-#define CALC_OFFSET 4
+#define CALC_OFFSET 6
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -54,7 +54,7 @@
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 0
 #define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
+#define OUTPUT_BVOC 1
 /* output binary */
 #define BASE_GOUT 1
 #define C13_GOUT 0

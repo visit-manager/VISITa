@@ -199,12 +199,11 @@ void f_cult_luc(
             grid->lucy = 1601;
         }else if(grid->lucy >= 1601 && grid->lucy <= 2100){
             ;
-        }else{
+        }else if(grid->lucy > 2100){
             grid->lucy = 2100;
         }
         grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_LUC];
         grid->f_pasture_con = 0.0;
-        
     }else if(LANDUSE == 47){
         /* 2-2002 S1: 2020/10/08 by A.Ito */
         /* FDY_LUC = 1866 */
@@ -833,11 +832,11 @@ void f_luc_emit(
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
 			if(fluc_10 > 0.0){
 				mass_ten = fluc_10 * eff_mass * fe_ten/(fe_conv + fe_ten + fe_hund);
-				flux->detr_ten[BGY_LUC-f] = mass_ten;
+				flux->detr_ten[BGY_LUC - f] = mass_ten;
 			}else{
                 /* corrected: A. Ito (with Hamada-san's comment) 2012/01/30 */
 				mass_ten = 0.0;
-				flux->detr_ten[BGY_LUC-f] = 0.0;
+				flux->detr_ten[BGY_LUC - f] = 0.0;
 			}
 			/* corrected: A.Ito and E.Kato (2009/08/16) */
 			flux->lu_ten += mass_ten * 0.1;

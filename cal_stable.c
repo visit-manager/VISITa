@@ -65,8 +65,8 @@ void cal_spinup(
 		grid->f_crop_p = grid->fcrop_rk[199];
 		grid->f_pasture_p = grid->fpast_rk[199];
 	}else if(LANDUSE == 9){
-		grid->f_crop_p = grid->fcrop_luh[2000-BGY_LUC];
-		grid->f_pasture_p = grid->fpast_luh[2000-BGY_LUC];
+		grid->f_crop_p = grid->fcrop_luh[2000 - BGY_LUC];
+		grid->f_pasture_p = grid->fpast_luh[2000 - BGY_LUC];
 	}else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13
          || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 29){
 		grid->f_crop_p = grid->fcrop_luh[BGY_LUC - FDY_LUC];
@@ -76,7 +76,7 @@ void cal_spinup(
 		grid->f_pasture_p = 0.0;
     }else if(LANDUSE == 17 || BIOFUEL_RUN >= 1){
 		grid->f_crop_p = grid->f_biofuel[0];
-		grid->f_pasture_p = grid->fpast_luh[2000-BGY_LUC];
+		grid->f_pasture_p = grid->fpast_luh[2000 - BGY_LUC];
 	}else if(LANDUSE == 19 || LANDUSE == 20 ||
             LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
 		grid->f_crop_p = grid->fcrop_luh[1989 - FDY_LUC];

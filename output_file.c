@@ -575,8 +575,11 @@ void f_output_result(
 
 	/* VOC ***********************************************/
     if(OUTPUT_BVOC == 1){
-        fprintf(fp_o[5],"%ld %lf ", year, grid->f_crop_con);
-        for(f=0;f<ASTEP;f++){
+        fprintf(fp_o[5],"%ld %lf %lf ", year, grid->f_crop_con, grid->f_crop_p);
+        
+        fprintf(fp_o[5],"%ld %ld %ld %ld %ld ", grid->simy,  grid->co2y, grid->climy, grid->lucy, grid->niny);
+        
+        /* for(f=0;f<ASTEP;f++){
             fprintf(fp_o[5],"%.3lf ", flux->voc_isopr_g97[f]);
             fprintf(fp_o[5],"%.3lf ", flux->voc_monotrp_g97[f]);
             fprintf(fp_o[5],"%.3lf ", flux->voc_methanl_g97[f]);
@@ -590,7 +593,7 @@ void f_output_result(
             fprintf(fp_o[5],"%.3lf ", flux->voc_afarnesene[f]);
             fprintf(fp_o[5],"%.3lf ", flux->voc_bcaryophyllene[f]);
             fprintf(fp_o[5],"%.3lf ", flux->voc_othersesqui[f]);
-        }
+        } */
         fprintf(fp_o[5],"\n");
     }
 	
