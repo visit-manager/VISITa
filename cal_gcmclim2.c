@@ -406,6 +406,9 @@ void cal_projection(
                     }
                 }else{
                     flux->hvst_wood = total_hvst - INT_C;
+                    if(flux->hvst_wood < 0.0){
+                        flux->hvst_wood = 0.0;
+                    }
                     (mass->c3).stm = INT_C;
                 }
                 
