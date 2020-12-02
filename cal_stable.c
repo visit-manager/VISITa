@@ -192,7 +192,8 @@ void cal_spinup(
         }else if(ISIMIP_RUN == 6 && grid->flag_histdata == 1){
             /* ISIMIP3b */
             ann_nep = 10.0;
-            grid->climy = grid->lucy = grid->niny = nn%100 + FSY_HIST;
+            grid->climy =  nn%100 + FSY_HIST;
+            grid->lucy = grid->niny = FSY_HIST;
             if(SCENARIO_ID == 5120 || SCENARIO_ID == 5121 || SCENARIO_ID == 5122 ||
                 SCENARIO_ID == 5140 || SCENARIO_ID == 5141 || SCENARIO_ID == 5142 ||
                 SCENARIO_ID == 5160 || SCENARIO_ID == 5161 || SCENARIO_ID == 5162 ||
