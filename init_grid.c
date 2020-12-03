@@ -1798,7 +1798,7 @@ void f_init_grid(
         }
         
     }else if(ISIMIP_RUN == 6){
-        /* ISIMIP3a: 2020/11/18 by A.Ito */
+        /* ISIMIP3b: 2020/11/18 by A.Ito */
         fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[88]);
         for(e=0;e<DL_NINPUT;e++){
             /* kg N /ha / yr */
