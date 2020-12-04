@@ -405,7 +405,20 @@ void f_cult_luc(
         }else if(LANDUSE == 46){
             /* ISIMIP3b: 2020/11/18 by A.Ito */
             /* spin-up: 1601 */
-            grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
+            /* grid->f_deforest = grid->f_crop_con - grid->f_crop_p; */
+            /* grid->f_deforest = grid->mip_frcrop[1] - grid->mip_frcrop[0]; */
+            
+            grid->f_deforest = 0.0;
+
+            /* nat */
+            if(SCENARIO_ID==5122 || SCENARIO_ID==5125 || SCENARIO_ID==5129 || SCENARIO_ID==5133 || SCENARIO_ID==5136 ||
+                SCENARIO_ID==5142 || SCENARIO_ID==5145 || SCENARIO_ID==5149 || SCENARIO_ID==5153 || SCENARIO_ID==5156 ||
+                SCENARIO_ID==5162 || SCENARIO_ID==5165 || SCENARIO_ID==5169 || SCENARIO_ID==5173 || SCENARIO_ID==5176 ||
+                SCENARIO_ID==5182 || SCENARIO_ID==5185 || SCENARIO_ID==5189 || SCENARIO_ID==5193 || SCENARIO_ID==5196 ||
+                SCENARIO_ID==5202 || SCENARIO_ID==5205 || SCENARIO_ID==5209 || SCENARIO_ID==5213 || SCENARIO_ID==5216){
+            
+                grid->f_deforest = 0.0;
+            }
         }
 		/* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
         
