@@ -18,8 +18,6 @@
 /* l: litter */
 /* h: humus */
 
-double sres_co2[DL_ADD];
-
 /* grid conditions, derived from data files ***************************************/
 struct Grid{ 
 	/* location ***********/

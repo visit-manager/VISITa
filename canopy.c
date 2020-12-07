@@ -228,13 +228,13 @@ double f_df97_gpp(
 			appfd = (1.0 - rfl_b)*ppfd_b[h] * (1.0-exp(-ke_b2 * lai_t))+
 					(1.0 - rfl_d)*ppfd_d[h] * (1.0-exp(-ke_d * lai_t));
 			
-			if(mode==1){
+			if(mode == 1){
 				/* normal diurnal */
 				;
-			}else if(mode==2){
+			}else if(mode == 2){
 				/* low PAR */
 				appfd = 100.0;
-			}else if(mode==3){
+			}else if(mode == 3){
 				/* high PAR */
 				appfd = 2000.0;
 			}

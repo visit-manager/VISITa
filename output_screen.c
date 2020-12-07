@@ -22,13 +22,13 @@ void screenshow(
 	short h;
 	double ann;
 	double fol, stm, rot, ltr, msl;
-	double gpp, ar, npp, hr, nep;
+	double gpp, ar, npp, hr, nep, nbp;
 	
 	printf("No:%ld B-olson:%ld B-sage:%ld HT:%ld CT:%ld WHC30:%.1lf WHC:%.1lf BD:%.3lf UL:%.3lf NI:%.3lf\n",
 			grid->n_olson, grid->veg_olson, grid->veg_sage, loct->time_hyd, loct->time, grid->field_cap1,
 			grid->field_cap2, grid->bulkdens, grid->f_upland, loct->n_frtlz_in);
 
-	printf("Potter NIF:%.3lf NIM:%.3lf\n",grid->nfert_potter,grid->nmanure_potter);
+	/* printf("Potter NIF:%.3lf NIM:%.3lf\n",grid->nfert_potter,grid->nmanure_potter); */
 	
 	printf("CO2: ");
 	for(h=0;h<12;h++){		printf("%6.0lf ",grid->bco2[h]);		}		printf("\n"); 
@@ -107,14 +107,16 @@ void screenshow(
 	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->c4).npp[h]);		ann+=(flux->c4).npp[h];	}		printf(" %.1lf\n",ann); 
 	printf("NEP: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",flux->nep[h]);		ann+=flux->nep[h];	}		printf(" %.1lf\n",ann);
-    
+    printf("NBP: ");        ann=0.0;
+    for(h=0;h<12;h++){        printf("%6.1lf ",flux->nbp[h]);        ann+=flux->nbp[h];    }        printf(" %.1lf\n",ann);
+
     
     /* printf("IPR: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",(echar->c3).ppfd_db[h]);	} printf("\n");
     printf("APR: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",(echar->c3).appfd_db[h]);	} printf("\n"); */
     
-    printf("CH4: ");		ann=0.0;
+    /*printf("CH4: ");		ann=0.0;
     if(loct->v_type==1){
         for(h=0;h<12;h++){	printf("%6.2lf ",(flux->soil).ch4_wetland_wh_diff[h]+(flux->soil).ch4_wetland_wh_plant[h]+
                                     (flux->soil).ch4_wetland_wh_ebull[h]);
@@ -126,21 +128,24 @@ void screenshow(
                             ann += (flux->soil).ch4_paddy_wh_diff[h]+(flux->soil).ch4_paddy_wh_plant[h]+
                                     (flux->soil).ch4_paddy_wh_ebull[h];	}
     }
-    printf(": %.1lf\n",ann);
+    printf(" %.1lf\n",ann); */
     
+    for(h=0;h<12;h++){    printf("%6.2lf ",(flux->soil).ch4oxy_curry[h]); } printf("\n");
+    for(h=0;h<12;h++){    printf("%6.2lf ",loct->xx1[h]); } printf("\n");
+    for(h=0;h<12;h++){    printf("%6.2lf ",loct->xx2[h]); } printf("\n");
+    for(h=0;h<12;h++){    printf("%6.2lf ",loct->xx3[h]); } printf("\n");
+
     printf("N2O: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->soil).d_n2o_ntr_ngas[h] + (flux->soil).d_n2o_dnt_ngas[h]);
                             ann += (flux->soil).d_n2o_ntr_ngas[h] + (flux->soil).d_n2o_dnt_ngas[h];	}
     printf(" %7.1lf\n",ann);
-    
 
-    printf("MI1: ");
+    /* printf("MI1: ");
     for(h=0;h<12;h++){        printf("%6.3lf ",loct->f_ch4_substrate[h]);        }    printf("\n");
     printf("MI2: ");
     for(h=0;h<12;h++){        printf("%6.2lf ",loct->dlt_ch4_d13c[h]);        }    printf("\n");
     printf("MI3: ");
-    for(h=0;h<12;h++){        printf("%6.2lf ",loct->d13c_ch4[h]);        }    printf("\n");
-
+    for(h=0;h<12;h++){        printf("%6.2lf ",loct->d13c_ch4[h]);        }    printf("\n"); */
 
 
     /* printf("NIF: ");		ann=0.0;
@@ -397,7 +402,7 @@ void screenshow(
 	printf(" %.1lf\n",ann); */
 
 	fol = stm = rot = ltr = msl = 0.0;
-	gpp = ar = npp = hr = nep = 0.0;
+	gpp = ar = npp = hr = nep = nbp = 0.0;
 	for(h=0;h<12;h++){
 		fol += (mass->plant).mfol[h]/12.0;
 		stm += (mass->plant).mstm[h]/12.0;
@@ -410,8 +415,9 @@ void screenshow(
 		npp += (flux->plant).npp[h];
 		hr += (flux->soil).hr[h];
 		nep += flux->nep[h];
+        nbp += flux->nbp[h];
 	}
-	printf("GPP: %.2lf AR: %.2lf NPP: %.2lf HR: %.2lf NEP: %.4lf\n", gpp,ar,npp,hr,nep); 
+	printf("GPP: %.2lf AR: %.2lf NPP: %.2lf HR: %.2lf NEP: %.4lf NBP: %.4lf\n", gpp,ar,npp,hr,nep,nbp);
 	printf("F: %.1lf C: %.1lf R: %.1lf L: %.1lf H: %.1lf\n",fol, stm,rot,ltr,msl); 
 	printf("Erosion soil: %10.6lf org.mat:%10.6lf carbon:%10.6lf\n", flux->erod_soil, flux->erod_orgmat, flux->erod_carbon); 
 	

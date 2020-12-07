@@ -53,6 +53,7 @@ void cal_historical(
         /* ISI-MIP2b (1.5/2.0): 1661-2299 (2099) */
         /* NMIP: 1901-2012 => 1861–2015 */
         /* ISIMIP3a: 1850-2016 (FSY_HIST = 1850) */
+        /* ISIMIP3b: 1601-2100 (FSY_HIST = 1601) */
 
 		/* simulation year ********************/
         /* updated: 2016/10/20 */
@@ -100,6 +101,24 @@ void cal_historical(
             }else{
                 ;
             }
+        }
+        
+        if(ISIMIP_RUN==6 &&
+            (SCENARIO_ID==5126 || SCENARIO_ID==5130 || SCENARIO_ID==5134 || SCENARIO_ID==5135 || SCENARIO_ID==5136 ||
+            SCENARIO_ID==5146 || SCENARIO_ID==5150 || SCENARIO_ID==5154 || SCENARIO_ID==5155 || SCENARIO_ID==5156 ||
+            SCENARIO_ID==5166 || SCENARIO_ID==5170 || SCENARIO_ID==5174 || SCENARIO_ID==5175 || SCENARIO_ID==5176 ||
+            SCENARIO_ID==5186 || SCENARIO_ID==5190 || SCENARIO_ID==5194 || SCENARIO_ID==5195 || SCENARIO_ID==5196 ||
+            SCENARIO_ID==5206 || SCENARIO_ID==5210 || SCENARIO_ID==5214 || SCENARIO_ID==5215 || SCENARIO_ID==5216)
+            ){
+                if(grid->simy >= 2015){
+                    /* fix CO2 after 2015 */
+                    grid->co2y = 2015;
+                }else{
+                    ;
+                }
+        }
+        if(grid->co2y < FDY_AGHG){
+            grid->co2y = FDY_AGHG;
         }
 
         /* land-use year *****************/
@@ -163,6 +182,7 @@ void cal_historical(
                 case 10: grid->veg_olson = 10; break;
                 case 11: grid->veg_olson = 11; break;
                 case 12: grid->veg_olson = 12; break;
+                default: printf("WRONG AFFORESTATION\n"); break;
             }
 
             /* C3 */
@@ -171,6 +191,20 @@ void cal_historical(
             parameterC4(grid, &(echar->c4));
         }
         
+        /* experiments for trait modification: 2020/12/07 by A.Ito */
+        if(EX_MOD_TRAIT_1 == 1){
+            if(grid->simy >= 2020 && grid->simy <= 2029){
+                (echar->c3).sla *= 1.01;
+                (echar->c4).sla *= 1.01;
+            }
+        }
+        if(EX_MOD_TRAIT_2 == 1){
+            if(grid->simy >= 2020 && grid->simy <= 2029){
+                (echar->soil).rl *= 0.99;
+                (echar->soil).rh *= 1.01;
+            }
+        }
+
         /*************/
         /* added by A.Ito: 2018/10/26 */
         if(EXTRA_CO2_FIX == 1){
@@ -230,7 +264,7 @@ void cal_historical(
         
         if((echar->soil).v_type == 2){
             /* NMIP input: 2015/11/19 by A.Ito */
-            if(NMIP_RUN >= 1 || EX_NFERT >= 1 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5 || EX_NFERT == 102){
+            if(NMIP_RUN >= 1 || EX_NFERT >= 1 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5 || ISIMIP_RUN == 6 || EX_NFERT == 102){
                 n_fertilizer_in(grid, loct);
                 f_fert = 1.0; /* driven by data */
             }
@@ -243,7 +277,7 @@ void cal_historical(
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;
 			
-			/* initialize N fluxes ************/
+			/* initialize GHG fluxes ************/
 			ghg_flux_zero(f, flux);
 			
 			/* CO2 condition */
@@ -545,12 +579,12 @@ void cal_historical(
                     glat_ch4_cao[f][grid->row] += grid->area * (flux->soil).ch4flux_wetland_cao[f] / 10.0;
                     glat_ch4_wh[f][grid->row] += grid->area * ((flux->soil).ch4_wetland_wh_plant[f]
                                 + (flux->soil).ch4_wetland_wh_ebull[f] + (flux->soil).ch4_wetland_wh_diff[f]
-								  + (flux->soil).ch4_wetland_wh_release[f]) / 10.0;
+								+ (flux->soil).ch4_wetland_wh_release[f]) / 10.0;
                 }else{
                     glat_ch4_cao[f][grid->row] += grid->area * (flux->soil).ch4flux_paddy_cao[f] / 10.0;
                     glat_ch4_wh[f][grid->row] += grid->area * ((flux->soil).ch4_paddy_wh_plant[f]
                                 + (flux->soil).ch4_paddy_wh_ebull[f] + (flux->soil).ch4_paddy_wh_diff[f]
-								  + (flux->soil).ch4_paddy_wh_release[f]) / 10.0;
+								+ (flux->soil).ch4_paddy_wh_release[f]) / 10.0;
                 }
 			}
 			
@@ -688,7 +722,7 @@ void cal_historical(
                                         + (mass->c4).lai[ASTEP-1] * loct->c4ptn[ASTEP-1];
             loct->lai[ASTEP-1] = (mass->plant).lai[ASTEP-1];
 
-        }else if(NECB_LUC==1 && (EX_BECCS==1 || EX_BECCS==2 || EX_BECCS==3)){
+        }else if(NECB_LUC == 1 && (EX_BECCS == 1 || EX_BECCS == 2 || EX_BECCS == 3)){
             /* used by BECCS experiment */
             if(grid->f_luc>0.0 && grid->f_luc<1.0){
                 (mass->c3).fol *= (1.0 - grid->f_luc);
@@ -802,6 +836,9 @@ void cal_historical(
                     }
                 }else{
                     flux->hvst_wood = total_hvst - INT_C;
+                    if(flux->hvst_wood < 0.0){
+                        flux->hvst_wood = 0.0;
+                    }
                     (mass->c3).stm = INT_C;
                 }
                 

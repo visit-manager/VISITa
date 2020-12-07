@@ -126,7 +126,7 @@ void cal_projection(
 		for(f=0;f<ASTEP;f++){
 			grid->m = f;
 									
-			/* initialize N fluxes */
+			/* initialize GHG fluxes */
 			ghg_flux_zero(f, flux);
 			
 			/* atmospheric CO2 */
@@ -406,6 +406,9 @@ void cal_projection(
                     }
                 }else{
                     flux->hvst_wood = total_hvst - INT_C;
+                    if(flux->hvst_wood < 0.0){
+                        flux->hvst_wood = 0.0;
+                    }
                     (mass->c3).stm = INT_C;
                 }
                 

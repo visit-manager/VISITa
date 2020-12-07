@@ -149,11 +149,11 @@ void initVS(
         (echar->c3).sla *= 1.0 + p_scale*f_pert[2];
         (echar->c4).sla *= 1.0 + p_scale*f_pert[2];
         /**/
-        (echar->c3).topt0 += 0.3333*f_pert[3];
-        (echar->c4).topt0 += 0.3333*f_pert[3];
+        (echar->c3).topt0 += 0.3333 * f_pert[3];
+        (echar->c4).topt0 += 0.3333 * f_pert[3];
         /**/
-        (echar->c3).tmin += 0.3333*f_pert[4];
-        (echar->c4).tmin += 0.3333*f_pert[4];
+        (echar->c3).tmin += 0.3333 * f_pert[4];
+        (echar->c4).tmin += 0.3333 * f_pert[4];
         /**/
         (echar->c3).kmci *= 1.0 + p_scale*f_pert[5];
         (echar->c4).kmci *= 1.0 + p_scale*f_pert[5];

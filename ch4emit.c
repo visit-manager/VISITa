@@ -506,8 +506,8 @@ void f_ch4_emit_walter(
 
         if(grid->veg_olson==9 || grid->veg_olson==10){
             rdepth = 0.20;
-        }else if(grid->veg_olson==11 || grid->veg_olson==12 || grid->veg_olson==21 || grid->veg_olson==22
-             || grid->veg_olson==23){
+        }else if(grid->veg_olson==11 || grid->veg_olson==12 || grid->veg_olson==21 ||
+            grid->veg_olson==22 || grid->veg_olson==23){
             rdepth = 0.15;
         }
 		
@@ -863,7 +863,7 @@ void f_ch4_emit_walter(
 		/* global */
         if(ALT_INUND == 0){
             f_inundation = grid->inundation_ssmi[grid->m]; /* */
-        }else if(ALT_INUND==1 || ALT_INUND==3 || ALT_INUND==4 || ALT_INUND==5){
+        }else if(ALT_INUND == 1 || ALT_INUND == 3 || ALT_INUND == 4 || ALT_INUND == 5){
             if(grid->climy >= 1999 && grid->climy <= 2013){
         
                 if(grid->f_wetland > 0.0){
@@ -986,7 +986,7 @@ void f_ch4_emit_walter(
         }
 		
 		/* when using NASA/GISS wetland data: 2011/03/31 by A.Ito */
-		if(ALT_FWETLAND == 1 && (smode==1||smode==2)){
+		if(ALT_FWETLAND == 1 && (smode == 1 || smode == 2)){
 			/* to avoid double-counting of inundation fraction */
 			f_inundation = 1.0;
 		}
@@ -1159,7 +1159,7 @@ void f_ch4_emit_walter(
 					(loct->prof_ch4[1]-loct->prof_ch4[0]) * DHN * 16.0 / 1000.0 * MDN[grid->m];
         efflux_reles = fa_wetland * release * DHN * 16.0 / 1000.0 * MDN[grid->m];
         
-		(flux->soil).ch4_wetland_wh_plant[grid->m] += efflux_ebul;
+		(flux->soil).ch4_wetland_wh_plant[grid->m] += efflux_plant;
 		(flux->soil).ch4_wetland_wh_ebull[grid->m] += efflux_ebul;
 		(flux->soil).ch4_wetland_wh_diff[grid->m] += efflux_diffs;
 		(flux->soil).ch4_wetland_wh_release[grid->m] += efflux_reles;
@@ -1251,7 +1251,7 @@ void f_ch4_emit_veg(
 	}
 
 	/* C4, g m-2 month-1 */
-	if((echar->c4).season[grid->m]!=0){
+	if((echar->c4).season[grid->m] != 0){
 		(flux->c4).emit_ch4_kirschbaum_mass[grid->m] = ( (mass->c4).mfol[grid->m] * dmTc * 100.0 ) * 
 			(sunshine*femit_sun + (DHN - sunshine)*femit_shade) * pow(10.0, -9.0) * MDN[grid->m];
 	}else{

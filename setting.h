@@ -40,7 +40,7 @@
 #define INT_C 0.01
 
 #define CALC_STEP 10
-#define CALC_OFFSET 2
+#define CALC_OFFSET 9
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -54,7 +54,7 @@
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 0
 #define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
+#define OUTPUT_BVOC 1
 /* output binary */
 #define BASE_GOUT 1
 #define C13_GOUT 0
@@ -62,7 +62,7 @@
 #define PHYS_GOUT 0
 
 /***********************************************************/
-#define ISIMIP_RUN 1
+#define ISIMIP_RUN 6
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /*    MIROC-INTEG LUC run (2019/02/21 by A.Ito) */
@@ -139,7 +139,7 @@
     #define DL_NINPUT 169 /* 1850-2016 */
     #define FDY_NINY 1850
 #elif ISIMIP_RUN==6
-    /* ISI-MIP3b */
+    /* ISI-MIP3b: 1601-2100 */
     #define DL_NINPUT 500
     #define FDY_NINY 1601
 #else
@@ -194,8 +194,8 @@
     #define FDY_AGHG 1800
 #elif ISIMIP_RUN==6
     /* ISI-MIP3b: 2020/05/27 by A.Ito */
-    #define DL_AGHG 336
-    #define FDY_AGHG 1765
+    #define DL_AGHG 501
+    #define FDY_AGHG 1600
 #elif GEOMIP_RUN==1
     /* GEO-MIP: 2012/06/27 by A.Ito */
     #define DL_AGHG 736
@@ -218,7 +218,7 @@
 #if ISIMIP_RUN==4
     #define PD_SIM 640 /* */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
 #elif ISIMIP_RUN==6
-    #define PD_SIM 500 /* */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
+    #define PD_SIM 501 /* */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
 #else
     #define PD_SIM 201
 #endif
@@ -494,7 +494,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 32
+#define LANDUSE 46
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -565,6 +565,8 @@
     #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
 #elif ISIMIP_RUN==5
     #define DL_LUC 169 /* 1850-2018: ISI-MIP3a (2020/10/05 by A.Ito) */
+#elif ISIMIP_RUN==6
+    #define DL_LUC 500 /* 1601-2100: ISI-MIP3b (2020/11/13 by A.Ito) */
 #else
     /* #define DL_LUC 601 */  /* 1500-2100: LUH 1500-2005/2005-2100 */
     /* #define DL_LUC 306 */  /* 1700-2000/2005 */
@@ -578,6 +580,8 @@
     #define FDY_LUC 1661 /* ISI-MIP2b (2016/12/22 by A.Ito) */
 #elif ISIMIP_RUN==5
     #define FDY_LUC 1850 /* ISIMIP3a (2020/10/01 by A.Ito) */
+#elif ISIMIP_RUN==6
+    #define FDY_LUC 1601 /* ISIMIP3b (2020/11/13 by A.Ito) */
 #else
     /* #define FDY_LUC 1500 */
     /* #define FDY_LUC 1700 */
@@ -597,6 +601,8 @@
     #define BGY_LUC 1661    /* ISI-MIP2b (2016/12/22 by A.Ito) */
 #elif ISIMIP_RUN==5
     #define BGY_LUC 1850    /* ISIMIP3a (2020/10/01 by A.Ito) */
+#elif ISIMIP_RUN==6
+    #define BGY_LUC 1601    /* ISIMIP3b (2020/11/13 by A.Ito) */
 #else
     #define BGY_LUC 1900
 #endif
@@ -632,7 +638,7 @@
 /* 11: forced to 11:northern evergreen taiga */
 /* 12: forced to 12:northern deciduous taiga */
 
-#define EX_FORCED_AFFOREST_2 1
+#define EX_FORCED_AFFOREST_2 0
 /* forced afforestation: in specific year */
 /* 0: off */
 /* 1: forced to 1:tropical & subtropical evergreen forest */
@@ -717,6 +723,14 @@
 #define CONSTRAIN_LAIMAX 0
 /* 0: off */
 /* 1: on */
+
+/* experiments for trait modification: 2020/12/07 by A.Ito */
+#define EX_MOD_TRAIT_1 0
+/* 0: off */
+/* 1: SLA modification */
+#define EX_MOD_TRAIT_2 0
+/* 0: off */
+/* 1: MRT-soil modification */
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */

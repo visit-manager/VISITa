@@ -610,21 +610,21 @@ void parameterC4(
 	c4->qTc0 = qTcv[grid->veg_olson]; 
 	c4->qTr0 = qTrv[grid->veg_olson];
 	
-	if(DF97==0){
+	if(DF97 == 0){
 		c4->lf0 = lfv_ms[grid->veg_olson];
-	}else if(DF97==1){
+	}else if(DF97 == 1){
 		c4->lf0 = lfv_df[grid->veg_olson];
 	}
 	
-	if(DF97==0){
+	if(DF97 == 0){
 		c4->lc0 = lcv_ms[grid->veg_olson];
-	}else if(DF97==1){
+	}else if(DF97 == 1){
 		c4->lc0 = lcv_df[grid->veg_olson];
 	}
 
-	if(DF97==0){
+	if(DF97 == 0){
 		c4->lr0 = lrv_ms[grid->veg_olson];
-	}else if(DF97==1){
+	}else if(DF97 == 1){
 		c4->lr0 = lrv_df[grid->veg_olson];
 	}
 	 
@@ -642,7 +642,7 @@ void parameterC4(
 	c4->root_dist_b = root_dist_bv[grid->veg_olson];
 	c4->root_depth = root_depthv[grid->veg_olson];
 
-	if(DIF_SRB==1){
+	if(DIF_SRB == 1){
 		c4->n_leaf_df97 = n_leafv2[grid->veg_olson];
 	}else{
 		c4->n_leaf_df97 = n_leafv[grid->veg_olson];

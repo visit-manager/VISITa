@@ -65,8 +65,8 @@ void cal_spinup(
 		grid->f_crop_p = grid->fcrop_rk[199];
 		grid->f_pasture_p = grid->fpast_rk[199];
 	}else if(LANDUSE == 9){
-		grid->f_crop_p = grid->fcrop_luh[2000-BGY_LUC];
-		grid->f_pasture_p = grid->fpast_luh[2000-BGY_LUC];
+		grid->f_crop_p = grid->fcrop_luh[2000 - BGY_LUC];
+		grid->f_pasture_p = grid->fpast_luh[2000 - BGY_LUC];
 	}else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13
          || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 29){
 		grid->f_crop_p = grid->fcrop_luh[BGY_LUC - FDY_LUC];
@@ -76,7 +76,7 @@ void cal_spinup(
 		grid->f_pasture_p = 0.0;
     }else if(LANDUSE == 17 || BIOFUEL_RUN >= 1){
 		grid->f_crop_p = grid->f_biofuel[0];
-		grid->f_pasture_p = grid->fpast_luh[2000-BGY_LUC];
+		grid->f_pasture_p = grid->fpast_luh[2000 - BGY_LUC];
 	}else if(LANDUSE == 19 || LANDUSE == 20 ||
             LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
 		grid->f_crop_p = grid->fcrop_luh[1989 - FDY_LUC];
@@ -84,6 +84,9 @@ void cal_spinup(
 	}else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
         /* AIM land use, 2019/06/21 by A.Ito */
         grid->f_crop_p = grid->fcrop_luh[1950 - FDY_LUC];
+        grid->f_pasture_p = 0.0;
+    }else if(LANDUSE == 46){
+        grid->f_crop_p = grid->mip_frcrop[0];
         grid->f_pasture_p = 0.0;
     }
 	
@@ -103,7 +106,7 @@ void cal_spinup(
         loct->n_manure_in = 0.0;
     }
     
-    if(NMIP_RUN >= 1 || ISIMIP_RUN == 4|| ISIMIP_RUN == 5){
+    if(NMIP_RUN >= 1 || ISIMIP_RUN == 4|| ISIMIP_RUN == 5|| ISIMIP_RUN == 6){
         /* NMIP input: 2015/11/19 by A.Ito */
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         /* ISIMIP3a: 2020/10/01 by A.Ito */
@@ -133,6 +136,10 @@ void cal_spinup(
     if(ISIMIP_RUN == 5){
         /* ISIMIP3a */
         grid->simy = 1850;
+    }
+    if(ISIMIP_RUN == 6){
+        /* ISIMIP3b */
+        grid->simy = FSY_HIST - 1; /* 1600 */
     }
 
 	/* LOOP to stable stage ************************************************/
@@ -175,6 +182,34 @@ void cal_spinup(
             /* ISIMIP3a */
             ann_nep = 10.0;
             grid->climy = grid->lucy = nn%100 + 1801;
+            if(SCENARIO_ID == 5106 || SCENARIO_ID == 5107 || SCENARIO_ID == 5116 || SCENARIO_ID == 5117){
+                /* fixed CO2 */
+                grid->co2y = 1901;
+            }else{
+                grid->co2y = grid->climy;
+            }
+            set_hist_clim(grid);
+        }else if(ISIMIP_RUN == 6 && grid->flag_histdata == 1){
+            /* ISIMIP3b */
+            ann_nep = 10.0;
+            grid->climy =  nn%100 + FSY_HIST;
+            grid->lucy = grid->niny = FSY_HIST;
+            if(SCENARIO_ID == 5120 || SCENARIO_ID == 5121 || SCENARIO_ID == 5122 ||
+                SCENARIO_ID == 5140 || SCENARIO_ID == 5141 || SCENARIO_ID == 5142 ||
+                SCENARIO_ID == 5160 || SCENARIO_ID == 5161 || SCENARIO_ID == 5162 ||
+                SCENARIO_ID == 5180 || SCENARIO_ID == 5181 || SCENARIO_ID == 5182 ||
+                SCENARIO_ID == 5200 || SCENARIO_ID == 5201 || SCENARIO_ID == 5202
+            ){
+                /* fixed CO2 */
+                grid->co2y = FDY_AGHG;
+            }else{
+                grid->co2y = grid->climy;
+                if(grid->co2y < FDY_AGHG){
+                    grid->co2y = FDY_AGHG;
+                }else if(grid->co2y > 2100){
+                    grid->co2y = 2100;
+                }
+            }
             set_hist_clim(grid);
         }
         
@@ -191,12 +226,9 @@ void cal_spinup(
             }else{
                 grid->niny = grid->climy;
             }
-            if(SCENARIO_ID == 5106 || SCENARIO_ID == 5107 || SCENARIO_ID == 5116 || SCENARIO_ID == 5117){
-                /* fixed CO2 */
-                grid->co2y = 1901;
-            }else{
-                grid->co2y = grid->climy;
-            }
+            n_fertilizer_in(grid, loct);
+        }else if(ISIMIP_RUN == 6){
+            /* ISIMIP3b */
             n_fertilizer_in(grid, loct);
         }else{
             grid->niny = 1901;
@@ -446,9 +478,9 @@ void cal_spinup(
 		f_erosion(grid, loct, echar, mass, flux);
 		
 		/* empirical model NPP *****************/
-		//if(grid->y==0){ /* for the first year */
+		/* if(grid->y==0){ */ /* for the first year */
 			npp_empirical(grid, loct, flux);
-		//}
+		/* } */
         
 		if(NECB_ERSN == 1){
             if(PARAM_PTB == 20){
@@ -473,7 +505,8 @@ void cal_spinup(
             }else{  /*  if(nn>=term_time) */
                 break; /**** 3. stop by 2000 years ****/	
             }
-        }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5){
+        }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3 ||
+                    ISIMIP_RUN == 4 || ISIMIP_RUN == 5 || ISIMIP_RUN == 6){
             /* spin-up 3000 years (30 x 100 times): 2012/07/02 by A.Ito */
             /* spin-up 3000 years (100 x 30 times): 2020/10/01 by A.Ito */
             ann_nep = 10.0;
@@ -649,6 +682,9 @@ void cal_spinup(
                 
             }else{
                 flux->hvst_wood = total_hvst - INT_C;
+                if(flux->hvst_wood < 0.0){
+                    flux->hvst_wood = 0.0;
+                }
                 (mass->c3).stm = INT_C;
             }
             
