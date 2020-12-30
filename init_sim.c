@@ -243,7 +243,7 @@ void f_init_sim(
             printf("No ghg_isimip3b.txt\n");
             exit(1);
         }
-        /* DL_AGHG = 336 */
+        /* DL_AGHG = 501 */
         for(f=0;f<DL_AGHG;f++){
             fscanf(fpi,"%ld", &year);
             fscanf(fpi,"%lf", &aco2_1[f]); /* picontrol */

@@ -868,11 +868,19 @@ void f_init_grid(
         fread(is2bdat,sizeof(float),DL_AGHG, fp_s[25]);
         for(e=0;e<DL_NINPUT;e++){
             grid->mip_ndep_nh4[e] = is2bdat[e];
+
+            if(grid->mip_ndep_nh4[e] < 0.0){
+                grid->mip_ndep_nh4[e] = 0.0;
+            }
         }
         
         fread(is2bdat,sizeof(float),DL_AGHG, fp_s[25]);
         for(e=0;e<DL_NINPUT;e++){
             grid->mip_ndep_noy[e] = is2bdat[e];
+
+            if(grid->mip_ndep_noy[e] < 0.0){
+                grid->mip_ndep_noy[e] = 0.0;
+            }
         }
         
     }else if(ISIMIP_RUN==5){
@@ -880,11 +888,19 @@ void f_init_grid(
         fread(is3adat_mon,sizeof(float),12*DL_NINPUT, fp_s[25]);
         for(e=0;e<12*DL_NINPUT;e++){
             grid->mip_ndep_mon_nh4[e/12][e%12] = is3adat_mon[e];
+
+            if(grid->mip_ndep_mon_nh4[e/12][e%12] < 0.0){
+                grid->mip_ndep_mon_nh4[e/12][e%12] = 0.0;
+            }
         }
         
         fread(is3adat_mon,sizeof(float),12*DL_NINPUT, fp_s[25]);
         for(e=0;e<12*DL_NINPUT;e++){
             grid->mip_ndep_mon_noy[e/12][e%12] = is3adat_mon[e];
+            
+            if(grid->mip_ndep_mon_noy[e/12][e%12] < 0.0){
+                grid->mip_ndep_mon_noy[e/12][e%12] = 0.0;
+            }
         }
         
     }else if(ISIMIP_RUN==6){
@@ -892,11 +908,19 @@ void f_init_grid(
         fread(is3adat_mon,sizeof(float),12*DL_NINPUT, fp_s[25]);
         for(e=0;e<12*DL_NINPUT;e++){
             grid->mip_ndep_mon_nh4[e/12][e%12] = is3adat_mon[e];
+
+            if(grid->mip_ndep_mon_nh4[e/12][e%12] < 0.0){
+                grid->mip_ndep_mon_nh4[e/12][e%12] = 0.0;
+            }
         }
         
         fread(is3adat_mon,sizeof(float),12*DL_NINPUT, fp_s[25]);
         for(e=0;e<12*DL_NINPUT;e++){
             grid->mip_ndep_mon_noy[e/12][e%12] = is3adat_mon[e];
+
+            if(grid->mip_ndep_mon_noy[e/12][e%12] < 0.0){
+                grid->mip_ndep_mon_noy[e/12][e%12] = 0.0;
+            }
         }
         
     }else{
@@ -1656,6 +1680,13 @@ void f_init_grid(
     fread(rfdat,sizeof(float),12, fp_s[58]);
     for(e=0;e<ASTEP;e++){
         grid->glbalbedo[e] = rfdat[e];
+
+            if(grid->glbalbedo[e] < 0.0){
+                grid->glbalbedo[e] = 0.0;
+            }
+            if(grid->glbalbedo[e] > 1.0){
+                grid->glbalbedo[e] = 1.0;
+            }
     }
     
     /* N input *****************************************/
@@ -1681,6 +1712,13 @@ void f_init_grid(
         fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[87]);
         for(e=0;e<DL_NINPUT;e++){
             grid->mip_frcrop[e] = is2bdat[e];
+            
+            if(grid->mip_frcrop[e] < 0.0){
+                grid->mip_frcrop[e] = 0.0;
+            }
+            if(grid->mip_frcrop[e] > 1.0){
+                grid->mip_frcrop[e] = 1.0;
+            }
         }
     }else if(ISIMIP_RUN == 5 || LANDUSE == 45){
         /* ISIMIP3a: 2020/10/01 by A.Ito */
@@ -1688,6 +1726,13 @@ void f_init_grid(
         fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[87]);
         for(e=0;e<DL_NINPUT;e++){
             grid->mip_frcrop[e] = is2bdat[e];
+
+            if(grid->mip_frcrop[e] < 0.0){
+                grid->mip_frcrop[e] = 0.0;
+            }
+            if(grid->mip_frcrop[e] > 1.0){
+                grid->mip_frcrop[e] = 1.0;
+            }
         }
     }else if(ISIMIP_RUN == 6 || LANDUSE == 46){
         /* ISIMIP3b: 2020/10/11 by A.Ito */
@@ -1695,6 +1740,13 @@ void f_init_grid(
         fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[87]);
         for(e=0;e<DL_NINPUT;e++){
             grid->mip_frcrop[e] = is2bdat[e];
+
+            if(grid->mip_frcrop[e] < 0.0){
+                grid->mip_frcrop[e] = 0.0;
+            }
+            if(grid->mip_frcrop[e] > 1.0){
+                grid->mip_frcrop[e] = 1.0;
+            }
         }
     }else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
         ;
@@ -1727,6 +1779,10 @@ void f_init_grid(
         for(e=0;e<DL_NINPUT;e++){
             /* kg N /ha / yr */
             grid->mip_nfert[e] = is2bdat[e];
+
+            if(grid->mip_nfert[e] < 0.0){
+                grid->mip_nfert[e] = 0.0;
+            }
         }
         
     }else if(ISIMIP_RUN == 5){
@@ -1735,14 +1791,22 @@ void f_init_grid(
         for(e=0;e<DL_NINPUT;e++){
             /* kg N /ha / yr */
             grid->mip_nfert[e] = is2bdat[e];
+
+            if(grid->mip_nfert[e] < 0.0){
+                grid->mip_nfert[e] = 0.0;
+            }
         }
         
     }else if(ISIMIP_RUN == 6){
-        /* ISIMIP3a: 2020/11/18 by A.Ito */
+        /* ISIMIP3b: 2020/11/18 by A.Ito */
         fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[88]);
         for(e=0;e<DL_NINPUT;e++){
             /* kg N /ha / yr */
             grid->mip_nfert[e] = is2bdat[e];
+
+            if(grid->mip_nfert[e] < 0.0){
+                grid->mip_nfert[e] = 0.0;
+            }
         }
         
     }else{
@@ -1764,9 +1828,6 @@ void f_init_grid(
 
             /* g N/ha/yr */
             fscanf(fp_s[88],"%lf", &ddummy);
-            if(grid->mip_nfert[e] < 0.0){
-                grid->mip_nfert[e] = 0.0;
-            }
 
             fscanf(fp_s[88],"%lf", &grid->mip_manure[e]);
             grid->mip_manure[e] *= 0.001;
@@ -1775,9 +1836,6 @@ void f_init_grid(
             }
 
             fscanf(fp_s[88],"%lf", &ddummy);
-            if(grid->mip_manure[e] < 0.0){
-                grid->mip_manure[e] = 0.0;
-            }
 
             for(h=0;h<12;h++){
                 fscanf(fp_s[88],"%lf", &grid->mip_ndep_mon_nh4[e][h]);

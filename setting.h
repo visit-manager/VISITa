@@ -40,7 +40,7 @@
 #define INT_C 0.01
 
 #define CALC_STEP 10
-#define CALC_OFFSET 2
+#define CALC_OFFSET 9
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -54,7 +54,7 @@
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 0
 #define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
+#define OUTPUT_BVOC 1
 /* output binary */
 #define BASE_GOUT 1
 #define C13_GOUT 0
@@ -194,8 +194,8 @@
     #define FDY_AGHG 1800
 #elif ISIMIP_RUN==6
     /* ISI-MIP3b: 2020/05/27 by A.Ito */
-    #define DL_AGHG 336
-    #define FDY_AGHG 1765
+    #define DL_AGHG 501
+    #define FDY_AGHG 1600
 #elif GEOMIP_RUN==1
     /* GEO-MIP: 2012/06/27 by A.Ito */
     #define DL_AGHG 736
@@ -723,6 +723,14 @@
 #define CONSTRAIN_LAIMAX 0
 /* 0: off */
 /* 1: on */
+
+/* experiments for trait modification: 2020/12/07 by A.Ito */
+#define EX_MOD_TRAIT_1 0
+/* 0: off */
+/* 1: SLA modification */
+#define EX_MOD_TRAIT_2 0
+/* 0: off */
+/* 1: MRT-soil modification */
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */

@@ -53,6 +53,7 @@ void cal_historical(
         /* ISI-MIP2b (1.5/2.0): 1661-2299 (2099) */
         /* NMIP: 1901-2012 => 1861–2015 */
         /* ISIMIP3a: 1850-2016 (FSY_HIST = 1850) */
+        /* ISIMIP3b: 1601-2100 (FSY_HIST = 1601) */
 
 		/* simulation year ********************/
         /* updated: 2016/10/20 */
@@ -115,6 +116,9 @@ void cal_historical(
                 }else{
                     ;
                 }
+        }
+        if(grid->co2y < FDY_AGHG){
+            grid->co2y = FDY_AGHG;
         }
 
         /* land-use year *****************/
@@ -187,6 +191,20 @@ void cal_historical(
             parameterC4(grid, &(echar->c4));
         }
         
+        /* experiments for trait modification: 2020/12/07 by A.Ito */
+        if(EX_MOD_TRAIT_1 == 1){
+            if(grid->simy >= 2020 && grid->simy <= 2029){
+                (echar->c3).sla *= 1.01;
+                (echar->c4).sla *= 1.01;
+            }
+        }
+        if(EX_MOD_TRAIT_2 == 1){
+            if(grid->simy >= 2020 && grid->simy <= 2029){
+                (echar->soil).rl *= 0.99;
+                (echar->soil).rh *= 1.01;
+            }
+        }
+
         /*************/
         /* added by A.Ito: 2018/10/26 */
         if(EXTRA_CO2_FIX == 1){
@@ -818,6 +836,9 @@ void cal_historical(
                     }
                 }else{
                     flux->hvst_wood = total_hvst - INT_C;
+                    if(flux->hvst_wood < 0.0){
+                        flux->hvst_wood = 0.0;
+                    }
                     (mass->c3).stm = INT_C;
                 }
                 

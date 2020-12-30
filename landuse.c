@@ -191,18 +191,30 @@ void f_cult_luc(
             grid->lucy = 2018;
         }
         grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_NINY];
-        
+        grid->f_pasture_con = 0.0;
     }else if(LANDUSE == 46){
         /* ISIMIP3b: 2020/11/18 by A.Ito */
+        /* FDY_LUC = 1601 */
         if(grid->lucy < 1601){
             grid->lucy = 1601;
         }else if(grid->lucy >= 1601 && grid->lucy <= 2100){
             ;
-        }else{
+        }else if(grid->lucy > 2100){
             grid->lucy = 2100;
         }
         grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_LUC];
-    
+        grid->f_pasture_con = 0.0;
+        
+        /* nat */
+        if(SCENARIO_ID==5122 || SCENARIO_ID==5125 || SCENARIO_ID==5129 || SCENARIO_ID==5133 || SCENARIO_ID==5136 ||
+            SCENARIO_ID==5142 || SCENARIO_ID==5145 || SCENARIO_ID==5149 || SCENARIO_ID==5153 || SCENARIO_ID==5156 ||
+            SCENARIO_ID==5162 || SCENARIO_ID==5165 || SCENARIO_ID==5169 || SCENARIO_ID==5173 || SCENARIO_ID==5176 ||
+            SCENARIO_ID==5182 || SCENARIO_ID==5185 || SCENARIO_ID==5189 || SCENARIO_ID==5193 || SCENARIO_ID==5196 ||
+            SCENARIO_ID==5202 || SCENARIO_ID==5205 || SCENARIO_ID==5209 || SCENARIO_ID==5213 || SCENARIO_ID==5216){
+        
+            grid->f_crop_con = grid->f_crop_p = 0.0;
+            grid->f_pasture_con = grid->f_pasture_p = 0.0;
+        }
     }else if(LANDUSE == 47){
         /* 2-2002 S1: 2020/10/08 by A.Ito */
         /* FDY_LUC = 1866 */
@@ -393,7 +405,20 @@ void f_cult_luc(
         }else if(LANDUSE == 46){
             /* ISIMIP3b: 2020/11/18 by A.Ito */
             /* spin-up: 1601 */
-            grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
+            /* grid->f_deforest = grid->f_crop_con - grid->f_crop_p; */
+            /* grid->f_deforest = grid->mip_frcrop[1] - grid->mip_frcrop[0]; */
+            
+            grid->f_deforest = 0.0;
+
+            /* nat */
+            if(SCENARIO_ID==5122 || SCENARIO_ID==5125 || SCENARIO_ID==5129 || SCENARIO_ID==5133 || SCENARIO_ID==5136 ||
+                SCENARIO_ID==5142 || SCENARIO_ID==5145 || SCENARIO_ID==5149 || SCENARIO_ID==5153 || SCENARIO_ID==5156 ||
+                SCENARIO_ID==5162 || SCENARIO_ID==5165 || SCENARIO_ID==5169 || SCENARIO_ID==5173 || SCENARIO_ID==5176 ||
+                SCENARIO_ID==5182 || SCENARIO_ID==5185 || SCENARIO_ID==5189 || SCENARIO_ID==5193 || SCENARIO_ID==5196 ||
+                SCENARIO_ID==5202 || SCENARIO_ID==5205 || SCENARIO_ID==5209 || SCENARIO_ID==5213 || SCENARIO_ID==5216){
+            
+                grid->f_deforest = 0.0;
+            }
         }
 		/* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
         
@@ -497,6 +522,16 @@ void f_cult_luc(
         }else if(LANDUSE == 46){
             /* ISIMIP3b: 2020/11/18 by A.Ito */
             grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
+
+            /* nat */
+            if(SCENARIO_ID==5122 || SCENARIO_ID==5125 || SCENARIO_ID==5129 || SCENARIO_ID==5133 || SCENARIO_ID==5136 ||
+                SCENARIO_ID==5142 || SCENARIO_ID==5145 || SCENARIO_ID==5149 || SCENARIO_ID==5153 || SCENARIO_ID==5156 ||
+                SCENARIO_ID==5162 || SCENARIO_ID==5165 || SCENARIO_ID==5169 || SCENARIO_ID==5173 || SCENARIO_ID==5176 ||
+                SCENARIO_ID==5182 || SCENARIO_ID==5185 || SCENARIO_ID==5189 || SCENARIO_ID==5193 || SCENARIO_ID==5196 ||
+                SCENARIO_ID==5202 || SCENARIO_ID==5205 || SCENARIO_ID==5209 || SCENARIO_ID==5213 || SCENARIO_ID==5216){
+            
+                grid->f_deforest = 0.0;
+            }
         }
         
         /* BECCS S10 experiment: 2016/02/16 by A.Ito ******/
@@ -831,11 +866,11 @@ void f_luc_emit(
 			/* modified by A.Ito based on E.Kato (2009/03/30) */
 			if(fluc_10 > 0.0){
 				mass_ten = fluc_10 * eff_mass * fe_ten/(fe_conv + fe_ten + fe_hund);
-				flux->detr_ten[BGY_LUC-f] = mass_ten;
+				flux->detr_ten[BGY_LUC - f] = mass_ten;
 			}else{
                 /* corrected: A. Ito (with Hamada-san's comment) 2012/01/30 */
 				mass_ten = 0.0;
-				flux->detr_ten[BGY_LUC-f] = 0.0;
+				flux->detr_ten[BGY_LUC - f] = 0.0;
 			}
 			/* corrected: A.Ito and E.Kato (2009/08/16) */
 			flux->lu_ten += mass_ten * 0.1;
