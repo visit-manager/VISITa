@@ -68,6 +68,7 @@ void set_hist_clim(
             /* 2016-2017: extrapolation using NCEP/NCAR data: 2018/01/03 by A.Ito */
             /* 2017-2018: extrapolation using NCEP/NCAR data: 2019/01/03 by A.Ito */
             /* 2018-2019: extrapolation using NCEP/NCAR data: 2020/01/09 by A.Ito */
+            /* 2018-2020: extrapolation using NCEP/NCAR data: 2021/01/XX by A.Ito */
             for(h=0;h<ASTEP;h++){
                 /* temperature */
                 tmp_var = grid->ncep_tmp2m[grid->climy - FDY_NCEP][h][grid->ncep_lat][grid->ncep_lon] 

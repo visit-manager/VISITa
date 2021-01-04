@@ -39,21 +39,21 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
-#define CALC_OFFSET 9
+#define CALC_STEP 1
+#define CALC_OFFSET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 0
-#define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
+#define OUTPUT_CARBON2 1
+#define OUTPUT_ISOTOPE 1
+#define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
-#define OUTPUT_BB 0
+#define OUTPUT_EROSION 1
+#define OUTPUT_GHG 1
+#define OUTPUT_BB 1
 #define OUTPUT_BVOC 1
 /* output binary */
 #define BASE_GOUT 1
@@ -62,7 +62,7 @@
 #define PHYS_GOUT 0
 
 /***********************************************************/
-#define ISIMIP_RUN 6
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /*    MIROC-INTEG LUC run (2019/02/21 by A.Ito) */
@@ -250,7 +250,8 @@
     #define FSY_HIST 1901 /* */
     /* #define LSY_HIST 2016 */ /* history */
     /* #define LSY_HIST 1980 */ /* GCP-CH4 MERRA2 run: 2018/08/29 by A.Ito */
-    #define LSY_HIST 2019 /* history */
+    /* #define LSY_HIST 2019 */ /* history */
+    #define LSY_HIST 2020 /* history */
 #endif
 
 /* start year (AD) of CO2 time series */
@@ -320,7 +321,8 @@
     /* #define PD_HIST 116	*/	/* AD 1901 - 2016 */
     /* #define PD_HIST 117  */  /* AD 1901 - 2017 */
     /* #define PD_HIST 118  */  /* AD 1901 - 2018 */
-    #define PD_HIST 119    /* */  /* AD 1901 - 2019 */
+    /* #define PD_HIST 119    */  /* AD 1901 - 2019 */
+    #define PD_HIST 120    /* */  /* AD 1901 - 2020 */
 #endif
 
 /* start year (AD) of climate ***/
@@ -391,7 +393,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -405,7 +407,8 @@
 /* #define DL_NCEP 69 */   /* 1948-2016 */
 /* #define DL_NCEP 70 */   /* 1948-2017 */
 /* #define DL_NCEP 71 */   /* 1948-2018 */
-#define DL_NCEP 72   /* 1948-2019 */
+/* #define DL_NCEP 72 */   /* 1948-2019 */
+#define DL_NCEP 73   /* 1948-2020 */
 
 /* Simulation using ISI-MIP data (yr) */
 /* spinup 1951-1980 */
@@ -494,7 +497,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 46
+#define LANDUSE 30
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
