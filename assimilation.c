@@ -29,10 +29,10 @@ double fgpp(
 	Iwanami Shoten, Tokyo, pp. 71-100.
 	*/
 	if(pchar->psat[grid->m] > 0.0){
-		cc1 = 2.0 * pchar->psat[grid->m]*grid->dlen[grid->m]*lTs/pchar->eK[grid->m]; 
-		bb = pchar->eK[grid->m]*pchar->lue[grid->m]*grid->par[grid->m]/pchar->psat[grid->m];
+		cc1 = 2.0 * pchar->psat[grid->m] * grid->dlen[grid->m] * lTs / pchar->eK[grid->m];
+		bb = pchar->eK[grid->m] * pchar->lue[grid->m] * grid->par[grid->m] / pchar->psat[grid->m];
 		cc2 = 1.0 + sqrt(1.0 + bb);
-		cc3 = 1.0 + sqrt(1.0 + bb*exp(-1.0 * pchar->eK[grid->m] * mass->lai[grid->m]));
+		cc3 = 1.0 + sqrt(1.0 + bb * exp(-1.0 * pchar->eK[grid->m] * mass->lai[grid->m]));
 		gpp = cc1 * log(cc2 / cc3);
 	}else{
 		gpp = 0.0;

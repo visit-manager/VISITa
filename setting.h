@@ -734,6 +734,9 @@
 #define EX_MOD_TRAIT_2 0
 /* 0: off */
 /* 1: MRT-soil modification */
+#define EX_MOD_TRAIT_3 0
+/* 0: off */
+/* 1: K modification */
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
