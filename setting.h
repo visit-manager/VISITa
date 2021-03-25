@@ -379,7 +379,8 @@
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
     /* #define DL_HCLIM 118 */  /* CRU TS4.03: AD 1901 - 2018 */
-    #define DL_HCLIM 119  /* CRU TS4.04: AD 1901 - 2019 */
+    /* #define DL_HCLIM 119 */  /* CRU TS4.04: AD 1901 - 2019 */
+    #define DL_HCLIM 120  /* CRU TS4.05: AD 1901 - 2020 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -393,7 +394,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -497,7 +498,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 30
+#define LANDUSE 31
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -551,7 +552,7 @@
 #define EXTRA_CO2_FIX 0
 /* 0: off (default) */
 /* 1: make grid->co2y = 1901 */
-/* 1: make grid->co2y = 1950 */
+/* 2: make grid->co2y = 1950 */
 
 /* extra climate fixation combined with above scenarios: 2018/10/26 by A.Ito */
 #define EXTRA_CLIM_FIX 0

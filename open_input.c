@@ -240,6 +240,24 @@ void open_input(
                 printf("No cru404_vap_1901-2019.txt\n");
                 exit(1);
             }
+        }else if(DL_HCLIM == 120){
+            /* UEA-CRU data from 1901 - 2020: 2021/03/25 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/cru405_cld_1901-2020.txt","rt"))==NULL ){
+                printf("No cru405_cld_1901-2020.txt\n");
+                exit(1);
+            }
+            if( (fp_c[1]=fopen("./data/cru405_pre_1901-2020.txt","rt"))==NULL ){
+                printf("No cru405_pre_1901-2020.txt\n");
+                exit(1);
+            }
+            if( (fp_c[2]=fopen("./data/cru405_tmp_1901-2020.txt","rt"))==NULL ){
+                printf("No cru405_tmp_1901-2020.txt\n");
+                exit(1);
+            }
+            if( (fp_c[3]=fopen("./data/cru405_vap_1901-2020.txt","rt"))==NULL ){
+                printf("No cru405_vap_1901-2020.txt\n");
+                exit(1);
+            }
         }else{
             printf("No CRU data\n");
             exit(1);
