@@ -240,6 +240,24 @@ void open_input(
                 printf("No cru404_vap_1901-2019.txt\n");
                 exit(1);
             }
+        }else if(DL_HCLIM == 120){
+            /* UEA-CRU data from 1901 - 2020: 2021/03/25 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/cru405_cld_1901-2020.txt","rt"))==NULL ){
+                printf("No cru405_cld_1901-2020.txt\n");
+                exit(1);
+            }
+            if( (fp_c[1]=fopen("./data/cru405_pre_1901-2020.txt","rt"))==NULL ){
+                printf("No cru405_pre_1901-2020.txt\n");
+                exit(1);
+            }
+            if( (fp_c[2]=fopen("./data/cru405_tmp_1901-2020.txt","rt"))==NULL ){
+                printf("No cru405_tmp_1901-2020.txt\n");
+                exit(1);
+            }
+            if( (fp_c[3]=fopen("./data/cru405_vap_1901-2020.txt","rt"))==NULL ){
+                printf("No cru405_vap_1901-2020.txt\n");
+                exit(1);
+            }
         }else{
             printf("No CRU data\n");
             exit(1);
@@ -1776,6 +1794,14 @@ void open_input(
         /* Alternative data (Inoue): 2020/03/12 by A.Ito */
         if( (fp_s[22]=fopen("./data/fpaddy_v2_sage_hd.txt","rt"))==NULL ){
             printf("No fpaddy_v2_sage_hd.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[22] ++;
+        }
+    }else if(ALT_PADDY == 3){
+        /* Alternative data (MIRCA2000): 2021/04/07 by A.Ito */
+        if( (fp_s[22]=fopen("./data/fpaddy_mirca2000_05.txt","rt"))==NULL ){
+            printf("No fpaddy_mirca2000_05.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[22] ++;

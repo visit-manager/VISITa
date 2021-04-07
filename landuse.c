@@ -375,9 +375,9 @@ void f_cult_luc(
         }else if(LANDUSE == 7){
             grid->f_deforest = grid->fcrop_net[(BGY_LUC+1) - FDY_LUC]
                         - grid->fcrop_net[BGY_LUC - FDY_LUC];
-        }else if(LANDUSE==9){
+        }else if(LANDUSE == 9){
             grid->f_deforest = 0.0;
-        }else if(LANDUSE==18 || LANDUSE == 19 || LANDUSE == 20 ||
+        }else if(LANDUSE == 18 || LANDUSE == 19 || LANDUSE == 20 ||
                 LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 ||
                 LANDUSE == 24 || LANDUSE == 25){
             /* ICARUS SSPs: 2016/08/14 by A.Ito */
@@ -671,9 +671,9 @@ void f_cult_luc(
 		}
 	}else if(LANDUSE == 9){
         grid->f_paddy = grid->f_paddy_b;
-    }else if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13
-            || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17
-            || LANDUSE==26 || LANDUSE==27 || LANDUSE==28|| LANDUSE == 29
+    }else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13
+            || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 17
+            || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 29
             || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
             || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
         
@@ -793,8 +793,8 @@ void f_luc_emit(
 			fluc_1 = 0.0;
 		}else if(LANDUSE >= 1 && LANDUSE <= 5){
 			fluc_1 = grid->fcrop_net[BGY_LUC-FDY_LUC] - grid->fcrop_net[BGY_LUC-FDY_LUC-1];
-		}else if(LANDUSE == 6 || LANDUSE==8 || LANDUSE==10 || LANDUSE==11 || LANDUSE == 12
-                || LANDUSE == 13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE == 17
+		}else if(LANDUSE == 6 || LANDUSE == 8 || LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12
+                || LANDUSE == 13 || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 17
                 || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 29
                 || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
                 || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
@@ -834,7 +834,7 @@ void f_luc_emit(
 			/* senstivity analysis */
 			if(LANDUSE == 0 || LANDUSE == 9){
 				fluc_10 = 0.0;
-			}else if(LANDUSE>=1 && LANDUSE<=5){
+			}else if(LANDUSE >=1 && LANDUSE <=5){
 				fluc_10 = grid->fcrop_net[f - FDY_LUC] - grid->fcrop_net[f - FDY_LUC - 1];
 			}else if(LANDUSE == 6 || LANDUSE == 8 || LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12
                     || LANDUSE==13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17
@@ -893,7 +893,7 @@ void f_luc_emit(
 				/* added 2010/01/07 (A.Ito) */
 				fluc_100 = (grid->fcrop_rk[f - FDY_LUC] - grid->fcrop_rk[f-FDY_LUC-1])
 						+ (grid->fpast_rk[f - FDY_LUC] - grid->fpast_rk[f-FDY_LUC-1]);
-			}else if(LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 ||
+			}else if(LANDUSE == 18|| LANDUSE == 19 || LANDUSE == 20 ||
                 LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 ||
                 LANDUSE == 24 || LANDUSE == 25 || LANDUSE == 45 || LANDUSE == 46){
                 fluc_100 = 0.0;
@@ -948,9 +948,9 @@ void f_luc_emit(
 		}else if(LANDUSE >= 1 && LANDUSE <= 5){
 			fluc_1 = grid->f_deforest;
 			/*  grid->f_crop_con - grid->f_crop_p;  */
-		}else if(LANDUSE==6 || LANDUSE==8 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12
-                || LANDUSE==13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17
-                || LANDUSE==26 || LANDUSE==27 || LANDUSE==28 || LANDUSE == 29
+		}else if(LANDUSE == 6 || LANDUSE == 8 || LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12
+                || LANDUSE == 13 || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 17
+                || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 29
                 || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
                 || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
 			/* assumption: biomass in secondary forest is lower (0.1) than primary forest */

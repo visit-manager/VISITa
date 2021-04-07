@@ -21,10 +21,15 @@ void f_ecophysiology(
 	long f, g;
 	double aaa, bbb;
 	double sinb, ke_b1, ke_b2, irr_b, rfl_b, apar, fapar, eff_k;
-    double appfdb, appfdd, hangle;
+    double appfdb, appfdd, hangle, ek_mod;
 	
 	/* give leaf area index (LAI), m2 m-2*/
 	mass->lai[grid->m] = lai_mass(grid, mass, pchar);
+    
+    ek_mod = 1.0;
+    if(EX_MOD_TRAIT_3 == 1){
+        ek_mod = 0.9;
+    }
     
     /* for GEOMIP fapar estimation: 2015/02/25 by A.Ito */
     pchar->ppfd_db[grid->m] = pchar->appfd_db[grid->m] = 0.0;
@@ -38,8 +43,8 @@ void f_ecophysiology(
         sinb = (sinb>=-1.0)?sinb:-1.0;
         
         if(sinb>0.0 && loct->ppfd_h[f]>0.0 && mass->lai[grid->m]>0.0){
-            ke_b1 = 0.5 / sinb;
-            ke_b2 = 0.46 / sinb;
+            ke_b1 = ek_mod * 0.5 / sinb;
+            ke_b2 = ek_mod * 0.46 / sinb;
             irr_b = (1.0 - sqrt(1.0 - 0.15))/(1.0 + sqrt(1.0 - 0.15));
             rfl_b = 1.0 - exp(-2.0 * irr_b * ke_b1)/(1.0 + ke_b1);
             
@@ -64,8 +69,8 @@ void f_ecophysiology(
 	sinb = (sinb>=-1.0)?sinb:-1.0;
 	
 	if(sinb>0.0 && grid->par[grid->m]>0.0 && mass->lai[grid->m]>0.0){
-		ke_b1 = 0.5 / sinb;
-		ke_b2 = 0.46 / sinb;
+		ke_b1 = ek_mod * 0.5 / sinb;
+		ke_b2 = ek_mod * 0.46 / sinb;
 		irr_b = (1.0 - sqrt(1.0 - 0.15))/(1.0 + sqrt(1.0 - 0.15));
 		rfl_b = 1.0 - exp(-2.0 * irr_b * ke_b1)/(1.0 + ke_b1);
 		
@@ -75,7 +80,7 @@ void f_ecophysiology(
 		apar = pchar->apar_bp[grid->m] + pchar->apar_dp[grid->m];
 		fapar = apar / grid->par[grid->m];
 				
-		eff_k = -1.0*log(1.0 - fapar)/mass->lai[grid->m];
+		eff_k = -1.0 * log(1.0 - fapar)/mass->lai[grid->m];
 		eff_k = (eff_k>=0.46)?eff_k:0.1;
 		eff_k = (eff_k<=5.0)?eff_k:10.0;
 	}else{

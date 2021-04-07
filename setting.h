@@ -39,8 +39,8 @@
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
 
-#define CALC_STEP 10
-#define CALC_OFFSET 9
+#define CALC_STEP 1
+#define CALC_OFFSET 0
 /* 1: every grid */
 /* 10: every 10 grid */
 
@@ -52,9 +52,9 @@
 #define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
+#define OUTPUT_GHG 1
 #define OUTPUT_BB 0
-#define OUTPUT_BVOC 1
+#define OUTPUT_BVOC 0
 /* output binary */
 #define BASE_GOUT 1
 #define C13_GOUT 0
@@ -62,7 +62,7 @@
 #define PHYS_GOUT 0
 
 /***********************************************************/
-#define ISIMIP_RUN 6
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /*    MIROC-INTEG LUC run (2019/02/21 by A.Ito) */
@@ -250,7 +250,8 @@
     #define FSY_HIST 1901 /* */
     /* #define LSY_HIST 2016 */ /* history */
     /* #define LSY_HIST 1980 */ /* GCP-CH4 MERRA2 run: 2018/08/29 by A.Ito */
-    #define LSY_HIST 2019 /* history */
+    /* #define LSY_HIST 2019 */ /* history */
+    #define LSY_HIST 2020 /* history */
 #endif
 
 /* start year (AD) of CO2 time series */
@@ -320,7 +321,8 @@
     /* #define PD_HIST 116	*/	/* AD 1901 - 2016 */
     /* #define PD_HIST 117  */  /* AD 1901 - 2017 */
     /* #define PD_HIST 118  */  /* AD 1901 - 2018 */
-    #define PD_HIST 119    /* */  /* AD 1901 - 2019 */
+    /* #define PD_HIST 119    */  /* AD 1901 - 2019 */
+    #define PD_HIST 120    /* */  /* AD 1901 - 2020 */
 #endif
 
 /* start year (AD) of climate ***/
@@ -377,7 +379,8 @@
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
     /* #define DL_HCLIM 118 */  /* CRU TS4.03: AD 1901 - 2018 */
-    #define DL_HCLIM 119  /* CRU TS4.04: AD 1901 - 2019 */
+    /* #define DL_HCLIM 119 */  /* CRU TS4.04: AD 1901 - 2019 */
+    #define DL_HCLIM 120  /* CRU TS4.05: AD 1901 - 2020 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -405,7 +408,8 @@
 /* #define DL_NCEP 69 */   /* 1948-2016 */
 /* #define DL_NCEP 70 */   /* 1948-2017 */
 /* #define DL_NCEP 71 */   /* 1948-2018 */
-#define DL_NCEP 72   /* 1948-2019 */
+/* #define DL_NCEP 72 */   /* 1948-2019 */
+#define DL_NCEP 73   /* 1948-2020 */
 
 /* Simulation using ISI-MIP data (yr) */
 /* spinup 1951-1980 */
@@ -494,7 +498,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 46
+#define LANDUSE 31
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -548,7 +552,7 @@
 #define EXTRA_CO2_FIX 0
 /* 0: off (default) */
 /* 1: make grid->co2y = 1901 */
-/* 1: make grid->co2y = 1950 */
+/* 2: make grid->co2y = 1950 */
 
 /* extra climate fixation combined with above scenarios: 2018/10/26 by A.Ito */
 #define EXTRA_CLIM_FIX 0
@@ -731,6 +735,9 @@
 #define EX_MOD_TRAIT_2 0
 /* 0: off */
 /* 1: MRT-soil modification */
+#define EX_MOD_TRAIT_3 0
+/* 0: off */
+/* 1: K modification */
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
@@ -769,12 +776,6 @@
 /* 7: GCP-CH4 V2: 2018/08/28 by A.Ito */
 /* 8: GCP-CH4 V2: 2018/08/29 by A.Ito : no limit by GLWD */
 
-/* rice paddy map data */
-#define ALT_PADDY 0
-/* 0: default */
-/* 1: UT IIS */
-/* 2: Inoue 2020/01/08, 2020/03/12 */
-
 /* specific scheme on permaforst */
 #define EX_PERFROST 0
 /* 0:off, 1:on */
@@ -799,6 +800,13 @@
 /* 0: default */
 /* 1: low water-table */
 /* 2: no paddy: 2020/05/16 by A.Ito */
+
+/* rice paddy map data */
+#define ALT_PADDY 0
+/* 0: default (Leff or Monfreda) */
+/* 1: UT IIS + Monfreda */
+/* 2: Inoue 2020/01/08, 2020/03/12 + Monfreda */
+/* 3: MIRCA2000: 2021/04/07 by A.Ito */
 
 /***********************************************************/
 /* parameter perturbation */
