@@ -800,6 +800,7 @@
 /* 0: default */
 /* 1: low water-table */
 /* 2: no paddy: 2020/05/16 by A.Ito */
+/* 3: crop calendar by Iizumi-san: 2021/04/07  */
 
 /* rice paddy map data */
 #define ALT_PADDY 0

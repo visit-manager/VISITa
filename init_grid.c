@@ -25,7 +25,7 @@ void f_init_grid(
 	FILE *fp_s[IFILEN], 
 	struct Grid *grid
 ){
-	long e, g, h, country, region, aaa, ldummy;
+	long e, g, h, country, region, aaa, ldummy, mon, day;
 	double tmp_sfc, tmp_2m,tmp10_soil, tmp200_soil, dswrf_toa, dswrf_sfc, tcdc_clm;
 	double prate_sfc, spfh_2m, soilw10, soilw200, ugrd_10m, vgrd_10m;
 	double geo_prop, crit_tension;
@@ -855,6 +855,24 @@ void f_init_grid(
 	}
     if(grid->f_upland > 1.0){
         grid->f_upland = 1.0;
+    }
+    
+    if(EX_PADDY == 3){
+        fscanf(fp_s[93],"%lf", &paddy);
+        if(paddy>=0.0 && paddy<=366.0){
+            f_doyTmody(2001,(long)paddy, &mon, &day);
+            grid->iizumi_mon_paddy_start = mon;
+        }else{
+            grid->iizumi_mon_paddy_start = 0;
+        }
+        
+        fscanf(fp_s[94],"%lf", &paddy);
+        if(paddy>=0.0 && paddy<=366.0){
+            f_doyTmody(2001,(long)paddy, &mon, &day);
+            grid->iizumi_mon_paddy_end = mon;
+        }else{
+            grid->iizumi_mon_paddy_end = 0;
+        }
     }
 
     /*****************************/

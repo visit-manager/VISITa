@@ -1780,7 +1780,8 @@ void open_input(
             Flag_FOPEN[84] ++;
         }
 	}
-
+    
+    /* paddy data ******************/
 	if(ALT_PADDY == 1){
 		/* Alternative data (SAGE): 2011/03/30 by A.Ito */
 		if( (fp_s[22]=fopen("./data/fpaddy_iis_sage.txt","rt"))==NULL ){  
@@ -1814,6 +1815,22 @@ void open_input(
             Flag_FOPEN[22] ++;
         }
 	}
+ 
+    if(EX_PADDY == 3){
+        /* Alternative data (MIRCA2000): 2021/04/07 by A.Ito */
+        if( (fp_s[93]=fopen("./data/rice_start.txt","rt"))==NULL ){
+            printf("No rice_start.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[93] ++;
+        }
+        if( (fp_s[94]=fopen("./data/rice_end.txt","rt"))==NULL ){
+            printf("No rice_end.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[94] ++;
+        }
+    }
 	
 	if( (fp_s[24]=fopen("./data/soil_n_1m.dat","rt"))==NULL ){  
 		printf("No soil_n_1m.dat\n");  

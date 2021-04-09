@@ -184,6 +184,25 @@ void f_ch4_emit_cao(
         fv_inund_wet = grid->inundation_ssmi[grid->m];
         fv_inund_pad = grid->inundation_ssmi[grid->m];
     }
+    
+    /* alternative paddy crop calendar: 2021/04/07 by A.Ito */
+    if(EX_PADDY == 3){
+        if(grid->iizumi_mon_paddy_end > grid->iizumi_mon_paddy_start){
+            if(grid->m >= grid->iizumi_mon_paddy_start && grid->m <= grid->iizumi_mon_paddy_end){
+                fv_inund_pad = 1.0;
+            }else{
+                fv_inund_pad = 0.0;
+            }
+        }else if(grid->iizumi_mon_paddy_end < grid->iizumi_mon_paddy_start){
+            if(grid->m <= grid->iizumi_mon_paddy_start || grid->m >= grid->iizumi_mon_paddy_end){
+                fv_inund_pad = 1.0;
+            }else{
+                fv_inund_pad = 0.0;
+            }
+        }else{
+            fv_inund_pad = 0.0;
+        }
+    }
 
 	/* water table (cm relative to surface) coefficient */
 	/* wetland *****************************************************************************/
@@ -1125,6 +1144,25 @@ void f_ch4_emit_walter(
 		}
 	}
 	
+    /* alternative paddy crop calendar: 2021/04/07 by A.Ito */
+    if(EX_PADDY == 3 && (smode == 3 || smode == 4)){
+        if(grid->iizumi_mon_paddy_end > grid->iizumi_mon_paddy_start){
+            if(grid->m >= grid->iizumi_mon_paddy_start && grid->m <= grid->iizumi_mon_paddy_end){
+                fa_paddy =  grid->f_paddy;
+            }else{
+                fa_paddy = 0.0;
+            }
+        }else if(grid->iizumi_mon_paddy_end < grid->iizumi_mon_paddy_start){
+            if(grid->m <= grid->iizumi_mon_paddy_start || grid->m >= grid->iizumi_mon_paddy_end){
+                fa_paddy = grid->f_paddy;
+            }else{
+                fa_paddy = 0.0;
+            }
+        }else{
+            fa_paddy = 0.0;
+        }
+    }
+
 	/* flux: mg CH4 m-2 month-1 ************************/
 	if(smode == 1){
 		loct->f_inund_wet_wh[grid->m] = fa_wetland;

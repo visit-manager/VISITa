@@ -25,7 +25,7 @@ struct Grid{
 	long 	col;					/* grid order, column in 0.5 degree grid */
 	long 	gcm_row;				/* grid order, row in GCM's grid */
 	long 	gcm_col;				/* grid order, column in GCM's grid */
-	long	ncep_lat, ncep_lon;
+	long	    ncep_lat, ncep_lon;
 	long 	chaser_row;				/* grid order, row in CHASER grid */
 	long 	chaser_col;				/* grid order, column in CHASER grid */
 	
@@ -238,6 +238,10 @@ struct Grid{
 	double	fcrop_rk[308];				/* crop fraction by Ramankutty & Kimball (2010) */
 	double	fpast_rk[308];				/* pasture fraction by Ramankutty & Kimball (2010) */
 	
+    /* crop calendar by Iizumi: 2021/04/07 by A.Ito */
+    long    iizumi_mon_paddy_start;
+    long    iizumi_mon_paddy_end;
+	
 	/* future, 1990-2100, IMAGE2, Wang et al. */
 	double 	fcrop3_image[DL_ADD];			/* C3 crop */
 	double 	fcrop4_image[DL_ADD];			/* C4 crop */
@@ -393,7 +397,7 @@ struct Loct{
 	
 	double	c4ptn[ASTEP];				/* ground coverage of C4 plants, fraction */
 	double	c3ptn[ASTEP];				/* ground coverage of C3 plants, fraction */
-	long	gd[ASTEP], bbm;				/* vegetative growing period, days */
+	long	    gd[ASTEP], bbm;				/* vegetative growing period, days */
 	double	gdd[ASTEP];				 	/* cumulative growth degree days, degC days */
     
     double  est_maxlai;                 /* estimated max.LAI: 2014/05/20 by A.Ito */
@@ -489,7 +493,7 @@ struct Loct{
 	
 	double	f_inund_wet_wh[ASTEP];      /* inundation area for Wlater & Heimann CH4 scheme */
 	double	f_inund_pad_wh[ASTEP];      /* inundation area for Wlater & Heimann CH4 scheme */
-	
+    
 	/* maximum GPP for Cao CH4 scheme */
 	double	gpp_max;					/* maximum GPP */
     double  npp_av[ASTEP];              /* average monthly NPP */

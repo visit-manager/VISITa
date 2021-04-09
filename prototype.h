@@ -12,7 +12,7 @@
 #include"setting.h"
 
 /* #define IFILEN 59 */  /* normal case */
-#define IFILEN 93 /* */  /* normal case */
+#define IFILEN 95 /* */  /* normal case */
 #define OFILEN 9
 
 short Flag_FOPEN[IFILEN];
@@ -194,6 +194,8 @@ void f_read_chaser_ndepo(FILE *fp_s[IFILEN],struct Grid  *grid);
 
 void f_parameter_perturbation(long iseed,struct Grid *grid,struct Loct *loct,
 	struct Echar *echar,double f_prtrb[20]);
+
+void f_doyTmody(long year, long doy, long *month, long *day);
 
 /* MASS & PARAMETERS INITIALIZATION *****************************/
 void initVS(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux, 

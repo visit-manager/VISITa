@@ -296,7 +296,7 @@ void f_output_result(
 	struct Flux *flux, 
 	FILE *fp_o[OFILEN]
 ){
-	long f;
+	long f, g;
 	double pre_ann, hrl_ann, hrm_ann, ltr_ann, msl_ann;
 	extern double MDN[ASTEP];
 	
@@ -539,6 +539,10 @@ void f_output_result(
 
             fprintf(fp_o[3],"%.3lf ", loct->f_inund_wet_wh[f]);
             fprintf(fp_o[3],"%.3lf ", loct->f_inund_pad_wh[f]); /* */ /* added: 2011/03/07 (A.Ito) */
+            
+            /* for(g=0;g<N_SLAYER+2;g++){
+                fprintf(fp_o[3],"%.3lf ", loct->prof_ch4[g]);
+            } */
         }
         fprintf(fp_o[3],"\n");
     }
