@@ -801,9 +801,10 @@
 /* 1: low water-table */
 /* 2: no paddy: 2020/05/16 by A.Ito */
 /* 3: crop calendar by Iizumi-san: 2021/04/07  */
+/* 4: high water temperature */
 
 /* rice paddy map data */
-#define ALT_PADDY 0
+#define ALT_PADDY 2
 /* 0: default (Leff or Monfreda) */
 /* 1: UT IIS + Monfreda */
 /* 2: Inoue 2020/01/08, 2020/03/12 + Monfreda */

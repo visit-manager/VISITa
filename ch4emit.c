@@ -26,7 +26,7 @@ void f_ch4_emit_cao(
 ){
 	double fv_inund_wet, fv_inund_pad, wtable;	/* water table, cm */
 	double fv_temp, fv_wtable, f_wtable_lake, fv_wetland, fv_lake;
-	double hr_decomp, gpp_factor, diff_wtd;
+	double hr_decomp, gpp_factor, diff_wtd, dtemp;
 	
 	/* soil decomposition rate. Mg C ha-1 month-1 */
 	hr_decomp = (flux->soil).hr[grid->m];
@@ -36,7 +36,11 @@ void f_ch4_emit_cao(
 	
 	/* temperature (deg C) coefficient */
 	/* eq.7 */
-	fv_temp = exp(grid->tmp10_soil[grid->m] * 0.0693) / 7.996;
+    dtemp = 0.0;
+    if(EX_PADDY == 4){
+        dtemp = 1.0;
+    }
+	fv_temp = exp((grid->tmp10_soil[grid->m] + dtemp) * 0.0693) / 7.996;
 	if(fv_temp < 0.0){
 		fv_temp = 0.0;
 	}
@@ -309,6 +313,10 @@ void f_ch4_emit_cao(
     /* 2014/12/10 by A.Ito */
     wtable = 4.0;
     
+    if(EX_PADDY == 1){
+        wtable = -1.0;
+    }
+
 	fv_wtable = 0.383 * (fv_inund_pad * exp(0.096 * wtable)
 						+ (1.0 - fv_inund_pad)*exp(0.096 * (wtable - 14.0)));
     
@@ -368,7 +376,7 @@ void f_ch4_emit_walter(
 	double t_veg, flux_ebull, flux_plant, release, f_sand, f_clay;
 	double hh, rr, kk, df_dry, fa_paddy, fa_wetland, day_produc, day_oxid;
 	double r0, f_inundation, diff_wtd;
-	double q10_ch4prod;
+	double q10_ch4prod, dtemp;
     double efflux_ebul, efflux_plant, efflux_diffs, efflux_reles;
 	
 	/*
@@ -390,6 +398,11 @@ void f_ch4_emit_walter(
 	 0: control
 	 1: increased wetland area by lake
 	 */
+    
+    dtemp = 0.0;
+    if(EX_PADDY == 4){
+        dtemp = 1.0;
+    }
 	
 	/************************************************************************/
 	sdepth = 1.0;		/* soil depth, m */
@@ -606,7 +619,8 @@ void f_ch4_emit_walter(
 		/* water-table depth, m from surface */
 		loct->water_table_depth = -0.03;
         if(EX_PADDY == 1){
-            loct->water_table_depth = 0.15;
+            //loct->water_table_depth = 0.15;
+            loct->water_table_depth = 0.02;
         }
 		wtdepth = loct->water_table_depth;
         /* loct->xx3[grid->m] = wtdepth; */
@@ -620,7 +634,8 @@ void f_ch4_emit_walter(
 		/* water-table depth, m from surface */
 		loct->water_table_depth = 0.5;
         if(EX_PADDY == 1){
-            loct->water_table_depth = 0.9;
+            //loct->water_table_depth = 0.9;
+            loct->water_table_depth = 0.55;
         }
 		wtdepth = loct->water_table_depth;
         /*  loct->xx4[grid->m] = wtdepth; */
@@ -670,10 +685,10 @@ void f_ch4_emit_walter(
 	for(f=1;f<=N_SLAYER;f++){
         if(FIX_STMP == 1){
             tmp[f] = grid->tmp10_soil_a[grid->m] * (double)(N_SLAYER - f)/(double)N_SLAYER
-                    + (double)f/(double)N_SLAYER * grid->tmp200_soil_a[grid->m];
+                    + (double)f/(double)N_SLAYER * grid->tmp200_soil_a[grid->m] +dtemp;
         }else{
             tmp[f] = grid->tmp10_soil[grid->m] * (double)(N_SLAYER - f)/(double)N_SLAYER
-                    + (double)f/(double)N_SLAYER * grid->tmp200_soil[grid->m];
+                    + (double)f/(double)N_SLAYER * grid->tmp200_soil[grid->m] +dtemp;
         }
 	}
 	/* fgow: Eq. 20 */
