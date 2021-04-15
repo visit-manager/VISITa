@@ -796,7 +796,7 @@
 /* 0:off, 1:0n */
 
 /* experiments for paddy management for mitigation */
-#define EX_PADDY 0
+#define EX_PADDY 1
 /* 0: default */
 /* 1: low water-table */
 /* 2: no paddy: 2020/05/16 by A.Ito */

@@ -314,7 +314,8 @@ void f_ch4_emit_cao(
     wtable = 4.0;
     
     if(EX_PADDY == 1){
-        wtable = -1.0;
+        //wtable = -1.0;
+        wtable = -6.0;
     }
 
 	fv_wtable = 0.383 * (fv_inund_pad * exp(0.096 * wtable)
@@ -620,7 +621,8 @@ void f_ch4_emit_walter(
 		loct->water_table_depth = -0.03;
         if(EX_PADDY == 1){
             //loct->water_table_depth = 0.15;
-            loct->water_table_depth = 0.02;
+            //loct->water_table_depth = 0.02;
+            loct->water_table_depth = 0.07;
         }
 		wtdepth = loct->water_table_depth;
         /* loct->xx3[grid->m] = wtdepth; */
@@ -635,7 +637,8 @@ void f_ch4_emit_walter(
 		loct->water_table_depth = 0.5;
         if(EX_PADDY == 1){
             //loct->water_table_depth = 0.9;
-            loct->water_table_depth = 0.55;
+            //loct->water_table_depth = 0.55;
+            loct->water_table_depth = 0.6;
         }
 		wtdepth = loct->water_table_depth;
         /*  loct->xx4[grid->m] = wtdepth; */
