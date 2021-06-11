@@ -1231,3 +1231,88 @@ long region_giorgi(
 	return reg;
 }
 
+/* DOY to Month and Day ****************************************/
+void f_doyTmody(
+	long year,
+	long doy,
+	long *month,
+	long *day
+){
+	if(year%4==0){
+		if(doy>=0 && doy<31){
+			*month = 0;
+			*day = doy-0;
+		}else if(doy>=31 && doy<60){
+			*month = 1;
+			*day = doy-31;
+		}else if(doy>=60 && doy<91){
+			*month = 2;
+			*day = doy-60;
+		}else if(doy>=91&&doy<121){
+			*month = 3;
+			*day = doy-91;
+		}else if(doy>=121&&doy<152){
+			*month = 4;
+			*day = doy-121;
+		}else if(doy>=152&&doy<182){
+			*month = 5;
+			*day = doy-152;
+		}else if(doy>=182&&doy<213){
+			*month = 6;
+			*day = doy-182;
+		}else if(doy>=213&&doy<244){
+			*month = 7;
+			*day = doy-213;
+		}else if(doy>=244&&doy<274){
+			*month = 8;
+			*day = doy-244;
+		}else if(doy>=274&&doy<305){
+			*month = 9;
+			*day = doy-274;
+		}else if(doy>=305&doy<335){
+			*month = 10;
+			*day = doy-305;
+		}else if(doy>=335&&doy<366){
+			*month = 11;
+			*day = doy-335;
+		}
+	}else{
+		if(doy>=0 && doy<31){
+			*month = 0;
+			*day = doy-0;
+		}else if(doy>=31 && doy<59){
+			*month = 1;
+			*day = doy-31;
+		}else if(doy>=59 && doy<90){
+			*month = 2;
+			*day = doy-59;
+		}else if(doy>=90&&doy<120){
+			*month = 3;
+			*day = doy-90;
+		}else if(doy>=120&&doy<151){
+			*month = 4;
+			*day = doy-120;
+		}else if(doy>=151&&doy<181){
+			*month = 5;
+			*day = doy-151;
+		}else if(doy>=181&&doy<212){
+			*month = 6;
+			*day = doy-181;
+		}else if(doy>=212&&doy<243){
+			*month = 7;
+			*day = doy-212;
+		}else if(doy>=243&&doy<273){
+			*month = 8;
+			*day = doy-243;
+		}else if(doy>=273&&doy<304){
+			*month = 9;
+			*day = doy-273;
+		}else if(doy>=304&doy<334){
+			*month = 10;
+			*day = doy-304;
+		}else if(doy>=334&&doy<365){
+			*month = 11;
+			*day = doy-334;
+		}
+	}
+}

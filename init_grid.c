@@ -25,7 +25,7 @@ void f_init_grid(
 	FILE *fp_s[IFILEN], 
 	struct Grid *grid
 ){
-	long e, g, h, country, region, aaa, ldummy;
+	long e, g, h, country, region, aaa, ldummy, mon, day;
 	double tmp_sfc, tmp_2m,tmp10_soil, tmp200_soil, dswrf_toa, dswrf_sfc, tcdc_clm;
 	double prate_sfc, spfh_2m, soilw10, soilw200, ugrd_10m, vgrd_10m;
 	double geo_prop, crit_tension;
@@ -802,17 +802,18 @@ void f_init_grid(
 	if(ALT_PADDY == 1){
 		/* Alternative data (IIS-UT + SAGE): 2011/03/30 by A.Ito */
 		fscanf(fp_s[22],"%lf", &paddy); 
-		if(paddy>0.0){
+		if(paddy > 0.0){
 			grid->f_paddy = paddy;
 			grid->f_paddy_b = paddy;
 		}else{
 			grid->f_paddy = 0.0;
 			grid->f_paddy_b = 0.0;
 		}
-	}else if(ALT_PADDY == 2){
+	}else if(ALT_PADDY == 2 || ALT_PADDY == 3){
         /* Alternative data (Inooue): 2020/01/08 by A.Ito */
+        /* Alternative data (MIRCA2000): 2021/04/07 by A.Ito */
         fscanf(fp_s[22],"%lf", &paddy);
-        if(paddy>0.0){
+        if(paddy > 0.0){
             grid->f_paddy = paddy;
             grid->f_paddy_b = paddy;
         }else{
@@ -854,6 +855,24 @@ void f_init_grid(
 	}
     if(grid->f_upland > 1.0){
         grid->f_upland = 1.0;
+    }
+    
+    if(EX_PADDY == 3){
+        fscanf(fp_s[93],"%lf", &paddy);
+        if(paddy>=0.0 && paddy<=366.0){
+            f_doyTmody(2001,(long)paddy, &mon, &day);
+            grid->iizumi_mon_paddy_start = mon;
+        }else{
+            grid->iizumi_mon_paddy_start = 0;
+        }
+        
+        fscanf(fp_s[94],"%lf", &paddy);
+        if(paddy>=0.0 && paddy<=366.0){
+            f_doyTmody(2001,(long)paddy, &mon, &day);
+            grid->iizumi_mon_paddy_end = mon;
+        }else{
+            grid->iizumi_mon_paddy_end = 0;
+        }
     }
 
     /*****************************/
