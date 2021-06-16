@@ -136,8 +136,8 @@ void f_set_history_data(
         
         h_lL[year] += fweight * (flux->plant).lL[f] * grid->area;
         
-        /* added by A.Ito: 2021/06/10 */
-        h_bnpp[year] += fweight * ((flux->plant).tpr[f] + (flux->plant).rrm[f]) * grid->area;
+        /* added by A.Ito: 2021/06/15 corrected */
+        h_bnpp[year] += fweight * ((flux->plant).tpr[f] - (flux->plant).rrg[f]) * grid->area;
 
 		/* added by A.Ito (2011/12/16) */
 		h_abgm[year] += fweight * ((mass->plant).mfol[f] + (mass->plant).mstm[f]) * wmonth * grid->area;
