@@ -1772,6 +1772,14 @@ void open_input(
         }else{
             Flag_FOPEN[84] ++;
         }
+    }else if(ALT_INUND == 9){
+        /* SWAMPS anomaly: 2021/06/25 by A.Ito */
+        if( (fp_s[84]=fopen("./data/anomaly_swamps_1992-2020_05.txt","rt"))==NULL ){
+            printf("No anomaly_swamps_1992-2020_05.txt data\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[84] ++;
+        }
     }else{
         if( (fp_s[84]=fopen("./data/fw_swamp-biascor_1999-2013.txt","rt"))==NULL ){
             printf("No fw_swamp-biascor_1999-2013.txt\n");

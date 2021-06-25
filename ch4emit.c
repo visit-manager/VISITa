@@ -56,14 +56,14 @@ void f_ch4_emit_cao(
         if(grid->climy>=1999 && grid->climy<=2013){
         
             if(grid->f_wetland > 0.0){
-                fv_inund_wet = grid->inundation_gcp_ts[grid->climy - 1999][grid->m] / grid->f_wetland;
+                fv_inund_wet = grid->inundation_alt_ts[grid->climy - 1999][grid->m] / grid->f_wetland;
                 
                 if(fv_inund_wet > 1.0){
                     fv_inund_wet = 1.0;
                 }
             }
             if(grid->f_paddy > 0.0){
-                /* f_inund_pad = grid->inundation_gcp_ts[grid->climy-1999][grid->m] / grid->f_paddy; */
+                /* f_inund_pad = grid->inundation_alt_ts[grid->climy-1999][grid->m] / grid->f_paddy; */
                 
                 fv_inund_pad = grid->inundation_ssmi[grid->m];
                 
@@ -74,7 +74,7 @@ void f_ch4_emit_cao(
         
         }else{
             if(grid->f_wetland > 0.0){
-                fv_inund_wet = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
+                fv_inund_wet = grid->inundation_alt_av[grid->m] / grid->f_wetland;
                 
                 if(fv_inund_wet > 1.0){
                     fv_inund_wet = 1.0;
@@ -83,7 +83,7 @@ void f_ch4_emit_cao(
                 }
             }
             if(grid->f_paddy > 0.0){
-                /* f_inund_pad = grid->inundation_gcp_av[grid->m] / grid->f_paddy; */
+                /* f_inund_pad = grid->inundation_alt_av[grid->m] / grid->f_paddy; */
                 
                 fv_inund_pad = grid->inundation_ssmi[grid->m];
                 
@@ -99,14 +99,14 @@ void f_ch4_emit_cao(
         if(grid->climy>=2000 && grid->climy<=2012){
         
             if(grid->f_wetland > 0.0){
-                fv_inund_wet = grid->inundation_gcp_ts[grid->climy - 2000][grid->m] / grid->f_wetland;
+                fv_inund_wet = grid->inundation_alt_ts[grid->climy - 2000][grid->m] / grid->f_wetland;
                 
                 if(fv_inund_wet > 1.0){
                     fv_inund_wet = 1.0;
                 }
             }
             if(grid->f_paddy > 0.0){
-                /* f_inund_pad = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
+                /* f_inund_pad = grid->inundation_alt_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
                 
                 fv_inund_pad = grid->inundation_ssmi[grid->m];
                 
@@ -117,7 +117,7 @@ void f_ch4_emit_cao(
         
         }else{
             if(grid->f_wetland > 0.0){
-                fv_inund_wet = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
+                fv_inund_wet = grid->inundation_alt_av[grid->m] / grid->f_wetland;
                 
                 if(fv_inund_wet > 1.0){
                     fv_inund_wet = 1.0;
@@ -126,7 +126,7 @@ void f_ch4_emit_cao(
                 }
             }
             if(grid->f_paddy > 0.0){
-                /* f_inund_pad = grid->inundation_gcp_av[grid->m] / grid->f_paddy; */
+                /* f_inund_pad = grid->inundation_alt_av[grid->m] / grid->f_paddy; */
                 
                 fv_inund_pad = grid->inundation_ssmi[grid->m];
                 
@@ -142,7 +142,7 @@ void f_ch4_emit_cao(
         if(grid->climy>=2000 && grid->climy<=2017){
         
             if(grid->f_wetland > 0.0){
-                fv_inund_wet = grid->inundation_gcp_ts[grid->climy - 2000][grid->m] / grid->f_wetland;
+                fv_inund_wet = grid->inundation_alt_ts[grid->climy - 2000][grid->m] / grid->f_wetland;
                 
                 if(fv_inund_wet > 1.0){
                     fv_inund_wet = 1.0;
@@ -151,7 +151,7 @@ void f_ch4_emit_cao(
                 fv_inund_wet = 0.0;
             }
             if(grid->f_paddy > 0.0){
-                /* f_inund_pad = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
+                /* f_inund_pad = grid->inundation_alt_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
                 
                 fv_inund_pad = grid->inundation_ssmi[grid->m];
                 
@@ -164,7 +164,7 @@ void f_ch4_emit_cao(
         
         }else{
             if(grid->f_wetland > 0.0){
-                fv_inund_wet = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
+                fv_inund_wet = grid->inundation_alt_av[grid->m] / grid->f_wetland;
                 
                 if(fv_inund_wet > 1.0){
                     fv_inund_wet = 1.0;
@@ -173,7 +173,7 @@ void f_ch4_emit_cao(
                 fv_inund_wet = 0.0;
             }
             if(grid->f_paddy > 0.0){
-                /* f_inund_pad = grid->inundation_gcp_av[grid->m] / grid->f_paddy; */
+                /* f_inund_pad = grid->inundation_alt_av[grid->m] / grid->f_paddy; */
                 
                 fv_inund_pad = grid->inundation_ssmi[grid->m];
                 
@@ -184,6 +184,19 @@ void f_ch4_emit_cao(
                 fv_inund_pad = 0.0;
             }
         }
+    }else if(ALT_INUND == 9){
+        /* SWAMPS anomaly: 2021/06/25 by A.Ito */
+        if(grid->climy>=1992 && grid->climy<=2020){
+            fv_inund_wet = grid->inundation_ssmi[grid->m] + grid->inundation_alt_ts[grid->climy - 1992][grid->m];
+
+            if(fv_inund_wet > 1.0){
+                fv_inund_wet = 1.0;
+            }
+        }else{
+            fv_inund_wet = grid->inundation_ssmi[grid->m];
+        }
+        
+        fv_inund_pad = grid->inundation_ssmi[grid->m];
     }else{
         fv_inund_wet = grid->inundation_ssmi[grid->m];
         fv_inund_pad = grid->inundation_ssmi[grid->m];
@@ -251,11 +264,21 @@ void f_ch4_emit_cao(
  
     if(ALT_INUND == 8){
         if(grid->climy>=2000 && grid->climy<=2017){
-            fv_wetland = grid->inundation_gcp_ts[grid->climy - 2000][grid->m];
+            fv_wetland = grid->inundation_alt_ts[grid->climy - 2000][grid->m];
         }else{
-            fv_wetland = grid->inundation_gcp_av[grid->m];
+            fv_wetland = grid->inundation_alt_av[grid->m];
         }
         if(fv_wetland < grid->f_wetland){
+            fv_wetland = grid->f_wetland;
+        }
+        fv_lake = grid->f_lake;
+    }else if(ALT_INUND == 9){
+        if(grid->climy>=1992 && grid->climy<=2020){
+            fv_wetland = grid->f_wetland + grid->inundation_alt_ts[grid->climy - 1992][grid->m];
+            if(fv_wetland > 1.0){
+                fv_wetland = 1.0;
+            }
+        }else{
             fv_wetland = grid->f_wetland;
         }
         fv_lake = grid->f_lake;
@@ -904,15 +927,15 @@ void f_ch4_emit_walter(
             if(grid->climy >= 1999 && grid->climy <= 2013){
         
                 if(grid->f_wetland > 0.0){
-                    f_inundation = grid->inundation_gcp_ts[grid->climy-1999][grid->m] / grid->f_wetland;
-                    /* f_inundation = grid->inundation_gcp_ts[grid->climy-1999][grid->m] */;
+                    f_inundation = grid->inundation_alt_ts[grid->climy-1999][grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_alt_ts[grid->climy-1999][grid->m] */;
                     
                     if(f_inundation > 1.0){
                         f_inundation = 0.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
-                    /* f_inundation = grid->inundation_gcp_ts[grid->climy-1999][grid->m] / grid->f_paddy; */
+                    /* f_inundation = grid->inundation_alt_ts[grid->climy-1999][grid->m] / grid->f_paddy; */
                     
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
@@ -923,15 +946,15 @@ void f_ch4_emit_walter(
             
             }else{
                 if(grid->f_wetland > 0.0){
-                    f_inundation = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
-                    /* f_inundation = grid->inundation_gcp_av[grid->m] */;
+                    f_inundation = grid->inundation_alt_av[grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_alt_av[grid->m] */;
                     
                     if(f_inundation > 1.0){
                         f_inundation = 0.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
-                    /* f_inundation = grid->inundation_gcp_av[grid->m] / grid->f_paddy; */
+                    /* f_inundation = grid->inundation_alt_av[grid->m] / grid->f_paddy; */
                     
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
@@ -945,15 +968,15 @@ void f_ch4_emit_walter(
             if(grid->climy >= 2000 && grid->climy <= 2012){
         
                 if(grid->f_wetland > 0.0){
-                    f_inundation = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_wetland;
-                    /* f_inundation = grid->inundation_gcp_ts[grid->climy-2000][grid->m] */;
+                    f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] */;
                     
                     if(f_inundation > 1.0){
                         f_inundation = 0.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
-                    /* f_inundation = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
+                    /* f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
                     
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
@@ -964,15 +987,15 @@ void f_ch4_emit_walter(
             
             }else{
                 if(grid->f_wetland > 0.0){
-                    f_inundation = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
-                    /* f_inundation = grid->inundation_gcp_av[grid->m] */;
+                    f_inundation = grid->inundation_alt_av[grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_alt_av[grid->m] */;
                     
                     if(f_inundation > 1.0){
                         f_inundation = 0.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
-                    /* f_inundation = grid->inundation_gcp_av[grid->m] / grid->f_paddy; */
+                    /* f_inundation = grid->inundation_alt_av[grid->m] / grid->f_paddy; */
                     
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
@@ -986,15 +1009,15 @@ void f_ch4_emit_walter(
             if(grid->climy >= 2000 && grid->climy <= 2017){
         
                 if(grid->f_wetland > 0.0){
-                    f_inundation = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_wetland;
-                    /* f_inundation = grid->inundation_gcp_ts[grid->climy-2000][grid->m] */;
+                    f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] */;
                     
                     if(f_inundation > 1.0){
                         f_inundation = 0.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
-                    /* f_inundation = grid->inundation_gcp_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
+                    /* f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
@@ -1004,21 +1027,32 @@ void f_ch4_emit_walter(
             
             }else{
                 if(grid->f_wetland > 0.0){
-                    f_inundation = grid->inundation_gcp_av[grid->m] / grid->f_wetland;
-                    /* f_inundation = grid->inundation_gcp_av[grid->m] */;
+                    f_inundation = grid->inundation_alt_av[grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_alt_av[grid->m] */;
                     
                     if(f_inundation > 1.0){
                         f_inundation = 0.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
-                    /* f_inundation = grid->inundation_gcp_av[grid->m] / grid->f_paddy; */
+                    /* f_inundation = grid->inundation_alt_av[grid->m] / grid->f_paddy; */
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
                         f_inundation = 0.0;
                     }
                 }
+            }
+        }else if(ALT_INUND == 9){
+            if(grid->climy >= 1992 && grid->climy <= 2020){
+                /* SWAMPS anomaly: 2021/06/25 by A.Ito */
+                f_inundation = grid->inundation_ssmi[grid->m] + grid->inundation_alt_ts[grid->climy-1992][grid->m];
+
+                if(f_inundation < 0.0){
+                    f_inundation = 0.0;
+                }
+            }else{
+                f_inundation = grid->inundation_ssmi[grid->m];
             }
         }
 		
@@ -1128,15 +1162,15 @@ void f_ch4_emit_walter(
         if(ALT_INUND == 8 && smode == 1){
         
             if(grid->climy >= 2000 && grid->climy <= 2017){
-                fa_wetland = grid->inundation_gcp_ts[grid->climy-2000][grid->m];
+                fa_wetland = grid->inundation_alt_ts[grid->climy-2000][grid->m];
             }else{
-                fa_wetland = grid->inundation_gcp_av[grid->m];
+                fa_wetland = grid->inundation_alt_av[grid->m];
             }
             
         }else if(ALT_INUND == 8 && smode == 2){
         
             if(grid->climy >= 2000 && grid->climy <= 2017){
-                if(grid->inundation_gcp_ts[grid->climy-2000][grid->m] > grid->f_wetland){
+                if(grid->inundation_alt_ts[grid->climy-2000][grid->m] > grid->f_wetland){
                     fa_wetland = 0.0;
                 }else{
                     if(f_inundation <= 1.0){
@@ -1146,7 +1180,28 @@ void f_ch4_emit_walter(
                     }
                 }
             }else{
-                fa_wetland = grid->inundation_gcp_av[grid->m];
+                fa_wetland = grid->inundation_alt_av[grid->m];
+            }
+        }
+        
+        /* SWAMPS anomaly: 2021/06/25 by A.Ito */
+        if(ALT_INUND == 9 && smode == 1){
+            fa_wetland = f_inundation * grid->f_wetland;
+            
+            if(fa_wetland > 1.0){
+                fa_wetland = 1.0;
+            }
+            if(fa_wetland < 0.0){
+                fa_wetland = 0.0;
+            }
+        }else if(ALT_INUND == 9 && smode == 2){
+            fa_wetland = (1.0 - f_inundation) * grid->f_wetland;
+            
+            if(fa_wetland > 1.0){
+                fa_wetland = 1.0;
+            }
+            if(fa_wetland < 0.0){
+                fa_wetland = 0.0;
             }
         }
 	}

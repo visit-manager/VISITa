@@ -294,7 +294,7 @@ void f_init_sim(
 		h_dswd[f] = h_rnsd[f] = h_cld[f] = h_apar[f] = h_ipar[f] = 0.0;
         h_parb[f] = h_pard[f] = 0.0;
         h_arm[f] = h_bco2[f] = 0.0;
-        h_lL[f] = 0.0;
+        h_lL[f] = h_bnpp[f] = 0.0;
         
 		h_agrarea[f] = h_paddyarea[f] = h_luc[f] = 0.0;
 		h_luc_0[f] = h_luc_1[f] = h_luc_2[f] = h_luc_3[f] = 0.0;

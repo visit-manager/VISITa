@@ -755,7 +755,7 @@
 /* 4: bubble 550 microM */
 
 /* alternative land-cover data for CH4 */
-#define ALT_FWETLAND 0
+#define ALT_FWETLAND 5
 /* 0: not use alternative data: default - GLWD */
 /* 1: use alternative data */
 /* 2: use Peregon-san data: 2014/02/04 */
@@ -765,7 +765,7 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 0
+#define ALT_INUND 9
 /* 0: default (SSMI) */
 /* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
@@ -775,6 +775,7 @@
 /* 6: GCP-CH4 V1 */
 /* 7: GCP-CH4 V2: 2018/08/28 by A.Ito */
 /* 8: GCP-CH4 V2: 2018/08/29 by A.Ito : no limit by GLWD */
+/* 9: SWAMPS anomaly: 2021/06/25 by A.Ito */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0
@@ -796,7 +797,7 @@
 /* 0:off, 1:0n */
 
 /* experiments for paddy management for mitigation */
-#define EX_PADDY 1
+#define EX_PADDY 0
 /* 0: default */
 /* 1: low water-table */
 /* 2: no paddy: 2020/05/16 by A.Ito */
@@ -1039,37 +1040,29 @@
 /* 4: CCSR/NIES A2 */
 /* 5: CCSR/NIES B1 */
 /* 6: CCSR/NIES B2 */
-
 /* 11: CCCma A2 */
 /* 12: CCCma B2 */
-
 /* 13: CCCma A2a */
 /* 14: CCCma A2b */
 /* 15: CCCma A2c */
 /* 16: CCCma B2a */
 /* 17: CCCma B2b */
 /* 18: CCCma B2c */
-
 /* 21: HADCM3 A2 */
 /* 22: HADCM3 A2b */
 /* 23: HADCM3 A2c */
 /* 24: HADCM3 B2 */
-
 /* 31: ECHAM A2 */
 /* 32: ECHAM B2 */
-
 /* 41: CSIRO A1 */
 /* 42: CSIRO A2 */
 /* 43: CSIRO B1 */
 /* 44: CSIRO B2 */
-
 /* 51: GFDL A2 */
 /* 52: GFDL B2 */
-
 /* 61: NCAR-PCM A1 */
 /* 62: NCAR-PCM A2 */
 /* 63: NCAR-PCM B2 */
-
 /* 71: NCAR-CSM A2 */
 
 /*** CO2 only ***/
@@ -1083,7 +1076,6 @@
 /*** AR4 ***/
 /* 1000: MIROC-HIGH + A1B */
 /* 1001: MIROC-HIGH + B1 */
-
 /* 1010: MIROC-MED + A1B-1 */
 /* 1011: MIROC-MED + A1B-2 */
 /* 1012: MIROC-MED + A1B-3 */
@@ -1093,40 +1085,31 @@
 /* 1016: MIROC-MED + B1-1 */
 /* 1017: MIROC-MED + B1-2 */
 /* 1018: MIROC-MED + B1-3 */
-
 /* 1050: BCCR + A1B */
 /* 1051: BCCR + A2 */
 /* 1052: BCCR + B1 */
-
 /* 1060: INM-CM3 + A1B */
 /* 1061: INM-CM3 + A2 */
 /* 1062: INM-CM3 + B1 */
-
 /* 1070: IPSL + A1B */
 /* 1071: IPSL + A2 */
 /* 1072: IPSL + B1 */
-
 /* 1080: GFDL_CM21 + A1B */
 /* 1081: GFDL_CM21 + A2 */
 /* 1082: GFDL_CM21 + B1 */
-
 /* 1090: HadCM3 + A1B */
 /* 1091: HadCM3 + A2 */
 /* 1092: HadCM3 + B1 */
-
 /* 1100: GISS AOM + A1B 1 */
 /* 1101: GISS AOM + A1B 2 */
 /* 1102: GISS AOM + B1 1 */
 /* 1103: GISS AOM + B1 2 */
-
 /* 1110: CCCmaT63 + A1B */
 /* 1111: CCCmaT63 + A2 */
 /* 1112: CCCmaT63 + B1 */
-
 /* 1120: CSIRO + A1B */
 /* 1121: CSIRO + A1B */
 /* 1122: CSIRO + A1B */
-
 /* 1130: MRI + A1B 1 */
 /* 1131: MRI + A1B 2 */
 /* 1132: MRI + A1B 3 */
@@ -1142,7 +1125,6 @@
 /* 1142: MRI + B1 3 */
 /* 1143: MRI + B1 4 */
 /* 1144: MRI + B1 5 */
-
 /* 1150: MPI + A1B 1 */
 /* 1151: MPI + A1B 2 */
 /* 1152: MPI + A1B 3 */
@@ -1153,21 +1135,17 @@
 /* 1157: MPI + B1 1 */
 /* 1158: MPI + B1 2 */
 /* 1159: MPI + B1 3 */
-
 /* 1160: IAP + A1B 1 */
 /* 1161: IAP + A1B 2 */
 /* 1162: IAP + A1B 3 */
 /* 1163: IAP + B1 1 */
 /* 1164: IAP + B1 2 */
 /* 1165: IAP + B1 3 */
-
 /* 1170: HADGEM + A1B */
 /* 1171: HADGEM + A2 */
-
 /* 1180: GFDL_CM20 + A1B */
 /* 1181: GFDL_CM20 + A2 */
 /* 1182: GFDL_CM20 + B1 */
-
 /* 1190: CNRM + A1B */
 /* 1191: CNRM + A2 */
 /* 1192: CNRM + B1 */
@@ -1187,7 +1165,6 @@
 /* 1212: CCC47 + B1 3 */
 /* 1213: CCC47 + B1 4 */
 /* 1214: CCC47 + B1 5 */
-
 /* 1220: CCSM + A1B 1 */
 /* 1221: CCSM + A1B 2 */
 /* 1222: CCSM + A1B 3 */
@@ -1208,16 +1185,13 @@
 /* 1237: CCSM + B1 6 */
 /* 1238: CCSM + B1 7 */
 /* 1239: CCSM + B1 9 */
-
 /* 1240: GISS E + A1B 1 */
 /* 1241: GISS E + A1B 2 */
 /* 1242: GISS E + A1B 3 */
-
 /* 1250: GISS R + A1B 2 */
 /* 1251: GISS R + A1B 4 */
 /* 1252: GISS R + A2 3 */
 /* 1253: GISS R + B1 3 */
-
 /* 1260: NCAR PCM + A1B 1 */
 /* 1261: NCAR PCM + A1B 2 */
 /* 1262: NCAR PCM + A1B 3 */
@@ -1279,50 +1253,39 @@
 /* 3000: BNU-ESM RCP4.5 */
 /* 3001: BNU-ESM G3 */
 /* 3002: BNU-ESM G4 */
-
 /* 3010: CSIRO-mk3L-1-2 RCP4.5 */
 /* 3011: CSIRO-mk3L-1-2 G4 */
 /* 3012: CSIRO-mk3L-1-2 G3S */
-
 /* 3020: GISS-EL-R RCP4.5 */
 /* 3021: GISS-EL-R G3 */
 /* 3022: GISS-EL-R G4 */
-
 /* 3030: HadGEM2-ES RCP4.5 */
 /* 3031: HadGEM2-ES G3 */
 /* 3032: HadGEM2-ES G4 */
 /* 3033: HadGEM2-ES G3S */
 /* 3034: HadGEM2-ES G4cdcn */
 /* 3035: HadGEM2-ES G4seaSalt */
-
 /* 3040: IPSL-CM54-LR RCP4.5 */
 /* 3041: IPSL-CM54-LR G3 */
 /* 3042: IPSL-CM54-LR G5 */
-
 /* 3050: MIROC-ESM RCP4.5 */
 /* 3051: MIROC-ESM G4 */
 /* 3052: MIROC-ESM G4cdcn */
-
 /* 3060: MIROC-ESM-CHEM RCP4.5 */
 /* 3061: MIROC-ESM-CHEM G4 */
-
 /* 3070: CCCma RCP4.5 */
 /* 3071: CCCma G4 */
 /* 3072: CCCma G4ndcn */
-
 /* 3080: MPI-ESM-LR RCP4.5 */
 /* 3081: MPI-ESM-LR G3 */
-
 /* 3090: CCSM4 RCP4.5 */
 /* 3091: CCSM4 G3S */
-
 /* 3100: NorESM RCP4.5 */
 /* 3101: NorESM G4cdcn */
 
 /** PLUME: 2014/07/31 by A.Ito *******************/
 /* 4011: GFDL RCP 4.5 */
 /* 4012: GFDL RCP 8.5 */
-
 /* 4021: IPSL RCP 4.5 */
 /* 4022: IPSL RCP 8.5 */
 /* 4023: IPSL RCP 2.6 */
