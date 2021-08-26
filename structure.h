@@ -334,15 +334,15 @@ struct Grid{
 	double	inundation_ssmi_av;
 	double	inundation_ssmi_max;
     
-    double  inundation_gcp_av[ASTEP];
-    double  inundation_gcp_ts[18][ASTEP]; /* updated: 2018/08/28 by A.Ito */
+    double  inundation_alt_av[ASTEP];
+    double  inundation_alt_ts[29][ASTEP]; /* updated: 2021/06/25 by A.Ito */
     
     /* revised wetland maps: 2018/07/03 by A.Ito */
     double  wet_glwd;
     double  wet_meris;
     double  wet_glwdmeris;
 
-	long	type_permaforst;			/* permafrost type by NSIDC */
+	long    type_permaforst;			/* permafrost type by NSIDC */
     double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
     
     double  f_biofuel[DL_BF];                /* biofuel scenario: 2015/8/21 by A.Ito */

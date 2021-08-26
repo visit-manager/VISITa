@@ -47,14 +47,14 @@
 /***********************************************************/
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_CARBON2 0
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
+#define OUTPUT_EROSION 0
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 /* output binary */
 #define BASE_GOUT 1
 #define C13_GOUT 0
@@ -153,7 +153,8 @@
 #define NVEG_OLSON 34	/* Olson veg (modified) */
 #define NVEG_SAGE 16		/* SAGE veg (modified) */
 /* #define NVEG_CROP 3	*/	/* crop types */
-#define NVEG_CROP 4		/* crop types: add biofuel crop: 2015/08/21 by A.Ito */
+/* #define NVEG_CROP 4 */   /* crop types: add biofuel crop: 2015/08/21 by A.Ito */
+#define NVEG_CROP 6		/* crop types: add agroforestry tree and crop: 2021/08/16 by A.Ito */
 
 /* calculation for land covers */
 #define CALC_OLSON 1    /* matural vegetation */
@@ -659,7 +660,12 @@
 /* 12: forced to 12:northern deciduous taiga */
 #define EX_FORCED_AFFOREST_2_YR 2010
 
-/*******************************************************/
+#define EX_AGRFOR 0
+/* AgroForestry: 2021/08/26 by A.Ito */
+/* 0: none */
+/* 1: all agroforestry */
+
+/**********************************************************************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
 #define EX_ALBEDO 0
 /* 0: off */
@@ -755,7 +761,7 @@
 /* 4: bubble 550 microM */
 
 /* alternative land-cover data for CH4 */
-#define ALT_FWETLAND 0
+#define ALT_FWETLAND 5
 /* 0: not use alternative data: default - GLWD */
 /* 1: use alternative data */
 /* 2: use Peregon-san data: 2014/02/04 */
@@ -765,7 +771,7 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 0
+#define ALT_INUND 9
 /* 0: default (SSMI) */
 /* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
@@ -775,6 +781,7 @@
 /* 6: GCP-CH4 V1 */
 /* 7: GCP-CH4 V2: 2018/08/28 by A.Ito */
 /* 8: GCP-CH4 V2: 2018/08/29 by A.Ito : no limit by GLWD */
+/* 9: SWAMPS anomaly: 2021/06/25 by A.Ito */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0

@@ -1607,47 +1607,73 @@ void f_init_grid(
     if(ALT_INUND == 6){
         /* 2000/01-2012/12 */
         for(h=0;h<ASTEP;h++){
-            grid->inundation_gcp_av[h] = 0.0;
+            grid->inundation_alt_av[h] = 0.0;
         }
         for(g=0;g<13;g++){
             for(h=0;h<ASTEP;h++){
-                fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+                fscanf(fp_s[84],"%lf", &grid->inundation_alt_ts[g][h]);
                 
-                if(grid->inundation_gcp_ts[g][h] < 0.0){
-                    grid->inundation_gcp_ts[g][h] = 0.0;
+                if(grid->inundation_alt_ts[g][h] < 0.0){
+                    grid->inundation_alt_ts[g][h] = 0.0;
                 }
                 
-                grid->inundation_gcp_av[h] += grid->inundation_gcp_ts[g][h] / 13.0;
+                grid->inundation_alt_av[h] += grid->inundation_alt_ts[g][h] / 13.0;
             }
         }
     }else if(ALT_INUND == 7 || ALT_INUND == 8){
         /* 2000/01-2017/12: GCP v2: 2018/08/28 by A.Ito */
         for(h=0;h<ASTEP;h++){
-            grid->inundation_gcp_av[h] = 0.0;
+            grid->inundation_alt_av[h] = 0.0;
         }
         for(g=0;g<18;g++){
             for(h=0;h<ASTEP;h++){
-                fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+                fscanf(fp_s[84],"%lf", &grid->inundation_alt_ts[g][h]);
                 
-                if(grid->inundation_gcp_ts[g][h] < 0.0){
-                    grid->inundation_gcp_ts[g][h] = 0.0;
+                if(grid->inundation_alt_ts[g][h] < 0.0){
+                    grid->inundation_alt_ts[g][h] = 0.0;
                 }
                 
-                grid->inundation_gcp_av[h] += grid->inundation_gcp_ts[g][h] / 18.0;
+                grid->inundation_alt_av[h] += grid->inundation_alt_ts[g][h] / 18.0;
+            }
+        }
+    }else if(ALT_INUND == 9){
+        /* SWAMPS anomaly: 2021/06/25 by A.Ito */
+        for(h=0;h<ASTEP;h++){
+            grid->inundation_alt_av[h] = 0.0;
+        }
+        for(g=0;g<29;g++){
+            for(h=0;h<ASTEP;h++){
+                fscanf(fp_s[84],"%lf", &grid->inundation_alt_ts[g][h]);
+                
+                if(grid->inundation_alt_ts[g][h] < -1000.0){
+                    grid->inundation_alt_ts[g][h] = 0.0;
+                }
+
+                if(grid->inundation_alt_ts[g][h] > 100.0){
+                    grid->inundation_alt_ts[g][h] = 100.0;
+                }
+
+                if(grid->inundation_alt_ts[g][h] < -100.0){
+                    grid->inundation_alt_ts[g][h] = -100.0;
+                }
+                
+                grid->inundation_alt_ts[g][h] *= 0.01;
+                
+                grid->inundation_alt_av[h] += grid->inundation_alt_ts[g][h] / 29.0;
             }
         }
     }else{
         /* 1999/07-2013/03 */
         /* average */
         for(h=0;h<ASTEP;h++){
-            fscanf(fp_s[84],"%lf", &grid->inundation_gcp_av[h]);
+            fscanf(fp_s[84],"%lf", &grid->inundation_alt_av[h]);
         }
         for(g=0;g<15;g++){
             for(h=0;h<ASTEP;h++){
-                fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+                fscanf(fp_s[84],"%lf", &grid->inundation_alt_ts[g][h]);
                 
-                if(grid->inundation_gcp_ts[g][h] < 0.0){
-                    grid->inundation_gcp_ts[g][h] = 0.0;
+                if(grid->inundation_alt_ts[g][h] < 0.0){
+                    grid->inundation_alt_ts[g][h] = 0.0;
                 }
             }
         }

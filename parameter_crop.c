@@ -19,19 +19,21 @@
 /* 2: wheat */
 /* 3: maize */
 /* 4: biofuel (added 2015/08/21 by A.Ito) */
+/* 5: agroforestry trees */
+/* 6: agroforestry crops */
 
 /* Setting characteristics for crops ***************************/
 void parameterCrop(
 	struct Grid *grid, 
 	struct Pchar *crop
 ){
-	short phototypev[NVEG_CROP] = {3, 3, 4, 4};
-	double albcv[NVEG_CROP] = {0.15, 0.14, 0.14, 0.14};
-	double alloc_assv[NVEG_CROP] = {0.21, 0.21, 0.21, 0.21};
-	double alloc_abgv[NVEG_CROP] = {0.52, 0.51, 0.52, 0.52};
-	double slav[NVEG_CROP] = {170.0, 160.0, 150.0, 150.0};
-	double eK0v[NVEG_CROP] = {0.50, 0.50, 0.50, 0.50};
-	double luev[NVEG_CROP] = {0.05, 0.05, 0.05, 0.05};
+	short phototypev[NVEG_CROP] = {3, 3, 4, 4, 3, 3};
+	double albcv[NVEG_CROP] = {0.15, 0.14, 0.14, 0.14, 0.14, 0.14};
+	double alloc_assv[NVEG_CROP] = {0.21, 0.21, 0.21, 0.21, 0.21, 0.21};
+	double alloc_abgv[NVEG_CROP] = {0.52, 0.51, 0.52, 0.52, 0.52, 0.52};
+	double slav[NVEG_CROP] = {170.0, 160.0, 150.0, 150.0, 140.0, 150.0};
+	double eK0v[NVEG_CROP] = {0.50, 0.50, 0.50, 0.50, 0.50, 0.50};
+	double luev[NVEG_CROP] = {0.05, 0.05, 0.05, 0.05, 0.05, 0.05};
 	double pmaxv[NVEG_CROP] = {10.8, 10.6, 10.6, 10.6};
 	double topt0v[NVEG_CROP] = {25.0, 25.0, 25.0, 25.0};
 	double tminv[NVEG_CROP] = {11.0, 9.0, 11.0, 11.0};
@@ -69,55 +71,55 @@ void parameterCrop(
 	double root_depthv[NVEG_CROP] = {1.5, 1.5, 1.5, 1.5};
 	double n_leafv[NVEG_CROP] = {120.0, 120.0, 120.0, 120.0};
 	
-	crop->phototype = phototypev[grid->type_crop];
-	crop->albedo = albcv[grid->type_crop];
-	crop->alloc_ass = alloc_assv[grid->type_crop]; 
-	crop->alloc_abg = alloc_abgv[grid->type_crop]; 
+	crop->phototype = phototypev[grid->type_crop -1];
+	crop->albedo = albcv[grid->type_crop -1];
+	crop->alloc_ass = alloc_assv[grid->type_crop -1];
+	crop->alloc_abg = alloc_abgv[grid->type_crop -1];
 	
-	crop->sla = slav[grid->type_crop];
-	crop->eK0 = eK0v[grid->type_crop];
-	crop->lue0 = luev[grid->type_crop]; 
-	crop->pmax = pmaxv[grid->type_crop]; 
-	crop->topt0 = topt0v[grid->type_crop]; 
-	crop->tmin = tminv[grid->type_crop]; 
-	crop->tmax = tmaxv[grid->type_crop];
-	crop->gs_b0 = gs_b0v[grid->type_crop]; 
-	crop->gs_b1 = gs_b1v[grid->type_crop]; 
-	crop->gs_b2 = gs_b2v[grid->type_crop]; 
-	crop->km_nstl = km_nstlv[grid->type_crop]; 
-	crop->kmci = kmciv[grid->type_crop]; 
-	crop->cmpcd0 = cmpcdv[grid->type_crop]; 
+	crop->sla = slav[grid->type_crop -1];
+	crop->eK0 = eK0v[grid->type_crop -1];
+	crop->lue0 = luev[grid->type_crop -1];
+	crop->pmax = pmaxv[grid->type_crop -1];
+	crop->topt0 = topt0v[grid->type_crop -1];
+	crop->tmin = tminv[grid->type_crop -1];
+	crop->tmax = tmaxv[grid->type_crop -1];
+	crop->gs_b0 = gs_b0v[grid->type_crop -1];
+	crop->gs_b1 = gs_b1v[grid->type_crop -1];
+	crop->gs_b2 = gs_b2v[grid->type_crop -1];
+	crop->km_nstl = km_nstlv[grid->type_crop -1];
+	crop->kmci = kmciv[grid->type_crop -1];
+	crop->cmpcd0 = cmpcdv[grid->type_crop -1];
 	
-	crop->rgf = rgfv[grid->type_crop]; 
-	crop->rgc = rgcv[grid->type_crop]; 
-	crop->rgr = rgrv[grid->type_crop];
-	crop->rmf0 = rmf0v[grid->type_crop]; 
-	crop->rmc_s = rmc_sv[grid->type_crop]; 
-	crop->rmr_s = rmr_sv[grid->type_crop] ;
-	crop->rmc_h = rmc_hv[grid->type_crop]; 
-	crop->rmr_h = rmr_hv[grid->type_crop] ;
-	crop->qTf0 = qTfv[grid->type_crop]; 
-	crop->qTc0 = qTcv[grid->type_crop]; 
-	crop->qTr0 = qTrv[grid->type_crop];
+	crop->rgf = rgfv[grid->type_crop -1];
+	crop->rgc = rgcv[grid->type_crop -1];
+	crop->rgr = rgrv[grid->type_crop -1];
+	crop->rmf0 = rmf0v[grid->type_crop -1];
+	crop->rmc_s = rmc_sv[grid->type_crop -1];
+	crop->rmr_s = rmr_sv[grid->type_crop -1] ;
+	crop->rmc_h = rmc_hv[grid->type_crop -1];
+	crop->rmr_h = rmr_hv[grid->type_crop -1] ;
+	crop->qTf0 = qTfv[grid->type_crop -1];
+	crop->qTc0 = qTcv[grid->type_crop -1];
+	crop->qTr0 = qTrv[grid->type_crop -1];
 	
-	crop->lf0 = lfv[grid->type_crop]; 
-	crop->lc0 = lcv[grid->type_crop];
-	crop->lr0 = lrv[grid->type_crop];
-	crop->dcd = dcdv[grid->type_crop];
-	crop->n_salvage = n_salvagev[grid->type_crop];
-	crop->cn0_strg = cn0_strgv[grid->type_crop];
-	crop->kn_nphoto = kn_nphotov[grid->type_crop];
-	crop->amax_nphoto = amax_nphotov[grid->type_crop];
-	crop->rd_n = rd_nv[grid->type_crop];
+	crop->lf0 = lfv[grid->type_crop -1];
+	crop->lc0 = lcv[grid->type_crop -1];
+	crop->lr0 = lrv[grid->type_crop -1];
+	crop->dcd = dcdv[grid->type_crop -1];
+	crop->n_salvage = n_salvagev[grid->type_crop -1];
+	crop->cn0_strg = cn0_strgv[grid->type_crop -1];
+	crop->kn_nphoto = kn_nphotov[grid->type_crop -1];
+	crop->amax_nphoto = amax_nphotov[grid->type_crop -1];
+	crop->rd_n = rd_nv[grid->type_crop -1];
 	
-	crop->crit_temp = crit_tempv[grid->type_crop];
-	crop->crit_gdd = crit_gddv[grid->type_crop];
+	crop->crit_temp = crit_tempv[grid->type_crop -1];
+	crop->crit_gdd = crit_gddv[grid->type_crop -1];
 
-	crop->root_dist_a = root_dist_av[grid->type_crop];
-	crop->root_dist_b = root_dist_bv[grid->type_crop];
-	crop->root_depth = root_depthv[grid->type_crop];
+	crop->root_dist_a = root_dist_av[grid->type_crop -1];
+	crop->root_dist_b = root_dist_bv[grid->type_crop -1];
+	crop->root_depth = root_depthv[grid->type_crop -1];
 
-	crop->n_leaf_df97 = n_leafv[grid->type_crop];
+	crop->n_leaf_df97 = n_leafv[grid->type_crop -1];
 }
 
 /* setting soil parameters ***********************/
@@ -136,14 +138,14 @@ void parameterSoil_crop(
 	double kmshv[NVEG_CROP]={0.10, 0.10, 0.10, 0.10};
 	double mev[NVEG_CROP]={1.38, 1.38, 1.38, 1.38};
 	
-	soil->albedo0 = albgv[grid->type_crop]; 	 				 
-	soil->rl0=soil->rl = rlv[grid->type_crop]; 
-	soil->rh0=soil->rh = rhv[grid->type_crop]*0.9;
-	soil->qTl = qTlv[grid->type_crop]; 
-	soil->qTh = qThv[grid->type_crop];
-	soil->kml = kmlv[grid->type_crop]; 
-	soil->kmh = kmhv[grid->type_crop];
-	soil->kmsl = kmslv[grid->type_crop]; 
-	soil->kmsh = kmshv[grid->type_crop];
-	soil->me = mev[grid->type_crop];	
+	soil->albedo0 = albgv[grid->type_crop -1];
+	soil->rl0=soil->rl = rlv[grid->type_crop -1];
+	soil->rh0=soil->rh = rhv[grid->type_crop -1]*0.9;
+	soil->qTl = qTlv[grid->type_crop -1];
+	soil->qTh = qThv[grid->type_crop -1];
+	soil->kml = kmlv[grid->type_crop -1];
+	soil->kmh = kmhv[grid->type_crop -1];
+	soil->kmsl = kmslv[grid->type_crop -1];
+	soil->kmsh = kmshv[grid->type_crop -1];
+	soil->me = mev[grid->type_crop -1];
 }
