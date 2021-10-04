@@ -392,30 +392,30 @@ struct Loct{
 
 	double	aco2[ASTEP];				/* ambient CO2 concentration, in ppmv */
 	double	d13c_aco2[ASTEP];			/* stable carbon isotope composition of CO2, dimensionless */
-	double	cnpy_co2_recyc;				/* within-canopy CO2 recycling ratio */
-    double  ao3;                        /* ambient O3, ppb */
+	double	cnpy_co2_recyc;		    /* within-canopy CO2 recycling ratio */
+    double  ao3;                     /* ambient O3, ppb */
 	
 	double	c4ptn[ASTEP];				/* ground coverage of C4 plants, fraction */
 	double	c3ptn[ASTEP];				/* ground coverage of C3 plants, fraction */
-	long	    gd[ASTEP], bbm;				/* vegetative growing period, days */
-	double	gdd[ASTEP];				 	/* cumulative growth degree days, degC days */
+	long	    gd[ASTEP], bbm;			/* vegetative growing period, days */
+	double	gdd[ASTEP];				/* cumulative growth degree days, degC days */
     
-    double  est_maxlai;                 /* estimated max.LAI: 2014/05/20 by A.Ito */
+    double  est_maxlai;               /* estimated max.LAI: 2014/05/20 by A.Ito */
 	
-	double	albedo_sfc[ASTEP];			/* land-surface albedo */
+	double	albedo_sfc[ASTEP];		/* land-surface albedo */
 	double	gl_rad_g[ASTEP];			/* global radiation under the canopy, W m-2 */
 	double	rad_net_p[ASTEP];			/* net radiation, canopy, W m-2 */
 	double	rad_net_g[ASTEP];			/* net radiation, soil surface, W m-2 */
 	double	rad_net_long[ASTEP];		/* net long-wave radiation, W m-2 */
 	double	rad_net_short[ASTEP];		/* net short-wave radiation, W m-2 */
-	double	rad_net[ASTEP];				/* net radiation, W m-2 */
+	double	rad_net[ASTEP];			/* net radiation, W m-2 */
 	double	rdi;						/* radiative dryness index by Budyko */
     
     /* added: 2013/01/10 by A.Ito */
-    double  glrad_dav[ASTEP];              /* daily average downward SW radiation, W m-2 */
-    double  nsw_d[ASTEP];               /* daily average net SW radiation, W m-2 */
+    double  glrad_dav[ASTEP];          /* daily average downward SW radiation, W m-2 */
+    double  nsw_d[ASTEP];              /* daily average net SW radiation, W m-2 */
  	
-                                        /* micro mol photon m-2 s-1 */
+                                    /* micro mol photon m-2 s-1 */
     double  ppfd_h[DSTEP];              /* hourly photosynthetical photon flux density */
     double  ppfdb_h[DSTEP];             /* hourly photosynthetical photon flux density, beam */
     double  ppfdd_h[DSTEP];             /* hourly photosynthetical photon flux density, diffuse */
@@ -424,7 +424,7 @@ struct Loct{
     double  appfd_g[ASTEP];
 	double	fappfd_g[ASTEP];
 	double	fapar_df[ASTEP];
-
+ 
 	double	pet_prty[ASTEP];			/* Priestley-Taylor potential evapotranspiration, mm month-1 */
 	double	pet_prty_ann;				/* annual Priestley-Taylor potential evapotranspiration, mm yr-1 */
 	
@@ -1017,9 +1017,9 @@ struct Flux{
     double  lu_msl;
 
 	/* biomass burning */
-	double	f_burnt;				/* burnt fraction */
-	double	day_fire[ASTEP];		/* days of fire */
-	double	a_burnt[ASTEP];			/* area burnt */
+	double  f_burnt;				/* burnt fraction */
+	double  day_fire[ASTEP];		/* days of fire */
+	double  a_burnt[ASTEP];			/* area burnt */
     double  wa_burnt[ASTEP];        /* area burnt for woods */
  
 	/* CO2 (g species) */
@@ -1120,4 +1120,8 @@ struct Flux{
 	/* wood harvest: 2010/11/09 */
 	double	hvst_wood;
     double  hvst_wood_ex;                      /* export per natural area */
+    
+    /* termite CH4 efflux, 2021/09/08 by A.Ito */
+    double  termite_ch4_lu;                 /* land-use based */
+    double  termite_ch4_gpp;                /* productivity based */
 };

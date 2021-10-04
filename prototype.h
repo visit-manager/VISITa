@@ -366,6 +366,7 @@ void f_ch4oxy_delgrosso(struct Grid *grid, struct Loct *loct, struct Flux *flux)
 void f_ch4oxy_curry(struct Grid *grid, struct Loct *loct, struct Flux *flux);
 void f_ch4_emit_cao(struct Grid *grid, struct Loct *loct, struct Flux *flux);
 void f_ch4_emit_walter(short mode, struct Grid *grid, struct Loct *loct, struct Flux *flux);
+void f_ch4_emit_termite(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_n2o_emit_ngas(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_n2o_emit_casa(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_ch4_emit_veg(struct Grid *grid, struct Loct *loct, struct Echar *echar, struct Mass *mass, struct Flux *flux);

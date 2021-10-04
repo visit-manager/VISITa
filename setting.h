@@ -153,7 +153,8 @@
 #define NVEG_OLSON 34	/* Olson veg (modified) */
 #define NVEG_SAGE 16		/* SAGE veg (modified) */
 /* #define NVEG_CROP 3	*/	/* crop types */
-#define NVEG_CROP 4		/* crop types: add biofuel crop: 2015/08/21 by A.Ito */
+/* #define NVEG_CROP 4 */   /* crop types: add biofuel crop: 2015/08/21 by A.Ito */
+#define NVEG_CROP 6		/* crop types: add agroforestry tree and crop: 2021/08/16 by A.Ito */
 
 /* calculation for land covers */
 #define CALC_OLSON 1    /* matural vegetation */
@@ -659,7 +660,12 @@
 /* 12: forced to 12:northern deciduous taiga */
 #define EX_FORCED_AFFOREST_2_YR 2010
 
-/*******************************************************/
+#define EX_AGRFOR 0
+/* AgroForestry: 2021/08/26 by A.Ito */
+/* 0: none */
+/* 1: all agroforestry */
+
+/**********************************************************************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
 #define EX_ALBEDO 0
 /* 0: off */
@@ -755,7 +761,7 @@
 /* 4: bubble 550 microM */
 
 /* alternative land-cover data for CH4 */
-#define ALT_FWETLAND 5
+#define ALT_FWETLAND 0
 /* 0: not use alternative data: default - GLWD */
 /* 1: use alternative data */
 /* 2: use Peregon-san data: 2014/02/04 */
@@ -765,7 +771,7 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 9
+#define ALT_INUND 0
 /* 0: default (SSMI) */
 /* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
