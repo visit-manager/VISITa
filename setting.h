@@ -747,7 +747,7 @@
 
 /*********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -761,7 +761,7 @@
 /* 4: bubble 550 microM */
 
 /* alternative land-cover data for CH4 */
-#define ALT_FWETLAND 5
+#define ALT_FWETLAND 0
 /* 0: not use alternative data: default - GLWD */
 /* 1: use alternative data */
 /* 2: use Peregon-san data: 2014/02/04 */
@@ -771,7 +771,7 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 9
+#define ALT_INUND 0
 /* 0: default (SSMI) */
 /* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
@@ -811,7 +811,7 @@
 /* 4: high water temperature */
 
 /* rice paddy map data */
-#define ALT_PADDY 2
+#define ALT_PADDY 0
 /* 0: default (Leff or Monfreda) */
 /* 1: UT IIS + Monfreda */
 /* 2: Inoue 2020/01/08, 2020/03/12 + Monfreda */

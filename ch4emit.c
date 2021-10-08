@@ -337,8 +337,8 @@ void f_ch4_emit_cao(
     wtable = 4.0;
     
     if(EX_PADDY == 1){
-        //wtable = -1.0;
-        wtable = -6.0;
+        wtable = -2.0;
+        //wtable = -8.0;
     }
 
 	fv_wtable = 0.383 * (fv_inund_pad * exp(0.096 * wtable)
@@ -644,8 +644,8 @@ void f_ch4_emit_walter(
 		loct->water_table_depth = -0.03;
         if(EX_PADDY == 1){
             //loct->water_table_depth = 0.15;
-            //loct->water_table_depth = 0.02;
-            loct->water_table_depth = 0.07;
+            loct->water_table_depth = 0.03;
+            //loct->water_table_depth = 0.07;
         }
 		wtdepth = loct->water_table_depth;
         /* loct->xx3[grid->m] = wtdepth; */
@@ -660,8 +660,8 @@ void f_ch4_emit_walter(
 		loct->water_table_depth = 0.5;
         if(EX_PADDY == 1){
             //loct->water_table_depth = 0.9;
-            //loct->water_table_depth = 0.55;
-            loct->water_table_depth = 0.6;
+            loct->water_table_depth = 0.56;
+            //loct->water_table_depth = 0.6;
         }
 		wtdepth = loct->water_table_depth;
         /*  loct->xx4[grid->m] = wtdepth; */
@@ -1381,4 +1381,136 @@ void f_ch4_emit_veg(
 		(flux->c3).emit_ch4_kirschbaum_photo[grid->m] = 0.0;
 		(flux->c4).emit_ch4_kirschbaum_photo[grid->m] = 0.0;
 	}
+}
+
+void f_ch4_emit_termite(
+    struct Grid *grid,
+    struct Loct *loct,
+	struct Echar *echar,
+	struct Mass *mass,
+    struct Flux *flux
+){
+    short f;
+    double pch4, trmden, gppann;
+    
+    pch4 = 0.0;
+    
+     if(loct->v_type == 1){
+        switch(grid->veg_sage){
+            case 1: /* Tropical Evergreen Forest/Woodland */
+                pch4 = (5.6 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]) + 11.0 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                break;
+            case 2: /* Tropical Deciduous Forest/Woodland */
+                pch4 = (5.6 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]) + 11.0 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                break;
+            case 3: /* Temperate Broadleaf Evergreen Forest/Woodland */
+                pch4 = 3.0 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 4: /* Temperate Needleleaf Evergreen Forest/Woodland */
+                pch4 = 3.0 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 5: /* Temperate Deciduous Forest/Woodland */
+                pch4 = 3.0 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 6: /* Boreal Evergreen Forest/Woodland */
+                pch4 = 0.0 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 7: /* Boreal Deciduous Forest/Woodland */
+                pch4 = 0.0 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 8: /* Evergreen/Deciduous Mixed Forest/Woodland */
+                pch4 = 3.0 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 9: /* Savanna */
+                pch4 = (4.5 * (8.0 * 0.000001 * 24.0 * MDN[grid->m]) + 11.1 * (8.0 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                break;
+            case 10: /* Grassland/Steppe */
+                pch4 = (3.0 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]) + 5.2 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                break;
+            case 11: /* Dense Shrubland */
+                pch4 = (3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]) + 3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                break;
+            case 12: /* Open Shrubland */
+                pch4 = (3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]) + 0.8 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                break;
+            case 13: /* Tundra */
+                pch4 = 0.0 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 14: /* Desert */
+                pch4 = (3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]) + 1.0 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                break;
+            case 15: /* Polar Desert/Rock/Ice */
+                pch4 = 0.0 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            default:
+                pch4 = 0.0;
+        }
+    }
+    
+    /* Land-use based estimation */
+    if(loct->v_type == 2){
+        pch4 = 7.8 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]);
+    }
+    
+    flux->termite_ch4_lu[grid->m] = pch4;
+    
+    /* GPP-based estimation */
+    gppann = 0.0;
+    for(f=0;f<12;f++){
+        gppann += (flux->plant).gpp[f];
+    }
+    
+    if(gppann >= 0.0 && gppann <= 100.0){
+        trmden = 1.21 * exp(0.08 * gppann);
+    }else{
+        trmden = 0.0;
+    }
+    
+    if(loct->v_type == 1){
+        switch(grid->veg_sage){
+            case 1: /* Tropical Evergreen Forest/Woodland */
+            case 2: /* Tropical Deciduous Forest/Woodland */
+                pch4 = trmden * (2.8 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 3: /* Temperate Broadleaf Evergreen Forest/Woodland */
+            case 4: /* Temperate Needleleaf Evergreen Forest/Woodland */
+            case 5: /* Temperate Deciduous Forest/Woodland */
+            case 6: /* Boreal Evergreen Forest/Woodland */
+            case 7: /* Boreal Deciduous Forest/Woodland */
+            case 8: /* Evergreen/Deciduous Mixed Forest/Woodland */
+                pch4 = 3.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 9: /* Savanna */
+            case 10: /* Grassland/Steppe */
+                pch4 = 0.96 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 11: /* Dense Shrubland */
+                pch4 = 2.7 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 12: /* Open Shrubland */
+                pch4 = 0.98 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 13: /* Tundra */
+                pch4 = 0.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 14: /* Desert */
+                pch4 = 0.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            case 15: /* Polar Desert/Rock/Ice */
+                pch4 = 0.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                break;
+            default:
+                pch4 = 0.0;
+        }
+    }
+    
+    if(loct->v_type == 2){
+        pch4 = 2.25 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+    }
+    
+    if(grid->lat > 45.0  || grid->lat < -45.0){
+        pch4 = 0.0;
+    }
+    
+     flux->termite_ch4_gpp[grid->m] = pch4;
 }

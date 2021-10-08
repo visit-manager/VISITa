@@ -173,6 +173,9 @@ void cal_projection(
 			/* Plant CH4 emission ************************/
 			f_ch4_emit_veg(grid, loct, echar, mass, flux);
 			
+            /* termite CH4 emission *****************/
+            f_ch4_emit_termite(grid, loct, echar, mass, flux);
+
 			/* aggregate plant mass and fluxes */
 			f_plant_stand_budget(grid, loct, mass, flux);
 			
