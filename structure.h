@@ -1122,6 +1122,7 @@ struct Flux{
     double  hvst_wood_ex;                      /* export per natural area */
     
     /* termite CH4 efflux, 2021/09/08 by A.Ito */
-    double  termite_ch4_lu;                 /* land-use based */
-    double  termite_ch4_gpp;                /* productivity based */
+    double  gpp_ann;
+    double  termite_ch4_lu[ASTEP];                 /* land-use based */
+    double  termite_ch4_gpp[ASTEP];                /* productivity based */
 };

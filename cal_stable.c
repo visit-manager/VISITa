@@ -278,6 +278,9 @@ void cal_spinup(
 			/* Plant CH4 emission *****************/
 			f_ch4_emit_veg(grid, loct, echar, mass, flux);
 
+            /* termite CH4 emission *****************/
+            f_ch4_emit_termite(grid, loct, echar, mass, flux);
+
 			f_plant_stand_budget(grid, loct, mass, flux);
 			
 			/* GPP max for Cao's CH4 emission scheme */
@@ -697,8 +700,11 @@ void cal_spinup(
 	}
 
 	/* net biome production (added by A.Ito: 2010/01/20) */
+    flux->gpp_ann = 0.0;
 	for(f=0;f<ASTEP;f++){
 		flux->nbp[f] = flux->nep[f];
+  
+        flux->gpp_ann += (flux->plant).gpp[f];
 		
         /* altered: 2018/10/16 by A.Ito */
         if((mass->c3).v_type == 1 && NECB_LUC == 1){

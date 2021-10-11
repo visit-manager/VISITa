@@ -124,6 +124,9 @@ double h_luc_trp[PD_SIM], h_bb_trp[PD_SIM];
 /* for additional analysis: 2019/06/24 by A.Ito */
 double h_ans1[PD_SIM],h_ans2[PD_SIM],h_ans3[PD_SIM],h_ans4[PD_SIM],h_ans5[PD_SIM];
 
+/* Termite CH4 emission: 2021/10/08 by A.Ito */
+double h_termite_ch4_lu[PD_SIM], h_termite_ch4_gpp[PD_SIM];
+
 /* Monthly */
 double hm_temp[PD_SIM][ASTEP];
 double hm_prec[PD_SIM][ASTEP];

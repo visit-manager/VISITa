@@ -298,6 +298,9 @@ void vanish(
 		flux->nbp[k] = 0.0;
 		flux->ncb[k] = 0.0;
 		flux->lL0[k] = 0.0;
+  
+        flux->termite_ch4_lu[k] = 0.0;
+        flux->termite_ch4_gpp[k] = 0.0;
 	}
 	mass->lai_p = 0.0;
 	flux->efflux_p = 0.0;

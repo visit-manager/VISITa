@@ -88,6 +88,8 @@ extern double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM], h_deforest[PD_SIM];
 
 /* for additional analysis: 2019/06/24 by A.Ito */
 extern double h_ans1[PD_SIM],h_ans2[PD_SIM],h_ans3[PD_SIM],h_ans4[PD_SIM],h_ans5[PD_SIM];
+/* Termite CH4 emission: 2021/10/08 by A.Ito */
+extern double h_termite_ch4_lu[PD_SIM], h_termite_ch4_gpp[PD_SIM];
 
 /* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01 by A.Ito */
 extern double h_gpp_trp[PD_SIM], h_npp_trp[PD_SIM], h_nep_trp[PD_SIM], h_nbp_trp[PD_SIM];
@@ -366,7 +368,7 @@ void f_ch4oxy_delgrosso(struct Grid *grid, struct Loct *loct, struct Flux *flux)
 void f_ch4oxy_curry(struct Grid *grid, struct Loct *loct, struct Flux *flux);
 void f_ch4_emit_cao(struct Grid *grid, struct Loct *loct, struct Flux *flux);
 void f_ch4_emit_walter(short mode, struct Grid *grid, struct Loct *loct, struct Flux *flux);
-void f_ch4_emit_termite(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
+void f_ch4_emit_termite(struct Grid *grid, struct Loct *loct, struct Echar *echar, struct Mass *mass, struct Flux *flux);
 void f_n2o_emit_ngas(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_n2o_emit_casa(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_ch4_emit_veg(struct Grid *grid, struct Loct *loct, struct Echar *echar, struct Mass *mass, struct Flux *flux);

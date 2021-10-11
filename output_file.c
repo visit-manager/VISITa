@@ -540,6 +540,9 @@ void f_output_result(
             fprintf(fp_o[3],"%.3lf ", loct->f_inund_wet_wh[f]);
             fprintf(fp_o[3],"%.3lf ", loct->f_inund_pad_wh[f]); /* */ /* added: 2011/03/07 (A.Ito) */
             
+            fprintf(fp_o[3],"%.3lf ", flux->termite_ch4_lu[f]);
+            fprintf(fp_o[3],"%.3lf ", flux->termite_ch4_gpp[f]);
+            
             /* for(g=0;g<N_SLAYER+2;g++){
                 fprintf(fp_o[3],"%.3lf ", loct->prof_ch4[g]);
             } */

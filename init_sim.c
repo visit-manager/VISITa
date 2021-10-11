@@ -337,7 +337,8 @@ void f_init_sim(
 		h_voc_afarnesene[f] = h_voc_bcaryophyllene[f] = h_voc_othersesqui[f] = 0.0;
   
         h_ans1[f] = h_ans2[f] = h_ans3[f] = h_ans4[f] = h_ans5[f] = 0.0;
-		
+        h_termite_ch4_lu[f] = h_termite_ch4_gpp[f] = 0.0;
+        
 		ci_aco2[f] = ci_aco2_d13c[f] = ci_aco2_d14c[f] = 0.0;
 		ci_gpp[f] = ci_gpp_d13c[f] = ci_gpp_d14c[f] = 0.0;
 		ci_er[f] = ci_er_d13c[f] = ci_er_d14c[f] = 0.0;
