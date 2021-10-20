@@ -62,7 +62,7 @@
 #define PHYS_GOUT 0
 
 /***********************************************************/
-#define ISIMIP_RUN 0
+#define ISIMIP_RUN 6
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /*    MIROC-INTEG LUC run (2019/02/21 by A.Ito) */
@@ -473,7 +473,7 @@
 /* #define FDY_FUTURE 2001 */
 /* #define FDY_FUTURE 1860 */
 
-/*********************************************************/
+/* ********************************************************/
 /* NECB: coupling carbon loss */
 /* 0: uncoupled */
 /* 1: coupled */
@@ -571,7 +571,8 @@
 #elif ISIMIP_RUN==5
     #define DL_LUC 169 /* 1850-2018: ISI-MIP3a (2020/10/05 by A.Ito) */
 #elif ISIMIP_RUN==6
-    #define DL_LUC 500 /* 1601-2100: ISI-MIP3b (2020/11/13 by A.Ito) */
+    /* #define DL_LUC 500 */ /* 1601-2100: ISI-MIP3b (2020/11/13 by A.Ito) */
+    #define DL_LUC 235 /* */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18 by A.Ito */
 #else
     /* #define DL_LUC 601 */  /* 1500-2100: LUH 1500-2005/2005-2100 */
     /* #define DL_LUC 306 */  /* 1700-2000/2005 */
@@ -586,7 +587,8 @@
 #elif ISIMIP_RUN==5
     #define FDY_LUC 1850 /* ISIMIP3a (2020/10/01 by A.Ito) */
 #elif ISIMIP_RUN==6
-    #define FDY_LUC 1601 /* ISIMIP3b (2020/11/13 by A.Ito) */
+    /* #define FDY_LUC 1601 */ /* ISIMIP3b (2020/11/13 by A.Ito) */
+    #define FDY_LUC 1866 /* */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
 #else
     /* #define FDY_LUC 1500 */
     /* #define FDY_LUC 1700 */
@@ -607,7 +609,9 @@
 #elif ISIMIP_RUN==5
     #define BGY_LUC 1850    /* ISIMIP3a (2020/10/01 by A.Ito) */
 #elif ISIMIP_RUN==6
-    #define BGY_LUC 1601    /* ISIMIP3b (2020/11/13 by A.Ito) */
+    /* #define BGY_LUC 1601 */   /* ISIMIP3b (2020/11/13 by A.Ito) */
+    /* #define BGY_LUC 1900 */
+    #define BGY_LUC 1866
 #else
     #define BGY_LUC 1900
 #endif

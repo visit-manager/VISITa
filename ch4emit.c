@@ -1395,7 +1395,7 @@ void f_ch4_emit_termite(
     
     pch4 = 0.0;
     
-     if(loct->v_type == 1){
+    if(loct->v_type == 1){
         switch(grid->veg_sage){
             case 1: /* Tropical Evergreen Forest/Woodland */
                 //pch4 = (5.6 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]) + 11.0 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
@@ -1459,10 +1459,14 @@ void f_ch4_emit_termite(
         pch4 = 7.8 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]);
     }
     
+    if(grid->tmp_sfc_am < 0.0){
+        pch4 = 0.0;
+    }
+    
     flux->termite_ch4_lu[grid->m] = pch4;
     
     /* GPP-based estimation *********************************************/
-    gppann = 0.0;
+    pch4 = gppann = 0.0;
     for(f=0;f<12;f++){
         gppann += (flux->plant).gpp[f];
     }
@@ -1516,7 +1520,10 @@ void f_ch4_emit_termite(
         pch4 = (5.38+2.25)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
     }
     
-    if(grid->lat > 45.0  || grid->lat < -45.0){
+    /* if(grid->lat > 45.0  || grid->lat < -45.0){
+        pch4 = 0.0;
+    } */
+    if(grid->tmp_sfc_am < 0.0){
         pch4 = 0.0;
     }
     

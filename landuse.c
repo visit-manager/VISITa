@@ -125,12 +125,17 @@ void f_cult_luc(
         || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
         || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
 		/* UNH harmonized land-use change, 1500-2100 (added 2013/12/20) */
-            if((grid->lucy - FDY_LUC) < DL_LUC){
-                grid->f_crop_con = grid->fcrop_luh[grid->lucy - FDY_LUC];
-                grid->f_pasture_con = grid->fpast_luh[grid->lucy - FDY_LUC];
+            if(grid->lucy < FDY_LUC){
+                grid->f_crop_con = grid->fcrop_luh[0];
+                grid->f_pasture_con = grid->fpast_luh[0];
             }else{
-                grid->f_crop_con = grid->fcrop_luh[DL_LUC -1];
-                grid->f_pasture_con = grid->fpast_luh[DL_LUC -1];
+                if((grid->lucy - FDY_LUC) < DL_LUC){
+                    grid->f_crop_con = grid->fcrop_luh[grid->lucy - FDY_LUC];
+                    grid->f_pasture_con = grid->fpast_luh[grid->lucy - FDY_LUC];
+                }else{
+                    grid->f_crop_con = grid->fcrop_luh[DL_LUC -1];
+                    grid->f_pasture_con = grid->fpast_luh[DL_LUC -1];
+                }
             }
     }else if(LANDUSE == 18){
         /* ICARUS SSPs: 2016/08/14 by A.Ito */
@@ -458,24 +463,36 @@ void f_cult_luc(
              || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 30
              || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
              || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
-            if((grid->lucy - FDY_LUC) < DL_LUC){
-                grid->f_deforest = grid->t_vc_luh[grid->lucy - FDY_LUC]
-                                    + grid->t_vp_luh[grid->lucy - FDY_LUC]
-                                    + grid->t_sc_luh[grid->lucy - FDY_LUC]
-                                    + grid->t_sp_luh[grid->lucy - FDY_LUC];
-                grid->f_deforest_v = grid->t_vc_luh[grid->lucy - FDY_LUC]
-                                    + grid->t_vp_luh[grid->lucy - FDY_LUC];
-                grid->f_deforest_s = grid->t_sc_luh[grid->lucy - FDY_LUC]
-                                    + grid->t_sp_luh[grid->lucy - FDY_LUC];
+             
+            if(grid->lucy < FDY_LUC){
+                    grid->f_deforest = grid->t_vc_luh[0]
+                                        + grid->t_vp_luh[0]
+                                        + grid->t_sc_luh[0]
+                                        + grid->t_sp_luh[0];
+                    grid->f_deforest_v = grid->t_vc_luh[0]
+                                        + grid->t_vp_luh[0];
+                    grid->f_deforest_s = grid->t_sc_luh[0]
+                                        + grid->t_sp_luh[0];
             }else{
-                grid->f_deforest = grid->t_vc_luh[DL_LUC - 1]
-                                    + grid->t_vp_luh[DL_LUC - 1]
-                                    + grid->t_sc_luh[DL_LUC - 1]
-                                    + grid->t_sp_luh[DL_LUC - 1];
-                grid->f_deforest_v = grid->t_vc_luh[DL_LUC - 1]
-                                    + grid->t_vp_luh[DL_LUC - 1];
-                grid->f_deforest_s = grid->t_sc_luh[DL_LUC - 1]
-                                    + grid->t_sp_luh[DL_LUC - 1];
+                if((grid->lucy - FDY_LUC) < DL_LUC){
+                    grid->f_deforest = grid->t_vc_luh[grid->lucy - FDY_LUC]
+                                        + grid->t_vp_luh[grid->lucy - FDY_LUC]
+                                        + grid->t_sc_luh[grid->lucy - FDY_LUC]
+                                        + grid->t_sp_luh[grid->lucy - FDY_LUC];
+                    grid->f_deforest_v = grid->t_vc_luh[grid->lucy - FDY_LUC]
+                                        + grid->t_vp_luh[grid->lucy - FDY_LUC];
+                    grid->f_deforest_s = grid->t_sc_luh[grid->lucy - FDY_LUC]
+                                        + grid->t_sp_luh[grid->lucy - FDY_LUC];
+                }else{
+                    grid->f_deforest = grid->t_vc_luh[DL_LUC - 1]
+                                        + grid->t_vp_luh[DL_LUC - 1]
+                                        + grid->t_sc_luh[DL_LUC - 1]
+                                        + grid->t_sp_luh[DL_LUC - 1];
+                    grid->f_deforest_v = grid->t_vc_luh[DL_LUC - 1]
+                                        + grid->t_vp_luh[DL_LUC - 1];
+                    grid->f_deforest_s = grid->t_sc_luh[DL_LUC - 1]
+                                        + grid->t_sp_luh[DL_LUC - 1];
+                }
             }
         }else if(LANDUSE == 18){
             /* ICARUS SSPs: 2016/08/14 by A.Ito */
