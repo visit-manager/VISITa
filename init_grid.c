@@ -1662,6 +1662,29 @@ void f_init_grid(
                 grid->inundation_alt_av[h] += grid->inundation_alt_ts[g][h] / 29.0;
             }
         }
+    }else if(ALT_INUND == 10){
+        /* 2000/01-2020/12: GCP v2: 2021/10/26 by A.Ito */
+        
+        fread(is3adat_mon,sizeof(float),12*21, fp_s[84]);
+        
+        for(h=0;h<ASTEP;h++){
+            grid->inundation_alt_av[h] = 0.0;
+        }
+        
+        for(g=0;g<21;g++){
+            for(h=0;h<ASTEP;h++){
+                grid->inundation_alt_ts[g][h] = is3adat_mon[g*ASTEP + h];
+                
+                if(grid->inundation_alt_ts[g][h] < 0.0){
+                    grid->inundation_alt_ts[g][h] = 0.0;
+                }
+                if(grid->inundation_alt_ts[g][h] > 1.0){
+                    grid->inundation_alt_ts[g][h] = 1.0;
+                }
+                
+                grid->inundation_alt_av[h] += grid->inundation_alt_ts[g][h] / 21.0;
+            }
+        }
     }else{
         /* 1999/07-2013/03 */
         /* average */

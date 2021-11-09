@@ -197,6 +197,49 @@ void f_ch4_emit_cao(
         }
         
         fv_inund_pad = grid->inundation_ssmi[grid->m];
+    }else if(ALT_INUND == 10){
+        /* for WAD2M_wetlands_2000-2020_05deg_Ver2.0.flt */
+        /* added: 2021/10/26 by A.Ito */
+    
+        if(grid->climy>=2000 && grid->climy<=2020){
+        
+            if(grid->f_wetland > 0.0){
+                fv_inund_wet = grid->inundation_alt_ts[grid->climy - 2000][grid->m] / grid->f_wetland;
+                
+                if(fv_inund_wet > 1.0){
+                    fv_inund_wet = 1.0;
+                }
+            }
+            if(grid->f_paddy > 0.0){
+                /* f_inund_pad = grid->inundation_alt_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
+                
+                fv_inund_pad = grid->inundation_ssmi[grid->m];
+                
+                if(fv_inund_pad > 1.0){
+                    fv_inund_pad = 1.0;
+                }
+            }
+        
+        }else{
+            if(grid->f_wetland > 0.0){
+                fv_inund_wet = grid->inundation_alt_av[grid->m] / grid->f_wetland;
+                
+                if(fv_inund_wet > 1.0){
+                    fv_inund_wet = 1.0;
+                }else{
+                
+                }
+            }
+            if(grid->f_paddy > 0.0){
+                /* f_inund_pad = grid->inundation_alt_av[grid->m] / grid->f_paddy; */
+                
+                fv_inund_pad = grid->inundation_ssmi[grid->m];
+                
+                if(fv_inund_pad > 1.0){
+                    fv_inund_pad = 1.0;
+                }
+            }
+        }
     }else{
         fv_inund_wet = grid->inundation_ssmi[grid->m];
         fv_inund_pad = grid->inundation_ssmi[grid->m];
@@ -279,6 +322,16 @@ void f_ch4_emit_cao(
                 fv_wetland = 1.0;
             }
         }else{
+            fv_wetland = grid->f_wetland;
+        }
+        fv_lake = grid->f_lake;
+    }else if(ALT_INUND == 10){
+        if(grid->climy>=2000 && grid->climy<=2020){
+            fv_wetland = grid->inundation_alt_ts[grid->climy - 2000][grid->m];
+        }else{
+            fv_wetland = grid->inundation_alt_av[grid->m];
+        }
+        if(fv_wetland < grid->f_wetland){
             fv_wetland = grid->f_wetland;
         }
         fv_lake = grid->f_lake;
@@ -1054,6 +1107,45 @@ void f_ch4_emit_walter(
             }else{
                 f_inundation = grid->inundation_ssmi[grid->m];
             }
+        }else if(ALT_INUND == 10){
+            /* use GCP-CH4 WAD2M data: 2021/10/26 by A.Ito */
+            if(grid->climy >= 2000 && grid->climy <= 2020){
+        
+                if(grid->f_wetland > 0.0){
+                    f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] */;
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 0.0;
+                    }
+                }
+                if(grid->f_paddy > 0.0){
+                    /* f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
+                    f_inundation = grid->inundation_ssmi[grid->m];
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 0.0;
+                    }
+                }
+            
+            }else{
+                if(grid->f_wetland > 0.0){
+                    f_inundation = grid->inundation_alt_av[grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_alt_av[grid->m] */;
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 0.0;
+                    }
+                }
+                if(grid->f_paddy > 0.0){
+                    /* f_inundation = grid->inundation_alt_av[grid->m] / grid->f_paddy; */
+                    f_inundation = grid->inundation_ssmi[grid->m];
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 0.0;
+                    }
+                }
+            }
         }
 		
 		/* when using NASA/GISS wetland data: 2011/03/31 by A.Ito */
@@ -1170,6 +1262,31 @@ void f_ch4_emit_walter(
         }else if(ALT_INUND == 8 && smode == 2){
         
             if(grid->climy >= 2000 && grid->climy <= 2017){
+                if(grid->inundation_alt_ts[grid->climy-2000][grid->m] > grid->f_wetland){
+                    fa_wetland = 0.0;
+                }else{
+                    if(f_inundation <= 1.0){
+                        fa_wetland = (1.0 - f_inundation) * grid->f_wetland;
+                    }else{
+                        fa_wetland = 0.0;
+                    }
+                }
+            }else{
+                fa_wetland = grid->inundation_alt_av[grid->m];
+            }
+        }
+        /* no limit by WAD2M: 2021/10/26 by A.Ito */
+        if(ALT_INUND == 10 && smode == 1){
+        
+            if(grid->climy >= 2000 && grid->climy <= 2020){
+                fa_wetland = grid->inundation_alt_ts[grid->climy-2000][grid->m];
+            }else{
+                fa_wetland = grid->inundation_alt_av[grid->m];
+            }
+            
+        }else if(ALT_INUND == 10 && smode == 2){
+        
+            if(grid->climy >= 2000 && grid->climy <= 2020){
                 if(grid->inundation_alt_ts[grid->climy-2000][grid->m] > grid->f_wetland){
                     fa_wetland = 0.0;
                 }else{

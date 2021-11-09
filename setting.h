@@ -62,7 +62,7 @@
 #define PHYS_GOUT 0
 
 /***********************************************************/
-#define ISIMIP_RUN 6
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
 /*    MIROC-INTEG LUC run (2019/02/21 by A.Ito) */
@@ -349,6 +349,7 @@
     #define BGY_CLIM 1901
 #else
     #define BGY_CLIM 1901
+    /* #define BGY_CLIM 1801 */
 #endif
 
 /* historical climate (e.g., CRU) data length: 2010/01/04 (A.Ito) ***/
@@ -392,6 +393,7 @@
     /* 115: TS3.24 */
     /* 116: TS3.25 */
     /* 117: TS3.26 */
+    /* 219: GSWP3-W5E5: 1801-2019 */
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
@@ -434,6 +436,7 @@
     #define DL_ISIMIP 500  /* AD 1601 - 2100 */
 #else
     #define DL_ISIMIP 1
+    /* #define DL_ISIMIP 219 */ /* AD 1801 - 2019 */
 #endif
 
 #define DL_ADD 111          /* length of additional data */
@@ -609,7 +612,7 @@
 #elif ISIMIP_RUN==5
     #define BGY_LUC 1850    /* ISIMIP3a (2020/10/01 by A.Ito) */
 #elif ISIMIP_RUN==6
-    /* #define BGY_LUC 1601 */   /* ISIMIP3b (2020/11/13 by A.Ito) */
+    /* #define BGY_LUC 1601 */  /* ISIMIP3b (2020/11/13 by A.Ito) */
     /* #define BGY_LUC 1900 */
     #define BGY_LUC 1866
 #else
@@ -669,7 +672,7 @@
 /* 0: none */
 /* 1: all agroforestry */
 
-/**********************************************************************************************************/
+/* *****************************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
 #define EX_ALBEDO 0
 /* 0: off */
@@ -700,7 +703,7 @@
 /* 1: isoprene emission factor to Saito et al. (2008) */
 /* 2: CO2 inhibition on isoprene */
 
-/********************************************************/
+/* *******************************************************/
 /* PAR conversion */
 #define D_PAR 1
 /* 0: constant conversion factor */
@@ -749,9 +752,9 @@
 /* 0: off */
 /* 1: K modification */
 
-/*********************************************************/
+/* ********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 10
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -775,7 +778,7 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 0
+#define ALT_INUND 10
 /* 0: default (SSMI) */
 /* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
@@ -786,6 +789,7 @@
 /* 7: GCP-CH4 V2: 2018/08/28 by A.Ito */
 /* 8: GCP-CH4 V2: 2018/08/29 by A.Ito : no limit by GLWD */
 /* 9: SWAMPS anomaly: 2021/06/25 by A.Ito */
+/* 10: WAD2M GCP-CH4: 2021/10/26 by A.Ito : no limit by GLWD */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0
@@ -1293,7 +1297,7 @@
 /* 3100: NorESM RCP4.5 */
 /* 3101: NorESM G4cdcn */
 
-/** PLUME: 2014/07/31 by A.Ito *******************/
+/* PLUME: 2014/07/31 by A.Ito *******************/
 /* 4011: GFDL RCP 4.5 */
 /* 4012: GFDL RCP 8.5 */
 /* 4021: IPSL RCP 4.5 */
@@ -1301,13 +1305,16 @@
 /* 4023: IPSL RCP 2.6 */
 /* 4024: IPSL RCP 6.0 */
 
-/** ISI-MIP2a: 2014/11/30 by A.Ito *****************/
+/* GCP-CH4: 2021/11/09 by A.Ito*******************/
+/* 4100: GSWP3-W5E5, 1801-2019 */
+
+/* ISI-MIP2a: 2014/11/30 by A.Ito *****************/
 /* 5001: historical GSWP3 */
 /* 5002: historical PGFv2.1 (2016/05/06) */
 /* 5003: historical WATCH */
 /* 5004: historical WATCH+WFDEI */
 
-/** ISI-MIP2b: 2016/12/22 and 2017/05/17 by A.Ito  *****/
+/* ISI-MIP2b: 2016/12/22 and 2017/05/17 by A.Ito  *****/
 /* 5010:   I: GFDL PPPP + PPPP + 1860H20052005 */
 /* 5011:  II: GFDL PH22 + PH22 + PH20052005 */
 /* 5012: III: GFDL PH62 + PH66 + PH20052005 */

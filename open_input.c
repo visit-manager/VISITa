@@ -258,6 +258,24 @@ void open_input(
                 printf("No cru405_vap_1901-2020.txt\n");
                 exit(1);
             }
+        }else if(DL_HCLIM == 219){
+            /* GCP-CH4 by GSWP3-W5E5 data from 1801 - 2019: 2021/11/09 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/gswp3-w5e5_rsds_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                printf("No gswp3-w5e5_rsds_mon_1801-2019_spinclim_obsclim.flt\n");
+                exit(1);
+            }
+            if( (fp_c[1]=fopen("./data/gswp3-w5e5_pr_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                printf("No gswp3-w5e5_pr_mon_1801-2019_spinclim_obsclim.flt\n");
+                exit(1);
+            }
+            if( (fp_c[2]=fopen("./data/gswp3-w5e5_tas_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                printf("No gswp3-w5e5_tas_mon_1801-2019_spinclim_obsclim.flt\n");
+                exit(1);
+            }
+            if( (fp_c[3]=fopen("./data/gswp3-w5e5_huss_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                printf("No gswp3-w5e5_huss_mon_1801-2019_spinclim_obsclim.flt\n");
+                exit(1);
+            }
         }else{
             printf("No CRU data\n");
             exit(1);
@@ -1776,6 +1794,14 @@ void open_input(
         /* SWAMPS anomaly: 2021/06/25 by A.Ito */
         if( (fp_s[84]=fopen("./data/anomaly_swamps_1992-2020_05.txt","rt"))==NULL ){
             printf("No anomaly_swamps_1992-2020_05.txt data\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[84] ++;
+        }
+    }else if(ALT_INUND == 10){
+        /* SWAMPS anomaly: 2021/10/27 by A.Ito */
+        if( (fp_s[84]=fopen("./data/WAD2M_wetlands_2000-2020_05deg_Ver2.0.flt","rb"))==NULL ){
+            printf("No WAD2M_wetlands_2000-2020_05deg_Ver2.0.flt data\n");
             exit(1);
         }else{
             Flag_FOPEN[84] ++;

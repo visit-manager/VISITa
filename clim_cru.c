@@ -45,7 +45,7 @@ void read_cru_clim(
         grid->hist_tmp_b[g] = grid->hist_vap_b[g] = 0.0;
     }
 
-    if(ISIMIP_RUN == 0){
+    if((ISIMIP_RUN == 0) && (SCENARIO_ID != 4100)){
         flag = 0;
         
         /* read CRU TS cloud data */
@@ -121,7 +121,9 @@ void read_cru_clim(
             /* unavailable CRU TS data, for example on ocean */
             grid->flag_histdata = 0;
         }
-    }else if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2 ||ISIMIP_RUN == 3 ||ISIMIP_RUN == 4 ||ISIMIP_RUN == 5 ||ISIMIP_RUN == 6){
+    }else if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2 ||ISIMIP_RUN == 3 ||
+        ISIMIP_RUN == 4 ||ISIMIP_RUN == 5 ||ISIMIP_RUN == 6 ||
+        (SCENARIO_ID == 4100) ){
         
         /* ISI-MIP: 2012/06/27 by A.Ito ****************/
         /* also for ICARUS */
