@@ -209,6 +209,8 @@ void f_ch4_emit_cao(
                 if(fv_inund_wet > 1.0){
                     fv_inund_wet = 1.0;
                 }
+            }else{
+                fv_inund_wet = 0.0;
             }
             if(grid->f_paddy > 0.0){
                 /* f_inund_pad = grid->inundation_alt_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
@@ -218,6 +220,8 @@ void f_ch4_emit_cao(
                 if(fv_inund_pad > 1.0){
                     fv_inund_pad = 1.0;
                 }
+            }else{
+                fv_inund_pad = 0.0;
             }
         
         }else{
@@ -229,6 +233,8 @@ void f_ch4_emit_cao(
                 }else{
                 
                 }
+            }else{
+                fv_inund_wet = 0.0;
             }
             if(grid->f_paddy > 0.0){
                 /* f_inund_pad = grid->inundation_alt_av[grid->m] / grid->f_paddy; */
@@ -238,6 +244,8 @@ void f_ch4_emit_cao(
                 if(fv_inund_pad > 1.0){
                     fv_inund_pad = 1.0;
                 }
+            }else{
+                fv_inund_pad = 0.0;
             }
         }
     }else{
@@ -984,7 +992,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_ts[grid->climy-1999][grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -993,7 +1001,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             
@@ -1003,7 +1011,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_av[grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -1012,7 +1020,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             }
@@ -1025,7 +1033,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -1034,7 +1042,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             
@@ -1044,7 +1052,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_av[grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -1053,7 +1061,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             }
@@ -1066,7 +1074,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -1074,7 +1082,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             
@@ -1084,7 +1092,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_av[grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -1092,7 +1100,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             }
@@ -1116,7 +1124,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -1124,7 +1132,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             
@@ -1134,7 +1142,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_av[grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -1142,7 +1150,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             }

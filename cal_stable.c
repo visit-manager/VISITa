@@ -211,6 +211,11 @@ void cal_spinup(
                 }
             }
             set_hist_clim(grid);
+        }else if(ISIMIP_RUN == 0 && grid->flag_histdata == 1 && SCENARIO_ID == 4100){
+            /* GCP-CH4 W5E5: 2021/11/10 by A.Ito */
+            ann_nep = 10.0;
+            grid->climy = grid->lucy = nn%100 +1801;
+			set_hist_clim(grid);
         }
         
         /* NMIP: 2015/11/19 by A.Ito **/

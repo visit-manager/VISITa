@@ -127,16 +127,16 @@ void read_cru_clim(
         
         /* ISI-MIP: 2012/06/27 by A.Ito ****************/
         /* also for ICARUS */
-        /* 1950-1979-detrended: spi-up */
+        /* 1950-1979-detrended: spin-up */
         /* 1950-2005:           historical */
         /* 2006-2099:           future projection */
         
         /* PLUME (ISI-MIP2): 2014/07/31 by A.Ito ****************/
-        /* 1901-1930-detrended: spi-up */
+        /* 1901-1930-detrended: spin-up */
         /* 1901-2005:           historical */
         
         /* ISI-MIP2.1a: 2014/11/30 by A.Ito ****************/
-        /* 1901-1930-detrended: spi-up */
+        /* 1901-1930-detrended: spin-up */
         /* 1901-2010:           historical */
 
         /* ISI-MIP2.1b: 2016/12/22 by A.Ito ****************/
@@ -146,13 +146,16 @@ void read_cru_clim(
         /* 2100-2299:           extended projection */
 
         /* ISIMIP3a: 2020/10/30 by A.Ito ****************/
-        /* 1801-1900-detrended: spi-up */
+        /* 1801-1900-detrended: spin-up */
         /* 1901-2016:           historical */
 
         /* ISIMIP3b: 2020/11/18 by A.Ito ****************/
-        /* 1601-1850:           spi-up */
+        /* 1601-1850:           spin-up */
         /* 1851-2015:           historical */
         /* 2016-2100:           projection */
+
+        /* GCP-CH4: 2021/11/10 by A.Ito ****************/
+        /* 1801-2019:           spin-up + obsclim */
 
         /* air tempetaure, deg-C */
         fread(r_isimip_data, sizeof(float), ASTEP * DL_ISIMIP, fp_c[0]);
@@ -206,7 +209,8 @@ void read_cru_clim(
                         vps = (vps>=0.0)?vps:0.0;
                         grid->hist_vap[h][g] = vps * (double)r_isimip_data[h*ASTEP+g] / 100.0;
                         
-                    }else if(ISIMIP_RUN == 3 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5 || ISIMIP_RUN == 6){
+                    }else if(ISIMIP_RUN == 3 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5
+                            || ISIMIP_RUN == 6 || (SCENARIO_ID == 4100)){
                         /* specific humidity */
                         /* altitude */
                         alt = (grid->topo>=0.0)?grid->topo:0.0;

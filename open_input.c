@@ -23,7 +23,7 @@ void open_input(
 ){
     char filename[128], telumoid[16];
 
-    if(ISIMIP_RUN==0){
+    if(ISIMIP_RUN == 0){
         if(DL_HCLIM == 102){
             /* UEA-CRU data from 1901 - 2002 */
             if( (fp_c[0]=fopen("./data/cru21_cld_1901-2002.dat","rt"))==NULL ){  
@@ -260,20 +260,21 @@ void open_input(
             }
         }else if(DL_HCLIM == 219){
             /* GCP-CH4 by GSWP3-W5E5 data from 1801 - 2019: 2021/11/09 (A.Ito) */
-            if( (fp_c[0]=fopen("./data/gswp3-w5e5_rsds_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
-                printf("No gswp3-w5e5_rsds_mon_1801-2019_spinclim_obsclim.flt\n");
+            /* SCENARIO_ID == 4100 */
+            if( (fp_c[0]=fopen("./data/gswp3-w5e5_tas_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                printf("No gswp3-w5e5_tas_mon_1801-2019_spinclim_obsclim.flt\n");
                 exit(1);
             }
             if( (fp_c[1]=fopen("./data/gswp3-w5e5_pr_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
                 printf("No gswp3-w5e5_pr_mon_1801-2019_spinclim_obsclim.flt\n");
                 exit(1);
             }
-            if( (fp_c[2]=fopen("./data/gswp3-w5e5_tas_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
-                printf("No gswp3-w5e5_tas_mon_1801-2019_spinclim_obsclim.flt\n");
+            if( (fp_c[2]=fopen("./data/gswp3-w5e5_huss_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                printf("No gswp3-w5e5_huss_mon_1801-2019_spinclim_obsclim.flt\n");
                 exit(1);
             }
-            if( (fp_c[3]=fopen("./data/gswp3-w5e5_huss_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
-                printf("No gswp3-w5e5_huss_mon_1801-2019_spinclim_obsclim.flt\n");
+            if( (fp_c[3]=fopen("./data/gswp3-w5e5_rsds_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                printf("No gswp3-w5e5_rsds_mon_1801-2019_spinclim_obsclim.flt\n");
                 exit(1);
             }
         }else{
@@ -1800,8 +1801,9 @@ void open_input(
         }
     }else if(ALT_INUND == 10){
         /* SWAMPS anomaly: 2021/10/27 by A.Ito */
-        if( (fp_s[84]=fopen("./data/WAD2M_wetlands_2000-2020_05deg_Ver2.0.flt","rb"))==NULL ){
-            printf("No WAD2M_wetlands_2000-2020_05deg_Ver2.0.flt data\n");
+        /* if( (fp_s[84]=fopen("./data/WAD2M_wetlands_2000-2020_05deg_Ver2.0.flt","rb"))==NULL ){ */
+        if( (fp_s[84]=fopen("./data/WAD2M_wetlands_2000-2020_05deg_Ver2.0.txt","rt"))==NULL ){
+            printf("No WAD2M_wetlands_2000-2020_05deg_Ver2.0.txt data\n");
             exit(1);
         }else{
             Flag_FOPEN[84] ++;
@@ -3533,6 +3535,16 @@ void open_input(
                 Flag_FOPEN[23] ++;
             }
             fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+        }else if(SCENARIO_ID==4100){
+            CO2S = 1; /* RCP2.6 */
+            /**/
+            if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
+                printf("NO image_a1b_fcrop.dat !!\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[23] ++;
+            }
+            fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
         }
     }
     
@@ -4198,8 +4210,10 @@ void open_input(
             || SCENARIO_ID == 5110 || SCENARIO_ID == 5111 || SCENARIO_ID == 5112){
             CO2S = 1;
         }
-        if(SCENARIO_ID == 5103 || SCENARIO_ID == 5104 || SCENARIO_ID == 5105 || SCENARIO_ID == 5106 || SCENARIO_ID == 5107
-             || SCENARIO_ID == 5113 || SCENARIO_ID == 5114 || SCENARIO_ID == 5115 || SCENARIO_ID == 5116 || SCENARIO_ID == 5117){
+        if(SCENARIO_ID == 5103 || SCENARIO_ID == 5104 || SCENARIO_ID == 5105 ||
+            SCENARIO_ID == 5106 || SCENARIO_ID == 5107 || SCENARIO_ID == 5113 ||
+            SCENARIO_ID == 5114 || SCENARIO_ID == 5115 || SCENARIO_ID == 5116 ||
+            SCENARIO_ID == 5117){
             CO2S = 2;
         }
 

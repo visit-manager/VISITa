@@ -296,7 +296,7 @@ void f_output_result(
 	struct Flux *flux, 
 	FILE *fp_o[OFILEN]
 ){
-	long f, g;
+	long f;
 	double pre_ann, hrl_ann, hrm_ann, ltr_ann, msl_ann;
 	extern double MDN[ASTEP];
 	

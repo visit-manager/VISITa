@@ -22,7 +22,7 @@
 #define DHN 24.0 /* hours per day */
 #define HSN 3600.0 /* seconds per hour */
 
-/***********************************************************/
+/* **********************************************************/
 /* year time-step, 12=monthly */
 #define ASTEP 12
 /* annual daily-step, 24=hourly */
@@ -44,7 +44,11 @@
 /* 1: every grid */
 /* 10: every 10 grid */
 
-/***********************************************************/
+/* **********************************************************/
+/* #define IFILEN 59 */  /* normal case */
+#define IFILEN 95 /* */  /* normal case */
+#define OFILEN 9
+
 /* output text files */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 0
@@ -61,7 +65,7 @@
 #define C14_GOUT 0
 #define PHYS_GOUT 0
 
-/***********************************************************/
+/* **********************************************************/
 #define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
@@ -214,7 +218,7 @@
     #define FDY_AGHG 1750
 #endif
 
-/*****************************************************************/
+/* ****************************************************************/
 /* simulation framework duration (years) */
 #if ISIMIP_RUN==4
     #define PD_SIM 640 /* */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
@@ -348,8 +352,8 @@
 #elif IMPRESSIONS_RUN==3
     #define BGY_CLIM 1901
 #else
-    #define BGY_CLIM 1901
-    /* #define BGY_CLIM 1801 */
+    /* #define BGY_CLIM 1901 */
+    #define BGY_CLIM 1801 /* */ /* 4100 */
 #endif
 
 /* historical climate (e.g., CRU) data length: 2010/01/04 (A.Ito) ***/
@@ -382,7 +386,7 @@
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
     /* #define DL_HCLIM 118 */  /* CRU TS4.03: AD 1901 - 2018 */
     /* #define DL_HCLIM 119 */  /* CRU TS4.04: AD 1901 - 2019 */
-    #define DL_HCLIM 120  /* CRU TS4.05: AD 1901 - 2020 */
+    /* #define DL_HCLIM 120 */  /* CRU TS4.05: AD 1901 - 2020 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -393,7 +397,7 @@
     /* 115: TS3.24 */
     /* 116: TS3.25 */
     /* 117: TS3.26 */
-    /* 219: GSWP3-W5E5: 1801-2019 */
+    #define DL_HCLIM 219 /* GSWP3-W5E5: 1801-2019 */ /* 4100 */
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
@@ -435,8 +439,8 @@
 #elif ISIMIP_RUN==6
     #define DL_ISIMIP 500  /* AD 1601 - 2100 */
 #else
-    #define DL_ISIMIP 1
-    /* #define DL_ISIMIP 219 */ /* AD 1801 - 2019 */
+    /* #define DL_ISIMIP 1 */
+    #define DL_ISIMIP 219 /* */ /* AD 1801 - 2019 */ /* 4100 */
 #endif
 
 #define DL_ADD 111          /* length of additional data */
@@ -502,7 +506,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 31
+#define LANDUSE 0
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -754,7 +758,7 @@
 
 /* ********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 10
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -778,7 +782,7 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 10
+#define ALT_INUND 0
 /* 0: default (SSMI) */
 /* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
@@ -824,6 +828,18 @@
 /* 1: UT IIS + Monfreda */
 /* 2: Inoue 2020/01/08, 2020/03/12 + Monfreda */
 /* 3: MIRCA2000: 2021/04/07 by A.Ito */
+
+#define GCP_FIXCD 0
+/* 0: off (variable) */
+/* 1: on (fixed at 2006) */
+
+#define GCP_FIXTMP 0
+/* 0: off (variable) */
+/* 1: on (fixed at 2006) */
+
+#define GCP_FIXPRC 0
+/* 0: off (variable) */
+/* 1: on (fixed at 2006) */
 
 /***********************************************************/
 /* parameter perturbation */

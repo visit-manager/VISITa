@@ -445,11 +445,11 @@ void f_init_grid(
 	/* long-term average, from NCEP/NCAR reanalysis */
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp_sfc); 
-		grid->tmp_sfc_a[e] = tmp_sfc-ZAT;
+		grid->tmp_sfc_a[e] = tmp_sfc - ZAT;
 	}	
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp_2m); 
-		grid->tmp_2m_a[e] = tmp_2m-ZAT;
+		grid->tmp_2m_a[e] = tmp_2m - ZAT;
 	}	
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp10_soil); 
@@ -1665,7 +1665,7 @@ void f_init_grid(
     }else if(ALT_INUND == 10){
         /* 2000/01-2020/12: GCP v2: 2021/10/26 by A.Ito */
         
-        fread(is3adat_mon,sizeof(float),12*21, fp_s[84]);
+        /* fread(is3adat_mon,sizeof(float),12*21, fp_s[84]); */
         
         for(h=0;h<ASTEP;h++){
             grid->inundation_alt_av[h] = 0.0;
@@ -1673,7 +1673,9 @@ void f_init_grid(
         
         for(g=0;g<21;g++){
             for(h=0;h<ASTEP;h++){
-                grid->inundation_alt_ts[g][h] = is3adat_mon[g*ASTEP + h];
+                fscanf(fp_s[84],"%lf", &grid->inundation_alt_ts[g][h]);
+            
+                /* grid->inundation_alt_ts[g][h] = is3adat_mon[g*ASTEP + h]; */
                 
                 if(grid->inundation_alt_ts[g][h] < 0.0){
                     grid->inundation_alt_ts[g][h] = 0.0;
