@@ -25,7 +25,7 @@ struct Grid{
 	long 	col;					/* grid order, column in 0.5 degree grid */
 	long 	gcm_row;				/* grid order, row in GCM's grid */
 	long 	gcm_col;				/* grid order, column in GCM's grid */
-	long	ncep_lat, ncep_lon;
+	long	    ncep_lat, ncep_lon;
 	long 	chaser_row;				/* grid order, row in CHASER grid */
 	long 	chaser_col;				/* grid order, column in CHASER grid */
 	
@@ -238,6 +238,10 @@ struct Grid{
 	double	fcrop_rk[308];				/* crop fraction by Ramankutty & Kimball (2010) */
 	double	fpast_rk[308];				/* pasture fraction by Ramankutty & Kimball (2010) */
 	
+    /* crop calendar by Iizumi: 2021/04/07 by A.Ito */
+    long    iizumi_mon_paddy_start;
+    long    iizumi_mon_paddy_end;
+	
 	/* future, 1990-2100, IMAGE2, Wang et al. */
 	double 	fcrop3_image[DL_ADD];			/* C3 crop */
 	double 	fcrop4_image[DL_ADD];			/* C4 crop */
@@ -330,21 +334,23 @@ struct Grid{
 	double	inundation_ssmi_av;
 	double	inundation_ssmi_max;
     
-    double  inundation_gcp_av[ASTEP];
-    double  inundation_gcp_ts[18][ASTEP]; /* updated: 2018/08/28 by A.Ito */
+    double  inundation_alt_av[ASTEP];
+    double  inundation_alt_ts[29][ASTEP]; /* updated: 2021/06/25 by A.Ito */
     
     /* revised wetland maps: 2018/07/03 by A.Ito */
     double  wet_glwd;
     double  wet_meris;
     double  wet_glwdmeris;
 
-	long	type_permaforst;			/* permafrost type by NSIDC */
+	long    type_permaforst;			/* permafrost type by NSIDC */
     double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
     
     double  f_biofuel[DL_BF];                /* biofuel scenario: 2015/8/21 by A.Ito */
     
     /* NMIP input: 2015/11/19 by A.Ito */
     double  mip_nfert[DL_NINPUT];                /* nitrogen fertilizer */
+    double  mip_nfert_nh4[DL_NINPUT];             /* nitrogen fertilizer */
+    double  mip_nfert_noy[DL_NINPUT];             /* nitrogen fertilizer */
     double  mip_ndep_noy[DL_NINPUT];             /* NOy deposition */
     double  mip_ndep_nh4[DL_NINPUT];             /* NH4 fertilizer */
     double  mip_manure[DL_NINPUT];               /* manure */
@@ -388,30 +394,30 @@ struct Loct{
 
 	double	aco2[ASTEP];				/* ambient CO2 concentration, in ppmv */
 	double	d13c_aco2[ASTEP];			/* stable carbon isotope composition of CO2, dimensionless */
-	double	cnpy_co2_recyc;				/* within-canopy CO2 recycling ratio */
-    double  ao3;                        /* ambient O3, ppb */
+	double	cnpy_co2_recyc;		    /* within-canopy CO2 recycling ratio */
+    double  ao3;                     /* ambient O3, ppb */
 	
 	double	c4ptn[ASTEP];				/* ground coverage of C4 plants, fraction */
 	double	c3ptn[ASTEP];				/* ground coverage of C3 plants, fraction */
-	long	gd[ASTEP], bbm;				/* vegetative growing period, days */
-	double	gdd[ASTEP];				 	/* cumulative growth degree days, degC days */
+	long	    gd[ASTEP], bbm;			/* vegetative growing period, days */
+	double	gdd[ASTEP];				/* cumulative growth degree days, degC days */
     
-    double  est_maxlai;                 /* estimated max.LAI: 2014/05/20 by A.Ito */
+    double  est_maxlai;               /* estimated max.LAI: 2014/05/20 by A.Ito */
 	
-	double	albedo_sfc[ASTEP];			/* land-surface albedo */
+	double	albedo_sfc[ASTEP];		/* land-surface albedo */
 	double	gl_rad_g[ASTEP];			/* global radiation under the canopy, W m-2 */
 	double	rad_net_p[ASTEP];			/* net radiation, canopy, W m-2 */
 	double	rad_net_g[ASTEP];			/* net radiation, soil surface, W m-2 */
 	double	rad_net_long[ASTEP];		/* net long-wave radiation, W m-2 */
 	double	rad_net_short[ASTEP];		/* net short-wave radiation, W m-2 */
-	double	rad_net[ASTEP];				/* net radiation, W m-2 */
+	double	rad_net[ASTEP];			/* net radiation, W m-2 */
 	double	rdi;						/* radiative dryness index by Budyko */
     
     /* added: 2013/01/10 by A.Ito */
-    double  glrad_dav[ASTEP];              /* daily average downward SW radiation, W m-2 */
-    double  nsw_d[ASTEP];               /* daily average net SW radiation, W m-2 */
+    double  glrad_dav[ASTEP];          /* daily average downward SW radiation, W m-2 */
+    double  nsw_d[ASTEP];              /* daily average net SW radiation, W m-2 */
  	
-                                        /* micro mol photon m-2 s-1 */
+                                    /* micro mol photon m-2 s-1 */
     double  ppfd_h[DSTEP];              /* hourly photosynthetical photon flux density */
     double  ppfdb_h[DSTEP];             /* hourly photosynthetical photon flux density, beam */
     double  ppfdd_h[DSTEP];             /* hourly photosynthetical photon flux density, diffuse */
@@ -420,7 +426,7 @@ struct Loct{
     double  appfd_g[ASTEP];
 	double	fappfd_g[ASTEP];
 	double	fapar_df[ASTEP];
-
+ 
 	double	pet_prty[ASTEP];			/* Priestley-Taylor potential evapotranspiration, mm month-1 */
 	double	pet_prty_ann;				/* annual Priestley-Taylor potential evapotranspiration, mm yr-1 */
 	
@@ -466,6 +472,8 @@ struct Loct{
 	double	soil_apprw;					/* soil aperture of lower layer, fraction */
 	
 	double	n_frtlz_in;					/* N-fertilization input */
+	double	n_frtlz_in_nh4;					/* N-fertilization input */
+	double	n_frtlz_in_noy;					/* N-fertilization input */
 	double	n_manure_in;                /* N-manure input */
 	double	depo_no3[ASTEP];			/* NO3- deposition */
 	double	depo_nh4[ASTEP];			/* NH4+ deposition */
@@ -489,7 +497,7 @@ struct Loct{
 	
 	double	f_inund_wet_wh[ASTEP];      /* inundation area for Wlater & Heimann CH4 scheme */
 	double	f_inund_pad_wh[ASTEP];      /* inundation area for Wlater & Heimann CH4 scheme */
-	
+    
 	/* maximum GPP for Cao CH4 scheme */
 	double	gpp_max;					/* maximum GPP */
     double  npp_av[ASTEP];              /* average monthly NPP */
@@ -1013,9 +1021,9 @@ struct Flux{
     double  lu_msl;
 
 	/* biomass burning */
-	double	f_burnt;				/* burnt fraction */
-	double	day_fire[ASTEP];		/* days of fire */
-	double	a_burnt[ASTEP];			/* area burnt */
+	double  f_burnt;				/* burnt fraction */
+	double  day_fire[ASTEP];		/* days of fire */
+	double  a_burnt[ASTEP];			/* area burnt */
     double  wa_burnt[ASTEP];        /* area burnt for woods */
  
 	/* CO2 (g species) */
@@ -1116,4 +1124,9 @@ struct Flux{
 	/* wood harvest: 2010/11/09 */
 	double	hvst_wood;
     double  hvst_wood_ex;                      /* export per natural area */
+    
+    /* termite CH4 efflux, 2021/09/08 by A.Ito */
+    double  gpp_ann;
+    double  termite_ch4_lu[ASTEP];                 /* land-use based */
+    double  termite_ch4_gpp[ASTEP];                /* productivity based */
 };

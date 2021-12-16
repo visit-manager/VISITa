@@ -26,6 +26,7 @@ struct Flux flux_agr;
 
 double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0}, YDN=365.0;
 double sres_co2[DL_ADD];
+short Flag_FOPEN[IFILEN];
 
 /* experimental variables ************/
 long SCENARIO_ID, CO2S, GCM_R, GCM_C; /* */
@@ -77,7 +78,7 @@ double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
 double h_dswd[PD_SIM], h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
 double h_parb[PD_SIM], h_pard[PD_SIM];
 double h_arm[PD_SIM], h_bco2[PD_SIM]; /* added by A.Ito: 2018/10/22 */
-double h_lL[PD_SIM];
+double h_lL[PD_SIM], h_bnpp[PD_SIM];
 
 /* seasonal-cycle amplitude: 2019/03/02 by A.Ito */
 double hm_sca_gpp_nh[PD_SIM][12], hm_sca_re_nh[PD_SIM][12], hm_sca_nep_nh[PD_SIM][12];
@@ -123,6 +124,9 @@ double h_luc_trp[PD_SIM], h_bb_trp[PD_SIM];
 
 /* for additional analysis: 2019/06/24 by A.Ito */
 double h_ans1[PD_SIM],h_ans2[PD_SIM],h_ans3[PD_SIM],h_ans4[PD_SIM],h_ans5[PD_SIM];
+
+/* Termite CH4 emission: 2021/10/08 by A.Ito */
+double h_termite_ch4_lu[PD_SIM], h_termite_ch4_gpp[PD_SIM];
 
 /* Monthly */
 double hm_temp[PD_SIM][ASTEP];

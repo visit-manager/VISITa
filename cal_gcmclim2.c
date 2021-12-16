@@ -173,6 +173,9 @@ void cal_projection(
 			/* Plant CH4 emission ************************/
 			f_ch4_emit_veg(grid, loct, echar, mass, flux);
 			
+            /* termite CH4 emission *****************/
+            f_ch4_emit_termite(grid, loct, echar, mass, flux);
+
 			/* aggregate plant mass and fluxes */
 			f_plant_stand_budget(grid, loct, mass, flux);
 			
@@ -213,8 +216,13 @@ void cal_projection(
 				if(grid->veg_olson==29 || grid->veg_olson==30 || 
 								grid->veg_olson==31 || grid->veg_olson==32){
 					(flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
-					(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
-					(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+                    if(NMIP_RUN >=20 && NMIP_RUN <=30){
+                        (mass->soil).n_no3 += loct->n_frtlz_in_noy * 1000.0 * f_fert;
+                        (mass->soil).n_nh4 += loct->n_frtlz_in_nh4 * 1000.0 * f_fert;
+                    }else{
+                        (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
+                        (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+                    }
 				}else{
 					(flux->soil).n_fertin[f] = 0.0;
 				}
@@ -222,8 +230,13 @@ void cal_projection(
             
 			if((echar->soil).v_type == 2){
 				(flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
-				(mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
-				(mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+               if(NMIP_RUN >=20 && NMIP_RUN <=30){
+                    (mass->soil).n_no3 += loct->n_frtlz_in_noy * 1000.0 * f_fert;
+                    (mass->soil).n_nh4 += loct->n_frtlz_in_nh4 * 1000.0 * f_fert;
+                }else{
+                    (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
+                    (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+                }
 
                 /* 2016/10/20 by A.Ito */
                 (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0 * f_fert;
@@ -421,8 +434,11 @@ void cal_projection(
 		}
 		
 		/* net biome production (added by A.Ito: 2010/01/20) */
+        flux->gpp_ann = 0.0;
 		for(f=0;f<ASTEP;f++){
 			flux->nbp[f] = flux->nep[f];
+   
+            flux->gpp_ann += (flux->plant).gpp[f];
 			
             /* altered: 2018/10/16 by A.Ito */
             if((mass->c3).v_type == 1 && NECB_LUC == 1){

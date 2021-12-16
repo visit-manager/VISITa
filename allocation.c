@@ -21,7 +21,6 @@ void allocation(
 	struct Pmas *mass, 
 	struct Pflx *flux
 ){
-						
 	double aaa, bbb, cc1, ccc, ddd;
 	double alloc_f, alloc_c, alloc_r; /* allocation ratios */
 						

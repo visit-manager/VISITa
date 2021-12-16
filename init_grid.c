@@ -25,12 +25,12 @@ void f_init_grid(
 	FILE *fp_s[IFILEN], 
 	struct Grid *grid
 ){
-	long e, g, h, country, region, aaa, ldummy;
+	long e, g, h, country, region, aaa, ldummy, mon, day;
 	double tmp_sfc, tmp_2m,tmp10_soil, tmp200_soil, dswrf_toa, dswrf_sfc, tcdc_clm;
 	double prate_sfc, spfh_2m, soilw10, soilw200, ugrd_10m, vgrd_10m;
 	double geo_prop, crit_tension;
 	double lat, lon, total, wetland, lake, paddy, ddummy, dluh2;
-    double nfert_m, nfert_r, nfert_sw, nfert_ww;
+    double nfert_m, nfert_r, nfert_sw, nfert_ww, fcropi;
     float rfdat[ASTEP], is2bdat[DL_NINPUT], is3adat_mon[12*DL_NINPUT];
 	
 	/* grid latitudes of CSIRO AOGCM */
@@ -445,11 +445,11 @@ void f_init_grid(
 	/* long-term average, from NCEP/NCAR reanalysis */
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp_sfc); 
-		grid->tmp_sfc_a[e] = tmp_sfc-ZAT;
+		grid->tmp_sfc_a[e] = tmp_sfc - ZAT;
 	}	
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp_2m); 
-		grid->tmp_2m_a[e] = tmp_2m-ZAT;
+		grid->tmp_2m_a[e] = tmp_2m - ZAT;
 	}	
 	for(e=0;e<ASTEP;e++){
 		fscanf(fp_s[2],"%lf", &tmp10_soil); 
@@ -802,17 +802,18 @@ void f_init_grid(
 	if(ALT_PADDY == 1){
 		/* Alternative data (IIS-UT + SAGE): 2011/03/30 by A.Ito */
 		fscanf(fp_s[22],"%lf", &paddy); 
-		if(paddy>0.0){
+		if(paddy > 0.0){
 			grid->f_paddy = paddy;
 			grid->f_paddy_b = paddy;
 		}else{
 			grid->f_paddy = 0.0;
 			grid->f_paddy_b = 0.0;
 		}
-	}else if(ALT_PADDY == 2){
+	}else if(ALT_PADDY == 2 || ALT_PADDY == 3){
         /* Alternative data (Inooue): 2020/01/08 by A.Ito */
+        /* Alternative data (MIRCA2000): 2021/04/07 by A.Ito */
         fscanf(fp_s[22],"%lf", &paddy);
-        if(paddy>0.0){
+        if(paddy > 0.0){
             grid->f_paddy = paddy;
             grid->f_paddy_b = paddy;
         }else{
@@ -854,6 +855,24 @@ void f_init_grid(
 	}
     if(grid->f_upland > 1.0){
         grid->f_upland = 1.0;
+    }
+    
+    if(EX_PADDY == 3){
+        fscanf(fp_s[93],"%lf", &paddy);
+        if(paddy>=0.0 && paddy<=366.0){
+            f_doyTmody(2001,(long)paddy, &mon, &day);
+            grid->iizumi_mon_paddy_start = mon;
+        }else{
+            grid->iizumi_mon_paddy_start = 0;
+        }
+        
+        fscanf(fp_s[94],"%lf", &paddy);
+        if(paddy>=0.0 && paddy<=366.0){
+            f_doyTmody(2001,(long)paddy, &mon, &day);
+            grid->iizumi_mon_paddy_end = mon;
+        }else{
+            grid->iizumi_mon_paddy_end = 0;
+        }
     }
 
     /*****************************/
@@ -1195,9 +1214,10 @@ void f_init_grid(
         fscanf(fp_s[44],"%lf", &ddummy);
     }else if(LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 30 ||
                 LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 || LANDUSE == 34 ||
-                LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37 || LANDUSE == 47){
+                LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37 || LANDUSE == 47 ||
+                LANDUSE == 48){
         
-        /* Historical */
+        /* state */
         fscanf(fp_s[26],"%ld %lf", &ldummy, &dluh2);
         if(dluh2 > 0.0){
             /* LUH2 for CMIP6: 2018/12/24 by A.Ito */
@@ -1215,7 +1235,8 @@ void f_init_grid(
                 }
             }
         }
-
+        
+        /* transition */
         fscanf(fp_s[27],"%ld %lf", &ldummy, &dluh2);
         if(dluh2 > 0.0){
             /* LUH2 for CMIP6: 2018/12/24 by A.Ito */
@@ -1252,7 +1273,7 @@ void f_init_grid(
         if(LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 ||
                 LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
             
-            /* Historical */
+            /* state */
             fscanf(fp_s[28],"%ld %lf", &ldummy, &dluh2);
             if(dluh2 > 0.0){
                 /* LUH2 for CMIP6: 2019/07/18 by A.Ito */
@@ -1271,7 +1292,7 @@ void f_init_grid(
                 }
             }
             
-            /* Future */
+            /* transition */
             fscanf(fp_s[29],"%ld %lf", &ldummy, &dluh2);
             if(dluh2 > 0.0){
                 /* LUH2 for CMIP6: 2019/07/18 by A.Ito */
@@ -1588,47 +1609,98 @@ void f_init_grid(
     if(ALT_INUND == 6){
         /* 2000/01-2012/12 */
         for(h=0;h<ASTEP;h++){
-            grid->inundation_gcp_av[h] = 0.0;
+            grid->inundation_alt_av[h] = 0.0;
         }
         for(g=0;g<13;g++){
             for(h=0;h<ASTEP;h++){
-                fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+                fscanf(fp_s[84],"%lf", &grid->inundation_alt_ts[g][h]);
                 
-                if(grid->inundation_gcp_ts[g][h] < 0.0){
-                    grid->inundation_gcp_ts[g][h] = 0.0;
+                if(grid->inundation_alt_ts[g][h] < 0.0){
+                    grid->inundation_alt_ts[g][h] = 0.0;
                 }
                 
-                grid->inundation_gcp_av[h] += grid->inundation_gcp_ts[g][h] / 13.0;
+                grid->inundation_alt_av[h] += grid->inundation_alt_ts[g][h] / 13.0;
             }
         }
     }else if(ALT_INUND == 7 || ALT_INUND == 8){
         /* 2000/01-2017/12: GCP v2: 2018/08/28 by A.Ito */
         for(h=0;h<ASTEP;h++){
-            grid->inundation_gcp_av[h] = 0.0;
+            grid->inundation_alt_av[h] = 0.0;
         }
         for(g=0;g<18;g++){
             for(h=0;h<ASTEP;h++){
-                fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+                fscanf(fp_s[84],"%lf", &grid->inundation_alt_ts[g][h]);
                 
-                if(grid->inundation_gcp_ts[g][h] < 0.0){
-                    grid->inundation_gcp_ts[g][h] = 0.0;
+                if(grid->inundation_alt_ts[g][h] < 0.0){
+                    grid->inundation_alt_ts[g][h] = 0.0;
                 }
                 
-                grid->inundation_gcp_av[h] += grid->inundation_gcp_ts[g][h] / 18.0;
+                grid->inundation_alt_av[h] += grid->inundation_alt_ts[g][h] / 18.0;
+            }
+        }
+    }else if(ALT_INUND == 9){
+        /* SWAMPS anomaly: 2021/06/25 by A.Ito */
+        for(h=0;h<ASTEP;h++){
+            grid->inundation_alt_av[h] = 0.0;
+        }
+        for(g=0;g<29;g++){
+            for(h=0;h<ASTEP;h++){
+                fscanf(fp_s[84],"%lf", &grid->inundation_alt_ts[g][h]);
+                
+                if(grid->inundation_alt_ts[g][h] < -1000.0){
+                    grid->inundation_alt_ts[g][h] = 0.0;
+                }
+
+                if(grid->inundation_alt_ts[g][h] > 100.0){
+                    grid->inundation_alt_ts[g][h] = 100.0;
+                }
+
+                if(grid->inundation_alt_ts[g][h] < -100.0){
+                    grid->inundation_alt_ts[g][h] = -100.0;
+                }
+                
+                grid->inundation_alt_ts[g][h] *= 0.01;
+                
+                grid->inundation_alt_av[h] += grid->inundation_alt_ts[g][h] / 29.0;
+            }
+        }
+    }else if(ALT_INUND == 10){
+        /* 2000/01-2020/12: GCP v2: 2021/10/26 by A.Ito */
+        
+        /* fread(is3adat_mon,sizeof(float),12*21, fp_s[84]); */
+        
+        for(h=0;h<ASTEP;h++){
+            grid->inundation_alt_av[h] = 0.0;
+        }
+        
+        for(g=0;g<21;g++){
+            for(h=0;h<ASTEP;h++){
+                fscanf(fp_s[84],"%lf", &grid->inundation_alt_ts[g][h]);
+            
+                /* grid->inundation_alt_ts[g][h] = is3adat_mon[g*ASTEP + h]; */
+                
+                if(grid->inundation_alt_ts[g][h] < 0.0){
+                    grid->inundation_alt_ts[g][h] = 0.0;
+                }
+                if(grid->inundation_alt_ts[g][h] > 1.0){
+                    grid->inundation_alt_ts[g][h] = 1.0;
+                }
+                
+                grid->inundation_alt_av[h] += grid->inundation_alt_ts[g][h] / 21.0;
             }
         }
     }else{
         /* 1999/07-2013/03 */
         /* average */
         for(h=0;h<ASTEP;h++){
-            fscanf(fp_s[84],"%lf", &grid->inundation_gcp_av[h]);
+            fscanf(fp_s[84],"%lf", &grid->inundation_alt_av[h]);
         }
         for(g=0;g<15;g++){
             for(h=0;h<ASTEP;h++){
-                fscanf(fp_s[84],"%lf", &grid->inundation_gcp_ts[g][h]);
+                fscanf(fp_s[84],"%lf", &grid->inundation_alt_ts[g][h]);
                 
-                if(grid->inundation_gcp_ts[g][h] < 0.0){
-                    grid->inundation_gcp_ts[g][h] = 0.0;
+                if(grid->inundation_alt_ts[g][h] < 0.0){
+                    grid->inundation_alt_ts[g][h] = 0.0;
                 }
             }
         }
@@ -1810,47 +1882,98 @@ void f_init_grid(
         }
         
     }else{
-        /* NMIP input: 2015/11/19 by A.Ito *************/
-        for(e=0;e<DL_NINPUT;e++){
+        if(NMIP_RUN >=20 && NMIP_RUN <=30){
+            /* NMIP2 input: 2021/12/15 by A.Ito *************/
+            fscanf(fp_s[88],"%ld %ld", &ldummy, &ldummy);
+            for(e=0;e<DL_NINPUT;e++){
+                
+                if(grid->fcrop_luh[e]>0.0 && grid->fcrop_luh[e]<=1.0){
+                    fcropi = 1.0 / grid->fcrop_luh[e];
+                    
+                    if(fcropi > 1000.0){
+                        fcropi = 1000.0;
+                    }
+                }else if(grid->fcrop_luh[e] <= 0.0){
+                    fcropi = 0.0;
+                }else if(grid->fcrop_luh[e] > 1.0){
+                    fcropi = 1.0;
+                }else{
+                    fcropi = 0.0;
+                }
             
-             /* crop fraction */
-            fscanf(fp_s[88],"%lf", &grid->mip_frcrop[e]);
-            if(grid->mip_frcrop[e] < 0.0){
-                grid->mip_frcrop[e] = 0.0;
-            }
+                /* kg N/ha/yr */
+                fscanf(fp_s[88],"%lf", &grid->mip_ndep_nh4[e]);
+                if(grid->mip_ndep_nh4[e] < 0.0){
+                    grid->mip_ndep_nh4[e] = 0.0;
+                }
 
-            /* g N/ha/yr => kg N/ha/yr */
-            fscanf(fp_s[88],"%lf", &grid->mip_nfert[e]);
-            grid->mip_nfert[e] *= 0.001;
-            if(grid->mip_nfert[e] < 0.0){
-                grid->mip_nfert[e] = 0.0;
-            }
+                fscanf(fp_s[88],"%lf", &grid->mip_ndep_noy[e]);
+                if(grid->mip_ndep_noy[e] < 0.0){
+                    grid->mip_ndep_noy[e] = 0.0;
+                }
+                
+                fscanf(fp_s[88],"%lf", &grid->mip_nfert_nh4[e]);
+                grid->mip_nfert_nh4[e] *= fcropi;
+                if(grid->mip_nfert_nh4[e] < 0.0){
+                    grid->mip_nfert_nh4[e] = 0.0;
+                }
 
-            /* g N/ha/yr */
-            fscanf(fp_s[88],"%lf", &ddummy);
+                fscanf(fp_s[88],"%lf", &grid->mip_nfert_noy[e]);
+                grid->mip_nfert_noy[e] *= fcropi;
+                if(grid->mip_nfert_noy[e] < 0.0){
+                    grid->mip_nfert_noy[e] = 0.0;
+                }
+                
+                grid->mip_nfert[e] = grid->mip_nfert_nh4[e] + grid->mip_nfert_noy[e];
 
-            fscanf(fp_s[88],"%lf", &grid->mip_manure[e]);
-            grid->mip_manure[e] *= 0.001;
-            if(grid->mip_manure[e] < 0.0){
-                grid->mip_manure[e] = 0.0;
-            }
-
-            fscanf(fp_s[88],"%lf", &ddummy);
-
-            for(h=0;h<12;h++){
-                fscanf(fp_s[88],"%lf", &grid->mip_ndep_mon_nh4[e][h]);
-                if(grid->mip_ndep_mon_nh4[e][h] < 0.0){
-                    grid->mip_ndep_mon_nh4[e][h] = 0.0;
+                fscanf(fp_s[88],"%lf", &grid->mip_manure[e]);
+                grid->mip_manure[e] *= fcropi;
+                if(grid->mip_manure[e] < 0.0){
+                    grid->mip_manure[e] = 0.0;
                 }
             }
+        }else{
+            /* NMIP input: 2015/11/19 by A.Ito *************/
+            for(e=0;e<DL_NINPUT;e++){
+                
+                 /* crop fraction */
+                fscanf(fp_s[88],"%lf", &grid->mip_frcrop[e]);
+                if(grid->mip_frcrop[e] < 0.0){
+                    grid->mip_frcrop[e] = 0.0;
+                }
 
-            for(h=0;h<12;h++){
-                fscanf(fp_s[88],"%lf", &grid->mip_ndep_mon_noy[e][h]);
-                if(grid->mip_ndep_mon_noy[e][h] < 0.0){
-                    grid->mip_ndep_mon_noy[e][h] = 0.0;
+                /* g N/ha/yr => kg N/ha/yr */
+                fscanf(fp_s[88],"%lf", &grid->mip_nfert[e]);
+                grid->mip_nfert[e] *= 0.001;
+                if(grid->mip_nfert[e] < 0.0){
+                    grid->mip_nfert[e] = 0.0;
+                }
+
+                /* g N/ha/yr */
+                fscanf(fp_s[88],"%lf", &ddummy);
+
+                fscanf(fp_s[88],"%lf", &grid->mip_manure[e]);
+                grid->mip_manure[e] *= 0.001;
+                if(grid->mip_manure[e] < 0.0){
+                    grid->mip_manure[e] = 0.0;
+                }
+
+                fscanf(fp_s[88],"%lf", &ddummy);
+
+                for(h=0;h<12;h++){
+                    fscanf(fp_s[88],"%lf", &grid->mip_ndep_mon_nh4[e][h]);
+                    if(grid->mip_ndep_mon_nh4[e][h] < 0.0){
+                        grid->mip_ndep_mon_nh4[e][h] = 0.0;
+                    }
+                }
+
+                for(h=0;h<12;h++){
+                    fscanf(fp_s[88],"%lf", &grid->mip_ndep_mon_noy[e][h]);
+                    if(grid->mip_ndep_mon_noy[e][h] < 0.0){
+                        grid->mip_ndep_mon_noy[e][h] = 0.0;
+                    }
                 }
             }
-            
         }
     }
     

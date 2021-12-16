@@ -123,8 +123,13 @@ void f_cult_luc(
         || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 17
         || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28
         || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
-        || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
+        || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
+        || LANDUSE == 48){
 		/* UNH harmonized land-use change, 1500-2100 (added 2013/12/20) */
+        if(grid->lucy < FDY_LUC){
+            grid->f_crop_con = grid->fcrop_luh[0];
+            grid->f_pasture_con = grid->fpast_luh[0];
+        }else{
             if((grid->lucy - FDY_LUC) < DL_LUC){
                 grid->f_crop_con = grid->fcrop_luh[grid->lucy - FDY_LUC];
                 grid->f_pasture_con = grid->fpast_luh[grid->lucy - FDY_LUC];
@@ -132,6 +137,7 @@ void f_cult_luc(
                 grid->f_crop_con = grid->fcrop_luh[DL_LUC -1];
                 grid->f_pasture_con = grid->fpast_luh[DL_LUC -1];
             }
+        }
     }else if(LANDUSE == 18){
         /* ICARUS SSPs: 2016/08/14 by A.Ito */
         if(grid->lucy <= 1990){
@@ -152,7 +158,6 @@ void f_cult_luc(
     }else if(LANDUSE == 24 || LANDUSE == 25){
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_NINY];
-        
     }else if(LANDUSE == 29){
         /* MIROC0INTEG TELUMO: 2019/02/21 by A.Ito */
         if(grid->lucy < 1950){
@@ -243,7 +248,7 @@ void f_cult_luc(
     }
     
     /*************************************************************/
-    if(NMIP_RUN >= 1){
+    if(NMIP_RUN >= 1 && NMIP_RUN <= 12){
         if(grid->lucy >= FDY_NINY && grid->lucy <= 2015){
             grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_NINY];
         }else if(grid->lucy < FDY_NINY){
@@ -363,7 +368,8 @@ void f_cult_luc(
                  || LANDUSE==13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17
                  || LANDUSE==26 || LANDUSE==27 || LANDUSE==28 || LANDUSE == 30
                  || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
-                 || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
+                 || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
+                 || LANDUSE == 48){
             grid->f_deforest = grid->t_vc_luh[BGY_LUC - FDY_LUC]
                                 + grid->t_vp_luh[BGY_LUC - FDY_LUC]
                                 + grid->t_sc_luh[BGY_LUC - FDY_LUC]
@@ -375,9 +381,9 @@ void f_cult_luc(
         }else if(LANDUSE == 7){
             grid->f_deforest = grid->fcrop_net[(BGY_LUC+1) - FDY_LUC]
                         - grid->fcrop_net[BGY_LUC - FDY_LUC];
-        }else if(LANDUSE==9){
+        }else if(LANDUSE == 9){
             grid->f_deforest = 0.0;
-        }else if(LANDUSE==18 || LANDUSE == 19 || LANDUSE == 20 ||
+        }else if(LANDUSE == 18 || LANDUSE == 19 || LANDUSE == 20 ||
                 LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 ||
                 LANDUSE == 24 || LANDUSE == 25){
             /* ICARUS SSPs: 2016/08/14 by A.Ito */
@@ -457,25 +463,38 @@ void f_cult_luc(
              || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 17
              || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 30
              || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
-             || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
-            if((grid->lucy - FDY_LUC) < DL_LUC){
-                grid->f_deforest = grid->t_vc_luh[grid->lucy - FDY_LUC]
-                                    + grid->t_vp_luh[grid->lucy - FDY_LUC]
-                                    + grid->t_sc_luh[grid->lucy - FDY_LUC]
-                                    + grid->t_sp_luh[grid->lucy - FDY_LUC];
-                grid->f_deforest_v = grid->t_vc_luh[grid->lucy - FDY_LUC]
-                                    + grid->t_vp_luh[grid->lucy - FDY_LUC];
-                grid->f_deforest_s = grid->t_sc_luh[grid->lucy - FDY_LUC]
-                                    + grid->t_sp_luh[grid->lucy - FDY_LUC];
+             || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
+             || LANDUSE == 48){
+             
+            if(grid->lucy < FDY_LUC){
+                    grid->f_deforest = grid->t_vc_luh[0]
+                                        + grid->t_vp_luh[0]
+                                        + grid->t_sc_luh[0]
+                                        + grid->t_sp_luh[0];
+                    grid->f_deforest_v = grid->t_vc_luh[0]
+                                        + grid->t_vp_luh[0];
+                    grid->f_deforest_s = grid->t_sc_luh[0]
+                                        + grid->t_sp_luh[0];
             }else{
-                grid->f_deforest = grid->t_vc_luh[DL_LUC - 1]
-                                    + grid->t_vp_luh[DL_LUC - 1]
-                                    + grid->t_sc_luh[DL_LUC - 1]
-                                    + grid->t_sp_luh[DL_LUC - 1];
-                grid->f_deforest_v = grid->t_vc_luh[DL_LUC - 1]
-                                    + grid->t_vp_luh[DL_LUC - 1];
-                grid->f_deforest_s = grid->t_sc_luh[DL_LUC - 1]
-                                    + grid->t_sp_luh[DL_LUC - 1];
+                if((grid->lucy - FDY_LUC) < DL_LUC){
+                    grid->f_deforest = grid->t_vc_luh[grid->lucy - FDY_LUC]
+                                        + grid->t_vp_luh[grid->lucy - FDY_LUC]
+                                        + grid->t_sc_luh[grid->lucy - FDY_LUC]
+                                        + grid->t_sp_luh[grid->lucy - FDY_LUC];
+                    grid->f_deforest_v = grid->t_vc_luh[grid->lucy - FDY_LUC]
+                                        + grid->t_vp_luh[grid->lucy - FDY_LUC];
+                    grid->f_deforest_s = grid->t_sc_luh[grid->lucy - FDY_LUC]
+                                        + grid->t_sp_luh[grid->lucy - FDY_LUC];
+                }else{
+                    grid->f_deforest = grid->t_vc_luh[DL_LUC - 1]
+                                        + grid->t_vp_luh[DL_LUC - 1]
+                                        + grid->t_sc_luh[DL_LUC - 1]
+                                        + grid->t_sp_luh[DL_LUC - 1];
+                    grid->f_deforest_v = grid->t_vc_luh[DL_LUC - 1]
+                                        + grid->t_vp_luh[DL_LUC - 1];
+                    grid->f_deforest_s = grid->t_sc_luh[DL_LUC - 1]
+                                        + grid->t_sp_luh[DL_LUC - 1];
+                }
             }
         }else if(LANDUSE == 18){
             /* ICARUS SSPs: 2016/08/14 by A.Ito */
@@ -580,6 +599,9 @@ void f_cult_luc(
     if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
         grid->f_deforest = 0.0;
     }
+    if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30){
+        grid->f_deforest = 0.0;
+    }
 
     /* forced afforestation: 2020/11/09 by A.Ito */
     if((EX_FORCED_AFFOREST_2 >=1 && EX_FORCED_AFFOREST_2 <=12) && grid->lucy >= EX_FORCED_AFFOREST_2_YR){
@@ -671,11 +693,12 @@ void f_cult_luc(
 		}
 	}else if(LANDUSE == 9){
         grid->f_paddy = grid->f_paddy_b;
-    }else if(LANDUSE==10 || LANDUSE==11 || LANDUSE==12 || LANDUSE==13
-            || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17
-            || LANDUSE==26 || LANDUSE==27 || LANDUSE==28|| LANDUSE == 29
+    }else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13
+            || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 17
+            || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 29
             || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
-            || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
+            || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
+            || LANDUSE == 48){
         
         if((grid->lucy - FDY_LUC) < DL_LUC){
             if(grid->f_paddy_b > 0.0 && grid->fcrop_luh[2000 - FDY_LUC] > 0.0){
@@ -691,6 +714,10 @@ void f_cult_luc(
             }else{
                 grid->f_paddy = 0.0;
             }
+        }
+        
+        if(NMIP_RUN == 25){
+            grid->f_paddy = 0.0;
         }
         
         if(grid->f_paddy > 1.0){
@@ -793,11 +820,12 @@ void f_luc_emit(
 			fluc_1 = 0.0;
 		}else if(LANDUSE >= 1 && LANDUSE <= 5){
 			fluc_1 = grid->fcrop_net[BGY_LUC-FDY_LUC] - grid->fcrop_net[BGY_LUC-FDY_LUC-1];
-		}else if(LANDUSE == 6 || LANDUSE==8 || LANDUSE==10 || LANDUSE==11 || LANDUSE == 12
-                || LANDUSE == 13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE == 17
+		}else if(LANDUSE == 6 || LANDUSE == 8 || LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12
+                || LANDUSE == 13 || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 17
                 || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 29
                 || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
-                || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
+                || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
+                || LANDUSE == 48){
             /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
 			fluc_1 = (grid->t_vc_luh[BGY_LUC - FDY_LUC] + grid->t_vp_luh[BGY_LUC - FDY_LUC])
 				+ (grid->t_sc_luh[BGY_LUC - FDY_LUC] + grid->t_sp_luh[BGY_LUC - FDY_LUC])
@@ -820,6 +848,9 @@ void f_luc_emit(
         if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
             fluc_1 = 0.0;
         }
+        if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30){
+            fluc_1 = 0.0;
+        }
 
 		/* modified by A.Ito (2009/08/19) */
 		if(fluc_1 > 0.0){
@@ -834,13 +865,14 @@ void f_luc_emit(
 			/* senstivity analysis */
 			if(LANDUSE == 0 || LANDUSE == 9){
 				fluc_10 = 0.0;
-			}else if(LANDUSE>=1 && LANDUSE<=5){
+			}else if(LANDUSE >=1 && LANDUSE <=5){
 				fluc_10 = grid->fcrop_net[f - FDY_LUC] - grid->fcrop_net[f - FDY_LUC - 1];
 			}else if(LANDUSE == 6 || LANDUSE == 8 || LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12
                     || LANDUSE==13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17
                     || LANDUSE==26 || LANDUSE==27 || LANDUSE==28 || LANDUSE == 29
                     || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
-                    || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
+                    || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
+                    || LANDUSE == 48){
 				fluc_10 = (grid->t_vc_luh[f - FDY_LUC] + grid->t_vp_luh[f - FDY_LUC])
 						+ (grid->t_sc_luh[f - FDY_LUC] + grid->t_sp_luh[f - FDY_LUC]) * f_mass_secfor;
 				/* 0.5: assumption by A.Ito for secondary forest stock */
@@ -860,6 +892,9 @@ void f_luc_emit(
             /* NMIP: fixed land-use */
             /* updated 2016/10/20 by A.Ito */
             if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
+                fluc_10 = 0.0;
+            }
+            if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30){
                 fluc_10 = 0.0;
             }
 
@@ -886,14 +921,15 @@ void f_luc_emit(
                     || LANDUSE==13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17
                     || LANDUSE==26 || LANDUSE==27 || LANDUSE==28 || LANDUSE == 29
                     || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
-                    || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
+                    || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
+                    || LANDUSE == 48){
 				fluc_100 = (grid->t_vc_luh[f - FDY_LUC] + grid->t_vp_luh[f - FDY_LUC])
 						+ (grid->t_sc_luh[f - FDY_LUC] + grid->t_sp_luh[f - FDY_LUC])*f_mass_secfor;
 			}else if(LANDUSE == 7){
 				/* added 2010/01/07 (A.Ito) */
 				fluc_100 = (grid->fcrop_rk[f - FDY_LUC] - grid->fcrop_rk[f-FDY_LUC-1])
 						+ (grid->fpast_rk[f - FDY_LUC] - grid->fpast_rk[f-FDY_LUC-1]);
-			}else if(LANDUSE==18|| LANDUSE == 19 || LANDUSE == 20 ||
+			}else if(LANDUSE == 18|| LANDUSE == 19 || LANDUSE == 20 ||
                 LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23 ||
                 LANDUSE == 24 || LANDUSE == 25 || LANDUSE == 45 || LANDUSE == 46){
                 fluc_100 = 0.0;
@@ -905,6 +941,9 @@ void f_luc_emit(
             /* NMIP: fixed land-use */
             /* updated 2016/10/20 by A.Ito */
             if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
+                fluc_100 = 0.0;
+            }
+            if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30){
                 fluc_100 = 0.0;
             }
 
@@ -948,11 +987,12 @@ void f_luc_emit(
 		}else if(LANDUSE >= 1 && LANDUSE <= 5){
 			fluc_1 = grid->f_deforest;
 			/*  grid->f_crop_con - grid->f_crop_p;  */
-		}else if(LANDUSE==6 || LANDUSE==8 || LANDUSE==10 || LANDUSE==11 || LANDUSE==12
-                || LANDUSE==13 || LANDUSE==14 || LANDUSE==15 || LANDUSE==16 || LANDUSE==17
-                || LANDUSE==26 || LANDUSE==27 || LANDUSE==28 || LANDUSE == 29
+		}else if(LANDUSE == 6 || LANDUSE == 8 || LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12
+                || LANDUSE == 13 || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 17
+                || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 29
                 || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
-                || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
+                || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
+                || LANDUSE == 48){
 			/* assumption: biomass in secondary forest is lower (0.1) than primary forest */
 			fluc_1 = grid->f_deforest_v + grid->f_deforest_s * f_mass_secfor;
 		}else if(LANDUSE == 7){
@@ -970,6 +1010,9 @@ void f_luc_emit(
         /* NMIP: fixed land-use */
         /* updated 2016/10/20 by A.Ito */
         if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
+            fluc_1 = 0.0;
+        }
+        if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30){
             fluc_1 = 0.0;
         }
         

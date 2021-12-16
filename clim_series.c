@@ -30,7 +30,7 @@ void set_hist_clim(
         exit(1);
     }
 	
-    if(ISIMIP_RUN == 0){
+    if((ISIMIP_RUN == 0) && (SCENARIO_ID != 4100)){
         if(grid->climy <= cru_te){
             /* 1901-2000:CRU TS2.1 (20th century) */
             /* 1901-2002:CRU TS2.1 */
@@ -45,6 +45,7 @@ void set_hist_clim(
             /* 1901-2017:CRU TS3.26 */
             /* 1901-2018:CRU TS4.03 */
             /* 1901-2019:CRU TS4.04 */
+            /* 1901-2020:CRU TS4.05 */
             for(h=0;h<ASTEP;h++){
                 grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h] 
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
@@ -68,6 +69,7 @@ void set_hist_clim(
             /* 2016-2017: extrapolation using NCEP/NCAR data: 2018/01/03 by A.Ito */
             /* 2017-2018: extrapolation using NCEP/NCAR data: 2019/01/03 by A.Ito */
             /* 2018-2019: extrapolation using NCEP/NCAR data: 2020/01/09 by A.Ito */
+            /* 2018-2020: extrapolation using NCEP/NCAR data: 2021/01/XX by A.Ito */
             for(h=0;h<ASTEP;h++){
                 /* temperature */
                 tmp_var = grid->ncep_tmp2m[grid->climy - FDY_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
@@ -113,7 +115,22 @@ void set_hist_clim(
             }
         }
         
-    }else if(ISIMIP_RUN == 1){
+        /* FIX  */
+        if(GCP_FIXTMP == 1){
+            for(h=0;h<ASTEP;h++){
+                grid->tmp_sfc[h] = grid->tmp_sfc_a[h];
+                grid->tmp_2m[h] = grid->tmp_2m_a[h];
+                grid->tmp10_soil[h] = grid->tmp10_soil_a[h];
+                grid->tmp200_soil[h] = grid->tmp200_soil_a[h];
+            }
+        }
+        if(GCP_FIXPRC == 1){
+            for(h=0;h<ASTEP;h++){
+                grid->prate_sfc[h] = grid->prate_sfc_a[h];
+            }
+        }
+        
+    }else if(ISIMIP_RUN == 1 || (SCENARIO_ID == 4100)){
         
         /* ISI-MIP climate data: 2012/06/28 by A.Ito */
         offset = 0;
@@ -121,7 +138,12 @@ void set_hist_clim(
             offset = 0;
         }else if(grid->phase == 1 || grid->phase == 2){
             /* skip spin-up data */
-            offset = 30;
+            if(ISIMIP_RUN == 1){
+                offset = 30;
+            }
+            if(SCENARIO_ID == 4100){
+                offset = 0;
+            }
         }
         
         for(h=0;h<ASTEP;h++){

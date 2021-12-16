@@ -398,7 +398,6 @@ void f_n_deposit(
                 + (ndepo_chaser4_nhx_p[grid->m][grid->chaser_row][grid->chaser_col]
                         - ndepo_chaser4_nhx_h[grid->m][grid->chaser_row][grid->chaser_col]) *
                     ((double)nyear - 1850.0)/160.0;
-            
         }else if(nyear > 2010){
             ndepo_no3 = ndepo_chaser4_noy_p[grid->m][grid->chaser_row][grid->chaser_col]
                 + ndepo_chaser4_ont_p[grid->m][grid->chaser_row][grid->chaser_col];
@@ -415,7 +414,7 @@ void f_n_deposit(
     /* ISI-MIP2b: 2016/12/24 by A.Ito */
     /* ISIMIP3a: 2020/10/01 by A.Ito */
     /* ISIMIP3b: 2020/11/18 by A.Ito */
-    if(NMIP_RUN >= 1 || ISIMIP_RUN == 5|| ISIMIP_RUN == 6){
+    if((NMIP_RUN >= 1 && NMIP_RUN <= 12) || ISIMIP_RUN == 5|| ISIMIP_RUN == 6){
     
         nyear = grid->niny;
         uconv = 1.0;
@@ -430,7 +429,17 @@ void f_n_deposit(
         
         loct->depo_no3[grid->m] = uconv * grid->mip_ndep_mon_noy[nyear - FDY_NINY][grid->m];
         loct->depo_nh4[grid->m] = uconv * grid->mip_ndep_mon_nh4[nyear - FDY_NINY][grid->m];
-
+    }else if((NMIP_RUN >= 20 && NMIP_RUN <= 30) || ISIMIP_RUN == 5|| ISIMIP_RUN == 6){
+        /* NMIP2: 2021/12/15 by A.Ito */
+        nyear = grid->niny;
+        uconv = 1000.0;
+        if(NMIP_RUN == 20 || NMIP_RUN == 24 || NMIP_RUN == 29 || NMIP_RUN == 30){
+            nyear = FDY_NINY; /* for fixing */
+            uconv = 1.0;
+        }
+        
+        loct->depo_no3[grid->m] = uconv * grid->mip_ndep_noy[nyear - FDY_NINY] / 12.0;
+        loct->depo_nh4[grid->m] = uconv * grid->mip_ndep_nh4[nyear - FDY_NINY] / 12.0;
     }else if(ISIMIP_RUN == 4){
         nyear = grid->niny;
         uconv = 10000.0; /* m2 => ha */

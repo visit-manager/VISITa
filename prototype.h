@@ -11,11 +11,7 @@
 
 #include"setting.h"
 
-/* #define IFILEN 59 */  /* normal case */
-#define IFILEN 93 /* */  /* normal case */
-#define OFILEN 9
-
-short Flag_FOPEN[IFILEN];
+extern short Flag_FOPEN[IFILEN];
 
 extern short DF97;
 extern double MDN[ASTEP],YDN;
@@ -48,7 +44,7 @@ extern double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
 extern double h_dswd[PD_SIM], h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
 extern double h_parb[PD_SIM], h_pard[PD_SIM];
 extern double h_arm[PD_SIM], h_bco2[PD_SIM];
-extern double h_lL[PD_SIM];
+extern double h_lL[PD_SIM], h_bnpp[PD_SIM];
 
 /* seasonal-cycle amplitude: 2019/03/02 by A.Ito */
 extern double hm_sca_gpp_nh[PD_SIM][12], hm_sca_re_nh[PD_SIM][12], hm_sca_nep_nh[PD_SIM][12];
@@ -88,6 +84,8 @@ extern double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM], h_deforest[PD_SIM];
 
 /* for additional analysis: 2019/06/24 by A.Ito */
 extern double h_ans1[PD_SIM],h_ans2[PD_SIM],h_ans3[PD_SIM],h_ans4[PD_SIM],h_ans5[PD_SIM];
+/* Termite CH4 emission: 2021/10/08 by A.Ito */
+extern double h_termite_ch4_lu[PD_SIM], h_termite_ch4_gpp[PD_SIM];
 
 /* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01 by A.Ito */
 extern double h_gpp_trp[PD_SIM], h_npp_trp[PD_SIM], h_nep_trp[PD_SIM], h_nbp_trp[PD_SIM];
@@ -194,6 +192,8 @@ void f_read_chaser_ndepo(FILE *fp_s[IFILEN],struct Grid  *grid);
 
 void f_parameter_perturbation(long iseed,struct Grid *grid,struct Loct *loct,
 	struct Echar *echar,double f_prtrb[20]);
+
+void f_doyTmody(long year, long doy, long *month, long *day);
 
 /* MASS & PARAMETERS INITIALIZATION *****************************/
 void initVS(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux, 
@@ -364,6 +364,7 @@ void f_ch4oxy_delgrosso(struct Grid *grid, struct Loct *loct, struct Flux *flux)
 void f_ch4oxy_curry(struct Grid *grid, struct Loct *loct, struct Flux *flux);
 void f_ch4_emit_cao(struct Grid *grid, struct Loct *loct, struct Flux *flux);
 void f_ch4_emit_walter(short mode, struct Grid *grid, struct Loct *loct, struct Flux *flux);
+void f_ch4_emit_termite(struct Grid *grid, struct Loct *loct, struct Echar *echar, struct Mass *mass, struct Flux *flux);
 void f_n2o_emit_ngas(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_n2o_emit_casa(struct Grid *grid, struct Loct *loct, struct Mass *mass, struct Flux *flux);
 void f_ch4_emit_veg(struct Grid *grid, struct Loct *loct, struct Echar *echar, struct Mass *mass, struct Flux *flux);
