@@ -341,7 +341,7 @@ void n_fertilizer_in(
         /* NMIP2: 2021/12/15 by A.Ito */
         nyear = grid->niny;
 
-        if(NMIP_RUN == 20 || NMIP_RUN == 23 || NMIP_RUN == 29 || NMIP_RUN == 30){
+        if(NMIP_RUN == 20 || NMIP_RUN == 23 || NMIP_RUN == 30){
             nyear = FDY_NINY;
         }
     
@@ -356,7 +356,7 @@ void n_fertilizer_in(
         }
                 
         loct->n_manure_in = 0.0;
-        if(NMIP_RUN == 20 || NMIP_RUN == 22 || NMIP_RUN == 29 || NMIP_RUN == 30){
+        if(NMIP_RUN == 20 || NMIP_RUN == 22 || NMIP_RUN == 30){
             nyear = FDY_NINY;
         }
         if(grid->niny>=FDY_NINY && grid->niny<=2020){
