@@ -349,6 +349,8 @@ struct Grid{
     
     /* NMIP input: 2015/11/19 by A.Ito */
     double  mip_nfert[DL_NINPUT];                /* nitrogen fertilizer */
+    double  mip_nfert_nh4[DL_NINPUT];             /* nitrogen fertilizer */
+    double  mip_nfert_noy[DL_NINPUT];             /* nitrogen fertilizer */
     double  mip_ndep_noy[DL_NINPUT];             /* NOy deposition */
     double  mip_ndep_nh4[DL_NINPUT];             /* NH4 fertilizer */
     double  mip_manure[DL_NINPUT];               /* manure */
@@ -470,6 +472,8 @@ struct Loct{
 	double	soil_apprw;					/* soil aperture of lower layer, fraction */
 	
 	double	n_frtlz_in;					/* N-fertilization input */
+	double	n_frtlz_in_nh4;					/* N-fertilization input */
+	double	n_frtlz_in_noy;					/* N-fertilization input */
 	double	n_manure_in;                /* N-manure input */
 	double	depo_no3[ASTEP];			/* NO3- deposition */
 	double	depo_nh4[ASTEP];			/* NH4+ deposition */
@@ -1122,6 +1126,7 @@ struct Flux{
     double  hvst_wood_ex;                      /* export per natural area */
     
     /* termite CH4 efflux, 2021/09/08 by A.Ito */
+    double  gpp_ann;
     double  termite_ch4_lu[ASTEP];                 /* land-use based */
     double  termite_ch4_gpp[ASTEP];                /* productivity based */
 };

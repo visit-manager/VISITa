@@ -11,11 +11,7 @@
 
 #include"setting.h"
 
-/* #define IFILEN 59 */  /* normal case */
-#define IFILEN 95 /* */  /* normal case */
-#define OFILEN 9
-
-short Flag_FOPEN[IFILEN];
+extern short Flag_FOPEN[IFILEN];
 
 extern short DF97;
 extern double MDN[ASTEP],YDN;

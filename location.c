@@ -28,7 +28,8 @@ void f_init_clim(
 		grid->co2y = 2081; /* in 2081 : 700 ppmv*/
 	}
     if(CC_CD == 5){
-        grid->co2y = 2000;
+        /* grid->co2y = 2000; */
+        grid->co2y = 2006;
     }
 	grid->climy = BGY_CLIM;
 	grid->lucy = BGY_CLIM;

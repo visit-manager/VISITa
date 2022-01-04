@@ -26,6 +26,7 @@ struct Flux flux_agr;
 
 double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0}, YDN=365.0;
 double sres_co2[DL_ADD];
+short Flag_FOPEN[IFILEN];
 
 /* experimental variables ************/
 long SCENARIO_ID, CO2S, GCM_R, GCM_C; /* */

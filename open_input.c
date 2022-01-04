@@ -23,7 +23,7 @@ void open_input(
 ){
     char filename[128], telumoid[16];
 
-    if(ISIMIP_RUN==0){
+    if(ISIMIP_RUN == 0){
         if(DL_HCLIM == 102){
             /* UEA-CRU data from 1901 - 2002 */
             if( (fp_c[0]=fopen("./data/cru21_cld_1901-2002.dat","rt"))==NULL ){  
@@ -256,6 +256,25 @@ void open_input(
             }
             if( (fp_c[3]=fopen("./data/cru405_vap_1901-2020.txt","rt"))==NULL ){
                 printf("No cru405_vap_1901-2020.txt\n");
+                exit(1);
+            }
+        }else if(DL_HCLIM == 219){
+            /* GCP-CH4 by GSWP3-W5E5 data from 1801 - 2019: 2021/11/09 (A.Ito) */
+            /* SCENARIO_ID == 4100 */
+            if( (fp_c[0]=fopen("./data/gswp3-w5e5_tas_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                printf("No gswp3-w5e5_tas_mon_1801-2019_spinclim_obsclim.flt\n");
+                exit(1);
+            }
+            if( (fp_c[1]=fopen("./data/gswp3-w5e5_pr_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                printf("No gswp3-w5e5_pr_mon_1801-2019_spinclim_obsclim.flt\n");
+                exit(1);
+            }
+            if( (fp_c[2]=fopen("./data/gswp3-w5e5_huss_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                printf("No gswp3-w5e5_huss_mon_1801-2019_spinclim_obsclim.flt\n");
+                exit(1);
+            }
+            if( (fp_c[3]=fopen("./data/gswp3-w5e5_rsds_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                printf("No gswp3-w5e5_rsds_mon_1801-2019_spinclim_obsclim.flt\n");
                 exit(1);
             }
         }else{
@@ -1780,6 +1799,15 @@ void open_input(
         }else{
             Flag_FOPEN[84] ++;
         }
+    }else if(ALT_INUND == 10){
+        /* SWAMPS anomaly: 2021/10/27 by A.Ito */
+        /* if( (fp_s[84]=fopen("./data/WAD2M_wetlands_2000-2020_05deg_Ver2.0.flt","rb"))==NULL ){ */
+        if( (fp_s[84]=fopen("./data/WAD2M_wetlands_2000-2020_05deg_Ver2.0.txt","rt"))==NULL ){
+            printf("No WAD2M_wetlands_2000-2020_05deg_Ver2.0.txt data\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[84] ++;
+        }
     }else{
         if( (fp_s[84]=fopen("./data/fw_swamp-biascor_1999-2013.txt","rt"))==NULL ){
             printf("No fw_swamp-biascor_1999-2013.txt\n");
@@ -3237,6 +3265,22 @@ void open_input(
             }
         }
     }
+    
+    /* NMIP2:  */
+    if(LANDUSE == 48){
+        if( (fp_s[26]=fopen("./data/luh2_state_1850-2020.txt","rt"))==NULL ){
+            printf("No luh2_state_1850-2020.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[26] ++;
+        }
+        if( (fp_s[27]=fopen("./data/luh2_transition_1850-2020.txt","rt"))==NULL ){
+            printf("No luh2_transition_1850-2020.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[27] ++;
+        }
+    }
 
 	/***************************************************/
 	/* 0: stable */
@@ -3499,6 +3543,16 @@ void open_input(
             SCENARIO_ID==2044 || SCENARIO_ID==2008 || SCENARIO_ID==2018 || SCENARIO_ID==2028 ||
             SCENARIO_ID==2038 || SCENARIO_ID==2048 || SCENARIO_ID==4024){
             CO2S = 3; /* RCP6.0 */
+            /**/
+            if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
+                printf("NO image_a1b_fcrop.dat !!\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[23] ++;
+            }
+            fp_s[45]=fopen("./data/image_a1b_fgrass.dat","rt");
+        }else if(SCENARIO_ID==4100){
+            CO2S = 1; /* RCP2.6 */
             /**/
             if((fp_s[23]=fopen("./data/image_a1b_fcrop.dat","rt"))==NULL){
                 printf("NO image_a1b_fcrop.dat !!\n");
@@ -4172,8 +4226,10 @@ void open_input(
             || SCENARIO_ID == 5110 || SCENARIO_ID == 5111 || SCENARIO_ID == 5112){
             CO2S = 1;
         }
-        if(SCENARIO_ID == 5103 || SCENARIO_ID == 5104 || SCENARIO_ID == 5105 || SCENARIO_ID == 5106 || SCENARIO_ID == 5107
-             || SCENARIO_ID == 5113 || SCENARIO_ID == 5114 || SCENARIO_ID == 5115 || SCENARIO_ID == 5116 || SCENARIO_ID == 5117){
+        if(SCENARIO_ID == 5103 || SCENARIO_ID == 5104 || SCENARIO_ID == 5105 ||
+            SCENARIO_ID == 5106 || SCENARIO_ID == 5107 || SCENARIO_ID == 5113 ||
+            SCENARIO_ID == 5114 || SCENARIO_ID == 5115 || SCENARIO_ID == 5116 ||
+            SCENARIO_ID == 5117){
             CO2S = 2;
         }
 
@@ -4972,7 +5028,9 @@ void open_input(
         }else{
             Flag_FOPEN[88] ++;
         }
-    }else{
+    }
+
+    if(NMIP_RUN>= 1 && NMIP_RUN<=12){
         /* NMIP: nitrogen input, 2015/11/19 by A.Ito ************/
         if( (fp_s[88]=fopen("./data/fin_nmip_v3.txt","rt"))==NULL ){
             /* printf("No fin_nmip_v2.txt\n"); */
@@ -4982,6 +5040,17 @@ void open_input(
             Flag_FOPEN[88] ++;
         }
     }
+    if(NMIP_RUN>= 20 && NMIP_RUN<=30){
+        /* NMIP2: nitrogen input, 2021/12/15 by A.Ito ************/
+        if( (fp_s[88]=fopen("./data/NMIP2_ninput.txt","rt"))==NULL ){
+            /* printf("No NMIP2_ninput.txt\n"); */
+            printf("No NMIP2_ninput.txt\n"); /* updated: 2017/10/17 by A.Ito */
+            exit(1);
+        }else{
+            Flag_FOPEN[88] ++;
+        }
+    }
+
     /* ISIMIP3a: 2020/10/01 by A.Ito */
     if(ISIMIP_RUN == 5){
         if(LANDUSE == 45 && (SCENARIO_ID == 5100 || SCENARIO_ID == 5103 || SCENARIO_ID == 5106
@@ -5045,7 +5114,7 @@ void open_input(
                 Flag_FOPEN[88] ++;
             }
         }
-        if(Flag_FOPEN[88]==0){
+        if(Flag_FOPEN[88] == 0){
             if( (fp_s[88]=fopen("./data/nfert_1601-2100_2015soc_2015soc_2015soc.flt","rb")) == NULL ){
                 printf("No nfert_1601-2100_2015soc_2015soc_2015soc.flt\n");
                 exit(1);

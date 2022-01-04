@@ -197,6 +197,57 @@ void f_ch4_emit_cao(
         }
         
         fv_inund_pad = grid->inundation_ssmi[grid->m];
+    }else if(ALT_INUND == 10){
+        /* for WAD2M_wetlands_2000-2020_05deg_Ver2.0.flt */
+        /* added: 2021/10/26 by A.Ito */
+    
+        if(grid->climy>=2000 && grid->climy<=2020){
+        
+            if(grid->f_wetland > 0.0){
+                fv_inund_wet = grid->inundation_alt_ts[grid->climy - 2000][grid->m] / grid->f_wetland;
+                
+                if(fv_inund_wet > 1.0){
+                    fv_inund_wet = 1.0;
+                }
+            }else{
+                fv_inund_wet = 0.0;
+            }
+            if(grid->f_paddy > 0.0){
+                /* f_inund_pad = grid->inundation_alt_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
+                
+                fv_inund_pad = grid->inundation_ssmi[grid->m];
+                
+                if(fv_inund_pad > 1.0){
+                    fv_inund_pad = 1.0;
+                }
+            }else{
+                fv_inund_pad = 0.0;
+            }
+        
+        }else{
+            if(grid->f_wetland > 0.0){
+                fv_inund_wet = grid->inundation_alt_av[grid->m] / grid->f_wetland;
+                
+                if(fv_inund_wet > 1.0){
+                    fv_inund_wet = 1.0;
+                }else{
+                
+                }
+            }else{
+                fv_inund_wet = 0.0;
+            }
+            if(grid->f_paddy > 0.0){
+                /* f_inund_pad = grid->inundation_alt_av[grid->m] / grid->f_paddy; */
+                
+                fv_inund_pad = grid->inundation_ssmi[grid->m];
+                
+                if(fv_inund_pad > 1.0){
+                    fv_inund_pad = 1.0;
+                }
+            }else{
+                fv_inund_pad = 0.0;
+            }
+        }
     }else{
         fv_inund_wet = grid->inundation_ssmi[grid->m];
         fv_inund_pad = grid->inundation_ssmi[grid->m];
@@ -279,6 +330,16 @@ void f_ch4_emit_cao(
                 fv_wetland = 1.0;
             }
         }else{
+            fv_wetland = grid->f_wetland;
+        }
+        fv_lake = grid->f_lake;
+    }else if(ALT_INUND == 10){
+        if(grid->climy>=2000 && grid->climy<=2020){
+            fv_wetland = grid->inundation_alt_ts[grid->climy - 2000][grid->m];
+        }else{
+            fv_wetland = grid->inundation_alt_av[grid->m];
+        }
+        if(fv_wetland < grid->f_wetland){
             fv_wetland = grid->f_wetland;
         }
         fv_lake = grid->f_lake;
@@ -931,7 +992,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_ts[grid->climy-1999][grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -940,7 +1001,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             
@@ -950,7 +1011,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_av[grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -959,7 +1020,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             }
@@ -972,7 +1033,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -981,7 +1042,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             
@@ -991,7 +1052,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_av[grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -1000,7 +1061,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             }
@@ -1013,7 +1074,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -1021,7 +1082,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             
@@ -1031,7 +1092,7 @@ void f_ch4_emit_walter(
                     /* f_inundation = grid->inundation_alt_av[grid->m] */;
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
                 if(grid->f_paddy > 0.0){
@@ -1039,7 +1100,7 @@ void f_ch4_emit_walter(
                     f_inundation = grid->inundation_ssmi[grid->m];
                     
                     if(f_inundation > 1.0){
-                        f_inundation = 0.0;
+                        f_inundation = 1.0;
                     }
                 }
             }
@@ -1053,6 +1114,45 @@ void f_ch4_emit_walter(
                 }
             }else{
                 f_inundation = grid->inundation_ssmi[grid->m];
+            }
+        }else if(ALT_INUND == 10){
+            /* use GCP-CH4 WAD2M data: 2021/10/26 by A.Ito */
+            if(grid->climy >= 2000 && grid->climy <= 2020){
+        
+                if(grid->f_wetland > 0.0){
+                    f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] */;
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 1.0;
+                    }
+                }
+                if(grid->f_paddy > 0.0){
+                    /* f_inundation = grid->inundation_alt_ts[grid->climy-2000][grid->m] / grid->f_paddy; */
+                    f_inundation = grid->inundation_ssmi[grid->m];
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 1.0;
+                    }
+                }
+            
+            }else{
+                if(grid->f_wetland > 0.0){
+                    f_inundation = grid->inundation_alt_av[grid->m] / grid->f_wetland;
+                    /* f_inundation = grid->inundation_alt_av[grid->m] */;
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 1.0;
+                    }
+                }
+                if(grid->f_paddy > 0.0){
+                    /* f_inundation = grid->inundation_alt_av[grid->m] / grid->f_paddy; */
+                    f_inundation = grid->inundation_ssmi[grid->m];
+                    
+                    if(f_inundation > 1.0){
+                        f_inundation = 1.0;
+                    }
+                }
             }
         }
 		
@@ -1170,6 +1270,31 @@ void f_ch4_emit_walter(
         }else if(ALT_INUND == 8 && smode == 2){
         
             if(grid->climy >= 2000 && grid->climy <= 2017){
+                if(grid->inundation_alt_ts[grid->climy-2000][grid->m] > grid->f_wetland){
+                    fa_wetland = 0.0;
+                }else{
+                    if(f_inundation <= 1.0){
+                        fa_wetland = (1.0 - f_inundation) * grid->f_wetland;
+                    }else{
+                        fa_wetland = 0.0;
+                    }
+                }
+            }else{
+                fa_wetland = grid->inundation_alt_av[grid->m];
+            }
+        }
+        /* no limit by WAD2M: 2021/10/26 by A.Ito */
+        if(ALT_INUND == 10 && smode == 1){
+        
+            if(grid->climy >= 2000 && grid->climy <= 2020){
+                fa_wetland = grid->inundation_alt_ts[grid->climy-2000][grid->m];
+            }else{
+                fa_wetland = grid->inundation_alt_av[grid->m];
+            }
+            
+        }else if(ALT_INUND == 10 && smode == 2){
+        
+            if(grid->climy >= 2000 && grid->climy <= 2020){
                 if(grid->inundation_alt_ts[grid->climy-2000][grid->m] > grid->f_wetland){
                     fa_wetland = 0.0;
                 }else{
@@ -1395,13 +1520,15 @@ void f_ch4_emit_termite(
     
     pch4 = 0.0;
     
-     if(loct->v_type == 1){
+    if(loct->v_type == 1){
         switch(grid->veg_sage){
             case 1: /* Tropical Evergreen Forest/Woodland */
-                pch4 = (5.6 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]) + 11.0 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                //pch4 = (5.6 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]) + 11.0 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                pch4 = 5.6 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 2: /* Tropical Deciduous Forest/Woodland */
-                pch4 = (5.6 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]) + 11.0 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                //pch4 = (5.6 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]) + 11.0 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                pch4 = 5.6 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 3: /* Temperate Broadleaf Evergreen Forest/Woodland */
                 pch4 = 3.0 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]);
@@ -1422,22 +1549,27 @@ void f_ch4_emit_termite(
                 pch4 = 3.0 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 9: /* Savanna */
-                pch4 = (4.5 * (8.0 * 0.000001 * 24.0 * MDN[grid->m]) + 11.1 * (8.0 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                //pch4 = (4.5 * (8.0 * 0.000001 * 24.0 * MDN[grid->m]) + 11.1 * (8.0 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                pch4 = 4.5 * (8.0 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 10: /* Grassland/Steppe */
-                pch4 = (3.0 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]) + 5.2 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                //pch4 = (3.0 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]) + 5.2 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                pch4 = 3.0 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 11: /* Dense Shrubland */
-                pch4 = (3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]) + 3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                //pch4 = (3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]) + 3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                pch4 = 3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 12: /* Open Shrubland */
-                pch4 = (3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]) + 0.8 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                //pch4 = (3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]) + 0.8 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                pch4 = 3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 13: /* Tundra */
                 pch4 = 0.0 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 14: /* Desert */
-                pch4 = (3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]) + 1.0 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                //pch4 = (3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]) + 1.0 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]))/2.0;
+                pch4 = 3.1 * (1.0 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 15: /* Polar Desert/Rock/Ice */
                 pch4 = 0.0 * (5.4 * 0.000001 * 24.0 * MDN[grid->m]);
@@ -1452,16 +1584,21 @@ void f_ch4_emit_termite(
         pch4 = 7.8 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]);
     }
     
+    if(grid->tmp_sfc_am < 0.0){
+        pch4 = 0.0;
+    }
+    
     flux->termite_ch4_lu[grid->m] = pch4;
     
-    /* GPP-based estimation */
-    gppann = 0.0;
+    /* GPP-based estimation *********************************************/
+    pch4 = gppann = 0.0;
     for(f=0;f<12;f++){
         gppann += (flux->plant).gpp[f];
     }
     
     if(gppann >= 0.0 && gppann <= 100.0){
-        trmden = 1.21 * exp(0.08 * gppann);
+        //trmden = 1.21 * exp(0.08 * gppann);
+        trmden = 1.21 * exp(0.08 * flux->gpp_ann);
     }else{
         trmden = 0.0;
     }
@@ -1482,19 +1619,19 @@ void f_ch4_emit_termite(
                 break;
             case 9: /* Savanna */
             case 10: /* Grassland/Steppe */
-                pch4 = 0.96 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                pch4 = (5.2+10.6)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 11: /* Dense Shrubland */
-                pch4 = 2.7 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                pch4 = (5.3+8.43)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 12: /* Open Shrubland */
-                pch4 = 0.98 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                pch4 = (5.3+8.43)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 13: /* Tundra */
                 pch4 = 0.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 14: /* Desert */
-                pch4 = 0.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                pch4 = (0.96+0.98)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 15: /* Polar Desert/Rock/Ice */
                 pch4 = 0.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
@@ -1505,10 +1642,13 @@ void f_ch4_emit_termite(
     }
     
     if(loct->v_type == 2){
-        pch4 = 2.25 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+        pch4 = (5.38+2.25)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
     }
     
-    if(grid->lat > 45.0  || grid->lat < -45.0){
+    /* if(grid->lat > 45.0  || grid->lat < -45.0){
+        pch4 = 0.0;
+    } */
+    if(grid->tmp_sfc_am < 0.0){
         pch4 = 0.0;
     }
     

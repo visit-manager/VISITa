@@ -116,7 +116,7 @@ void screenshow(
     printf("APR: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",(echar->c3).appfd_db[h]);	} printf("\n"); */
     
-    /*printf("CH4: ");		ann=0.0;
+    printf("CH4: ");		ann=0.0;
     if(loct->v_type==1){
         for(h=0;h<12;h++){	printf("%6.2lf ",(flux->soil).ch4_wetland_wh_diff[h]+(flux->soil).ch4_wetland_wh_plant[h]+
                                     (flux->soil).ch4_wetland_wh_ebull[h]);
@@ -128,12 +128,12 @@ void screenshow(
                             ann += (flux->soil).ch4_paddy_wh_diff[h]+(flux->soil).ch4_paddy_wh_plant[h]+
                                     (flux->soil).ch4_paddy_wh_ebull[h];	}
     }
-    printf(" %.1lf\n",ann); */
+    printf(" %.1lf\n",ann); /**/
     
-    for(h=0;h<12;h++){    printf("%6.2lf ",(flux->soil).ch4oxy_curry[h]); } printf("\n");
+    /* for(h=0;h<12;h++){    printf("%6.2lf ",(flux->soil).ch4oxy_curry[h]); } printf("\n");
     for(h=0;h<12;h++){    printf("%6.2lf ",loct->xx1[h]); } printf("\n");
     for(h=0;h<12;h++){    printf("%6.2lf ",loct->xx2[h]); } printf("\n");
-    for(h=0;h<12;h++){    printf("%6.2lf ",loct->xx3[h]); } printf("\n");
+    for(h=0;h<12;h++){    printf("%6.2lf ",loct->xx3[h]); } printf("\n"); */
 
     printf("N2O: ");		ann=0.0;
 	for(h=0;h<12;h++){		printf("%6.1lf ",(flux->soil).d_n2o_ntr_ngas[h] + (flux->soil).d_n2o_dnt_ngas[h]);

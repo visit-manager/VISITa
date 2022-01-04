@@ -25,31 +25,31 @@ void n_fertilizer_in(
 		case 0:		fert_input = 57.65;	break;	/*	Ocean */
 		case 4:		fert_input = 57.65;	break;	/*Afghanistan */
 		case 8:		fert_input = 42.88;	break;	/*	Albania */
-		case 12:	fert_input = 2.75;	break;	/*	Algeria */
-		case 20:	fert_input = 57.65;	break;	/*	Andorra */
-		case 24:	fert_input = 0.66;	break;	/*	Angola */
+		case 12:	    fert_input = 2.75;	break;	/*	Algeria */
+		case 20:	    fert_input = 57.65;	break;	/*	Andorra */
+		case 24:	    fert_input = 0.66;	break;	/*	Angola */
 		/* case 660:	fert_input = ;	break; */	/*	Anguilla */
-		case 28:	fert_input = 57.65;	break;	/*	Antigua-and-Barbuda */
-		case 32:	fert_input = 22.08;	break;	/*	Argentina */
-		case 51:	fert_input = 23.43;	break;	/*	Armenia */
+		case 28:	    fert_input = 57.65;	break;	/*	Antigua-and-Barbuda */
+		case 32:	    fert_input = 22.08;	break;	/*	Argentina */
+		case 51:	    fert_input = 23.43;	break;	/*	Armenia */
 		case 533:	fert_input = 57.65;	break;	/*	Aruba */
-		case 36:	fert_input = 19.91;	break;	/*	Australia */
-		case 40:	fert_input = 121.31;	break;	/*	Austria */
-		case 31:	fert_input = 7.52;	break;	/*	Azerbaijan */
-		case 44:	fert_input = 57.65;	break;	/*	Bahamas */
-		case 48:	fert_input = 57.65;	break;	/*	Bahrain */
-		case 50:	fert_input = 129.18;	break;	/*	Bangladesh */
-		case 52:	fert_input = 37.06;	break;	/*	Barbados */
+		case 36:	    fert_input = 19.91;	break;	/*	Australia */
+		case 40:	    fert_input = 121.31;	break;	/*	Austria */
+		case 31:	    fert_input = 7.52;	break;	/*	Azerbaijan */
+		case 44:	    fert_input = 57.65;	break;	/*	Bahamas */
+		case 48:	    fert_input = 57.65;	break;	/*	Bahrain */
+		case 50:	    fert_input = 129.18;	break;	/*	Bangladesh */
+		case 52:	    fert_input = 37.06;	break;	/*	Barbados */
 		case 112:	fert_input = 52.79;	break;	/*	Belarus */
-		case 56:	fert_input = 57.65;	break;	/*	Belgium */
-		case 84:	fert_input = 110.75;	break;	/*	Belize */
+		case 56:	    fert_input = 57.65;	break;	/*	Belgium */
+		case 84:	    fert_input = 110.75;	break;	/*	Belize */
 		case 204:	fert_input = 4.41;	break;	/*	Benin */
-		case 60:	fert_input = 57.65;	break;	/*	Bermuda */
-		case 64:	fert_input = 57.65;	break;	/*	Bhutan */
-		case 68:	fert_input = 1.88;	break;	/*	Bolivia */
-		case 72:	fert_input = 57.65;	break;	/*	Botswana */
-		case 76:	fert_input = 30.91;	break;	/*	Brazil */
-		case 96:	fert_input = 57.65;	break;	/*	Brunei */
+		case 60:	    fert_input = 57.65;	break;	/*	Bermuda */
+		case 64:	    fert_input = 57.65;	break;	/*	Bhutan */
+		case 68:	    fert_input = 1.88;	break;	/*	Bolivia */
+		case 72:	    fert_input = 57.65;	break;	/*	Botswana */
+		case 76:	    fert_input = 30.91;	break;	/*	Brazil */
+		case 96:	    fert_input = 57.65;	break;	/*	Brunei */
 		case 100:	fert_input = 83.18;	break;	/*	Bulgaria */
 		case 854:	fert_input = 2.47;	break;	/*	Burkina */
 		case 108:	fert_input = 0.29;	break;	/*	Burundi */
@@ -196,7 +196,7 @@ void n_fertilizer_in(
 		case 690:	fert_input = 57.65;	break;	/*	Seychelles */
 		case 694:	fert_input = 57.65;	break;	/*	Sierra-Leone */
 		case 702:	fert_input = 57.65;	break;	/*	Singapore */
-		case 90:	fert_input = 57.65;	break;	/*	Solomon-Islands */
+		case 90:	    fert_input = 57.65;	break;	/*	Solomon-Islands */
 		case 706:	fert_input = 57.65;	break;	/*	Somalia */
 		case 710:	fert_input = 27.37;	break;	/*	South-Africa */
 		case 410:	fert_input = 124.53;	break;	/*	South-Korea */
@@ -234,7 +234,7 @@ void n_fertilizer_in(
 		case 548:	fert_input = 57.65;	break;	/*	Vanuatu */
 		case 862:	fert_input = 85.99;	break;	/*	Venezuela */
 		case 704:	fert_input = 134.48;	break;	/*	Vietnam */
-		case 92:	fert_input = 57.65;	break;	/*	Virgin-Islands-(Brit */
+		case 92:	    fert_input = 57.65;	break;	/*	Virgin-Islands-(Brit */
 		case 850:	fert_input = 57.65;	break;	/*	Virgin-Islands-(USA) */
 		case 732:	fert_input = 57.65;	break;	/*	Western-Sahara */
 		case 882:	fert_input = 57.65;	break;	/*	Western-Samoa */
@@ -244,7 +244,7 @@ void n_fertilizer_in(
 		case 894:	fert_input = 57.65;	break;	/*	Zambia */
 		case 716:	fert_input = 20.36;	break;	/*	Zimbabwe */
 		case 2222:	fert_input = 57.65;	break;	/* Antarctica	 */
-		default:	fert_input = 57.65;				
+		default:	    fert_input = 57.65;				
 	}
 	
     /* kg N / ha / month */
@@ -303,7 +303,7 @@ void n_fertilizer_in(
     
     /* NMIP run: 2015/11/19 by A.Ito *****/
     /* updated: 2016/10/20, 2017/10/20 */
-    if(NMIP_RUN >= 1){
+    if(NMIP_RUN >= 1 && NMIP_RUN <= 12){
         nyear = grid->niny;
 
         if(NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
@@ -337,7 +337,35 @@ void n_fertilizer_in(
         /* if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
             loct->n_manure_in = 0.0;
         } */
-        
+    }else if(NMIP_RUN >= 20 && NMIP_RUN <= 30){
+        /* NMIP2: 2021/12/15 by A.Ito */
+        nyear = grid->niny;
+
+        if(NMIP_RUN == 20 || NMIP_RUN == 23 || NMIP_RUN == 30){
+            nyear = FDY_NINY;
+        }
+    
+        if(grid->niny>=FDY_NINY && grid->niny<=2020){
+            loct->n_frtlz_in = grid->mip_nfert[nyear - FDY_NINY] * MDN[grid->m] / YDN;
+            loct->n_frtlz_in_nh4 = grid->mip_nfert_nh4[nyear - FDY_NINY] * MDN[grid->m] / YDN;
+            loct->n_frtlz_in_noy = grid->mip_nfert_noy[nyear - FDY_NINY] * MDN[grid->m] / YDN;
+        }else if(grid->niny < FDY_NINY){
+            loct->n_frtlz_in = grid->mip_nfert[0] * MDN[grid->m] / YDN;
+        }else if(grid->niny>2020){
+            loct->n_frtlz_in = grid->mip_nfert[2020 - FDY_NINY] * MDN[grid->m] / YDN;
+        }
+                
+        loct->n_manure_in = 0.0;
+        if(NMIP_RUN == 20 || NMIP_RUN == 22 || NMIP_RUN == 30){
+            nyear = FDY_NINY;
+        }
+        if(grid->niny>=FDY_NINY && grid->niny<=2020){
+            loct->n_manure_in = grid->mip_manure[nyear - FDY_NINY] * MDN[grid->m] / YDN;
+        }else if(grid->niny < FDY_NINY){
+            loct->n_manure_in = grid->mip_manure[0] * MDN[grid->m] / YDN;
+        }else if(grid->niny > 2020){
+            loct->n_manure_in = grid->mip_manure[2020 - FDY_NINY] * MDN[grid->m] / YDN;
+        }
     }else{
         /* ISI-MIP2.1b: 2016/12/22 by A.Ito */
         if(ISIMIP_RUN == 4){

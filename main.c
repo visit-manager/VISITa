@@ -292,7 +292,7 @@ int main(
 		
 		if(f%FROWS == 0){
 			/* open output files */	/* -> output_file.c */
-			if(CALC_OLSON == 1){
+			if(CALC_VEG == 1){
 				f_output_file_open(1, zone, s_date, s_case, filename, fp_o1);
 			}
 			if(CALC_CROP == 1){
@@ -324,7 +324,7 @@ int main(
 			
 			/* header information of output files */
 			for(h=0;h<OFILEN;h++){
-				if(CALC_OLSON == 1){
+				if(CALC_VEG == 1){
 					fprintf(fp_o1[h],"%ld %ld %ld %ld %ld\n",
 							grid.row, grid.col, grid.veg_olson, grid.veg_sage, grid.flag_histdata);
 					
@@ -371,7 +371,7 @@ int main(
                 glat_area[f] += grid.area;  /* latitudinal */
                 
                 /* Olson map */
-                if(CALC_OLSON == 1){
+                if(CALC_VEG == 1){
                     loct.v_type = 1;
                     /* sequential grid number */
                     grid.n_olson++;
@@ -471,7 +471,7 @@ int main(
 		/* close output files */
 		if(f%FROWS == (FROWS-1)){
 			for(h=0;h<OFILEN;h++){
-				if(CALC_OLSON == 1){
+				if(CALC_VEG == 1){
 					fclose(fp_o1[h]);
 				}
 				if(CALC_CROP == 1){
