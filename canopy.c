@@ -35,7 +35,7 @@ double f_df97_gpp(
 	double h_sinh[DSTEP], toprad[DSTEP], sfcrad[DSTEP];
 	double par_b[DSTEP], par_d[DSTEP], ppfd_b[DSTEP], ppfd_d[DSTEP];
 	double doy[12] = {15.0, 46.0, 74.0, 105.0, 135.0, 166.0, 
-		196.0, 227.0, 258.0, 288.0, 319.0, 349.0};
+                    196.0, 227.0, 258.0, 288.0, 319.0, 349.0};
 	double ke_b1, ke_b2, ke_d, lai_sn, lai_sd, scttr, irr_b, rfl_b, rfl_d;
 	double appfd, appfd_sn1, appfd_sn2, appfd_sn3, appfd_sd1, appfd_sd2;
 	double appfd_sn, appfd_sd, ps2_appfd_sn[DSTEP], ps2_appfd_sd[DSTEP], spect;
@@ -63,16 +63,16 @@ double f_df97_gpp(
 	if(SENS_RAD==5){
 		scttr *= 1.1;
 	}
-	if(SENS_RAD==6){
+	if(SENS_RAD == 6){
 		scttr *= 0.9;
 	}
 	
 	rfl_d = 0.036;
 	ke_d = 0.719;
-	if(SENS_RAD==7){
+	if(SENS_RAD == 7){
 		ke_d *= 1.1;
 	}
-	if(SENS_RAD==8){
+	if(SENS_RAD == 8){
 		ke_d *= 0.9;
 	}
 

@@ -902,7 +902,7 @@ void f_init_grid(
             }
         }
         
-    }else if(ISIMIP_RUN==5){
+    }else if(ISIMIP_RUN == 5){
         /* ISIMIP3a: 2020/10/01 by A.Ito */
         fread(is3adat_mon,sizeof(float),12*DL_NINPUT, fp_s[25]);
         for(e=0;e<12*DL_NINPUT;e++){
@@ -922,7 +922,7 @@ void f_init_grid(
             }
         }
         
-    }else if(ISIMIP_RUN==6){
+    }else if(ISIMIP_RUN == 6){
         /* ISIMIP3b: 2020/11/18 by A.Ito */
         fread(is3adat_mon,sizeof(float),12*DL_NINPUT, fp_s[25]);
         for(e=0;e<12*DL_NINPUT;e++){
@@ -1765,6 +1765,8 @@ void f_init_grid(
     for(e=0;e<DL_NINPUT;e++){
         grid->mip_frcrop[e] = 0.0;
         grid->mip_nfert[e] = 0.0;
+        grid->mip_nfert_nh4[e] = 0.0;
+        grid->mip_nfert_noy[e] = 0.0;
         grid->mip_ndep_noy[e] = 0.0;
         grid->mip_ndep_nh4[e] = 0.0;
         grid->mip_manure[e] = 0.0;
@@ -1932,7 +1934,7 @@ void f_init_grid(
                     grid->mip_manure[e] = 0.0;
                 }
             }
-        }else{
+        }else if(NMIP_RUN >=1 && NMIP_RUN <20){
             /* NMIP input: 2015/11/19 by A.Ito *************/
             for(e=0;e<DL_NINPUT;e++){
                 

@@ -408,7 +408,7 @@ void f_set_history_data(
 													 (flux->soil).ch4_paddy_wh_ebull[f] + (flux->soil).ch4_paddy_wh_release[f]) 
 														* grid->area *10000.0/1000.0;
 		rh_n2o_emit_ngas[grid->reg_g][year] += fweight * ((flux->soil).d_n2o_ntr_ngas[f] + (flux->soil).d_n2o_dnt_ngas[f]) * grid->area;
-		if(CALC_OLSON == 1){
+		if(CALC_VEG == 1){
 			if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32){
 				rh_n2o_emitagr_ngas[grid->reg_g][year] += fweight * ((flux->soil).d_n2o_ntr_ngas[f] + (flux->soil).d_n2o_dnt_ngas[f]) * grid->area;
 			}

@@ -145,9 +145,9 @@ void read_cru_clim(
         /* 2006-2099:           projection */
         /* 2100-2299:           extended projection */
 
-        /* ISIMIP3a: 2020/10/30 by A.Ito ****************/
+        /* ISIMIP3a: 2022/01/24 by A.Ito ****************/
         /* 1801-1900-detrended: spin-up */
-        /* 1901-2016:           historical */
+        /* 1901-2019:           historical */
 
         /* ISIMIP3b: 2020/11/18 by A.Ito ****************/
         /* 1601-1850:           spin-up */
@@ -196,7 +196,7 @@ void read_cru_clim(
                     /* input humidity to vapor pressure */
                     /* revided by A.Ito (2012/06/28) */
                     
-                    if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2){
+                    if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2){
                         /* relative humidity */
                         /* saturated water vapor pressure */
                         if(grid->hist_tmp[h][g] > 0.0){ /* at water surface */

@@ -87,12 +87,14 @@ void f_co2_trend(
     }else if(ISIMIP_RUN == 5){
         /** ISI-MIP 3a runs **/
         switch(SCENARIO_ID){
-            case 5100: case 5101: case 5102:   /* obsclim */
-            case 5110: case 5111: case 5112:
+            case 5100: case 5101: case 5102:   /* obsclim GSWP3-W5E5 */
+            case 5110: case 5111: case 5112:   /* obsclim GSWP3 */
+            case 5220: case 5223:
                 base = aco2_1[grid->co2y - FDY_AGHG];
                 break;
-            case 5103: case 5104: case 5105: case 5106: case 5107: /* counterclim */
-            case 5113: case 5114: case 5115: case 5116: case 5117:
+            case 5103: case 5104: case 5105: case 5106: case 5107: /* counterclim GSWP3-W5E5 */
+            case 5113: case 5114: case 5115: case 5116: case 5117: /* counterclim GSWP3 */
+            case 5221: case 5222:
                 base = aco2_2[grid->co2y - FDY_AGHG];
                 break;
         }

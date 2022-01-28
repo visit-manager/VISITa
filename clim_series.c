@@ -220,7 +220,6 @@ void set_hist_clim(
             grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM + offset][h];  
         }
     }else if(ISIMIP_RUN == 5){
-        
         /* ISIMIP3a climate data: 2020/09/30 by A.Ito */
         if(grid->phase == 0){
             offset = 0;
@@ -242,7 +241,6 @@ void set_hist_clim(
             grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM + offset][h];
         }
     }else if(ISIMIP_RUN == 6){
-        
         /* ISIMIP3b climate data: 2020/11/18 by A.Ito */
         if(grid->phase == 0){
             offset = 0;
