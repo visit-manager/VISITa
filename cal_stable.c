@@ -147,7 +147,8 @@ void cal_spinup(
     }
     if(ISIMIP_RUN == 5){
         /* ISIMIP3a */
-        grid->simy = 1850;
+        /* grid->simy = 1850; */
+        grid->simy = FSY_HIST - 1;
     }
     if(ISIMIP_RUN == 6){
         /* ISIMIP3b */
