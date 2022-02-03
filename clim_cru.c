@@ -106,15 +106,27 @@ void read_cru_clim(
         if(flag == 4){
             /* data available */
             grid->flag_histdata = 1;
-            alt = (grid->topo>=0.0)?grid->topo:0.0; 
-
-            /* base climate (average 1971 - 2000) ******************/
-            for(f=0;f<30;f++){
-                for(g=0;g<ASTEP;g++){
-                    grid->hist_cld_b[g] += grid->hist_cld[70+f][g]/30.0;
-                    grid->hist_pre_b[g] += grid->hist_pre[70+f][g]/30.0;
-                    grid->hist_vap_b[g] += grid->hist_vap[70+f][g]/30.0;
-                    grid->hist_tmp_b[g] += grid->hist_tmp[70+f][g]/30.0;
+            alt = (grid->topo>=0.0)?grid->topo:0.0;
+            
+            if(GCP_FIXTMP == 1 || GCP_FIXPRC == 1){
+                /* base climate (average 1997 - 2006) ******************/
+                for(f=0;f<10;f++){
+                    for(g=0;g<ASTEP;g++){
+                        grid->hist_cld_b[g] += grid->hist_cld[96+f][g]/10.0;
+                        grid->hist_pre_b[g] += grid->hist_pre[96+f][g]/10.0;
+                        grid->hist_vap_b[g] += grid->hist_vap[96+f][g]/10.0;
+                        grid->hist_tmp_b[g] += grid->hist_tmp[96+f][g]/10.0;
+                    }
+                }
+            }else{
+                /* base climate (average 1971 - 2000) ******************/
+                for(f=0;f<30;f++){
+                    for(g=0;g<ASTEP;g++){
+                        grid->hist_cld_b[g] += grid->hist_cld[70+f][g]/30.0;
+                        grid->hist_pre_b[g] += grid->hist_pre[70+f][g]/30.0;
+                        grid->hist_vap_b[g] += grid->hist_vap[70+f][g]/30.0;
+                        grid->hist_tmp_b[g] += grid->hist_tmp[70+f][g]/30.0;
+                    }
                 }
             }
         }else{

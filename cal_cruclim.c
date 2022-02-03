@@ -104,8 +104,8 @@ void cal_historical(
             }
         }
         if(GCP_FIXCD == 1){
-            /* fix CO2 after 2006 */
-            if(grid->simy >= 2006){
+            /* GCP-CH4: fix CO2 after 2006 */
+            if(grid->simy >= 2007){
                 grid->co2y = 2006;
             }else{
                 ;
