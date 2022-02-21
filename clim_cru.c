@@ -43,6 +43,8 @@ void read_cru_clim(
     for(g=0;g<ASTEP;g++){
         grid->hist_cld_b[g] = grid->hist_pre_b[g] = 0.0;
         grid->hist_tmp_b[g] = grid->hist_vap_b[g] = 0.0;
+        
+        grid->hist_tmp_b2[g] = grid->hist_pre_b2[g] = 0.0;
     }
 
     if((ISIMIP_RUN == 0) && (SCENARIO_ID != 4100)){
@@ -106,9 +108,9 @@ void read_cru_clim(
         if(flag == 4){
             /* data available */
             grid->flag_histdata = 1;
-            alt = (grid->topo>=0.0)?grid->topo:0.0; 
-
-            /* base climate (average 1971 - 2000) ******************/
+            alt = (grid->topo>=0.0)?grid->topo:0.0;
+            
+             /* base climate (average 1971 - 2000) ******************/
             for(f=0;f<30;f++){
                 for(g=0;g<ASTEP;g++){
                     grid->hist_cld_b[g] += grid->hist_cld[70+f][g]/30.0;
@@ -117,6 +119,15 @@ void read_cru_clim(
                     grid->hist_tmp_b[g] += grid->hist_tmp[70+f][g]/30.0;
                 }
             }
+
+           /* base climate (average 1997 - 2006) ******************/
+            for(f=0;f<10;f++){
+                for(g=0;g<ASTEP;g++){
+                    grid->hist_pre_b2[g] += grid->hist_pre[96+f][g]/10.0;
+                    grid->hist_tmp_b2[g] += grid->hist_tmp[96+f][g]/10.0;
+                }
+            }
+            
         }else{
             /* unavailable CRU TS data, for example on ocean */
             grid->flag_histdata = 0;
@@ -145,9 +156,9 @@ void read_cru_clim(
         /* 2006-2099:           projection */
         /* 2100-2299:           extended projection */
 
-        /* ISIMIP3a: 2020/10/30 by A.Ito ****************/
+        /* ISIMIP3a: 2022/01/24 by A.Ito ****************/
         /* 1801-1900-detrended: spin-up */
-        /* 1901-2016:           historical */
+        /* 1901-2019:           historical */
 
         /* ISIMIP3b: 2020/11/18 by A.Ito ****************/
         /* 1601-1850:           spin-up */
@@ -196,7 +207,7 @@ void read_cru_clim(
                     /* input humidity to vapor pressure */
                     /* revided by A.Ito (2012/06/28) */
                     
-                    if(ISIMIP_RUN == 1 ||ISIMIP_RUN == 2){
+                    if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2){
                         /* relative humidity */
                         /* saturated water vapor pressure */
                         if(grid->hist_tmp[h][g] > 0.0){ /* at water surface */

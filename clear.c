@@ -94,7 +94,7 @@ void f_clear(
     grid->tmp_base_permaforst = 0.0;
     grid->tmp_soil_am = 0.0;
     
-    loct->n_frtlz_in = loct->n_manure_in = 0.0;
+    loct->n_frtlz_in = loct->n_frtlz_in_nh4 = loct->n_frtlz_in_noy = loct->n_manure_in = 0.0;
     
     /* for(f=0;f<DL_BF;f++){
         grid->f_biofuel[f] = 0.0;

@@ -942,6 +942,11 @@ void set_gcm_index(
         case 5116:      strcpy(s_case,"ISM3a_G3-co2-hist_"); break;
         case 5117:      strcpy(s_case,"ISM3a_G3-co2-2015_"); break;
 
+        case 5220:      strcpy(s_case,"ISM3a_G3E5-ev-1901_"); break;
+        case 5221:      strcpy(s_case,"ISM3a_G3E5-cc-1901_"); break;
+        case 5222:      strcpy(s_case,"ISM3a_G3E5-co2-1901_"); break;
+        case 5223:      strcpy(s_case,"ISM3a_G3E5-nofire_"); break;
+
         /* ISIMIP3b; 2020/05/26 by A.Ito */
         case 5120:      strcpy(s_case,"ISM3b-pi-hist-g_"); break;
         case 5121:      strcpy(s_case,"ISM3b-pi-2015-g_"); break;

@@ -168,6 +168,10 @@ void f_biomassburning(
 			}else if(cc >=1.0){
 				cc = 1.0;
 			}
+   
+            if(SCENARIO_ID == 5223){
+                cc = 0.0;   /* no fire for ISIMIP3b: 2022/01/25 */
+            }
 			
 			/* fire season length */
 			flux->day_fire[f] = MDN[f] * cc;

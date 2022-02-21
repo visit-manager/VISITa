@@ -200,6 +200,9 @@ struct Grid{
 	double	hist_cld_b[ASTEP];					/* cloud cover */
 	double	hist_vap_b[ASTEP];					/* vapor pressure */
 
+	double	hist_tmp_b2[ASTEP];					/* temperature */
+	double	hist_pre_b2[ASTEP];					/* precipitation */
+
 	/* erosion */
 	long 	rvbasin;						/* ID of river basin */
 	double 	albedo_soil;					/* soil albedo */
@@ -349,6 +352,8 @@ struct Grid{
     
     /* NMIP input: 2015/11/19 by A.Ito */
     double  mip_nfert[DL_NINPUT];                /* nitrogen fertilizer */
+    double  mip_nfert_nh4[DL_NINPUT];             /* nitrogen fertilizer */
+    double  mip_nfert_noy[DL_NINPUT];             /* nitrogen fertilizer */
     double  mip_ndep_noy[DL_NINPUT];             /* NOy deposition */
     double  mip_ndep_nh4[DL_NINPUT];             /* NH4 fertilizer */
     double  mip_manure[DL_NINPUT];               /* manure */
@@ -470,6 +475,8 @@ struct Loct{
 	double	soil_apprw;					/* soil aperture of lower layer, fraction */
 	
 	double	n_frtlz_in;					/* N-fertilization input */
+	double	n_frtlz_in_nh4;					/* N-fertilization input */
+	double	n_frtlz_in_noy;					/* N-fertilization input */
 	double	n_manure_in;                /* N-manure input */
 	double	depo_no3[ASTEP];			/* NO3- deposition */
 	double	depo_nh4[ASTEP];			/* NH4+ deposition */

@@ -84,8 +84,8 @@ void f_n2o_emit_ngas(
 	
 	/* added by A.Ito (2009/06/16) */
 	/* revised 2014/11/27 by A.Ito */
-	/* if(CALC_OLSON == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32)){ */
-	if(CALC_OLSON == 1 && (loct->v_type == 2)){
+	/* if(CALC_VEG == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32)){ */
+	if(CALC_VEG == 1 && (loct->v_type == 2)){
         /* cropland */
 		/* kmax = 28.6; */
 		/* kmax = 18.0; */ /* 22.5=>20.0=>18.0 2014/12/02 by A.Ito */

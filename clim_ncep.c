@@ -126,14 +126,24 @@ void read_ncep_clim(
         printf("No tcdc.eatm.gauss.mon4819.dat\n");  exit(1); } */
 
     /* added 2019: 2021/01/XX by A.Ito */
-    if( (fp_t=fopen("./data/air.2m.gauss.mon4820.txt","rt"))==NULL ){
+    /* if( (fp_t=fopen("./data/air.2m.gauss.mon4820.txt","rt"))==NULL ){
         printf("No air.2m.gauss.mon4820.dat\n");  exit(1); }
     if( (fp_p=fopen("./data/prate.sfc.gauss.mon4820.txt","rt"))==NULL ){
         printf("No prate.sfc.gauss.mon4820.dat\n");  exit(1); }
     if( (fp_h=fopen("./data/vpres.sfc.gauss.mon4820.txt","rt"))==NULL ){
         printf("No vpres.sfc.gauss.mon4820.dat\n");  exit(1); }
     if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4820.txt","rt"))==NULL ){
-        printf("No tcdc.eatm.gauss.mon4820.dat\n");  exit(1); }
+        printf("No tcdc.eatm.gauss.mon4820.dat\n");  exit(1); } */
+
+    /* added 2019: 2022/01/04 by A.Ito */
+    if( (fp_t=fopen("./data/air.2m.gauss.mon4821.txt","rt"))==NULL ){
+        printf("No air.2m.gauss.mon4821.dat\n");  exit(1); }
+    if( (fp_p=fopen("./data/prate.sfc.gauss.mon4821.txt","rt"))==NULL ){
+        printf("No prate.sfc.gauss.mon4821.dat\n");  exit(1); }
+    if( (fp_h=fopen("./data/vpres.sfc.gauss.mon4821.txt","rt"))==NULL ){
+        printf("No vpres.sfc.gauss.mon4821.dat\n");  exit(1); }
+    if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4821.txt","rt"))==NULL ){
+        printf("No tcdc.eatm.gauss.mon4821.dat\n");  exit(1); }
 
 	for(f=0;f<DL_NCEP;f++){   /*  1948-20XX */
 		for(g=0;g<ASTEP;g++){
@@ -156,6 +166,7 @@ void read_ncep_clim(
 	}
 	
 	/* average climatology 1970-1999 */
+	/* average climatology 1980-2009 */
 	for(f=0;f<30;f++){
 		for(g=0;g<ASTEP;g++){
 			for(h=0;h<94;h++){
@@ -167,10 +178,10 @@ void read_ncep_clim(
 						grid->ncep_tcdc_b[g][h][i] = 0.0;
 					}
 					
-					grid->ncep_tmp2m_b[g][h][i] += grid->ncep_tmp2m[f+22][g][h][i]/30.0;
-					grid->ncep_prate_b[g][h][i] += grid->ncep_prate[f+22][g][h][i]/30.0;
-					grid->ncep_vpres_b[g][h][i] += grid->ncep_vpres[f+22][g][h][i]/30.0;
-					grid->ncep_tcdc_b[g][h][i] += grid->ncep_tcdc[f+22][g][h][i]/30.0;
+					grid->ncep_tmp2m_b[g][h][i] += grid->ncep_tmp2m[f+32][g][h][i]/30.0;
+					grid->ncep_prate_b[g][h][i] += grid->ncep_prate[f+32][g][h][i]/30.0;
+					grid->ncep_vpres_b[g][h][i] += grid->ncep_vpres[f+32][g][h][i]/30.0;
+					grid->ncep_tcdc_b[g][h][i] += grid->ncep_tcdc[f+32][g][h][i]/30.0;
 				}
 			}
 		}

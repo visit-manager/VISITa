@@ -104,15 +104,15 @@ void cal_historical(
             }
         }
         if(GCP_FIXCD == 1){
-            /* fix CO2 after 2006 */
-            if(grid->simy >= 2006){
+            /* GCP-CH4: fix CO2 after 2006 */
+            if(grid->simy >= 2007){
                 grid->co2y = 2006;
             }else{
                 ;
             }
         }
         
-        if(ISIMIP_RUN==6 &&
+        if(ISIMIP_RUN == 6 &&
             (SCENARIO_ID==5126 || SCENARIO_ID==5130 || SCENARIO_ID==5134 || SCENARIO_ID==5135 || SCENARIO_ID==5136 ||
             SCENARIO_ID==5146 || SCENARIO_ID==5150 || SCENARIO_ID==5154 || SCENARIO_ID==5155 || SCENARIO_ID==5156 ||
             SCENARIO_ID==5166 || SCENARIO_ID==5170 || SCENARIO_ID==5174 || SCENARIO_ID==5175 || SCENARIO_ID==5176 ||
@@ -149,6 +149,38 @@ void cal_historical(
             grid->lucy = FSY_HIST;
         }else if(NMIP_RUN == 7){
             /* grid->climy = FSY_HIST; */ /* 1901 */
+            grid->co2y = FSY_HIST;
+            grid->niny = FSY_HIST;
+            grid->lucy = FSY_HIST;
+        }else if(NMIP_RUN == 20){
+            grid->climy = 1901 + g%20; /* */ /* 1850 */
+            grid->co2y = FSY_HIST;
+            grid->niny = FSY_HIST;
+            grid->lucy = FSY_HIST;
+        }else if(NMIP_RUN == 21 || NMIP_RUN == 22 || NMIP_RUN == 23 || NMIP_RUN == 24 || NMIP_RUN == 25){
+            if(g < 50){
+                grid->climy = 1901 + g%20; /* */ /* 1850 */
+            }
+        }else if(NMIP_RUN == 26){
+            if(g < 50){
+                grid->climy = 1901 + g%20; /* */ /* 1850 */
+            }
+            grid->lucy = FSY_HIST;
+        }else if(NMIP_RUN == 27){
+            if(g < 50){
+                grid->climy = 1901 + g%20; /* */ /* 1850 */
+            }
+            grid->co2y = FSY_HIST;
+        }else if(NMIP_RUN == 28){
+            grid->climy = 1901 + g%20; /* */ /* 1850 */
+        }else if(NMIP_RUN == 29){
+            grid->climy = 1901 + g%20; /* */ /* 1850 */
+            grid->co2y = FSY_HIST;
+            grid->lucy = FSY_HIST;
+        }else if(NMIP_RUN == 30){
+            if(g < 50){
+                grid->climy = 1901 + g%20; /* */ /* 1850 */
+            }
             grid->co2y = FSY_HIST;
             grid->niny = FSY_HIST;
             grid->lucy = FSY_HIST;
@@ -273,7 +305,8 @@ void cal_historical(
         
         if((echar->soil).v_type == 2){
             /* NMIP input: 2015/11/19 by A.Ito */
-            if(NMIP_RUN >= 1 || EX_NFERT >= 1 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5 || ISIMIP_RUN == 6 || EX_NFERT == 102){
+            if(NMIP_RUN >= 1 || EX_NFERT >= 1 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5
+                    || ISIMIP_RUN == 6 || EX_NFERT == 102){
                 n_fertilizer_in(grid, loct);
                 f_fert = 1.0; /* driven by data */
             }
@@ -339,8 +372,13 @@ void cal_historical(
 			   if(grid->veg_olson == 29 || grid->veg_olson == 30 ||
                                     grid->veg_olson == 31 || grid->veg_olson == 32){
 				   (flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
-				   (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
-				   (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+                    if(NMIP_RUN >=20 && NMIP_RUN <=30){
+                        (mass->soil).n_no3 += loct->n_frtlz_in_noy * 1000.0 * f_fert;
+                        (mass->soil).n_nh4 += loct->n_frtlz_in_nh4 * 1000.0 * f_fert;
+                    }else{
+                        (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
+                        (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+                    }
                    (flux->soil).n_manurein[grid->m] = 0.0;
 				}else{
 				   (flux->soil).n_fertin[grid->m] = 0.0;
@@ -443,8 +481,13 @@ void cal_historical(
             }else{
                 if((echar->soil).v_type == 2){
                     (flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0 * f_fert;
-                    (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
-                    (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+                     if(NMIP_RUN >= 20 && NMIP_RUN <= 30){
+                        (mass->soil).n_no3 += loct->n_frtlz_in_noy * 1000.0 * f_fert;
+                        (mass->soil).n_nh4 += loct->n_frtlz_in_nh4 * 1000.0 * f_fert;
+                    }else{
+                        (mass->soil).n_no3 += loct->n_frtlz_in * 0.2 * 1000.0 * f_fert;
+                        (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
+                    }
 
                     /* 2016/10/20 by A.Ito */
                     (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0 * f_fert;
@@ -521,7 +564,7 @@ void cal_historical(
 			n_budget(grid, loct, mass, flux);
 			
 			/* average LAI: 2009/05/06 by A.Ito */
-			if(grid->niny>=1990 && grid->niny<=1999){
+			if(grid->niny >= 1990 && grid->niny <= 1999){
 				(mass->c3).lai0[f] += (mass->c3).lai[f]/10.0;
 				(mass->c4).lai0[f] += (mass->c4).lai[f]/10.0;
 				(mass->plant).lai0[f] += (mass->plant).lai[f]/10.0;
@@ -529,7 +572,7 @@ void cal_historical(
 			
 			/* statistics *******************************************/
 			/* if(g>=90 && g<=99){ */
-            if(grid->simy>=2000 && grid->simy<=2009){
+            if(grid->simy >= 2000 && grid->simy <= 2009){
 				/* mean seasonal change *******/
 				m_ch4ox1[f] += (flux->soil).ch4oxy_ridg[f] * grid->area *10000.0/1000.0 / 10.0;
 				m_ch4ox2[f] += (flux->soil).ch4oxy_casa[f] * grid->area *10000.0/1000.0 / 10.0;
