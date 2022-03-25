@@ -746,6 +746,12 @@ void f_output_result(
             fprintf(fp_o[8],"%.3lf ", (flux->soil).rh[f]);
             fprintf(fp_o[8],"%.3lf ", (flux->soil).sf[f]);
             
+            /* 2022/03/25 by A.Ito */
+            fprintf(fp_o[8],"%.4lf ", flux->bb_co2_litter[f]*12.0/44.0/1000.0);
+            fprintf(fp_o[8],"%.4lf ", flux->bb_co_litter[f]*12.0/28.0/1000.0);
+            fprintf(fp_o[8],"%.4lf ", flux->bb_ch4_litter[f]*12.0/16.0/1000.0);
+            fprintf(fp_o[8],"%.4lf ", flux->bb_bc_litter[f]/1000.0);
+
             /* additional data for PLUME: 2014/10/09 by A.Ito */
             if(ISIMIP_RUN == 2){
                 fprintf(fp_o[8],"%.3lf ", (flux->plant).epp[f]); //16

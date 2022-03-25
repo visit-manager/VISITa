@@ -200,6 +200,9 @@ struct Grid{
 	double	hist_cld_b[ASTEP];					/* cloud cover */
 	double	hist_vap_b[ASTEP];					/* vapor pressure */
 
+	double	hist_tmp_b2[ASTEP];					/* temperature */
+	double	hist_pre_b2[ASTEP];					/* precipitation */
+
 	/* erosion */
 	long 	rvbasin;						/* ID of river basin */
 	double 	albedo_soil;					/* soil albedo */
@@ -586,15 +589,15 @@ struct Pchar{
 	/* photosynthesis *******/
 	short	phototype;				/** photosynthetic metabolic pathway, 3=C3, 4=C4, 5=CAM **/
 	/*  veg->psat[grid->m] = veg->pmax*ftem*fstl*fnstl   */
-	double	psat[ASTEP];			/* light-saturated rate, micro mol CO2 m-2 s-1 */
+	double	psat[ASTEP];			    /* light-saturated rate, micro mol CO2 m-2 s-1 */
 	double	pmax;					/* potential maximum rate, micro mol CO2 m-2 s-1 */
 	double	ft[ASTEP];				/* temperature coefficient */
 	double	fcd[ASTEP];				/* CO2 coefficient */
 	double	fsw[ASTEP];				/* soil water coefficient */
-    double  fo3[ASTEP];             /* O3 coefficient: 2013/02/25 by A.Ito */
+    double  fo3[ASTEP];               /* O3 coefficient: 2013/02/25 by A.Ito */
 	double	ptop;					/* canopy-top photosynthetic rate */
-	double	sla;					/* specific leaf area, cm2 g dm-1 */
-	double	eK0;					/* light attenuation coefficient, no dimension */
+	double	sla;					    /* specific leaf area, cm2 g dm-1 */
+	double	eK0;					    /* light attenuation coefficient, no dimension */
 	double	eK[ASTEP];				/* light attenuation coefficient, no dimension */
 	double	lue0;					/* control light dependence coefficient, mol CO2 mol photon-1 */
 	double	lue[ASTEP];				/* monthly quantum yield , mol CO2 mol photon-1 */ 
@@ -605,14 +608,14 @@ struct Pchar{
 	double	ci[ASTEP];				/* monthly intercellular CO2 concentration, ppmv */
 	double	kmci;					/* dependence of photosynthesis on intercellular CO2 concentration, ppmv */
 	double	cmpcd0;					/* CO2 compensation point, ppmv */
-	double	cmpcd[ASTEP];			/* CO2 compensation point, ppmv */
+	double	cmpcd[ASTEP];			    /* CO2 compensation point, ppmv */
 	/* parameters of conductance */
 	double	gs[ASTEP];				/* monthly stomatal conductance, mmol H2O m-2 s-1 */
 	double	gc[ASTEP];				/* monthly canopy conductance, mmol H2O m-2 s-1 */
 	double	gs_b0;					/* Leuninig stomata model parameters */
 	double	gs_b1;					/* Leuninig stomata model parameters */
 	double	gs_b2;					/* Leuninig stomata model parameters */
-	double	km_nstl;				/* maximum stomatal conductance */
+	double	km_nstl;				    /* maximum stomatal conductance */
 	
 	double	psat_df[ASTEP];
 	double	lue_df[ASTEP];
@@ -664,7 +667,7 @@ struct Pchar{
 	/* root stratification parameters by Zeng (2001) *******/
 	double	root_dist_a;			/* root profile parameter a, m-1 */
 	double	root_dist_b;			/* root profile parameter b, m-1 */
-	double	root_depth;				/* rooting depth */
+	double	root_depth;			/* rooting depth */
 };			
 
 /* soil characteristics *************************************************/
@@ -730,27 +733,27 @@ struct Pmas{
 	
 	/* stable carbon isotope composition, permille */
 	double	d13c_fol;			/* leaf */
-	double	d13c_mfol[ASTEP];	/* monthly */
+	double	d13c_mfol[ASTEP];	    /* monthly */
 	double	d13c_stm;			/* stem */
-	double	d13c_mstm[ASTEP];	/* monthly */
+	double	d13c_mstm[ASTEP];	    /* monthly */
 	double	d13c_rot;			/* root */
-	double	d13c_mrot[ASTEP];	/* monthly */
+	double	d13c_mrot[ASTEP];	    /* monthly */
 	
 	double	d13c_plant[ASTEP];		/* total plant */
 	
 	/* radio isotope 14C: added by A.Ito (2009/06/23) */
 	double	d14c_fol;			/* leaf */
-	double	d14c_mfol[ASTEP];	/* monthly */
+	double	d14c_mfol[ASTEP];	    /* monthly */
 	double	d14c_stm;			/* stem */
-	double	d14c_mstm[ASTEP];	/* monthly */
+	double	d14c_mstm[ASTEP];	    /* monthly */
 	double	d14c_rot;			/* root */
-	double	d14c_mrot[ASTEP];	/* monthly */
+	double	d14c_mrot[ASTEP];	    /* monthly */
 
 	/* plant N, g N ha-1 */
 	double	n_cnpy;				/* N in canopy */
-	double	n_cnpy_m[ASTEP];	/* monthly */	
+	double	n_cnpy_m[ASTEP];	    /* monthly */
 	double	n_strg;				/* N in storage pool */
-	double	n_strg_m[ASTEP];	/* monthly */
+	double	n_strg_m[ASTEP];	    /* monthly */
 };			
 
 /* soil carbon storage *************************************************/
@@ -790,11 +793,11 @@ struct Smas{
 	
 	/* soil organic N, g N ha-1 */
 	double	n_mcrb;				/* microbe */
-	double	n_mcrb_m[ASTEP];	/* monthly */
+	double	n_mcrb_m[ASTEP];	    /* monthly */
 	double	n_lttr;				/* soil organic litter */
-	double	n_lttr_m[ASTEP];	/* monthly */
+	double	n_lttr_m[ASTEP];	    /* monthly */
 	double	n_hums;				/* soil organic humus */
-	double	n_hums_m[ASTEP];	/* monthly */
+	double	n_hums_m[ASTEP];	    /* monthly */
 };
 
 /* ecosystem carbon storage *************************************/
@@ -807,7 +810,7 @@ struct Mass{
 	/* carbon mass */ 
 	double	total[ASTEP];		/* ecosystem total carbon storage, Mg C ha-1 */
 
-	double	lai_p;				/* previous LAI, m2 m-2 */
+	double	lai_p;			/* previous LAI, m2 m-2 */
 	
 	/* stable carbon isotope composition */
 	double	d13c_total[ASTEP];  /* total d13C, permille */

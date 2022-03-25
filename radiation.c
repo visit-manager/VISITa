@@ -361,7 +361,9 @@ void f_net_rad(
 	}else if(loct->vp[grid->m] >= 40.0){
 		bbb = 0.39 - 0.058 * sqrt( 40.0*760.0/1013.0 );
 	}
-	ccc = 1.0 - 0.65 * grid->tcdc_clm[grid->m];
+    ccc = 1.0 - 0.65 * grid->tcdc_clm[grid->m]; /* */ /* OLD? 2022/01/28 */
+    /* ccc = 1.0 - 0.57 * grid->tcdc_clm[grid->m]; */
+	
 	net_long = aaa * bbb * ccc;
 	loct->rad_net_long[grid->m] = net_long;
 	

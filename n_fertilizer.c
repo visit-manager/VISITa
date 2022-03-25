@@ -377,6 +377,11 @@ void n_fertilizer_in(
         if(ISIMIP_RUN == 5 || ISIMIP_RUN == 6){
             /* FDY_NINY = 1850 */
             loct->n_frtlz_in = grid->mip_nfert[grid->niny - FDY_NINY] * MDN[grid->m] / YDN;
+            
+            /* nat */
+            if(SCENARIO_ID == 5102 || SCENARIO_ID == 5105){
+                loct->n_frtlz_in = 0.0;
+            }
         }else{
             ;
         }

@@ -1152,39 +1152,39 @@ void open_input(
     }else if(ISIMIP_RUN == 5){
         /* ISIMIP3a: 2020/09/30 by A.Ito */
         switch(SCENARIO_ID){
-             case 5100: case 5101: case 5102: case 5106: case 5107:
-                if( (fp_c[0]=fopen("./data/gswp3-w5e5_tas_mon_1801-2016_spinclim_obsclim.flt","rb"))==NULL ){
-                    printf("No gswp3-w5e5_tas_mon_1801-2016_spinclim_obsclim.flt\n");
+             case 5100: case 5101: case 5102: case 5106: case 5107: case 5220: case 5222: case 5223:
+                if( (fp_c[0]=fopen("./data/gswp3-w5e5_tas_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                    printf("No gswp3-w5e5_tas_mon_1801-2019_spinclim_obsclim.flt\n");
                     exit(1);
                 }
-                if( (fp_c[1]=fopen("./data/gswp3-w5e5_pr_mon_1801-2016_spinclim_obsclim.flt","rb"))==NULL ){
-                    printf("No gswp3-w5e5_pr_mon_1801-2016_spinclim_obsclim.flt\n");
+                if( (fp_c[1]=fopen("./data/gswp3-w5e5_pr_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                    printf("No gswp3-w5e5_pr_mon_1801-2019_spinclim_obsclim.flt\n");
                     exit(1);
                 }
-                if( (fp_c[2]=fopen("./data/gswp3-w5e5_huss_mon_1801-2016_spinclim_obsclim.flt","rb"))==NULL ){
-                    printf("No gswp3-w5e5_huss_mon_1801-2016_spinclim_obsclim.flt\n");
+                if( (fp_c[2]=fopen("./data/gswp3-w5e5_huss_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                    printf("No gswp3-w5e5_huss_mon_1801-2019_spinclim_obsclim.flt\n");
                     exit(1);
                 }
-                if( (fp_c[3]=fopen("./data/gswp3-w5e5_rsds_mon_1801-2016_spinclim_obsclim.flt","rb"))==NULL ){
-                    printf("No gswp3-w5e5_rsds_mon_1801-2016_spinclim_obsclim.flt\n");
+                if( (fp_c[3]=fopen("./data/gswp3-w5e5_rsds_mon_1801-2019_spinclim_obsclim.flt","rb"))==NULL ){
+                    printf("No gswp3-w5e5_rsds_mon_1801-2019_spinclim_obsclim.flt\n");
                     exit(1);
                 }
                 break;
-              case 5103: case 5104: case 5105:
-                if( (fp_c[0]=fopen("./data/gswp3-w5e5_tas_mon_1801-2016_spinclim_counterclim.flt","rb"))==NULL ){
-                    printf("No gswp3-w5e5_tas_mon_1801-2016_spinclim_counterclim.flt\n");
+              case 5103: case 5104: case 5105: case 5221:
+                if( (fp_c[0]=fopen("./data/gswp3-w5e5_tas_mon_1801-2019_spinclim_counterclim.flt","rb"))==NULL ){
+                    printf("No gswp3-w5e5_tas_mon_1801-2019_spinclim_counterclim.flt\n");
                     exit(1);
                 }
-                if( (fp_c[1]=fopen("./data/gswp3-w5e5_pr_mon_1801-2016_spinclim_counterclim.flt","rb"))==NULL ){
-                    printf("No gswp3-w5e5_pr_mon_1801-2016_spinclim_counterclim.flt\n");
+                if( (fp_c[1]=fopen("./data/gswp3-w5e5_pr_mon_1801-2019_spinclim_counterclim.flt","rb"))==NULL ){
+                    printf("No gswp3-w5e5_pr_mon_1801-2019_spinclim_counterclim.flt\n");
                     exit(1);
                 }
-                if( (fp_c[2]=fopen("./data/gswp3-w5e5_huss_mon_1801-2016_spinclim_counterclim.flt","rb"))==NULL ){
-                    printf("No gswp3-w5e5_huss_mon_1801-2016_spinclim_counterclim.flt\n");
+                if( (fp_c[2]=fopen("./data/gswp3-w5e5_huss_mon_1801-2019_spinclim_counterclim.flt","rb"))==NULL ){
+                    printf("No gswp3-w5e5_huss_mon_1801-2019_spinclim_counterclim.flt\n");
                     exit(1);
                 }
-                if( (fp_c[3]=fopen("./data/gswp3-w5e5_rsds_mon_1801-2016_spinclim_counterclim.flt","rb"))==NULL ){
-                    printf("No gswp3-w5e5_rsds_mon_1801-2016_spinclim_counterclim.flt\n");
+                if( (fp_c[3]=fopen("./data/gswp3-w5e5_rsds_mon_1801-2019_spinclim_counterclim.flt","rb"))==NULL ){
+                    printf("No gswp3-w5e5_rsds_mon_1801-2019_spinclim_counterclim.flt\n");
                     exit(1);
                 }
                 break;
@@ -4220,16 +4220,17 @@ void open_input(
         }
     }
     
-    /* ISIMIP3a: 2020/10/05 by A.Ito */
-    if(SCENARIO_ID>=5100 && SCENARIO_ID<5120){
+    /* ISIMIP3a: 2020/10/05, 2021/01/24 by A.Ito */
+    if((SCENARIO_ID>=5100 && SCENARIO_ID<5120) || (SCENARIO_ID>=5220 && SCENARIO_ID<=5223)){
         if(SCENARIO_ID == 5100 || SCENARIO_ID == 5101 || SCENARIO_ID == 5102
-            || SCENARIO_ID == 5110 || SCENARIO_ID == 5111 || SCENARIO_ID == 5112){
+            || SCENARIO_ID == 5110 || SCENARIO_ID == 5111 || SCENARIO_ID == 5112
+             || SCENARIO_ID == 5220 || SCENARIO_ID == 5223){
             CO2S = 1;
         }
         if(SCENARIO_ID == 5103 || SCENARIO_ID == 5104 || SCENARIO_ID == 5105 ||
             SCENARIO_ID == 5106 || SCENARIO_ID == 5107 || SCENARIO_ID == 5113 ||
             SCENARIO_ID == 5114 || SCENARIO_ID == 5115 || SCENARIO_ID == 5116 ||
-            SCENARIO_ID == 5117){
+            SCENARIO_ID == 5117 || SCENARIO_ID == 5221 || SCENARIO_ID == 5222){
             CO2S = 2;
         }
 
@@ -4912,9 +4913,10 @@ void open_input(
     /* ISIMIP3a: 2020/10/01 by A.Ito */
     if(ISIMIP_RUN == 5){
         if(LANDUSE == 45 && (SCENARIO_ID == 5100 || SCENARIO_ID == 5103 || SCENARIO_ID == 5106
-                   || SCENARIO_ID == 5110 || SCENARIO_ID == 5113|| SCENARIO_ID == 5116)){
-            if( (fp_s[87]=fopen("./data/landuse_1850-2018_histsoc_histsoc.flt","rb")) == NULL ){
-                printf("No landuse_1850-2018_histsoc_histsoc.flt\n");
+                   || SCENARIO_ID == 5110 || SCENARIO_ID == 5113 || SCENARIO_ID == 5116
+                    || SCENARIO_ID == 5223)){
+            if( (fp_s[87]=fopen("./data/landuse_1850-2019_histsoc_histsoc.flt","rb")) == NULL ){
+                printf("No landuse_1850-2019_histsoc_histsoc.flt\n");
                 exit(1);
             }else{
                 Flag_FOPEN[87] ++;
@@ -4922,8 +4924,16 @@ void open_input(
         }
         if(LANDUSE == 45 && (SCENARIO_ID == 5101 || SCENARIO_ID == 5104 || SCENARIO_ID == 5107
                    || SCENARIO_ID == 5111 || SCENARIO_ID == 5114|| SCENARIO_ID == 5117)){
-            if( (fp_s[87]=fopen("./data/landuse_1850-2018_2015soc_2015soc.flt","rb")) == NULL ){
-                printf("No landuse_1850-2018_2015soc_2015soc.flt\n");
+            if( (fp_s[87]=fopen("./data/landuse_1850-2019_2015soc_2015soc.flt","rb")) == NULL ){
+                printf("No landuse_1850-2019_2015soc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[87] ++;
+            }
+        }
+        if(LANDUSE == 45 && (SCENARIO_ID == 5220 || SCENARIO_ID == 5221 || SCENARIO_ID == 5222)){
+            if( (fp_s[87]=fopen("./data/landuse_1850-2019_1901soc_1901soc.flt","rb")) == NULL ){
+                printf("No landuse_1850-2019_1901soc_1901soc.flt\n");
                 exit(1);
             }else{
                 Flag_FOPEN[87] ++;
@@ -4932,8 +4942,8 @@ void open_input(
 
         /* natural (laud use should not be used): data for dummy */
         if(SCENARIO_ID == 5102 || SCENARIO_ID == 5105 || SCENARIO_ID == 5112 || SCENARIO_ID == 5115){
-            if( (fp_s[87]=fopen("./data/landuse_1850-2018_histsoc_histsoc.flt","rb")) == NULL ){
-                printf("No landuse_1850-2018_histsoc_histsoc.flt\n");
+            if( (fp_s[87]=fopen("./data/landuse_1850-2019_histsoc_histsoc.flt","rb")) == NULL ){
+                printf("No landuse_1850-2019_histsoc_histsoc.flt\n");
                 exit(1);
             }else{
                 Flag_FOPEN[87] ++;
@@ -5054,9 +5064,10 @@ void open_input(
     /* ISIMIP3a: 2020/10/01 by A.Ito */
     if(ISIMIP_RUN == 5){
         if(LANDUSE == 45 && (SCENARIO_ID == 5100 || SCENARIO_ID == 5103 || SCENARIO_ID == 5106
-                   || SCENARIO_ID == 5110 || SCENARIO_ID == 5113|| SCENARIO_ID == 5116)){
-            if( (fp_s[88]=fopen("./data/nfert_1850-2018_histsoc_histsoc.flt","rb")) == NULL ){
-                printf("No nfert_1850-2018_histsoc_histsoc.flt\n");
+                   || SCENARIO_ID == 5110 || SCENARIO_ID == 5113 || SCENARIO_ID == 5116
+                    || SCENARIO_ID == 5223)){
+            if( (fp_s[88]=fopen("./data/nfert_1850-2019_histsoc_histsoc.flt","rb")) == NULL ){
+                printf("No nfert_1850-2019_histsoc_histsoc.flt\n");
                 exit(1);
             }else{
                 Flag_FOPEN[88] ++;
@@ -5064,8 +5075,16 @@ void open_input(
         }
         if(LANDUSE == 45 && (SCENARIO_ID == 5101 || SCENARIO_ID == 5104 || SCENARIO_ID == 5107
                    || SCENARIO_ID == 5111 || SCENARIO_ID == 5114|| SCENARIO_ID == 5117)){
-            if( (fp_s[88]=fopen("./data/nfert_1850-2018_2015soc_2015soc.flt","rb")) == NULL ){
-                printf("No nfert_1850-2018_2015soc_2015soc.flt\n");
+            if( (fp_s[88]=fopen("./data/nfert_1850-2019_2015soc_2015soc.flt","rb")) == NULL ){
+                printf("No nfert_1850-2019_2015soc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[88] ++;
+            }
+        }
+        if(LANDUSE == 45 && (SCENARIO_ID == 5220 || SCENARIO_ID == 5221 || SCENARIO_ID == 5222)){
+            if( (fp_s[88]=fopen("./data/nfert_1850-2019_1901soc_1901soc.flt","rb")) == NULL ){
+                printf("No nfert_1850-2019_1901soc_1901soc.flt\n");
                 exit(1);
             }else{
                 Flag_FOPEN[88] ++;
@@ -5074,8 +5093,8 @@ void open_input(
         
         /* natural (fertilizer should not be used): data for dummy */
         if(SCENARIO_ID == 5102 || SCENARIO_ID == 5105 || SCENARIO_ID == 5112 || SCENARIO_ID == 5115){
-            if( (fp_s[88]=fopen("./data/nfert_1850-2018_histsoc_histsoc.flt","rb")) == NULL ){
-                printf("No nfert_1850-2018_histsoc_histsoc.flt\n");
+            if( (fp_s[88]=fopen("./data/nfert_1850-2019_histsoc_histsoc.flt","rb")) == NULL ){
+                printf("No nfert_1850-2019_histsoc_histsoc.flt\n");
                 exit(1);
             }else{
                 Flag_FOPEN[88] ++;
@@ -5311,9 +5330,10 @@ void open_input(
     }else if(ISIMIP_RUN == 5){
         /* ISIMIP3a: 2020/10/01 by A.Ito */
         if(LANDUSE == 45 && (SCENARIO_ID == 5100 || SCENARIO_ID == 5103 || SCENARIO_ID == 5106
-                   || SCENARIO_ID == 5110 || SCENARIO_ID == 5113|| SCENARIO_ID == 5116)){
-            if( (fp_s[25]=fopen("./data/ndepo_1850-2018_histsoc_histsoc.flt","rb")) == NULL ){
-                printf("No ndepo_1850-2018_histsoc_histsoc.flt\n");
+                   || SCENARIO_ID == 5110 || SCENARIO_ID == 5113 || SCENARIO_ID == 5116
+                    || SCENARIO_ID == 5223)){
+            if( (fp_s[25]=fopen("./data/ndepo_1850-2019_histsoc_histsoc.flt","rb")) == NULL ){
+                printf("No ndepo_1850-2019_histsoc_histsoc.flt\n");
                 exit(1);
             }else{
                 Flag_FOPEN[25] ++;
@@ -5321,8 +5341,16 @@ void open_input(
         }
         if(LANDUSE == 45 && (SCENARIO_ID == 5101 || SCENARIO_ID == 5104 || SCENARIO_ID == 5107
                    || SCENARIO_ID == 5111 || SCENARIO_ID == 5114|| SCENARIO_ID == 5117)){
-            if( (fp_s[25]=fopen("./data/ndepo_1850-2018_2015soc_2015soc.flt","rb")) == NULL ){
-                printf("No ndepo_1850-2018_2015soc_2015soc.flt\n");
+            if( (fp_s[25]=fopen("./data/ndepo_1850-2019_2015soc_2015soc.flt","rb")) == NULL ){
+                printf("No ndepo_1850-2019_2015soc_2015soc.flt\n");
+                exit(1);
+            }else{
+                Flag_FOPEN[25] ++;
+            }
+        }
+        if(LANDUSE == 45 && (SCENARIO_ID == 5220 || SCENARIO_ID == 5221 || SCENARIO_ID == 5223)){
+            if( (fp_s[25]=fopen("./data/ndepo_1850-2019_1901soc_1901soc.flt","rb")) == NULL ){
+                printf("No ndepo_1850-2019_1901soc_1901soc.flt\n");
                 exit(1);
             }else{
                 Flag_FOPEN[25] ++;
@@ -5331,8 +5359,8 @@ void open_input(
         
         /* natural (fertilizer should not be used): data for dummy */
         if(SCENARIO_ID == 5102 || SCENARIO_ID == 5105 || SCENARIO_ID == 5112 || SCENARIO_ID == 5115){
-            if( (fp_s[25]=fopen("./data/ndepo_1850-2018_histsoc_histsoc.flt","rb")) == NULL ){
-                printf("No ndepo_1850-2018_histsoc_histsoc.flt\n");
+            if( (fp_s[25]=fopen("./data/ndepo_1850-2019_histsoc_histsoc.flt","rb")) == NULL ){
+                printf("No ndepo_1850-2019_histsoc_histsoc.flt\n");
                 exit(1);
             }else{
                 Flag_FOPEN[25] ++;

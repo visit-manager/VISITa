@@ -1479,7 +1479,7 @@ void f_ch4_emit_veg(
 	
 	/* MASS-based scaling up **/
 	/* C3, g m-2 month-1 */
-	if((echar->c3).season[grid->m]!=0){
+	if((echar->c3).season[grid->m] != 0){
 		(flux->c3).emit_ch4_kirschbaum_mass[grid->m] = ( (mass->c3).mfol[grid->m] * dmTc * 100.0 ) *
 			(sunshine*femit_sun + (DHN - sunshine) * femit_shade) * pow(10.0, -9.0) * MDN[grid->m];
 	}else{

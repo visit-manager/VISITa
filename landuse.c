@@ -197,6 +197,10 @@ void f_cult_luc(
         }
         grid->f_crop_con = grid->mip_frcrop[grid->lucy - FDY_NINY];
         grid->f_pasture_con = 0.0;
+        /* nat */
+        if(SCENARIO_ID == 5102 || SCENARIO_ID == 5105){
+            grid->f_crop_con = grid->f_pasture_con = 0.0;
+        }
     }else if(LANDUSE == 46){
         /* ISIMIP3b: 2020/11/18 by A.Ito */
         /* FDY_LUC = 1601 */
@@ -538,6 +542,10 @@ void f_cult_luc(
             grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
         }else if(LANDUSE == 45){
             grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
+            /* nat */
+            if(SCENARIO_ID == 5102 || SCENARIO_ID == 5105){
+                grid->f_deforest = 0.0;
+            }
         }else if(LANDUSE == 46){
             /* ISIMIP3b: 2020/11/18 by A.Ito */
             grid->f_deforest = grid->f_crop_con - grid->f_crop_p;
@@ -730,6 +738,10 @@ void f_cult_luc(
             || LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23
             || LANDUSE == 24 || LANDUSE == 25 || LANDUSE == 45){
         grid->f_paddy = grid->f_paddy_b;
+        /* nat */
+        if(SCENARIO_ID == 5102 || SCENARIO_ID == 5105){
+            grid->f_paddy = 0.0;
+        }
     }else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
         /* AIM land use, 2019/06/21 by A.Ito */
         grid->f_paddy = grid->f_paddy_b;

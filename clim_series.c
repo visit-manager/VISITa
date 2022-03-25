@@ -117,16 +117,36 @@ void set_hist_clim(
         
         /* FIX  */
         if(GCP_FIXTMP == 1){
-            for(h=0;h<ASTEP;h++){
+            /* for(h=0;h<ASTEP;h++){
                 grid->tmp_sfc[h] = grid->tmp_sfc_a[h];
                 grid->tmp_2m[h] = grid->tmp_2m_a[h];
                 grid->tmp10_soil[h] = grid->tmp10_soil_a[h];
                 grid->tmp200_soil[h] = grid->tmp200_soil_a[h];
+            }  */
+            
+            /* GCP-CH4 2022/02/01 */
+            if(grid->climy >= 2007){
+                for(h=0;h<ASTEP;h++){
+                    grid->tmp_sfc[h] = grid->hist_tmp_b2[h]
+                                    + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
+                    grid->tmp_2m[h] = grid->hist_tmp_b2[h];
+                    grid->tmp10_soil[h] = grid->hist_tmp_b2[h]
+                                    + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
+                    grid->tmp200_soil[h] = grid->hist_tmp_b2[h]
+                                    + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
+                }
             }
         }
         if(GCP_FIXPRC == 1){
-            for(h=0;h<ASTEP;h++){
+            /* for(h=0;h<ASTEP;h++){
                 grid->prate_sfc[h] = grid->prate_sfc_a[h];
+            } */
+            
+            /* GCP-CH4 2022/02/01 */
+            if(grid->climy >= 2007){
+                for(h=0;h<ASTEP;h++){
+                    grid->prate_sfc[h] = grid->hist_pre_b2[h];
+                }
             }
         }
         
@@ -220,7 +240,6 @@ void set_hist_clim(
             grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM + offset][h];  
         }
     }else if(ISIMIP_RUN == 5){
-        
         /* ISIMIP3a climate data: 2020/09/30 by A.Ito */
         if(grid->phase == 0){
             offset = 0;
@@ -242,7 +261,6 @@ void set_hist_clim(
             grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM + offset][h];
         }
     }else if(ISIMIP_RUN == 6){
-        
         /* ISIMIP3b climate data: 2020/11/18 by A.Ito */
         if(grid->phase == 0){
             offset = 0;

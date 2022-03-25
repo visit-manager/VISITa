@@ -253,6 +253,61 @@ void ghg_flux_zero(
 	(flux->soil).ch4_paddy_wh_ebull[month] = 0.0;
 	(flux->soil).ch4_paddy_wh_diff[month] = 0.0;
 	(flux->soil).ch4_paddy_wh_release[month] = 0.0;
+
+	flux->bb_bc_litter[month] = 0.0;
+	flux->bb_bc_leaf[month] = 0.0;
+	flux->bb_bc_wood[month] = 0.0;
+	flux->bb_bc_root[month] = 0.0;
+
+	flux->bb_co2_litter[month] = 0.0;
+	flux->bb_co2_leaf[month] = 0.0;
+	flux->bb_co2_wood[month] = 0.0;
+	flux->bb_co2_root[month] = 0.0;
+
+	flux->bb_co_litter[month] = 0.0;
+	flux->bb_co_leaf[month] = 0.0;
+	flux->bb_co_wood[month] = 0.0;
+	flux->bb_co_root[month] = 0.0;
+
+	flux->bb_ch4_litter[month] = 0.0;
+	flux->bb_ch4_leaf[month] = 0.0;
+	flux->bb_ch4_wood[month] = 0.0;
+	flux->bb_ch4_root[month] = 0.0;
+
+	flux->bb_nmhc_litter[month] = 0.0;
+	flux->bb_nmhc_leaf[month] = 0.0;
+	flux->bb_nmhc_wood[month] = 0.0;
+	flux->bb_nmhc_root[month] = 0.0;
+
+	flux->bb_nox_litter[month] = 0.0;
+	flux->bb_nox_leaf[month] = 0.0;
+	flux->bb_nox_wood[month] = 0.0;
+	flux->bb_nox_root[month] = 0.0;
+
+	flux->bb_n2o_litter[month] = 0.0;
+	flux->bb_n2o_leaf[month] = 0.0;
+	flux->bb_n2o_wood[month] = 0.0;
+	flux->bb_n2o_root[month] = 0.0;
+
+	flux->bb_pm25_litter[month] = 0.0;
+	flux->bb_pm25_leaf[month] = 0.0;
+	flux->bb_pm25_wood[month] = 0.0;
+	flux->bb_pm25_root[month] = 0.0;
+
+	flux->bb_tpm_litter[month] = 0.0;
+	flux->bb_tpm_leaf[month] = 0.0;
+	flux->bb_tpm_wood[month] = 0.0;
+	flux->bb_tpm_root[month] = 0.0;
+
+	flux->bb_tec_litter[month] = 0.0;
+	flux->bb_tec_leaf[month] = 0.0;
+	flux->bb_tec_wood[month] = 0.0;
+	flux->bb_tec_root[month] = 0.0;
+
+	flux->bb_so2_litter[month] = 0.0;
+	flux->bb_so2_leaf[month] = 0.0;
+	flux->bb_so2_wood[month] = 0.0;
+	flux->bb_so2_root[month] = 0.0;
 }
 
 /* make bare land without plant and soil *******************************/

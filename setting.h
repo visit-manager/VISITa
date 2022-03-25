@@ -153,7 +153,8 @@
     #define FDY_NINY 1661
 #elif ISIMIP_RUN==5
     /* ISIMIP3a */
-    #define DL_NINPUT 169 /* 1850-2016 */
+    /* #define DL_NINPUT 169 */ /* 1850-2016 */
+    #define DL_NINPUT 170 /* 1850-2019 */
     #define FDY_NINY 1850
 #elif ISIMIP_RUN==6
     /* ISI-MIP3b: 1601-2100 */
@@ -209,8 +210,8 @@
     #define DL_AGHG 639
     #define FDY_AGHG 1661
 #elif ISIMIP_RUN==5
-    /* ISIMIP3a: 2020/05/27 by A.Ito */
-    #define DL_AGHG 219
+    /* ISIMIP3a: 2022/01/24 by A.Ito */
+    #define DL_AGHG 220 /* 1800-2019 */
     #define FDY_AGHG 1800
 #elif ISIMIP_RUN==6
     /* ISI-MIP3b: 2020/05/27 by A.Ito */
@@ -237,6 +238,8 @@
 /* simulation framework duration (years) */
 #if ISIMIP_RUN==4
     #define PD_SIM 640 /* */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
+#elif ISIMIP_RUN==5
+    #define PD_SIM 171 /* spin-up + 1850-2019 */ /* ISI-MIP3a: 2022/01/24 by A.Ito */
 #elif ISIMIP_RUN==6
     #define PD_SIM 501 /* */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
 #else
@@ -252,8 +255,8 @@
     #define LSY_HIST 2299
     /* #define LSY_HIST 2099 */ /* ISI-MIP2b (rcp6.0) */
 #elif ISIMIP_RUN==5
-    #define FSY_HIST 1851 /* ISIMIP3a */
-    #define LSY_HIST 2018
+    #define FSY_HIST 1850 /* ISIMIP3a */
+    #define LSY_HIST 2019
 #elif ISIMIP_RUN==6
     #define FSY_HIST 1601 /* ISI-MIP3b */
     #define LSY_HIST 2100
@@ -274,7 +277,8 @@
     /* #define LSY_HIST 2016 */ /* history */
     /* #define LSY_HIST 1980 */ /* GCP-CH4 MERRA2 run: 2018/08/29 by A.Ito */
     /* #define LSY_HIST 2019 */ /* history */
-    #define LSY_HIST 2021 /* history */
+    /* #define LSY_HIST 2020 */ /* history */
+    #define LSY_HIST 2021 /* */ /* history */
 #endif
 
 /* start year (AD) of CO2 time series */
@@ -318,7 +322,8 @@
     #define PD_HIST 639  /* AD 1661 - 2299 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
     /* #define PD_HIST 439 */ /* AD 1661 - 2099 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
 #elif ISIMIP_RUN==5
-    #define PD_HIST 166  /* AD 1851 - 2016 */ /* ISIMIP3a: 2020/05/27 by A.Ito */
+    /* #define PD_HIST 166 */  /* AD 1851 - 2016 */ /* ISIMIP3a: 2020/05/27 by A.Ito */
+    #define PD_HIST 170  /* AD 1850 - 2019 */ /* ISIMIP3a: 2022/01/24 by A.Ito */
 #elif ISIMIP_RUN==6
     #define PD_HIST 500  /* AD 1601 - 2100 */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
 #elif GEOMIP_RUN==1
@@ -396,7 +401,9 @@
     /* #define DL_HCLIM 439 */  /* AD 1661 - 2099 */
 #elif ISIMIP_RUN==5
     /* ISIMIP3a: 2020/05/27 by A.Ito */
-    #define DL_HCLIM 218  /* SU 1801-1850 + AD 1851-2018 */
+    /* #define DL_HCLIM 218 */  /* SU 1801-1850 + AD 1851-2018 */
+    /* ISIMIP3a: 2022/01/24 by A.Ito */
+    #define DL_HCLIM 219  /* SU 1801-1850 + AD 1851-2019 */
 #elif ISIMIP_RUN==6
     #define DL_HCLIM 500  /* ISI-MIP3b : 2020/05/27 by A.Ito */
 #elif IMPRESSIONS_RUN==2
@@ -459,7 +466,9 @@
     #define DL_ISIMIP 639  /* AD 1661 - 2299 */
     /* #define DL_ISIMIP 439 */  /* AD 1661 - 2099 */
 #elif ISIMIP_RUN==5
-    #define DL_ISIMIP 216  /* AD 1801 - 2016 */
+    /* #define DL_ISIMIP 216 */  /* AD 1801 - 2016 */
+    /* #define DL_ISIMIP 170 */  /* AD 1850 - 2019 */
+    #define DL_ISIMIP 219  /* AD 1801 - 2019 */
 #elif ISIMIP_RUN==6
     #define DL_ISIMIP 500  /* AD 1601 - 2100 */
 #else
@@ -537,7 +546,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 32
+#define LANDUSE 31
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -609,7 +618,8 @@
 #if ISIMIP_RUN==4
     #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
 #elif ISIMIP_RUN==5
-    #define DL_LUC 169 /* 1850-2018: ISI-MIP3a (2020/10/05 by A.Ito) */
+    /* #define DL_LUC 169 */ /* 1850-2018: ISI-MIP3a (2020/10/05 by A.Ito) */
+    #define DL_LUC 170 /* 1850-2019: ISI-MIP3a (2022/01/24 by A.Ito) */
 #elif ISIMIP_RUN==6
     /* #define DL_LUC 500 */ /* 1601-2100: ISI-MIP3b (2020/11/13 by A.Ito) */
     #define DL_LUC 235 /* */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18 by A.Ito */
@@ -877,7 +887,7 @@
 /* 0: off (variable) */
 /* 1: on (fixed at 2006) */
 
-/***********************************************************/
+/* **********************************************************/
 /* parameter perturbation */
 /* climate perturbation */
 #define PRT_CLIM 0
@@ -905,7 +915,7 @@
 /* number of parameters for ensemble */
 #define N_PARA_ENS 20
 
-/***********************************************************/
+/* **********************************************************/
 /* 2016/06/08 by A.Ito */
 #define EX_NITROGEN 0
 /* 0: off (control) */
@@ -1006,7 +1016,7 @@
 /* 1: once in April (NH) or October (SH) */
 /* 101: all January */
 
-/**********************************************************/
+/* *********************************************************/
 /* sensitivity analysis *****************/
 /* temperature */
 #define TM 0
@@ -1095,7 +1105,7 @@
 /* 2: no CO2 rise */
 /* 3: fix CO2 after 2020 for GeoMIP runs */
 
-/*******************************************************/
+/* ******************************************************/
 /* 0: no GCM */
 /* 999: default */
 
@@ -1267,7 +1277,7 @@
 /* 1266: NCAR PCM + A2 3 */
 /* 1267: NCAR PCM + A2 4 */
 
-/*** ISI-MIP Phase 1: 2012/06/27 by A.Ito ***********/
+/* ** ISI-MIP Phase 1: 2012/06/27 by A.Ito ***********/
 /* CD-LINK 2016/11/17 */
 /* 2001: HadGEM2-ES RCP 2.6 +co2 */
 /* 2002: HadGEM2-ES RCP 8.5 +co2 */
@@ -1380,10 +1390,10 @@
 /* 5041:  II: HadGEM2-ES PH22 + PH22 + PH20052005 */
 /* 5042: III: HadGEM2-ES PH62 + PH66 + PH20052005 */
 
-/** ISI-MIP2b EX IV-VII: 2018/02/09 by A.Ito  *****/
-/** ISI-MIP2b EX VIII for RCP8.5: 2018/02/25 by A.Ito  *****/
-/** ISI-MIP2b EX IX for RCP6.0 with improved EWEMBI: 2019/03/01 by A.Ito  */
-/** ISI-MIP2b EX IIIc for RCP8.5+2005CO2: 2019/03/04 by A.Ito  *****/
+/* * ISI-MIP2b EX IV-VII: 2018/02/09 by A.Ito  *****/
+/* * ISI-MIP2b EX VIII for RCP8.5: 2018/02/25 by A.Ito  *****/
+/* * ISI-MIP2b EX IX for RCP6.0 with improved EWEMBI: 2019/03/01 by A.Ito  */
+/* * ISI-MIP2b EX IIIc for RCP8.5+2005CO2: 2019/03/04 by A.Ito  *****/
 /* updated 2018/02/28 */
 /* 5013:  IV: GFDL PPPP + PH22 + PH22100 */
 /* 5014:   V: GFDL PPPP + PPPP + PP62 */
@@ -1443,6 +1453,12 @@
 /* 5105: counterfactual climate, nat */
 /* 5106: CO2 sensitivity, histsoc */
 /* 5107: CO2 sensitivity, 2015soc */
+
+/* 5220: model evaluation, 1901soc */
+/* 5221: counterfactual climate, 1901soc */
+/* 5222: CO2 sensitivity, 1901soc */
+/* 5223: no fire */
+
 /* GSWP3 */
 /* 5110: model evaluation, histsoc */
 /* 5111: model evaluation, 2015soc */

@@ -112,7 +112,7 @@ void cal_spinup(
         loct->n_manure_in = 0.0;
     }
     
-    if(NMIP_RUN >= 1 || ISIMIP_RUN == 4|| ISIMIP_RUN == 5|| ISIMIP_RUN == 6){
+    if(NMIP_RUN >= 1 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5 || ISIMIP_RUN == 6){
         /* NMIP input: 2015/11/19 by A.Ito */
         /* ISI-MIP2b: 2016/12/24 by A.Ito */
         /* ISIMIP3a: 2020/10/01 by A.Ito */
@@ -147,7 +147,8 @@ void cal_spinup(
     }
     if(ISIMIP_RUN == 5){
         /* ISIMIP3a */
-        grid->simy = 1850;
+        /* grid->simy = 1850; */
+        grid->simy = FSY_HIST - 1;
     }
     if(ISIMIP_RUN == 6){
         /* ISIMIP3b */
@@ -193,8 +194,10 @@ void cal_spinup(
         }else if(ISIMIP_RUN == 5 && grid->flag_histdata == 1){
             /* ISIMIP3a */
             ann_nep = 10.0;
-            grid->climy = grid->lucy = nn%100 + 1801;
-            if(SCENARIO_ID == 5106 || SCENARIO_ID == 5107 || SCENARIO_ID == 5116 || SCENARIO_ID == 5117){
+            grid->climy = nn%50 + BGY_CLIM;
+            grid->lucy = grid->niny = FSY_HIST;
+            if(SCENARIO_ID == 5106 || SCENARIO_ID == 5107 || SCENARIO_ID == 5116
+                    || SCENARIO_ID == 5117 || SCENARIO_ID == 5222){
                 /* fixed CO2 */
                 grid->co2y = 1901;
             }else{
@@ -553,7 +556,7 @@ void cal_spinup(
             }
         }
 		
-		if(plantmass<0.0 || plantmass>=500.0){
+		if(plantmass < 0.0 || plantmass >= 500.0){
 			printf("!!! BAD plant biomass: %lf\n", plantmass);
 			vanish(mass, flux);  /*** 2. excluding abnormal estimates ***/
 			break;
