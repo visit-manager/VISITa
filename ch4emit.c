@@ -1341,6 +1341,25 @@ void f_ch4_emit_walter(
 			fa_wetland += 0.2 * grid->f_lake;
 		}
 	}
+ 
+    /* GCP-CH4: per unit wetland area */
+    /* 2022/04/14 by A.Ito */
+    if(PUA_WETLAND == 1){
+		switch(smode){
+			case 1:
+				fa_wetland = f_inundation * 1.0;
+				break;
+			case 2:
+				fa_wetland = (1.0 - f_inundation) * 1.0;
+				break;
+			case 3:
+				fa_paddy = f_inundation * 1.0;
+				break;
+			case 4:
+				fa_paddy = (1.0 - f_inundation) * 1.0;
+				break;
+		}
+    }
 	
     /* alternative paddy crop calendar: 2021/04/07 by A.Ito */
     if(EX_PADDY == 3 && (smode == 3 || smode == 4)){

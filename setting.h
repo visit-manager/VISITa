@@ -546,7 +546,7 @@
 /* 2: on with adjusting factor, 0.73 */
 
 /* land use change setting ********************************/
-#define LANDUSE 31
+#define LANDUSE 0
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -828,7 +828,7 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 0
+#define ALT_INUND 10
 /* 0: default (SSMI) */
 /* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
@@ -840,6 +840,11 @@
 /* 8: GCP-CH4 V2: 2018/08/29 by A.Ito : no limit by GLWD */
 /* 9: SWAMPS anomaly: 2021/06/25 by A.Ito */
 /* 10: WAD2M GCP-CH4: 2021/10/26 by A.Ito : no limit by GLWD */
+
+/* GCP-CH4: per unit wetland area */
+/* 2022/04/14 by A.Ito */
+#define PUA_WETLAND 1
+/* 0:off, 1:on */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0
