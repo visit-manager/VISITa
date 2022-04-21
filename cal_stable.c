@@ -68,7 +68,7 @@ void cal_spinup(
 		grid->f_crop_p = grid->fcrop_luh[2000 - BGY_LUC];
 		grid->f_pasture_p = grid->fpast_luh[2000 - BGY_LUC];
 	}else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13
-         || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 29){
+         || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 29 || LANDUSE == 49){
 		grid->f_crop_p = grid->fcrop_luh[BGY_LUC - FDY_LUC];
 		grid->f_pasture_p = grid->fpast_luh[BGY_LUC - FDY_LUC];
 	}else if(LANDUSE == 18){
@@ -132,7 +132,7 @@ void cal_spinup(
         }
     }
     
-    grid->simy = 1900;
+    grid->simy = FSY_HIST - 1;
     if(ISIMIP_RUN == 1 || (EX_BECCS==1 || EX_BECCS==2 || EX_BECCS==3)){
         grid->simy = 1949;
     }
@@ -227,10 +227,16 @@ void cal_spinup(
             }
             set_hist_clim(grid);
         }else if(ISIMIP_RUN == 0 && grid->flag_histdata == 1 && SCENARIO_ID == 4100){
-            /* GCP-CH4 W5E5: 2021/11/10 by A.Ito */
+            /* GCP-CH4 W5E5: 2021/11/10 */
             ann_nep = 10.0;
             grid->climy = grid->lucy = nn%100 +1801;
 			set_hist_clim(grid);
+        }else if(ISIMIP_RUN == 0 && FSY_HIST == 1800){
+            /* GCP2019: 2022/04/21 */
+            ann_nep = 10.0;
+            grid->climy = nn%20 +1901;
+			set_hist_clim(grid);
+            grid->lucy = nn%20 +1800;
         }
         
         /* NMIP: 2015/11/19 by A.Ito **/
@@ -251,7 +257,11 @@ void cal_spinup(
             /* ISIMIP3b */
             n_fertilizer_in(grid, loct);
         }else{
-            grid->niny = 1901;
+            if(FSY_HIST >= FDY_NINY){
+                grid->niny = FSY_HIST;
+            }else{
+                grid->niny = FDY_NINY;
+            }
         }
         
         if(NMIP_RUN >= 1 && NMIP_RUN <= 12){

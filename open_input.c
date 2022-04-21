@@ -3282,7 +3282,37 @@ void open_input(
         }
     }
 
-	/***************************************************/
+    /* LUH2-GCP2019: 2022/04/19 by A.Ito */
+    if(LANDUSE == 49){
+        /* historical */
+        if( (fp_s[26]=fopen("./data/luh2-gcp2019_state_1800-2019.txt","rt"))==NULL ){
+            printf("No luh2-gcp2019_state_1800-2019.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[26] ++;
+        }
+        if( (fp_s[27]=fopen("./data/luh2-gcp2019_transition_1800-2019.txt","rt"))==NULL ){
+            printf("No luh2-gcp2019_transition_1800-2019.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[27] ++;
+        }
+        /* future */
+        if( (fp_s[28]=fopen("./data/luh2_state_5-05_ssp1rcp26_2016-2100.txt","rt"))==NULL ){
+            printf("No luh2_state_5-05_ssp1rcp26_2016-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[28] ++;
+        }
+        if( (fp_s[29]=fopen("./data/luh2_transition_5-05_ssp1rcp26_2016-2100.txt","rt"))==NULL ){
+            printf("No luh2_transition_5-05_ssp1rcp26_2016-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[29] ++;
+        }
+    }
+
+	/* **************************************************/
 	/* 0: stable */
 	/* 1: gradual rise (SRES A1 or A1B) */
 	/* 2: gradual rise (SRES A1FI) */

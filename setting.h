@@ -1,4 +1,4 @@
-/*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
+/* VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
 /* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
@@ -22,7 +22,7 @@
 #define DHN 24.0 /* hours per day */
 #define HSN 3600.0 /* seconds per hour */
 
-/* **********************************************************/
+/* *******************************************************/
 /* year time-step, 12=monthly */
 #define ASTEP 12
 /* annual daily-step, 24=hourly */
@@ -44,28 +44,28 @@
 /* 1: every grid */
 /* 10: every 10 grid */
 
-/* **********************************************************/
+/* *******************************************************/
 /* #define IFILEN 59 */  /* normal case */
 #define IFILEN 95 /* */  /* normal case */
 #define OFILEN 9
 
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_CARBON2 0
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
-#define OUTPUT_GHG 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 0
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 /* output binary */
 #define BASE_GOUT 1
 #define C13_GOUT 0
 #define C14_GOUT 0
 #define PHYS_GOUT 0
 
-/* **********************************************************/
+/* *******************************************************/
 #define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
 /* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
@@ -168,7 +168,7 @@
     /* #define FDY_NINY 1850 */
 #endif
 
-/* **********************************************************/
+/* *******************************************************/
 /* total vegetation number */
 #define NVEG_OLSON 34       /* Olson veg (modified) */
 #define NVEG_SAGE 16		/* SAGE veg (modified) */
@@ -234,7 +234,7 @@
     #define FDY_AGHG 1750
 #endif
 
-/* ****************************************************************/
+/* *******************************************************/
 /* simulation framework duration (years) */
 #if ISIMIP_RUN==4
     #define PD_SIM 640 /* */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
@@ -243,7 +243,8 @@
 #elif ISIMIP_RUN==6
     #define PD_SIM 501 /* */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
 #else
-    #define PD_SIM 201
+    /* #define PD_SIM 201 */
+    #define PD_SIM 223   /* spinup +  1800-2021: 2022/04/19 by A.Ito */
 #endif
 /* for memory preparation; not always actual experimental length */
 
@@ -273,11 +274,14 @@
     #define FSY_HIST 1850 /* NMIP2: history */
     #define LSY_HIST 2020 /* NMIP2: history  */
 #else
-    #define FSY_HIST 1901 /* */
+    /* #define FSY_HIST 1901 */
     /* #define LSY_HIST 2016 */ /* history */
     /* #define LSY_HIST 1980 */ /* GCP-CH4 MERRA2 run: 2018/08/29 by A.Ito */
     /* #define LSY_HIST 2019 */ /* history */
     /* #define LSY_HIST 2020 */ /* history */
+    /* #define LSY_HIST 2021 */ /* history */
+    
+    #define FSY_HIST 1800 /* */
     #define LSY_HIST 2021 /* */ /* history */
 #endif
 
@@ -304,8 +308,9 @@
 #elif IMPRESSIONS_RUN==3
     #define BGY_CO2Y 1901
 #else
-    #define BGY_CO2Y 1901
+    /* #define BGY_CO2Y 1901 */
     /* #define BGY_CO2Y 1850 */ /* NMIP: 2021/12/13  */
+    #define BGY_CO2Y 1800
 #endif
 
 /* total historical run: using CRU, NCEP, etc. ***/
@@ -499,10 +504,10 @@
     #define FDY_FUTURE 2006 */
 
     /* CMIP6-LUH2 data */
-    #define DL_FUTURE 1
+    /* #define DL_FUTURE 1
     #define BGY_FUTURE 2016
     #define ENY_FUTURE 2099
-    #define FDY_FUTURE 2016 /* */
+    #define FDY_FUTURE 2016 */
 
     /* NMIP2 data */
     /* #define DL_FUTURE 1
@@ -515,12 +520,18 @@
     #define BGY_FUTURE 2006
     #define ENY_FUTURE 2099
     #define FDY_FUTURE 2006 */
+
+    /* LUH2-GCP2019 - CMIP6 data */
+    #define DL_FUTURE 1
+    #define BGY_FUTURE 2020
+    #define ENY_FUTURE 2099
+    #define FDY_FUTURE 2016 /* */
 #endif
 /* #define DL_FUTURE 241 */ /* 1860-2100 */
 /* #define FDY_FUTURE 2001 */
 /* #define FDY_FUTURE 1860 */
 
-/* ********************************************************/
+/* *******************************************************/
 /* NECB: coupling carbon loss */
 /* 0: uncoupled */
 /* 1: coupled */
@@ -545,8 +556,9 @@
 /* 0: off, 1: on   2018/05/19 by A.Ito */
 /* 2: on with adjusting factor, 0.73 */
 
-/* land use change setting ********************************/
-#define LANDUSE 0
+/* *******************************************************/
+/* land use change setting */
+#define LANDUSE 49
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -598,6 +610,8 @@
 
 /* 48: NMIP2: 2021/12/13 by A.Ito */
 
+/* 49: LUH2-GCP2019 + ssp1rcp26 (2016-2100): 2022/04/19 by A.Ito */
+
 /* extra co2 fixation combined with above scenarios: 2018/10/26 by A.Ito */
 #define EXTRA_CO2_FIX 0
 /* 0: off (default) */
@@ -628,8 +642,9 @@
     /* #define DL_LUC 306 */  /* 1700-2000/2005 */
     /* #define DL_LUC 150 */  /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
     /* #define DL_LUC 601 */  /* 1500-2005 + 2005-2100 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
-    #define DL_LUC 235 /* */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18 by A.Ito */
+    /* #define DL_LUC 235 */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18 by A.Ito */
     /* #define DL_LUC 171 */ /* NMIP2 */  /* 1850-2020 */
+    #define DL_LUC 301 /* */  /* 1800-2019 + 2020-2100 */ /* from LUH2-GCP2019 - CMIP6: 2022/04/19 by A.Ito */
 #endif
 
 /* begin year of land-use DATA */
@@ -643,9 +658,10 @@
 #else
     /* #define FDY_LUC 1500 */
     /* #define FDY_LUC 1700 */
-    #define FDY_LUC 1866 /* */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
+    /* #define FDY_LUC 1866 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
     /* #define FDY_LUC 1500 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
     /* #define FDY_LUC 1850 */ /* NMIP2 */ /* 1850-2020 */
+    #define FDY_LUC 1800 /* */ /* 1800-2019 */ /* 2022/04/19 by A.Ito */
 #endif
 
 /* begin year of land-use SIMULATION */
@@ -665,8 +681,9 @@
     /* #define BGY_LUC 1900 */
     #define BGY_LUC 1866
 #else
-    #define BGY_LUC 1900
+    /* #define BGY_LUC 1900 */
     /* #define BGY_LUC 1850 */ /* NMIP2 */ /* 1850-2020 */
+    #define BGY_LUC 1800 /* 2022/04/19 by A.Ito */
 #endif
 
 /* Forest management: 2019/10/15 by A.Ito *********/
@@ -722,7 +739,7 @@
 /* 0: none */
 /* 1: all agroforestry */
 
-/* *****************************************************************/
+/* *******************************************************/
 /* albedo perturbation experiment: 2012/12/30 by A.Ito */
 #define EX_ALBEDO 0
 /* 0: off */
@@ -804,7 +821,7 @@
 
 /* ********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 1
+#define CH4_WH 0
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 
@@ -1092,7 +1109,7 @@
 /* 6: +10% WHC30/WHC */
 /* 7: fixed LAI (1990s av) in 2000-2100 */
 
-/* climate change **************************************/
+/* Climate change **************************************/
 /* 0:off   1:on */
 /* temperature */
 #define CC_T 1
