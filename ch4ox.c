@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /*  Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /*  Carbon cycle, erosion, biomass burning, land-use change,			*/
 /*  CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -643,7 +643,7 @@ void f_ch4oxy_curry(
 	
 	/* first-order oxidation constant */
     
-    /* parameter ensemble: 2014/11/19 by A.Ito */
+    /* parameter ensemble: 2014/11/19  */
     prm_ensen = 1.0;
     if(PARAM_PTB == 5){
         if(PARAM_ENS == 1){
@@ -666,7 +666,7 @@ void f_ch4oxy_curry(
         }
     }
     
-    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    /* C-budget parameter ensemble: 2018/06/05  */
     if(PARAM_PTB == 20){
         prm_ensen = 1.0 + 0.3 * f_pert[3];
     }

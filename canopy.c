@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -174,7 +174,7 @@ double f_df97_gpp(
 		if(sfcrad[h]>0.0 && lai_t>0.0){
 			kt = sfcrad[h] / toprad[h];
 			
-			/* new estimation of diffuse radiation: 2008/09/08 by A.Ito */
+			/* new estimation of diffuse radiation: 2008/09/08  */
 			if(DIF_SRB==1){
 				if((grid->srb_dif_rr*grid->srb_dif_rr) > 0.25){
 					dd = grid->srb_dif_aa + grid->srb_dif_bb*kt;

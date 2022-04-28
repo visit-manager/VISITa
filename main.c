@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -8,14 +8,14 @@
 /* History */
 /* Revised August 15, 2007				*/
 /* Revised August 19, 2007				*/
-/* Revised 2007 / 12 / 25 by A.Ito				*/
-/* Revised 2008 / 02 / 15 by A.Ito				*/
-/* Revised 2008 / 03 / 10 by A.Ito				*/
-/* Revised 2008 / 07 / 01 by A.Ito				*/
-/* Revised 2008 / 09 / 24 by A.Ito	(based on E.Kato's comments)	*/
-/* Revised 2008 / 12 / 05 by A.Ito	radiation sensitivity analysis	*/
-/* Revised 2008 / 08 / 17 by A.Ito	(based on E.Kato's comments)	*/
-/* Revised 2010 / 03 / 21 by A.Ito	*/
+/* Revised 2007 / 12 / 25 				*/
+/* Revised 2008 / 02 / 15 				*/
+/* Revised 2008 / 03 / 10 				*/
+/* Revised 2008 / 07 / 01 				*/
+/* Revised 2008 / 09 / 24 	(based on E.Kato's comments)	*/
+/* Revised 2008 / 12 / 05 	radiation sensitivity analysis	*/
+/* Revised 2008 / 08 / 17 	(based on E.Kato's comments)	*/
+/* Revised 2010 / 03 / 21 	*/
 
 /* a previous version, Sim-CYCLE was described in
 Ito, A. and Oikawa, T., 2002. A simulation model of the carbon cycle in land 
@@ -79,7 +79,7 @@ int main(
         Flag_FOPEN[f] = 0;
     }
 	
-	/* read configure (instead of arguments) by A.Ito (2009/09/01) ************/
+	/* read configure (instead of arguments)  (2009/09/01) ************/
 	if((fp_setting = fopen("setting.txt","rt")) == NULL){
 	   printf("No configuration file !!!!!!!!!\n");
 	   exit(1);
@@ -356,7 +356,7 @@ int main(
 				flag_calc = 1;
 			}
             
-            /* IMPRESSIONS MASKED AREA: 2017/05/02 by A.Ito */
+            /* IMPRESSIONS MASKED AREA: 2017/05/02  */
             if(SCENARIO_ID == 6002){
                 /* if(grid.impressions_mask == 1){ */
                 if(grid.impressions_mask == 1 || grid.impressions_mask == 2 || grid.impressions_mask == 3){
@@ -487,7 +487,7 @@ int main(
 	for(h=0;h<4;h++){
 		fclose(fp_c[h]);
         
-        /* revised 2015/8/12 by A.Ito */
+        /* revised 2015/8/12  */
         if(FUTURE_RUN == 1 && SCENARIO_ID >= 1){
             fclose(fp_c2[h]);
         }

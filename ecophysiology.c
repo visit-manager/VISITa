@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -31,7 +31,7 @@ void f_ecophysiology(
         ek_mod = 0.9;
     }
     
-    /* for GEOMIP fapar estimation: 2015/02/25 by A.Ito */
+    /* for GEOMIP fapar estimation: 2015/02/25  */
     pchar->ppfd_db[grid->m] = pchar->appfd_db[grid->m] = 0.0;
     for(f=0;f<DSTEP;f++){
         hangle = -180.0 + ((double)f + 0.5)*15.0;
@@ -269,7 +269,7 @@ void stom_cond(
 	/** add soil water factor **/
 	cc = 1.0; /* not defined yet */
     
-    /* ozone impact on stomata: 2013/02/25 by A.Ito */
+    /* ozone impact on stomata: 2013/02/25  */
     if(EX_OZONE == 1){
         cc *= pchar->fo3[grid->m];
     }
@@ -362,7 +362,7 @@ void opt_lai(
 		pchar->opt_lai[grid->m] = 0.0;
 	}
     
-    /* 2015/03/23 by A.Ito *********/
+    /* 2015/03/23  *********/
     if(CONSTRAIN_LAIMAX == 1){
         /* if(grid->veg_olson >=1 && grid->veg_olson <= 30 && grid->y >= 30){
             if(pchar->opt_lai[grid->m] > loct->est_maxlai){
@@ -413,7 +413,7 @@ void f_qten_ar(
         pchar->qTc[grid->m] = aaa;
         pchar->qTr[grid->m] = aaa;
     }else if(EX_TMP_RESP == 6){
-        /* Heskel et al. 2016, PNAS: added by A.Ito 2017/12/7 */
+        /* Heskel et al. 2016, PNAS: added  2017/12/7 */
         aaa = exp(10.0 * (0.1012 + (2.0 * 0.0005 * grid->tmp_sfc[grid->m])));
         pchar->qTf[grid->m] = aaa;
         pchar->qTc[grid->m] = aaa;
@@ -523,7 +523,7 @@ void f_leaf_age(
 			bbb = fabs(addshed) / aaa;
 			
 			for(f=0;f<=48;f++){
-				/* modification by A.Ito (2009/06/03) based on E.Kato (2008/11/19) **/
+				/* modification  (2009/06/03) based on E.Kato (2008/11/19) **/
 				if((1.0 - bbb) > 0.0){
 					pchar->fleaf_age[f] *= (1.0 - bbb);
 				}else{

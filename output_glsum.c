@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -29,7 +29,7 @@ void f_set_history_data(
 	double fweight, fweight_nat, fweight_wet, fweight_pad;
     double wmonth;
 	
-	/* 2010/04/27 by A.Ito ***********/
+	/* 2010/04/27  ***********/
 	/* natural */
     fweight = 1.0;
     fweight_nat = 1.0;
@@ -76,7 +76,7 @@ void f_set_history_data(
 
 	for(f=0;f<ASTEP;f++){
         
-        /* 2018/07/18 by A.Ito */
+        /* 2018/07/18  */
         wmonth = MDN[f]/YDN;
  
 		/* climate */
@@ -105,7 +105,7 @@ void f_set_history_data(
         h_parb[year] += fweight * grid->par_bp[f]* wmonth * grid->area;
         h_pard[year] += fweight * grid->par_dp[f]* wmonth * grid->area;
         
-		/* potential permafrost area: added by A.Ito (2010/03/27) */
+		/* potential permafrost area: added  (2010/03/27) */
 		if(grid->tmp_sfc_am <= -2.0){
 			h_pot_prmfrst[year] += fweight * grid->area;
 		}
@@ -123,7 +123,7 @@ void f_set_history_data(
 		h_net_crop[year] += fweight * (flux->plant).net_crop[f] * grid->area;
         h_hvst_crop[year] += fweight * (flux->plant).hvst_crop[f] * grid->area;
 
-        /* test divided by 100.0 to avoid overflow: 2018/07/14 by A.Ito */
+        /* test divided by 100.0 to avoid overflow: 2018/07/14  */
 		h_plant[year] += fweight * ((mass->plant).mfol[f] + (mass->plant).mstm[f] + 
 									(mass->plant).mrot[f]) * wmonth * grid->area;
 		h_soil[year] += fweight * ((mass->soil).ltr_m[f] + 
@@ -131,15 +131,15 @@ void f_set_history_data(
 		
         h_arm[year] += fweight * (flux->plant).arm[f] * grid->area;
         
-        /* added by A.Ito: 2018/10/22 */
+        /* added : 2018/10/22 */
         h_bco2[year] += fweight * grid->bco2[f] * wmonth * grid->area;
         
         h_lL[year] += fweight * (flux->plant).lL[f] * grid->area;
         
-        /* added by A.Ito: 2021/06/15 corrected */
+        /* added : 2021/06/15 corrected */
         h_bnpp[year] += fweight * ((flux->plant).tpr[f] - (flux->plant).rrg[f]) * grid->area;
 
-		/* added by A.Ito (2011/12/16) */
+		/* added  (2011/12/16) */
 		h_abgm[year] += fweight * ((mass->plant).mfol[f] + (mass->plant).mstm[f]) * wmonth * grid->area;
 		
 		h_sr[year] += fweight * ((flux->plant).rrm[f] + (flux->plant).rrg[f] + (flux->soil).hr[f]) * grid->area;
@@ -174,7 +174,7 @@ void f_set_history_data(
 		
 		hm_inund[year][f] += fweight_wet * loct->f_inund_wet_wh[f] * grid->area;
         
-        /* seasonal-cycle amplitude: 2019/03/02 by A.Ito */
+        /* seasonal-cycle amplitude: 2019/03/02  */
         if(grid->lat > 0.0){
             hm_sca_gpp_nh[year][f] += fweight * (flux->plant).gpp[f] * grid->area;
             hm_sca_re_nh[year][f] += fweight * flux->er[f] * grid->area;
@@ -201,15 +201,15 @@ void f_set_history_data(
         h_n_sabdn[year] += fweight * (flux->plant).n_abdn_strg[f] * grid->area;
         h_n_uptk[year] += fweight * ((flux->plant).uptake_nh4[f]+(flux->plant).uptake_no3[f]) * grid->area;
 
-		/* added by A.Ito (2010/05/02) */
+		/* added  (2010/05/02) */
 		h_n_fertin[year] += fweight * (flux->soil).n_fertin[f] * grid->area;
-		/* added by A.Ito (2016/10/21) */
+		/* added  (2016/10/21) */
 		h_n_manurein[year] += fweight * (flux->soil).n_manurein[f] * grid->area;
-		/* corrected by A.Ito (2013/11/07) */
+		/* corrected  (2013/11/07) */
 		h_n_depoin[year] += fweight * (loct->depo_nh4[f] + loct->depo_no3[f]) * grid->area;
 		
-        /* 2016/06/23 by A.Ito */
-        /* revised " * wmonth": 2019/01/29 by A.Ito */
+        /* 2016/06/23  */
+        /* revised " * wmonth": 2019/01/29  */
         h_n_mcrb[year] += fweight * (mass->soil).n_mcrb_m[f] * wmonth * grid->area;
         h_n_no3[year] += fweight * (mass->soil).n_no3_m[f] * wmonth * grid->area;
         h_n_nh4[year] += fweight * (mass->soil).n_nh4_m[f] * wmonth * grid->area;
@@ -219,7 +219,7 @@ void f_set_history_data(
         h_n_lttr[year] += fweight * (mass->soil).n_lttr_m[f] * wmonth * grid->area;
         h_n_hums[year] += fweight * (mass->soil).n_hums_m[f] * wmonth * grid->area;
 
-		if(loct->v_type == 1 && REPLACE_OLSON_CROP == 0){ /* added by A.Ito (2009/06/16) */
+		if(loct->v_type == 1 && REPLACE_OLSON_CROP == 0){ /* added  (2009/06/16) */
 			if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32){
 				h_n2o_emit_ngas_agr[year] += (flux->soil).d_n2o_ngas[f] * grid->area;
 				h_n2o_emit_casa_agr[year] += (flux->soil).d_n2o_casa[f] * grid->area;
@@ -276,7 +276,7 @@ void f_set_history_data(
 		h_voc_bcaryophyllene[year] += fweight * flux->voc_bcaryophyllene[f] * grid->area *10000.0/1000000.0;
 		h_voc_othersesqui[year] += fweight * flux->voc_othersesqui[f] * grid->area *10000.0/1000000.0;
 		
-        /* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01 by A.Ito */
+        /* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01  */
         if(grid->lat < 25.0 && grid->lat > -25.0 ){
             h_gpp_trp[year] += fweight * (flux->plant).gpp[f] * grid->area;
             h_npp_trp[year] += fweight * (flux->plant).npp[f] * grid->area;
@@ -286,7 +286,7 @@ void f_set_history_data(
                                           flux->bb_co2_wood[f]+flux->bb_co2_root[f]) * grid->area;
         }
         
-        /* IAM land-use analysis: 2019/06/24 by A.Ito ******/
+        /* IAM land-use analysis: 2019/06/24  ******/
         if(loct->v_type == 1){
             h_ans1[year] += fweight * flux->nep[f] * grid->area;
             h_ans3[year] += (1.0 - grid->f_crop_ans) * flux->nep[f] * grid->area;
@@ -295,11 +295,11 @@ void f_set_history_data(
             h_ans4[year] += grid->f_crop_ans * flux->nep[f] * grid->area;
         }
         
-        /* Termite CH4 emission: 2021/10/08 by A.Ito */
+        /* Termite CH4 emission: 2021/10/08  */
         h_termite_ch4_lu[year] += fweight * flux->termite_ch4_lu[f] * grid->area;
         h_termite_ch4_gpp[year] += fweight * flux->termite_ch4_gpp[f] * grid->area;
 
-		/* d13c & d14c : added by A.Ito (2009/07/15) ***************/
+		/* d13c & d14c : added  (2009/07/15) ***************/
 		ci_aco2_d13c[year] = d13c_addition(loct->d13c_aco2[f], loct->aco2[f]*grid->area * wmonth,
 							 ci_aco2_d13c[year], ci_aco2[year]);
 		ci_aco2_d14c[year] = (grid->d14c_bco2[f]*loct->aco2[f]*grid->area * wmonth + ci_aco2_d14c[year]*ci_aco2[year]) /
@@ -377,7 +377,7 @@ void f_set_history_data(
 			ci_h[year] += fweight * (mass->soil).msl_m[f] * grid->area * wmonth;
 		}
 		
-		/* regional: added by A.Ito (2009/07/12) ****************/
+		/* regional: added  (2009/07/12) ****************/
 		rh_temp[grid->reg_g][year] += fweight * grid->tmp_2m[f]* wmonth * grid->area;
 		rh_prec[grid->reg_g][year] += fweight * grid->prate_sfc[f] * grid->area;
 		rh_dswrf[grid->reg_g][year] += fweight * grid->gl_rad[f]* wmonth * grid->area;
@@ -398,7 +398,7 @@ void f_set_history_data(
 		rh_incp[grid->reg_g][year] += fweight * loct->incep[f] * grid->area;
 		rh_rnof[grid->reg_g][year] += fweight * loct->ro2[f] * grid->area;
 		
-		/* added by A.Ito (2009/11/15) */
+		/* added  (2009/11/15) */
 		rh_net_crop[grid->reg_g][year] += fweight * (flux->plant).net_crop[f] * grid->area;
 		rh_ch4ox_curry[grid->reg_g][year] += fweight * (flux->soil).ch4oxy_curry[f] * grid->area *10000.0/1000.0;
 		rh_ch4emit_wh_wet[grid->reg_g][year] += fweight * ((flux->soil).ch4_wetland_wh_diff[f] + (flux->soil).ch4_wetland_wh_plant[f] +
@@ -414,7 +414,7 @@ void f_set_history_data(
 			}
 		}
 		
-		/* isotopes, added by A.Ito (2009/09/30) */
+		/* isotopes, added  (2009/09/30) */
 		/* GPP */
 		if(DF97==1){
 			if((flux->plant).gpp_df97[f] > 0.0){
@@ -498,17 +498,17 @@ void f_set_history_data(
 		h_luc_2[year] += flux->lu_ten * grid->area;
 		h_luc_3[year] += flux->lu_hund * grid->area;
         
-        /* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01 by A.Ito */
+        /* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01  */
         if(grid->lat < 25.0 && grid->lat > -25.0 ){
             h_luc_trp[year] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
         }
 
-        /* added by A.Ito: 2018/10/23 */
+        /* added : 2018/10/23 */
         h_luc_0[year] += flux->lu_detr * grid->area;
 
 		rh_luc[grid->reg_g][year] += (flux->lu_conv + flux->lu_ten + flux->lu_hund) * grid->area;
 		
-        /* 2014/12/10 by A.Ito */
+        /* 2014/12/10  */
 		/* h_hvst_wood[year] += flux->hvst_wood * grid->area; */
 		h_hvst_wood[year] += fweight * flux->hvst_wood * grid->area;
         
@@ -609,11 +609,11 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_n2o_n_emit_ngas[h]);
 		fprintf(fp_glsum,"%lf ", h_n2o_d_emit_ngas[h]);
 		
-		fprintf(fp_glsum,"%lf ", h_n2o_emit_ngas_agr[h]); /* added by A.Ito (2009/06/16) */
+		fprintf(fp_glsum,"%lf ", h_n2o_emit_ngas_agr[h]); /* added  (2009/06/16) */
 		fprintf(fp_glsum,"%lf ", h_n2o_emit_casa_agr[h]);
 		fprintf(fp_glsum,"%lf ", h_nh3_emit_agr[h]);
 		
-		/* added by A.Ito (2009/08/31) */
+		/* added  (2009/08/31) */
 		fprintf(fp_glsum,"%lf ", h_ch4emit_paddy_wh_diff[h]); 
 		fprintf(fp_glsum,"%lf ", h_ch4emit_paddy_wh_plant[h]);
 		fprintf(fp_glsum,"%lf ", h_ch4emit_paddy_wh_ebbl[h]);
@@ -623,49 +623,49 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_ch4emit_wetland_wh_ebbl[h]);
 		fprintf(fp_glsum,"%lf ", h_ch4emit_wetland_wh_release[h]);
 
-		fprintf(fp_glsum,"%lf ", h_gpp_c4[h]); /* added by A.Ito (2009/08/31) */
-		fprintf(fp_glsum,"%lf ", h_pot_prmfrst[h]); /* added by A.Ito (2010/03/27) */
-		fprintf(fp_glsum,"%lf ", h_no3_leach[h]); /* BU */ /* added by A.Ito (2010/03/29) */
+		fprintf(fp_glsum,"%lf ", h_gpp_c4[h]); /* added  (2009/08/31) */
+		fprintf(fp_glsum,"%lf ", h_pot_prmfrst[h]); /* added  (2010/03/27) */
+		fprintf(fp_glsum,"%lf ", h_no3_leach[h]); /* BU */ /* added  (2010/03/29) */
 
-		fprintf(fp_glsum,"%lf ", h_n_fertin[h]); /* added by A.Ito (2010/05/02) */
-		fprintf(fp_glsum,"%lf ", h_n_depoin[h]); /* added by A.Ito (2010/05/02) */
+		fprintf(fp_glsum,"%lf ", h_n_fertin[h]); /* added  (2010/05/02) */
+		fprintf(fp_glsum,"%lf ", h_n_depoin[h]); /* added  (2010/05/02) */
 		
-		fprintf(fp_glsum,"%lf ", h_hvst_wood[h]); /* BX */ /* added by A.Ito (2010/11/09) */
+		fprintf(fp_glsum,"%lf ", h_hvst_wood[h]); /* BX */ /* added  (2010/11/09) */
 		
-		fprintf(fp_glsum,"%lf ", h_trnsp[h]);  /* added by A.Ito (2010/11/18) */
+		fprintf(fp_glsum,"%lf ", h_trnsp[h]);  /* added  (2010/11/18) */
 		fprintf(fp_glsum,"%lf ", h_incepev[h]); 
 		fprintf(fp_glsum,"%lf ", h_ssurfev[h]); 
 
-		fprintf(fp_glsum,"%lf ", h_nbp[h]);   /* added by A.Ito (2010/11/27) */
+		fprintf(fp_glsum,"%lf ", h_nbp[h]);   /* added  (2010/11/27) */
 		fprintf(fp_glsum,"%lf ", h_net_crop[h]);
-		fprintf(fp_glsum,"%lf ", h_paddyarea[h]); /* added by A.Ito (2011/2/28) */
-		fprintf(fp_glsum,"%lf ", h_abgm[h]); /* added by A.Ito (2011/12/16) */
+		fprintf(fp_glsum,"%lf ", h_paddyarea[h]); /* added  (2011/2/28) */
+		fprintf(fp_glsum,"%lf ", h_abgm[h]); /* added  (2011/12/16) */
 
-		fprintf(fp_glsum,"%lf ", h_sw1[h]); /* added by A.Ito (2012/01/05) */
-		fprintf(fp_glsum,"%lf ", h_sw2[h]); /* added by A.Ito (2011/01/05) */
+		fprintf(fp_glsum,"%lf ", h_sw1[h]); /* added  (2012/01/05) */
+		fprintf(fp_glsum,"%lf ", h_sw2[h]); /* added  (2011/01/05) */
 
-		fprintf(fp_glsum,"%lf ", h_wetarea[h]); /* added by A.Ito (2012/10/26) */
+		fprintf(fp_glsum,"%lf ", h_wetarea[h]); /* added  (2012/10/26) */
 
-		fprintf(fp_glsum,"%lf ", h_rns[h]); /* added by A.Ito (2013/01/02) */
+		fprintf(fp_glsum,"%lf ", h_rns[h]); /* added  (2013/01/02) */
 		fprintf(fp_glsum,"%lf ", h_rnl[h]);
 		fprintf(fp_glsum,"%lf ", h_rnsd[h]);
 		fprintf(fp_glsum,"%lf ", h_cld[h]);
 
-		fprintf(fp_glsum,"%lf ", h_apar[h]); /* added by A.Ito (2013/12/16) */
-		fprintf(fp_glsum,"%lf ", h_parb[h]); /* added by A.Ito (2013/12/24) */
-		fprintf(fp_glsum,"%lf ", h_pard[h]); /* added by A.Ito (2013/12/24) */
+		fprintf(fp_glsum,"%lf ", h_apar[h]); /* added  (2013/12/16) */
+		fprintf(fp_glsum,"%lf ", h_parb[h]); /* added  (2013/12/24) */
+		fprintf(fp_glsum,"%lf ", h_pard[h]); /* added  (2013/12/24) */
 
-		fprintf(fp_glsum,"%lf ", h_arm[h]); /* added by A.Ito (2014/02/14) */
+		fprintf(fp_glsum,"%lf ", h_arm[h]); /* added  (2014/02/14) */
 
-		fprintf(fp_glsum,"%lf ", h_voc_afarnesene[h]); /* CQ */ /* added 2014/9/11 by A.Ito */
+		fprintf(fp_glsum,"%lf ", h_voc_afarnesene[h]); /* CQ */ /* added 2014/9/11  */
 		fprintf(fp_glsum,"%lf ", h_voc_bcaryophyllene[h]);
 		fprintf(fp_glsum,"%lf ", h_voc_othersesqui[h]);
 
-		fprintf(fp_glsum,"%lf ", h_deforest[h]); /* CT */ /* added by A.Ito (2014/09/22) */
+		fprintf(fp_glsum,"%lf ", h_deforest[h]); /* CT */ /* added  (2014/09/22) */
 
-		fprintf(fp_glsum,"%lf ", h_ipar[h]); /* added by A.Ito (2015/07/27) */  //98
+		fprintf(fp_glsum,"%lf ", h_ipar[h]); /* added  (2015/07/27) */  //98
         
-        fprintf(fp_glsum,"%lf ", h_n_mcrb[h]); /* 2016/06/23 by A.Ito */
+        fprintf(fp_glsum,"%lf ", h_n_mcrb[h]); /* 2016/06/23  */
         fprintf(fp_glsum,"%lf ", h_n_no3[h]);
         fprintf(fp_glsum,"%lf ", h_n_nh4[h]);
         
@@ -681,7 +681,7 @@ void f_glosum_output(
         fprintf(fp_glsum,"%lf ", h_n_sabdn[h]);
         fprintf(fp_glsum,"%lf ", h_n_uptk[h]);
 
-		fprintf(fp_glsum,"%lf ", h_n_manurein[h]); /* added by A.Ito (2016/10/21) */
+		fprintf(fp_glsum,"%lf ", h_n_manurein[h]); /* added  (2016/10/21) */
         fprintf(fp_glsum,"%lf ", h_burnt_area_wood[h]); /* 2017/11/30 */
         fprintf(fp_glsum,"%lf ", h_bioburn_n2o[h]); /* 2018/05/19 */
         fprintf(fp_glsum,"%lf ", h_hvst_crop[h]); /* 2018/07/16 */
@@ -887,7 +887,7 @@ void f_glosum_output(
 	}
 	fprintf(fp_glsum,"\n");
 		
-	/* historical carbon isotopes: added by A.Ito (2009/07/15) */
+	/* historical carbon isotopes: added  (2009/07/15) */
 	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(FSY_HIST-1));
 		fprintf(fp_glsum,"%lf ", ci_aco2[h]);
@@ -922,7 +922,7 @@ void f_glosum_output(
 	fprintf(fp_glsum,"\n");
 
 	/* regional *************************************************/
-	/* added by A.Ito (2009/09/30) */
+	/* added  (2009/09/30) */
 	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(FSY_HIST-1));
 		for(i=0;i<N_REG;i++){
@@ -1092,7 +1092,7 @@ void f_glosum_output(
 	}
 	fprintf(fp_glsum,"\n");
 	
-	/* added by A.Ito (2009/11/15) */
+	/* added  (2009/11/15) */
 	for(h=0;h<PD_SIM;h++){
 		fprintf(fp_glsum,"%ld ", h+(FSY_HIST-1));
 		for(i=0;i<N_REG;i++){
@@ -1160,7 +1160,7 @@ void f_glosum_output(
             fprintf(fp_glsum,"%lf ",hm_inund[h][i]);
         }
 
-        /* seasonal-cycle amplitude: 2019/03/02 by A.Ito */
+        /* seasonal-cycle amplitude: 2019/03/02  */
         for(i=0;i<ASTEP;i++){
             fprintf(fp_glsum,"%.2lf ", hm_sca_gpp_nh[h][i]);
         }

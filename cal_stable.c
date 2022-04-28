@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -82,7 +82,7 @@ void cal_spinup(
 		grid->f_crop_p = grid->fcrop_luh[1989 - FDY_LUC];
 		grid->f_pasture_p = 0.0;
 	}else if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
-        /* AIM land use, 2019/06/21 by A.Ito */
+        /* AIM land use, 2019/06/21  */
         grid->f_crop_p = grid->fcrop_luh[1950 - FDY_LUC];
         grid->f_pasture_p = 0.0;
     }else if(LANDUSE == 46){
@@ -93,7 +93,7 @@ void cal_spinup(
     /* historical fertilizer */
     grid->niny = 1901;
     if((NMIP_RUN >= 1 && NMIP_RUN <= 12) || ISIMIP_RUN == 4){
-        /* ISI-MIP2b: 2016/12/24 by A.Ito */
+        /* ISI-MIP2b: 2016/12/24  */
         grid->niny = FDY_NINY;
 
 		grid->f_crop_p = grid->mip_frcrop[0];
@@ -113,9 +113,9 @@ void cal_spinup(
     }
     
     if(NMIP_RUN >= 1 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5 || ISIMIP_RUN == 6){
-        /* NMIP input: 2015/11/19 by A.Ito */
-        /* ISI-MIP2b: 2016/12/24 by A.Ito */
-        /* ISIMIP3a: 2020/10/01 by A.Ito */
+        /* NMIP input: 2015/11/19  */
+        /* ISI-MIP2b: 2016/12/24  */
+        /* ISIMIP3a: 2020/10/01  */
         f_fert = 1.0; /* driven by data */
     }else if(NMIP_RUN >= 20 && NMIP_RUN <= 30){
         /* NMIP2: 2021/12/15 */
@@ -165,7 +165,7 @@ void cal_spinup(
         /* AGE: years */
         grid->y = nn;
 				
-        /* for considering leap years: 2014/09/29 by A.Ito */
+        /* for considering leap years: 2014/09/29  */
         if(grid->y%4 == 0){
             MDN[1] = 29.0;
             YDN = 366.0;
@@ -179,7 +179,7 @@ void cal_spinup(
             grid->climy = grid->lucy = nn%30 +1950;
 			set_hist_clim(grid);
 		}else if(ISIMIP_RUN == 2 && grid->flag_histdata == 1){
-            /* PLUME: 2014/07/31 by A.Ito */
+            /* PLUME: 2014/07/31  */
             ann_nep = 10.0;
             grid->climy = grid->lucy = nn%30 +1901;
 			set_hist_clim(grid);
@@ -239,7 +239,7 @@ void cal_spinup(
             grid->lucy = nn%20 +1800;
         }
         
-        /* NMIP: 2015/11/19 by A.Ito **/
+        /* NMIP: 2015/11/19  **/
         /* updated: 2016/10/20 */
         if(ISIMIP_RUN == 1){
             grid->niny = FSY_HIST-1;
@@ -349,7 +349,7 @@ void cal_spinup(
 				}
 			}
 			
-			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
+			/* fertilizaer input for croplands: revised  (2009/06/04) */
 			/* NH4:NO3 ratio is based on inventories */
             /* this routine may not be activated when using REPLACE_OLSON_CROP option */
 			if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 ||
@@ -369,7 +369,7 @@ void cal_spinup(
             
             if(EX_NFERT == 101){
                 if((echar->soil).v_type == 2){
-                    /* 101: Nishina ESSD data: 2017/02/13 by A.Ito */
+                    /* 101: Nishina ESSD data: 2017/02/13  */
                     
                     if(grid->f_crop_con > 0.0){
                         icrop = 1.0 / grid->f_crop_con;
@@ -402,7 +402,7 @@ void cal_spinup(
                         }
                     }
                     
-                    /* sensitivity run: 2017/06/24 by A.Ito */
+                    /* sensitivity run: 2017/06/24  */
                     if(EX_NFERT_SA == 2 || EX_NFERT_SA == 5 || EX_NFERT_SA == 6){
                         /* fixed at 1960 */
                         base_nin = icrop * (grid->nin_no3[0][grid->m] + grid->nin_nh4[0][grid->m]) * 1000.0;
@@ -437,7 +437,7 @@ void cal_spinup(
                             bb = 0.0;
                         }
                         
-                        /* No manure: 2017/07/10 by A.Ito */
+                        /* No manure: 2017/07/10  */
                         if(EX_NFERT_SA == 7){
                             bb = 0.0;
                         }
@@ -460,7 +460,7 @@ void cal_spinup(
                         (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
                     }
                    
-                    /* 2016/10/20 by A.Ito */
+                    /* 2016/10/20  */
                     (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0 * f_fert;
                     (mass->soil).n_lttr += loct->n_manure_in * 1000.0 * f_fert;
                 }
@@ -517,7 +517,7 @@ void cal_spinup(
 			(echar->soil).fm0_h[f] = (echar->soil).fm_h[f];
 			flux->lL0[f] = (flux->plant).lL[f];
             
-            /* baseline soil water: 2014/12/08 by A.Ito */
+            /* baseline soil water: 2014/12/08  */
             loct->b_sw30[f] = loct->sw30;
             loct->b_sww[f] = loct->sww;
 		}
@@ -558,8 +558,8 @@ void cal_spinup(
             }
         }else if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2 || ISIMIP_RUN == 3 ||
                     ISIMIP_RUN == 4 || ISIMIP_RUN == 5 || ISIMIP_RUN == 6){
-            /* spin-up 3000 years (30 x 100 times): 2012/07/02 by A.Ito */
-            /* spin-up 3000 years (100 x 30 times): 2020/10/01 by A.Ito */
+            /* spin-up 3000 years (30 x 100 times): 2012/07/02  */
+            /* spin-up 3000 years (100 x 30 times): 2020/10/01  */
             ann_nep = 10.0;
             if(nn == 3000){
                 ann_nep = 0.0;
@@ -672,10 +672,10 @@ void cal_spinup(
         iweight3 = iweight;
     }
 
-	/* wood harvest: 2010/10/15 by A.Ito *****************/
+	/* wood harvest: 2010/10/15  *****************/
 	total_hvst = 0.0;
 	if((mass->c3).v_type == 1){
-        /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+        /* revised (after comments by E.Kato): 2013/10/02  */
         
         if(LANDUSE ==9 || LANDUSE ==10 || LANDUSE ==11 || LANDUSE ==12 || LANDUSE ==13
                     || LANDUSE ==14){
@@ -690,7 +690,7 @@ void cal_spinup(
 
         total_hvst = grid->hvst_p1[dyr] + grid->hvst_s1[dyr];
 
-        /* parameter ensemble: 2014/11/19 by A.Ito */
+        /* parameter ensemble: 2014/11/19  */
         prm_ensen = 1.0;
         if(PARAM_PTB == 9){
             if(PARAM_ENS==1){
@@ -713,7 +713,7 @@ void cal_spinup(
             }
         }
 		
-        /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+        /* C-budget parameter ensemble: 2018/06/05  */
         if(PARAM_PTB == 20){
             prm_ensen = 1.0 + 0.3 * f_pert[1];
         }
@@ -747,14 +747,14 @@ void cal_spinup(
 		flux->hvst_wood = 0.0;
 	}
 
-	/* net biome production (added by A.Ito: 2010/01/20) */
+	/* net biome production (added : 2010/01/20) */
     flux->gpp_ann = 0.0;
 	for(f=0;f<ASTEP;f++){
 		flux->nbp[f] = flux->nep[f];
   
         flux->gpp_ann += (flux->plant).gpp[f];
 		
-        /* altered: 2018/10/16 by A.Ito */
+        /* altered: 2018/10/16  */
         if((mass->c3).v_type == 1 && NECB_LUC == 1){
             flux->nbp[f] -= iweight * (flux->lu_conv/(double)ASTEP + flux->lu_ten/(double)ASTEP + flux->lu_hund/(double)ASTEP);
         }
@@ -764,7 +764,7 @@ void cal_spinup(
         }
 		
 		if(NECB_BB == 1){
-            /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+            /* revised (after comments by E.Kato): 2013/10/02  */
             
 			flux->nbp[f] -= (flux->bb_co2_litter[f] + flux->bb_co2_leaf[f] 
 							 + flux->bb_co2_wood[f] + flux->bb_co2_root[f])/1000.0*12.0/44.0;
@@ -780,13 +780,13 @@ void cal_spinup(
 		}
         
         if(NECB_DOC == 1){
-            /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+            /* revised (after comments by E.Kato): 2013/10/02  */
             
             flux->nbp[f] -= (flux->soil).doc_boyer[f]/1000000.0;
         }
         
         if(NECB_CH4 == 1){
-            /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+            /* revised (after comments by E.Kato): 2013/10/02  */
             
             flux->nbp[f] += 12.0/16.0 * (grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
                     - grid->f_paddy * ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] + 
@@ -802,13 +802,13 @@ void cal_spinup(
                 prm_ensen = 1.0;
             }
 
-           /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+           /* revised (after comments by E.Kato): 2013/10/02  */
         
             flux->nbp[f] -= flux->erod_carbon * (prm_ensen * 0.20) /(double)ASTEP;
         }
         
         if(NECB_BVOC == 1){
-            /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+            /* revised (after comments by E.Kato): 2013/10/02  */
         
             flux->nbp[f] -= (flux->voc_isopr_g97[f] + flux->voc_monotrp_g97[f] + flux->voc_methanl_g97[f] +
                     flux->voc_acetone_g97[f] + flux->voc_actaldhd_g97[f] + flux->voc_frmardhd_g97[f] +
@@ -817,7 +817,7 @@ void cal_spinup(
         }
         
         if(NECB_CROP == 1){
-            /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+            /* revised (after comments by E.Kato): 2013/10/02  */
             flux->nbp[f] -= 1.0 * (flux->plant).net_crop[f]; /* ! hvst is positive */
         }
 	}

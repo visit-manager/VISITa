@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -232,7 +232,7 @@ void f_cisotope_efflux(
 	}
     
     /**************************************************************/
-    /* d13C of produced CH4: 2018/02/09 by A.Ito  */
+    /* d13C of produced CH4: 2018/02/09   */
     /** aaa = 0.0 + 1.0 / (1.0 + exp(-6.0 * (flux->sr[grid->m] - 0.8))); */
     aaa = 0.025 + 0.975 / (1.0 + exp(-6.0 * (flux->sr[grid->m] - 0.8)));
     if(aaa>=0.0 && aaa<=1.0){
@@ -253,7 +253,7 @@ void f_cisotope_efflux(
     loct->d13c_ch4[grid->m] = (1.0 - aaa) * (d13c_ch4_co2 - disc_ch4_co2) + aaa * (d13c_ch4_astt - disc_ch4_astt);
 }
 
-/* d14C decay: added by A.Ito (2009/06/27) **********************/
+/* d14C decay: added  (2009/06/27) **********************/
 double f_decay_14c(
 	double init_val
 ){

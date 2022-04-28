@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -136,36 +136,36 @@ void read_cru_clim(
         ISIMIP_RUN == 4 ||ISIMIP_RUN == 5 ||ISIMIP_RUN == 6 ||
         (SCENARIO_ID == 4100) ){
         
-        /* ISI-MIP: 2012/06/27 by A.Ito ****************/
+        /* ISI-MIP: 2012/06/27  ****************/
         /* also for ICARUS */
         /* 1950-1979-detrended: spin-up */
         /* 1950-2005:           historical */
         /* 2006-2099:           future projection */
         
-        /* PLUME (ISI-MIP2): 2014/07/31 by A.Ito ****************/
+        /* PLUME (ISI-MIP2): 2014/07/31  ****************/
         /* 1901-1930-detrended: spin-up */
         /* 1901-2005:           historical */
         
-        /* ISI-MIP2.1a: 2014/11/30 by A.Ito ****************/
+        /* ISI-MIP2.1a: 2014/11/30  ****************/
         /* 1901-1930-detrended: spin-up */
         /* 1901-2010:           historical */
 
-        /* ISI-MIP2.1b: 2016/12/22 by A.Ito ****************/
+        /* ISI-MIP2.1b: 2016/12/22  ****************/
         /* 1661-1860:           piControl */
         /* 1861-2005:           historical */
         /* 2006-2099:           projection */
         /* 2100-2299:           extended projection */
 
-        /* ISIMIP3a: 2022/01/24 by A.Ito ****************/
+        /* ISIMIP3a: 2022/01/24  ****************/
         /* 1801-1900-detrended: spin-up */
         /* 1901-2019:           historical */
 
-        /* ISIMIP3b: 2020/11/18 by A.Ito ****************/
+        /* ISIMIP3b: 2020/11/18  ****************/
         /* 1601-1850:           spin-up */
         /* 1851-2015:           historical */
         /* 2016-2100:           projection */
 
-        /* GCP-CH4: 2021/11/10 by A.Ito ****************/
+        /* GCP-CH4: 2021/11/10  ****************/
         /* 1801-2019:           spin-up + obsclim */
 
         /* air tempetaure, deg-C */
@@ -205,7 +205,7 @@ void read_cru_clim(
                 for(g=0;g<ASTEP;g++){
                 
                     /* input humidity to vapor pressure */
-                    /* revided by A.Ito (2012/06/28) */
+                    /* revided  (2012/06/28) */
                     
                     if(ISIMIP_RUN == 1 || ISIMIP_RUN == 2){
                         /* relative humidity */
@@ -256,7 +256,7 @@ void read_cru_clim(
             for(h=0;h<DL_ISIMIP;h++){
                 for(g=0;g<ASTEP;g++){
                     /* average downward-shortwave radiation */
-                    /* 2012/06/29 by A.Ito */
+                    /* 2012/06/29  */
                     drad = 0.0;
                     grid->m = g;
                     for (f=0;f<24;f++) {
@@ -312,7 +312,7 @@ void read_cru_clim(
     
     /* projection data ************************************************/
     if(ISIMIP_RUN == 2){
-        /* PLUME (ISI-MIP2): 2014/07/31 by A.Ito ****************/
+        /* PLUME (ISI-MIP2): 2014/07/31  ****************/
         /* 2006-2091:   future projection */
         
         /* ait tempetaure, deg-C */
@@ -342,7 +342,7 @@ void read_cru_clim(
                 for(g=0;g<ASTEP;g++){
                 
                     /* relative humidity to vapor pressure */
-                    /* revided by A.Ito (2012/06/28) */
+                    /* revided  (2012/06/28) */
                     
                     /* saturated water vapor pressure */
                     if(grid->proj_tmp2m[h][g][0][0] > 0.0){ /* at water surface */

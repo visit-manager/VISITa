@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -172,7 +172,7 @@ void f_co2_trend(
         printf("BAD experimental setting!!\n");
     }
     
-    /* assuming SRM + CDR : 2014/06/18 by A.Ito */
+    /* assuming SRM + CDR : 2014/06/18  */
     if(GEOMIP_RUN == 1 && CC_CD == 3){
         if(grid->co2y > 2020){
         
@@ -222,7 +222,7 @@ void f_co2_trend(
     }
 	
 	/* radiocarbon (d14C, D14C) of atmospheric CO2 *********************/
-	/* added 2009/06/23 by A.Ito */
+	/* added 2009/06/23  */
 	/* fitting curves derived from data by U.S. ORNL CDIAC */
 	/* if(time < 1964.0){
 		grid->d14c_bco2[grid->m] = exp(0.6655532*(time - 1953.686));

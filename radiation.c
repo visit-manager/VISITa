@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -88,7 +88,7 @@ double f_top_rad(
 		 = 6151.5 micro mol photons/ m2 / s */	
 	gg = SLC;
     
-    /* EX SRM: 2013/06/04 by A.Ito *******************/
+    /* EX SRM: 2013/06/04  *******************/
 	if(EX_SRM == 1 && grid->climy >= 2000){
         gg -= 2.6;
     }
@@ -103,7 +103,7 @@ double f_top_rad(
     }
     
     /* experiment for SRM by reflector */
-    /* added: 2014/07/06 by A.Ito     */
+    /* added: 2014/07/06      */
     /* if(SCENARIO_ID == 3012 || SCENARIO_ID == 3033 || SCENARIO_ID == 3091){
         if(grid->climy >= 2020){
             gg -= ((double)grid->climy-2020.0) * 4.5/50.0;
@@ -149,7 +149,7 @@ double f_gl_rad(
 	
 	hh = grid->top_rad[grid->m] * jj; 
 
-    /* EX SRM: 2013/06/04 by A.Ito *******************/
+    /* EX SRM: 2013/06/04  *******************/
     if(EX_SRM == 11 && grid->climy >= 2000){
         hh -= 2.6;
     }
@@ -191,7 +191,7 @@ double f_par(
 		/* surface / top ratio */
 		kt = grid->gl_rad[grid->m]/grid->top_rad[grid->m];
 		
-		/* new estimation of diffuse radiation: 2008/09/08 by A.Ito */
+		/* new estimation of diffuse radiation: 2008/09/08  */
 		if(DIF_SRB == 1){
 			if((grid->srb_dif_rr * grid->srb_dif_rr) > 0.25){
 				dd = grid->srb_dif_aa + grid->srb_dif_bb * kt;
@@ -274,7 +274,7 @@ void f_par_h(
 		/* surface / top ratio */
 		kt = grid->gl_rad[grid->m]/grid->top_rad[grid->m];
 		
-		/* new estimation of diffuse radiation: 2008/09/08 by A.Ito */
+		/* new estimation of diffuse radiation: 2008/09/08  */
 		if(DIF_SRB == 1){
 			if((grid->srb_dif_rr * grid->srb_dif_rr) > 0.25){
 				dd = grid->srb_dif_aa + grid->srb_dif_bb * kt;
@@ -382,7 +382,7 @@ void f_net_rad(
     albedo_base = loct->albedo_sfc[grid->m];
     /* loct->xx8[grid->m] = albedo_base; */
 	
-    /* albedo perturbation: 2012/12/29 by A.Ito */
+    /* albedo perturbation: 2012/12/29  */
     if(EX_ALBEDO == 1){
         loct->albedo_sfc[grid->m] += grid->albedo_pert[grid->m];
     }else if(EX_ALBEDO == 2){
@@ -404,14 +404,14 @@ void f_net_rad(
     albedo_var = loct->albedo_sfc[grid->m];
     /* loct->xx5[grid->m] = albedo_var; */
     
-    /* 2015/08/10 by A.Ito *****/
+    /* 2015/08/10  *****/
     /* if(grid->phase == 0){
         grid->tmp_sfc[grid->m] = grid->tmp_sfc_a[grid->m];
         grid->tmp10_soil[grid->m] = grid->tmp10_soil_a[grid->m];
         grid->tmp200_soil[grid->m] = grid->tmp200_soil_a[grid->m];
     } */
     
-    /* temperature change due to albedo: 2014/5/19 by A.Ito */
+    /* temperature change due to albedo: 2014/5/19  */
     if(EX_TVAR == 1 && EX_ALBEDO >= 1){
  
         if(grid->phase == 0){
@@ -542,7 +542,7 @@ void f_net_rad(
         loct->fappfd_g[grid->m] = 0.0;
     }
  
-    /* added: 2013/01/10 by A.Ito */
+    /* added: 2013/01/10  */
     loct->nsw_d[grid->m] = (1.0 - loct->albedo_sfc[grid->m]) * loct->glrad_dav[grid->m];
 	
 	/** global radiation under the canopy or at the soil surface **/
@@ -597,7 +597,7 @@ double albedo_soil(
 	
 	/* a function of snow accumulation */
 	/* albedo = schar->albedo0 + (0.7 - schar->albedo0)/(1.0 + exp(-0.05*(loct->snwa - 70.0))); */
-    /* revised: 2012/12/29 by A.Ito */
+    /* revised: 2012/12/29  */
 	albedo = schar->albedo0 + (0.95 - schar->albedo0)/(1.0 + exp(-0.05 * (loct->snwa - 75.0)));
 	
 	if(SENS_RAD == 3){
@@ -610,7 +610,7 @@ double albedo_soil(
 	/* albedo = (albedo>0.05)?albedo:0.05;
 	albedo = (albedo<0.75)?albedo:0.75; */
     
-    /* revised: 2012/12/29 by A.Ito */
+    /* revised: 2012/12/29  */
     albedo = (albedo>0.01)?albedo:0.01;
 	albedo = (albedo<0.95)?albedo:0.95;
 	
