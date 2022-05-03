@@ -489,7 +489,7 @@ void f_set_history_data(
 		}
 	}
 	
-	/* erosion and land-use change: 2011/12/15 (A.Ito) */
+	/* erosion and land-use change: 2011/12/15 */
 	if(loct->v_type == 1){
 		h_ersn_c[year] += fweight * flux->erod_carbon * grid->area;
 

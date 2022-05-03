@@ -1589,7 +1589,7 @@ void f_init_grid(
 
     }else  if(LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 30
             || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 || LANDUSE == 34 ||
-            LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37){
+            LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37 || LANDUSE == 49){
         ;
     }else{
         for(h=0;h<DL_LUC;h++){

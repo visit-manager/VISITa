@@ -830,7 +830,7 @@ void cal_historical(
 			}
 
             /* assumption for the period later than 2016: A.Ito (2019/02/11) */
-            if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28) &&
+            if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 49) &&
                     grid->lucy > (FDY_LUC+DL_LUC-1)){
                 dyr = (DL_LUC - 1);
             }
@@ -840,6 +840,8 @@ void cal_historical(
 						+ grid->hvst_s2[dyr] + grid->hvst_s3[dyr]; */
 
             total_hvst = grid->hvst_p1[dyr] + grid->hvst_s1[dyr];
+            
+            printf("%ld %.2lf\n",grid->lucy,total_hvst); /* for debug: 2022/05/03 ************************/
 
             /* parameter ensemble: 2014/11/19  */
             prm_ensen = 1.0;

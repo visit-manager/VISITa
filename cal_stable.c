@@ -683,6 +683,10 @@ void cal_spinup(
         }else{
             dyr = 1900 - FDY_LUC;
         }
+        
+        if(LANDUSE == 49){
+            dyr = 0;
+        }
 		
         /* from total grid */
         /* total_hvst = grid->hvst_p1[dyr] + grid->hvst_p2[dyr] + grid->hvst_s1[dyr]
