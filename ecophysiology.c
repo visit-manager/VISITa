@@ -144,7 +144,7 @@ void f_ecophysiology(
 	mortality(grid, pchar);
 	
 	/* GPP by de Pury & Farquhar scheme */
-	if(DF97==1){
+	if(DF97 == 1){
 		f_df97_gpp(2, grid, loct, pchar, mass);
 		f_df97_gpp(3, grid, loct, pchar, mass);
 	}

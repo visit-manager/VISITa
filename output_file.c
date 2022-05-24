@@ -141,7 +141,7 @@ void f_output_file_open(
 	}
 }
 
-/************************************************************************/
+/* ***********************************************************************/
 /* make output file for stable state ************************************/
 void publish_cbud(
 	struct Grid *grid, 
@@ -286,7 +286,7 @@ void publish_cbud(
 	fprintf(result," \n"); 	
 }
 
-/************************************************************************/
+/* ***********************************************************************/
 void f_output_result(
 	long year, 
 	struct Grid *grid, 
@@ -641,18 +641,27 @@ void f_output_result(
             fprintf(fp_o[6],"%.3lf ", grid->tmp10_soil[f]);
             fprintf(fp_o[6],"%.3lf ", grid->tmp200_soil[f]);
             
-            /* added 2015/08/12  */
+            /* added 2015/08/12 */
             fprintf(fp_o[6],"%.3lf ", loct->ippfd_g[f]);
 
-            /* added 2019/04/03  */
+            /* added 2019/04/03 */
             fprintf(fp_o[6],"%.3lf ", loct->glrad_dav[f]);
 
-            /* added 2020/05/29  */
+            /* added 2020/05/29 */
             fprintf(fp_o[6],"%.3lf ", loct->nsw_d[f]);
             fprintf(fp_o[6],"%.3lf ", loct->rad_net_p[f]);
             fprintf(fp_o[6],"%.3lf ", loct->rad_net_g[f]);
+            
+            /* 2022/05/15 */
+            fprintf(fp_o[6],"%.3lf ", loct->rad_net_p_lw[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->rad_net_g_lw[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->rad_net_p_sw[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->rad_net_g_sw[f]);
 
-            /* 2014/01/22 for WSL output */
+            fprintf(fp_o[6],"%.3lf ", loct->canopy_con[f]);
+            fprintf(fp_o[6],"%.3lf ", loct->ground_con[f]);
+
+           /* 2014/01/22 for WSL output */
             /* 2015/02/18 for WTD check */
             /* fprintf(fp_o[6],"%.3lf ", loct->xx1[f]);
             fprintf(fp_o[6],"%.3lf ", loct->xx2[f]);

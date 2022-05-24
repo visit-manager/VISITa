@@ -841,8 +841,6 @@ void cal_historical(
 
             total_hvst = grid->hvst_p1[dyr] + grid->hvst_s1[dyr];
             
-            printf("%ld %.2lf\n",grid->lucy,total_hvst); /* for debug: 2022/05/03 ************************/
-
             /* parameter ensemble: 2014/11/19  */
             prm_ensen = 1.0;
             if(PARAM_PTB == 9){
@@ -905,6 +903,9 @@ void cal_historical(
                     (mass->c3).stm = INT_C;
                 }
             }
+            
+            printf("%ld %.2lf %.2lf %.2lf\n",grid->lucy,grid->hvst_p1[dyr],grid->hvst_s1[dyr], flux->hvst_wood); /* for debug: 2022/05/03 **************/
+
 		}else{
 			flux->hvst_wood = 0.0;
 		}

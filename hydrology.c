@@ -246,6 +246,8 @@ double pm_evaporation(
 	ggc = 500.0*(1.0 - ((grid->field_cap1+grid->field_cap2)-(loct->sw30+loct->sww))/
 				 (grid->field_cap1 + grid->field_cap2))+10.0; /*2003-06-27*/
 	rc_g = 1.0/(ggc*eta);
+ 
+    loct->ground_con[grid->m] = ggc;
 	
 	aaa = (loct->slope_vps[grid->m]*loct->rad_net_g[grid->m]) + (cp*spwt*loct->vpd[grid->m] / loct->r_aero[grid->m]);
 	bbb = loct->slope_vps[grid->m] + psycon*(1.0 + rc_g/loct->r_aero[grid->m]);

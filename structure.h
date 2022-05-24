@@ -415,7 +415,12 @@ struct Loct{
 	double	rad_net_short[ASTEP];		/* net short-wave radiation, W m-2 */
 	double	rad_net[ASTEP];			/* net radiation, W m-2 */
 	double	rdi;						/* radiative dryness index by Budyko */
-    
+
+	double	rad_net_p_sw[ASTEP];			/* net radiation, canopy, W m-2 */
+	double	rad_net_g_sw[ASTEP];			/* net radiation, soil surface, W m-2 */
+	double	rad_net_p_lw[ASTEP];			/* net radiation, canopy, W m-2 */
+	double	rad_net_g_lw[ASTEP];			/* net radiation, soil surface, W m-2 */
+
     /* added: 2013/01/10  */
     double  glrad_dav[ASTEP];          /* daily average downward SW radiation, W m-2 */
     double  nsw_d[ASTEP];              /* daily average net SW radiation, W m-2 */
@@ -445,7 +450,9 @@ struct Loct{
 	double	lai[ASTEP];					/* leaf area index, m2 m-2 */
 	double	canopy_con[ASTEP];			/* canopy conductance, mmol H2O m-2 s-1 */
 	double	f_vegcov[ASTEP];			/* fractional vegetation cover */
-	
+ 
+    double  ground_con[ASTEP];			/* ground conductance, mmol H2O m-2 s-1 */
+ 
 	/* water pools, mm (= kg/m2) */
 	double	snwa;						/* water equivalent snow depth, mm */
 	double	msnwa[ASTEP];				/* monthly */

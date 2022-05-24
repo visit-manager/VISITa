@@ -279,6 +279,9 @@ void f_dyn_loct(
             loct->xx7[h] = 0.0;
             loct->xx8[h] = 0.0;
             loct->xx9[h] = 0.0;
+
+            loct->canopy_con[h] = 0.0;
+            loct->ground_con[h] = 0.0;
         }
         loct->est_maxlai = 0.0;
     }

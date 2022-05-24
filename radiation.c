@@ -564,7 +564,9 @@ void f_net_rad(
     }
     fff = (fff<0.99)?fff:0.99;
     fff = (fff>0.01)?fff:0.01;
-	rad_net_p = (1.0 - fff)*(1.0 - ddd1) * grid->gl_rad[grid->m] - net_long * (1.0 - ddd2);
+    loct->rad_net_p_sw[grid->m] = (1.0 - fff)*(1.0 - ddd1) * grid->gl_rad[grid->m];
+    loct->rad_net_p_lw[grid->m] = -net_long * (1.0 - ddd2);
+    rad_net_p = loct->rad_net_p_sw[grid->m] + loct->rad_net_p_lw[grid->m];
 	rad_net_p = (rad_net_p>=0.0)?rad_net_p:0.0;
 	loct->rad_net_p[grid->m] = rad_net_p;
 	
@@ -583,8 +585,10 @@ void f_net_rad(
     }
     fff = (fff<0.99)?fff:0.99;
     fff = (fff>0.01)?fff:0.01;
-	rad_net_g = (1.0 - fff) * ddd1 * grid->gl_rad[grid->m] - net_long * ddd2;
-	rad_net_g = (rad_net_g >= 0.0)?rad_net_g:0.0;
+    loct->rad_net_g_sw[grid->m] = (1.0 - fff) * ddd1 * grid->gl_rad[grid->m];
+    loct->rad_net_g_lw[grid->m] = -net_long * ddd2;
+    rad_net_g = loct->rad_net_g_sw[grid->m] + loct->rad_net_g_lw[grid->m];
+	rad_net_g = (rad_net_g>=0.0)?rad_net_g:0.0;
 	loct->rad_net_g[grid->m] = rad_net_g;
 }
 
