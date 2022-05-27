@@ -258,6 +258,24 @@ void open_input(
                 printf("No cru405_vap_1901-2020.txt\n");
                 exit(1);
             }
+        }else if(DL_HCLIM == 121){
+            /* UEA-CRU data from 1901 - 2020: 2021/03/25 (A.Ito) */
+            if( (fp_c[0]=fopen("./data/cru406_cld_1901-2021.txt","rt"))==NULL ){
+                printf("No cru406_cld_1901-2021.txt\n");
+                exit(1);
+            }
+            if( (fp_c[1]=fopen("./data/cru406_pre_1901-2021.txt","rt"))==NULL ){
+                printf("No cru406_pre_1901-2021.txt\n");
+                exit(1);
+            }
+            if( (fp_c[2]=fopen("./data/cru406_tmp_1901-2021.txt","rt"))==NULL ){
+                printf("No cru406_tmp_1901-2021.txt\n");
+                exit(1);
+            }
+            if( (fp_c[3]=fopen("./data/cru406_vap_1901-2021.txt","rt"))==NULL ){
+                printf("No cru406_vap_1901-2021.txt\n");
+                exit(1);
+            }
         }else if(DL_HCLIM == 219){
             /* GCP-CH4 by GSWP3-W5E5 data from 1801 - 2019: 2021/11/09 (A.Ito) */
             /* SCENARIO_ID == 4100 */

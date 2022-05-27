@@ -421,7 +421,8 @@
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
     /* #define DL_HCLIM 118 */  /* CRU TS4.03: AD 1901 - 2018 */
     /* #define DL_HCLIM 119 */  /* CRU TS4.04: AD 1901 - 2019 */
-    #define DL_HCLIM 120 /* */  /* CRU TS4.05: AD 1901 - 2020 */
+    /* #define DL_HCLIM 120 */  /* CRU TS4.05: AD 1901 - 2020 */
+    #define DL_HCLIM 121 /* */  /* CRU TS4.06: AD 1901 - 2021 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -437,7 +438,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
