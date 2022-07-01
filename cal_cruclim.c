@@ -904,7 +904,7 @@ void cal_historical(
                 }
             }
             
-            printf("%ld %.2lf %.2lf %.2lf\n",grid->lucy,grid->hvst_p1[dyr],grid->hvst_s1[dyr], flux->hvst_wood); /* for debug: 2022/05/03 **************/
+            /* printf("%ld %.2lf %.2lf %.2lf\n",grid->lucy,grid->hvst_p1[dyr],grid->hvst_s1[dyr], flux->hvst_wood); */ /* for debug: 2022/05/03 **************/
 
 		}else{
 			flux->hvst_wood = 0.0;

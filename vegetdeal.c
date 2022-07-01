@@ -534,7 +534,9 @@ void set_gcm_index(
 		case 1000:	strcpy(s_case,"MHA11_"); break;
 		case 1001:	strcpy(s_case,"MHB11_"); break;
 
-		case 1010:	strcpy(s_case,"MMA11_"); break;
+		/* case 1010:	strcpy(s_case,"MMA11_"); break; */
+		case 1010:	strcpy(s_case,"TEST_"); break;
+  
 		case 1011:	strcpy(s_case,"MMA12_"); break;
 		case 1012:	strcpy(s_case,"MMA13_"); break;
 		case 1013:	strcpy(s_case,"MMA21_"); break;
