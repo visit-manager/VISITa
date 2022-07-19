@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -196,7 +196,7 @@ void harvesting(
 	/** harvest of crops **/
 	hvst_index = 0.45; /* harvest index -> 45% of biomass */
  
-    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    /* C-budget parameter ensemble: 2018/06/05  */
     if(PARAM_PTB == 20){
         hvst_index *= 1.0 + 0.3 * f_pert[8];
     }
@@ -204,7 +204,7 @@ void harvesting(
         hvst_index = 0.85;
     }
 
-    /* litter: 2018/07/23 by A.Ito */
+    /* litter: 2018/07/23  */
     /* clear = 0.9 + hvst_index; */
     clear = 0.5 * hvst_index;
     if((hvst_index + clear) > 0.95){

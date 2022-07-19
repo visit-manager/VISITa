@@ -1,12 +1,12 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
 /*                  Revised August 14, 2007					*/
-/* Revised 2008 / 09 / 02 by A.Ito				*/
+/* Revised 2008 / 09 / 02 				*/
 
 #include<stdio.h>
 #include<math.h>
@@ -79,7 +79,7 @@ void f_voc_emit_guenther97(
     Nature version 2.1 (MEGAN2.1): an extended and updated framework for modeling 
     biogenic emissions. Geoscientific Model Development 5: 1471–1492. 
     doi: 10.5194/gmd-5-1471-2012    */
-    /* added 2014/9/11 by A.Ito */
+    /* added 2014/9/11  */
     double emit_potent_afarnesene[18] = {0.0,
         60.0, 60.0, 40.0, 40.0, 40.0, 40.0, 40.0, 40.0,
         3.0, 3.0, 40.0, 40.0, 3.0, 3.0, 3.0,
@@ -116,7 +116,7 @@ void f_voc_emit_guenther97(
 	14	Desert
 	15	Polar Desert/Rock/Ice
 	*/
-    /* revised by A.Ito: 2014/03/27 */
+    /* revised : 2014/03/27 */
     if(loct->v_type == 1){
         idveg = grid->veg_sage;
     }else if(loct->v_type == 2){
@@ -125,7 +125,7 @@ void f_voc_emit_guenther97(
         idveg = grid->veg_sage;
     }
     
-    /* BVOC experiments: 2019/08/13 by A.Ito */
+    /* BVOC experiments: 2019/08/13  */
     /* change isoprene emission factor to Saito et al. (2008) */
     if(EX_BVOC == 1){
         emit_potent_isopr[1] = 9.0;
@@ -193,11 +193,11 @@ void f_voc_emit_guenther97(
 			f_phenology += 0.5 * (laiage[1] + laiage[2]);
 			for(f=3;f<=24;f++){  /* changed f<=36 to f<=12 to f<=24: 2008/09/17 */
 				/* f_phenology += 1.1 * laiage[f]; */
-				f_phenology += 1.2 * laiage[f]; /* 2014/04/04 by A.Ito */
+				f_phenology += 1.2 * laiage[f]; /* 2014/04/04  */
 			}
 			for(f=25;f<=48;f++){  /* changed f=37 to f<=13 to f<=25: 2008/09/17 */
 				/* f_phenology += 0.4 * laiage[f]; */ 
-				f_phenology += 0.5 * laiage[f]; /* 2014/04/04 by A.Ito */
+				f_phenology += 0.5 * laiage[f]; /* 2014/04/04  */
 			}
 			
 			break;
@@ -208,7 +208,7 @@ void f_voc_emit_guenther97(
 			f_phenology += 0.5 * laiage[1];
 			for(f=2;f<=10;f++){  /* changed f<=8 to f<=6: 080613 */
 				/* f_phenology += 1.1 * laiage[f]; */
-				f_phenology += 1.2 * laiage[f]; /* 2014/04/04 by A.Ito */
+				f_phenology += 1.2 * laiage[f]; /* 2014/04/04  */
 			}
 			for(f=11;f<=18;f++){  /* changed f=9 to f=7: 080613 */
 				/* f_phenology += 0.4 * laiage[f]; */
@@ -228,7 +228,7 @@ void f_voc_emit_guenther97(
 	cc = foliar_dens * MDN[grid->m] * grid->dlen[grid->m];
     cc2 = loct->lai[grid->m] * MDN[grid->m] * grid->dlen[grid->m];
     
-    /* parameter ensemble: 2014/11/19 by A.Ito */
+    /* parameter ensemble: 2014/11/19  */
     prm_ensen = 1.0;
     if(PARAM_PTB == 8){
         if(PARAM_ENS == 1){
@@ -251,7 +251,7 @@ void f_voc_emit_guenther97(
         }
     }
 	
-    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    /* C-budget parameter ensemble: 2018/06/05  */
     if(PARAM_PTB == 20){
         prm_ensen = 1.0 + 0.3 * f_pert[6];
     }
@@ -266,14 +266,14 @@ void f_voc_emit_guenther97(
 	flux->voc_formacd_g97[grid->m] = emit_potent_formacd[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;
 	flux->voc_acetacd_g97[grid->m] = emit_potent_acetacd[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;
 	flux->voc_co_g97[grid->m] = emit_potent_co[idveg] * cc * f_temp_monotrp * f_phenology * prm_ensen;
-    /* added 2014/9/11 by A.Ito */
+    /* added 2014/9/11  */
 	flux->voc_afarnesene[grid->m] = emit_potent_afarnesene[idveg] * cc2 * f_temp_monotrp * f_phenology * prm_ensen;
 	flux->voc_bcaryophyllene[grid->m] = emit_potent_bcaryophyllene[idveg] * cc2 * f_temp_monotrp * f_phenology * prm_ensen;
 	flux->voc_othersesqui[grid->m] = emit_potent_othersesqui[idveg] * cc2 * f_temp_monotrp * f_phenology * prm_ensen;
 	
 	/* carbon loss by BVOC emission: 2008/10/09 */
 	if(NECB_BVOC == 1){
-        /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+        /* revised (after comments by E.Kato): 2013/10/02  */
          
 		total_closs = flux->voc_isopr_g97[grid->m] + flux->voc_monotrp_g97[grid->m] + flux->voc_methanl_g97[grid->m] + 
 			flux->voc_acetone_g97[grid->m] + flux->voc_actaldhd_g97[grid->m] + flux->voc_frmardhd_g97[grid->m] + 

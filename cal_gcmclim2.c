@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -84,7 +84,7 @@ void cal_projection(
 			f_cult_luc(grid);
 		}
 		
-		/* historical change in fertilizer input: 2010/05/11 by A.Ito */
+		/* historical change in fertilizer input: 2010/05/11  */
         f_fert = 1.0;
 		if(grid->rank_nat == 1){
 			/* developing countries */
@@ -93,7 +93,7 @@ void cal_projection(
 			/* developed countries */
 			f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - (double)grid->climy)))+0.53533202;
 		}
-        /* NMIP input: 2015/11/19 by A.Ito */
+        /* NMIP input: 2015/11/19  */
         if(NMIP_RUN >= 1){
             n_fertilizer_in(grid, loct);
             f_fert = 1.0; /* driven by data */
@@ -104,7 +104,7 @@ void cal_projection(
             f_fert = 1.0; /* driven by data */
         }
 
-        /* NMIP: 2015/11/19 by A.Ito **/
+        /* NMIP: 2015/11/19  **/
         grid->niny = grid->climy;
         if(grid->niny < 1900){
             grid->niny = 1900;
@@ -113,7 +113,7 @@ void cal_projection(
             grid->niny = 2012;
         }
 
-        /* for considering leap years: 2014/09/29 by A.Ito */
+        /* for considering leap years: 2014/09/29  */
         if(grid->simy%4 == 0){
             MDN[1] = 29.0;
             YDN = 366.0;
@@ -132,7 +132,7 @@ void cal_projection(
 			/* atmospheric CO2 */
 			f_co2_trend(grid);
 			
-			/* simplified atm. CO2 change: added by A.Ito (2009/06/18) */
+			/* simplified atm. CO2 change: added  (2009/06/18) */
 			if(TEMP_GC == 1){
 				grid->bco2[f] = grid->bco2[f] * exp((-1.0/100.0 * (double)(grid->climy-2000)) / 6.0);
 			}else if(TEMP_GC == 2){
@@ -209,7 +209,7 @@ void cal_projection(
 				}
 			}
 			
-			/* fertilizaer input for croplands: revised by A.Ito (2009/06/04) */
+			/* fertilizaer input for croplands: revised  (2009/06/04) */
 			/* NH4:NO3 ratio is based on inventories */
             /* this routine may not be activated when using REPLACE_OLSON_CROP option */
 			if((echar->soil).v_type == 1){
@@ -238,7 +238,7 @@ void cal_projection(
                     (mass->soil).n_nh4 += loct->n_frtlz_in * 0.8 * 1000.0 * f_fert;
                 }
 
-                /* 2016/10/20 by A.Ito */
+                /* 2016/10/20  */
                 (flux->soil).n_manurein[grid->m] = loct->n_manure_in * 1000.0 * f_fert;
                 (mass->soil).n_lttr += loct->n_manure_in * 1000.0 * f_fert;
 			}
@@ -362,7 +362,7 @@ void cal_projection(
             iweight3 = iweight;
         }
 		
-		/* wood harvest: 2010/10/15 by A.Ito ***********/
+		/* wood harvest: 2010/10/15  ***********/
 		total_hvst = 0.0;
 		if((mass->c3).v_type == 1){
 			dyr = grid->climy - FDY_LUC;
@@ -377,7 +377,7 @@ void cal_projection(
 
             total_hvst = grid->hvst_p1[dyr] + grid->hvst_s1[dyr];
 
-            /* parameter ensemble: 2014/11/19 by A.Ito */
+            /* parameter ensemble: 2014/11/19  */
             prm_ensen = 1.0;
             if(PARAM_PTB == 9){
                 if(PARAM_ENS==1){
@@ -400,7 +400,7 @@ void cal_projection(
                 }
             }
 			
-            /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+            /* C-budget parameter ensemble: 2018/06/05  */
             if(PARAM_PTB == 20){
                 prm_ensen = 1.0 + 0.3 * f_pert[1];
             }
@@ -433,14 +433,14 @@ void cal_projection(
 			flux->hvst_wood = 0.0;
 		}
 		
-		/* net biome production (added by A.Ito: 2010/01/20) */
+		/* net biome production (added : 2010/01/20) */
         flux->gpp_ann = 0.0;
 		for(f=0;f<ASTEP;f++){
 			flux->nbp[f] = flux->nep[f];
    
             flux->gpp_ann += (flux->plant).gpp[f];
 			
-            /* altered: 2018/10/16 by A.Ito */
+            /* altered: 2018/10/16  */
             if((mass->c3).v_type == 1 && NECB_LUC == 1){
                 flux->nbp[f] -= iweight * (flux->lu_conv/(double)ASTEP + flux->lu_ten/(double)ASTEP + flux->lu_hund/(double)ASTEP);
             }
@@ -450,7 +450,7 @@ void cal_projection(
             }
 
 			if(NECB_BB == 1){
-                /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+                /* revised (after comments by E.Kato): 2013/10/02  */
 				flux->nbp[f] -= (flux->bb_co2_litter[f] + flux->bb_co2_leaf[f] 
 								 + flux->bb_co2_wood[f] + flux->bb_co2_root[f])/1000.0*12.0/44.0;
 
@@ -465,12 +465,12 @@ void cal_projection(
 			}
             
             if(NECB_DOC == 1){
-                /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+                /* revised (after comments by E.Kato): 2013/10/02  */
                 flux->nbp[f] -= (flux->soil).doc_boyer[f]/1000000.0;
             }
             
             if(NECB_CH4 == 1){
-                /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+                /* revised (after comments by E.Kato): 2013/10/02  */
                 flux->nbp[f] += 12.0/16.0 * (grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
 						- grid->f_paddy * ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] + 
 									(flux->soil).ch4_paddy_wh_diff[f] + (flux->soil).ch4_paddy_wh_release[f]) * 0.00001
@@ -485,12 +485,12 @@ void cal_projection(
                     prm_ensen = 1.0;
                 }
     
-                /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+                /* revised (after comments by E.Kato): 2013/10/02  */
                 flux->nbp[f] -= flux->erod_carbon * (prm_ensen * 0.20) /(double)ASTEP;
             }
             
             if(NECB_BVOC == 1){
-                /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+                /* revised (after comments by E.Kato): 2013/10/02  */
                  flux->nbp[f] -= (flux->voc_isopr_g97[f] + flux->voc_monotrp_g97[f] + flux->voc_methanl_g97[f] +
                     flux->voc_acetone_g97[f] + flux->voc_actaldhd_g97[f] + flux->voc_frmardhd_g97[f] +
                     flux->voc_formacd_g97[f] + flux->voc_acetacd_g97[f] + flux->voc_co_g97[f] +
@@ -498,7 +498,7 @@ void cal_projection(
             }
             
             if(NECB_CROP == 1){
-                /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+                /* revised (after comments by E.Kato): 2013/10/02  */
                 flux->nbp[f] -= 1.0 * (flux->plant).net_crop[f]; /* ! hvst is positive */
             }
 		}

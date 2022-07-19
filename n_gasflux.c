@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /*  Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /*  Carbon cycle, erosion, biomass burning, land-use change,			*/
 /*  CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -42,8 +42,8 @@ void f_n2o_emit_ngas(
     double f_tmp, f_wfps;
     double v_nitrif_base, v_nitrif=0.0, v_n2oems=0.0;
     
-    /* 2016/07/08 by A.Ito */
-    /* 2016/08/14 by A.Ito */
+    /* 2016/07/08  */
+    /* 2016/08/14  */
     ee = 1.0 - exp(-3.0 * 0.3);
     
     if(grid->field_cap1 > 0.0){
@@ -82,19 +82,19 @@ void f_n2o_emit_ngas(
 		wfps_b_d = 0.01;
 	}
 	
-	/* added by A.Ito (2009/06/16) */
-	/* revised 2014/11/27 by A.Ito */
+	/* added  (2009/06/16) */
+	/* revised 2014/11/27  */
 	/* if(CALC_VEG == 1 && (grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 || grid->veg_olson==32)){ */
 	if(CALC_VEG == 1 && (loct->v_type == 2)){
         /* cropland */
 		/* kmax = 28.6; */
-		/* kmax = 18.0; */ /* 22.5=>20.0=>18.0 2014/12/02 by A.Ito */
-		/* nmax = 23.0; */ /* 30.0=>25.0=>23.0 2014/11/30 by A.Ito */
-		/* kmax = 18.0; */ /* 22.0: 2016/05/30 by A.Ito */
-		/* nmax = 30.0; */ /* 30.0: 2016/05/30 by A.Ito */
-		kmax = 12.0; /* 22.0: 2016/05/30 by A.Ito */
-		nmax = 20.0; /* 30.0: 2016/05/30 by A.Ito */
-		/* 2009/06/15 by A.Ito */
+		/* kmax = 18.0; */ /* 22.5=>20.0=>18.0 2014/12/02  */
+		/* nmax = 23.0; */ /* 30.0=>25.0=>23.0 2014/11/30  */
+		/* kmax = 18.0; */ /* 22.0: 2016/05/30  */
+		/* nmax = 30.0; */ /* 30.0: 2016/05/30  */
+		kmax = 12.0; /* 22.0: 2016/05/30  */
+		nmax = 20.0; /* 30.0: 2016/05/30  */
+		/* 2009/06/15  */
         /* micro g g-1*/
 		nh4_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0);	
 		no3_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000.0*1000.0); /* */ /* low */
@@ -104,13 +104,13 @@ void f_n2o_emit_ngas(
 	}else{
 		/* natural */
 		/* kmax = 3.8; */ 
-		/* kmax = 3.3; */   /* 3.8=>3.4=>3.3 2014/11/30 by A.Ito */
-		/* nmax = 23.0; */  /* 30.0=>25.0=>23.0 2014/11/30 by A.Ito */
-		/* kmax = 4.0; */   /* 3.8: 2016/05/30 by A.Ito */
-		/* nmax = 30.0; */  /* 30.0: 2016/05/30 by A.Ito */
-		kmax = 3.5;   /* 3.8: 2016/08/15 by A.Ito */
-		nmax = 15.0;  /* 30.0: 2016/08/05 by A.Ito */
-		/* 2009/06/15 by A.Ito */
+		/* kmax = 3.3; */   /* 3.8=>3.4=>3.3 2014/11/30  */
+		/* nmax = 23.0; */  /* 30.0=>25.0=>23.0 2014/11/30  */
+		/* kmax = 4.0; */   /* 3.8: 2016/05/30  */
+		/* nmax = 30.0; */  /* 30.0: 2016/05/30  */
+		kmax = 3.5;   /* 3.8: 2016/08/15  */
+		nmax = 15.0;  /* 30.0: 2016/08/05  */
+		/* 2009/06/15  */
         /* micro g g-1*/
 		nh4_soil = (mass->soil).n_nh4*1000000.0/10000.0 /(grid->bulkdens*1000000.0);
 		no3_soil = (mass->soil).n_no3*1000000.0/10000.0 /(grid->bulkdens*1000000.0); /* */ /* low */
@@ -184,7 +184,7 @@ void f_n2o_emit_ngas(
 		fd_wfps = 0.0;
 	}
 	
-    /* 2016/08/05 by A.Ito */
+    /* 2016/08/05  */
     /* medium */
     /* fd_wfps = 4.82 / pow(14.0, (16.0 / pow(14.0, 1.39*wfps_b))); */
 
@@ -218,7 +218,7 @@ void f_n2o_emit_ngas(
 	}
 	/* Fig.(5c) in Parton et al. (1996) */
 	/* fr_co2 = 13.0 + (30.78 * atan(PI * 0.07 * ((flux->soil).hr[grid->m]*1000.0/MDN[grid->m] - 13.0))) / PI; */
-    /* 2016/08/05 by A.Ito */
+    /* 2016/08/05  */
 	fr_co2 = 13.0 + (30.78 * atan(PI * 0.07 * (flux->sr[grid->m]*1000.0/MDN[grid->m] - 13.0))) / PI;
 	if(fr_co2 < 0.0){
 		fr_co2 = 0.0;
@@ -238,7 +238,7 @@ void f_n2o_emit_ngas(
 	/* Eqs.(3+4) in Parton et al. (1996) */
 	/* day_d_n2o = dt / (1.0 + fr_wfps * ((fr_no3>fr_co2)?fr_co2:fr_no3)); */
 	day_d_n2o = (n_t/0.4672) * dt / (1.0 + fr_wfps * ((fr_no3>fr_co2)?fr_co2:fr_no3));
-    /* Modified: (n_t/0.4672) for temperature dependence: 2016/10/20 by A.Ito */
+    /* Modified: (n_t/0.4672) for temperature dependence: 2016/10/20  */
     /* 0.4672 is n_t at 20 degC */
     
 	/* Eqs.(3+5) in Parton et al. (1996) */
@@ -255,7 +255,7 @@ void f_n2o_emit_ngas(
     loct->xx3[grid->m] = fr_wfps; */
 	
 	/* nitrification */
-	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.01 * MDN[grid->m]; */ /* revised by A.Ito (2009/07/18) */
+	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.01 * MDN[grid->m]; */ /* revised  (2009/07/18) */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.02 * MDN[grid->m]; */ /* 2009/07/23 */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.012 * MDN[grid->m]; */ /* 2010/03/30 */
 	/* (flux->soil).n_nitrif[grid->m] = day_n_n2o / 0.005 * MDN[grid->m]; */ /* 2016/05/30 */
@@ -264,8 +264,8 @@ void f_n2o_emit_ngas(
     
     v_nitrif_base = (day_n_n2o / 0.01) * MDN[grid->m];
     
-    /* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
-    /* revised: 2017/09/20 by A.Ito */
+    /* sensitivity to nitrification N2O fraction: 2016/11/7  */
+    /* revised: 2017/09/20  */
     
     if(EX_NITR_N2O == 0){
         /* VISITa default: 1% */
@@ -304,7 +304,7 @@ void f_n2o_emit_ngas(
         (flux->soil).f_n2o_ntr_ngas[grid->m] = 0.02;
     }
     
-    /* meta-analysis-derived empirical: 2018/05/14 by A.Ito */
+    /* meta-analysis-derived empirical: 2018/05/14  */
     if(EX_NITR_N2O == 7 || EX_NITR_N2O == 8){
         (flux->soil).f_n2o_ntr_ngas[grid->m] = 47.5954 * exp(-1.3449744 * grid->soil_ph);
         if((flux->soil).f_n2o_ntr_ngas[grid->m] > 0.6){
@@ -580,7 +580,7 @@ void f_n2o_emit_casa(
 	double f_emit;
 		
 	/* fraction of gas emission per mineralization */
-	/* 2009/06/15 by A.Ito */
+	/* 2009/06/15  */
 	/* f_emit = 0.01; */ /* low */
 	f_emit = 0.02; /* control */
 	
@@ -590,7 +590,7 @@ void f_n2o_emit_casa(
 	/* net */
 	/* d_n_min = (flux->soil).n_minerlz_lttr[grid->m] + (flux->soil).n_minerlz_hums[grid->m]
 			- (flux->soil).n_immbl[grid->m]; */
-	/* gross: 2010/04/06 by A.Ito */
+	/* gross: 2010/04/06  */
 	d_n_min = (flux->soil).n_minerlz_lttr[grid->m] + (flux->soil).n_minerlz_hums[grid->m];
 	if(d_n_min < 0.0){
 		d_n_min = 0.0;

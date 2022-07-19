@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /*  Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /*  Carbon cycle, erosion, biomass burning, land-use change,			*/
 /*  CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -94,7 +94,7 @@ void f_ch4_emit_cao(
         }
     }else if(ALT_INUND == 6){
         /* for GCP-CH4 fw_swamps-glwd_2000-2012.txt */
-        /* added: 2015/02/06 by A.Ito */
+        /* added: 2015/02/06  */
     
         if(grid->climy>=2000 && grid->climy<=2012){
         
@@ -137,7 +137,7 @@ void f_ch4_emit_cao(
         }
     }else if(ALT_INUND == 7 || ALT_INUND == 8){
         /* for GCP-CH4 v2: fw_gcp-ch4_wetlands_2000-2017.txt */
-        /* added: 2018/08/19 by A.Ito */
+        /* added: 2018/08/19  */
     
         if(grid->climy>=2000 && grid->climy<=2017){
         
@@ -185,7 +185,7 @@ void f_ch4_emit_cao(
             }
         }
     }else if(ALT_INUND == 9){
-        /* SWAMPS anomaly: 2021/06/25 by A.Ito */
+        /* SWAMPS anomaly: 2021/06/25  */
         if(grid->climy>=1992 && grid->climy<=2020){
             fv_inund_wet = grid->inundation_ssmi[grid->m] + grid->inundation_alt_ts[grid->climy - 1992][grid->m];
 
@@ -199,7 +199,7 @@ void f_ch4_emit_cao(
         fv_inund_pad = grid->inundation_ssmi[grid->m];
     }else if(ALT_INUND == 10){
         /* for WAD2M_wetlands_2000-2020_05deg_Ver2.0.flt */
-        /* added: 2021/10/26 by A.Ito */
+        /* added: 2021/10/26  */
     
         if(grid->climy>=2000 && grid->climy<=2020){
         
@@ -253,7 +253,7 @@ void f_ch4_emit_cao(
         fv_inund_pad = grid->inundation_ssmi[grid->m];
     }
     
-    /* alternative paddy crop calendar: 2021/04/07 by A.Ito */
+    /* alternative paddy crop calendar: 2021/04/07  */
     if(EX_PADDY == 3){
         if(grid->iizumi_mon_paddy_end > grid->iizumi_mon_paddy_start){
             if(grid->m >= grid->iizumi_mon_paddy_start && grid->m <= grid->iizumi_mon_paddy_end){
@@ -277,15 +277,15 @@ void f_ch4_emit_cao(
 	/* eq.6 */
 	/* wtable = 5.0; */
 	/* f_wtable = 0.383 * (0.5*exp(0.096 * wtable) + 0.5*exp(0.096 * -5.0)); OLD */
-	/* revised by A.Ito (2009/07/13) **/
+	/* revised  (2009/07/13) **/
 	/* wtable = 0.0;
 	f_wtable = 0.383 * (grid->inundation_ssmi[grid->m]*exp(0.096 * wtable) 
 						+ (1.0-grid->inundation_ssmi[grid->m])*exp(0.096 * -25.0)); */
-	/* 2013/11/29 by A.Ito */
- 	/* 2015/11/30 by A.Ito */
+	/* 2013/11/29  */
+ 	/* 2015/11/30  */
    wtable = 4.5;
     
-    /* 2014/12/10 by A.Ito */
+    /* 2014/12/10  */
     if(VAR_WTD == 1){
         /* mm => cm */
         diff_wtd = ((loct->sw30 + loct->sww) - (loct->b_sw30[grid->m] + loct->b_sww[grid->m])) / 10.0;
@@ -308,9 +308,9 @@ void f_ch4_emit_cao(
 		fv_wtable = 0.0;
 	}
      
-	/* lake: added by A.Ito (2009/07/14) */
+	/* lake: added  (2009/07/14) */
 	/* f_wtable_lake = 0.383 * exp(0.096 * 5.0); */
-	/* lake: revised by A.Ito (2013/11/29) */
+	/* lake: revised  (2013/11/29) */
 	f_wtable_lake = 0.383 * exp(0.096 * 10.0);
  
     if(ALT_INUND == 8){
@@ -389,12 +389,12 @@ void f_ch4_emit_cao(
 		wtable = -20.0;
 	}
 	f_wtable = 0.383 * exp(0.096 * wtable); */
-	/* revised by A.Ito (2009/07/13) */
+	/* revised  (2009/07/13) */
 	/* f_wtable = 0.383 * (f_inund * exp(0.096 * 3.0)
 						+ (1.0 - f_inund)*exp(0.096 * -50.0));	 */
-    /* revised by A.Ito (2013/11/29) */
+    /* revised  (2013/11/29) */
 
-    /* 2014/12/10 by A.Ito */
+    /* 2014/12/10  */
     wtable = 4.0;
     
     if(EX_PADDY == 1){
@@ -439,7 +439,7 @@ void f_ch4_emit_cao(
     loct->xx5[grid->m] = 0.333*grid->tmp10_soil[grid->m] + 0.667*grid->tmp200_soil[grid->m]; */
 }
 
-/* CH4 emission by Walter & Heimann: added by A.Ito (2009/08/05) *****************/
+/* CH4 emission by Walter & Heimann: added  (2009/08/05) *****************/
 /*
 	Walter, B. P., M. Heimann, et al. (2001). "Modeling modern methane emissions 
 	from natural wetlands 1. Model description and results." 
@@ -519,7 +519,7 @@ void f_ch4_emit_walter(
         t_mean = grid->tmp_soil_am;
     } */
 	
-    /* vegetation factor: 2014/06/09 by A.Ito *********************************/
+    /* vegetation factor: 2014/06/09  *********************************/
     /* last calibrated 2014/06/12 */
     /* last calibrated 2014/11/17 */
     /* last calibrated 2014/11/21 */
@@ -547,13 +547,13 @@ void f_ch4_emit_walter(
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
                 t_veg = 1.6;
                 r0 = 0.39; /* 2019/04/17 */
-            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03 by A.Ito */
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03  */
                 t_veg = 2.0;
                 r0 = 0.47; /* 2019/04/17 */
-            }else if(grid->veg_olson==23){ /* 2019/04/03 by A.Ito */
+            }else if(grid->veg_olson==23){ /* 2019/04/03  */
                 t_veg = 1.75;
                 r0 = 0.175;
-            }else if(grid->veg_olson==24){ /* 2019/04/03 by A.Ito */
+            }else if(grid->veg_olson==24){ /* 2019/04/03  */
                 t_veg = 2.2;
                 r0 = 0.46; /* 2019/04/17 */
             }else{
@@ -577,13 +577,13 @@ void f_ch4_emit_walter(
             }else if(grid->veg_olson==11 || grid->veg_olson==12){
                 t_veg = 0.40;
                 r0 = 0.074; /* 2019/04/17 */
-            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03 by A.Ito */
+            }else if(grid->veg_olson==21 || grid->veg_olson==22){ /* 2019/04/03  */
                 t_veg = 0.40;
                 r0 = 0.085; /* 2019/04/17 */
-            }else if(grid->veg_olson==23){ /* 2019/04/03 by A.Ito */
+            }else if(grid->veg_olson==23){ /* 2019/04/03  */
                 t_veg = 0.38;
                 r0 = 0.038;
-            }else if(grid->veg_olson==24){ /* 2019/04/03 by A.Ito */
+            }else if(grid->veg_olson==24){ /* 2019/04/03  */
                 t_veg = 0.45;
                 r0 = 0.085; /* 2019/04/17 */
             }else{
@@ -607,7 +607,7 @@ void f_ch4_emit_walter(
 	/* TIME */
 	cumtime = 600;
 	
-    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    /* C-budget parameter ensemble: 2018/06/05  */
     if(PARAM_PTB == 20){
         t_veg *= 1.0 + 0.3 * f_pert[2];
     }
@@ -618,8 +618,8 @@ void f_ch4_emit_walter(
 	if(smode == 1){	/* water-logged wetlands */
 		/* t_veg = 6.0; */  /* vegetation factor */
 		/* rdepth = 0.20; */		/* rooting depth, m */
-		/* rdepth = 0.30; */		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
-        rdepth = 0.25;        /* rooting depth, m */ /* revised 2018/05/29 by A.Ito */
+		/* rdepth = 0.30; */		/* rooting depth, m */ /* revised 2013/11/29  */
+        rdepth = 0.25;        /* rooting depth, m */ /* revised 2018/05/29  */
 
         if(grid->veg_olson==9 || grid->veg_olson==10){
             rdepth = 0.20;
@@ -631,14 +631,14 @@ void f_ch4_emit_walter(
 		/* water-table depth, m from surface */
 		/* loct->water_table_depth = 0.00; */
 		/* loct->water_table_depth = -0.02; */
-		/* loct->water_table_depth = -0.02; */ /* revised 2013/11/29 by A.Ito */
-		loct->water_table_depth = 0.025; /* revised 2015/02/23 by A.Ito */
+		/* loct->water_table_depth = -0.02; */ /* revised 2013/11/29  */
+		loct->water_table_depth = 0.025; /* revised 2015/02/23  */
 		if(EX_CH4_1 == 1){
 			loct->water_table_depth = 0.0 - loct->cum_dprec*0.0002;
 		}else if(EX_CH4_1 == 2){
 			loct->water_table_depth = 0.0 - loct->cum_dprec*0.001;
 		}
-        /* 2014/12/08 by A.Ito */
+        /* 2014/12/08  */
         if(VAR_WTD == 1){
             diff_wtd = (loct->sw30 + loct->sww) - (loct->b_sw30[grid->m] + loct->b_sww[grid->m]);
             loct->water_table_depth -= diff_wtd/1000.0;
@@ -655,14 +655,14 @@ void f_ch4_emit_walter(
 		
 		/* tuning parameter (cf. Table 2) */
 		/* r0 = 0.4; */  /* 1.0 => 0.7: 2009/08/20 */
-		/* r0 = 0.45; */  /* revised 2013/11/29 by A.Ito */
+		/* r0 = 0.45; */  /* revised 2013/11/29  */
 	}else if(smode == 2){	/* drainage wetlands */
 		/* t_veg = 4.0; */ /* vegetation factor */
 		/* rdepth = 0.15; */  /* rooting depth, m */
-		/* rdepth = 0.10; */		/* rooting depth, m */ /* revised 2013/11/29 by A.Ito */
-		rdepth = 0.15;		/* rooting depth, m */ /* revised 2015/11/19 by A.Ito */
+		/* rdepth = 0.10; */		/* rooting depth, m */ /* revised 2013/11/29  */
+		rdepth = 0.15;		/* rooting depth, m */ /* revised 2015/11/19  */
 		
-        /* revised 2015/04/02 by A.Ito */
+        /* revised 2015/04/02  */
         if(grid->veg_olson==9 || grid->veg_olson==10){
             rdepth = 0.10;
         }else if(grid->veg_olson==11 || grid->veg_olson==12 || grid->veg_olson==21 || grid->veg_olson==22
@@ -673,13 +673,13 @@ void f_ch4_emit_walter(
 		/* water-table depth, m from surface */
 		/* loct->water_table_depth = 0.25; */
 		/* loct->water_table_depth = 0.20; */
-		loct->water_table_depth = 0.20;  /* revised 2015/04/02 by A.Ito */
+		loct->water_table_depth = 0.20;  /* revised 2015/04/02  */
 		if(EX_CH4_1 == 1){
 			loct->water_table_depth = 0.25 - loct->cum_dprec * 0.0002;
 		}else if(EX_CH4_1 == 2){
 			loct->water_table_depth = 0.25 - loct->cum_dprec * 0.001;
 		}
-        /* 2014/12/08 by A.Ito */
+        /* 2014/12/08  */
         if(VAR_WTD == 1){
             diff_wtd = (loct->sw30 + loct->sww) - (loct->b_sw30[grid->m] + loct->b_sww[grid->m]);
             loct->water_table_depth -= diff_wtd/1000.0;
@@ -696,7 +696,7 @@ void f_ch4_emit_walter(
 		
 		/* tuning parameter (cf. Table 2) */
 		/* r0 = 0.25; */  /* 1.0 => 0.7: 2009/08/20 */
-		/* r0 = 0.35; */  /* revised 2013/11/29 by A.Ito */
+		/* r0 = 0.35; */  /* revised 2013/11/29  */
 	}else if(smode == 3){	/* water-logged paddy fields */
 		/* t_veg = 10.0; */  /* vegetation factor */
 		rdepth = 0.20;		/* rooting depth, m */ /* 0.3 => 0.2: 2009/08/20 */
@@ -829,9 +829,9 @@ void f_ch4_emit_walter(
 	/* q10_ch4prod = 3.0; */
 	/* q10_ch4prod = 3.2; */
 	/* q10_ch4prod = 3.85; */
-    /* q10_ch4prod = 2.5; */ /* 2018/05/25 by A.Ito */
-    /* q10_ch4prod = 2.4; */ /* 2018/05/26 by A.Ito */
-    q10_ch4prod = 2.0; /* 2018/05/28 by A.Ito */
+    /* q10_ch4prod = 2.5; */ /* 2018/05/25  */
+    /* q10_ch4prod = 2.4; */ /* 2018/05/26  */
+    q10_ch4prod = 2.0; /* 2018/05/28  */
 	if(EX_CH4_2 == 1){
 		q10_ch4prod = 1.5;
 	}else if(EX_CH4_2 == 2){
@@ -840,7 +840,7 @@ void f_ch4_emit_walter(
         /* original Walter-Heimann (2001) value */
         q10_ch4prod = 6.0;
     }else if(EX_CH4_2 == 4){
-        /* 2014/12/10 by A.Ito
+        /* 2014/12/10 
         Yvon-Durocher, G., A. P. Allen, D. Bastviken, R. Conrad, C. Gudasz, A. St-Pierre,
         N. Thanh-Duc, and P. A. del Giorgio (2014),
         Methane fluxes show consistent temperature dependence across microbial to
@@ -848,7 +848,7 @@ void f_ch4_emit_walter(
         q10_ch4prod = 3.85;
     }
     
-    /* parameter ensemble: 2014/11/19 by A.Ito */
+    /* parameter ensemble: 2014/11/19  */
     if(PARAM_PTB == 5){
         if(PARAM_ENS==1){
             r0 *= 0.7;
@@ -964,7 +964,7 @@ void f_ch4_emit_walter(
     f_inundation = 0.0;
     fa_wetland = fa_paddy = 0.0;
 
-	/* sensitivity experiments: 2010/07/02 by A.Ito */
+	/* sensitivity experiments: 2010/07/02  */
 	if(EX_CH4_1 >= 1){
 		/* West Siberia */
 		switch(smode){
@@ -1066,7 +1066,7 @@ void f_ch4_emit_walter(
                 }
             }
         }else if(ALT_INUND == 7 || ALT_INUND == 8){
-            /* use GCP-CH4 v2 data: 2018/08/29 by A.Ito */
+            /* use GCP-CH4 v2 data: 2018/08/29  */
             if(grid->climy >= 2000 && grid->climy <= 2017){
         
                 if(grid->f_wetland > 0.0){
@@ -1106,7 +1106,7 @@ void f_ch4_emit_walter(
             }
         }else if(ALT_INUND == 9){
             if(grid->climy >= 1992 && grid->climy <= 2020){
-                /* SWAMPS anomaly: 2021/06/25 by A.Ito */
+                /* SWAMPS anomaly: 2021/06/25  */
                 f_inundation = grid->inundation_ssmi[grid->m] + grid->inundation_alt_ts[grid->climy-1992][grid->m];
 
                 if(f_inundation < 0.0){
@@ -1116,7 +1116,7 @@ void f_ch4_emit_walter(
                 f_inundation = grid->inundation_ssmi[grid->m];
             }
         }else if(ALT_INUND == 10){
-            /* use GCP-CH4 WAD2M data: 2021/10/26 by A.Ito */
+            /* use GCP-CH4 WAD2M data: 2021/10/26  */
             if(grid->climy >= 2000 && grid->climy <= 2020){
         
                 if(grid->f_wetland > 0.0){
@@ -1156,7 +1156,7 @@ void f_ch4_emit_walter(
             }
         }
 		
-		/* when using NASA/GISS wetland data: 2011/03/31 by A.Ito */
+		/* when using NASA/GISS wetland data: 2011/03/31  */
 		if(ALT_FWETLAND == 1 && (smode == 1 || smode == 2)){
 			/* to avoid double-counting of inundation fraction */
 			f_inundation = 1.0;
@@ -1258,7 +1258,7 @@ void f_ch4_emit_walter(
 				break;
 		}
         
-        /* no limit by GLWD: 2018/08/29 by A.Ito */
+        /* no limit by GLWD: 2018/08/29  */
         if(ALT_INUND == 8 && smode == 1){
         
             if(grid->climy >= 2000 && grid->climy <= 2017){
@@ -1283,7 +1283,7 @@ void f_ch4_emit_walter(
                 fa_wetland = grid->inundation_alt_av[grid->m];
             }
         }
-        /* no limit by WAD2M: 2021/10/26 by A.Ito */
+        /* no limit by WAD2M: 2021/10/26  */
         if(ALT_INUND == 10 && smode == 1){
         
             if(grid->climy >= 2000 && grid->climy <= 2020){
@@ -1309,7 +1309,7 @@ void f_ch4_emit_walter(
             }
         }
         
-        /* SWAMPS anomaly: 2021/06/25 by A.Ito */
+        /* SWAMPS anomaly: 2021/06/25  */
         if(ALT_INUND == 9 && smode == 1){
             fa_wetland = f_inundation * grid->f_wetland;
             
@@ -1341,8 +1341,27 @@ void f_ch4_emit_walter(
 			fa_wetland += 0.2 * grid->f_lake;
 		}
 	}
+ 
+    /* GCP-CH4: per unit wetland area */
+    /* 2022/04/14  */
+    if(PUA_WETLAND == 1){
+		switch(smode){
+			case 1:
+				fa_wetland = f_inundation * 1.0;
+				break;
+			case 2:
+				fa_wetland = (1.0 - f_inundation) * 1.0;
+				break;
+			case 3:
+				fa_paddy = f_inundation * 1.0;
+				break;
+			case 4:
+				fa_paddy = (1.0 - f_inundation) * 1.0;
+				break;
+		}
+    }
 	
-    /* alternative paddy crop calendar: 2021/04/07 by A.Ito */
+    /* alternative paddy crop calendar: 2021/04/07  */
     if(EX_PADDY == 3 && (smode == 3 || smode == 4)){
         if(grid->iizumi_mon_paddy_end > grid->iizumi_mon_paddy_start){
             if(grid->m >= grid->iizumi_mon_paddy_start && grid->m <= grid->iizumi_mon_paddy_end){

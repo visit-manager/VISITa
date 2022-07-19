@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /*  Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /*  Carbon cycle, erosion, biomass burning, land-use change,			*/
 /*  CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -46,6 +46,7 @@ void set_hist_clim(
             /* 1901-2018:CRU TS4.03 */
             /* 1901-2019:CRU TS4.04 */
             /* 1901-2020:CRU TS4.05 */
+            /* 1901-2021:CRU TS4.06 */
             for(h=0;h<ASTEP;h++){
                 grid->tmp_sfc[h] = grid->hist_tmp[grid->climy - BGY_CLIM][h] 
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
@@ -59,17 +60,17 @@ void set_hist_clim(
            }
         }else{
             /* extention by NCEP/NCAR reanalysis data */
-            /* 2003-2008: extrapolation using NCEP/NCAR data: 2009/01/05 by A.Ito */
-            /* 2006-2009: extrapolation using NCEP/NCAR data: 2010/01/04 by A.Ito */
-            /* 2006-2010: extrapolation using NCEP/NCAR data: 2011/03/XX by A.Ito */
-            /* 2012-2012: extrapolation using NCEP/NCAR data: 2012/04/14 by A.Ito */
-            /* 2013-2013: extrapolation using NCEP/NCAR data: 2013/01/10 by A.Ito */
-            /* 2014-2014: extrapolation using NCEP/NCAR data: 2015/01/05 by A.Ito */
-            /* 2015-2015: extrapolation using NCEP/NCAR data: 2016/01/04 by A.Ito */
-            /* 2016-2017: extrapolation using NCEP/NCAR data: 2018/01/03 by A.Ito */
-            /* 2017-2018: extrapolation using NCEP/NCAR data: 2019/01/03 by A.Ito */
-            /* 2018-2019: extrapolation using NCEP/NCAR data: 2020/01/09 by A.Ito */
-            /* 2018-2020: extrapolation using NCEP/NCAR data: 2021/01/XX by A.Ito */
+            /* 2003-2008: extrapolation using NCEP/NCAR data: 2009/01/05  */
+            /* 2006-2009: extrapolation using NCEP/NCAR data: 2010/01/04  */
+            /* 2006-2010: extrapolation using NCEP/NCAR data: 2011/03/XX  */
+            /* 2012-2012: extrapolation using NCEP/NCAR data: 2012/04/14  */
+            /* 2013-2013: extrapolation using NCEP/NCAR data: 2013/01/10  */
+            /* 2014-2014: extrapolation using NCEP/NCAR data: 2015/01/05  */
+            /* 2015-2015: extrapolation using NCEP/NCAR data: 2016/01/04  */
+            /* 2016-2017: extrapolation using NCEP/NCAR data: 2018/01/03  */
+            /* 2017-2018: extrapolation using NCEP/NCAR data: 2019/01/03  */
+            /* 2018-2019: extrapolation using NCEP/NCAR data: 2020/01/09  */
+            /* 2018-2020: extrapolation using NCEP/NCAR data: 2021/01/XX  */
             for(h=0;h<ASTEP;h++){
                 /* temperature */
                 tmp_var = grid->ncep_tmp2m[grid->climy - FDY_NCEP][h][grid->ncep_lat][grid->ncep_lon] 
@@ -127,12 +128,12 @@ void set_hist_clim(
             /* GCP-CH4 2022/02/01 */
             if(grid->climy >= 2007){
                 for(h=0;h<ASTEP;h++){
-                    grid->tmp_sfc[h] = grid->hist_tmp_b[h]
+                    grid->tmp_sfc[h] = grid->hist_tmp_b2[h]
                                     + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
-                    grid->tmp_2m[h] = grid->hist_tmp_b[h];
-                    grid->tmp10_soil[h] = grid->hist_tmp_b[h]
+                    grid->tmp_2m[h] = grid->hist_tmp_b2[h];
+                    grid->tmp10_soil[h] = grid->hist_tmp_b2[h]
                                     + (grid->tmp10_soil_a[h] - grid->tmp_2m_a[h]);
-                    grid->tmp200_soil[h] = grid->hist_tmp_b[h]
+                    grid->tmp200_soil[h] = grid->hist_tmp_b2[h]
                                     + (grid->tmp200_soil_a[h] - grid->tmp_2m_a[h]);
                 }
             }
@@ -143,14 +144,16 @@ void set_hist_clim(
             } */
             
             /* GCP-CH4 2022/02/01 */
-            for(h=0;h<ASTEP;h++){
-                grid->prate_sfc[h] = grid->hist_pre_b[h];
+            if(grid->climy >= 2007){
+                for(h=0;h<ASTEP;h++){
+                    grid->prate_sfc[h] = grid->hist_pre_b2[h];
+                }
             }
         }
         
     }else if(ISIMIP_RUN == 1 || (SCENARIO_ID == 4100)){
         
-        /* ISI-MIP climate data: 2012/06/28 by A.Ito */
+        /* ISI-MIP climate data: 2012/06/28  */
         offset = 0;
         if(grid->phase == 0){
             offset = 0;
@@ -177,7 +180,7 @@ void set_hist_clim(
         }
     }else if(ISIMIP_RUN == 2){
 
-        /* ISI-MIP climate data: 2014/07/31 by A.Ito */
+        /* ISI-MIP climate data: 2014/07/31  */
         if(grid->phase == 0){
             offset = 0;
         }else if(grid->phase == 1 || grid->phase == 2){
@@ -197,7 +200,7 @@ void set_hist_clim(
         }
     }else if(ISIMIP_RUN == 3){
         
-        /* ISI-MIP2 climate data: 2014/11/30 by A.Ito */
+        /* ISI-MIP2 climate data: 2014/11/30  */
         if(grid->phase == 0){
             offset = 0;
         }else if(grid->phase == 1 || grid->phase == 2){
@@ -218,7 +221,7 @@ void set_hist_clim(
         }
     }else if(ISIMIP_RUN == 4){
         
-        /* ISI-MIP2b climate data: 2016/12/24 by A.Ito */
+        /* ISI-MIP2b climate data: 2016/12/24  */
         if(grid->phase == 0){
             offset = 0;
         }else if(grid->phase == 1 || grid->phase == 2){
@@ -238,7 +241,7 @@ void set_hist_clim(
             grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM + offset][h];  
         }
     }else if(ISIMIP_RUN == 5){
-        /* ISIMIP3a climate data: 2020/09/30 by A.Ito */
+        /* ISIMIP3a climate data: 2020/09/30  */
         if(grid->phase == 0){
             offset = 0;
         }else if(grid->phase == 1 || grid->phase == 2){
@@ -259,7 +262,7 @@ void set_hist_clim(
             grid->prate_sfc[h] = grid->hist_pre[grid->climy - BGY_CLIM + offset][h];
         }
     }else if(ISIMIP_RUN == 6){
-        /* ISIMIP3b climate data: 2020/11/18 by A.Ito */
+        /* ISIMIP3b climate data: 2020/11/18  */
         if(grid->phase == 0){
             offset = 0;
         }else if(grid->phase == 1 || grid->phase == 2){
@@ -316,7 +319,7 @@ void set_gcm_clim(
         grid->m = h;
         
         /* temperature ***************************************************/
-        /* gradual temperature change: added by A.Ito (2009/06/15) */
+        /* gradual temperature change: added  (2009/06/15) */
         if(TEMP_GC == 1){
             tmp_var = -1.0/100.0 * (double)(grid->climy-2000);
         }else if(TEMP_GC == 2){
@@ -368,7 +371,7 @@ void set_gcm_clim(
         }
         
         if(ISIMIP_RUN == 2){
-            /* PLUME: 2014/07/31 by A.Ito */
+            /* PLUME: 2014/07/31  */
             grid->tmp_2m[h] = grid->proj_tmp2m[grid->climy - FDY_FUTURE][h][grid->gcm_row][grid->gcm_col];
             grid->tmp_sfc[h] = grid->proj_tmp2m[grid->climy - FDY_FUTURE][h][grid->gcm_row][grid->gcm_col]
                                 + (grid->tmp_sfc_a[h] - grid->tmp_2m_a[h]);
@@ -392,7 +395,7 @@ void set_gcm_clim(
         grid->prate_sfc[h] = grid->prate_sfc_a[h] + pre_var;
        
         if(ISIMIP_RUN == 2){
-            /* PLUME: 2014/07/31 by A.Ito */
+            /* PLUME: 2014/07/31  */
             grid->prate_sfc[h] = grid->proj_prec[grid->climy-FDY_FUTURE][h][grid->gcm_row][grid->gcm_col];
         }
         
@@ -411,7 +414,7 @@ void set_gcm_clim(
         }						
 
         /* air humidity ******************************************************************/
-        /* revised by A.Ito (2009/08/17) */
+        /* revised  (2009/08/17) */
         if(TEMP_GC != 0){
             grid->spfh_2m[h] = grid->spfh_2m_a[h];
         }else{
@@ -457,7 +460,7 @@ void set_gcm_clim(
         }
 
         /* experiment for SRM by reflector */
-        /* added: 2014/07/06 by A.Ito     */
+        /* added: 2014/07/06      */
         if(SCENARIO_ID == 3313 || SCENARIO_ID == 3913){
             grid->top_rad[h] = f_top_rad(grid, 0);
         }
@@ -465,7 +468,7 @@ void set_gcm_clim(
         grid->gl_rad[h] = grid->rad_a[h] + rad_var;
         
         if(ISIMIP_RUN == 2){
-            /* PLUME: 2014/07/31 by A.Ito */
+            /* PLUME: 2014/07/31  */
             grid->gl_rad[h] = grid->proj_rad[grid->climy-FDY_FUTURE][h][grid->gcm_row][grid->gcm_col];
         }
         
@@ -473,7 +476,7 @@ void set_gcm_clim(
             grid->gl_rad[h] = 0.0;
         }
         
-        /* estimation of cloudiness: 2013/12/03 by A.Ito */
+        /* estimation of cloudiness: 2013/12/03  */
         if(grid->top_rad[h] > 0.0){
             est_cld = grid->gl_rad[h] / grid->top_rad[h];
             if(est_cld < 0.01){

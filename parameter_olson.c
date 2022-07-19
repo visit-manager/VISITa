@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -206,7 +206,7 @@ void parameterC3(
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
-					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50}; */ /* 2016/06/29 by A.Ito */
+					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50}; */ /* 2016/06/29  */
 	double n_salvagev[NVEG_OLSON]={0.25,
 					0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
 					0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
@@ -517,7 +517,7 @@ void parameterC4(
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
-					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50}; */ /* 2016/06/29 by A.Ito */
+					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50}; */ /* 2016/06/29  */
 	double n_salvagev[NVEG_OLSON]={0.25,
 					0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
 					0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,

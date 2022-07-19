@@ -1,6 +1,6 @@
-/*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
+/* VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in November 29, 2007						*/
@@ -22,7 +22,7 @@
 #define DHN 24.0 /* hours per day */
 #define HSN 3600.0 /* seconds per hour */
 
-/* **********************************************************/
+/* *******************************************************/
 /* year time-step, 12=monthly */
 #define ASTEP 12
 /* annual daily-step, 24=hourly */
@@ -44,7 +44,7 @@
 /* 1: every grid */
 /* 10: every 10 grid */
 
-/* **********************************************************/
+/* *******************************************************/
 /* #define IFILEN 59 */  /* normal case */
 #define IFILEN 95 /* */  /* normal case */
 #define OFILEN 9
@@ -53,10 +53,10 @@
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
+#define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
+#define OUTPUT_GHG 1
 #define OUTPUT_BB 0
 #define OUTPUT_BVOC 0
 /* output binary */
@@ -65,12 +65,12 @@
 #define C14_GOUT 0
 #define PHYS_GOUT 0
 
-/* **********************************************************/
-#define ISIMIP_RUN 5
+/* *******************************************************/
+#define ISIMIP_RUN 0
 /* 0: normal (no ISI-MIP) */
-/* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17 by A.Ito ) */
-/*    MIROC-INTEG LUC run (2019/02/21 by A.Ito) */
-/* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31 by A.Ito */
+/* 1: ISI-MIP 1st-phase runs + CD-LINKS (2016/11/17  ) */
+/*    MIROC-INTEG LUC run (2019/02/21 ) */
+/* 2: PLUME (ISI-MIP Phase 2) runs : 2014/07/31  */
 /* 3: ISI-MIP 2a historical runs */
 /* 4: ISI-MIP 2b 1.5 or 2.0 deg target */
 /* 5: ISI-MIP 3a */
@@ -89,19 +89,19 @@
 /* 2: sensitivity run (for IRS) + seasonal change + RCP4.5-CO2 */
 /* 3: sensitivity run (for IRS) + seasonal change + RCP8.5-CO2 */
 
-/* S10-BECCS experiment: 2016/02/15 by A.Ito */
+/* S10-BECCS experiment: 2016/02/15  */
 #define EX_BECCS 0
 /* 0: off (inc. scenario S5) */
 /* 1: on (scenario S3) */
 /* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
 /* 3: on (scenario S3) based on Kinoshita-san data 2017/10 */
-/* sub-scenarios: 2017/10/31 by A.Ito */
+/* sub-scenarios: 2017/10/31  */
 #define EX_BECCS_SUB 0
 /* 0: no sub-setting */
 /* 1: no beccs */
 /* 2: fix land-use after 2000 */
 
-/* biofuel experiment: 2015/08/21 by A.Ito */
+/* biofuel experiment: 2015/08/21  */
 #define BIOFUEL_RUN 0
 /* 0: off */
 /* 1: current fertilization */
@@ -110,7 +110,7 @@
 #define DL_BF 91 /* biofuel data length */
 
 /* NMIP: N2O model intercomparison runs */
-#define NMIP_RUN 0
+#define NMIP_RUN 21
 /* 0: off */
 /* 1: climate + CO2 + LCLUC + Ndep + Nfer + manure (S1) */
 /* 2: climate + CO2 + LCLUC + Ndep + Nfer (S2) */
@@ -160,21 +160,22 @@
     /* ISI-MIP3b: 1601-2100 */
     #define DL_NINPUT 500
     #define FDY_NINY 1601
+#elif NMIP_RUN>=20
+    #define DL_NINPUT 171  /* NMIP2: 2021/12/13  */
+    #define FDY_NINY 1850
 #else
     /* #define DL_NINPUT 156 */
-    #define DL_NINPUT 157 /* updated: 2017/10/19 by A.Ito */
+    #define DL_NINPUT 157 /* updated: 2017/10/19  */
     #define FDY_NINY 1860
-    /* #define DL_NINPUT 171 */ /* NMIP2: 2021/12/13 by A.Ito */
-    /* #define FDY_NINY 1850 */
 #endif
 
-/* **********************************************************/
+/* *******************************************************/
 /* total vegetation number */
 #define NVEG_OLSON 34       /* Olson veg (modified) */
 #define NVEG_SAGE 16		/* SAGE veg (modified) */
 /* #define NVEG_CROP 3	*/  /* crop types */
-/* #define NVEG_CROP 4 */  /* crop types: add biofuel crop: 2015/08/21 by A.Ito */
-#define NVEG_CROP 6		/* crop types: add agroforestry tree and crop: 2021/08/16 by A.Ito */
+/* #define NVEG_CROP 4 */  /* crop types: add biofuel crop: 2015/08/21  */
+#define NVEG_CROP 6		/* crop types: add agroforestry tree and crop: 2021/08/16  */
 
 /* calculation for land covers */
 #define CALC_VEG 1    /* natural vegetation */
@@ -185,7 +186,7 @@
 #define REPLACE_OLSON_CROP 1
 /* 0:off 1:on */
 
-/* change crop types: 2015/04/24 by A.Ito */
+/* change crop types: 2015/04/24  */
 #define EX_CROP 0
 /* 0: off (control) */
 /* 1: all C3 (e.g. wheat) */
@@ -194,39 +195,39 @@
 
 /* atmopsheric GHG data length */
 #if ISIMIP_RUN==1
-    /* ISI-MIP: 2012/06/27 by A.Ito */
+    /* ISI-MIP: 2012/06/27  */
     #define DL_AGHG 736
     #define FDY_AGHG 1765
 #elif ISIMIP_RUN==2
-    /* PLUME: 2014/07/31 by A.Ito */
+    /* PLUME: 2014/07/31  */
     #define DL_AGHG 736
     #define FDY_AGHG 1765
 #elif ISIMIP_RUN==3
-    /* ISI-MIP2a: 2014/12/02 by A.Ito */
+    /* ISI-MIP2a: 2014/12/02  */
     #define DL_AGHG 736
     #define FDY_AGHG 1765
 #elif ISIMIP_RUN==4
-    /* ISI-MIP2b: 2016/12/22 by A.Ito */
+    /* ISI-MIP2b: 2016/12/22  */
     #define DL_AGHG 639
     #define FDY_AGHG 1661
 #elif ISIMIP_RUN==5
-    /* ISIMIP3a: 2022/01/24 by A.Ito */
+    /* ISIMIP3a: 2022/01/24  */
     #define DL_AGHG 220 /* 1800-2019 */
     #define FDY_AGHG 1800
 #elif ISIMIP_RUN==6
-    /* ISI-MIP3b: 2020/05/27 by A.Ito */
+    /* ISI-MIP3b: 2020/05/27  */
     #define DL_AGHG 501
     #define FDY_AGHG 1600
 #elif GEOMIP_RUN==1
-    /* GEO-MIP: 2012/06/27 by A.Ito */
+    /* GEO-MIP: 2012/06/27  */
     #define DL_AGHG 736
     #define FDY_AGHG 1765
 #elif IMPRESSIONS_RUN==2
-    /* IMPRESSIONS: 2017/05/02 by A.Ito */
+    /* IMPRESSIONS: 2017/05/02  */
     #define DL_AGHG 736
     #define FDY_AGHG 1765
 #elif IMPRESSIONS_RUN==3
-    /* IMPRESSIONS: 2017/05/02 by A.Ito */
+    /* IMPRESSIONS: 2017/05/02  */
     #define DL_AGHG 736
     #define FDY_AGHG 1765
 #else
@@ -234,16 +235,19 @@
     #define FDY_AGHG 1750
 #endif
 
-/* ****************************************************************/
+/* *******************************************************/
 /* simulation framework duration (years) */
 #if ISIMIP_RUN==4
-    #define PD_SIM 640 /* */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
+    #define PD_SIM 640 /* */ /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22  */
 #elif ISIMIP_RUN==5
-    #define PD_SIM 171 /* spin-up + 1850-2019 */ /* ISI-MIP3a: 2022/01/24 by A.Ito */
+    #define PD_SIM 171 /* spin-up + 1850-2019 */ /* ISI-MIP3a: 2022/01/24  */
 #elif ISIMIP_RUN==6
-    #define PD_SIM 501 /* */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
+    #define PD_SIM 501 /* */ /* ISI-MIP3b: 2020/05/27  */
+#elif NMIP_RUN>=20
+    #define PD_SIM 201 /* NMIP2 */
 #else
-    #define PD_SIM 201
+    /* #define PD_SIM 201 */
+    #define PD_SIM 223   /* spinup +  1800-2021: 2022/04/19  */
 #endif
 /* for memory preparation; not always actual experimental length */
 
@@ -266,18 +270,22 @@
 #elif IMPRESSIONS_RUN==3
     #define FSY_HIST 1901 /* IMPRESSIONS 2 */
     #define LSY_HIST 2015
-#elif NMIP_RUN>=1
+#elif NMIP_RUN>=20
     //#define FSY_HIST 1861 /* NMIP */
     //#define LSY_HIST 2016
     
     #define FSY_HIST 1850 /* NMIP2: history */
     #define LSY_HIST 2020 /* NMIP2: history  */
 #else
-    #define FSY_HIST 1901 /* */
+    /* #define FSY_HIST 1901 */
     /* #define LSY_HIST 2016 */ /* history */
-    /* #define LSY_HIST 1980 */ /* GCP-CH4 MERRA2 run: 2018/08/29 by A.Ito */
+    /* #define LSY_HIST 1980 */ /* GCP-CH4 MERRA2 run: 2018/08/29 */
     /* #define LSY_HIST 2019 */ /* history */
-    #define LSY_HIST 2021 /* history */
+    /* #define LSY_HIST 2020 */ /* history */
+    /* #define LSY_HIST 2021 */ /* history */
+    
+    #define FSY_HIST 1800 /* */
+    #define LSY_HIST 2021 /* */ /* history */
 #endif
 
 /* start year (AD) of CO2 time series */
@@ -287,47 +295,49 @@
 /* dcd 2081 */
 /* NCEP1 1948 */
 #if ISIMIP_RUN==1
-    #define BGY_CO2Y 1950  /* ISI-MIP 1: 2012/06/27 by A.Ito */
+    #define BGY_CO2Y 1950  /* ISI-MIP 1: 2012/06/27 */
 #elif ISIMIP_RUN==2
-    #define BGY_CO2Y 1901  /* PLUME: 2014/07/31 by A.Ito */
+    #define BGY_CO2Y 1901  /* PLUME: 2014/07/31 */
 #elif ISIMIP_RUN==3
-    #define BGY_CO2Y 1901  /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
+    #define BGY_CO2Y 1901  /* ISI-MIP2 (historical): 2014/11/30 */
 #elif ISIMIP_RUN==4
-    #define BGY_CO2Y 1661  /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
+    #define BGY_CO2Y 1661  /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 */
 #elif ISIMIP_RUN==5
-    #define BGY_CO2Y 1850  /* ISIMIP3a: 2020/05/27 by A.Ito */
+    #define BGY_CO2Y 1850  /* ISIMIP3a: 2020/05/27 */
 #elif ISIMIP_RUN==6
-    #define BGY_CO2Y 1601  /* ISI-MIP3b : 2020/05/27 by A.Ito */
+    #define BGY_CO2Y 1601  /* ISI-MIP3b : 2020/05/27 */
 #elif IMPRESSIONS_RUN==2
     #define BGY_CO2Y 1901
 #elif IMPRESSIONS_RUN==3
     #define BGY_CO2Y 1901
+#elif NMIP_RUN>=20
+    #define BGY_CO2Y 1850 /* */ /* NMIP: 2021/12/13  */
 #else
-    #define BGY_CO2Y 1901
-    /* #define BGY_CO2Y 1850 */ /* NMIP: 2021/12/13  */
+    /* #define BGY_CO2Y 1901 */
+    #define BGY_CO2Y 1800
 #endif
 
 /* total historical run: using CRU, NCEP, etc. ***/
 #if ISIMIP_RUN==1
-    #define PD_HIST 150  /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define PD_HIST 150  /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 */
                          /* and BIOFUEL RUN, MIROC-INTEG LUC */
 #elif ISIMIP_RUN==2
-    #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 by A.Ito */
+    #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 */
 #elif ISIMIP_RUN==3
-    /* #define PD_HIST 110 */ /* AD 1901 - 2010 */ /* ISI-MIP2 (historical gswp3, pgfv2): 2014/11/30 by A.Ito */
-    /* #define PD_HIST 101 */ /* AD 1901 - 2001 */ /* ISI-MIP2 (historical watch): 2015/01/06 by A.Ito */
-    #define PD_HIST 112 /* */ /* AD 1901 - 2012 */ /* ISI-MIP2 (historical watch): 2016/05/06 by A.Ito */
+    /* #define PD_HIST 110 */ /* AD 1901 - 2010 */ /* ISI-MIP2 (historical gswp3, pgfv2): 2014/11/30 */
+    /* #define PD_HIST 101 */ /* AD 1901 - 2001 */ /* ISI-MIP2 (historical watch): 2015/01/06 */
+    #define PD_HIST 112 /* */ /* AD 1901 - 2012 */ /* ISI-MIP2 (historical watch): 2016/05/06 */
 #elif ISIMIP_RUN==4
-    #define PD_HIST 639  /* AD 1661 - 2299 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
-    /* #define PD_HIST 439 */ /* AD 1661 - 2099 */ /* ISI-MIP21.b: 2016/12/22 by A.Ito */
+    #define PD_HIST 639  /* AD 1661 - 2299 */ /* ISI-MIP21.b: 2016/12/22 */
+    /* #define PD_HIST 439 */ /* AD 1661 - 2099 */ /* ISI-MIP21.b: 2016/12/22 */
 #elif ISIMIP_RUN==5
-    /* #define PD_HIST 166 */  /* AD 1851 - 2016 */ /* ISIMIP3a: 2020/05/27 by A.Ito */
-    #define PD_HIST 170  /* AD 1850 - 2019 */ /* ISIMIP3a: 2022/01/24 by A.Ito */
+    /* #define PD_HIST 166 */  /* AD 1851 - 2016 */ /* ISIMIP3a: 2020/05/27 */
+    #define PD_HIST 170  /* AD 1850 - 2019 */ /* ISIMIP3a: 2022/01/24 */
 #elif ISIMIP_RUN==6
-    #define PD_HIST 500  /* AD 1601 - 2100 */ /* ISI-MIP3b: 2020/05/27 by A.Ito */
+    #define PD_HIST 500  /* AD 1601 - 2100 */ /* ISI-MIP3b: 2020/05/27 */
 #elif GEOMIP_RUN==1
     #define PD_HIST 105 /* */ /* AD 1901 - 2005 --GEOMIP */
-#elif NMIP_RUN>=1
+#elif NMIP_RUN>=20
     /* #define PD_HIST 155	*/ /* AD 1861 - 2015 */
     /* #define PD_HIST 156 */ /* AD 1861 - 2016 */
     #define PD_HIST 171    /* NMIP2: 2021/12/13 */ /* AD 1850 - 2020 */
@@ -352,7 +362,8 @@
     /* #define PD_HIST 118  */  /* AD 1901 - 2018 */
     /* #define PD_HIST 119    */  /* AD 1901 - 2019 */
     /* #define PD_HIST 120    */  /* AD 1901 - 2020 */
-    #define PD_HIST 121    /* */  /* AD 1901 - 2021 */
+    /* #define PD_HIST 121    */  /* AD 1901 - 2021 */
+    #define PD_HIST 222    /* */  /* AD 1800 - 2021 */
 #endif
 
 /* start year (AD) of climate ***/
@@ -361,25 +372,26 @@
 /* 1990: control */
 /* 1948: control */
 #if ISIMIP_RUN==1
-    #define BGY_CLIM 1950  /* ISI-MIP: 2012/06/27 by A.Ito */
+    #define BGY_CLIM 1950  /* ISI-MIP: 2012/06/27  */
 #elif ISIMIP_RUN==2
-    #define BGY_CLIM 1901  /* PLUME: 2014/07/31 by A.Ito */
+    #define BGY_CLIM 1901  /* PLUME: 2014/07/31  */
 #elif ISIMIP_RUN==3
-    #define BGY_CLIM 1901  /* ISI-MIP2a (historical): 2014/11/30 by A.Ito */
+    #define BGY_CLIM 1901  /* ISI-MIP2a (historical): 2014/11/30  */
 #elif ISIMIP_RUN==4
-    #define BGY_CLIM 1661  /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22 by A.Ito */
+    #define BGY_CLIM 1661  /* ISI-MIP2b (1.5/2.0 deg): 2016/12/22  */
 #elif ISIMIP_RUN==5
-    #define BGY_CLIM 1801  /* ISIMIP3a: 2020/05/27 by A.Ito */
+    #define BGY_CLIM 1801  /* ISIMIP3a: 2020/05/27  */
 #elif ISIMIP_RUN==6
-    #define BGY_CLIM 1601  /* ISI-MIP3b : 2020/05/27 by A.Ito */
+    #define BGY_CLIM 1601  /* ISI-MIP3b : 2020/05/27  */
 #elif IMPRESSIONS_RUN==2
     #define BGY_CLIM 1901
 #elif IMPRESSIONS_RUN==3
     #define BGY_CLIM 1901
+#elif NMIP_RUN>=20
+    #define BGY_CLIM 1901 /* NMIP2: 2021/12/13 */
 #else
     #define BGY_CLIM 1901 /* */
     /* #define BGY_CLIM 1801 */ /* 4100 */
-    /* #define BGY_CLIM 1901 */ /* NMIP2: 2021/12/13 */
 #endif
 
 /* historical climate (e.g., CRU) data length: 2010/01/04 (A.Ito) ***/
@@ -387,34 +399,37 @@
     #define DL_HCLIM 180  /* SU 30 + AD 1950 - 2099 */
     /* note that DL_HCLIM data is not used in PLUME runs */
 #elif ISIMIP_RUN==2
-    /* PLUME: 2014/07/31 by A.Ito */
+    /* PLUME: 2014/07/31  */
     #define DL_HCLIM 135  /* SU 30 + AD 1901 - 2005 */
 #elif ISIMIP_RUN==3
-    /* ISI-MIP2a (historical): 2014/11/30 by A.Ito */
+    /* ISI-MIP2a (historical): 2014/11/30  */
     /* #define DL_HCLIM 140 */  /* SU 30 + AD 1901 - 2010 */
     /* #define DL_HCLIM 131 */  /* SU 30 + AD 1901 - 2001 */
     #define DL_HCLIM 142  /* SU 30 + AD 1901 - 2012 */
 #elif ISIMIP_RUN==4
-    /* ISI-MIP2b (1.5/2.0deg): 2016/12/24 by A.Ito */
+    /* ISI-MIP2b (1.5/2.0deg): 2016/12/24  */
     #define DL_HCLIM 639  /* AD 1661 - 2299 */
     /* #define DL_HCLIM 439 */  /* AD 1661 - 2099 */
 #elif ISIMIP_RUN==5
-    /* ISIMIP3a: 2020/05/27 by A.Ito */
+    /* ISIMIP3a: 2020/05/27  */
     /* #define DL_HCLIM 218 */  /* SU 1801-1850 + AD 1851-2018 */
-    /* ISIMIP3a: 2022/01/24 by A.Ito */
+    /* ISIMIP3a: 2022/01/24  */
     #define DL_HCLIM 219  /* SU 1801-1850 + AD 1851-2019 */
 #elif ISIMIP_RUN==6
-    #define DL_HCLIM 500  /* ISI-MIP3b : 2020/05/27 by A.Ito */
+    #define DL_HCLIM 500  /* ISI-MIP3b : 2020/05/27  */
 #elif IMPRESSIONS_RUN==2
     #define DL_HCLIM 115
 #elif IMPRESSIONS_RUN==3
     #define DL_HCLIM 115
+#elif NMIP_RUN>=20
+    #define DL_HCLIM 120  /* NMIP2: 1901-2020 */
 #else
     /* non-ISI-MIP: case dependent */
     /* #define DL_HCLIM 111 */  /* AD 1901 - 2011 */
     /* #define DL_HCLIM 118 */  /* CRU TS4.03: AD 1901 - 2018 */
     /* #define DL_HCLIM 119 */  /* CRU TS4.04: AD 1901 - 2019 */
-    #define DL_HCLIM 120 /* */  /* CRU TS4.05: AD 1901 - 2020 */
+    /* #define DL_HCLIM 120 */  /* CRU TS4.05: AD 1901 - 2020 */
+    #define DL_HCLIM 121 /* */  /* CRU TS4.06: AD 1901 - 2021 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -426,7 +441,6 @@
     /* 116: TS3.25 */
     /* 117: TS3.26 */
     /* #define DL_HCLIM 219 */ /* GSWP3-W5E5: 1801-2019 */ /* 4100 */
-    /* #define DL_HCLIM 120 */ /* NMIP2: 1901-2020 */
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
@@ -435,9 +449,9 @@
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
 /* data length (years) */
-/* extension to 2011: 2012/01/26 by A.Ito */
-/* extension to 2012: 2013/04/14 by A.Ito */
-/* extension to 2013: 2014/01/02 by A.Ito */
+/* extension to 2011: 2012/01/26  */
+/* extension to 2012: 2013/04/14  */
+/* extension to 2013: 2014/01/02  */
 /* #define DL_NCEP 66 */   /* 1948-2013 */
 /* #define DL_NCEP 67 */   /* 1948-2014 */
 /* #define DL_NCEP 68 */   /* 1948-2015 */
@@ -461,7 +475,7 @@
     /* #define DL_ISIMIP 131 */ /* SU 30 + AD 1901 - 2001 */
     #define DL_ISIMIP 142  /* SU 30 + AD 1901 - 2012 */
 #elif ISIMIP_RUN==4
-    /* ISI-MIP2b (historical): 2014/11/30 by A.Ito */
+    /* ISI-MIP2b (historical): 2014/11/30  */
     #define DL_ISIMIP 639  /* AD 1661 - 2299 */
     /* #define DL_ISIMIP 439 */  /* AD 1661 - 2099 */
 #elif ISIMIP_RUN==5
@@ -490,6 +504,12 @@
     #define ENY_FUTURE 2100
     /* start year of GCM data (AD) */
     #define FDY_FUTURE 1970  /* --GEOMIP */
+#elif NMIP_RUN>=20
+    /* NMIP2 data */
+    #define DL_FUTURE 1
+    #define BGY_FUTURE 2021
+    #define ENY_FUTURE 2100
+    #define FDY_FUTURE 2021
 #else
     /* 2006-2099 --ISI-MIP2 */
     /* #define DL_FUTURE 94
@@ -498,28 +518,28 @@
     #define FDY_FUTURE 2006 */
 
     /* CMIP6-LUH2 data */
-    #define DL_FUTURE 1
+    /* #define DL_FUTURE 1
     #define BGY_FUTURE 2016
     #define ENY_FUTURE 2099
-    #define FDY_FUTURE 2016 /* */
-
-    /* NMIP2 data */
-    /* #define DL_FUTURE 1
-    #define BGY_FUTURE 2021
-    #define ENY_FUTURE 2100
-    #define FDY_FUTURE 2021 */
+    #define FDY_FUTURE 2016 */
 
     /* TELUMO LUC data */
     /* #define DL_FUTURE 1
     #define BGY_FUTURE 2006
     #define ENY_FUTURE 2099
     #define FDY_FUTURE 2006 */
+
+    /* LUH2-GCP2019 - CMIP6 data */
+    #define DL_FUTURE 1
+    #define BGY_FUTURE 2020
+    #define ENY_FUTURE 2099
+    #define FDY_FUTURE 2016 /* */
 #endif
 /* #define DL_FUTURE 241 */ /* 1860-2100 */
 /* #define FDY_FUTURE 2001 */
 /* #define FDY_FUTURE 1860 */
 
-/* ********************************************************/
+/* *******************************************************/
 /* NECB: coupling carbon loss */
 /* 0: uncoupled */
 /* 1: coupled */
@@ -533,7 +553,7 @@
 #define NECB_DOC 1
 /* CH4 */
 #define NECB_CH4 1
-/* Wood harvest: 2010/10/15 by A.Ito */
+/* Wood harvest: 2010/10/15  */
 #define NECB_WHVST 1
 /* land-use change */
 #define NECB_LUC 1
@@ -541,11 +561,12 @@
 #define NECB_CROP 1
 
 #define EX_FIRE_GFED 0
-/* 0: off, 1: on   2018/05/19 by A.Ito */
+/* 0: off, 1: on   2018/05/19  */
 /* 2: on with adjusting factor, 0.73 */
 
-/* land use change setting ********************************/
-#define LANDUSE 45
+/* *******************************************************/
+/* land use change setting */
+#define LANDUSE 48
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -570,12 +591,12 @@
 /* 21: SSP3 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 22: SSP4 (ICARUS v2016/08, RCP4.5-IPSL) */
 /* 23: SSP5 (ICARUS v2016/08, RCP4.5-IPSL) */
-/* 24: ISI-MIP2b land-use data (2016/12/22 by A.Ito) */
-/* 25: ISI-MIP2b 2005 data (2017/11/01 by A.Ito) */
-/* 26: CMIP6 historical data (2018/12/21 by A.Ito) */
-/* 27: CMIP6 historical data - high (2018/12/21 by A.Ito) */
-/* 28: CMIP6 historical data - low (2018/12/21 by A.Ito) */
-/* 29: MIROC-INTEG TELUMO LUC (2019/02/21 by A.Ito) */
+/* 24: ISI-MIP2b land-use data (2016/12/22 ) */
+/* 25: ISI-MIP2b 2005 data (2017/11/01 ) */
+/* 26: CMIP6 historical data (2018/12/21 ) */
+/* 27: CMIP6 historical data - high (2018/12/21 ) */
+/* 28: CMIP6 historical data - low (2018/12/21 ) */
+/* 29: MIROC-INTEG TELUMO LUC (2019/02/21 ) */
 
 /* 30: LUH2 historical (1866-2015) + ssp1rcp19 (2016-2100) */
 /* 31: LUH2 historical (1866-2015) + ssp1rcp26 (2016-2100) */
@@ -586,89 +607,98 @@
 /* 36: LUH2 historical (1866-2015) + ssp5rcp34 (2016-2100) */
 /* 37: LUH2 historical (1866-2015) + ssp5rcp85 (2016-2100) */
 
-/* 38: AIM SSP1 BAU (2010-2100) (2019/06/21 by A.Ito) */
-/* 39: AIM SSP2 26W (2010-2100) (2019/06/21 by A.Ito) */
-/* 40: AIM SSP2 BAU (2010-2100) (2019/06/21 by A.Ito) */
-/* 41: AIM SSP3 BAU (2010-2100) (2019/06/21 by A.Ito) */
+/* 38: AIM SSP1 BAU (2010-2100) (2019/06/21 ) */
+/* 39: AIM SSP2 26W (2010-2100) (2019/06/21 ) */
+/* 40: AIM SSP2 BAU (2010-2100) (2019/06/21 ) */
+/* 41: AIM SSP3 BAU (2010-2100) (2019/06/21 ) */
 
-/* 45: ISIMIP3a (2020/10/01 by A.Ito) */
-/* 46: ISIMIP3b (2020/10/07 by A.Ito) */
-/* 47: 2-2002 S1 by AIM: 2020/10/7 by A.Ito */
+/* 45: ISIMIP3a (2020/10/01 ) */
+/* 46: ISIMIP3b (2020/10/07 ) */
+/* 47: 2-2002 S1 by AIM: 2020/10/7  */
 
-/* 48: NMIP2: 2021/12/13 by A.Ito */
+/* 48: NMIP2: 2021/12/13  */
 
-/* extra co2 fixation combined with above scenarios: 2018/10/26 by A.Ito */
+/* 49: LUH2-GCP2019 + ssp1rcp26 (2016-2100): 2022/04/19  */
+/* 50: LUH2-GCP2021 + ssp1rcp26 (2016-2100): 2022/07/19  */
+
+/* extra co2 fixation combined with above scenarios: 2018/10/26  */
 #define EXTRA_CO2_FIX 0
 /* 0: off (default) */
 /* 1: make grid->co2y = 1901 */
 /* 2: make grid->co2y = 1950 */
 
-/* extra climate fixation combined with above scenarios: 2018/10/26 by A.Ito */
+/* extra climate fixation combined with above scenarios: 2018/10/26  */
 #define EXTRA_CLIM_FIX 0
 /* 0: off (default) */
 /* 1: make grid->climy = 1901 */
 
-/* extra land-use fixation combined with above scenarios: 2018/07/11 by A.Ito */
+/* extra land-use fixation combined with above scenarios: 2018/07/11  */
 #define EXTRA_LU_FIX 0
 /* 0: off (default) */
 /* 1: make grid->lucy = 1901 */
 /* 2: make grid->fcrop = zero */
 
 #if ISIMIP_RUN==4
-    #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 by A.Ito) */
+    #define DL_LUC 639 /* 1661-2299: ISI-MIP2b (2016/12/22 ) */
 #elif ISIMIP_RUN==5
-    /* #define DL_LUC 169 */ /* 1850-2018: ISI-MIP3a (2020/10/05 by A.Ito) */
-    #define DL_LUC 170 /* 1850-2019: ISI-MIP3a (2022/01/24 by A.Ito) */
+    /* #define DL_LUC 169 */ /* 1850-2018: ISI-MIP3a (2020/10/05 ) */
+    #define DL_LUC 170 /* 1850-2019: ISI-MIP3a (2022/01/24 ) */
 #elif ISIMIP_RUN==6
-    /* #define DL_LUC 500 */ /* 1601-2100: ISI-MIP3b (2020/11/13 by A.Ito) */
-    #define DL_LUC 235 /* */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18 by A.Ito */
+    /* #define DL_LUC 500 */ /* 1601-2100: ISI-MIP3b (2020/11/13 ) */
+    #define DL_LUC 235 /* */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18  */
+#elif NMIP_RUN>=20
+    #define DL_LUC 171  /* NMIP2:  1850-2020 */
 #else
     /* #define DL_LUC 601 */  /* 1500-2100: LUH 1500-2005/2005-2100 */
     /* #define DL_LUC 306 */  /* 1700-2000/2005 */
-    /* #define DL_LUC 150 */  /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
-    /* #define DL_LUC 601 */  /* 1500-2005 + 2005-2100 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
-    #define DL_LUC 235 /* */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18 by A.Ito */
-    /* #define DL_LUC 171 */ /* NMIP2 */  /* 1850-2020 */
+    /* #define DL_LUC 150 */  /* 1866-2015 */ /* from CMIP6: 2018/12/21  */
+    /* #define DL_LUC 601 */  /* 1500-2005 + 2005-2100 */ /* historical + TELUMO: 2019/02/21  */
+    /* #define DL_LUC 235 */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18  */
+    #define DL_LUC 301 /* */  /* 1800-2019 + 2020-2100 */ /* from LUH2-GCP2019 - CMIP6: 2022/04/19  */
 #endif
 
 /* begin year of land-use DATA */
 #if ISIMIP_RUN==4
-    #define FDY_LUC 1661 /* ISI-MIP2b (2016/12/22 by A.Ito) */
+    #define FDY_LUC 1661 /* ISI-MIP2b (2016/12/22 ) */
 #elif ISIMIP_RUN==5
-    #define FDY_LUC 1850 /* ISIMIP3a (2020/10/01 by A.Ito) */
+    #define FDY_LUC 1850 /* ISIMIP3a (2020/10/01 ) */
 #elif ISIMIP_RUN==6
-    /* #define FDY_LUC 1601 */ /* ISIMIP3b (2020/11/13 by A.Ito) */
-    #define FDY_LUC 1866 /* */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
+    /* #define FDY_LUC 1601 */ /* ISIMIP3b (2020/11/13 ) */
+    #define FDY_LUC 1866 /* */ /* 1866-2015 */ /* from CMIP6: 2018/12/21  */
+#elif NMIP_RUN>=20
+    #define FDY_LUC 1850 /* NMIP2 */ /* 1850-2020 */
 #else
     /* #define FDY_LUC 1500 */
     /* #define FDY_LUC 1700 */
-    #define FDY_LUC 1866 /* */ /* 1866-2015 */ /* from CMIP6: 2018/12/21 by A.Ito */
-    /* #define FDY_LUC 1500 */ /* historical + TELUMO: 2019/02/21 by A.Ito */
-    /* #define FDY_LUC 1850 */ /* NMIP2 */ /* 1850-2020 */
+    /* #define FDY_LUC 1866 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21  */
+    /* #define FDY_LUC 1500 */ /* historical + TELUMO: 2019/02/21  */
+    #define FDY_LUC 1800 /* */ /* 1800-2019 */ /* 2022/04/19  */
 #endif
 
 /* begin year of land-use SIMULATION */
 #if ISIMIP_RUN==1
-    /* #define BGY_LUC 2000 */   /* ISI-MIP: 2012/06/27 by A.Ito */
-    #define BGY_LUC 1950 /* */   /* LUH2 or AIM: 2019/06/21 by A.Ito */
+    /* #define BGY_LUC 2000 */   /* ISI-MIP: 2012/06/27  */
+    #define BGY_LUC 1950 /* */   /* LUH2 or AIM: 2019/06/21  */
 #elif ISIMIP_RUN==2
-    #define BGY_LUC 2000    /* PLUME: 2014/07/31 by A.Ito */
+    #define BGY_LUC 2000    /* PLUME: 2014/07/31  */
 #elif ISIMIP_RUN==3
-    #define BGY_LUC 2000    /* ISI-MIP2 (historical): 2014/11/30 by A.Ito */
+    #define BGY_LUC 2000    /* ISI-MIP2 (historical): 2014/11/30  */
 #elif ISIMIP_RUN==4
-    #define BGY_LUC 1661    /* ISI-MIP2b (2016/12/22 by A.Ito) */
+    #define BGY_LUC 1661    /* ISI-MIP2b (2016/12/22 ) */
 #elif ISIMIP_RUN==5
-    #define BGY_LUC 1850    /* ISIMIP3a (2020/10/01 by A.Ito) */
+    #define BGY_LUC 1850    /* ISIMIP3a (2020/10/01 ) */
 #elif ISIMIP_RUN==6
-    /* #define BGY_LUC 1601 */  /* ISIMIP3b (2020/11/13 by A.Ito) */
+    /* #define BGY_LUC 1601 */  /* ISIMIP3b (2020/11/13 ) */
     /* #define BGY_LUC 1900 */
     #define BGY_LUC 1866
+#elif NMIP_RUN>=20
+    #define BGY_LUC 1850 /* NMIP2 */ /* 1850-2020 */
 #else
-    #define BGY_LUC 1900
-    /* #define BGY_LUC 1850 */ /* NMIP2 */ /* 1850-2020 */
+    /* #define BGY_LUC 1900 */
+    #define BGY_LUC 1800 /* 2022/04/19 */
 #endif
 
-/* Forest management: 2019/10/15 by A.Ito *********/
+/* Forest management: 2019/10/15  *********/
 #define EX_FORMAN 0
 /* 0: none */
 /* 1: half cropland reforestation */
@@ -681,7 +711,7 @@
 /* 1: entire deforestation, replaced by 19 */
 /* 2: entire deforestation, replaced by 13 */
 /* 3: entire deforestation, replaced by 31 */
-/* 4: entire deforestation and regrowth: 2016/12/28 by A.Ito */
+/* 4: entire deforestation and regrowth: 2016/12/28 */
 
 # define EX_FORCED_AFFOREST_1 0
 /* forced afforestation: from the beginning */
@@ -717,12 +747,12 @@
 #define EX_FORCED_AFFOREST_2_YR 2010
 
 #define EX_AGRFOR 0
-/* AgroForestry: 2021/08/26 by A.Ito */
+/* AgroForestry: 2021/08/26  */
 /* 0: none */
 /* 1: all agroforestry */
 
-/* *****************************************************************/
-/* albedo perturbation experiment: 2012/12/30 by A.Ito */
+/* *******************************************************/
+/* albedo perturbation experiment: 2012/12/30  */
 #define EX_ALBEDO 0
 /* 0: off */
 /* 1: perturbation */
@@ -735,7 +765,7 @@
 /* 0: off */
 /* 1: albedo-induced temperature change */
 
-/* ozone impacts: 2013/02/25 by A.Ito *****************/
+/* ozone impacts: 2013/02/25  *****************/
 #define EX_OZONE 0
 /* 0: off */
 /* 1: on */
@@ -746,7 +776,7 @@
 /* 1: 2.0 */
 /* 2: 1.5 for litter, 2.5 for humus */
 
-/* experiments on BVOC: 2019/08/13 by A.Ito */
+/* experiments on BVOC: 2019/08/13  */
 #define EX_BVOC 0
 /* 0: off */
 /* 1: isoprene emission factor to Saito et al. (2008) */
@@ -773,7 +803,7 @@
 /* 3: fix 2.0 */
 /* 4: fix 1.5 */
 /* 5: fix 2.5 */
-/* 6: Heskel et al. 2016: added by A.Ito 2017/12/7 */
+/* 6: Heskel et al. 2016: added  2017/12/7 */
 
 /* erosion: setting of soil conservation */
 #define SOIL_CONSV 0
@@ -785,12 +815,12 @@
 /* 0: conventional */
 /* 1: lai based */
 
-/* constraint on maximum LAI by meta-analysis: 2015/03/23 by A.Ito */
+/* constraint on maximum LAI by meta-analysis: 2015/03/23  */
 #define CONSTRAIN_LAIMAX 0
 /* 0: off */
 /* 1: on */
 
-/* experiments for trait modification: 2020/12/07 by A.Ito */
+/* experiments for trait modification: 2020/12/07  */
 #define EX_MOD_TRAIT_1 0
 /* 0: off */
 /* 1: SLA modification */
@@ -827,7 +857,7 @@
 /* 6: use Maksyutov-san data: (GLWD+MERIS)/2): 2017/07/04 */
 
 /* inundation data */
-#define ALT_INUND 0
+#define ALT_INUND 10
 /* 0: default (SSMI) */
 /* 1: GCP-CH4 V1 */
 /* 2: IIS satellite observation */
@@ -835,26 +865,31 @@
 /* 4: GCP-CH4 V1 */
 /* 5: GCP-CH4 V1 */
 /* 6: GCP-CH4 V1 */
-/* 7: GCP-CH4 V2: 2018/08/28 by A.Ito */
-/* 8: GCP-CH4 V2: 2018/08/29 by A.Ito : no limit by GLWD */
-/* 9: SWAMPS anomaly: 2021/06/25 by A.Ito */
-/* 10: WAD2M GCP-CH4: 2021/10/26 by A.Ito : no limit by GLWD */
+/* 7: GCP-CH4 V2: 2018/08/28  */
+/* 8: GCP-CH4 V2: 2018/08/29  : no limit by GLWD */
+/* 9: SWAMPS anomaly: 2021/06/25  */
+/* 10: WAD2M GCP-CH4: 2021/10/26  : no limit by GLWD */
+
+/* GCP-CH4: per unit wetland area */
+/* 2022/04/14  */
+#define PUA_WETLAND 0
+/* 0:off, 1:on */
 
 /* specific scheme on permaforst */
 #define EX_PERFROST 0
 /* 0:off, 1:on */
 
-/* change in wetland extent due to permafrost melting: 2012/10/26 by A.Ito */
+/* change in wetland extent due to permafrost melting: 2012/10/26  */
 #define VAR_PFMWET 0
 /* 0:off, 1:on */
 
-/* variable water-table depth: 2014/12/08 by A.Ito */
+/* variable water-table depth: 2014/12/08  */
 #define VAR_WTD 1
 /* 0:off, 1:on */
 
 #define FIX_STMP 0
 /* 0:off, 1:on */
-/* fix soil temperature in wetland: 2015/03/23 by A.Ito */
+/* fix soil temperature in wetland: 2015/03/23  */
 
 #define FIX_CH4_NPP 0
 /* 0:off, 1:0n */
@@ -863,7 +898,7 @@
 #define EX_PADDY 0
 /* 0: default */
 /* 1: low water-table */
-/* 2: no paddy: 2020/05/16 by A.Ito */
+/* 2: no paddy: 2020/05/16  */
 /* 3: crop calendar by Iizumi-san: 2021/04/07  */
 /* 4: high water temperature */
 
@@ -872,7 +907,7 @@
 /* 0: default (Leff or Monfreda) */
 /* 1: UT IIS + Monfreda */
 /* 2: Inoue 2020/01/08, 2020/03/12 + Monfreda */
-/* 3: MIRCA2000: 2021/04/07 by A.Ito */
+/* 3: MIRCA2000: 2021/04/07  */
 
 #define GCP_FIXCD 0
 /* 0: off (variable) */
@@ -915,7 +950,7 @@
 #define N_PARA_ENS 20
 
 /* **********************************************************/
-/* 2016/06/08 by A.Ito */
+/* 2016/06/08  */
 #define EX_NITROGEN 0
 /* 0: off (control) */
 /* 1: half biological N2 fixation */
@@ -926,7 +961,7 @@
 #define EX_CHASER_NDEPO 0
 /* 0:off, 1:0n */
 
-/* experiment: changed nitrogen deposition: 2015/08/12 by A.Ito */
+/* experiment: changed nitrogen deposition: 2015/08/12  */
 #define EX_NDEPO 0
 /* 0: control */
 /* 1: +10% */
@@ -939,7 +974,7 @@
 /* 8: all nitrate */
 /* 9: 50:50 ammonium and nitrate */
 
-/* sensitivity to nitrification N2O fraction: 2016/11/7 by A.Ito */
+/* sensitivity to nitrification N2O fraction: 2016/11/7  */
 #define EX_NITR_N2O 0
 /* 0: off (control) */
 /* 01: 1.0% (N20-driven) */
@@ -949,8 +984,8 @@
 /* 05: 0.5% (nitrification-driven) */
 /* 06: 2.0% (nitrification-driven) */
 
-/* 07: meta-analysis-derived empirical (N20-driven): 2018/05/14 by A.Ito */
-/* 08: meta-analysis-derived empirical (nitrification-driven): 2018/05/14 by A.Ito */
+/* 07: meta-analysis-derived empirical (N20-driven): 2018/05/14  */
+/* 08: meta-analysis-derived empirical (nitrification-driven): 2018/05/14  */
 
 /* 21: DNDC (N20-driven) */
 /* 22: DLEM (N20-driven) */
@@ -981,7 +1016,7 @@
 /* 55: 0.001390 (N20-driven) */ /* selected median */
 /* 56: 0.005730 (N20-driven) */ /* paper median */
 
-/* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
+/* future nitrogen fertilizer: 2016/11/22   */
 #define EX_NFERT 0
 /* 0: off */
 /* 1: HadGEM + RCP2.6 + SSP1 */
@@ -996,8 +1031,8 @@
 /* 10: MIROC + RCP4.5 + SSP1 */
 /* 11: MIROC + RCP4.5 + SSP2 */
 /* 12: MIROC + RCP4.5 + SSP3 */
-/* 101: Nishina ESSD data: 2017/02/13 by A.Ito */
-/* 102: PKU data: 2020/08/18 by A.Ito */
+/* 101: Nishina ESSD data: 2017/02/13  */
+/* 102: PKU data: 2020/08/18  */
 
 #define EX_NFERT_SA 0
 /* 0: reference */
@@ -1009,7 +1044,7 @@
 /* 6: fix fertilizer + manure + land use */
 /* 7: no manure */
 
-/* N input seasonality: 2018/02/09 by A.Ito */
+/* N input seasonality: 2018/02/09  */
 #define EX_NIN_SEASON 0
 /* 0: no seasonality */
 /* 1: once in April (NH) or October (SH) */
@@ -1086,7 +1121,7 @@
 /* 6: +10% WHC30/WHC */
 /* 7: fixed LAI (1990s av) in 2000-2100 */
 
-/* climate change **************************************/
+/* Climate change **************************************/
 /* 0:off   1:on */
 /* temperature */
 #define CC_T 1
@@ -1276,7 +1311,7 @@
 /* 1266: NCAR PCM + A2 3 */
 /* 1267: NCAR PCM + A2 4 */
 
-/* ** ISI-MIP Phase 1: 2012/06/27 by A.Ito ***********/
+/* ** ISI-MIP Phase 1: 2012/06/27  ***********/
 /* CD-LINK 2016/11/17 */
 /* 2001: HadGEM2-ES RCP 2.6 +co2 */
 /* 2002: HadGEM2-ES RCP 8.5 +co2 */
@@ -1323,7 +1358,7 @@
 /* 2047: NorESM1-M RCP 4.5 +noco2 */
 /* 2048: NorESM1-M RCP 6.0 +noco2 */
 
-/*** GEO-MIP: 2013/11/26 by A.Ito ***********/
+/*** GEO-MIP: 2013/11/26  ***********/
 /* revised 2015/07/21 */
 /* 3000: BNU-ESM RCP4.5 */
 /* 3001: BNU-ESM G3 */
@@ -1358,7 +1393,7 @@
 /* 3100: NorESM RCP4.5 */
 /* 3101: NorESM G4cdcn */
 
-/* PLUME: 2014/07/31 by A.Ito *******************/
+/* PLUME: 2014/07/31  *******************/
 /* 4011: GFDL RCP 4.5 */
 /* 4012: GFDL RCP 8.5 */
 /* 4021: IPSL RCP 4.5 */
@@ -1366,16 +1401,16 @@
 /* 4023: IPSL RCP 2.6 */
 /* 4024: IPSL RCP 6.0 */
 
-/* GCP-CH4: 2021/11/09 by A.Ito*******************/
+/* GCP-CH4: 2021/11/09 *******************/
 /* 4100: GSWP3-W5E5, 1801-2019 */
 
-/* ISI-MIP2a: 2014/11/30 by A.Ito *****************/
+/* ISI-MIP2a: 2014/11/30  *****************/
 /* 5001: historical GSWP3 */
 /* 5002: historical PGFv2.1 (2016/05/06) */
 /* 5003: historical WATCH */
 /* 5004: historical WATCH+WFDEI */
 
-/* ISI-MIP2b: 2016/12/22 and 2017/05/17 by A.Ito  *****/
+/* ISI-MIP2b: 2016/12/22 and 2017/05/17   *****/
 /* 5010:   I: GFDL PPPP + PPPP + 1860H20052005 */
 /* 5011:  II: GFDL PH22 + PH22 + PH20052005 */
 /* 5012: III: GFDL PH62 + PH66 + PH20052005 */
@@ -1389,10 +1424,10 @@
 /* 5041:  II: HadGEM2-ES PH22 + PH22 + PH20052005 */
 /* 5042: III: HadGEM2-ES PH62 + PH66 + PH20052005 */
 
-/* * ISI-MIP2b EX IV-VII: 2018/02/09 by A.Ito  *****/
-/* * ISI-MIP2b EX VIII for RCP8.5: 2018/02/25 by A.Ito  *****/
-/* * ISI-MIP2b EX IX for RCP6.0 with improved EWEMBI: 2019/03/01 by A.Ito  */
-/* * ISI-MIP2b EX IIIc for RCP8.5+2005CO2: 2019/03/04 by A.Ito  *****/
+/* * ISI-MIP2b EX IV-VII: 2018/02/09   *****/
+/* * ISI-MIP2b EX VIII for RCP8.5: 2018/02/25   *****/
+/* * ISI-MIP2b EX IX for RCP6.0 with improved EWEMBI: 2019/03/01   */
+/* * ISI-MIP2b EX IIIc for RCP8.5+2005CO2: 2019/03/04   *****/
 /* updated 2018/02/28 */
 /* 5013:  IV: GFDL PPPP + PH22 + PH22100 */
 /* 5014:   V: GFDL PPPP + PPPP + PP62 */
@@ -1442,7 +1477,7 @@
 /* 5047:VIII: HadGEM PH82 + PH82 + PH20052005 */
 /* 5048:IX  : HadGEM PH62 + PH62 + PH20052005 (improved ewembi) */
 
-/* ISIMIP3a: 2020/05/26 by A.Ito **********/
+/* ISIMIP3a: 2020/05/26  **********/
 /* GSWP3-W5E5 */
 /* 5100: model evaluation, histsoc */
 /* 5101: model evaluation, 2015soc */
@@ -1468,7 +1503,7 @@
 /* 5116: CO2 sensitivity, histsoc */
 /* 5117: CO2 sensitivity, 2015soc */
 
-/* ISI-MIP3b: 2020/05/26 by A.Ito **********/
+/* ISI-MIP3b: 2020/05/26  **********/
 /* 5120: pi control, histsoc, GFDL-ESM4 */
 /* 5121: pi control, 2015soc, GFDL-ESM4 */
 /* 5122: pi control, nat, GFDL-ESM4 */
@@ -1710,7 +1745,7 @@
 /* 2602: SSP2 no climate change  */
 /* 2603: SSP3 no climate change  */
 
-/* 2-2002 S1: 2020/10/07 by A.Ito */
+/* 2-2002 S1: 2020/10/07  */
 /* 2701: baseline */
 /* 2702: mitigation-full */
 /* 2703: mitigation-noaff */

@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -777,7 +777,7 @@ void read_gcm_clim(
 	}
 	
 	if(SCENARIO_ID==1250){  /*  GISSR + A1B  */
-		/* changed (R1 -> R4) 2009/04/07 by A.Ito */
+		/* changed (R1 -> R4) 2009/04/07  */
 		if( (fp_c2[0]=fopen("./data/tas_GISSR_20C-A1B_R4.dat","rt"))==NULL ){  printf("No tas_GISSR_20C-A1B_R4.dat\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_GISSR_20C-A1B_R4.dat","rt"))==NULL ){  printf("No pr_GISSR_20C-A1B_R4.dat\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_GISSR_20C-A1B_R4.dat","rt"))==NULL ){  printf("No huss_GISSR_20C-A1B_R4.dat\n");  exit(1); }
@@ -793,7 +793,7 @@ void read_gcm_clim(
 		if( (fp_c2[2]=fopen("./data/huss_GISSR_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_huss_GISSRA1B-2001-2100.dat\n");  exit(1); }
 		if( (fp_c2[3]=fopen("./data/rsds_GISSR_20C-A2_R1.dat","rt"))==NULL ){  printf("No ext_rsds_GISSRA1B-2001-2100.dat\n");  exit(1); }
 	}else if(SCENARIO_ID==1253){  /*  GISSR + B1  */
-		/* changed (R2 -> R1) 2009/04/07 by A.Ito */
+		/* changed (R2 -> R1) 2009/04/07  */
 		if( (fp_c2[0]=fopen("./data/tas_GISSR_20C-B1_R1.dat","rt"))==NULL ){  printf("No tas_GISSR_20C-B1_R1.dat\n");  exit(1); }
 		if( (fp_c2[1]=fopen("./data/pr_GISSR_20C-B1_R1.dat","rt"))==NULL ){  printf("No pr_GISSR_20C-B1_R1.dat\n");  exit(1); }
 		if( (fp_c2[2]=fopen("./data/huss_GISSR_20C-B1_R1.dat","rt"))==NULL ){  printf("No huss_GISSR_20C-B1_R1.dat\n");  exit(1); }
@@ -1100,7 +1100,7 @@ void read_gcm_clim(
 						}
 						
 						/* specific humidity (kg kg-1) to vapor pressure (hPa) */
-						/* revided by A.Ito (2009/08/17) */
+						/* revided  (2009/08/17) */
 						atmp = grid->proj_tmp2m[f][g][h][i];
 						apres = 1013.25 * exp(-1.0*(28.964*0.001)*9.8*alt / (8.3144*(atmp+ZAT)));
 						shum = grid->proj_hum[f][g][h][i];
@@ -1110,7 +1110,7 @@ void read_gcm_clim(
 			}
 		}
 	}else if(SCENARIO_ID >= 4000 && SCENARIO_ID <=4999){
-        /* PLUME: 2014/07/31 by A.Ito */
+        /* PLUME: 2014/07/31  */
         /* read sequentially for each grid in clim_cru.c */
     
         for(f=0;f<DL_FUTURE;f++){

@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -33,6 +33,10 @@ void f_init_clim(
     }
 	grid->climy = BGY_CLIM;
 	grid->lucy = BGY_CLIM;
+ 
+    if(LANDUSE == 49){
+        grid->lucy = BGY_LUC;
+    }
 
 	for(h=0;h<ASTEP;h++){
 		grid->m = h;
@@ -275,6 +279,9 @@ void f_dyn_loct(
             loct->xx7[h] = 0.0;
             loct->xx8[h] = 0.0;
             loct->xx9[h] = 0.0;
+
+            loct->canopy_con[h] = 0.0;
+            loct->ground_con[h] = 0.0;
         }
         loct->est_maxlai = 0.0;
     }
@@ -297,7 +304,7 @@ void f_dyn_loct(
 	/* radiatin for cal_historical: 1901-2000 */
 	if(grid->flag_histdata == 1){
     
-        /* daily-mean and hourly: added: 2013/01/10 by A.Ito */
+        /* daily-mean and hourly: added: 2013/01/10  */
         loct->glrad_dav[grid->m] = 0.0;
         for(h=0;h<DSTEP;h++){
             grid->h = h;
@@ -339,7 +346,7 @@ void f_dyn_loct(
 		}
 		loct->cum_dprec = 0.0;
         
-        /* change in wetland area due to permafrost melting: 2012/10/26 by A.Ito ****/
+        /* change in wetland area due to permafrost melting: 2012/10/26  ****/
         if(VAR_PFMWET == 1){
             
             tmp_ann = 0.0;
@@ -384,7 +391,7 @@ void f_dyn_loct(
             }
         }
 	}
-	/* cumulative precipitation anomaly: 2010/07/23 by A.Ito */
+	/* cumulative precipitation anomaly: 2010/07/23  */
 	/* if(grid->climy<2005){ */
 		loct->cum_dprec += (grid->prate_sfc[grid->m] - grid->hist_pre_b[grid->m]);
 	/* } */
@@ -444,7 +451,7 @@ void f_dyn_loct(
 			/* prediction using AOGCM */
 			/* loct->vp[grid->m] = loct->prsr[grid->m]*grid->spfh_2m[grid->m]/(0.622 + 0.378*grid->spfh_2m[grid->m]);  */
 			
-			/* revided by A.Ito (2009/08/17) */
+			/* revided  (2009/08/17) */
 			vpres_var = grid->proj_hum[grid->climy - FDY_FUTURE-1][grid->m][grid->gcm_row][grid->gcm_col] -
 							grid->proj_hum_b[grid->m][grid->gcm_row][grid->gcm_col];
 			
@@ -530,7 +537,7 @@ void f_dyn_loct(
 	/* nitrogen deposition ***********/
 	f_n_deposit(grid, loct);
 	
-	/* decay of 14C: added by A.Ito (2009/06/24) ****************/
+	/* decay of 14C: added  (2009/06/24) ****************/
 	(mass->c3).d14c_fol = f_decay_14c((mass->c3).d14c_fol);
 	(mass->c3).d14c_stm = f_decay_14c((mass->c3).d14c_stm);
 	(mass->c3).d14c_rot = f_decay_14c((mass->c3).d14c_rot);
@@ -541,13 +548,13 @@ void f_dyn_loct(
 	(mass->soil).d14c_msl = f_decay_14c((mass->soil).d14c_msl);
 }
 
-/* IMPRESSIONS climate change: 2017/05/25 by A.Ito *********************/
+/* IMPRESSIONS climate change: 2017/05/25  *********************/
 void f_impressions_dclim(
     double *tmp_var, double *pre_var,
     long imp_mask, long month
 ){
     long imp_case;
-   /* IMPRESSIONS phase2: 2017/04/20 by A.Ito */
+   /* IMPRESSIONS phase2: 2017/04/20  */
     double tw_scotland[10][ASTEP] = {
         { -3.1 , -3.22 , -3.34 , -3.34 , -3.22 , -2.99 , -2.83 , -2.73 , -2.71 , -2.75 , -2.85 , -2.98 },
         { -2.07 , -2.15 , -2.23 , -2.23 , -2.15 , -1.99 , -1.89 , -1.82 , -1.8 , -1.83 , -1.89 , -1.99 },
@@ -617,7 +624,7 @@ void f_impressions_dclim(
         { 18.3 , 18 , 15.82 , 11.3 , 4.41 , -4.8 , -7.8 , -4.6 , 4.8 , 11.5 , 15.51 , 16.5 }};
     
     /*******************************************/
-    /* IMPRESSIONS IRS: 2015/07/17 by A.Ito */
+    /* IMPRESSIONS IRS: 2015/07/17  */
     if(IMPRESSIONS_RUN == 1){
     
         if(SCENARIO_ID != 6001){
@@ -666,7 +673,7 @@ void f_impressions_dclim(
         }
 
     }else if(IMPRESSIONS_RUN == 2 || IMPRESSIONS_RUN == 3){
-        /* IMPRESSIONS 2: 2017/05/02 by A.Ito */
+        /* IMPRESSIONS 2: 2017/05/02  */
         
         if(SCENARIO_ID != 6002){
             printf("BAD experimental ID\n");

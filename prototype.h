@@ -1,13 +1,13 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
 /*  Updated August 7, 2007								*/
 /*  Updated November 29, 2007							*/
-/*  Updated by A.Ito (2010/05/02)						*/
+/*  Updated  (2010/05/02)						*/
 
 #include"setting.h"
 
@@ -17,8 +17,8 @@ extern short DF97;
 extern double MDN[ASTEP],YDN;
 extern double sres_co2[DL_ADD];
 extern long SCENARIO_ID, CO2S, GCM_R, GCM_C;
-extern long PARAM_PTB, PARAM_ENS;   /* added by A.Ito (2010/05/10) */
-extern long EX_CH4_1, EX_CH4_2, EX_CH4_3;   /* added by A.Ito (2010/07/02) */
+extern long PARAM_PTB, PARAM_ENS;   /* added  (2010/05/10) */
+extern long EX_CH4_1, EX_CH4_2, EX_CH4_3;   /* added  (2010/07/02) */
 extern long EX_SRM;
 extern long IMP_DT, IMP_DP, IMP_CD;
 
@@ -26,7 +26,7 @@ extern double f_pert[20];
 extern double aco2_1[DL_AGHG], aco2_2[DL_AGHG], aco2_3[DL_AGHG], aco2_4[DL_AGHG];
 extern double ach4_1[DL_AGHG], ach4_2[DL_AGHG], ach4_3[DL_AGHG], ach4_4[DL_AGHG];
 extern double an2o_1[DL_AGHG], an2o_2[DL_AGHG], an2o_3[DL_AGHG], an2o_4[DL_AGHG];
-/* Atmospheric d13C, D14C by Graven: 2019/1/17 by A.Ito */
+/* Atmospheric d13C, D14C by Graven: 2019/1/17  */
 extern double d13c_graven[166], d14c1_graven[166], d14c2_graven[166], d14c3_graven[166];
 
 extern double glandarea;
@@ -35,18 +35,18 @@ extern double h_gpp[PD_SIM], h_npp[PD_SIM], h_nep[PD_SIM], h_plant[PD_SIM], h_so
 extern double h_sr[PD_SIM], h_ersn_c[PD_SIM], h_agrersn_c[PD_SIM], h_doc[PD_SIM];
 extern double h_agrarea[PD_SIM], h_paddyarea[PD_SIM], h_luc[PD_SIM];
 extern double h_luc_0[PD_SIM], h_luc_1[PD_SIM], h_luc_2[PD_SIM], h_luc_3[PD_SIM];
-extern double h_gpp_df97[PD_SIM], h_gpp_c4[PD_SIM]; /* added by A.Ito (2009/08/31) */
+extern double h_gpp_df97[PD_SIM], h_gpp_c4[PD_SIM]; /* added  (2009/08/31) */
 extern double h_pot_prmfrst[PD_SIM];
 extern double h_trnsp[PD_SIM], h_incepev[PD_SIM], h_ssurfev[PD_SIM];
 extern double h_nbp[PD_SIM], h_net_crop[PD_SIM], h_hvst_crop[PD_SIM], h_abgm[PD_SIM];
 extern double h_sw1[PD_SIM], h_sw2[PD_SIM];
-extern double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added by A.Ito (2013/01/02) */
+extern double h_rns[PD_SIM], h_rnl[PD_SIM];	/* added  (2013/01/02) */
 extern double h_dswd[PD_SIM], h_rnsd[PD_SIM], h_cld[PD_SIM], h_apar[PD_SIM], h_ipar[PD_SIM];
 extern double h_parb[PD_SIM], h_pard[PD_SIM];
 extern double h_arm[PD_SIM], h_bco2[PD_SIM];
 extern double h_lL[PD_SIM], h_bnpp[PD_SIM];
 
-/* seasonal-cycle amplitude: 2019/03/02 by A.Ito */
+/* seasonal-cycle amplitude: 2019/03/02  */
 extern double hm_sca_gpp_nh[PD_SIM][12], hm_sca_re_nh[PD_SIM][12], hm_sca_nep_nh[PD_SIM][12];
 
 extern double h_burnt_area[PD_SIM],h_burnt_area_wood[PD_SIM];
@@ -66,12 +66,12 @@ extern double h_n2o_emit_ngas[PD_SIM], h_n2_emit_ngas[PD_SIM];
 extern double h_n2o_emit_casa[PD_SIM], h_no_emit_casa[PD_SIM], h_n2_emit_casa[PD_SIM];
 extern double h_nh3_emit[PD_SIM], h_n2_biofix[PD_SIM];
 extern double h_ch4_emit_mass[PD_SIM], h_ch4_emit_photo[PD_SIM];
-extern double h_n2o_d_emit_ngas[PD_SIM], h_n2o_n_emit_ngas[PD_SIM];
+extern double h_n2o_emit_ngas_dntr[PD_SIM], h_n2o_emit_ngas_nitr[PD_SIM];
 extern double h_n2o_emit_ngas_agr[PD_SIM], h_n2o_emit_casa_agr[PD_SIM];
 extern double h_nh3_emit_agr[PD_SIM];
 extern double h_no3_leach[PD_SIM];
-extern double h_n_fertin[PD_SIM], h_n_manurein[PD_SIM], h_n_depoin[PD_SIM]; /* added by A.Ito (2010/05/02) */
-extern double h_n_mcrb[PD_SIM],h_n_no3[PD_SIM],h_n_nh4[PD_SIM]; /* 2016/06/23 by A.Ito */
+extern double h_n_fertin[PD_SIM], h_n_manurein[PD_SIM], h_n_depoin[PD_SIM]; /* added  (2010/05/02) */
+extern double h_n_mcrb[PD_SIM],h_n_no3[PD_SIM],h_n_nh4[PD_SIM]; /* 2016/06/23  */
 extern double h_n_cnpy[PD_SIM], h_n_strg[PD_SIM], h_n_lttr[PD_SIM], h_n_hums[PD_SIM];
 extern double h_n_immbl[PD_SIM],h_n_lmnrl[PD_SIM],h_n_hmnrl[PD_SIM],h_n_cabdn[PD_SIM],h_n_sabdn[PD_SIM],h_n_uptk[PD_SIM];
 
@@ -82,14 +82,16 @@ extern double h_voc_afarnesene[PD_SIM], h_voc_bcaryophyllene[PD_SIM], h_voc_othe
 
 extern double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM], h_deforest[PD_SIM];
 
-/* for additional analysis: 2019/06/24 by A.Ito */
+/* for additional analysis: 2019/06/24  */
 extern double h_ans1[PD_SIM],h_ans2[PD_SIM],h_ans3[PD_SIM],h_ans4[PD_SIM],h_ans5[PD_SIM];
-/* Termite CH4 emission: 2021/10/08 by A.Ito */
+/* Termite CH4 emission: 2021/10/08  */
 extern double h_termite_ch4_lu[PD_SIM], h_termite_ch4_gpp[PD_SIM];
 
-/* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01 by A.Ito */
+/* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01  */
 extern double h_gpp_trp[PD_SIM], h_npp_trp[PD_SIM], h_nep_trp[PD_SIM], h_nbp_trp[PD_SIM];
 extern double h_luc_trp[PD_SIM], h_bb_trp[PD_SIM];
+
+extern double h_n2o_emit_ngas_nitr_nat[PD_SIM],h_n2o_emit_ngas_nitr_agr[PD_SIM],h_n2o_emit_ngas_dntr_nat[PD_SIM],h_n2o_emit_ngas_dntr_agr[PD_SIM];
 
 extern double ci_aco2[PD_SIM], ci_aco2_d13c[PD_SIM], ci_aco2_d14c[PD_SIM];
 extern double ci_gpp[PD_SIM], ci_gpp_d13c[PD_SIM], ci_gpp_d14c[PD_SIM];
@@ -144,13 +146,13 @@ extern double rh_net_crop[N_REG][PD_SIM], rh_luc[N_REG][PD_SIM];
 extern double rh_ch4ox_curry[N_REG][PD_SIM], rh_ch4emit_wh_wet[N_REG][PD_SIM], rh_ch4emit_wh_paddy[N_REG][PD_SIM];
 extern double rh_n2o_emit_ngas[N_REG][PD_SIM], rh_n2o_emitagr_ngas[N_REG][PD_SIM];
 
-/* CHASER 2001 monthly, by A.Ito (2010/05/21) */
+/* CHASER 2001 monthly,  (2010/05/21) */
 extern double	ndepo_chaser_dnhx[ASTEP][64][128];		/* NHx, dry */
 extern double	ndepo_chaser_dnoy[ASTEP][64][128];		/* NOy, dry */
 extern double	ndepo_chaser_wnhx[ASTEP][64][128];		/* NHx, wet */
 extern double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
 
-/* CHASER4.0 monthly, by A.Ito (2014/11/19) */
+/* CHASER4.0 monthly,  (2014/11/19) */
 extern double	ndepo_chaser4_nhx_h[ASTEP][64][128];		/* NHx */
 extern double	ndepo_chaser4_noy_h[ASTEP][64][128];		/* NOy */
 extern double	ndepo_chaser4_ont_h[ASTEP][64][128];		/* Org NOx */
@@ -158,7 +160,7 @@ extern double	ndepo_chaser4_nhx_p[ASTEP][64][128];		/* NHx */
 extern double	ndepo_chaser4_noy_p[ASTEP][64][128];		/* NOy */
 extern double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
 
-/* Burnt area by GFED4s: 2018/05/19 by A.Ito */
+/* Burnt area by GFED4s: 2018/05/19  */
 extern double bf_gfed4s[20][N_REG+1];
 
 /* CLEARANCE *****************************************************/

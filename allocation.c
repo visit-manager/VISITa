@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -67,7 +67,7 @@ void allocation(
             }else if(aaa > bbb){
                 cc1 = aaa/bbb;
                 
-                /* maximum allocation ratio to foliage is 40 %: 2008/08/25 by A.Ito */
+                /* maximum allocation ratio to foliage is 40 %: 2008/08/25  */
                 /* ccc = ((pchar->alloc_ass*cc1)<0.4)?(pchar->alloc_ass*cc1):0.4; */
                 ccc = ((pchar->alloc_ass * cc1)<0.5)?(pchar->alloc_ass * cc1):0.5;
             }
@@ -75,8 +75,8 @@ void allocation(
             /* ccc = pchar->alloc_ass*1.0; */
             
             if(pchar->season[grid->m] == 0){
-            /*	ddd = 0.5; */ /* 2008/08/25 by A.Ito */
-                ddd = 0.7; /* 2008/08/25 by A.Ito */
+            /*	ddd = 0.5; */ /* 2008/08/25  */
+                ddd = 0.7; /* 2008/08/25  */
             }else{
                 ddd = 1.0;
             }

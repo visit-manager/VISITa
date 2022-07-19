@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -95,7 +95,7 @@ void f_biomassburning(
         0.2, 0.2, 0.16, 0.16, 0.16, 0.41, 0.41, 38.0,
         0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
     
-    /* ammonium: ref. Akagi et al. (2011): 2018/07/29 by A.Ito */
+    /* ammonium: ref. Akagi et al. (2011): 2018/07/29  */
     /* double ef_nh4[16] = {0.0,
         0.00564, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
         0.0035, 0.00397, 0.0, 0.0, 0.0, 0.0, 0.0}; */
@@ -106,7 +106,7 @@ void f_biomassburning(
 		0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; */
     double burn_eff[16] = {0.0,
         0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-        0.4, 0.4, 0.4, 0.4, 0.3, 0.4, 0.0}; /* */ /* test: 2018/07/23 by A.Ito */
+        0.4, 0.4, 0.4, 0.4, 0.3, 0.4, 0.0}; /* */ /* test: 2018/07/23  */
 
 	double closs_leaf, closs_wood, closs_root, closs_litter, prm_ensen;
 	
@@ -153,7 +153,7 @@ void f_biomassburning(
 			/* Eq.1 in Thonicke  */
 			aad = (0.4994 * (aa*100.0) + 1.02)/100.0;	
 			
-            /* corrected by A.Ito (2012/02/01) based on Hamada-san's comment */
+            /* corrected  (2012/02/01) based on Hamada-san's comment */
             if(grid->veg_sage>=1 && grid->veg_sage<=15){
                 bb = aad/me_crit[grid->veg_sage];
             }else{
@@ -198,7 +198,7 @@ void f_biomassburning(
 		/* fractional area burnt, Eq.6 */
 		fa_burnt = ss * exp(aa/bb);
         
-        /* constraint by GFED4s: 2018/05/18 by A.Ito */
+        /* constraint by GFED4s: 2018/05/18  */
         if(EX_FIRE_GFED >= 1){
             if(grid->simy <= 1997){
                 loct->fb_base = fa_burnt;
@@ -224,7 +224,7 @@ void f_biomassburning(
 		fa_burnt = 0.0;
 	}
     
-    /* parameter ensemble: 2014/11/19 by A.Ito */
+    /* parameter ensemble: 2014/11/19  */
     prm_ensen = 1.0;
     if(PARAM_PTB == 6){
         if(PARAM_ENS == 1){
@@ -247,7 +247,7 @@ void f_biomassburning(
         }
     }
     
-    /* C-budget parameter ensemble: 2018/06/05 by A.Ito */
+    /* C-budget parameter ensemble: 2018/06/05  */
     if(PARAM_PTB == 20){
         prm_ensen = 1.0 + 0.3 * f_pert[0];
     }else{
@@ -266,7 +266,7 @@ void f_biomassburning(
 		}
 		/* fractional area burnt */
 		/* flux->a_burnt[f] = flux->f_burnt*aa*(1.0 - grid->f_crop_con); */
-        /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
+        /* revised (after comments by E.Kato): 2013/10/02  */
 		flux->a_burnt[f] = flux->f_burnt * aa;
         
         /* burnt fractio for woods: 2017/11/30 */

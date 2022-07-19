@@ -1,13 +1,13 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /*  Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /*  Carbon cycle, erosion, biomass burning, land-use change,			*/
 /*  CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
 /* revised 20 August 2007 */
 /* revised 29 August 2007 */
-/* revised 31 March 2010 by A.Ito */
+/* revised 31 March 2010  */
 
 #include<stdio.h>
 #include<math.h>
@@ -144,7 +144,7 @@ void f_biolfix(
 ){
 	double aet, total_nbiofix, max_n_c3, max_n_c4, n_c3, n_c4;
     
-    /* N saturation: 2016/08/03 by A.Ito */
+    /* N saturation: 2016/08/03  */
     n_c3 = (mass->c3).n_cnpy + (mass->c3).n_strg;
     n_c4 = (mass->c4).n_cnpy + (mass->c4).n_strg;
 	
@@ -164,17 +164,17 @@ void f_biolfix(
 		total_nbiofix = 0.0;
 	}
     
-    /* lower N2 fixation: 2015/09/03 by A.Ito */
+    /* lower N2 fixation: 2015/09/03  */
     /* if(loct->v_type==2 && BIOFUEL_RUN >= 1){
         total_nbiofix *= 0.1;
     } */
     
-    /* 2016/06/08 by A.Ito */
+    /* 2016/06/08  */
     if(EX_NITROGEN == 1){
         total_nbiofix *= 0.5;
     }
     
-    /* 2016/07/25 by A.Ito  for debugging */
+    /* 2016/07/25   for debugging */
     /* total_nbiofix *= 0.01; */
     
     if(n_c3 > max_n_c3){
@@ -209,12 +209,12 @@ void f_nh3_volatilization(
     /* nh4_soil = 10000.0; */
 	
 	/* pH: Lin et al. (2000) Eq.(16) */
-	/* modified by A.Ito (2009/06/05) */
+	/* modified  (2009/06/05) */
 	/* f_ph = pow(10.0, grid->soil_ph - 10.0) / pow(10.0, 7.0 - 10.0); */
 	/* if(schar->v_type==1 && (grid->veg_olson==29 || grid->veg_olson==30
 							|| grid->veg_olson==31 || grid->veg_olson==32)){ */
-    /* revised (after comments by E.Kato): 2013/10/02 by A.Ito */
-    /* revised: 2014/11/27 by A.Ito */
+    /* revised (after comments by E.Kato): 2013/10/02  */
+    /* revised: 2014/11/27  */
 	if(schar->v_type == 2){
         /* cropland */
 		if((grid->soil_ph + 0.5) >= 6.5){ /* 6.0=>6.5 */
@@ -231,7 +231,7 @@ void f_nh3_volatilization(
 	/* base_ph = 6.5; */ /* 2010/03/28 (A.Ito) */
 	/* base_ph = 5.5; */ /* 2010/03/30 (A.Ito) */
 	/* base_ph = 5.4; */ /* 2014/12/02 (A.Ito) */
-    /* revised: 2016/07/12 by A.Ito */
+    /* revised: 2016/07/12  */
     base_ph = 6.0;
 	f_ph = pow(10.0, ph_soil - 10.0) / pow(10.0, base_ph - 10.0);
 	if(f_ph < 0.0){
@@ -247,9 +247,9 @@ void f_nh3_volatilization(
 	
 	/* soil water: Thornley (1998) Eq.(6.7a) */
 	/* soil water potential Eq.(6.2g) */
-    /* modified: 2016/07/03 by A.Ito */
+    /* modified: 2016/07/03  */
 	if(loct->sw30 > 1.0){
-		/* modified by A.Ito (2009/06/05) */
+		/* modified  (2009/06/05) */
 		swp = -10.0 * pow(1.0 / (loct->sw30 / grid->field_cap1), 5.0);
 		f_sw = exp((18.0 * swp) / (8314.0 * (grid->tmp10_soil[grid->m] + ZAT)));
         if(f_sw > 10.0){
@@ -259,7 +259,7 @@ void f_nh3_volatilization(
 		f_sw = 0.05; /* for dry land sublimation */
 	}
     
-    /* modified: 2016/07/11 by A.Ito */
+    /* modified: 2016/07/11  */
     /* Thornley (1998) Eq.(5.11) */
     f_sw = pow(f_sw, 20.0);
 	if(f_sw < 0.01){
@@ -271,10 +271,10 @@ void f_nh3_volatilization(
 	flux->n_nh3vlt[grid->m] = nh4_soil * 0.02/30.0 * f_ph * f_tmp * f_sw *
 			MDN[grid->m] * 17.0/14.0;
     
-    /* safe guard: 2014/05/28 by A.Ito: 0.5 */
-    /* safe guard: 2016/06/28 by A.Ito: 0.1 */
-    /* safe guard: 2016/07/03 by A.Ito: 0.1 */
-    /* safe guard: 2016/07/07 by A.Ito: 0.75 */
+    /* safe guard: 2014/05/28 : 0.5 */
+    /* safe guard: 2016/06/28 : 0.1 */
+    /* safe guard: 2016/07/03 : 0.1 */
+    /* safe guard: 2016/07/07 : 0.75 */
     if(flux->n_nh3vlt[grid->m] > (0.75 * mass->n_nh4)){
         flux->n_nh3vlt[grid->m] = 0.75 * mass->n_nh4;
     }
@@ -360,7 +360,7 @@ void f_n_deposit(
         }else{ /*  if(grid->climy>2050) */
             ndepo_dry = grid->ndepo[2] * f_dry * MDN[grid->m]/YDN;
             ndepo_wet = grid->ndepo[2] * f_wet * (grid->prate_sfc_a[grid->m] + 0.08333)/pre_ann;
-            /* 2008/08/20 corrected by A.Ito (thanks to E.Kato) */
+            /* 2008/08/20 corrected  (thanks to E.Kato) */
         }
 	
         if(ndepo_dry < 0.0){
@@ -378,7 +378,7 @@ void f_n_deposit(
     
         nyear = grid->niny;
         
-        /* 2014/12/27 revised by A.Ito: add organic N deposition*/
+        /* 2014/12/27 revised : add organic N deposition*/
         if(nyear < 1850){
             ndepo_no3 = ndepo_chaser4_noy_h[grid->m][grid->chaser_row][grid->chaser_col]
                     + ndepo_chaser4_ont_h[grid->m][grid->chaser_row][grid->chaser_col];
@@ -409,11 +409,11 @@ void f_n_deposit(
         loct->depo_nh4[grid->m] = ndepo_nh4;
     }
     
-    /* NMIP: 2015/11/19 by A.Ito *******/
-    /* updated 2016/10/20, 2017/10/19 by A.Ito */
-    /* ISI-MIP2b: 2016/12/24 by A.Ito */
-    /* ISIMIP3a: 2020/10/01 by A.Ito */
-    /* ISIMIP3b: 2020/11/18 by A.Ito */
+    /* NMIP: 2015/11/19  *******/
+    /* updated 2016/10/20, 2017/10/19  */
+    /* ISI-MIP2b: 2016/12/24  */
+    /* ISIMIP3a: 2020/10/01  */
+    /* ISIMIP3b: 2020/11/18  */
     if((NMIP_RUN >= 1 && NMIP_RUN <= 12) || ISIMIP_RUN == 5|| ISIMIP_RUN == 6){
     
         nyear = grid->niny;
@@ -430,12 +430,12 @@ void f_n_deposit(
         loct->depo_no3[grid->m] = uconv * grid->mip_ndep_mon_noy[nyear - FDY_NINY][grid->m];
         loct->depo_nh4[grid->m] = uconv * grid->mip_ndep_mon_nh4[nyear - FDY_NINY][grid->m];
     }else if((NMIP_RUN >= 20 && NMIP_RUN <= 30) || ISIMIP_RUN == 5|| ISIMIP_RUN == 6){
-        /* NMIP2: 2021/12/15 by A.Ito */
+        /* NMIP2: 2021/12/15 */
         nyear = grid->niny;
         uconv = 1000.0;
         if(NMIP_RUN == 20 || NMIP_RUN == 24 || NMIP_RUN == 29 || NMIP_RUN == 30){
             nyear = FDY_NINY; /* for fixing */
-            uconv = 1.0;
+            uconv = 1000.0; /* CORRECT: 2022/04/20 */
         }
         
         loct->depo_no3[grid->m] = uconv * grid->mip_ndep_noy[nyear - FDY_NINY] / 12.0;
@@ -467,7 +467,7 @@ void f_n_deposit(
         }
     }
     
-    /* experiment N deposition: 2015/08/12 by A.Ito *****/
+    /* experiment N deposition: 2015/08/12  *****/
     if(EX_NDEPO == 1){
         loct->depo_no3[grid->m] *= 1.1;
         loct->depo_nh4[grid->m] *= 1.1;
@@ -509,7 +509,7 @@ void f_n_deposit(
         loct->depo_no3[grid->m] = 0.5 * ndepo_total;
     }
     
-    /* 2016/07/25 by A.Ito  for debugging */
+    /* 2016/07/25   for debugging */
     /* loct->depo_no3[grid->m] *= 0.01;
     loct->depo_nh4[grid->m] *= 0.01; */
 }
@@ -524,15 +524,15 @@ void f_n_mineralz(
 	double f_c_min;
     double f_nmin_l, f_nmin_h;
     
-    /* 2016/06/28 by A.Ito */
+    /* 2016/06/28  */
     /* f_nmin_l = 2.0;
     f_nmin_h = 20.0; */
 	
-    /* 2016/07/06 by A.Ito */
+    /* 2016/07/06  */
     /* f_nmin_l = 50.0;
     f_nmin_h = 80.0; */
 	
-    /* 2016/08/15 by A.Ito */
+    /* 2016/08/15  */
     f_nmin_l = 0.15;
     f_nmin_h = 0.7;
 	
@@ -567,16 +567,16 @@ void f_n_leaching(
 	double ntr_conc, aa;
 	double fad_no3;
 	
-	/* adsorption of NO3- : 2010/03/28 by A.Ito */
+	/* adsorption of NO3- : 2010/03/28  */
 	/* fad_no3 = 0.7; */
-	/* fad_no3 = 0.3; */ /* 2010/03/29 by A.Ito */
-	/* fad_no3 = 0.1; */ /* 2010/04/06 by A.Ito */
-	/* fad_no3 = 0.5; */ /* 2016/06/01 by A.Ito */
-	/* fad_no3 = 0.3; */ /* 2016/06/29 by A.Ito */
-	fad_no3 = 0.70; /* 2016/08/15 by A.Ito */
+	/* fad_no3 = 0.3; */ /* 2010/03/29  */
+	/* fad_no3 = 0.1; */ /* 2010/04/06  */
+	/* fad_no3 = 0.5; */ /* 2016/06/01  */
+	/* fad_no3 = 0.3; */ /* 2016/06/29  */
+	fad_no3 = 0.70; /* 2016/08/15  */
 
 	/* g N / ha */
-	/* kg H2O / m2 */ /* 2016/07/05 by A.Ito */
+	/* kg H2O / m2 */ /* 2016/07/05  */
 	if((loct->sw30 + loct->sww + grid->prate_sfc[grid->m]) > 0.1){
 		ntr_conc = (1.0 - fad_no3)*(mass->n_no3/10000.0) / 
 					(loct->sw30 + loct->sww + grid->prate_sfc[grid->m]);
@@ -589,7 +589,7 @@ void f_n_leaching(
 	aa = loct->ro2[grid->m] * ntr_conc * 10000.0;
 	/* g NO3-N ha-1 */
     
-    /* 2016/07/13 by A.Ito */
+    /* 2016/07/13  */
 	/* if(aa > (mass->n_no3 * 0.95)){ */
 	/* if(aa > (mass->n_no3 * 0.9)){ */
 	if(aa > (mass->n_no3 * 0.75)){
@@ -599,7 +599,7 @@ void f_n_leaching(
         aa = 0.0;
     }
 	
-    /* 2016/07/07 by A.Ito */
+    /* 2016/07/07  */
     /* aa = mass->n_no3*0.1; */
     /* aa = 1.0; */
     
@@ -620,7 +620,7 @@ void f_n_uptake(
     double max_n_c3, max_n_c4, nsat_c3, nsat_c4, k_n;
 	double uptake_no3, uptake_nh4;
     
-    /* 2016/07/21 by A.Ito ************/
+    /* 2016/07/21  ************/
     /* N demand */
     
     n_c3 = (mass->c3).n_cnpy + (mass->c3).n_strg;
@@ -641,7 +641,7 @@ void f_n_uptake(
 	/*****
 	Effect of N allocatiom to root ?
 	*****/
-    /* n_max = 0.02; */ /* 2016/07/06 by A.Ito */
+    /* n_max = 0.02; */ /* 2016/07/06  */
 	
 	/* temperature factor */
 	f_temp = exp(0.0693 * grid->tmp10_soil[grid->m]);
@@ -649,7 +649,7 @@ void f_n_uptake(
 	ks = 0.90 * pow(loct->sw30 / grid->field_cap1, 3.0) + 0.1;
 	
 	/* NO3 uptake */
-    n_max = 0.14; /* 2016/08/15 by A.Ito */
+    n_max = 0.14; /* 2016/08/15  */
 	navil = (mass->soil).n_no3;
 	/* C3 */
     max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
@@ -679,8 +679,8 @@ void f_n_uptake(
     
 	
 	/* NH4 uptake */
-    /* n_max = 0.07; */ /* 2016/08/15 by A.Ito */
-    n_max = 0.08; /* 2018/07/30 by A.Ito */
+    /* n_max = 0.07; */ /* 2016/08/15  */
+    n_max = 0.08; /* 2018/07/30  */
 	navil = (mass->soil).n_nh4;
     /* C3 */
     max_uptake = (1.0 - nsat_c3) * navil * n_max * ks / (90.0 + ks*navil) * f_temp;
@@ -777,7 +777,7 @@ void f_n_alloc(
 			flux->n_alloc_cnpy[grid->m] = n_obtain;
 		}
 	}else{  /*  if(n_opt <= n_leaf_conc) */
-        /* 2016/08/02 by A.Ito */
+        /* 2016/08/02  */
         if(n_leaf_conc < 1.1*n_opt){
             flux->n_realloc[grid->m] = 0.0;
         }else{
@@ -835,7 +835,7 @@ void f_n_realloc(
 				flux->n_realloc[grid->m] = n_stock;
 			}
 		}else{  /* if(n_opt <= n_leaf_conc) */
-            /* 2016/08/02 by A.Ito */
+            /* 2016/08/02  */
             if(n_leaf_conc < 1.1*n_opt){
                 flux->n_realloc[grid->m] = 0.0;
             }else{
@@ -865,26 +865,26 @@ void f_n_immoblz(
 	f_immbl_no3 = 0.005;
 	f_immbl_nh4 = 0.004; */
     
-    /* 2016/06/01 by A.Ito *****/
+    /* 2016/06/01  *****/
 	/* f_immbl_no3 = 0.006;
 	f_immbl_nh4 = 0.003; */
     
-    /* 2016/06/29 by A.Ito *****/
+    /* 2016/06/29  *****/
 	/* f_immbl_no3 = 0.004;
 	f_immbl_nh4 = 0.002; */
     
-    /* 2016/07/06 by A.Ito *****/
-    /* 2016/08/04 by A.Ito *****/
+    /* 2016/07/06  *****/
+    /* 2016/08/04  *****/
 	f_immbl_no3 = 0.00025;
 	f_immbl_nh4 = 0.00025;
     
-    /* 2016/06/05 by A.Ito *****/
+    /* 2016/06/05  *****/
 	/* flux->n_immbl[grid->m] = 0.05 * flux->n_minerlz_lttr[grid->m] +
 		0.1 * flux->n_minerlz_hums[grid->m] +
 		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m]; */
     
-    /* 2016/07/03 by A.Ito *****/
-    /* 2016/07/06 by A.Ito *****/
+    /* 2016/07/03  *****/
+    /* 2016/07/06  *****/
 	/* flux->n_immbl[grid->m] = 0.025 * flux->n_minerlz_lttr[grid->m] +
 		0.025 * flux->n_minerlz_hums[grid->m] +
 		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m]; */
@@ -896,9 +896,9 @@ void f_n_immoblz(
 		0.4 * flux->n_minerlz_hums[grid->m] + 
 		(f_immbl_no3 * mass->n_no3 + f_immbl_nh4 * mass->n_nh4) * MDN[grid->m]; */
     
-    /* safe guard: 2014/05/28 by A.Ito */
-    /* 2016/06/05 by A.Ito *****/
-    /* 2016/07/12 by A.Ito */
+    /* safe guard: 2014/05/28  */
+    /* 2016/06/05  *****/
+    /* 2016/07/12  */
     /* if((flux->n_immbl_no3[grid->m]+flux->n_immbl_nh4[grid->m]) > 0.1*mass->n_mcrb){
         flux->n_immbl_no3[grid->m] *= 0.1*mass->n_mcrb / (flux->n_immbl_no3[grid->m]+flux->n_immbl_nh4[grid->m]);
         flux->n_immbl_nh4[grid->m] *= 0.1*mass->n_mcrb / (flux->n_immbl_no3[grid->m]+flux->n_immbl_nh4[grid->m]);
@@ -917,20 +917,20 @@ void f_n_mcrb_abdn(
 	
 	f_temp = exp(log(2.0)/10.0 * (grid->tmp10_soil[grid->m]-10.0));
     
-    /* 2016/06/28 by A.Ito */
+    /* 2016/06/28  */
 	/* flux->n_mcrb_abdn[grid->m] = 0.1 * f_temp * mass->n_mcrb; */
 	/* flux->n_mcrb_abdn[grid->m] = 0.4 * f_temp * mass->n_mcrb; */
 	/* flux->n_mcrb_abdn[grid->m] = 3.0 * f_temp * mass->n_mcrb; */
-    /* 2016/08/04 by A.Ito */
+    /* 2016/08/04  */
 	flux->n_mcrb_abdn[grid->m] = 0.025 * f_temp * mass->n_mcrb;
     
-    /* 2016/06/08 by A.Ito */
+    /* 2016/06/08  */
     if(EX_NITROGEN == 2){
         flux->n_mcrb_abdn[grid->m] *= 2.0;
     }
 
-    /* safe guard: 2014/05/28 by A.Ito */
-    /* 2016/06/05 by A.Ito *****/
+    /* safe guard: 2014/05/28  */
+    /* 2016/06/05  *****/
     if(flux->n_mcrb_abdn[grid->m] > (0.7 * mass->n_mcrb)){
         /* flux->n_mcrb_abdn[grid->m] = (0.5 * mass->n_mcrb); */
         flux->n_mcrb_abdn[grid->m] = (0.7 * mass->n_mcrb);

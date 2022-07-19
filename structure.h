@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -60,13 +60,13 @@ struct Grid{
 	long 	simy;					/* year for simulation (AD) */
 	long 	co2y;					/* year for CO2 level estimation */
 	long 	climy;					/* year of climate data */
-    long    lucy;                   /* year of land-use data: 2014/09/11 by A.Ito */
-    long    niny;                   /* year of nitrogen input: 2015/11/19 by A.Ito */
+    long    lucy;                   /* year of land-use data: 2014/09/11  */
+    long    niny;                   /* year of nitrogen input: 2015/11/19  */
 
 	/* atmospheric condition ***********/
 	double 	bco2[ASTEP];			/* background CO2 concentration, in ppmv */
 	double 	d13c_bco2[ASTEP];		/* stable carbon isotope composition of background CO2, permille */
-	double	d14c_bco2[ASTEP];		/* D14C of atmospheric CO2: added by A.Ito (2009/06/23) */
+	double	d14c_bco2[ASTEP];		/* D14C of atmospheric CO2: added  (2009/06/23) */
     double  bo3[ASTEP];             /* monthly O3, ppb */
     double  bch4[ASTEP];            /* background CH4 concentration, in ppbv */
     double  d13c_bch4[ASTEP];       /* stable carbon isotope composition of background CH4, permille */
@@ -171,7 +171,7 @@ struct Grid{
 	float	ncep_vpres_b[1][1][1]; 
 #endif
 
-    /* albedo perturbation: 2012/12/29 by A.Ito */
+    /* albedo perturbation: 2012/12/29  */
 #if EX_ALBEDO==0
     float   albedo_av[1][1][1];
     float   albedo_sd[1][1][1];
@@ -200,6 +200,9 @@ struct Grid{
 	double	hist_cld_b[ASTEP];					/* cloud cover */
 	double	hist_vap_b[ASTEP];					/* vapor pressure */
 
+	double	hist_tmp_b2[ASTEP];					/* temperature */
+	double	hist_pre_b2[ASTEP];					/* precipitation */
+
 	/* erosion */
 	long 	rvbasin;						/* ID of river basin */
 	double 	albedo_soil;					/* soil albedo */
@@ -221,13 +224,13 @@ struct Grid{
 	double 	f_pasture_p;				/* previous pasture fraction */
 	double 	f_pasture_trend;			/* trend of pasture conversion, fraction/yr */
  
-    double  f_crop_ans;                 /* fraction of cropland for analysis: 2019/06/24 by A.Ito */
+    double  f_crop_ans;                 /* fraction of cropland for analysis: 2019/06/24  */
 	
 	double	f_deforest;					/* deforestation rate */
 	double	f_deforest_v;				/* in primary lands */
 	double	f_deforest_s;				/* in secondary lands */
 	
-    double  f_luc_gain, f_luc_loss;     /* 2018/10/24 by A.Ito */
+    double  f_luc_gain, f_luc_loss;     /* 2018/10/24  */
     
 	double	f_crop_base;				/* base cropland fraction in 2000 */
 	double	f_pasture_base;				/* base pasture fraction in 2000 */
@@ -238,7 +241,7 @@ struct Grid{
 	double	fcrop_rk[308];				/* crop fraction by Ramankutty & Kimball (2010) */
 	double	fpast_rk[308];				/* pasture fraction by Ramankutty & Kimball (2010) */
 	
-    /* crop calendar by Iizumi: 2021/04/07 by A.Ito */
+    /* crop calendar by Iizumi: 2021/04/07  */
     long    iizumi_mon_paddy_start;
     long    iizumi_mon_paddy_end;
 	
@@ -249,7 +252,7 @@ struct Grid{
 	double 	fgrass4_image[DL_ADD];			/* C4 pasture grass */
 
 	/* EOS-WEBSTER, 1700-2000/2005, Hurtt et al. */
-    /* name changed: unh => luh: 2018/12/24 by A.Ito */
+    /* name changed: unh => luh: 2018/12/24  */
 	double	fcrop_luh[DL_LUC];		/* cropland fraction */
 	double	fpast_luh[DL_LUC];		/* pasture fraction */
 	double	fprim_luh[DL_LUC];		/* primary land fraction */
@@ -272,8 +275,8 @@ struct Grid{
 	double	t_vs2_luh[DL_LUC];		/*  */
     
     /* DL_ADD = 111 */
-    double  aim_luc_fcrop[DL_ADD];         /* LUC data by AIM 2019/06/21 by A.Ito */
-    double  aim_luc_bioen[DL_ADD];         /* bioenergy: 2020/10/08 by A.Ito */
+    double  aim_luc_fcrop[DL_ADD];         /* LUC data by AIM 2019/06/21  */
+    double  aim_luc_bioen[DL_ADD];         /* bioenergy: 2020/10/08  */
     double  aim_luc_grass[DL_ADD];         /* grassland  */
     double  aim_luc_forunm[DL_ADD];         /* unmanaged forest */
     double  aim_luc_forman[DL_ADD];         /* managed forest */
@@ -330,24 +333,24 @@ struct Grid{
 	double	srb_dif_min_y;
 	double	srb_dif_max_y;
 	
-	double	inundation_ssmi[ASTEP];		/* inundation by SSM/I: added by A.Ito (2009/07/13) */
+	double	inundation_ssmi[ASTEP];		/* inundation by SSM/I: added  (2009/07/13) */
 	double	inundation_ssmi_av;
 	double	inundation_ssmi_max;
     
     double  inundation_alt_av[ASTEP];
-    double  inundation_alt_ts[29][ASTEP]; /* updated: 2021/06/25 by A.Ito */
+    double  inundation_alt_ts[29][ASTEP]; /* updated: 2021/06/25  */
     
-    /* revised wetland maps: 2018/07/03 by A.Ito */
+    /* revised wetland maps: 2018/07/03  */
     double  wet_glwd;
     double  wet_meris;
     double  wet_glwdmeris;
 
 	long    type_permaforst;			/* permafrost type by NSIDC */
-    double  tmp_base_permaforst;        /* 2012/10/26 by A.Ito */
+    double  tmp_base_permaforst;        /* 2012/10/26  */
     
-    double  f_biofuel[DL_BF];                /* biofuel scenario: 2015/8/21 by A.Ito */
+    double  f_biofuel[DL_BF];                /* biofuel scenario: 2015/8/21  */
     
-    /* NMIP input: 2015/11/19 by A.Ito */
+    /* NMIP input: 2015/11/19  */
     double  mip_nfert[DL_NINPUT];                /* nitrogen fertilizer */
     double  mip_nfert_nh4[DL_NINPUT];             /* nitrogen fertilizer */
     double  mip_nfert_noy[DL_NINPUT];             /* nitrogen fertilizer */
@@ -355,31 +358,31 @@ struct Grid{
     double  mip_ndep_nh4[DL_NINPUT];             /* NH4 fertilizer */
     double  mip_manure[DL_NINPUT];               /* manure */
     double  mip_frcrop[DL_NINPUT];               /* cropland fraction */
-    /* added: 2017/10/19 by A.Ito */
+    /* added: 2017/10/19  */
     double  mip_ndep_mon_noy[DL_NINPUT][12];    /* NOy deposition, monthly */
     double  mip_ndep_mon_nh4[DL_NINPUT][12];    /* NH4 fertilizer, monthly */
 
-    /* N input by Nishina ESSD data: 2017/02/13 by A.Ito */
+    /* N input by Nishina ESSD data: 2017/02/13  */
     double  nin_date[ASTEP];
     double  nin_no3[50][ASTEP];
     double  nin_nh4[50][ASTEP];
     
-    /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
-    /* manure by Feng: 2020/08/19 by A.Ito  */
+    /* future nitrogen fertilizer: 2016/11/22   */
+    /* manure by Feng: 2020/08/19   */
     double  est_nfert[90];
     double  est_nmanure_rice[90];
     double  est_nmanure_upland[90];
     
-    /* N fertilizer & manure of Potter: 2017/06/13 by A.Ito */
+    /* N fertilizer & manure of Potter: 2017/06/13  */
     double  nfert_potter;               /* fertilizer */
     double  nmanure_potter;             /* manure */
 
-    /* BECCS scenario: 2017/02/20 by A.Ito */
+    /* BECCS scenario: 2017/02/20  */
     double  beccs_s2b;                  /* secondary to biofuel */
     double  beccs_v2b;                  /* primary to biofuel */
     double  beccs_v2s;                  /* primary to secondary */
     
-    /* IMPRESSIONS mask: 2017/05/02 by A.Ito */
+    /* IMPRESSIONS mask: 2017/05/02  */
     long    impressions_mask;
 };
 
@@ -402,7 +405,7 @@ struct Loct{
 	long	    gd[ASTEP], bbm;			/* vegetative growing period, days */
 	double	gdd[ASTEP];				/* cumulative growth degree days, degC days */
     
-    double  est_maxlai;               /* estimated max.LAI: 2014/05/20 by A.Ito */
+    double  est_maxlai;               /* estimated max.LAI: 2014/05/20  */
 	
 	double	albedo_sfc[ASTEP];		/* land-surface albedo */
 	double	gl_rad_g[ASTEP];			/* global radiation under the canopy, W m-2 */
@@ -412,8 +415,13 @@ struct Loct{
 	double	rad_net_short[ASTEP];		/* net short-wave radiation, W m-2 */
 	double	rad_net[ASTEP];			/* net radiation, W m-2 */
 	double	rdi;						/* radiative dryness index by Budyko */
-    
-    /* added: 2013/01/10 by A.Ito */
+
+	double	rad_net_p_sw[ASTEP];			/* net radiation, canopy, W m-2 */
+	double	rad_net_g_sw[ASTEP];			/* net radiation, soil surface, W m-2 */
+	double	rad_net_p_lw[ASTEP];			/* net radiation, canopy, W m-2 */
+	double	rad_net_g_lw[ASTEP];			/* net radiation, soil surface, W m-2 */
+
+    /* added: 2013/01/10  */
     double  glrad_dav[ASTEP];          /* daily average downward SW radiation, W m-2 */
     double  nsw_d[ASTEP];              /* daily average net SW radiation, W m-2 */
  	
@@ -442,7 +450,9 @@ struct Loct{
 	double	lai[ASTEP];					/* leaf area index, m2 m-2 */
 	double	canopy_con[ASTEP];			/* canopy conductance, mmol H2O m-2 s-1 */
 	double	f_vegcov[ASTEP];			/* fractional vegetation cover */
-	
+ 
+    double  ground_con[ASTEP];			/* ground conductance, mmol H2O m-2 s-1 */
+ 
 	/* water pools, mm (= kg/m2) */
 	double	snwa;						/* water equivalent snow depth, mm */
 	double	msnwa[ASTEP];				/* monthly */
@@ -502,7 +512,7 @@ struct Loct{
 	double	gpp_max;					/* maximum GPP */
     double  npp_av[ASTEP];              /* average monthly NPP */
 	
-	/* CH4 emission by Walter & Heimann: added by A.Ito (2009/08/05) */
+	/* CH4 emission by Walter & Heimann: added  (2009/08/05) */
 	double	water_table_depth;          /* current time-step */
 	double	water_table_depth_pre;      /* previous time-step */
 	double	npp_max;                    /* maximum NPP */
@@ -510,7 +520,7 @@ struct Loct{
 	
 	double	cum_dprec;					/* cumulative precipitation change */
  
-    /* d13C - methane production, 2018/02/09 by A.Ito */
+    /* d13C - methane production, 2018/02/09  */
     double  f_ch4_substrate[ASTEP];     /* methane substrate: 0(C02) - 1(CH3COOH, acetate) */
     double  dlt_ch4_d13c[ASTEP];        /* discrimination of 13C of methane, per mille */
     double  d13c_ch4[ASTEP];            /* d13C of methane, per mille */
@@ -559,7 +569,7 @@ struct Pchar{
 	double	kn_nphoto;				/* canopy N gradient, exponential coefficient */
 	double	amax_nphoto;			/* max. photosynthesis rate, micro mol CO2 m-2 s-1 */
 	double	rd_n;					/* dark respiration, micro mol CO2 m-2 s-1 */
-    /* 2016/08/02 by A.Ito */
+    /* 2016/08/02  */
     double  n_opt[ASTEP];
     double  n_leaf[ASTEP];
 	
@@ -586,15 +596,15 @@ struct Pchar{
 	/* photosynthesis *******/
 	short	phototype;				/** photosynthetic metabolic pathway, 3=C3, 4=C4, 5=CAM **/
 	/*  veg->psat[grid->m] = veg->pmax*ftem*fstl*fnstl   */
-	double	psat[ASTEP];			/* light-saturated rate, micro mol CO2 m-2 s-1 */
+	double	psat[ASTEP];			    /* light-saturated rate, micro mol CO2 m-2 s-1 */
 	double	pmax;					/* potential maximum rate, micro mol CO2 m-2 s-1 */
 	double	ft[ASTEP];				/* temperature coefficient */
 	double	fcd[ASTEP];				/* CO2 coefficient */
 	double	fsw[ASTEP];				/* soil water coefficient */
-    double  fo3[ASTEP];             /* O3 coefficient: 2013/02/25 by A.Ito */
+    double  fo3[ASTEP];               /* O3 coefficient: 2013/02/25  */
 	double	ptop;					/* canopy-top photosynthetic rate */
-	double	sla;					/* specific leaf area, cm2 g dm-1 */
-	double	eK0;					/* light attenuation coefficient, no dimension */
+	double	sla;					    /* specific leaf area, cm2 g dm-1 */
+	double	eK0;					    /* light attenuation coefficient, no dimension */
 	double	eK[ASTEP];				/* light attenuation coefficient, no dimension */
 	double	lue0;					/* control light dependence coefficient, mol CO2 mol photon-1 */
 	double	lue[ASTEP];				/* monthly quantum yield , mol CO2 mol photon-1 */ 
@@ -605,19 +615,19 @@ struct Pchar{
 	double	ci[ASTEP];				/* monthly intercellular CO2 concentration, ppmv */
 	double	kmci;					/* dependence of photosynthesis on intercellular CO2 concentration, ppmv */
 	double	cmpcd0;					/* CO2 compensation point, ppmv */
-	double	cmpcd[ASTEP];			/* CO2 compensation point, ppmv */
+	double	cmpcd[ASTEP];			    /* CO2 compensation point, ppmv */
 	/* parameters of conductance */
 	double	gs[ASTEP];				/* monthly stomatal conductance, mmol H2O m-2 s-1 */
 	double	gc[ASTEP];				/* monthly canopy conductance, mmol H2O m-2 s-1 */
 	double	gs_b0;					/* Leuninig stomata model parameters */
 	double	gs_b1;					/* Leuninig stomata model parameters */
 	double	gs_b2;					/* Leuninig stomata model parameters */
-	double	km_nstl;				/* maximum stomatal conductance */
+	double	km_nstl;				    /* maximum stomatal conductance */
 	
 	double	psat_df[ASTEP];
 	double	lue_df[ASTEP];
     
-    /* O3 effect: 2013/02/23 by A.Ito */
+    /* O3 effect: 2013/02/23  */
     double  f_o3;
 	
 	/*** photosynthesis: de Pury and Farquhar (1997) ***/
@@ -664,7 +674,7 @@ struct Pchar{
 	/* root stratification parameters by Zeng (2001) *******/
 	double	root_dist_a;			/* root profile parameter a, m-1 */
 	double	root_dist_b;			/* root profile parameter b, m-1 */
-	double	root_depth;				/* rooting depth */
+	double	root_depth;			/* rooting depth */
 };			
 
 /* soil characteristics *************************************************/
@@ -715,7 +725,7 @@ struct Pmas{
 
 	/* leaf area index (LAI), m2 m-2  */
 	double	lai[ASTEP];			/* monthly value */
-	double	lai0[ASTEP];		/* 1990's average value for sensitivity analysis: 2009/05/06 by A.Ito */
+	double	lai0[ASTEP];		/* 1990's average value for sensitivity analysis: 2009/05/06  */
 	
 	/* carbon mass, Mg C ha-1 *****/ 
 	double	fol;				/* leaf */
@@ -730,27 +740,27 @@ struct Pmas{
 	
 	/* stable carbon isotope composition, permille */
 	double	d13c_fol;			/* leaf */
-	double	d13c_mfol[ASTEP];	/* monthly */
+	double	d13c_mfol[ASTEP];	    /* monthly */
 	double	d13c_stm;			/* stem */
-	double	d13c_mstm[ASTEP];	/* monthly */
+	double	d13c_mstm[ASTEP];	    /* monthly */
 	double	d13c_rot;			/* root */
-	double	d13c_mrot[ASTEP];	/* monthly */
+	double	d13c_mrot[ASTEP];	    /* monthly */
 	
 	double	d13c_plant[ASTEP];		/* total plant */
 	
-	/* radio isotope 14C: added by A.Ito (2009/06/23) */
+	/* radio isotope 14C: added  (2009/06/23) */
 	double	d14c_fol;			/* leaf */
-	double	d14c_mfol[ASTEP];	/* monthly */
+	double	d14c_mfol[ASTEP];	    /* monthly */
 	double	d14c_stm;			/* stem */
-	double	d14c_mstm[ASTEP];	/* monthly */
+	double	d14c_mstm[ASTEP];	    /* monthly */
 	double	d14c_rot;			/* root */
-	double	d14c_mrot[ASTEP];	/* monthly */
+	double	d14c_mrot[ASTEP];	    /* monthly */
 
 	/* plant N, g N ha-1 */
 	double	n_cnpy;				/* N in canopy */
-	double	n_cnpy_m[ASTEP];	/* monthly */	
+	double	n_cnpy_m[ASTEP];	    /* monthly */
 	double	n_strg;				/* N in storage pool */
-	double	n_strg_m[ASTEP];	/* monthly */
+	double	n_strg_m[ASTEP];	    /* monthly */
 };			
 
 /* soil carbon storage *************************************************/
@@ -776,7 +786,7 @@ struct Smas{
 	double	d13c_msl_m[ASTEP];	/* monthly */
 	double	d13c_soil[ASTEP];	/* total soil */
 	
-	/* radio isotope 14C: added by A.Ito (2009/06/23) */
+	/* radio isotope 14C: added  (2009/06/23) */
 	double	d14c_ltr;			/* litter */
 	double	d14c_ltr_m[ASTEP];	/* monthly */
 	double	d14c_msl;			/* mineral soil */
@@ -790,11 +800,11 @@ struct Smas{
 	
 	/* soil organic N, g N ha-1 */
 	double	n_mcrb;				/* microbe */
-	double	n_mcrb_m[ASTEP];	/* monthly */
+	double	n_mcrb_m[ASTEP];	    /* monthly */
 	double	n_lttr;				/* soil organic litter */
-	double	n_lttr_m[ASTEP];	/* monthly */
+	double	n_lttr_m[ASTEP];	    /* monthly */
 	double	n_hums;				/* soil organic humus */
-	double	n_hums_m[ASTEP];	/* monthly */
+	double	n_hums_m[ASTEP];	    /* monthly */
 };
 
 /* ecosystem carbon storage *************************************/
@@ -807,7 +817,7 @@ struct Mass{
 	/* carbon mass */ 
 	double	total[ASTEP];		/* ecosystem total carbon storage, Mg C ha-1 */
 
-	double	lai_p;				/* previous LAI, m2 m-2 */
+	double	lai_p;			/* previous LAI, m2 m-2 */
 	
 	/* stable carbon isotope composition */
 	double	d13c_total[ASTEP];  /* total d13C, permille */
@@ -998,7 +1008,7 @@ struct Flux{
 
 	/* carbon flux, in  Mg C ha-1 yr-1 */ 
 	double	nep[ASTEP];				/* net ecosystem production */
-	double	nbp[ASTEP];				/* net biome production (added by A.Ito: 2010/01/20) */
+	double	nbp[ASTEP];				/* net biome production (added : 2010/01/20) */
 	double	ncb[ASTEP];				/* net carbon balance of grid */
 	double	lL0[ASTEP];				/* total litter fall */
 	double	sr[ASTEP];				/* soil respiration */
@@ -1013,7 +1023,7 @@ struct Flux{
 	double	detr_ten[10];			/* 10-year pool */
 	double	detr_hund[100];			/* 100-year pool */
  
-    /* added by A.Ito: 2018/10/24 */
+    /* added : 2018/10/24 */
     double  lu_fol;
     double  lu_stm;
     double  lu_rot;
@@ -1097,7 +1107,7 @@ struct Flux{
 	double	voc_formacd_g97[ASTEP];				/* formacid */
 	double	voc_acetacd_g97[ASTEP];				/* acetoacid */
 	double	voc_co_g97[ASTEP];					/* CO */
-    /* added 2014/09/11 by A.Ito */
+    /* added 2014/09/11  */
 	double	voc_afarnesene[ASTEP];			/* alpha-Farnesene */
 	double	voc_bcaryophyllene[ASTEP];		/* beta-Caryophyllene */
 	double	voc_othersesqui[ASTEP];			/* other sesquiterpenes */
@@ -1111,7 +1121,7 @@ struct Flux{
 	double	efflux_p;							/* total CO2 efflux */
 	double	d13c_efflux_p;						/* d13C */
 	
-	/* d14C: added by A.Ito (2009/07/12) */
+	/* d14C: added  (2009/07/12) */
 	double	d14c_sr[ASTEP];						/* d14C of soil respiration */
 	double	d14c_er[ASTEP];						/* d14C of ecosystem respiration */
 	
@@ -1125,7 +1135,7 @@ struct Flux{
 	double	hvst_wood;
     double  hvst_wood_ex;                      /* export per natural area */
     
-    /* termite CH4 efflux, 2021/09/08 by A.Ito */
+    /* termite CH4 efflux, 2021/09/08  */
     double  gpp_ann;
     double  termite_ch4_lu[ASTEP];                 /* land-use based */
     double  termite_ch4_gpp[ASTEP];                /* productivity based */
