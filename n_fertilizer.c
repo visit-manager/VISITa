@@ -337,11 +337,11 @@ void n_fertilizer_in(
         /* if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
             loct->n_manure_in = 0.0;
         } */
-    }else if(NMIP_RUN >= 20 && NMIP_RUN <= 30){
+    }else if(NMIP_RUN >= 20 && NMIP_RUN <= 32){
         /* NMIP2: 2021/12/15  */
         nyear = grid->niny;
 
-        if(NMIP_RUN == 20 || NMIP_RUN == 23 || NMIP_RUN == 30){
+        if(NMIP_RUN == 20 || NMIP_RUN == 23 || NMIP_RUN == 30 || NMIP_RUN == 31 || NMIP_RUN == 32){
             nyear = FDY_NINY;
         }
     
@@ -354,9 +354,11 @@ void n_fertilizer_in(
         }else if(grid->niny>2020){
             loct->n_frtlz_in = grid->mip_nfert[2020 - FDY_NINY] * MDN[grid->m] / YDN;
         }
+        
+        nyear = grid->niny;
                 
         loct->n_manure_in = 0.0;
-        if(NMIP_RUN == 20 || NMIP_RUN == 22 || NMIP_RUN == 30){
+        if(NMIP_RUN == 20 || NMIP_RUN == 22 || NMIP_RUN == 30 || NMIP_RUN == 31 || NMIP_RUN == 32){
             nyear = FDY_NINY;
         }
         if(grid->niny>=FDY_NINY && grid->niny<=2020){

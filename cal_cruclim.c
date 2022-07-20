@@ -185,6 +185,15 @@ void cal_historical(
             grid->co2y = FSY_HIST;
             grid->niny = FSY_HIST;
             grid->lucy = FSY_HIST;
+        }else if(NMIP_RUN == 31){
+            if(g < 50){
+                grid->climy = 1901 + g%20; /* */ /* 1850 */
+            }
+            grid->lucy = FSY_HIST;
+        }else if(NMIP_RUN == 32){
+            if(g < 50){
+                grid->climy = 1901 + g%20; /* */ /* 1850 */
+            }
         }
         
         /* sensitivity run: 2017/06/24  */
@@ -373,7 +382,7 @@ void cal_historical(
 			   if(grid->veg_olson == 29 || grid->veg_olson == 30 ||
                                     grid->veg_olson == 31 || grid->veg_olson == 32){
 				   (flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
-                    if(NMIP_RUN >=20 && NMIP_RUN <=30){
+                    if(NMIP_RUN >=20 && NMIP_RUN <=32){
                         (mass->soil).n_no3 += loct->n_frtlz_in_noy * 1000.0 * f_fert;
                         (mass->soil).n_nh4 += loct->n_frtlz_in_nh4 * 1000.0 * f_fert;
                     }else{
@@ -482,7 +491,7 @@ void cal_historical(
             }else{
                 if((echar->soil).v_type == 2){
                     (flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0 * f_fert;
-                     if(NMIP_RUN >= 20 && NMIP_RUN <= 30){
+                     if(NMIP_RUN >= 20 && NMIP_RUN <= 32){
                         (mass->soil).n_no3 += loct->n_frtlz_in_noy * 1000.0 * f_fert;
                         (mass->soil).n_nh4 += loct->n_frtlz_in_nh4 * 1000.0 * f_fert;
                     }else{
@@ -830,7 +839,7 @@ void cal_historical(
 			}
 
             /* assumption for the period later than 2016: A.Ito (2019/02/11) */
-            if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 49) &&
+            if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 49 || LANDUSE == 50) &&
                     grid->lucy > (FDY_LUC+DL_LUC-1)){
                 dyr = (DL_LUC - 1);
             }

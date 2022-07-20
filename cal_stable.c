@@ -68,7 +68,7 @@ void cal_spinup(
 		grid->f_crop_p = grid->fcrop_luh[2000 - BGY_LUC];
 		grid->f_pasture_p = grid->fpast_luh[2000 - BGY_LUC];
 	}else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13
-         || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 29 || LANDUSE == 49){
+         || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 29 || LANDUSE == 49 || LANDUSE == 50){
 		grid->f_crop_p = grid->fcrop_luh[BGY_LUC - FDY_LUC];
 		grid->f_pasture_p = grid->fpast_luh[BGY_LUC - FDY_LUC];
 	}else if(LANDUSE == 18){
@@ -99,7 +99,7 @@ void cal_spinup(
 		grid->f_crop_p = grid->mip_frcrop[0];
 		grid->f_pasture_p = 0.0;
     }
-    if(NMIP_RUN >= 20 && NMIP_RUN <= 30){
+    if(NMIP_RUN >= 20 && NMIP_RUN <= 32){
         grid->niny = 1850;
 		grid->f_crop_p = grid->mip_frcrop[0];
 		grid->f_pasture_p = 0.0;
@@ -117,7 +117,7 @@ void cal_spinup(
         /* ISI-MIP2b: 2016/12/24  */
         /* ISIMIP3a: 2020/10/01  */
         f_fert = 1.0; /* driven by data */
-    }else if(NMIP_RUN >= 20 && NMIP_RUN <= 30){
+    }else if(NMIP_RUN >= 20 && NMIP_RUN <= 32){
         /* NMIP2: 2021/12/15 */
         f_fert = 1.0; /* driven by data */
     }else{
@@ -139,7 +139,7 @@ void cal_spinup(
     if(NMIP_RUN >= 1 && NMIP_RUN <= 12){
         grid->simy = FSY_HIST - 1; /* 1860 */
     }
-    if(NMIP_RUN >= 20 && NMIP_RUN <= 30){
+    if(NMIP_RUN >= 20 && NMIP_RUN <= 32){
         grid->simy = FSY_HIST - 1; /* 1849 */
     }
     if(ISIMIP_RUN == 4){
@@ -272,7 +272,7 @@ void cal_spinup(
             set_hist_clim(grid);
             n_fertilizer_in(grid, loct);
         }
-        if(NMIP_RUN >= 20 && NMIP_RUN <= 30){
+        if(NMIP_RUN >= 20 && NMIP_RUN <= 32){
             grid->climy = 1901;
             grid->niny = FSY_HIST;
             grid->co2y = FSY_HIST;
@@ -355,7 +355,7 @@ void cal_spinup(
 			if((echar->soil).v_type == 1 && (grid->veg_olson==29 || grid->veg_olson==30 ||
 											 grid->veg_olson==31 || grid->veg_olson==32)){
 				(flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0 * f_fert;
-                if(NMIP_RUN >=20 && NMIP_RUN <=30){
+                if(NMIP_RUN >=20 && NMIP_RUN <=32){
                     (mass->soil).n_no3 += loct->n_frtlz_in_noy * 1000.0 * f_fert;
                     (mass->soil).n_nh4 += loct->n_frtlz_in_nh4 * 1000.0 * f_fert;
                 }else{
@@ -452,7 +452,7 @@ void cal_spinup(
             }else{
                 if((echar->soil).v_type == 2){
                     (flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0 * f_fert;
-                    if(NMIP_RUN >=20 && NMIP_RUN <=30){
+                    if(NMIP_RUN >=20 && NMIP_RUN <=32){
                         (mass->soil).n_no3 += loct->n_frtlz_in_noy * 1000.0 * f_fert;
                         (mass->soil).n_nh4 += loct->n_frtlz_in_nh4 * 1000.0 * f_fert;
                     }else{
@@ -684,7 +684,7 @@ void cal_spinup(
             dyr = 1900 - FDY_LUC;
         }
         
-        if(LANDUSE == 49){
+        if(LANDUSE == 49 || LANDUSE == 50){
             dyr = 0;
         }
 		

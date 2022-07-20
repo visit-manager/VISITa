@@ -146,7 +146,8 @@ void f_init_sim(
         
         /* source: http://crga.atmos.uiuc.edu/research/post-sres.html
             M.E.Schlesinger and S.Malyshev			*/
-        if((fpi = fopen("./data/AtmGHG_timeseries.dat","rt"))==NULL){
+        /* if((fpi = fopen("./data/AtmGHG_timeseries.dat","rt"))==NULL){ */
+        if((fpi = fopen("./data/AtmGHG_timeseries_1700-2302.txt","rt"))==NULL){
             printf("No AtmGHG_timeseries.dat\n");
             exit(1);
         }

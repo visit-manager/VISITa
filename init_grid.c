@@ -1215,7 +1215,7 @@ void f_init_grid(
     }else if(LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 30 ||
                 LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 || LANDUSE == 34 ||
                 LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37 || LANDUSE == 47 ||
-                LANDUSE == 48 || LANDUSE == 49){
+                LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50){
         
         /* state */
         fscanf(fp_s[26],"%ld %lf", &ldummy, &dluh2);
@@ -1327,7 +1327,7 @@ void f_init_grid(
             }
         }
         
-        if(LANDUSE == 49){
+        if(LANDUSE == 49 || LANDUSE == 50){
             /* state */
             fscanf(fp_s[28],"%ld %lf", &ldummy, &dluh2);
             if(dluh2 > 0.0){
@@ -1589,7 +1589,8 @@ void f_init_grid(
 
     }else  if(LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 30
             || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 || LANDUSE == 34 ||
-            LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37 || LANDUSE == 49){
+            LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37 || LANDUSE == 49
+            || LANDUSE == 50){
         ;
     }else{
         for(h=0;h<DL_LUC;h++){
@@ -1971,7 +1972,7 @@ void f_init_grid(
         }
         
     }else{
-        if(NMIP_RUN >=20 && NMIP_RUN <=30){
+        if(NMIP_RUN >=20 && NMIP_RUN <=32){
             /* NMIP2 input: 2021/12/15  *************/
             fscanf(fp_s[88],"%ld %ld", &ldummy, &ldummy);
             for(e=0;e<DL_NINPUT;e++){

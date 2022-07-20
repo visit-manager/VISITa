@@ -3331,6 +3331,36 @@ void open_input(
         }
     }
 
+    /* LUH2-GCP2021: 2022/07/19  */
+    if(LANDUSE == 50){
+        /* historical */
+        if( (fp_s[26]=fopen("./data/luh2-gcp2021_state_1700-2021.txt","rt"))==NULL ){
+            printf("No luh2-gcp2021_state_1700-2021.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[26] ++;
+        }
+        if( (fp_s[27]=fopen("./data/luh2-gcp2021_transition_1700-2021.txt","rt"))==NULL ){
+            printf("No luh2-gcp2021_transition_1700-2021.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[27] ++;
+        }
+        /* future */
+        if( (fp_s[28]=fopen("./data/luh2_state_5-05_ssp1rcp26_2016-2100.txt","rt"))==NULL ){
+            printf("No luh2_state_5-05_ssp1rcp26_2016-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[28] ++;
+        }
+        if( (fp_s[29]=fopen("./data/luh2_transition_5-05_ssp1rcp26_2016-2100.txt","rt"))==NULL ){
+            printf("No luh2_transition_5-05_ssp1rcp26_2016-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[29] ++;
+        }
+    }
+
 	/* **************************************************/
 	/* 0: stable */
 	/* 1: gradual rise (SRES A1 or A1B) */
@@ -5099,7 +5129,7 @@ void open_input(
             Flag_FOPEN[88] ++;
         }
     }
-    if(NMIP_RUN>= 20 && NMIP_RUN<=30){
+    if(NMIP_RUN>= 20 && NMIP_RUN<=32){
         /* NMIP2: nitrogen input, 2021/12/15  ************/
         /* if( (fp_s[88]=fopen("./data/NMIP2_ninput.txt","rt"))==NULL ){ */
         /* New 2020 data: 2022/07/17 */
