@@ -1243,7 +1243,7 @@ void f_init_grid(
             /* LUH2 for CMIP6: 2018/12/24  */
             for(h=FDY_LUC;h<(FDY_LUC+DL_LUC);h++){
                 /* fractional cover */
-                if(h < (BGY_FUTURE)){  /* 1866-2015 */ /* 1800-2019 */
+                if(h < (BGY_FUTURE)){  /* 1866-2015 */ /* 1800-2019 */ /* 1700-2021 */
                     fscanf(fp_s[27],"%lf", &grid->t_vs_luh[h-FDY_LUC]); /* primary to secondary */
                     fscanf(fp_s[27],"%lf", &ddummy); /* primary to urban */
                     fscanf(fp_s[27],"%lf", &grid->t_vc_luh[h-FDY_LUC]);
@@ -1327,7 +1327,7 @@ void f_init_grid(
             }
         }
         
-        if(LANDUSE == 49 || LANDUSE == 50){
+        if(LANDUSE == 49){
             /* state */
             fscanf(fp_s[28],"%ld %lf", &ldummy, &dluh2);
             if(dluh2 > 0.0){

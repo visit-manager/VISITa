@@ -51,14 +51,14 @@
 
 /* output text files */
 #define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 0
-#define OUTPUT_ISOTOPE 0
+#define OUTPUT_CARBON2 1
+#define OUTPUT_ISOTOPE 1
 #define OUTPUT_NITROGEN 1
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 0
+#define OUTPUT_EROSION 1
 #define OUTPUT_GHG 1
-#define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
+#define OUTPUT_BB 1
+#define OUTPUT_BVOC 1
 /* output binary */
 #define BASE_GOUT 1
 #define C13_GOUT 0
@@ -110,7 +110,7 @@
 #define DL_BF 91 /* biofuel data length */
 
 /* NMIP: N2O model intercomparison runs */
-#define NMIP_RUN 21
+#define NMIP_RUN 0
 /* 0: off */
 /* 1: climate + CO2 + LCLUC + Ndep + Nfer + manure (S1) */
 /* 2: climate + CO2 + LCLUC + Ndep + Nfer (S2) */
@@ -150,11 +150,12 @@
 /* 32: SH12 irrigation, fertilizer, and manure fixed */
 
 /* GCP-TRENDY: 2022/07/19 */
-#define EX_TRENDY 0
-/* 0: no */
-/* 1: SH1 : CO2 only */
-/* 2: SH2 : CO2 and climate only */
-/* 3: SH3 : CO2, climate and land use */
+#define EX_TRENDY 4
+/* 0: not applicable */
+/* 1: SH0 : no forcing change */
+/* 2: SH1 : CO2 only */
+/* 3: SH2 : CO2 and climate only */
+/* 4: SH3 : CO2, climate and land use */
 
 #if ISIMIP_RUN==4
     /* ISI-MIP2b */
@@ -259,7 +260,7 @@
 #else
     /* #define PD_SIM 201 */
     /* #define PD_SIM 223 */   /* spinup +  1800-2021: 2022/04/19  */
-    #define PD_SIM 321   /* spinup +  1701-2021: 2022/07/19  */
+    #define PD_SIM 322   /* spinup +  1701-2021: 2022/07/21  */
 #endif
 /* for memory preparation; not always actual experimental length */
 
@@ -379,7 +380,7 @@
     #define PD_HIST 321    /* */  /* AD 1701 - 2021 */
 #endif
 
-/* start year (AD) of climate ***/
+/* start year (AD) of climate data ***/
 /* #define BGY_CLIM 1901 */
 /* 1901: CRU */
 /* 1990: control */
@@ -543,10 +544,16 @@
     #define FDY_FUTURE 2006 */
 
     /* LUH2-GCP2019 - CMIP6 data */
-    #define DL_FUTURE 1
+    /* #define DL_FUTURE 1
     #define BGY_FUTURE 2020
     #define ENY_FUTURE 2099
-    #define FDY_FUTURE 2016 /* */
+    #define FDY_FUTURE 2016 */
+
+    /* LUH2-GCP2021 - CMIP6 data */
+    #define DL_FUTURE 1
+    #define BGY_FUTURE 2022
+    #define ENY_FUTURE 2099
+    #define FDY_FUTURE 2022 /* */
 #endif
 /* #define DL_FUTURE 241 */ /* 1860-2100 */
 /* #define FDY_FUTURE 2001 */
@@ -579,7 +586,7 @@
 
 /* *******************************************************/
 /* land use change setting */
-#define LANDUSE 48
+#define LANDUSE 50
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -849,7 +856,7 @@
 
 /* ********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
-#define CH4_WH 0
+#define CH4_WH 1
 /* 0:off, 1:0n */
 #define N_SLAYER 20
 /* number of soil layers */ 

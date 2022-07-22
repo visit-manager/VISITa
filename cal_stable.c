@@ -281,6 +281,16 @@ void cal_spinup(
             n_fertilizer_in(grid, loct);
         }
 		
+        /* for TRENDY: 2022/07/21 */
+        if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH0, SH1, SH2 */
+            grid->climy = nn%20 +1901;
+            grid->niny = FSY_HIST - 1; /* 1700 */
+            grid->co2y = FSY_HIST - 1;
+            grid->lucy = FSY_HIST - 1;
+            set_hist_clim(grid);
+            n_fertilizer_in(grid, loct);
+        }
+
         if((echar->soil).v_type == 2){
             if(EX_NFERT >= 1 || EX_NFERT == 102){
                 /* with new niny */

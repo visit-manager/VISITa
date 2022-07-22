@@ -168,6 +168,8 @@ void f_co2_trend(
             default: break;
         }
         
+    }else if(EX_TRENDY >= 1){
+        base = aco2_1[grid->co2y - FDY_AGHG];
     }else{
         printf("BAD experimental setting!!\n");
     }

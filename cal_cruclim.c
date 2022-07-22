@@ -127,6 +127,19 @@ void cal_historical(
                     ;
                 }
         }
+        
+        /* for TRENDY: 2022/07/21 */
+        if(EX_TRENDY == 1 ){ /* SH0 */
+            grid->co2y = 1901 + g%20;
+        }
+        if(EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH1, SH2, SH3 */
+            if(g < 200){
+                grid->co2y = 1901 + g%20;
+            }else{
+                ;
+            }
+        }
+
         if(grid->co2y < FDY_AGHG){
             grid->co2y = FDY_AGHG;
         }
@@ -207,6 +220,18 @@ void cal_historical(
             grid->climy = 1901; /* 1901 */
         }
         
+        /* for TRENDY: 2022/07/21 */
+        if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3){ /* SH0, SH1, SH2 */
+            grid->lucy = 1700;
+        }
+        if(EX_TRENDY == 4){ /* SH3 */
+            if(g < 200){
+                grid->lucy = 1700;
+            }else{
+                ;
+            }
+        }
+
         /* forced afforestation: 2020/11/09  */
         if((EX_FORCED_AFFOREST_2 >=1 && EX_FORCED_AFFOREST_2 <=12) && grid->lucy == EX_FORCED_AFFOREST_2_YR){
             
@@ -270,6 +295,18 @@ void cal_historical(
         
         if(EXTRA_LU_FIX == 1){
             grid->lucy = 1901; /* */ /* 1901 */
+        }
+        
+        /* for TRENDY: 2022/07/21 */
+        if(EX_TRENDY == 1 || EX_TRENDY == 2){ /* SH0, SH1 */
+            grid->climy = 1901 + g%20;
+        }
+        if(EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH2, SH3 */
+            if(g < 200){
+                grid->climy = 1901 + g%20;
+            }else{
+                ;
+            }
         }
 
         /* climate year modifications ************/
