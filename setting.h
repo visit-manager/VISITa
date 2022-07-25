@@ -173,6 +173,9 @@
 #elif NMIP_RUN>=20
     #define DL_NINPUT 171  /* NMIP2: 2021/12/13  */
     #define FDY_NINY 1850
+#elif EX_TRENDY>=1
+    #define DL_NINPUT 171  /* NMIP2: 2021/12/13  */
+    #define FDY_NINY 1850
 #else
     /* #define DL_NINPUT 156 */
     #define DL_NINPUT 157 /* updated: 2017/10/19  */

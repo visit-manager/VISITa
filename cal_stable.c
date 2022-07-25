@@ -104,6 +104,11 @@ void cal_spinup(
 		grid->f_crop_p = grid->mip_frcrop[0];
 		grid->f_pasture_p = 0.0;
     }
+    if(EX_TRENDY >= 1){
+        grid->niny = 1700;
+		grid->f_crop_p = grid->mip_frcrop[0];
+		grid->f_pasture_p = 0.0;
+    }
     
     if((echar->soil).v_type == 2){
         n_fertilizer_in(grid, loct);
@@ -117,7 +122,7 @@ void cal_spinup(
         /* ISI-MIP2b: 2016/12/24  */
         /* ISIMIP3a: 2020/10/01  */
         f_fert = 1.0; /* driven by data */
-    }else if(NMIP_RUN >= 20 && NMIP_RUN <= 32){
+    }else if((NMIP_RUN >= 20 && NMIP_RUN <= 32) || EX_TRENDY >= 1){
         /* NMIP2: 2021/12/15 */
         f_fert = 1.0; /* driven by data */
     }else{
@@ -141,6 +146,9 @@ void cal_spinup(
     }
     if(NMIP_RUN >= 20 && NMIP_RUN <= 32){
         grid->simy = FSY_HIST - 1; /* 1849 */
+    }
+    if(EX_TRENDY >= 1){
+        grid->simy = FSY_HIST - 1; /* 1700 */
     }
     if(ISIMIP_RUN == 4){
         grid->simy = FSY_HIST - 1; /* 1660 */

@@ -225,8 +225,10 @@ void cal_historical(
             grid->lucy = 1700;
         }
         if(EX_TRENDY == 4){ /* SH3 */
-            if(g < 200){
+            if(g < 0){
                 grid->lucy = 1700;
+            }if(g > DL_LUC){
+                grid->lucy = FDY_LUC + DL_LUC -1;
             }else{
                 ;
             }
@@ -528,7 +530,7 @@ void cal_historical(
             }else{
                 if((echar->soil).v_type == 2){
                     (flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0 * f_fert;
-                     if(NMIP_RUN >= 20 && NMIP_RUN <= 32){
+                     if((NMIP_RUN >= 20 && NMIP_RUN <= 32) || (EX_TRENDY >= 1)){
                         (mass->soil).n_no3 += loct->n_frtlz_in_noy * 1000.0 * f_fert;
                         (mass->soil).n_nh4 += loct->n_frtlz_in_nh4 * 1000.0 * f_fert;
                     }else{

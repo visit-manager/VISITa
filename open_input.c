@@ -5129,7 +5129,7 @@ void open_input(
             Flag_FOPEN[88] ++;
         }
     }
-    if(NMIP_RUN>= 20 && NMIP_RUN<=32){
+    if((NMIP_RUN >= 20 && NMIP_RUN <= 32) || (EX_TRENDY >= 1)){
         /* NMIP2: nitrogen input, 2021/12/15  ************/
         /* if( (fp_s[88]=fopen("./data/NMIP2_ninput.txt","rt"))==NULL ){ */
         /* New 2020 data: 2022/07/17 */

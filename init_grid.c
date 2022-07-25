@@ -1972,20 +1972,21 @@ void f_init_grid(
         }
         
     }else{
-        if(NMIP_RUN >=20 && NMIP_RUN <=32){
+        if((NMIP_RUN >=20 && NMIP_RUN <=32) || (EX_TRENDY >= 1)){
             /* NMIP2 input: 2021/12/15  *************/
+            /* TRENDY: 2022/07/25  *************/
             fscanf(fp_s[88],"%ld %ld", &ldummy, &ldummy);
             for(e=0;e<DL_NINPUT;e++){
                 
-                if(grid->fcrop_luh[e]>0.0 && grid->fcrop_luh[e]<=1.0){
+                if(grid->fcrop_luh[e+(FDY_NINY - FDY_LUC)]>0.0 && grid->fcrop_luh[e+(FDY_NINY - FDY_LUC)]<=1.0){
                     fcropi = 1.0 / grid->fcrop_luh[e];
                     
                     if(fcropi > 1000.0){
                         fcropi = 1000.0;
                     }
-                }else if(grid->fcrop_luh[e] <= 0.0){
+                }else if(grid->fcrop_luh[e+(FDY_NINY - FDY_LUC)] <= 0.0){
                     fcropi = 0.0;
-                }else if(grid->fcrop_luh[e] > 1.0){
+                }else if(grid->fcrop_luh[e+(FDY_NINY - FDY_LUC)] > 1.0){
                     fcropi = 1.0;
                 }else{
                     fcropi = 0.0;
