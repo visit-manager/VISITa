@@ -1979,7 +1979,7 @@ void f_init_grid(
             for(e=0;e<DL_NINPUT;e++){
                 
                 if(grid->fcrop_luh[e+(FDY_NINY - FDY_LUC)]>0.0 && grid->fcrop_luh[e+(FDY_NINY - FDY_LUC)]<=1.0){
-                    fcropi = 1.0 / grid->fcrop_luh[e];
+                    fcropi = 1.0 / grid->fcrop_luh[e +(FDY_NINY - FDY_LUC)];
                     
                     if(fcropi > 1000.0){
                         fcropi = 1000.0;

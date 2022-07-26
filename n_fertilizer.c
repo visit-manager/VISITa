@@ -385,9 +385,6 @@ void n_fertilizer_in(
         nyear = grid->niny;
                 
         loct->n_manure_in = 0.0;
-        if(NMIP_RUN == 20 || NMIP_RUN == 22 || NMIP_RUN == 30 || NMIP_RUN == 31 || NMIP_RUN == 32){
-            nyear = FDY_NINY;
-        }
         if(grid->niny>=FDY_NINY && grid->niny<=2020){
             loct->n_manure_in = grid->mip_manure[nyear - FDY_NINY] * MDN[grid->m] / YDN;
         }else if(grid->niny < FDY_NINY){
