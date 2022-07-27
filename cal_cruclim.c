@@ -130,13 +130,16 @@ void cal_historical(
         
         /* for TRENDY: 2022/07/21 */
         if(EX_TRENDY == 1 ){ /* SH0 */
-            grid->co2y = 1901 + g%20;
+            grid->co2y = FDY_AGHG; /* 1700 */
         }
         if(EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH1, SH2, SH3 */
-            if(g < 200){
-                grid->co2y = 1901 + g%20;
-            }else{
-                ;
+            grid->co2y = grid->simy;
+            
+            if(grid->co2y < FDY_AGHG){
+                grid->co2y = FDY_AGHG;
+            }
+           if(grid->co2y > (FDY_AGHG + DL_AGHG)){
+                grid->co2y = FDY_AGHG + DL_AGHG;
             }
         }
 
@@ -355,7 +358,7 @@ void cal_historical(
         if((echar->soil).v_type == 2){
             /* NMIP input: 2015/11/19 */
             if(NMIP_RUN >= 1 || EX_NFERT >= 1 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5
-                    || ISIMIP_RUN == 6 || EX_NFERT == 102){
+                    || ISIMIP_RUN == 6 || EX_NFERT == 102 || EX_TRENDY >= 1){
                 n_fertilizer_in(grid, loct);
                 f_fert = 1.0; /* driven by data */
             }

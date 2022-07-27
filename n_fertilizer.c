@@ -372,13 +372,13 @@ void n_fertilizer_in(
         /* TRENDY: 2022/07/25  */
         nyear = grid->niny;
         
-        if(grid->niny>=FDY_NINY && grid->niny<=2021){
+        if(grid->niny>=FDY_NINY && grid->niny<=2020){
             loct->n_frtlz_in = grid->mip_nfert[nyear - FDY_NINY] * MDN[grid->m] / YDN;
             loct->n_frtlz_in_nh4 = grid->mip_nfert_nh4[nyear - FDY_NINY] * MDN[grid->m] / YDN;
             loct->n_frtlz_in_noy = grid->mip_nfert_noy[nyear - FDY_NINY] * MDN[grid->m] / YDN;
         }else if(grid->niny < FDY_NINY){
             loct->n_frtlz_in = grid->mip_nfert[0] * MDN[grid->m] / YDN;
-        }else if(grid->niny>2021){
+        }else if(grid->niny>2020){
             loct->n_frtlz_in = grid->mip_nfert[2020 - FDY_NINY] * MDN[grid->m] / YDN;
         }
         
