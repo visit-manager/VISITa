@@ -402,7 +402,7 @@ int main(
                     cal_historical(&grid, &loct, &echar, &mass, &flux, fp_o1);	
 
                     /* future: 2001-2100 */
-                    if(FUTURE_RUN==1){
+                    if(FUTURE_RUN == 1){
                         cal_projection(&grid, &loct, &echar, &mass, &flux, fp_o1);
                     }
                     

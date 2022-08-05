@@ -1603,7 +1603,9 @@ void f_ch4_emit_termite(
         pch4 = 7.8 * (1.8 * 0.000001 * 24.0 * MDN[grid->m]);
     }
     
-    if(grid->tmp_sfc_am < 0.0){
+    /* Temperature-limitation */
+    /* if(grid->tmp_sfc_am < 0.0){ */
+    if(grid->tmp_sfc_mn < -8.0){
         pch4 = 0.0;
     }
     
@@ -1638,19 +1640,19 @@ void f_ch4_emit_termite(
                 break;
             case 9: /* Savanna */
             case 10: /* Grassland/Steppe */
-                pch4 = (5.2+10.6)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                pch4 = (5.2 + 10.6)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 11: /* Dense Shrubland */
-                pch4 = (5.3+8.43)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                pch4 = (5.3 + 8.43)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 12: /* Open Shrubland */
-                pch4 = (5.3+8.43)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                pch4 = (5.3 + 8.43)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 13: /* Tundra */
                 pch4 = 0.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 14: /* Desert */
-                pch4 = (0.96+0.98)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+                pch4 = (0.96 + 0.98)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
                 break;
             case 15: /* Polar Desert/Rock/Ice */
                 pch4 = 0.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
@@ -1661,13 +1663,14 @@ void f_ch4_emit_termite(
     }
     
     if(loct->v_type == 2){
-        pch4 = (5.38+2.25)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
+        pch4 = (5.38 + 2.25)/2.0 * (1.7 * 0.000001 * 24.0 * MDN[grid->m]);
     }
     
     /* if(grid->lat > 45.0  || grid->lat < -45.0){
         pch4 = 0.0;
     } */
-    if(grid->tmp_sfc_am < 0.0){
+    /* if(grid->tmp_sfc_am < 0.0){ */
+    if(grid->tmp_sfc_mn < -8.0){
         pch4 = 0.0;
     }
     
