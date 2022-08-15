@@ -660,6 +660,11 @@ void f_output_result(
 
             fprintf(fp_o[6],"%.3lf ", loct->canopy_con[f]);
             fprintf(fp_o[6],"%.3lf ", loct->ground_con[f]);
+            
+            /* 2022/08/15 */
+            fprintf(fp_o[6],"%.4lf ", loct->c4ptn[f]);
+            fprintf(fp_o[6],"%.4lf ", (echar->c3).eK[f]); /* */
+            fprintf(fp_o[6],"%.4lf ", (echar->c4).eK[f]); /* */
 
            /* 2014/01/22 for WSL output */
             /* 2015/02/18 for WTD check */
