@@ -3332,16 +3332,17 @@ void open_input(
     }
 
     /* LUH2-GCP2021: 2022/07/19  */
+    /* LUH2-GCP2022: 2022/08/18  */
     if(LANDUSE == 50){
         /* historical */
-        if( (fp_s[26]=fopen("./data/luh2-gcp2021_state_1700-2021.txt","rt"))==NULL ){
-            printf("No luh2-gcp2021_state_1700-2021.txt\n");
+        if( (fp_s[26]=fopen("./data/luh2-gcp2022_state_1700-2022.txt","rt"))==NULL ){
+            printf("No luh2-gcp2022_state_1700-2022.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[26] ++;
         }
-        if( (fp_s[27]=fopen("./data/luh2-gcp2021_transition_1700-2021.txt","rt"))==NULL ){
-            printf("No luh2-gcp2021_transition_1700-2021.txt\n");
+        if( (fp_s[27]=fopen("./data/luh2-gcp2022_transition_1700-2022.txt","rt"))==NULL ){
+            printf("No luh2-gcp2022_transition_1700-2022.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[27] ++;

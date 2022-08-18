@@ -52,13 +52,13 @@
 /* output text files */
 #define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
 #define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
+#define OUTPUT_EROSION 0
 #define OUTPUT_GHG 1
 #define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_BVOC 0
 /* output binary */
 #define BASE_GOUT 1
 #define C13_GOUT 0
@@ -554,7 +554,7 @@
 
     /* LUH2-GCP2021 - CMIP6 data */
     #define DL_FUTURE 1
-    #define BGY_FUTURE 2022
+    #define BGY_FUTURE 2023
     #define ENY_FUTURE 2099
     #define FDY_FUTURE 2022 /* */
 #endif
@@ -567,21 +567,21 @@
 /* 0: uncoupled */
 /* 1: coupled */
 /* erosion */
-#define NECB_ERSN 1
+#define NECB_ERSN 0
 /* biomass burning */
 #define NECB_BB 1
 /* bvoc */
-#define NECB_BVOC 1
+#define NECB_BVOC 0
 /* doc */
-#define NECB_DOC 1
+#define NECB_DOC 0
 /* CH4 */
-#define NECB_CH4 1
+#define NECB_CH4 0
 /* Wood harvest: 2010/10/15  */
-#define NECB_WHVST 1
+#define NECB_WHVST 0
 /* land-use change */
 #define NECB_LUC 1
 /* crop harvest */
-#define NECB_CROP 1
+#define NECB_CROP 0
 
 #define EX_FIRE_GFED 0
 /* 0: off, 1: on   2018/05/19  */
@@ -678,7 +678,8 @@
     /* #define DL_LUC 601 */  /* 1500-2005 + 2005-2100 */ /* historical + TELUMO: 2019/02/21  */
     /* #define DL_LUC 235 */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18  */
     /* #define DL_LUC 301 */  /* 1800-2019 + 2020-2100 */ /* from LUH2-GCP2019 - CMIP6: 2022/04/19  */
-    #define DL_LUC 322 /* */  /* 1700-2021 */ /* from LUH2-GCP2021: 2022/07/19  */
+    /* #define DL_LUC 322 */  /* 1700-2021 */ /* from LUH2-GCP2021: 2022/07/19  */
+    #define DL_LUC 323 /* */  /* 1700-2022 */ /* from LUH2-GCP2022: 2022/08/18  */
 #endif
 
 /* begin year of land-use DATA */
@@ -697,7 +698,7 @@
     /* #define FDY_LUC 1866 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21  */
     /* #define FDY_LUC 1500 */ /* historical + TELUMO: 2019/02/21  */
     /* #define FDY_LUC 1800 */ /* 1800-2019 */ /* 2022/04/19  */
-    #define FDY_LUC 1700 /* */ /* 1700-2021 */ /* 2022/07/19  */
+    #define FDY_LUC 1700 /* */ /* 1700-2022 */ /* 2022/08/18  */
 #endif
 
 /* begin year of land-use SIMULATION */
@@ -721,7 +722,7 @@
 #else
     /* #define BGY_LUC 1900 */
     /* #define BGY_LUC 1800 */ /* 2022/04/19 */
-    #define BGY_LUC 1700 /* 2022/07/19 */
+    #define BGY_LUC 1700 /* 2022/07/19, 2022/08/18 */
 #endif
 
 /* Forest management: 2019/10/15  *********/
