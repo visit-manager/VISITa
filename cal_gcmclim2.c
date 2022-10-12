@@ -216,7 +216,7 @@ void cal_projection(
 				if(grid->veg_olson == 29 || grid->veg_olson == 30 ||
 								grid->veg_olson == 31 || grid->veg_olson == 32){
 					(flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
-                    if(NMIP_RUN >=20 && NMIP_RUN <=30){
+                    if(NMIP_RUN >=20 && NMIP_RUN <=32){
                         (mass->soil).n_no3 += loct->n_frtlz_in_noy * 1000.0 * f_fert;
                         (mass->soil).n_nh4 += loct->n_frtlz_in_nh4 * 1000.0 * f_fert;
                     }else{
@@ -230,7 +230,7 @@ void cal_projection(
             
 			if((echar->soil).v_type == 2){
 				(flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
-               if(NMIP_RUN >=20 && NMIP_RUN <=30){
+               if(NMIP_RUN >=20 && NMIP_RUN <=32){
                     (mass->soil).n_no3 += loct->n_frtlz_in_noy * 1000.0 * f_fert;
                     (mass->soil).n_nh4 += loct->n_frtlz_in_nh4 * 1000.0 * f_fert;
                 }else{

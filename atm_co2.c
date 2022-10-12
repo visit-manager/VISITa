@@ -172,6 +172,10 @@ void f_co2_trend(
         printf("BAD experimental setting!!\n");
     }
     
+    if(EX_TRENDY >= 1){
+        base = aco2_1[grid->co2y - FDY_AGHG];
+    }
+    
     /* assuming SRM + CDR : 2014/06/18  */
     if(GEOMIP_RUN == 1 && CC_CD == 3){
         if(grid->co2y > 2020){
@@ -283,4 +287,3 @@ void co2_in_canopy(
 		loct->d13c_aco2[grid->m] = grid->d13c_bco2[grid->m];
 	}
 }
-

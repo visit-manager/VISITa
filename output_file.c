@@ -542,6 +542,8 @@ void f_output_result(
             
             fprintf(fp_o[3],"%.3lf ", flux->termite_ch4_lu[f]);
             fprintf(fp_o[3],"%.3lf ", flux->termite_ch4_gpp[f]);
+            fprintf(fp_o[3],"%.3lf ", flux->termite_dens_lu[f]);
+            fprintf(fp_o[3],"%.3lf ", flux->termite_dens_gpp[f]);
             
             /* for(g=0;g<N_SLAYER+2;g++){
                 fprintf(fp_o[3],"%.3lf ", loct->prof_ch4[g]);
@@ -660,6 +662,11 @@ void f_output_result(
 
             fprintf(fp_o[6],"%.3lf ", loct->canopy_con[f]);
             fprintf(fp_o[6],"%.3lf ", loct->ground_con[f]);
+            
+            /* 2022/08/15 */
+            fprintf(fp_o[6],"%.4lf ", loct->c4ptn[f]);
+            fprintf(fp_o[6],"%.4lf ", (echar->c3).eK[f]); /* */
+            fprintf(fp_o[6],"%.4lf ", (echar->c4).eK[f]); /* */
 
            /* 2014/01/22 for WSL output */
             /* 2015/02/18 for WTD check */

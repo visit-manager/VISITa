@@ -190,8 +190,8 @@ void f_set_history_data(
 		h_ch4_emit_mass[year] += fweight * (flux->plant).emit_ch4_kirschbaum_mass[f] * 1000.0 * grid->area;
 		h_ch4_emit_photo[year] += fweight * (flux->plant).emit_ch4_kirschbaum_photo[f] * 1000.0 * grid->area;
 		h_n2_biofix[year] += fweight * (flux->plant).n_biofix[f] * grid->area;
-		h_n2o_n_emit_ngas[year] += fweight * (flux->soil).d_n2o_ntr_ngas[f] * grid->area;
-		h_n2o_d_emit_ngas[year] += fweight * (flux->soil).d_n2o_dnt_ngas[f] * grid->area;
+		h_n2o_emit_ngas_nitr[year] += fweight * (flux->soil).d_n2o_ntr_ngas[f] * grid->area;
+		h_n2o_emit_ngas_dntr[year] += fweight * (flux->soil).d_n2o_dnt_ngas[f] * grid->area;
 		h_no3_leach[year] += fweight * (flux->soil).n_leach[f] * grid->area;
 		
         h_n_immbl[year] += fweight * ((flux->soil).n_immbl_no3[f]+(flux->soil).n_immbl_nh4[f]) * grid->area;
@@ -298,6 +298,15 @@ void f_set_history_data(
         /* Termite CH4 emission: 2021/10/08  */
         h_termite_ch4_lu[year] += fweight * flux->termite_ch4_lu[f] * grid->area;
         h_termite_ch4_gpp[year] += fweight * flux->termite_ch4_gpp[f] * grid->area;
+        
+        /* N2O emission component: 2022/07/19  */
+        if(loct->v_type == 1){
+            h_n2o_emit_ngas_nitr_nat[year] += fweight * (flux->soil).d_n2o_ntr_ngas[f] * grid->area;
+            h_n2o_emit_ngas_dntr_nat[year] += fweight * (flux->soil).d_n2o_dnt_ngas[f] * grid->area;
+        }else if(loct->v_type == 2){
+            h_n2o_emit_ngas_nitr_agr[year] += fweight * (flux->soil).d_n2o_ntr_ngas[f] * grid->area;
+            h_n2o_emit_ngas_dntr_agr[year] += fweight * (flux->soil).d_n2o_dnt_ngas[f] * grid->area;
+        }
 
 		/* d13c & d14c : added  (2009/07/15) ***************/
 		ci_aco2_d13c[year] = d13c_addition(loct->d13c_aco2[f], loct->aco2[f]*grid->area * wmonth,
@@ -606,8 +615,8 @@ void f_glosum_output(
 		fprintf(fp_glsum,"%lf ", h_luc_3[h]);
 
 		fprintf(fp_glsum,"%lf ", h_gpp_df97[h]);
-		fprintf(fp_glsum,"%lf ", h_n2o_n_emit_ngas[h]);
-		fprintf(fp_glsum,"%lf ", h_n2o_d_emit_ngas[h]);
+		fprintf(fp_glsum,"%lf ", h_n2o_emit_ngas_nitr[h]);
+		fprintf(fp_glsum,"%lf ", h_n2o_emit_ngas_dntr[h]);
 		
 		fprintf(fp_glsum,"%lf ", h_n2o_emit_ngas_agr[h]); /* added  (2009/06/16) */
 		fprintf(fp_glsum,"%lf ", h_n2o_emit_casa_agr[h]);
@@ -708,6 +717,11 @@ void f_glosum_output(
         
         fprintf(fp_glsum,"%lf ", h_termite_ch4_lu[h]); /* 2021/10/08 */
         fprintf(fp_glsum,"%lf ", h_termite_ch4_gpp[h]); /* 2021/10/08 */
+
+        fprintf(fp_glsum,"%lf ", h_n2o_emit_ngas_nitr_nat[h]); /* 2022/07/19 */
+        fprintf(fp_glsum,"%lf ", h_n2o_emit_ngas_nitr_agr[h]); /* 2022/07/19 */
+        fprintf(fp_glsum,"%lf ", h_n2o_emit_ngas_dntr_nat[h]); /* 2022/07/19 */
+        fprintf(fp_glsum,"%lf ", h_n2o_emit_ngas_dntr_agr[h]); /* 2022/07/19 */
 
 		fprintf(fp_glsum,"\n");
 	}

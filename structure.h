@@ -1139,4 +1139,6 @@ struct Flux{
     double  gpp_ann;
     double  termite_ch4_lu[ASTEP];                 /* land-use based */
     double  termite_ch4_gpp[ASTEP];                /* productivity based */
+    double  termite_dens_lu[ASTEP];                 /* land-use based */
+    double  termite_dens_gpp[ASTEP];                /* productivity based */
 };

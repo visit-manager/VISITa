@@ -66,7 +66,7 @@ extern double h_n2o_emit_ngas[PD_SIM], h_n2_emit_ngas[PD_SIM];
 extern double h_n2o_emit_casa[PD_SIM], h_no_emit_casa[PD_SIM], h_n2_emit_casa[PD_SIM];
 extern double h_nh3_emit[PD_SIM], h_n2_biofix[PD_SIM];
 extern double h_ch4_emit_mass[PD_SIM], h_ch4_emit_photo[PD_SIM];
-extern double h_n2o_d_emit_ngas[PD_SIM], h_n2o_n_emit_ngas[PD_SIM];
+extern double h_n2o_emit_ngas_dntr[PD_SIM], h_n2o_emit_ngas_nitr[PD_SIM];
 extern double h_n2o_emit_ngas_agr[PD_SIM], h_n2o_emit_casa_agr[PD_SIM];
 extern double h_nh3_emit_agr[PD_SIM];
 extern double h_no3_leach[PD_SIM];
@@ -90,6 +90,8 @@ extern double h_termite_ch4_lu[PD_SIM], h_termite_ch4_gpp[PD_SIM];
 /* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01  */
 extern double h_gpp_trp[PD_SIM], h_npp_trp[PD_SIM], h_nep_trp[PD_SIM], h_nbp_trp[PD_SIM];
 extern double h_luc_trp[PD_SIM], h_bb_trp[PD_SIM];
+
+extern double h_n2o_emit_ngas_nitr_nat[PD_SIM],h_n2o_emit_ngas_nitr_agr[PD_SIM],h_n2o_emit_ngas_dntr_nat[PD_SIM],h_n2o_emit_ngas_dntr_agr[PD_SIM];
 
 extern double ci_aco2[PD_SIM], ci_aco2_d13c[PD_SIM], ci_aco2_d14c[PD_SIM];
 extern double ci_gpp[PD_SIM], ci_gpp_d13c[PD_SIM], ci_gpp_d14c[PD_SIM];

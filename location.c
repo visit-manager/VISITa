@@ -34,8 +34,12 @@ void f_init_clim(
 	grid->climy = BGY_CLIM;
 	grid->lucy = BGY_CLIM;
  
-    if(LANDUSE == 49){
+    if(LANDUSE == 49 || LANDUSE == 50){
         grid->lucy = BGY_LUC;
+    }
+    
+    if(EX_TRENDY >= 1){
+        grid->niny = FDY_NINY;
     }
 
 	for(h=0;h<ASTEP;h++){
@@ -251,6 +255,7 @@ void f_init_loct(
 	}
 	
 	/* average fertilizer-N input for each county, kg N ha-1 yr-1 */
+    /* printf("NINY: %ld\n", grid->niny); */
 	n_fertilizer_in(grid, loct);
     
     /* empirical NPP and meta-analysis-based optimal LAI */

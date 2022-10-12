@@ -99,11 +99,10 @@ double h_ch4emit_wetland_wh_ebbl[PD_SIM], h_ch4emit_wetland_wh_release[PD_SIM];
 
 double h_n2o_emit_ngas[PD_SIM], h_n2_emit_ngas[PD_SIM];
 double h_n2o_emit_casa[PD_SIM], h_no_emit_casa[PD_SIM], h_n2_emit_casa[PD_SIM];
-double h_nh3_emit[PD_SIM], h_n2_biofix[PD_SIM];
+double h_nh3_emit[PD_SIM], h_nh3_emit_agr[PD_SIM], h_n2_biofix[PD_SIM];
 double h_ch4_emit_mass[PD_SIM], h_ch4_emit_photo[PD_SIM];
-double h_n2o_d_emit_ngas[PD_SIM], h_n2o_n_emit_ngas[PD_SIM];
+double h_n2o_emit_ngas_dntr[PD_SIM], h_n2o_emit_ngas_nitr[PD_SIM];
 double h_n2o_emit_ngas_agr[PD_SIM], h_n2o_emit_casa_agr[PD_SIM];
-double h_nh3_emit_agr[PD_SIM];
 double h_no3_leach[PD_SIM];
 double h_n_fertin[PD_SIM], h_n_manurein[PD_SIM], h_n_depoin[PD_SIM]; /* added  (2010/05/02) */
 double h_n_mcrb[PD_SIM], h_n_no3[PD_SIM],h_n_nh4[PD_SIM]; /* 2016/06/23  */
@@ -117,6 +116,9 @@ double h_voc_formacd_g97[PD_SIM], h_voc_acetacd_g97[PD_SIM], h_voc_co_g97[PD_SIM
 double h_voc_afarnesene[PD_SIM], h_voc_bcaryophyllene[PD_SIM], h_voc_othersesqui[PD_SIM];
 
 double h_hvst_wood[PD_SIM], h_wetarea[PD_SIM], h_deforest[PD_SIM];
+
+/* N2O components: 2022/07/19 */
+double h_n2o_emit_ngas_nitr_nat[PD_SIM],h_n2o_emit_ngas_nitr_agr[PD_SIM],h_n2o_emit_ngas_dntr_nat[PD_SIM],h_n2o_emit_ngas_dntr_agr[PD_SIM];
 
 /* Tropical-Extratropical (Schimel et al. 2015): 2019/03/01  */
 double h_gpp_trp[PD_SIM], h_npp_trp[PD_SIM], h_nep_trp[PD_SIM], h_nbp_trp[PD_SIM];

@@ -127,6 +127,22 @@ void cal_historical(
                     ;
                 }
         }
+        
+        /* for TRENDY: 2022/07/21 */
+        if(EX_TRENDY == 1 ){ /* SH0 */
+            grid->co2y = FDY_AGHG; /* 1700 */
+        }
+        if(EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH1, SH2, SH3 */
+            grid->co2y = grid->simy;
+            
+            if(grid->co2y < FDY_AGHG){
+                grid->co2y = FDY_AGHG;
+            }
+           if(grid->co2y > (FDY_AGHG + DL_AGHG)){
+                grid->co2y = FDY_AGHG + DL_AGHG;
+            }
+        }
+
         if(grid->co2y < FDY_AGHG){
             grid->co2y = FDY_AGHG;
         }
@@ -185,6 +201,15 @@ void cal_historical(
             grid->co2y = FSY_HIST;
             grid->niny = FSY_HIST;
             grid->lucy = FSY_HIST;
+        }else if(NMIP_RUN == 31){
+            if(g < 50){
+                grid->climy = 1901 + g%20; /* */ /* 1850 */
+            }
+            grid->lucy = FSY_HIST;
+        }else if(NMIP_RUN == 32){
+            if(g < 50){
+                grid->climy = 1901 + g%20; /* */ /* 1850 */
+            }
         }
         
         /* sensitivity run: 2017/06/24  */
@@ -198,6 +223,20 @@ void cal_historical(
             grid->climy = 1901; /* 1901 */
         }
         
+        /* for TRENDY: 2022/07/21 */
+        if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3){ /* SH0, SH1, SH2 */
+            grid->lucy = 1700;
+        }
+        if(EX_TRENDY == 4){ /* SH3 */
+            if(g < 0){
+                grid->lucy = 1700;
+            }if(g > DL_LUC){
+                grid->lucy = FDY_LUC + DL_LUC -1;
+            }else{
+                ;
+            }
+        }
+
         /* forced afforestation: 2020/11/09  */
         if((EX_FORCED_AFFOREST_2 >=1 && EX_FORCED_AFFOREST_2 <=12) && grid->lucy == EX_FORCED_AFFOREST_2_YR){
             
@@ -262,6 +301,18 @@ void cal_historical(
         if(EXTRA_LU_FIX == 1){
             grid->lucy = 1901; /* */ /* 1901 */
         }
+        
+        /* for TRENDY: 2022/07/21 */
+        if(EX_TRENDY == 1 || EX_TRENDY == 2){ /* SH0, SH1 */
+            grid->climy = 1901 + g%20;
+        }
+        if(EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH2, SH3 */
+            if(g < 200){
+                grid->climy = 1901 + g%20;
+            }else{
+                ;
+            }
+        }
 
         /* climate year modifications ************/
         if(grid->simy < BGY_CLIM){
@@ -307,7 +358,7 @@ void cal_historical(
         if((echar->soil).v_type == 2){
             /* NMIP input: 2015/11/19 */
             if(NMIP_RUN >= 1 || EX_NFERT >= 1 || ISIMIP_RUN == 4 || ISIMIP_RUN == 5
-                    || ISIMIP_RUN == 6 || EX_NFERT == 102){
+                    || ISIMIP_RUN == 6 || EX_NFERT == 102 || EX_TRENDY >= 1){
                 n_fertilizer_in(grid, loct);
                 f_fert = 1.0; /* driven by data */
             }
@@ -373,7 +424,7 @@ void cal_historical(
 			   if(grid->veg_olson == 29 || grid->veg_olson == 30 ||
                                     grid->veg_olson == 31 || grid->veg_olson == 32){
 				   (flux->soil).n_fertin[f] = loct->n_frtlz_in * 1000.0 * f_fert;
-                    if(NMIP_RUN >=20 && NMIP_RUN <=30){
+                    if(NMIP_RUN >=20 && NMIP_RUN <=32){
                         (mass->soil).n_no3 += loct->n_frtlz_in_noy * 1000.0 * f_fert;
                         (mass->soil).n_nh4 += loct->n_frtlz_in_nh4 * 1000.0 * f_fert;
                     }else{
@@ -482,7 +533,7 @@ void cal_historical(
             }else{
                 if((echar->soil).v_type == 2){
                     (flux->soil).n_fertin[grid->m] = loct->n_frtlz_in * 1000.0 * f_fert;
-                     if(NMIP_RUN >= 20 && NMIP_RUN <= 30){
+                     if((NMIP_RUN >= 20 && NMIP_RUN <= 32) || (EX_TRENDY >= 1)){
                         (mass->soil).n_no3 += loct->n_frtlz_in_noy * 1000.0 * f_fert;
                         (mass->soil).n_nh4 += loct->n_frtlz_in_nh4 * 1000.0 * f_fert;
                     }else{
@@ -830,7 +881,7 @@ void cal_historical(
 			}
 
             /* assumption for the period later than 2016: A.Ito (2019/02/11) */
-            if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 49) &&
+            if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 49 || LANDUSE == 50) &&
                     grid->lucy > (FDY_LUC+DL_LUC-1)){
                 dyr = (DL_LUC - 1);
             }

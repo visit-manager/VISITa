@@ -261,7 +261,7 @@ void open_input(
         }else if(DL_HCLIM == 121){
             /* UEA-CRU data from 1901 - 2020: 2021/03/25 (A.Ito) */
             /* if( (fp_c[0]=fopen("./data/cru406_cld_1901-2021.txt","rt"))==NULL ){ */
-            if( (fp_c[0]=fopen("./data/cru406_cld_1901-2021.txt","rt"))==NULL ){
+            if( (fp_c[0]=fopen("./data/cru40601_cld_1901-2021.txt","rt"))==NULL ){
                 printf("No cru40601_cld_1901-2021.txt\n");
                 exit(1);
             }
@@ -3331,6 +3331,37 @@ void open_input(
         }
     }
 
+    /* LUH2-GCP2021: 2022/07/19  */
+    /* LUH2-GCP2022: 2022/08/18  */
+    if(LANDUSE == 50){
+        /* historical */
+        if( (fp_s[26]=fopen("./data/luh2-gcp2022_state_1700-2022.txt","rt"))==NULL ){
+            printf("No luh2-gcp2022_state_1700-2022.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[26] ++;
+        }
+        if( (fp_s[27]=fopen("./data/luh2-gcp2022_transition_1700-2022.txt","rt"))==NULL ){
+            printf("No luh2-gcp2022_transition_1700-2022.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[27] ++;
+        }
+        /* future */
+        if( (fp_s[28]=fopen("./data/luh2_state_5-05_ssp1rcp26_2016-2100.txt","rt"))==NULL ){
+            printf("No luh2_state_5-05_ssp1rcp26_2016-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[28] ++;
+        }
+        if( (fp_s[29]=fopen("./data/luh2_transition_5-05_ssp1rcp26_2016-2100.txt","rt"))==NULL ){
+            printf("No luh2_transition_5-05_ssp1rcp26_2016-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[29] ++;
+        }
+    }
+
 	/* **************************************************/
 	/* 0: stable */
 	/* 1: gradual rise (SRES A1 or A1B) */
@@ -5099,11 +5130,13 @@ void open_input(
             Flag_FOPEN[88] ++;
         }
     }
-    if(NMIP_RUN>= 20 && NMIP_RUN<=30){
+    if((NMIP_RUN >= 20 && NMIP_RUN <= 32) || (EX_TRENDY >= 1)){
         /* NMIP2: nitrogen input, 2021/12/15  ************/
-        if( (fp_s[88]=fopen("./data/NMIP2_ninput.txt","rt"))==NULL ){
+        /* if( (fp_s[88]=fopen("./data/NMIP2_ninput.txt","rt"))==NULL ){ */
+        /* New 2020 data: 2022/07/17 */
+        if( (fp_s[88]=fopen("./data/NMIP2_ninput_new2020.txt","rt"))==NULL ){
             /* printf("No NMIP2_ninput.txt\n"); */
-            printf("No NMIP2_ninput.txt\n"); /* updated: 2017/10/17  */
+            printf("No NMIP2_ninput_new2020.txt\n"); /* updated: 2017/10/17  */
             exit(1);
         }else{
             Flag_FOPEN[88] ++;

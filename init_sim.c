@@ -146,7 +146,8 @@ void f_init_sim(
         
         /* source: http://crga.atmos.uiuc.edu/research/post-sres.html
             M.E.Schlesinger and S.Malyshev			*/
-        if((fpi = fopen("./data/AtmGHG_timeseries.dat","rt"))==NULL){
+        /* if((fpi = fopen("./data/AtmGHG_timeseries.dat","rt"))==NULL){ */
+        if((fpi = fopen("./data/AtmGHG_timeseries_1700-2302.txt","rt"))==NULL){
             printf("No AtmGHG_timeseries.dat\n");
             exit(1);
         }
@@ -316,7 +317,7 @@ void f_init_sim(
 		h_n2o_emit_casa[f] = h_no_emit_casa[f] = h_n2_emit_casa[f] = 0.0;
 		h_nh3_emit[f] = h_n2_biofix[f] = 0.0;
 		h_ch4_emit_mass[f] = h_ch4_emit_photo[f] = 0.0;
-		h_n2o_d_emit_ngas[f] = h_n2o_n_emit_ngas[f] = 0.0;
+		h_n2o_emit_ngas_dntr[f] = h_n2o_emit_ngas_nitr[f] = 0.0;
 		h_n2o_emit_ngas_agr[f] = h_n2o_emit_casa_agr[f] = 0.0;
 		h_nh3_emit_agr[f] = 0.0;
 		h_no3_leach[f] = 0.0;
@@ -338,6 +339,9 @@ void f_init_sim(
   
         h_ans1[f] = h_ans2[f] = h_ans3[f] = h_ans4[f] = h_ans5[f] = 0.0;
         h_termite_ch4_lu[f] = h_termite_ch4_gpp[f] = 0.0;
+        
+        h_n2o_emit_ngas_nitr_nat[f] = h_n2o_emit_ngas_nitr_agr[f] = 0.0;
+        h_n2o_emit_ngas_dntr_nat[f] = h_n2o_emit_ngas_dntr_agr[f] = 0.0;
         
 		ci_aco2[f] = ci_aco2_d13c[f] = ci_aco2_d14c[f] = 0.0;
 		ci_gpp[f] = ci_gpp_d13c[f] = ci_gpp_d14c[f] = 0.0;

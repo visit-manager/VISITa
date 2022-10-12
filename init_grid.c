@@ -1215,7 +1215,7 @@ void f_init_grid(
     }else if(LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 30 ||
                 LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 || LANDUSE == 34 ||
                 LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37 || LANDUSE == 47 ||
-                LANDUSE == 48 || LANDUSE == 49){
+                LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50){
         
         /* state */
         fscanf(fp_s[26],"%ld %lf", &ldummy, &dluh2);
@@ -1243,7 +1243,7 @@ void f_init_grid(
             /* LUH2 for CMIP6: 2018/12/24  */
             for(h=FDY_LUC;h<(FDY_LUC+DL_LUC);h++){
                 /* fractional cover */
-                if(h < (BGY_FUTURE)){  /* 1866-2015 */ /* 1800-2019 */
+                if(h < (BGY_FUTURE)){  /* 1866-2015 */ /* 1800-2019 */ /* 1700-2021 */ /* 1700-2022 */
                     fscanf(fp_s[27],"%lf", &grid->t_vs_luh[h-FDY_LUC]); /* primary to secondary */
                     fscanf(fp_s[27],"%lf", &ddummy); /* primary to urban */
                     fscanf(fp_s[27],"%lf", &grid->t_vc_luh[h-FDY_LUC]);
@@ -1589,7 +1589,8 @@ void f_init_grid(
 
     }else  if(LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 30
             || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 || LANDUSE == 34 ||
-            LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37 || LANDUSE == 49){
+            LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37 || LANDUSE == 49
+            || LANDUSE == 50){
         ;
     }else{
         for(h=0;h<DL_LUC;h++){
@@ -1971,20 +1972,21 @@ void f_init_grid(
         }
         
     }else{
-        if(NMIP_RUN >=20 && NMIP_RUN <=30){
+        if((NMIP_RUN >=20 && NMIP_RUN <=32) || (EX_TRENDY >= 1)){
             /* NMIP2 input: 2021/12/15  *************/
+            /* TRENDY: 2022/07/25  *************/
             fscanf(fp_s[88],"%ld %ld", &ldummy, &ldummy);
             for(e=0;e<DL_NINPUT;e++){
                 
-                if(grid->fcrop_luh[e]>0.0 && grid->fcrop_luh[e]<=1.0){
-                    fcropi = 1.0 / grid->fcrop_luh[e];
+                if(grid->fcrop_luh[e+(FDY_NINY - FDY_LUC)]>0.0 && grid->fcrop_luh[e+(FDY_NINY - FDY_LUC)]<=1.0){
+                    fcropi = 1.0 / grid->fcrop_luh[e +(FDY_NINY - FDY_LUC)];
                     
                     if(fcropi > 1000.0){
                         fcropi = 1000.0;
                     }
-                }else if(grid->fcrop_luh[e] <= 0.0){
+                }else if(grid->fcrop_luh[e+(FDY_NINY - FDY_LUC)] <= 0.0){
                     fcropi = 0.0;
-                }else if(grid->fcrop_luh[e] > 1.0){
+                }else if(grid->fcrop_luh[e+(FDY_NINY - FDY_LUC)] > 1.0){
                     fcropi = 1.0;
                 }else{
                     fcropi = 0.0;

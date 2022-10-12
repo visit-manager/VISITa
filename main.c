@@ -249,20 +249,14 @@ int main(
 	/* initialize simulation configuration **/
 	/* vegetation type: olson */
 	loct.v_type = 1;
-	(echar.c3).v_type = (echar.c4).v_type = 1;
-	(echar.soil).v_type = 1;
-	(mass.c3).v_type = (mass.c4).v_type = 1;
-	(mass.soil).v_type = 1;
-	(flux.c3).v_type = (flux.c4).v_type = 1;
-	(flux.soil).v_type = 1;
+	(echar.c3).v_type = (echar.c4).v_type = (echar.soil).v_type = 1;
+	(mass.c3).v_type = (mass.c4).v_type = (mass.soil).v_type = 1;
+	(flux.c3).v_type = (flux.c4).v_type = (flux.soil).v_type = 1;
 	/* vegetation type: cropland */
 	loct_agr.v_type = 2;
-	(echar_agr.c3).v_type = (echar_agr.c4).v_type = 2;
-	(echar_agr.soil).v_type = 2;
-	(mass_agr.c3).v_type = (mass_agr.c4).v_type = 2;
-	(mass_agr.soil).v_type = 2;
-	(flux_agr.c3).v_type = (flux_agr.c4).v_type = 2;
-	(flux_agr.soil).v_type = 2;
+	(echar_agr.c3).v_type = (echar_agr.c4).v_type = (echar_agr.soil).v_type = 2;
+	(mass_agr.c3).v_type = (mass_agr.c4).v_type = (mass_agr.soil).v_type = 2;
+	(flux_agr.c3).v_type = (flux_agr.c4).v_type = (flux_agr.soil).v_type = 2;
 	
     /* initilization of simulation */
 	f_init_sim(&grid);
@@ -408,7 +402,7 @@ int main(
                     cal_historical(&grid, &loct, &echar, &mass, &flux, fp_o1);	
 
                     /* future: 2001-2100 */
-                    if(FUTURE_RUN==1){
+                    if(FUTURE_RUN == 1){
                         cal_projection(&grid, &loct, &echar, &mass, &flux, fp_o1);
                     }
                     
@@ -493,7 +487,7 @@ int main(
         }
 	}
 	for(h=0;h<IFILEN;h++){
-		if(Flag_FOPEN[h]>=1){
+		if(Flag_FOPEN[h] >= 1){
             fclose(fp_s[h]);
         }
 	}

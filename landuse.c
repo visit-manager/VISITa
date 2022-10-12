@@ -124,7 +124,7 @@ void f_cult_luc(
         || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28
         || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
         || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
-        || LANDUSE == 48 || LANDUSE == 49){
+        || LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50){
 		/* UNH harmonized land-use change, 1500-2100 (added 2013/12/20) */
         if(grid->lucy < FDY_LUC){
             grid->f_crop_con = grid->fcrop_luh[0];
@@ -373,7 +373,7 @@ void f_cult_luc(
                  || LANDUSE==26 || LANDUSE==27 || LANDUSE==28 || LANDUSE == 30
                  || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
                  || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
-                 || LANDUSE == 48 || LANDUSE == 49){
+                 || LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50){
             grid->f_deforest = grid->t_vc_luh[BGY_LUC - FDY_LUC]
                                 + grid->t_vp_luh[BGY_LUC - FDY_LUC]
                                 + grid->t_sc_luh[BGY_LUC - FDY_LUC]
@@ -468,7 +468,7 @@ void f_cult_luc(
              || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 30
              || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
              || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
-             || LANDUSE == 48 || LANDUSE == 49){
+             || LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50){
              
             if(grid->lucy < FDY_LUC){
                     grid->f_deforest = grid->t_vc_luh[0]
@@ -607,7 +607,7 @@ void f_cult_luc(
     if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
         grid->f_deforest = 0.0;
     }
-    if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30){
+    if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30 || NMIP_RUN == 31){
         grid->f_deforest = 0.0;
     }
 
@@ -706,7 +706,7 @@ void f_cult_luc(
             || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 29
             || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
             || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
-            || LANDUSE == 48 || LANDUSE == 49){
+            || LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50){
         
         if((grid->lucy - FDY_LUC) < DL_LUC){
             if(grid->f_paddy_b > 0.0 && grid->fcrop_luh[2000 - FDY_LUC] > 0.0){
@@ -724,7 +724,7 @@ void f_cult_luc(
             }
         }
         
-        if(NMIP_RUN == 25){
+        if(NMIP_RUN == 25 || NMIP_RUN == 31 || NMIP_RUN == 32){
             grid->f_paddy = 0.0;
         }
         
@@ -837,7 +837,7 @@ void f_luc_emit(
                 || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 29
                 || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
                 || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
-                || LANDUSE == 48 || LANDUSE == 49){
+                || LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50){
             /* revised (after comments by E.Kato): 2013/10/02  */
 			fluc_1 = (grid->t_vc_luh[BGY_LUC - FDY_LUC] + grid->t_vp_luh[BGY_LUC - FDY_LUC])
 				+ (grid->t_sc_luh[BGY_LUC - FDY_LUC] + grid->t_sp_luh[BGY_LUC - FDY_LUC])
@@ -860,7 +860,7 @@ void f_luc_emit(
         if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
             fluc_1 = 0.0;
         }
-        if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30){
+        if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30 || NMIP_RUN == 31){
             fluc_1 = 0.0;
         }
 
@@ -884,7 +884,7 @@ void f_luc_emit(
                     || LANDUSE==26 || LANDUSE==27 || LANDUSE==28 || LANDUSE == 29
                     || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
                     || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
-                    || LANDUSE == 48 || LANDUSE == 49){
+                    || LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50){
 				fluc_10 = (grid->t_vc_luh[f - FDY_LUC] + grid->t_vp_luh[f - FDY_LUC])
 						+ (grid->t_sc_luh[f - FDY_LUC] + grid->t_sp_luh[f - FDY_LUC]) * f_mass_secfor;
 				/* 0.5: assumption  for secondary forest stock */
@@ -906,7 +906,7 @@ void f_luc_emit(
             if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
                 fluc_10 = 0.0;
             }
-            if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30){
+            if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30 || NMIP_RUN == 31){
                 fluc_10 = 0.0;
             }
 
@@ -934,7 +934,7 @@ void f_luc_emit(
                     || LANDUSE==26 || LANDUSE==27 || LANDUSE==28 || LANDUSE == 29
                     || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
                     || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
-                    || LANDUSE == 48 || LANDUSE == 49){
+                    || LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50){
 				fluc_100 = (grid->t_vc_luh[f - FDY_LUC] + grid->t_vp_luh[f - FDY_LUC])
 						+ (grid->t_sc_luh[f - FDY_LUC] + grid->t_sp_luh[f - FDY_LUC])*f_mass_secfor;
 			}else if(LANDUSE == 7){
@@ -955,7 +955,7 @@ void f_luc_emit(
             if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
                 fluc_100 = 0.0;
             }
-            if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30){
+            if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30 || NMIP_RUN == 31){
                 fluc_100 = 0.0;
             }
 
@@ -1004,7 +1004,7 @@ void f_luc_emit(
                 || LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 29
                 || LANDUSE == 30 || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33
                 || LANDUSE == 34 || LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37
-                || LANDUSE == 48 || LANDUSE == 49){
+                || LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50){
 			/* assumption: biomass in secondary forest is lower (0.1) than primary forest */
 			fluc_1 = grid->f_deforest_v + grid->f_deforest_s * f_mass_secfor;
 		}else if(LANDUSE == 7){
@@ -1024,7 +1024,7 @@ void f_luc_emit(
         if(NMIP_RUN == 5 || NMIP_RUN == 6 || NMIP_RUN == 7){
             fluc_1 = 0.0;
         }
-        if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30){
+        if(NMIP_RUN == 20 || NMIP_RUN == 26 || NMIP_RUN == 29 || NMIP_RUN == 30 || NMIP_RUN == 31){
             fluc_1 = 0.0;
         }
         
@@ -1059,7 +1059,6 @@ void f_luc_emit(
             flux->lu_rot = fluc_1 * 0.8 * (mass->plant).rot * fe_conv/(fe_conv + fe_ten + fe_hund);
             flux->lu_ltr = fluc_1 * 0.2 * (mass->plant).rot;
             flux->lu_msl = 0.0;
-   
 		}else{
 			flux->lu_detr = 0.0;
 			flux->lu_conv = 0.0;
