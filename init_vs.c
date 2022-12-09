@@ -1,12 +1,12 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
-/* Revised August 15, 2007 by A.Ito */
-/* Revised August 19, 2007 by A.Ito */
+/* Revised August 15, 2007  */
+/* Revised August 19, 2007  */
 
 /* initialize environmental characteristics of each grid */
 #include<stdio.h>
@@ -57,7 +57,7 @@ void initVS(
 		grid->whc*=1.1; */
 	}
     
-    /* albedo perturbation: 2012/12/29 by A.Ito ********/
+    /* albedo perturbation: 2012/12/29  ********/
     if(EX_ALBEDO == 1){
         p_scale = 0.0;
         for(f=0;f<12;f++){
@@ -95,7 +95,7 @@ void initVS(
 		(echar->soil).kmsh *= 0.7;
 	}
 	
-	/* parameter perturbation: 2010/05/10 added by A.Ito */
+	/* parameter perturbation: 2010/05/10 added  */
 	p_scale = 0.06667;
     if(PARAM_PTB == 1){
         /**/
@@ -136,7 +136,7 @@ void initVS(
         (echar->soil).rh0 *= 1.0 + p_scale*f_pert[10];
     }
     
-    /* parameter ensemble: 2014/11/19 by A.Ito */
+    /* parameter ensemble: 2014/11/19  */
     if(PARAM_PTB == 2){
         p_scale = 0.1;
         /**/

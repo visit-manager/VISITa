@@ -1,14 +1,14 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
 
-/* Revised August 15, 2007 by A.Ito */
-/* Revised August 19, 2007 by A.Ito */
-/* Revised July 1, 2008 by A.Ito */
-/* Separated February 17, 2009 by A.Ito */
+/* Revised August 15, 2007  */
+/* Revised August 19, 2007  */
+/* Revised July 1, 2008  */
+/* Separated February 17, 2009  */
 
 /* initialize environmental characteristics of each grid */
 #include<stdio.h>
@@ -52,7 +52,7 @@ void f_init_sim(
 	/**********************************************/
     /* albedo perturbation */
     if(EX_ALBEDO >= 1){
-        /* CMIP5: by A.Ito */
+        /* CMIP5:  */
         fpi = fopen("./data/albedo_cmip_5deg_2.flt","rb");
         
         for(f=0;f<12;f++){
@@ -146,7 +146,8 @@ void f_init_sim(
         
         /* source: http://crga.atmos.uiuc.edu/research/post-sres.html
             M.E.Schlesinger and S.Malyshev			*/
-        if((fpi = fopen("./data/AtmGHG_timeseries.dat","rt"))==NULL){
+        /* if((fpi = fopen("./data/AtmGHG_timeseries.dat","rt"))==NULL){ */
+        if((fpi = fopen("./data/AtmGHG_timeseries_1700-2302.txt","rt"))==NULL){
             printf("No AtmGHG_timeseries.dat\n");
             exit(1);
         }
@@ -265,7 +266,7 @@ void f_init_sim(
         fclose(fpi);
     }
     
-    /* Atmospheric d13C, D14C by Graven: 2019/1/17 by A.Ito */
+    /* Atmospheric d13C, D14C by Graven: 2019/1/17  */
     if((fpi = fopen("./data/d1314_air_graven.txt","rt"))==NULL){
         printf("No d1314_air_graven.txt\n");
         exit(1);
@@ -290,7 +291,7 @@ void f_init_sim(
 		h_trnsp[f] = h_incepev[f] = h_ssurfev[f] = 0.0;
 		h_nbp[f] = h_net_crop[f] = h_hvst_crop[f] = h_abgm[f] = 0.0;
 		h_sw1[f] = h_sw2[f] = 0.0;
-        h_rns[f] = h_rnl[f] = 0.0; /* added by A.Ito (2013/01/02) */
+        h_rns[f] = h_rnl[f] = 0.0; /* added  (2013/01/02) */
 		h_dswd[f] = h_rnsd[f] = h_cld[f] = h_apar[f] = h_ipar[f] = 0.0;
         h_parb[f] = h_pard[f] = 0.0;
         h_arm[f] = h_bco2[f] = 0.0;
@@ -316,12 +317,12 @@ void f_init_sim(
 		h_n2o_emit_casa[f] = h_no_emit_casa[f] = h_n2_emit_casa[f] = 0.0;
 		h_nh3_emit[f] = h_n2_biofix[f] = 0.0;
 		h_ch4_emit_mass[f] = h_ch4_emit_photo[f] = 0.0;
-		h_n2o_d_emit_ngas[f] = h_n2o_n_emit_ngas[f] = 0.0;
+		h_n2o_emit_ngas_dntr[f] = h_n2o_emit_ngas_nitr[f] = 0.0;
 		h_n2o_emit_ngas_agr[f] = h_n2o_emit_casa_agr[f] = 0.0;
 		h_nh3_emit_agr[f] = 0.0;
 		h_no3_leach[f] = 0.0;
 		h_n_fertin[f] = h_n_manurein[f] = h_n_depoin[f] = 0.0;
-        h_n_mcrb[f] = h_n_no3[f] = h_n_nh4[f] = 0.0; /* 2016/06/23 by A.Ito */
+        h_n_mcrb[f] = h_n_no3[f] = h_n_nh4[f] = 0.0; /* 2016/06/23  */
         h_n_cnpy[f] = h_n_strg[f] = h_n_lttr[f] = h_n_hums[f] = 0.0;
         
         h_n_immbl[f] = h_n_lmnrl[f] = h_n_hmnrl[f] = 0.0;
@@ -338,6 +339,9 @@ void f_init_sim(
   
         h_ans1[f] = h_ans2[f] = h_ans3[f] = h_ans4[f] = h_ans5[f] = 0.0;
         h_termite_ch4_lu[f] = h_termite_ch4_gpp[f] = 0.0;
+        
+        h_n2o_emit_ngas_nitr_nat[f] = h_n2o_emit_ngas_nitr_agr[f] = 0.0;
+        h_n2o_emit_ngas_dntr_nat[f] = h_n2o_emit_ngas_dntr_agr[f] = 0.0;
         
 		ci_aco2[f] = ci_aco2_d13c[f] = ci_aco2_d14c[f] = 0.0;
 		ci_gpp[f] = ci_gpp_d13c[f] = ci_gpp_d14c[f] = 0.0;

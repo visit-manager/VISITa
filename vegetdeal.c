@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulator for Trace gases				*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -218,7 +218,7 @@ void f_after_deal(
 	mass->d13c_mstm[grid->m] = mass->d13c_stm;
 	mass->d13c_mrot[grid->m] = mass->d13c_rot;
 	
-	/* d14C: added by A.Ito (2009/06/27) *****************************************/
+	/* d14C: added  (2009/06/27) *****************************************/
 	/* assumption: double discrimination */
 	in_d14c = grid->d14c_bco2[grid->m] - 2.0*pchar->photo_13c_frac[grid->m];
 	
@@ -534,7 +534,9 @@ void set_gcm_index(
 		case 1000:	strcpy(s_case,"MHA11_"); break;
 		case 1001:	strcpy(s_case,"MHB11_"); break;
 
-		case 1010:	strcpy(s_case,"MMA11_"); break;
+		/* case 1010:	strcpy(s_case,"MMA11_"); break; */
+		case 1010:	strcpy(s_case,"TEST_"); break;
+  
 		case 1011:	strcpy(s_case,"MMA12_"); break;
 		case 1012:	strcpy(s_case,"MMA13_"); break;
 		case 1013:	strcpy(s_case,"MMA21_"); break;
@@ -668,7 +670,7 @@ void set_gcm_index(
 		case 1252:	strcpy(s_case,"GSRA21_"); break;
 		case 1253:	strcpy(s_case,"GSRB11_"); break;
 		
-		/*  corrected 2009/04/07 by A.Ito  */
+		/*  corrected 2009/04/07   */
 		case 1260:	strcpy(s_case,"NPA11_"); break;
 		case 1261:	strcpy(s_case,"NPA12_"); break;
 		case 1262:	strcpy(s_case,"NPA13_"); break;
@@ -678,7 +680,7 @@ void set_gcm_index(
 		case 1266:	strcpy(s_case,"NPA23_"); break;
 		case 1267:	strcpy(s_case,"NPA24_"); break;
 
-		case 1270:	strcpy(s_case,"CS35A11_"); break;	/* added 2009/04/09 by A.Ito */
+		case 1270:	strcpy(s_case,"CS35A11_"); break;	/* added 2009/04/09  */
 		case 1271:	strcpy(s_case,"CS35A21_"); break;
 		case 1272:	strcpy(s_case,"CS35B11_"); break;
 
@@ -727,7 +729,7 @@ void set_gcm_index(
 		case 2047:	strcpy(s_case,"ISIN45N_"); break;
 		case 2048:	strcpy(s_case,"ISIN60N_"); break;
         
-        /* ICARUS: 2016/08/15 by A.Ito */
+        /* ICARUS: 2016/08/15  */
         case 2201:	strcpy(s_case,"ICGFS1R26_"); break;
         case 2202:	strcpy(s_case,"ICGFS1R45_"); break;
         case 2203:	strcpy(s_case,"ICGFS2R26_"); break;
@@ -792,13 +794,13 @@ void set_gcm_index(
         case 2602:	strcpy(s_case,"ICS2_"); break;
         case 2603:	strcpy(s_case,"ICS3_"); break;
         
-        /* 2-2002 S1: 2020/10/07 by A.Ito */
+        /* 2-2002 S1: 2020/10/07  */
         case 2701:    strcpy(s_case,"AIMS1_1_"); break; /* 2701: baseline */
         case 2702:    strcpy(s_case,"AIMS1_2_"); break; /* 2702: mitigation-full */
         case 2703:    strcpy(s_case,"AIMS1_3_"); break; /* 2703: mitigation-noaff */
         case 2704:    strcpy(s_case,"AIMS1_4_"); break; /* 2704: mitigation-nobio */
 
-        /* GEO-MIP runs: 2013/11/26 by A.Ito */
+        /* GEO-MIP runs: 2013/11/26  */
 		case 3000:	strcpy(s_case,"GEBN45_"); break;
 		case 3001:	strcpy(s_case,"GEBNG3_"); break;
 		case 3002:	strcpy(s_case,"GEBNG4_"); break;
@@ -855,7 +857,7 @@ void set_gcm_index(
 		case 5003:	strcpy(s_case,"ISIM2H3_"); break;
 		case 5004:	strcpy(s_case,"ISIM2H4_"); break;
         
-        /* ISI-MIP2b: 2016/12/22 by A.Ito */
+        /* ISI-MIP2b: 2016/12/22  */
 		case 5010:	strcpy(s_case,"ISM2bG-I_"); break;
 		case 5011:	strcpy(s_case,"ISM2bG-II_"); break;
 		case 5012:	strcpy(s_case,"ISM2bG-III_"); break;
@@ -869,7 +871,7 @@ void set_gcm_index(
 		case 5041:	strcpy(s_case,"ISM2bH-II_"); break;
 		case 5042:	strcpy(s_case,"ISM2bH-III_"); break;
   
-        /* ISI-MIP2b EX IV-VII: 2016/12/22 by A.Ito */
+        /* ISI-MIP2b EX IV-VII: 2016/12/22  */
         case 5013:    strcpy(s_case,"ISM2bG-IV_"); break;
         case 5014:    strcpy(s_case,"ISM2bG-V_"); break;
         case 5015:    strcpy(s_case,"ISM2bG-VI_"); break;
@@ -898,7 +900,7 @@ void set_gcm_index(
         case 5047:    strcpy(s_case,"ISM2bH-VIII_"); break;
         case 5048:    strcpy(s_case,"ISM2bH-IX_"); break;
 
-        /* ISI-MIP2b EX Ia-IIIb: 2018/03/01 by A.Ito */
+        /* ISI-MIP2b EX Ia-IIIb: 2018/03/01  */
         case 5060:    strcpy(s_case,"ISM2bG-Ia_"); break;
         case 5061:    strcpy(s_case,"ISM2bG-IIb_"); break;
         case 5062:    strcpy(s_case,"ISM2bG-IIIa_"); break;
@@ -923,7 +925,7 @@ void set_gcm_index(
         case 5093:    strcpy(s_case,"ISM2bH-IIIb_"); break;
         case 5094:    strcpy(s_case,"ISM2bH-IIIc_"); break;
         
-        /* ISIMIP3a; 2020/05/26 by A.Ito */
+        /* ISIMIP3a; 2020/05/26  */
         case 5100:      strcpy(s_case,"ISM3a_G3E5-ev-hist_"); break;
         case 5101:      strcpy(s_case,"ISM3a_G3E5-ev-2015_"); break;
         case 5102:      strcpy(s_case,"ISM3a_G3E5-ev-nat_"); break;
@@ -947,7 +949,7 @@ void set_gcm_index(
         case 5222:      strcpy(s_case,"ISM3a_G3E5-co2-1901_"); break;
         case 5223:      strcpy(s_case,"ISM3a_G3E5-nofire_"); break;
 
-        /* ISIMIP3b; 2020/05/26 by A.Ito */
+        /* ISIMIP3b; 2020/05/26  */
         case 5120:      strcpy(s_case,"ISM3b-pi-hist-g_"); break;
         case 5121:      strcpy(s_case,"ISM3b-pi-2015-g_"); break;
         case 5122:      strcpy(s_case,"ISM3b-pi-nat-g_"); break;
@@ -1060,11 +1062,11 @@ void set_gcm_index(
     }
     
     if(EX_FORCED_AFFOREST_1 >= 1){
-        /* forced afforestation experiment: 2020/11/02 by A.Ito */
+        /* forced afforestation experiment: 2020/11/02  */
         strcat(s_case,"FAF1_");
     }
     if(EX_FORCED_AFFOREST_2 >= 1){
-        /* forced afforestation experiment: 2020/11/13 by A.Ito */
+        /* forced afforestation experiment: 2020/11/13  */
         strcat(s_case,"FAF2_");
     }
 

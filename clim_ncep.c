@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -37,7 +37,7 @@ void read_ncep_clim(
 	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4810.dat","rt"))==NULL ){  
 		printf("No tcdc.eatm.gauss.mon4810.dat\n");  exit(1); } */
 	
-    /* extension to 2011: 2012/01/26 by A.Ito */
+    /* extension to 2011: 2012/01/26  */
 	/* if( (fp_t=fopen("./data/air.2m.gauss.mon4811.dat","rt"))==NULL ){
 		printf("No air.2m.gauss.mon4811.dat\n");  exit(1); }
 	if( (fp_p=fopen("./data/prate.sfc.gauss.mon4811.dat","rt"))==NULL ){  
@@ -65,7 +65,7 @@ void read_ncep_clim(
 	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4813.dat","rt"))==NULL ){  
 		printf("No tcdc.eatm.gauss.mon4813.dat\n");  exit(1); } */
 	
-    /* added 2014: 2015/01/02 by A.Ito */
+    /* added 2014: 2015/01/02  */
 	/* if( (fp_t=fopen("./data/air.2m.gauss.mon4814.dat","rt"))==NULL ){
 		printf("No air.2m.gauss.mon4814.dat\n");  exit(1); }
 	if( (fp_p=fopen("./data/prate.sfc.gauss.mon4814.dat","rt"))==NULL ){
@@ -75,7 +75,7 @@ void read_ncep_clim(
 	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4814.dat","rt"))==NULL ){
 		printf("No tcdc.eatm.gauss.mon4814.dat\n");  exit(1); } */
 	
-    /* added 2015: 2016/01/04 by A.Ito */
+    /* added 2015: 2016/01/04  */
 	/* if( (fp_t=fopen("./data/air.2m.gauss.mon4815.dat","rt"))==NULL ){
 		printf("No air.2m.gauss.mon4814.dat\n");  exit(1); }
 	if( (fp_p=fopen("./data/prate.sfc.gauss.mon4815.dat","rt"))==NULL ){
@@ -85,7 +85,7 @@ void read_ncep_clim(
 	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4815.dat","rt"))==NULL ){
 		printf("No tcdc.eatm.gauss.mon4814.dat\n");  exit(1); } */
 	
-    /* added 2016: 2017/01/03 by A.Ito */
+    /* added 2016: 2017/01/03  */
 	/* if( (fp_t=fopen("./data/air.2m.gauss.mon4816.dat","rt"))==NULL ){
 		printf("No air.2m.gauss.mon4816.dat\n");  exit(1); }
 	if( (fp_p=fopen("./data/prate.sfc.gauss.mon4816.dat","rt"))==NULL ){
@@ -95,7 +95,7 @@ void read_ncep_clim(
 	if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4816.dat","rt"))==NULL ){
 		printf("No tcdc.eatm.gauss.mon4816.dat\n");  exit(1); } */
     
-    /* added 2017: 2018/01/03 by A.Ito */
+    /* added 2017: 2018/01/03  */
     /* if( (fp_t=fopen("./data/air.2m.gauss.mon4817.dat","rt"))==NULL ){
         printf("No air.2m.gauss.mon4817.dat\n");  exit(1); }
     if( (fp_p=fopen("./data/prate.sfc.gauss.mon4817.dat","rt"))==NULL ){
@@ -105,7 +105,7 @@ void read_ncep_clim(
     if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4817.dat","rt"))==NULL ){
         printf("No tcdc.eatm.gauss.mon4817.dat\n");  exit(1); } */
 
-    /* added 2018: 2019/01/03 by A.Ito */
+    /* added 2018: 2019/01/03  */
     /* if( (fp_t=fopen("./data/air.2m.gauss.mon4818.dat","rt"))==NULL ){
         printf("No air.2m.gauss.mon4818.dat\n");  exit(1); }
     if( (fp_p=fopen("./data/prate.sfc.gauss.mon4818.dat","rt"))==NULL ){
@@ -115,7 +115,7 @@ void read_ncep_clim(
     if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4818.dat","rt"))==NULL ){
         printf("No tcdc.eatm.gauss.mon4818.dat\n");  exit(1); } */
 
-    /* added 2019: 2020/01/02 by A.Ito */
+    /* added 2019: 2020/01/02  */
     /* if( (fp_t=fopen("./data/air.2m.gauss.mon4819.dat","rt"))==NULL ){
         printf("No air.2m.gauss.mon4819.dat\n");  exit(1); }
     if( (fp_p=fopen("./data/prate.sfc.gauss.mon4819.dat","rt"))==NULL ){
@@ -125,7 +125,7 @@ void read_ncep_clim(
     if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4819.dat","rt"))==NULL ){
         printf("No tcdc.eatm.gauss.mon4819.dat\n");  exit(1); } */
 
-    /* added 2019: 2021/01/XX by A.Ito */
+    /* added 2019: 2021/01/XX  */
     /* if( (fp_t=fopen("./data/air.2m.gauss.mon4820.txt","rt"))==NULL ){
         printf("No air.2m.gauss.mon4820.dat\n");  exit(1); }
     if( (fp_p=fopen("./data/prate.sfc.gauss.mon4820.txt","rt"))==NULL ){
@@ -135,7 +135,7 @@ void read_ncep_clim(
     if( (fp_r=fopen("./data/tcdc.eatm.gauss.mon4820.txt","rt"))==NULL ){
         printf("No tcdc.eatm.gauss.mon4820.dat\n");  exit(1); } */
 
-    /* added 2019: 2022/01/04 by A.Ito */
+    /* added 2019: 2022/01/04  */
     if( (fp_t=fopen("./data/air.2m.gauss.mon4821.txt","rt"))==NULL ){
         printf("No air.2m.gauss.mon4821.dat\n");  exit(1); }
     if( (fp_p=fopen("./data/prate.sfc.gauss.mon4821.txt","rt"))==NULL ){

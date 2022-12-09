@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						        */
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -106,7 +106,7 @@ void pc_sat(
 		
 	pchar->fsw[grid->m] = fnstl;
     
-    /* Ozone impact on photosynthesis and stomata: 2013/02/25 by A.Ito **/
+    /* Ozone impact on photosynthesis and stomata: 2013/02/25  **/
     /* parameterization by:
     Sitch, S., P. M. Cox, W. J. Collins, and C. Huntingford (2007), 
     Indirect radiative forcing of climate change through ozone effects on the 

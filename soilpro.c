@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -88,8 +88,8 @@ void soil_processes(
 	mass->d13c_msl_m[grid->m] = mass->d13c_msl;
 	mass->d13c_soil[grid->m] = d13c_addition(mass->ltr, mass->d13c_ltr, mass->msl, mass->d13c_msl);
 	
-	/* d14c: added by A.Ito (2009/07/12) *********/
-	/* d14c: revised by A.Ito (2009/11/17) *********/
+	/* d14c: added  (2009/07/12) *********/
+	/* d14c: revised  (2009/11/17) *********/
 	if((flux->sf[grid->m] + mass->msl) > 0.0){
 		mass->d14c_msl = (mass->d14c_ltr * flux->sf[grid->m] + mass->d14c_msl * mass->msl) / 
 						(flux->sf[grid->m] + mass->msl);
@@ -182,7 +182,7 @@ double frl(
 	/* soil moisture effect, saturating */
 	fwl = 0.8 * loct->sw30/(schar->kml*grid->field_cap1 + loct->sw30) + 0.2;
 	/* soil apparence effect */
-	/* 2009/02/22 by A.Ito */
+	/* 2009/02/22  */
 	/* fal = 0.4*loct->soil_appr30*(1.0*schar->kmsl)/(schar->kmsl+loct->soil_appr30)+0.6; */
 	fal = 0.4 * loct->soil_appr30/(schar->kmsl + loct->soil_appr30) + 0.6;
 	/* take minimum */
@@ -264,7 +264,7 @@ double frh(
 	/* soil moisture effect, saturating */
 	fwh = 0.8 * loct->sww/(schar->kmh * grid->field_cap2 + loct->sww) + 0.2;
 	/* soil apparence effect */
-	/* 2009/02/22 by A.Ito */
+	/* 2009/02/22  */
 	/* fah = 0.4*loct->soil_apprw*(1.0*schar->kmsh)/(schar->kmsh + loct->soil_apprw) + 0.6;  */
 	fah = 0.4 * loct->soil_apprw/(schar->kmsh + loct->soil_apprw) + 0.6;
     /* take minimum */

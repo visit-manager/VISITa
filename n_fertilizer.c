@@ -1,6 +1,6 @@
 /*	VISIT:	Vegetation Integrative SImulation Tool						*/
 /*  Old name:	Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /*  Carbon cycle, erosion, biomass burning, land-use change,			*/
 /*  CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in September 07, 2007						*/
@@ -248,7 +248,7 @@ void n_fertilizer_in(
 	}
 	
     /* kg N / ha / month */
-    /* including seasonality: 2018/02/09 by A.Ito */
+    /* including seasonality: 2018/02/09  */
     if(EX_NIN_SEASON == 0){
         loct->n_frtlz_in = fin_base = fert_input * MDN[grid->m] / YDN;
     }else if(EX_NIN_SEASON == 1){
@@ -269,7 +269,7 @@ void n_fertilizer_in(
         loct->n_frtlz_in = fin_base = fert_input * MDN[grid->m] / YDN;
     }
     
-    /* 102: PKU data: 2020/08/18 by A.Ito */
+    /* 102: PKU data: 2020/08/18  */
     if(EX_NFERT == 102){
         if(grid->niny < 1961){
             loct->n_frtlz_in = grid->est_nfert[0];
@@ -284,24 +284,24 @@ void n_fertilizer_in(
         }
     }
     
-    /* biofuel experiments: 2015/09/03 revised by A.Ito */
+    /* biofuel experiments: 2015/09/03 revised  */
     if(BIOFUEL_RUN == 1){
         /* current */
-        /* loct->n_frtlz_in = 80.0 * MDN[grid->m] / YDN; */ /* 2015/08/27 by A.Ito */
+        /* loct->n_frtlz_in = 80.0 * MDN[grid->m] / YDN; */ /* 2015/08/27  */
         ;
     }
     if(BIOFUEL_RUN == 2){
         /* low */
-        /* loct->n_frtlz_in = 40.0 * MDN[grid->m] / YDN; */ /* 2015/08/27 by A.Ito */
+        /* loct->n_frtlz_in = 40.0 * MDN[grid->m] / YDN; */ /* 2015/08/27  */
         loct->n_frtlz_in = 10.0 * MDN[grid->m] / YDN;
     }
     if(BIOFUEL_RUN == 3){
         /* medium */
-        /* loct->n_frtlz_in = 120.0 * MDN[grid->m] / YDN; */ /* 2015/08/27 by A.Ito */
+        /* loct->n_frtlz_in = 120.0 * MDN[grid->m] / YDN; */ /* 2015/08/27  */
         loct->n_frtlz_in = 60.0 * MDN[grid->m] / YDN;
     }
     
-    /* NMIP run: 2015/11/19 by A.Ito *****/
+    /* NMIP run: 2015/11/19  *****/
     /* updated: 2016/10/20, 2017/10/20 */
     if(NMIP_RUN >= 1 && NMIP_RUN <= 12){
         nyear = grid->niny;
@@ -337,11 +337,11 @@ void n_fertilizer_in(
         /* if(NMIP_RUN == 2 || NMIP_RUN == 3 || NMIP_RUN == 4 || NMIP_RUN == 5 || NMIP_RUN == 6){
             loct->n_manure_in = 0.0;
         } */
-    }else if(NMIP_RUN >= 20 && NMIP_RUN <= 30){
-        /* NMIP2: 2021/12/15 by A.Ito */
+    }else if(NMIP_RUN >= 20 && NMIP_RUN <= 32){
+        /* NMIP2: 2021/12/15  */
         nyear = grid->niny;
 
-        if(NMIP_RUN == 20 || NMIP_RUN == 23 || NMIP_RUN == 30){
+        if(NMIP_RUN == 20 || NMIP_RUN == 23 || NMIP_RUN == 30 || NMIP_RUN == 31 || NMIP_RUN == 32){
             nyear = FDY_NINY;
         }
     
@@ -354,9 +354,11 @@ void n_fertilizer_in(
         }else if(grid->niny>2020){
             loct->n_frtlz_in = grid->mip_nfert[2020 - FDY_NINY] * MDN[grid->m] / YDN;
         }
+        
+        nyear = grid->niny;
                 
         loct->n_manure_in = 0.0;
-        if(NMIP_RUN == 20 || NMIP_RUN == 22 || NMIP_RUN == 30){
+        if(NMIP_RUN == 20 || NMIP_RUN == 22 || NMIP_RUN == 30 || NMIP_RUN == 31 || NMIP_RUN == 32){
             nyear = FDY_NINY;
         }
         if(grid->niny>=FDY_NINY && grid->niny<=2020){
@@ -366,14 +368,38 @@ void n_fertilizer_in(
         }else if(grid->niny > 2020){
             loct->n_manure_in = grid->mip_manure[2020 - FDY_NINY] * MDN[grid->m] / YDN;
         }
+    }else if(EX_TRENDY >= 1){
+        /* TRENDY: 2022/07/25  */
+        nyear = grid->niny;
+        
+        if(grid->niny>=FDY_NINY && grid->niny<=2020){
+            loct->n_frtlz_in = grid->mip_nfert[nyear - FDY_NINY] * MDN[grid->m] / YDN;
+            loct->n_frtlz_in_nh4 = grid->mip_nfert_nh4[nyear - FDY_NINY] * MDN[grid->m] / YDN;
+            loct->n_frtlz_in_noy = grid->mip_nfert_noy[nyear - FDY_NINY] * MDN[grid->m] / YDN;
+        }else if(grid->niny < FDY_NINY){
+            loct->n_frtlz_in = grid->mip_nfert[0] * MDN[grid->m] / YDN;
+        }else if(grid->niny>2020){
+            loct->n_frtlz_in = grid->mip_nfert[2020 - FDY_NINY] * MDN[grid->m] / YDN;
+        }
+        
+        nyear = grid->niny;
+                
+        loct->n_manure_in = 0.0;
+        if(grid->niny>=FDY_NINY && grid->niny<=2020){
+            loct->n_manure_in = grid->mip_manure[nyear - FDY_NINY] * MDN[grid->m] / YDN;
+        }else if(grid->niny < FDY_NINY){
+            loct->n_manure_in = grid->mip_manure[0] * MDN[grid->m] / YDN;
+        }else if(grid->niny > 2020){
+            loct->n_manure_in = grid->mip_manure[2020 - FDY_NINY] * MDN[grid->m] / YDN;
+        }
     }else{
-        /* ISI-MIP2.1b: 2016/12/22 by A.Ito */
+        /* ISI-MIP2.1b: 2016/12/22  */
         if(ISIMIP_RUN == 4){
             loct->n_frtlz_in = grid->mip_nfert[grid->niny - FDY_NINY] * MDN[grid->m] / YDN;
         }else{
             ;
         }
-        /* ISI-MIP3: 2020/10/01 by A.Ito */
+        /* ISI-MIP3: 2020/10/01  */
         if(ISIMIP_RUN == 5 || ISIMIP_RUN == 6){
             /* FDY_NINY = 1850 */
             loct->n_frtlz_in = grid->mip_nfert[grid->niny - FDY_NINY] * MDN[grid->m] / YDN;
@@ -389,7 +415,7 @@ void n_fertilizer_in(
     }
     
     f_adj = 1.0;
-    /* future nitrogen fertilizer: 2016/11/22 by A.Ito  */
+    /* future nitrogen fertilizer: 2016/11/22   */
     if(EX_NFERT >= 1){
         if(grid->est_nfert[0] > 0.0){
             f_adj = fert_input / grid->est_nfert[0];
@@ -424,7 +450,7 @@ void n_fertilizer_in(
         loct->n_manure_in = 0.0;
     }
     
-    /* 102: Feng manure data: 2020/08/19 by A.Ito */
+    /* 102: Feng manure data: 2020/08/19  */
     if(EX_NFERT == 102){
         if(grid->type_crop==2 && grid->f_paddy>0.0){
             if(grid->niny < 1961){
@@ -451,6 +477,6 @@ void n_fertilizer_in(
         }
     }
     
-    /* 2016/07/25 by A.Ito */
+    /* 2016/07/25  */
     /* loct->n_frtlz_in *= 0.01; */
 }

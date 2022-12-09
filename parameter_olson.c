@@ -1,6 +1,6 @@
 /*	VISIT: Vegetation Integrative SImulation Tool						*/
 /* Old name: Simulation model of Carbon cYCle in Land Ecosystems		*/
-/* Developed by A.Ito in CGER/NIES & RIGC/JAMSTEC						*/
+/* Developed  in CGER/NIES & RIGC/JAMSTEC						*/
 /* Carbon cycle, erosion, biomass burning, land-use change,				*/
 /* CH4 emission and oxidation, N2O emission,,,,,						*/
 /*	version 1.0.0	cerated in August 14, 2007							*/
@@ -206,7 +206,7 @@ void parameterC3(
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
-					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50}; */ /* 2016/06/29 by A.Ito */
+					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50}; */ /* 2016/06/29  */
 	double n_salvagev[NVEG_OLSON]={0.25,
 					0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
 					0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
@@ -268,6 +268,9 @@ void parameterC3(
 					75.0, 70.0, 75.0, 75.0, 85.0, 85.0, 80.0, 90.0, 
 					70.0, 75.0, 180.0, 180.0, 90.0, 100.0, 100.0, 100.0, 0.95};
 	
+     /* parameter tuning: 2022/07/28 */
+     /* 20	tibetan meadow & siberian highland */
+
 	c3->phototype = 3;
 	c3->albedo = albcv[grid->veg_olson];
 	c3->alloc_ass = alloc_assv[grid->veg_olson]; 
@@ -299,21 +302,21 @@ void parameterC3(
 	c3->qTc0 = qTcv[grid->veg_olson]; 
 	c3->qTr0 = qTrv[grid->veg_olson];
 	
-	if(DF97==0){
+	if(DF97 == 0){
 		c3->lf0 = lfv_ms[grid->veg_olson];
-	}else if(DF97==1){
+	}else if(DF97 == 1){
 		c3->lf0 = lfv_df[grid->veg_olson];
 	}
 	
-	if(DF97==0){
+	if(DF97 == 0){
 		c3->lc0 = lcv_ms[grid->veg_olson];
-	}else if(DF97==1){
+	}else if(DF97 == 1){
 		c3->lc0 = lcv_df[grid->veg_olson];
 	}
 
-	if(DF97==0){
+	if(DF97 == 0){
 		c3->lr0 = lrv_ms[grid->veg_olson];
-	}else if(DF97==1){
+	}else if(DF97 == 1){
 		c3->lr0 = lrv_df[grid->veg_olson];
 	}
 	 
@@ -331,7 +334,7 @@ void parameterC3(
 	c3->root_dist_b = root_dist_bv[grid->veg_olson];
 	c3->root_depth = root_depthv[grid->veg_olson];
 	
-	if(DIF_SRB==1){
+	if(DIF_SRB == 1){
 		c3->n_leaf_df97 = n_leafv2[grid->veg_olson];
 	}else{
 		c3->n_leaf_df97 = n_leafv[grid->veg_olson];
@@ -517,7 +520,7 @@ void parameterC4(
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
 					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 
-					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50}; */ /* 2016/06/29 by A.Ito */
+					0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50}; */ /* 2016/06/29  */
 	double n_salvagev[NVEG_OLSON]={0.25,
 					0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
 					0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
@@ -704,15 +707,18 @@ void parameterSoil(
 					0.64, 0.64, 0.64, 0.62, 0.73, 0.73, 0.73, 0.73, 
 					0.73, 0.73, 0.73, 0.69, 0.64, 0.69, 0.73, 0.73, 
 					0.73, 0.73, 0.73, 0.73, 0.73, 0.73, 0.73, 0.73, 1.5};
+     
+     /* parameter tuning: 2022/07/28 */
+     /* 20	tibetan meadow & siberian highland */
 	
 	soil->albedo0 = albgv[grid->veg_olson]; 	 				 
 	
-	if(DF97==0){
+	if(DF97 == 0){
 		soil->rl0=soil->rl = rlv[grid->veg_olson]*0.85 * 1.6;
 		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.70 * 0.80;
-	}else if(DF97==1){
-		soil->rl0=soil->rl = rlv[grid->veg_olson]*0.70 * 1.5;
-		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.60 * 0.70;
+	}else if(DF97 == 1){
+		soil->rl0 = soil->rl = rlv[grid->veg_olson]*0.70 * 1.5;
+		soil->rh0 = soil->rh = rhv[grid->veg_olson]*0.60 * 0.70;
 	}
 	soil->qTl = qTlv[grid->veg_olson]; 
 	soil->qTh = qThv[grid->veg_olson];
