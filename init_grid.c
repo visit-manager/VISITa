@@ -874,6 +874,8 @@ void f_init_grid(
             grid->iizumi_mon_paddy_end = 0;
         }
     }
+    
+    /* printf("STEP\n"); */
 
     /*****************************/
 	/* soil total nitrogen */
@@ -1481,6 +1483,8 @@ void f_init_grid(
         fscanf(fp_s[44],"%lf", &ddummy);
     }
     
+    /* printf("STEP\n"); */
+    
     /* AIM Land-use: 2019/06/21  */
     if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
         
@@ -1959,7 +1963,7 @@ void f_init_grid(
             }
         }
         
-    }else if(ISIMIP_RUN == 6){
+    }else if(ISIMIP_RUN == 6 && LANDUSE==46){
         /* ISIMIP3b: 2020/11/18  */
         fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[88]);
         for(e=0;e<DL_NINPUT;e++){
