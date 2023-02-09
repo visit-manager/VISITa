@@ -547,10 +547,10 @@
     #define FDY_FUTURE 2005 */
 
     /* CMIP6-LUH2 data */
-    #define DL_FUTURE 1
+    /* #define DL_FUTURE 1
     #define BGY_FUTURE 2016
     #define ENY_FUTURE 2100
-    #define FDY_FUTURE 2016 /* */
+    #define FDY_FUTURE 2016 */
 
     /* TELUMO LUC data */
     /* #define DL_FUTURE 1
@@ -565,10 +565,10 @@
     #define FDY_FUTURE 2016 */
 
     /* LUH2-GCP2021 - CMIP6 data */
-    /* #define DL_FUTURE 1
+    #define DL_FUTURE 1
     #define BGY_FUTURE 2023
     #define ENY_FUTURE 2099
-    #define FDY_FUTURE 2022 */
+    #define FDY_FUTURE 2022 /* */
 #endif
 /* #define DL_FUTURE 241 */ /* 1860-2100 */
 /* #define FDY_FUTURE 2001 */
