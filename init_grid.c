@@ -874,6 +874,8 @@ void f_init_grid(
             grid->iizumi_mon_paddy_end = 0;
         }
     }
+    
+    /* printf("STEP\n"); */
 
     /*****************************/
 	/* soil total nitrogen */
@@ -1215,7 +1217,7 @@ void f_init_grid(
     }else if(LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 30 ||
                 LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 || LANDUSE == 34 ||
                 LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37 || LANDUSE == 47 ||
-                LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50){
+                LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50 || LANDUSE == 51){
         
         /* state */
         fscanf(fp_s[26],"%ld %lf", &ldummy, &dluh2);
@@ -1481,6 +1483,8 @@ void f_init_grid(
         fscanf(fp_s[44],"%lf", &ddummy);
     }
     
+    /* printf("STEP\n"); */
+    
     /* AIM Land-use: 2019/06/21  */
     if(LANDUSE == 38 || LANDUSE == 39 || LANDUSE == 40 || LANDUSE == 41){
         
@@ -1590,7 +1594,7 @@ void f_init_grid(
     }else  if(LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 30
             || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 || LANDUSE == 34 ||
             LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37 || LANDUSE == 49
-            || LANDUSE == 50){
+            || LANDUSE == 50 || LANDUSE == 51){
         ;
     }else{
         for(h=0;h<DL_LUC;h++){
@@ -1959,7 +1963,7 @@ void f_init_grid(
             }
         }
         
-    }else if(ISIMIP_RUN == 6){
+    }else if(ISIMIP_RUN == 6 && LANDUSE==46){
         /* ISIMIP3b: 2020/11/18  */
         fread(is2bdat,sizeof(float),DL_NINPUT, fp_s[88]);
         for(e=0;e<DL_NINPUT;e++){

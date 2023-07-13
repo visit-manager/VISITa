@@ -67,8 +67,9 @@ void cal_spinup(
 	}else if(LANDUSE == 9){
 		grid->f_crop_p = grid->fcrop_luh[2000 - BGY_LUC];
 		grid->f_pasture_p = grid->fpast_luh[2000 - BGY_LUC];
-	}else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13
-         || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 29 || LANDUSE == 49 || LANDUSE == 50){
+	}else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13 ||
+        LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 29 || LANDUSE == 49 ||
+        LANDUSE == 50 || LANDUSE == 51){
 		grid->f_crop_p = grid->fcrop_luh[BGY_LUC - FDY_LUC];
 		grid->f_pasture_p = grid->fpast_luh[BGY_LUC - FDY_LUC];
 	}else if(LANDUSE == 18){
@@ -702,7 +703,7 @@ void cal_spinup(
             dyr = 1900 - FDY_LUC;
         }
         
-        if(LANDUSE == 49 || LANDUSE == 50){
+        if(LANDUSE == 49 || LANDUSE == 50 || LANDUSE == 51){
             dyr = 0;
         }
 		

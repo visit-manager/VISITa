@@ -277,6 +277,25 @@ void open_input(
                 printf("No cru406_vap_1901-2021.txt\n");
                 exit(1);
             }
+        }else if(DL_HCLIM == 122){
+            /* UEA-CRU data from 1901 - 2020: 2021/03/25 (A.Ito) */
+            /* if( (fp_c[0]=fopen("./data/cru406_cld_1901-2021.txt","rt"))==NULL ){ */
+            if( (fp_c[0]=fopen("./data/cru407_cld_1901-2022.txt","rt"))==NULL ){
+                printf("No cru407_cld_1901-2022.txt\n");
+                exit(1);
+            }
+            if( (fp_c[1]=fopen("./data/cru407_pre_1901-2022.txt","rt"))==NULL ){
+                printf("No cru407_pre_1901-2022.txt\n");
+                exit(1);
+            }
+            if( (fp_c[2]=fopen("./data/cru407_tmp_1901-2022.txt","rt"))==NULL ){
+                printf("No cru407_tmp_1901-2022.txt\n");
+                exit(1);
+            }
+            if( (fp_c[3]=fopen("./data/cru407_vap_1901-2022.txt","rt"))==NULL ){
+                printf("No cru407_vap_1901-2022.txt\n");
+                exit(1);
+            }
         }else if(DL_HCLIM == 219){
             /* GCP-CH4 by GSWP3-W5E5 data from 1801 - 2019: 2021/11/09 (A.Ito) */
             /* SCENARIO_ID == 4100 */
@@ -3342,6 +3361,35 @@ void open_input(
             Flag_FOPEN[26] ++;
         }
         if( (fp_s[27]=fopen("./data/luh2-gcp2022_transition_1700-2022.txt","rt"))==NULL ){
+            printf("No luh2-gcp2022_transition_1700-2022.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[27] ++;
+        }
+        /* future */
+        if( (fp_s[28]=fopen("./data/luh2_state_5-05_ssp1rcp26_2016-2100.txt","rt"))==NULL ){
+            printf("No luh2_state_5-05_ssp1rcp26_2016-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[28] ++;
+        }
+        if( (fp_s[29]=fopen("./data/luh2_transition_5-05_ssp1rcp26_2016-2100.txt","rt"))==NULL ){
+            printf("No luh2_transition_5-05_ssp1rcp26_2016-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[29] ++;
+        }
+    }
+    /* LUH2-GCP2023: 2023/07/13  */
+    if(LANDUSE == 51){
+        /* historical */
+        if( (fp_s[26]=fopen("./data/luh2-gcp2023_state_1700-2022.txt","rt"))==NULL ){
+            printf("No luh2-gcp2022_state_1700-2022.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[26] ++;
+        }
+        if( (fp_s[27]=fopen("./data/luh2-gcp2023_transition_1700-2022.txt","rt"))==NULL ){
             printf("No luh2-gcp2022_transition_1700-2022.txt\n");
             exit(1);
         }else{

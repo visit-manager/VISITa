@@ -881,7 +881,8 @@ void cal_historical(
 			}
 
             /* assumption for the period later than 2016: A.Ito (2019/02/11) */
-            if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 49 || LANDUSE == 50) &&
+            if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 49 ||
+                 LANDUSE == 50 || LANDUSE == 51) &&
                     grid->lucy > (FDY_LUC+DL_LUC-1)){
                 dyr = (DL_LUC - 1);
             }

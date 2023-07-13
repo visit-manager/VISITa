@@ -356,8 +356,8 @@ void vanish(
 		flux->ncb[k] = 0.0;
 		flux->lL0[k] = 0.0;
   
-        flux->termite_ch4_lu[k] = 0.0;
-        flux->termite_ch4_gpp[k] = 0.0;
+        flux->termite_ch4_lu[k] = flux->termite_dens_lu[k] = 0.0;
+        flux->termite_ch4_gpp[k] = flux->termite_dens_gpp[k] = 0.0;
 	}
 	mass->lai_p = 0.0;
 	flux->efflux_p = 0.0;
