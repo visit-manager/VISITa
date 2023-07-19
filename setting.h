@@ -566,10 +566,16 @@
     #define FDY_FUTURE 2016 */
 
     /* LUH2-GCP2021 - CMIP6 data */
-    #define DL_FUTURE 1
+    /* #define DL_FUTURE 1
     #define BGY_FUTURE 2023
     #define ENY_FUTURE 2099
-    #define FDY_FUTURE 2022 /* */
+    #define FDY_FUTURE 2022 */
+
+    /* LUH2-GCP2021 - CMIP6 data */
+    #define DL_FUTURE 1
+    #define BGY_FUTURE 2024
+    #define ENY_FUTURE 2099
+    #define FDY_FUTURE 2023 /* */
 #endif
 /* #define DL_FUTURE 241 */ /* 1860-2100 */
 /* #define FDY_FUTURE 2001 */
@@ -602,7 +608,7 @@
 
 /* *******************************************************/
 /* land use change setting */
-#define LANDUSE 50
+#define LANDUSE 51
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -749,7 +755,7 @@
 /* 2: half wood harvest */
 /* 3: double wood harvest */
 
-/* deforestation ************************************/
+/* deforestation *******************************************/
 #define EX_DEFOREST 0
 /* 0: as present */
 /* 1: entire deforestation, replaced by 19 */

@@ -3383,14 +3383,14 @@ void open_input(
     /* LUH2-GCP2023: 2023/07/13  */
     if(LANDUSE == 51){
         /* historical */
-        if( (fp_s[26]=fopen("./data/luh2-gcp2023_state_1700-2022.txt","rt"))==NULL ){
-            printf("No luh2-gcp2022_state_1700-2022.txt\n");
+        if( (fp_s[26]=fopen("./data/luh2-gcp2023_state_1700-2023.txt","rt"))==NULL ){
+            printf("No luh2-gcp2022_state_1700-2023.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[26] ++;
         }
-        if( (fp_s[27]=fopen("./data/luh2-gcp2023_transition_1700-2022.txt","rt"))==NULL ){
-            printf("No luh2-gcp2022_transition_1700-2022.txt\n");
+        if( (fp_s[27]=fopen("./data/luh2-gcp2023_transition_1700-2023.txt","rt"))==NULL ){
+            printf("No luh2-gcp2023_transition_1700-2023.txt\n");
             exit(1);
         }else{
             Flag_FOPEN[27] ++;
