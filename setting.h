@@ -40,7 +40,7 @@
 #define INT_C 0.01
 
 /* calculation grid step */
-#define CALC_STEP 1
+#define CALC_STEP 10
 /* 1: every grid */
 /* 10: every 10 grid */
 #define CALC_OFFSET 0
