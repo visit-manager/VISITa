@@ -701,7 +701,8 @@
     /* #define DL_LUC 301 */  /* 1800-2019 + 2020-2100 */ /* from LUH2-GCP2019 - CMIP6: 2022/04/19  */
     /* #define DL_LUC 322 */  /* 1700-2021 */ /* from LUH2-GCP2021: 2022/07/19  */
     /* #define DL_LUC 323 */  /* 1700-2022 */ /* from LUH2-GCP2022: 2022/08/18  */
-    #define DL_LUC 324 /* */  /* 1700-2023 */ /* from LUH2-GCP2023: 2023/07/13  */
+    /* #define DL_LUC 324 */  /* 1700-2023 */ /* from LUH2-GCP2023: 2023/07/13  */
+    #define DL_LUC 424 /* */  /* 1600-2023 */ /* from LUH2-GCP2023: 2023/08/23  */
 #endif
 
 /* first year of land-use DATA */
@@ -721,7 +722,8 @@
     /* #define FDY_LUC 1866 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21  */
     /* #define FDY_LUC 1500 */ /* historical + TELUMO: 2019/02/21  */
     /* #define FDY_LUC 1800 */ /* 1800-2019 */ /* 2022/04/19  */
-    #define FDY_LUC 1700 /* */ /* 1700-2022 */ /* 2022/08/18  */
+    /* #define FDY_LUC 1700 */ /* 1700-2022 */ /* 2022/08/18  */
+    #define FDY_LUC 1600 /* */ /* 1600-2023 */ /* 2023/08/23  */
 #endif
 
 /* begin year of land-use SIMULATION */
