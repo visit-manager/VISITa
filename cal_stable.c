@@ -35,15 +35,15 @@ void cal_spinup(
 		if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 
 				|| grid->veg_olson==32){
             /* short-term ecosystems */
-			term_time = 300;
+			term_time = 500;
 		}else{
             /* long-term ecosystems */
 			term_time = 4000;
 		}
-	}else if((echar->c3).v_type==2){
-		term_time = 300;
+	}else if((echar->c3).v_type == 2){
+		term_time = 500;
 	}else{
-        term_time = 300;
+        term_time = 500;
     }
 	
 	(echar->soil).rl = (echar->soil).rl0;
@@ -65,10 +65,11 @@ void cal_spinup(
 		grid->f_crop_p = grid->fcrop_rk[199];
 		grid->f_pasture_p = grid->fpast_rk[199];
 	}else if(LANDUSE == 9){
-		grid->f_crop_p = grid->fcrop_luh[2000 - BGY_LUC];
-		grid->f_pasture_p = grid->fpast_luh[2000 - BGY_LUC];
-	}else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13
-         || LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 29 || LANDUSE == 49 || LANDUSE == 50){
+		grid->f_crop_p = grid->fcrop_luh[2000 - FDY_LUC];
+		grid->f_pasture_p = grid->fpast_luh[2000 - FDY_LUC];
+	}else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13 ||
+        LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 29 || LANDUSE == 49 ||
+        LANDUSE == 50 || LANDUSE == 51){
 		grid->f_crop_p = grid->fcrop_luh[BGY_LUC - FDY_LUC];
 		grid->f_pasture_p = grid->fpast_luh[BGY_LUC - FDY_LUC];
 	}else if(LANDUSE == 18){
@@ -76,7 +77,7 @@ void cal_spinup(
 		grid->f_pasture_p = 0.0;
     }else if(LANDUSE == 17 || BIOFUEL_RUN >= 1){
 		grid->f_crop_p = grid->f_biofuel[0];
-		grid->f_pasture_p = grid->fpast_luh[2000 - BGY_LUC];
+		grid->f_pasture_p = grid->fpast_luh[2000 - FDY_LUC];
 	}else if(LANDUSE == 19 || LANDUSE == 20 ||
             LANDUSE == 21 || LANDUSE == 22 || LANDUSE == 23){
 		grid->f_crop_p = grid->fcrop_luh[1989 - FDY_LUC];
@@ -289,14 +290,17 @@ void cal_spinup(
             n_fertilizer_in(grid, loct);
         }
 		
-        /* for TRENDY: 2022/07/21 */
+        /* for TRENDY: 2022/07/21, 2023/08/16 */
         if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH0, SH1, SH2 */
             grid->climy = nn%20 +1901;
-            grid->niny = FSY_HIST - 1; /* 1700 */
+            grid->niny = FSY_HIST - 1; /* 1701 */
             grid->co2y = FSY_HIST - 1;
-            grid->lucy = FSY_HIST - 1;
+            /* grid->lucy = FSY_HIST - 1; */
             set_hist_clim(grid);
             n_fertilizer_in(grid, loct);
+            
+            grid->lucy = nn%20 +(FSY_HIST - 1);
+            f_cult_luc(grid);
         }
 
         if((echar->soil).v_type == 2){
@@ -695,8 +699,8 @@ void cal_spinup(
 	if((mass->c3).v_type == 1){
         /* revised (after comments by E.Kato): 2013/10/02  */
         
-        if(LANDUSE ==9 || LANDUSE ==10 || LANDUSE ==11 || LANDUSE ==12 || LANDUSE ==13
-                    || LANDUSE ==14){
+        if(LANDUSE ==9 || LANDUSE ==10 || LANDUSE ==11 || LANDUSE ==12 ||
+           LANDUSE ==13 || LANDUSE ==14){
             dyr = 1900 - FDY_LUC;
         }else{
             dyr = 1900 - FDY_LUC;
@@ -704,6 +708,9 @@ void cal_spinup(
         
         if(LANDUSE == 49 || LANDUSE == 50){
             dyr = 0;
+        }
+        if(LANDUSE == 51){
+            dyr = grid->lucy - FDY_LUC;
         }
 		
         /* from total grid */
@@ -744,7 +751,6 @@ void cal_spinup(
         
         if(NECB_WHVST == 1){
             if((mass->c3).stm > (total_hvst + INT_C)){
-            
                 if((mass->c3).stm > (total_hvst * iweight3 + INT_C)){
                     (mass->c3).stm -= total_hvst * iweight3;
                     flux->hvst_wood = total_hvst * iweight3;
@@ -752,7 +758,6 @@ void cal_spinup(
                     (mass->c3).stm -= total_hvst;
                     flux->hvst_wood = total_hvst;
                 }
-                
             }else{
                 flux->hvst_wood = total_hvst - INT_C;
                 if(flux->hvst_wood < 0.0){

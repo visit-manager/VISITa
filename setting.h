@@ -78,38 +78,13 @@
 /* 5: ISI-MIP 3a */
 /* 6: ISI-MIP 3b */
 
-#define ISIMIP2_FIXCD 0
-/* ISI-MIP2b IIb (fixed CO2 after 2005) */
-
-#define GEOMIP_RUN 0
-/* 0: normal (no GEO-MIP) */
-/* 1: GEO-MIP runs */
-
-#define IMPRESSIONS_RUN 0
-/* 0: off */
-/* 1: sensitivity run (for IRS) */
-/* 2: sensitivity run (for IRS) + seasonal change + RCP4.5-CO2 */
-/* 3: sensitivity run (for IRS) + seasonal change + RCP8.5-CO2 */
-
-/* S10-BECCS experiment: 2016/02/15  */
-#define EX_BECCS 0
-/* 0: off (inc. scenario S5) */
-/* 1: on (scenario S3) */
-/* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
-/* 3: on (scenario S3) based on Kinoshita-san data 2017/10 */
-/* sub-scenarios: 2017/10/31  */
-#define EX_BECCS_SUB 0
-/* 0: no sub-setting */
-/* 1: no beccs */
-/* 2: fix land-use after 2000 */
-
-/* biofuel experiment: 2015/08/21  */
-#define BIOFUEL_RUN 0
-/* 0: off */
-/* 1: current fertilization */
-/* 2: low fertilization */
-/* 3: middle fertilization */
-#define DL_BF 91 /* biofuel data length */
+/* GCP-TRENDY: 2022/07/19 */
+#define EX_TRENDY 1
+/* 0: not applicable */
+/* 1: SH0 : no forcing change */
+/* 2: SH1 : CO2 only */
+/* 3: SH2 : CO2 and climate only */
+/* 4: SH3 : CO2, climate and land use */
 
 /* NMIP: N2O model intercomparison runs */
 #define NMIP_RUN 0
@@ -151,13 +126,38 @@
 /* 31: SH11 land, irrigation, fertilizer, and manure fixed */
 /* 32: SH12 irrigation, fertilizer, and manure fixed */
 
-/* GCP-TRENDY: 2022/07/19 */
-#define EX_TRENDY 4
-/* 0: not applicable */
-/* 1: SH0 : no forcing change */
-/* 2: SH1 : CO2 only */
-/* 3: SH2 : CO2 and climate only */
-/* 4: SH3 : CO2, climate and land use */
+#define ISIMIP2_FIXCD 0
+/* ISI-MIP2b IIb (fixed CO2 after 2005) */
+
+#define GEOMIP_RUN 0
+/* 0: normal (no GEO-MIP) */
+/* 1: GEO-MIP runs */
+
+#define IMPRESSIONS_RUN 0
+/* 0: off */
+/* 1: sensitivity run (for IRS) */
+/* 2: sensitivity run (for IRS) + seasonal change + RCP4.5-CO2 */
+/* 3: sensitivity run (for IRS) + seasonal change + RCP8.5-CO2 */
+
+/* S10-BECCS experiment: 2016/02/15  */
+#define EX_BECCS 0
+/* 0: off (inc. scenario S5) */
+/* 1: on (scenario S3) */
+/* 2: on (scenario S3) based on Kinoshita-san data 2017/02 */
+/* 3: on (scenario S3) based on Kinoshita-san data 2017/10 */
+/* sub-scenarios: 2017/10/31  */
+#define EX_BECCS_SUB 0
+/* 0: no sub-setting */
+/* 1: no beccs */
+/* 2: fix land-use after 2000 */
+
+/* biofuel experiment: 2015/08/21  */
+#define BIOFUEL_RUN 0
+/* 0: off */
+/* 1: current fertilization */
+/* 2: low fertilization */
+/* 3: middle fertilization */
+#define DL_BF 91 /* biofuel data length */
 
 #if ISIMIP_RUN==4
     /* ISI-MIP2b */
@@ -304,7 +304,7 @@
     /* #define FSY_HIST 1800 */
     #define FSY_HIST 1701
     /* #define LSY_HIST 2021 */ /* history */
-    #define LSY_HIST 2022 /* */ /* history */
+    #define LSY_HIST 2022 /* */ /* history TRENDY2023 */
 #endif
 
 /* start year (AD) of CO2 time series */
@@ -566,10 +566,16 @@
     #define FDY_FUTURE 2016 */
 
     /* LUH2-GCP2021 - CMIP6 data */
-    #define DL_FUTURE 1
+    /* #define DL_FUTURE 1
     #define BGY_FUTURE 2023
     #define ENY_FUTURE 2099
-    #define FDY_FUTURE 2022 /* */
+    #define FDY_FUTURE 2022 */
+
+    /* LUH2-GCP2021 - CMIP6 data */
+    #define DL_FUTURE 1
+    #define BGY_FUTURE 2024
+    #define ENY_FUTURE 2099
+    #define FDY_FUTURE 2023 /* */
 #endif
 /* #define DL_FUTURE 241 */ /* 1860-2100 */
 /* #define FDY_FUTURE 2001 */
@@ -602,7 +608,7 @@
 
 /* *******************************************************/
 /* land use change setting */
-#define LANDUSE 50
+#define LANDUSE 51
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -656,6 +662,7 @@
 
 /* 49: LUH2-GCP2019 + ssp1rcp26 (2016-2100): 2022/04/19  */
 /* 50: LUH2-GCP2021 + ssp1rcp26 (2016-2100): 2022/07/19  */
+/* 51: LUH2-GCP2023 + ssp1rcp26 (2016-2100): 2023/07/13  */
 
 /* extra co2 fixation combined with above scenarios: 2018/10/26  */
 #define EXTRA_CO2_FIX 0
@@ -693,7 +700,9 @@
     /* #define DL_LUC 235 */  /* 1866-2015 + 2016-2100 */ /* from CMIP6-LUH2: 2019/07/18  */
     /* #define DL_LUC 301 */  /* 1800-2019 + 2020-2100 */ /* from LUH2-GCP2019 - CMIP6: 2022/04/19  */
     /* #define DL_LUC 322 */  /* 1700-2021 */ /* from LUH2-GCP2021: 2022/07/19  */
-    #define DL_LUC 323 /* */  /* 1700-2022 */ /* from LUH2-GCP2022: 2022/08/18  */
+    /* #define DL_LUC 323 */  /* 1700-2022 */ /* from LUH2-GCP2022: 2022/08/18  */
+    /* #define DL_LUC 324 */  /* 1700-2023 */ /* from LUH2-GCP2023: 2023/07/13  */
+    #define DL_LUC 424 /* */  /* 1600-2023 */ /* from LUH2-GCP2023: 2023/08/23  */
 #endif
 
 /* first year of land-use DATA */
@@ -713,7 +722,8 @@
     /* #define FDY_LUC 1866 */ /* 1866-2015 */ /* from CMIP6: 2018/12/21  */
     /* #define FDY_LUC 1500 */ /* historical + TELUMO: 2019/02/21  */
     /* #define FDY_LUC 1800 */ /* 1800-2019 */ /* 2022/04/19  */
-    #define FDY_LUC 1700 /* */ /* 1700-2022 */ /* 2022/08/18  */
+    /* #define FDY_LUC 1700 */ /* 1700-2022 */ /* 2022/08/18  */
+    #define FDY_LUC 1600 /* */ /* 1600-2023 */ /* 2023/08/23  */
 #endif
 
 /* begin year of land-use SIMULATION */
@@ -737,17 +747,17 @@
 #else
     /* #define BGY_LUC 1900 */
     /* #define BGY_LUC 1800 */ /* 2022/04/19 */
-    #define BGY_LUC 1700 /* 2022/07/19, 2022/08/18 */
+    #define BGY_LUC 1700 /* 2022/07/19, 2022/08/18, 2023/07/13 */
 #endif
 
-/* Forest management: 2019/10/15  *********/
+/* forest management: 2019/10/15  *********/
 #define EX_FORMAN 0
 /* 0: none */
 /* 1: half cropland reforestation */
 /* 2: half wood harvest */
 /* 3: double wood harvest */
 
-/* deforestation ************************************/
+/* deforestation *******************************************/
 #define EX_DEFOREST 0
 /* 0: as present */
 /* 1: entire deforestation, replaced by 19 */

@@ -225,11 +225,11 @@ void cal_historical(
         
         /* for TRENDY: 2022/07/21 */
         if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3){ /* SH0, SH1, SH2 */
-            grid->lucy = 1700;
+            grid->lucy = FSY_HIST;
         }
         if(EX_TRENDY == 4){ /* SH3 */
             if(g < 0){
-                grid->lucy = 1700;
+                grid->lucy = FSY_HIST;
             }if(g > DL_LUC){
                 grid->lucy = FDY_LUC + DL_LUC -1;
             }else{
@@ -304,11 +304,11 @@ void cal_historical(
         
         /* for TRENDY: 2022/07/21 */
         if(EX_TRENDY == 1 || EX_TRENDY == 2){ /* SH0, SH1 */
-            grid->climy = 1901 + g%20;
+            grid->climy = BGY_CLIM + g%20;
         }
         if(EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH2, SH3 */
             if(g < 200){
-                grid->climy = 1901 + g%20;
+                grid->climy = BGY_CLIM + g%20;
             }else{
                 ;
             }
@@ -881,7 +881,8 @@ void cal_historical(
 			}
 
             /* assumption for the period later than 2016: A.Ito (2019/02/11) */
-            if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 49 || LANDUSE == 50) &&
+            if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 49 ||
+                 LANDUSE == 50 || LANDUSE == 51) &&
                     grid->lucy > (FDY_LUC+DL_LUC-1)){
                 dyr = (DL_LUC - 1);
             }

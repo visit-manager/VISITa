@@ -402,9 +402,11 @@ void f_ch4_emit_cao(
         //wtable = -8.0;
     }
 
-	fv_wtable = 0.383 * (fv_inund_pad * exp(0.096 * wtable)
-						+ (1.0 - fv_inund_pad)*exp(0.096 * (wtable - 14.0)));
-    
+	/* fv_wtable = 0.383 * (fv_inund_pad * exp(0.096 * wtable)
+						+ (1.0 - fv_inund_pad)*exp(0.096 * (wtable - 14.0))); */
+    fv_wtable = 0.383 * (fv_inund_pad * exp(0.096 * wtable)
+                        + (1.0 - fv_inund_pad)*exp(0.096 * (wtable - 50.0)));
+
 	if(fv_wtable < 0.0){
         fv_wtable = 0.0;
 	}

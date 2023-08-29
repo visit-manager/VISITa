@@ -767,6 +767,14 @@ void f_output_result(
             fprintf(fp_o[8],"%.4lf ", flux->bb_co_litter[f]*12.0/28.0/1000.0);
             fprintf(fp_o[8],"%.4lf ", flux->bb_ch4_litter[f]*12.0/16.0/1000.0);
             fprintf(fp_o[8],"%.4lf ", flux->bb_bc_litter[f]/1000.0);
+            
+            /* 2023/07/12 */
+            fprintf(fp_o[8],"%.4lf ", (echar->c3).opt_lai[f]); /* */
+            fprintf(fp_o[8],"%.4lf ", (echar->c4).opt_lai[f]); /* */
+            fprintf(fp_o[8],"%.4lf ", (echar->c3).psat[f]); /* */
+            fprintf(fp_o[8],"%.4lf ", (echar->c4).psat[f]); /* */
+            fprintf(fp_o[8],"%.4lf ", (echar->c3).lue[f]); /* */
+            fprintf(fp_o[8],"%.4lf ", (echar->c4).lue[f]); /* */
 
             /* additional data for PLUME: 2014/10/09  */
             if(ISIMIP_RUN == 2){

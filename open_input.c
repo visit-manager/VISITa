@@ -3380,6 +3380,37 @@ void open_input(
             Flag_FOPEN[29] ++;
         }
     }
+    /* LUH2-GCP2023: 2023/07/13  */
+    if(LANDUSE == 51){
+        /* historical */
+        /* if( (fp_s[26]=fopen("./data/luh2-gcp2023_state_1700-2023.txt","rt"))==NULL ){ */
+        if( (fp_s[26]=fopen("./data/luh2-gcp2023_state_1600-2023.txt","rt"))==NULL ){
+            printf("No luh2-gcp2022_state_1600-2023.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[26] ++;
+        }
+        /* if( (fp_s[27]=fopen("./data/luh2-gcp2023_transition_1700-2023.txt","rt"))==NULL ){ */
+        if( (fp_s[27]=fopen("./data/luh2-gcp2023_transition_1600-2023.txt","rt"))==NULL ){
+            printf("No luh2-gcp2023_transition_1600-2023.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[27] ++;
+        }
+        /* future */
+        if( (fp_s[28]=fopen("./data/luh2_state_5-05_ssp1rcp26_2016-2100.txt","rt"))==NULL ){
+            printf("No luh2_state_5-05_ssp1rcp26_2016-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[28] ++;
+        }
+        if( (fp_s[29]=fopen("./data/luh2_transition_5-05_ssp1rcp26_2016-2100.txt","rt"))==NULL ){
+            printf("No luh2_transition_5-05_ssp1rcp26_2016-2100.txt\n");
+            exit(1);
+        }else{
+            Flag_FOPEN[29] ++;
+        }
+    }
 
 	/* **************************************************/
 	/* 0: stable */
