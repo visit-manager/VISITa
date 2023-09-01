@@ -225,11 +225,11 @@ void cal_historical(
         
         /* for TRENDY: 2022/07/21 */
         if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3){ /* SH0, SH1, SH2 */
-            grid->lucy = 1700;
+            grid->lucy = FSY_HIST;
         }
         if(EX_TRENDY == 4){ /* SH3 */
             if(g < 0){
-                grid->lucy = 1700;
+                grid->lucy = FSY_HIST;
             }if(g > DL_LUC){
                 grid->lucy = FDY_LUC + DL_LUC -1;
             }else{
@@ -304,11 +304,11 @@ void cal_historical(
         
         /* for TRENDY: 2022/07/21 */
         if(EX_TRENDY == 1 || EX_TRENDY == 2){ /* SH0, SH1 */
-            grid->climy = 1901 + g%20;
+            grid->climy = BGY_CLIM + g%20;
         }
         if(EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH2, SH3 */
             if(g < 200){
-                grid->climy = 1901 + g%20;
+                grid->climy = BGY_CLIM + g%20;
             }else{
                 ;
             }
