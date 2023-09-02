@@ -11,7 +11,7 @@
 #include"structure.h"
 #include"prototype.h"
 
-#define TER_CON 0.0005 /* criteria for determining the equilibrium, NEP value in Mg C ha-1 yr-1 */
+#define TER_CON 0.001 /* criteria for determining the equilibrium, NEP value in Mg C ha-1 yr-1 */
 
 /* EQUILIBRIUM ***************************************************************/
 void cal_spinup(
@@ -35,15 +35,15 @@ void cal_spinup(
 		if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 
 				|| grid->veg_olson==32){
             /* short-term ecosystems */
-			term_time = 1000;
+			term_time = 500;
 		}else{
             /* long-term ecosystems */
-			term_time = 5000;
+			term_time = 4000;
 		}
 	}else if((echar->c3).v_type == 2){
-		term_time = 1000;
+		term_time = 500;
 	}else{
-        term_time = 1000;
+        term_time = 500;
     }
 	
 	(echar->soil).rl = (echar->soil).rl0;
@@ -773,7 +773,7 @@ void cal_spinup(
             /* altered: 2018/10/16  */
             if((mass->c3).v_type == 1 && NECB_LUC == 1){
                 /* flux->nbp[f] -= iweight * (flux->lu_conv/(double)ASTEP + flux->lu_ten/(double)ASTEP + flux->lu_hund/(double)ASTEP); */
-                flux->nbp[f] -= f_nat * (flux->lu_conv/(double)ASTEP + flux->lu_ten/(double)ASTEP + flux->lu_hund/(double)ASTEP);
+                flux->nbp[f] -= avc3 * f_nat * (flux->lu_conv/(double)ASTEP + flux->lu_ten/(double)ASTEP + flux->lu_hund/(double)ASTEP);
             }
 
             if(NECB_WHVST == 1){
@@ -800,16 +800,6 @@ void cal_spinup(
                 /* revised (after comments by E.Kato): 2013/10/02  */
                 
                 flux->nbp[f] -= (flux->soil).doc_boyer[f]/1000000.0;
-            }
-            
-            if(NECB_CH4 == 1){
-                /* revised (after comments by E.Kato): 2013/10/02  */
-                
-                flux->nbp[f] += 12.0/16.0 * (grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
-                        - grid->f_paddy * ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] +
-                                    (flux->soil).ch4_paddy_wh_diff[f] + (flux->soil).ch4_paddy_wh_release[f]) * 0.00001
-                        - grid->f_wetland * ((flux->soil).ch4_wetland_wh_plant[f] + (flux->soil).ch4_wetland_wh_ebull[f] +
-                                    (flux->soil).ch4_wetland_wh_diff[f] + (flux->soil).ch4_wetland_wh_release[f]) * 0.00001);
             }
             
             if(NECB_ERSN == 1){
@@ -841,10 +831,10 @@ void cal_spinup(
 		
 		/* terminal conditions ****************************/
         if(ISIMIP_RUN == 0){
-            if(nn < 1000){
+            if(nn < 500){
                 /* continued */
                 ann_nep = 10.0; 
-            }else if(nn>=1000 && nn<term_time){
+            }else if(nn>=500 && nn<term_time){
                 ann_nep = fabs(ann_nep); /**** 1. sufficiently stabilized ****/	
             }else{  /*  if(nn>=term_time) */
                 break; /**** 3. stop by 2000 years ****/	
@@ -930,8 +920,14 @@ void cal_spinup(
 			if((mass->soil).msl < INT_C){
 				(mass->soil).msl = INT_C;
 			}
-		}
-	}
+
+            flux->nbp[f] += 12.0/16.0 * (grid->f_upland * (flux->soil).ch4oxy_curry[f] * 0.00001
+                    - grid->f_paddy * ((flux->soil).ch4_paddy_wh_plant[f] + (flux->soil).ch4_paddy_wh_ebull[f] +
+                                (flux->soil).ch4_paddy_wh_diff[f] + (flux->soil).ch4_paddy_wh_release[f]) * 0.00001
+                    - grid->f_wetland * ((flux->soil).ch4_wetland_wh_plant[f] + (flux->soil).ch4_wetland_wh_ebull[f] +
+                                (flux->soil).ch4_wetland_wh_diff[f] + (flux->soil).ch4_wetland_wh_release[f]) * 0.00001);
+        }
+    }
 		
 	/* history data */
 	f_set_history_data(grid->simy - (FSY_HIST-1), grid, loct, mass, flux);

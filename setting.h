@@ -43,7 +43,7 @@
 #define CALC_STEP 10
 /* 1: every grid */
 /* 10: every 10 grid */
-#define CALC_OFFSET 0
+#define CALC_OFFSET 2
 /* grid offset */
 
 /* *******************************************************/

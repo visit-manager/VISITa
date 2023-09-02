@@ -974,7 +974,8 @@ void cal_historical(
             
             /* altered: 2018/10/16  */
 			if((mass->c3).v_type == 1 && NECB_LUC == 1){
-				flux->nbp[f] -= iweight * (flux->lu_conv/(double)ASTEP + flux->lu_ten/(double)ASTEP + flux->lu_hund/(double)ASTEP);
+				/* flux->nbp[f] -= iweight * (flux->lu_conv/(double)ASTEP + flux->lu_ten/(double)ASTEP + flux->lu_hund/(double)ASTEP); */
+                flux->nbp[f] -= avc3 * f_nat * (flux->lu_conv/(double)ASTEP + flux->lu_ten/(double)ASTEP + flux->lu_hund/(double)ASTEP);
 			}
 			
             if(NECB_WHVST == 1){
