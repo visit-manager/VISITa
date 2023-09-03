@@ -34,7 +34,7 @@
 
 /* number of geographical regions */
 #define N_REG 23
-/* defined in region_giorgi() in vegetdeal.c */
+/* defined in f_region_giorgi() in vegetdeal.c */
 
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
@@ -600,7 +600,7 @@
 /* land-use change */
 #define NECB_LUC 1
 /* crop harvest */
-#define NECB_CROP 1
+#define NECB_CROP 2
 
 #define EX_FIRE_GFED 0
 /* 0: off, 1: on   2018/05/19  */

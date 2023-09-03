@@ -127,6 +127,9 @@ void cal_projection(
 			grid->m = f;
 									
 			/* initialize GHG fluxes */
+            plant_flux_zero(f, &(flux->c3));
+            plant_flux_zero(f, &(flux->c4));
+            plant_flux_zero(f, &(flux->plant));
 			ghg_flux_zero(f, flux);
 			
 			/* atmospheric CO2 */
@@ -498,7 +501,7 @@ void cal_projection(
                     flux->voc_afarnesene[f] + flux->voc_bcaryophyllene[f] + flux->voc_othersesqui[f])*10000.0/1000000.0/1000000.0;
             }
             
-            if(NECB_CROP == 1){
+            if(NECB_CROP == 1 && (mass->c3).v_type == 2){
                 /* revised (after comments by E.Kato): 2013/10/02  */
                 flux->nbp[f] -= 1.0 * (flux->plant).net_crop[f]; /* ! hvst is positive */
             }

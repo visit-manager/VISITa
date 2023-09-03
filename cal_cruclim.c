@@ -372,6 +372,9 @@ void cal_historical(
 			grid->m = f;
 			
 			/* initialize GHG fluxes ************/
+            plant_flux_zero(f, &(flux->c3));
+            plant_flux_zero(f, &(flux->c4));
+            plant_flux_zero(f, &(flux->plant));
 			ghg_flux_zero(f, flux);
 			
 			/* CO2 condition */
@@ -388,7 +391,7 @@ void cal_historical(
 
 			/* VOC emission *****************/
 			f_voc_emit_guenther97(grid, loct, echar, mass, flux);
-			/* Plant CH4 emission *****************/
+			/* plant CH4 emission *****************/
 			f_ch4_emit_veg(grid, loct, echar, mass, flux);
    
             /* termite CH4 emission *****************/
@@ -802,7 +805,7 @@ void cal_historical(
             }
 
             (mass->soil).ltr += flux->lu_ltr + flux->detr_ten[0] + flux->detr_hund[0];
-            (mass->soil).ltr -= flux->lu_ten + flux->lu_hund;
+            (mass->soil).ltr -= flux->lu_conv + flux->lu_ten +  flux->lu_hund;
 
             if((mass->soil).ltr < INT_C){
                 (mass->soil).ltr = INT_C;
@@ -1032,7 +1035,7 @@ void cal_historical(
                     flux->voc_afarnesene[f] + flux->voc_bcaryophyllene[f] + flux->voc_othersesqui[f]) * 10000.0/1000000.0/1000000.0;
             }
             
-            if(NECB_CROP == 1){
+            if(NECB_CROP == 1 && (mass->c3).v_type == 2){
                 /* revised (after comments by E.Kato): 2013/10/02  */
                 flux->nbp[f] -= 1.0 * (flux->plant).net_crop[f]; /* ! hvst is positive */
             }

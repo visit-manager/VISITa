@@ -31,7 +31,7 @@ void soil_processes(
 	schar->fm_l[grid->m] = 0.0;
 	schar->fm_h[grid->m] = 0.0;
 
-	if(grid->veg_olson==0 || grid->veg_olson==33){
+	if(grid->veg_olson == 0 || grid->veg_olson == 33){
 		/* no soil carbon in bare lands */
 		flux->rl[grid->m] = 0.0;
 		flux->rh[grid->m] = 0.0;

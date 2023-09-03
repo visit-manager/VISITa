@@ -73,12 +73,13 @@ void planting(
 	f_leaf_age(1, pchar, mass, emerge);
 
 	/* annual crops */
-    if(NECB_CROP == 1){
+    if(NECB_CROP == 1 || NECB_CROP == 2){
 	    mass->fol += 0.4;
 	    mass->stm += 0.3;
 	    mass->rot += 0.3;
+        
+        flux->net_crop[grid->m] -= 1.0; /* palnting => negative harvest */
     }
-	flux->net_crop[grid->m] = -1.0; /* palnting => negative harvest */
 	
 	f_leaf_age(0, pchar, mass, 0.4);
 
@@ -199,9 +200,9 @@ void harvesting(
     /* C-budget parameter ensemble: 2018/06/05  */
     if(PARAM_PTB == 20){
         hvst_index *= 1.0 + 0.3 * f_pert[8];
-    }
-    if(hvst_index > 0.85){
-        hvst_index = 0.85;
+        if(hvst_index > 0.85){
+            hvst_index = 0.85;
+        }
     }
 
     /* litter: 2018/07/23  */
@@ -210,10 +211,11 @@ void harvesting(
     if((hvst_index + clear) > 0.95){
         clear = 0.95 - hvst_index;
     }
-
-	flux->net_crop[grid->m] = flux->hvst_crop[grid->m] = hvst_index * (base_fol + base_stm + base_rot);
     
-    if(NECB_CROP == 1){
+    if(NECB_CROP == 1 || NECB_CROP == 2){
+        flux->net_crop[grid->m] += hvst_index * (base_fol + base_stm + base_rot);
+        flux->hvst_crop[grid->m] += hvst_index * (base_fol + base_stm + base_rot);
+
         mass->fol -= (hvst_index * base_fol);
         mass->stm -= (hvst_index * base_stm);
         mass->rot -= (hvst_index * base_rot);
@@ -243,7 +245,7 @@ void harvesting(
 	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m] - pchar->photo_13c_frac[grid->m];
 	
 	/* GPP by de Pury & Farquhar scheme */
-	if(DF97==1){
+	if(DF97 == 1){
 		flux->gpp_df97[grid->m] = f_df97_gpp(1, grid, loct, pchar, mass);
 	}
 
@@ -258,7 +260,7 @@ void harvesting(
 	flux->d13c_rrm[grid->m] = mass->d13c_rot;
 	
 	/* tentative primary production */	
-	if(DF97==1){
+	if(DF97 == 1){
 		flux->epp[grid->m] = flux->gpp_df97[grid->m] - flux->arm[grid->m];
 	}else{
 		flux->epp[grid->m] = flux->gpp[grid->m] - flux->arm[grid->m];
@@ -349,7 +351,7 @@ void interval(
 	flux->d13c_gpp[grid->m] = loct->d13c_aco2[grid->m] - pchar->photo_13c_frac[grid->m];
 	
 	/* GPP by de Pury & Farquhar scheme */
-	if(DF97==1){
+	if(DF97 == 1){
 		flux->gpp_df97[grid->m] = f_df97_gpp(1, grid, loct, pchar, mass);
 	}
 
