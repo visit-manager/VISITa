@@ -559,7 +559,7 @@ void f_ch4oxy_curry(
 	/* upland */
 	f_i = grid->f_wetland + grid->f_paddy;
 	if(f_i > 1.0){
-		f_i = 1.0;
+        f_i = 1.0;
 	}
 	r_w = 1.0 - f_i;
 	

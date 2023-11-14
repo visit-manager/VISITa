@@ -97,7 +97,7 @@ void f_erosion(
 		if(loct->v_type == 2){
 			if((f_paddy+f_upcrop) > 0.0){
 				grid->f_erosion_c = (f_paddy * c_factor_paddy + f_upcrop * c_factor_upcrop) 
-						/ (f_paddy+f_upcrop);
+						/ (f_paddy + f_upcrop);
 			}else{
 				grid->f_erosion_c = 0.0;
 			}
@@ -135,9 +135,10 @@ void f_erosion(
 	/* P: protection */
 	/* 070725 convensional conservation factor 0.5 */
 	/* 070802 revised conservation factor developed - developing */
-	if(SOIL_CONSV==0){
-		/* Revised: 070802 */
-		switch(grid->country){
+	if(SOIL_CONSV == 0){
+		/* Revised: 070802 -> 20230927 */
+		//switch(SOIL_CONSV){
+        switch(grid->country){
 			/* OECD countries */
 			case 840:	consv =	0.75;		break;	/* United States */
 			case 826:	consv =	0.75;		break;	/* United Kingdom */
@@ -193,22 +194,22 @@ void f_erosion(
     /* parameter ensemble: 2014/11/19  */
     prm_ensen = 1.0;
     if(PARAM_PTB == 10){
-        if(PARAM_ENS==1){
+        if(PARAM_ENS == 1){
             prm_ensen *= 0.7;
         }
-        if(PARAM_ENS==2){
+        if(PARAM_ENS == 2){
             prm_ensen *= 0.8;
         }
-        if(PARAM_ENS==3){
+        if(PARAM_ENS == 3){
             prm_ensen *= 0.9;
         }
-        if(PARAM_ENS==4){
+        if(PARAM_ENS == 4){
             prm_ensen *= 1.1;
         }
-        if(PARAM_ENS==5){
+        if(PARAM_ENS == 5){
             prm_ensen *= 1.2;
         }
-        if(PARAM_ENS==6){
+        if(PARAM_ENS == 6){
             prm_ensen *= 1.3;
         }
     }

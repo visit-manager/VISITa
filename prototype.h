@@ -189,7 +189,7 @@ void set_hist_clim(struct Grid *grid);
 void read_cru_clim(FILE *fp_c[4], FILE *fp_c2[4], struct Grid *grid);
 void f_cult_luc(struct Grid *grid);
 long f_basin_id_trip(long original);
-long region_giorgi(double lat, double lon);
+long f_region_giorgi(double lat, double lon);
 void f_read_chaser_ndepo(FILE *fp_s[IFILEN],struct Grid  *grid);
 
 void f_parameter_perturbation(long iseed,struct Grid *grid,struct Loct *loct,

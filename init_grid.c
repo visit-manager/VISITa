@@ -103,7 +103,7 @@ void f_init_grid(
 	grid->lon = -179.75 + 0.5*(double)grid->col;
 	
 	/* region ID by F.Giorgi: added  (2009/07/12) */
-	grid->reg_g = region_giorgi(grid->lat, grid->lon);
+	grid->reg_g = f_region_giorgi(grid->lat, grid->lon);
 	
 	/* grid latitude and longitude corresponding to NCEP/NCAR reanalysis data */
 	grid->ncep_lat = (long)((89.75-grid->lat)/(180.0/94.0));

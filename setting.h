@@ -34,7 +34,7 @@
 
 /* number of geographical regions */
 #define N_REG 23
-/* defined in region_giorgi() in vegetdeal.c */
+/* defined in f_region_giorgi() in vegetdeal.c */
 
 /* initial (minimal) carbon stock ***********/
 #define INT_C 0.01
@@ -79,7 +79,7 @@
 /* 6: ISI-MIP 3b */
 
 /* GCP-TRENDY: 2022/07/19 */
-#define EX_TRENDY 1
+#define EX_TRENDY 4
 /* 0: not applicable */
 /* 1: SH0 : no forcing change */
 /* 2: SH1 : CO2 only */
@@ -601,6 +601,7 @@
 #define NECB_LUC 1
 /* crop harvest */
 #define NECB_CROP 1
+/* 2: for TRENDY (to adjust offset) */
 
 #define EX_FIRE_GFED 0
 /* 0: off, 1: on   2018/05/19  */

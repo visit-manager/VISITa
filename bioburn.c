@@ -399,12 +399,13 @@ void f_biomassburning(
 				+ flux->bb_ch4_leaf[f]*12.0/16.0/1000.0 + flux->bb_bc_leaf[f]/1000.0;
 			closs_wood = flux->bb_co2_wood[f]*12.0/44.0/1000.0 + flux->bb_co_wood[f]*12.0/28.0/1000.0 
 				+ flux->bb_ch4_wood[f]*12.0/16.0/1000.0 + flux->bb_bc_wood[f]/1000.0;
+            /* corrected: 2023/09/02 */
 			closs_root = flux->bb_co2_root[f]*12.0/44.0/1000.0 + flux->bb_co_root[f]*12.0/28.0/1000.0 
-				+ flux->bb_ch4_leaf[f]*12.0/16.0/1000.0 + flux->bb_bc_leaf[f]/1000.0;
+				+ flux->bb_ch4_root[f]*12.0/16.0/1000.0 + flux->bb_ch4_root[f]/1000.0;
 			closs_litter = flux->bb_co2_litter[f]*12.0/44.0/1000.0 + flux->bb_co_litter[f]*12.0/28.0/1000.0 
 				+ flux->bb_ch4_litter[f]*12.0/16.0/1000.0 + flux->bb_bc_litter[f]/1000.0;
 			
-			/***************/
+			/* **************/
 			(mass->c3).fol -= closs_leaf;
 			if((mass->c3).fol < INT_C){
 				(mass->c3).fol = INT_C;

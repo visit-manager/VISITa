@@ -1182,7 +1182,7 @@ void set_gcm_index(
  a regional analysis of ensemble simulations with the HADCM2 coupled AOGCM, 
  Climate Dynamics, 16, 169-182.
 */
-long region_giorgi(
+long f_region_giorgi(
 	double lat, 
 	double lon
 ){
