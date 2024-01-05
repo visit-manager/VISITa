@@ -266,7 +266,8 @@
     /* #define PD_SIM 201 */
     /* #define PD_SIM 223 */   /* spinup +  1800-2021: 2022/04/19  */
     /* #define PD_SIM 322 */   /* spinup +  1701-2021: 2022/07/21  */
-    #define PD_SIM 323   /* spinup +  1701-2022: 2023/02/07  */
+    /* #define PD_SIM 323 */   /* spinup +  1701-2022: 2023/02/07  */
+    #define PD_SIM 324   /* spinup +  1701-2023: 2024/01/05  */
 #endif
 /* for memory preparation; not always actual experimental length */
 
@@ -304,7 +305,8 @@
     /* #define FSY_HIST 1800 */
     #define FSY_HIST 1701
     /* #define LSY_HIST 2021 */ /* history */
-    #define LSY_HIST 2022 /* */ /* history TRENDY2023 */
+    /* #define LSY_HIST 2022 */ /* history TRENDY2023 */
+    #define LSY_HIST 2023 /* */ /* history */
 #endif
 
 /* start year (AD) of CO2 time series */
@@ -385,7 +387,8 @@
     /* #define PD_HIST 121 */  /* AD 1901 - 2021 */
     /* #define PD_HIST 222 */  /* AD 1800 - 2021 */
     /* #define PD_HIST 321    */  /* AD 1701 - 2021 */
-    #define PD_HIST 322    /* */  /* AD 1701 - 2022 */
+    /* #define PD_HIST 322    */  /* AD 1701 - 2022 */
+    #define PD_HIST 323    /* */  /* AD 1701 - 2023 */
 #endif
 
 /* start year (AD) of climate data ***/
@@ -467,7 +470,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 0
+#define NCEP_RUN 1
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -484,7 +487,8 @@
 /* #define DL_NCEP 72 */   /* 1948-2019 */
 /* #define DL_NCEP 73 */   /* 1948-2020 */
 /* #define DL_NCEP 74 */   /* 1948-2021 */
-#define DL_NCEP 75   /* 1948-2022 */
+/* #define DL_NCEP 75 */   /* 1948-2022 */
+#define DL_NCEP 76   /* 1948-2023 */
 
 /* Simulation using ISI-MIP data (yr) */
 /* spinup 1951-1980 */
