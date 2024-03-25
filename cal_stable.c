@@ -129,10 +129,10 @@ void cal_spinup(
     }else{
         if(grid->rank_nat == 1){
             /* developing countries */
-            f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - 1900.0)))+0.0014929171;
+            f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - 1900.0))) + 0.0014929171;
         }else if(grid->rank_nat == 2){
             /* developed countries */
-            f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - 1900.0)))+0.53533202;
+            f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - 1900.0))) + 0.53533202;
         }else{
             f_fert = 1.0;
         }
@@ -208,9 +208,9 @@ void cal_spinup(
             if(SCENARIO_ID == 5106 || SCENARIO_ID == 5107 || SCENARIO_ID == 5116
                     || SCENARIO_ID == 5117 || SCENARIO_ID == 5222){
                 /* fixed CO2 */
-                grid->co2y = 1901;
+                grid->ghgy = 1901;
             }else{
-                grid->co2y = grid->climy;
+                grid->ghgy = grid->climy;
             }
             set_hist_clim(grid);
         }else if(ISIMIP_RUN == 6 && grid->flag_histdata == 1){
@@ -225,13 +225,13 @@ void cal_spinup(
                 SCENARIO_ID == 5200 || SCENARIO_ID == 5201 || SCENARIO_ID == 5202
             ){
                 /* fixed CO2 */
-                grid->co2y = FDY_AGHG;
+                grid->ghgy = FDY_AGHG;
             }else{
-                grid->co2y = grid->climy;
-                if(grid->co2y < FDY_AGHG){
-                    grid->co2y = FDY_AGHG;
-                }else if(grid->co2y > 2100){
-                    grid->co2y = 2100;
+                grid->ghgy = grid->climy;
+                if(grid->ghgy < FDY_AGHG){
+                    grid->ghgy = FDY_AGHG;
+                }else if(grid->ghgy > 2100){
+                    grid->ghgy = 2100;
                 }
             }
             set_hist_clim(grid);
@@ -276,7 +276,7 @@ void cal_spinup(
         if(NMIP_RUN >= 1 && NMIP_RUN <= 12){
             grid->climy = 1901;
             grid->niny = FSY_HIST-1;
-            grid->co2y = FSY_HIST-1;
+            grid->ghgy = FSY_HIST-1;
             grid->lucy = FSY_HIST-1;
             set_hist_clim(grid);
             n_fertilizer_in(grid, loct);
@@ -284,7 +284,7 @@ void cal_spinup(
         if(NMIP_RUN >= 20 && NMIP_RUN <= 32){
             grid->climy = 1901;
             grid->niny = FSY_HIST;
-            grid->co2y = FSY_HIST;
+            grid->ghgy = FSY_HIST;
             grid->lucy = FSY_HIST;
             set_hist_clim(grid);
             n_fertilizer_in(grid, loct);
@@ -294,7 +294,7 @@ void cal_spinup(
         if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH0, SH1, SH2 */
             grid->climy = nn%30 +1901;
             grid->niny = FSY_HIST - 1; /* 1701 */
-            grid->co2y = FSY_HIST - 1;
+            grid->ghgy = FSY_HIST - 1;
             /* grid->lucy = FSY_HIST - 1; */
             set_hist_clim(grid);
             n_fertilizer_in(grid, loct);

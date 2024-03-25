@@ -15,7 +15,6 @@ extern short Flag_FOPEN[IFILEN];
 
 extern short DF97;
 extern double MDN[ASTEP],YDN;
-extern double sres_co2[DL_ADD];
 extern long SCENARIO_ID, CO2S, GCM_R, GCM_C;
 extern long PARAM_PTB, PARAM_ENS;   /* added  (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3;   /* added  (2010/07/02) */

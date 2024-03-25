@@ -48,19 +48,19 @@ void cal_projection(
  
 		/* CO2 change ********************/
 		if(CO2S == 0){
-			grid->co2y = BGY_FUTURE; 
+			grid->ghgy = BGY_FUTURE; 
 		}else if(CO2S == 7){
-			grid->co2y = 2081;
+			grid->ghgy = 2081;
 		}else{
-			grid->co2y = g; 
+			grid->ghgy = g; 
 		}
         
 		if(TEMP_GC != 0){
-			grid->co2y = 2001;
+			grid->ghgy = 2001;
 		}
         
         if(SCENARIO_ID == 2601 ||SCENARIO_ID == 2602 ||SCENARIO_ID == 2603){
-            grid->co2y = 2005;
+            grid->ghgy = 2005;
         }
         
 		/* climate change ********************/

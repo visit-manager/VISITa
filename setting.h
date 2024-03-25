@@ -248,7 +248,10 @@
 #else
     /* #define DL_AGHG 553 */ /* default */
     /* #define FDY_AGHG 1750 */
-    #define DL_AGHG 603 /* TRENDY: 2022/07/19 */
+    /* #define DL_AGHG 603 */ /* TRENDY: 2022/07/19 */
+    /* #define FDY_AGHG 1700 */
+
+    #define DL_AGHG 801 /* 2024/03/25 */
     #define FDY_AGHG 1700
 #endif
 
@@ -672,8 +675,8 @@
 /* extra co2 fixation combined with above scenarios: 2018/10/26  */
 #define EXTRA_CO2_FIX 0
 /* 0: off (default) */
-/* 1: make grid->co2y = 1901 */
-/* 2: make grid->co2y = 1950 */
+/* 1: make grid->ghgy = 1901 */
+/* 2: make grid->ghgy = 1950 */
 
 /* extra climate fixation combined with above scenarios: 2018/10/26  */
 #define EXTRA_CLIM_FIX 0

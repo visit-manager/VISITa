@@ -23,13 +23,13 @@ void f_init_clim(
 	
 	/* in 1950 :311 ppmv*/
 	/* in 1990 : 352.7 ppmv*/
-	grid->co2y = BGY_CO2Y; 
+	grid->ghgy = BGY_CO2Y; 
 	if(CO2S == 7){
-		grid->co2y = 2081; /* in 2081 : 700 ppmv*/
+		grid->ghgy = 2081; /* in 2081 : 700 ppmv*/
 	}
     if(CC_CD == 5){
-        /* grid->co2y = 2000; */
-        grid->co2y = 2006;
+        /* grid->ghgy = 2000; */
+        grid->ghgy = 2006;
     }
 	grid->climy = BGY_CLIM;
 	grid->lucy = BGY_CLIM;
@@ -417,8 +417,8 @@ void f_dyn_loct(
 
 	/* initial soil CH4 concentration */
 	for(h=0;h<=(N_SLAYER+1);h++){
-        if(grid->co2y >= FDY_AGHG){
-            loct->prof_ch4[h] = ach4_1[grid->co2y - FDY_AGHG]/1000.0
+        if(grid->ghgy >= FDY_AGHG){
+            loct->prof_ch4[h] = ach4_1[grid->ghgy - FDY_AGHG]/1000.0
                 * loct->prsr[grid->m] / (UGC * (grid->tmp10_soil[grid->m] + ZAT));
         }else{
             loct->prof_ch4[h] = ach4_1[0]/1000.0

@@ -58,7 +58,7 @@ struct Grid{
     long    h;
 	
 	long 	simy;					/* year for simulation (AD) */
-	long 	co2y;					/* year for CO2 level estimation */
+	long 	ghgy;					/* year for CO2 level estimation */
 	long 	climy;					/* year of climate data */
     long    lucy;                   /* year of land-use data: 2014/09/11  */
     long    niny;                   /* year of nitrogen input: 2015/11/19  */

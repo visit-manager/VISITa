@@ -1170,7 +1170,7 @@ void f_ch4_emit_walter(
 		/* f_inundation = grid->inundation_ssmi_av; */		
 	}
 	
-    /****************************/
+    /* ***************************/
 	if(EX_CH4_1 == 1){
 		/* experiment for Sasakawa-san: low sensitivity */
 		switch(smode){
