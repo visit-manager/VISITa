@@ -268,8 +268,12 @@ void parameterC3(
 					75.0, 70.0, 75.0, 75.0, 85.0, 85.0, 80.0, 90.0, 
 					70.0, 75.0, 180.0, 180.0, 90.0, 100.0, 100.0, 100.0, 0.95};
 	
-     /* parameter tuning: 2022/07/28 */
-     /* 20	tibetan meadow & siberian highland */
+    /* parameter tuning: 2022/07/28 2024/03/27 */
+    /* 20    tibetan meadow & siberian highland */
+    if((grid->lat>=25.0 && grid->lat<=40.0) && (grid->lon>=70.0 && grid->lon<=105.0)){
+        pmaxv[20] = 9.0;
+        lfv_ms[20] = 0.0021;
+    }
 
 	c3->phototype = 3;
 	c3->albedo = albcv[grid->veg_olson];
@@ -708,14 +712,18 @@ void parameterSoil(
 					0.73, 0.73, 0.73, 0.69, 0.64, 0.69, 0.73, 0.73, 
 					0.73, 0.73, 0.73, 0.73, 0.73, 0.73, 0.73, 0.73, 1.5};
      
-     /* parameter tuning: 2022/07/28 */
-     /* 20	tibetan meadow & siberian highland */
+    /* parameter tuning: 2022/07/28 2024/03/27 */
+    /* 20	tibetan meadow & siberian highland */
+    /* if((grid->lat>=25.0 && grid->lat<=40.0) && (grid->lon>=70.0 && grid->lon<=105.0)){
+        rlv[20] *= 2.0;
+        rhv[20] *= 2.0;
+    } */
 	
-	soil->albedo0 = albgv[grid->veg_olson]; 	 				 
+	soil->albedo0 = albgv[grid->veg_olson];
 	
 	if(DF97 == 0){
-		soil->rl0=soil->rl = rlv[grid->veg_olson]*0.85 * 1.6;
-		soil->rh0=soil->rh = rhv[grid->veg_olson]*0.70 * 0.80;
+		soil->rl0 = soil->rl = rlv[grid->veg_olson]*0.85 * 1.6;
+		soil->rh0 = soil->rh = rhv[grid->veg_olson]*0.70 * 0.80;
 	}else if(DF97 == 1){
 		soil->rl0 = soil->rl = rlv[grid->veg_olson]*0.70 * 1.5;
 		soil->rh0 = soil->rh = rhv[grid->veg_olson]*0.60 * 0.70;

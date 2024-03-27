@@ -133,22 +133,22 @@ void greenperiod(
 	f_leaf_age(0, pchar, mass, (flux->tpf[grid->m] - flux->rfg[grid->m]));
 	
 	/* stable carbon isotope */
-	if((flux->tpf[grid->m]-flux->rfg[grid->m]) > 0.0){
-		mass->d13c_fol = d13c_addition(mass->d13c_fol, mass->fol, 
+	if((flux->tpf[grid->m] - flux->rfg[grid->m]) > 0.0){
+		mass->d13c_fol = d13c_addition(mass->d13c_fol, mass->fol,
 		flux->d13c_tpf[grid->m], (flux->tpf[grid->m]-flux->rfg[grid->m]));
-	}else if((flux->tpf[grid->m]-flux->rfg[grid->m]) < 0.0){
+	}else if((flux->tpf[grid->m] - flux->rfg[grid->m]) < 0.0){
 		mass->d13c_fol = mass->d13c_fol;
 	}
-	if((flux->tpc[grid->m]-flux->rcg[grid->m]) > 0.0){
-		mass->d13c_stm = d13c_addition(mass->d13c_stm, mass->stm, 
+	if((flux->tpc[grid->m] - flux->rcg[grid->m]) > 0.0){
+		mass->d13c_stm = d13c_addition(mass->d13c_stm, mass->stm,
 		flux->d13c_tpc[grid->m], (flux->tpc[grid->m]-flux->rcg[grid->m]));
-	}else if((flux->tpf[grid->m]-flux->rfg[grid->m]) < 0.0){
+	}else if((flux->tpf[grid->m] - flux->rfg[grid->m]) < 0.0){
 		mass->d13c_stm = mass->d13c_stm;
 	}
-	if((flux->tpc[grid->m]-flux->rcg[grid->m]) > 0.0){
-		mass->d13c_rot = d13c_addition(mass->d13c_rot, mass->rot, 
+	if((flux->tpc[grid->m] - flux->rcg[grid->m]) > 0.0){
+		mass->d13c_rot = d13c_addition(mass->d13c_rot, mass->rot,
 		flux->d13c_tpr[grid->m], (flux->tpr[grid->m]-flux->rrg[grid->m]));
-	}else if((flux->tpr[grid->m]-flux->rrg[grid->m]) < 0.0){
+	}else if((flux->tpr[grid->m] - flux->rrg[grid->m]) < 0.0){
 		mass->d13c_rot = mass->d13c_rot;
 	}
 }

@@ -232,9 +232,11 @@ void quantum_yield(
 		/* temperature dependence */
 		eftem = (52.0 - grid->tmp_sfc[grid->m])/(3.5 + 0.75*(52.0 - grid->tmp_sfc[grid->m])); 
 		/* CO2 dependence */
-		efci = pchar->ci[grid->m]/(90.0 + 0.6*pchar->ci[grid->m]);
+		/* efci = pchar->ci[grid->m]/(90.0 + 0.6*pchar->ci[grid->m]); */
 		/* 3.5, 52.0, etc.: empirical parameters */
-	}else if(pchar->phototype == 4){ 
+        /* 2024/03/27 Revised fertilization effect */
+        efci = pchar->ci[grid->m]/(40.0 + 0.8*pchar->ci[grid->m]);
+}else if(pchar->phototype == 4){
 		/* insensitive QE of C4 species */
 		eftem = 1.0;
 		efci = 1.0;
@@ -333,7 +335,7 @@ void opt_lai(
 	double arm, arg, ar;	
 	double psat, lue;
 	
-	if(DF97==1){
+	if(DF97 == 1){
 		psat = pchar->psat_df[grid->m];
 		lue = pchar->lue_df[grid->m];
 	}else{
