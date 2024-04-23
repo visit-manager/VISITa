@@ -51,14 +51,14 @@ void pc_sat(
 	double aa1, aa2, aa3;
 	double f_acclim;
 	
-	/** optimum photosynthesis temperature **/
+	/* optimum photosynthesis temperature **/
 	if(pchar->phototype == 3){ /* C3 plants with change */
 		pchar->topt = pchar->topt0 + 0.01*pchar->ci[grid->m];	
 	}else if(pchar->phototype == 4){ /* C4 plants without change */
 		pchar->topt = pchar->topt0;
 	}
 	
-	/** CO2 compensation point **/
+	/* CO2 compensation point **/
 	if(pchar->phototype == 3){ /* C3 plants with change: Brooks&Farquhar(1985) */
 		aa3 = 0.000347 * (grid->tmp_sfc[grid->m] - 20.0)*(grid->tmp_sfc[grid->m] - 20.0);
 		aa1 = 1.0 + 0.0451 * (grid->tmp_sfc[grid->m] - 20.0) + aa3;
@@ -68,7 +68,7 @@ void pc_sat(
 		pchar->cmpcd[grid->m] = pchar->cmpcd0;
 	}
 		
-	/** temperature effect ******************************************************/
+	/* temperature effect ******************************************************/
 	if(grid->tmp_sfc[grid->m] <= pchar->tmax && grid->tmp_sfc[grid->m] >= pchar->tmin){
 		aa1 = (grid->tmp_sfc[grid->m] - pchar->tmax)*(grid->tmp_sfc[grid->m] - pchar->tmin);
 		aa2 = (grid->tmp_sfc[grid->m] - pchar->topt)*(grid->tmp_sfc[grid->m] - pchar->topt);
@@ -81,21 +81,21 @@ void pc_sat(
 	
 	pchar->ft[grid->m] = ftem;
 	
-	/** CO2 effect ***********************************************************/
-	/** stomatal limitation via intercellular CO2 concentration **/
+	/* CO2 effect ***********************************************************/
+	/* stomatal limitation via intercellular CO2 concentration **/
     fstl = 1.0;
 	if(pchar->phototype == 3){ /* C3 plants */
-		fstl = 0.05 + 0.95*(pchar->ci[grid->m] - pchar->cmpcd[grid->m])/(pchar->kmci + pchar->ci[grid->m]); 
+		fstl = 0.05 + 0.95 * (pchar->ci[grid->m] - pchar->cmpcd[grid->m])/(pchar->kmci + pchar->ci[grid->m]);
 	}else if(pchar->phototype == 4){ /* C4 plants */
-		fstl = 0.60 + 0.40*(pchar->ci[grid->m] - pchar->cmpcd[grid->m])/(pchar->kmci + pchar->ci[grid->m]); 
+		fstl = 0.60 + 0.40 * (pchar->ci[grid->m] - pchar->cmpcd[grid->m])/(pchar->kmci + pchar->ci[grid->m]);
 	}
 	fstl = (fstl<=1.0)?fstl:1.0; 
 	fstl = (fstl>=0.0)?fstl:0.0;
 	
 	pchar->fcd[grid->m] = fstl;
 
-	/** soil water effect ******************************************************/
-	/** non-stomatal limitation **/
+	/* soil water effect ******************************************************/
+	/* non-stomatal limitation **/
     fnstl = 1.0;
 	if(pchar->phototype == 3){ /* C3 plants */
 		fnstl = 0.95 * loct->sww / (loct->sww + grid->field_cap2*pchar->km_nstl) + 0.05;

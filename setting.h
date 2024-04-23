@@ -52,15 +52,15 @@
 #define OFILEN 9
 
 /* selection of output text files */
-#define OUTPUT_CARBON1 1
-#define OUTPUT_CARBON2 1
-#define OUTPUT_ISOTOPE 1
-#define OUTPUT_NITROGEN 1
-#define OUTPUT_HYDMET 1
-#define OUTPUT_EROSION 1
-#define OUTPUT_GHG 1
-#define OUTPUT_BB 1
-#define OUTPUT_BVOC 1
+#define OUTPUT_CARBON1 0
+#define OUTPUT_CARBON2 0
+#define OUTPUT_ISOTOPE 0
+#define OUTPUT_NITROGEN 0
+#define OUTPUT_HYDMET 0
+#define OUTPUT_EROSION 0
+#define OUTPUT_GHG 0
+#define OUTPUT_BB 0
+#define OUTPUT_BVOC 0
 /* output binary */
 #define BASE_GOUT 1
 #define C13_GOUT 0
@@ -79,7 +79,7 @@
 /* 6: ISI-MIP 3b */
 
 /* GCP-TRENDY: 2022/07/19 */
-#define EX_TRENDY 4
+#define EX_TRENDY 1
 /* 0: not applicable */
 /* 1: SH0 : no forcing change */
 /* 2: SH1 : CO2 only */
@@ -270,7 +270,8 @@
     /* #define PD_SIM 223 */   /* spinup +  1800-2021: 2022/04/19  */
     /* #define PD_SIM 322 */   /* spinup +  1701-2021: 2022/07/21  */
     /* #define PD_SIM 323 */   /* spinup +  1701-2022: 2023/02/07  */
-    #define PD_SIM 324   /* spinup +  1701-2023: 2024/01/05  */
+    /* #define PD_SIM 324 */   /* spinup +  1701-2023: 2024/01/05  */
+    #define PD_SIM 424   /* spinup +  1601-2023: 2024/04/23  */
 #endif
 /* for memory preparation; not always actual experimental length */
 
@@ -306,7 +307,8 @@
     /* #define LSY_HIST 2020 */ /* history */
     /* #define LSY_HIST 2021 */ /* history */
     /* #define FSY_HIST 1800 */
-    #define FSY_HIST 1701
+    /* #define FSY_HIST 1701 */
+    #define FSY_HIST 1601
     /* #define LSY_HIST 2021 */ /* history */
     /* #define LSY_HIST 2022 */ /* history TRENDY2023 */
     #define LSY_HIST 2023 /* */ /* history */
@@ -339,7 +341,8 @@
 #else
     /* #define BGY_CO2Y 1901 */
     /* #define BGY_CO2Y 1800 */
-    #define BGY_CO2Y 1701
+    /* #define BGY_CO2Y 1701 */
+    #define BGY_CO2Y 1601
 #endif
 
 /* total historical run: using CRU, NCEP, etc. ***/
@@ -391,7 +394,8 @@
     /* #define PD_HIST 222 */  /* AD 1800 - 2021 */
     /* #define PD_HIST 321    */  /* AD 1701 - 2021 */
     /* #define PD_HIST 322    */  /* AD 1701 - 2022 */
-    #define PD_HIST 323    /* */  /* AD 1701 - 2023 */
+    /* #define PD_HIST 323    */  /* AD 1701 - 2023 */
+    #define PD_HIST 423    /* */  /* AD 1601 - 2023 */
 #endif
 
 /* start year (AD) of climate data ***/
@@ -473,7 +477,7 @@
 #endif
 
 /* Simulation using NCEP/NCAR reanalysis data */
-#define NCEP_RUN 1
+#define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
 #define FDY_NCEP 1948
@@ -593,21 +597,21 @@
 /* 0: uncoupled */
 /* 1: coupled */
 /* erosion */
-#define NECB_ERSN 1
+#define NECB_ERSN 0
 /* biomass burning */
-#define NECB_BB 1
+#define NECB_BB 0
 /* bvoc */
-#define NECB_BVOC 1
+#define NECB_BVOC 0
 /* doc */
-#define NECB_DOC 1
+#define NECB_DOC 0
 /* CH4 */
-#define NECB_CH4 1
+#define NECB_CH4 0
 /* Wood harvest: 2010/10/15  */
-#define NECB_WHVST 1
+#define NECB_WHVST 0
 /* land-use change */
-#define NECB_LUC 1
+#define NECB_LUC 0
 /* crop harvest */
-#define NECB_CROP 1
+#define NECB_CROP 0
 /* 2: for TRENDY (to adjust offset) */
 
 #define EX_FIRE_GFED 0

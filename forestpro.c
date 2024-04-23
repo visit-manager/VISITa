@@ -205,7 +205,7 @@ void leaffall(
 	flux->d13c_rrm[grid->m] = mass->d13c_rot;
 	
 	/* tentative primary production */	
-	if(DF97==1){
+	if(DF97 == 1){
 		flux->epp[grid->m] = flux->gpp_df97[grid->m] - flux->arm[grid->m];
 	}else{
 		flux->epp[grid->m] = flux->gpp[grid->m] - flux->arm[grid->m];
@@ -339,7 +339,7 @@ void leafemergence(
 	flux->d13c_rrm[grid->m] = mass->d13c_rot;
 	
 	/* tentative primary production */	
-	if(DF97==1){
+	if(DF97 == 1){
 		flux->epp[grid->m] = flux->gpp_df97[grid->m] - flux->arm[grid->m];
 	}else{
 		flux->epp[grid->m] = flux->gpp[grid->m] - flux->arm[grid->m];

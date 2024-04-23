@@ -415,8 +415,8 @@ void cal_historical(
 			
 			if(NECB_DOC == 1 ){
 				(mass->soil).msl -= (flux->soil).doc_boyer[f]/1000000.0;
-				if((mass->soil).msl < 0.0){
-					(mass->soil).msl = 0.0;
+				if((mass->soil).msl < INT_C){
+					(mass->soil).msl = INT_C;
 				}
 			}
 
@@ -699,7 +699,7 @@ void cal_historical(
                 }
 			}
 			
-			/******************/
+			/* *****************/
 			f_grid_av(grid, loct, echar, mass, flux);
 		}
         /* printf("\n"); */

@@ -35,15 +35,15 @@ void cal_spinup(
 		if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 
 				|| grid->veg_olson==32){
             /* short-term ecosystems */
-			term_time = 500;
+			term_time = 2000;
 		}else{
             /* long-term ecosystems */
-			term_time = 4000;
+			term_time = 6000;
 		}
 	}else if((echar->c3).v_type == 2){
-		term_time = 500;
+		term_time = 2000;
 	}else{
-        term_time = 500;
+        term_time = 2000;
     }
 	
 	(echar->soil).rl = (echar->soil).rl0;
@@ -292,14 +292,17 @@ void cal_spinup(
 		
         /* for TRENDY: 2022/07/21, 2023/08/16 */
         if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH0, SH1, SH2 */
-            grid->climy = nn%30 +1901;
-            grid->niny = FSY_HIST - 1; /* 1701 */
+            /* 2024/04/09 */
+            /* grid->climy = nn%30 +1901; */
+            grid->climy = nn%20 + BGY_CLIM;
+            grid->niny = FSY_HIST - 1; /* 1701 - 1 = 1700 */
             grid->ghgy = FSY_HIST - 1;
             /* grid->lucy = FSY_HIST - 1; */
             set_hist_clim(grid);
             n_fertilizer_in(grid, loct);
             
-            grid->lucy = nn%30 +(FSY_HIST - 1);
+            /* grid->lucy = nn%30 +(FSY_HIST - 1); */
+            grid->lucy = FSY_HIST;
             f_cult_luc(grid);
         }
 
@@ -369,8 +372,8 @@ void cal_spinup(
 			
 			if(NECB_DOC == 1){
 				(mass->soil).msl -= (flux->soil).doc_boyer[f]/1000000.0;
-				if((mass->soil).msl < 0.0){
-					(mass->soil).msl = 0.0;
+				if((mass->soil).msl < INT_C){
+					(mass->soil).msl = INT_C;
 				}
 			}
 			
@@ -566,8 +569,8 @@ void cal_spinup(
             }
 
             (mass->soil).ltr -= flux->erod_carbon * (prm_ensen * 0.20);
-            if((mass->soil).ltr < 0.0){
-                (mass->soil).ltr = 0.0;
+            if((mass->soil).ltr < INT_C){
+                (mass->soil).ltr = INT_C;
             }
         }
         
@@ -863,7 +866,7 @@ void cal_spinup(
 	/* end of stabilization loop ***********************************************/
 	
 	/* CH4: Walter & Heimann (paddy) */
-	if(CH4_WH==1 && grid->f_wetland>0.0 && loct->v_type == 1){
+	if(CH4_WH == 1 && grid->f_wetland>0.0 && loct->v_type == 1){
 		for(g=0;g<4;g++){
 			for(f=0;f<ASTEP;f++){
 				(flux->soil).ch4_wetland_wh_plant[f] = 0.0;

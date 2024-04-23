@@ -243,10 +243,10 @@ void f_erosion(
 		if(flux->erod_soil < 0.0){
 			flux->erod_soil = 0.0;
 		}else if(flux->erod_soil > 130.0*5.0){
-			flux->erod_soil = 130.0*5.0;
+			flux->erod_soil = 130.0 * 5.0;
 		}
 		
-		flux->erod_orgmat = flux->erod_soil * grid->pcnt_orgmat/100.0;
+		flux->erod_orgmat = flux->erod_soil * grid->pcnt_orgmat / 100.0;
 		flux->erod_carbon = flux->erod_orgmat / dmTc;
 	}
 }

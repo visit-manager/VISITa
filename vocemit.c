@@ -224,7 +224,7 @@ void f_voc_emit_guenther97(
 			break;
 	}
 	
-	/***********************************************************************/
+	/*　**********************************************************************/
 	cc = foliar_dens * MDN[grid->m] * grid->dlen[grid->m];
     cc2 = loct->lai[grid->m] * MDN[grid->m] * grid->dlen[grid->m];
     
