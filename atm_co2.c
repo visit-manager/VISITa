@@ -174,8 +174,15 @@ void f_co2_trend(
     
     if(EX_TRENDY >= 1){
         /* base = aco2_1[grid->ghgy - FDY_AGHG]; */
-        /* 2024/03/25 */
-        base = aco2_4[grid->ghgy - FDY_AGHG];
+        /* 2024/03/25, 2024/04/25 */
+        
+        if(grid->ghgy < FDY_AGHG){
+            base = aco2_4[0];
+        }else if(grid->ghgy >= FDY_AGHG && grid->ghgy < (FDY_AGHG + DL_AGHG)){
+            base = aco2_4[grid->ghgy - FDY_AGHG];
+        }else if(grid->ghgy >= (FDY_AGHG + DL_AGHG)){
+            base = aco2_4[DL_AGHG -1];
+        }
     }
     
     /* assuming SRM + CDR : 2014/06/18  */
