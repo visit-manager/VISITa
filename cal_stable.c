@@ -149,7 +149,7 @@ void cal_spinup(
         grid->simy = FSY_HIST - 1; /* 1849 */
     }
     if(EX_TRENDY >= 1){
-        grid->simy = FSY_HIST - 1; /* 1700 */
+        grid->simy = FSY_HIST - 1; /* 1700, 1600 */
     }
     if(ISIMIP_RUN == 4){
         grid->simy = FSY_HIST - 1; /* 1660 */
@@ -851,6 +851,13 @@ void cal_spinup(
             /* spin-up 3000 years (100 x 30 times): 2020/10/01  */
             ann_nep = 10.0;
             if(nn == 3000){
+                ann_nep = 0.0;
+            }
+        }
+        
+        if(EX_TRENDY >= 1){
+            ann_nep = 10.0;
+            if(nn == 5000){
                 ann_nep = 0.0;
             }
         }
