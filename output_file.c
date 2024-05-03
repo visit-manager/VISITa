@@ -449,6 +449,10 @@ void f_output_result(
             
             fprintf(fp_o[1],"%.3lf ", 100.0 * (flux->soil).f_n2o_ntr_ngas[f]);
             
+            /* 2024/05/02 */
+            fprintf(fp_o[1],"%.3lf ", (echar->c3).cn_leaf[f]);
+            fprintf(fp_o[1],"%.3lf ", (echar->c4).cn_leaf[f]);
+            
             /* monitor: 2010/03/24  **************/
             /* fprintf(fp_o[1],"%.3lf ", loct->xx1[f]); 
             fprintf(fp_o[1],"%.3lf ", loct->xx2[f]);
@@ -793,7 +797,7 @@ void f_output_result(
     }
 }
 
-/************************************************************************/
+/* ***********************************************************************/
 /* decadal average grid values */
 void f_grid_av(
 	struct Grid *grid, 

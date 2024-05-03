@@ -318,7 +318,7 @@ void cal_historical(
         if(grid->simy < BGY_CLIM){
             grid->climy = BGY_CLIM + g%20;
         }else if(grid->simy > (BGY_CLIM + DL_HCLIM - 1)){
-            if(NCEP_RUN == 1 && grid->simy <(FDY_NCEP+DL_NCEP) ){
+            if(NCEP_RUN == 1 && grid->simy <(FDY_NCEP + DL_NCEP) ){
                 ;
             }else{
                 grid->climy = (BGY_CLIM + DL_HCLIM - 1);

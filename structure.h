@@ -574,7 +574,10 @@ struct Pchar{
     double  n_leaf[ASTEP];
 	
 	double	n_leaf_df97;			/* leaf N concentration, mmol N m-2 */
-	
+    
+    double  cn_leaf_0[ASTEP];
+    double  cn_leaf[ASTEP];
+
 	/* phenology *********/
 	double	gdd;					/* growing degree days */
 	double	mgdd[ASTEP];			/* monthly growing degree days */

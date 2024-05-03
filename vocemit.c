@@ -172,8 +172,8 @@ void f_voc_emit_guenther97(
 	
 	t_lai = 0.0;
 	for(f=0;f<=48;f++){
-		laiage[f] = (echar->c3).fleaf_age[f]*loct->c3ptn[grid->m] 
-					+ (echar->c4).fleaf_age[f]*loct->c4ptn[grid->m];
+		laiage[f] = (echar->c3).fleaf_age[f] * loct->c3ptn[grid->m]
+					+ (echar->c4).fleaf_age[f] * loct->c4ptn[grid->m];
 		t_lai += laiage[f];
 	}
 	for(f=0;f<=48;f++){
@@ -223,8 +223,15 @@ void f_voc_emit_guenther97(
 			f_phenology = 0.75;
 			break;
 	}
-	
-	/*　**********************************************************************/
+    
+    if(f_phenology < 0.0){
+        f_phenology = 0.0;
+    }
+    if(f_phenology > 10.0){
+        f_phenology = 10.0;
+    }
+
+    /*　**********************************************************************/
 	cc = foliar_dens * MDN[grid->m] * grid->dlen[grid->m];
     cc2 = loct->lai[grid->m] * MDN[grid->m] * grid->dlen[grid->m];
     

@@ -469,22 +469,38 @@ void f_n_leaf_conc(
 	struct Grid *grid, 
 	struct Pchar *pchar, 
 	struct Pmas *mass
-){
-	/* mmol N m-2 leaf area */
-	if(mass->lai[grid->m] > 0.01){
-		pchar->n_conc_larea = mass->n_cnpy / 10000.0 / 14.0 * 1000.0 / mass->lai[grid->m];
-	}else{
-		pchar->n_conc_larea = 1.0;
-	}
-	
-	pchar->n_conc_larea_m[grid->m] = pchar->n_conc_larea;
-	
-	/* mmol N g-1 leaf weight */
-	if(mass->mfol[grid->m] > 0.01){
-		pchar->n_conc_lmass = mass->n_cnpy / 14.0 *1000.0 / (mass->mfol[grid->m] * 1000000.0);
-	}else{
-		pchar->n_conc_lmass = 1.0;
-	}
+                   ){
+    /* mmol N m-2 leaf area */
+    if(mass->lai[grid->m] > 0.01){
+        pchar->n_conc_larea = mass->n_cnpy / 10000.0 / 14.0 * 1000.0 / mass->lai[grid->m];
+    }else{
+        pchar->n_conc_larea = 1.0;
+    }
+    
+    pchar->n_conc_larea_m[grid->m] = pchar->n_conc_larea;
+    
+    /* mmol N g-1 leaf weight */
+    if(mass->mfol[grid->m] > 0.01){
+        pchar->n_conc_lmass = mass->n_cnpy / 14.0 *1000.0 / (mass->mfol[grid->m] * 1000000.0);
+    }else{
+        pchar->n_conc_lmass = 1.0;
+    }
+    
+    /* C/N ratio: 2024/05/02 */
+    if(grid->phase == 0){
+        if(mass->mfol[grid->m] > 0.01 && mass->n_cnpy > 0.01){
+            pchar->cn_leaf_0[grid->m] = 1000.0 * mass->mfol[grid->m] / mass->n_cnpy;
+        }else{
+            pchar->cn_leaf_0[grid->m] = 1.0;
+        }
+    }
+    if(grid->phase == 1){
+        if(mass->mfol[grid->m] > 0.01 && mass->n_cnpy > 0.01){
+            pchar->cn_leaf[grid->m] = 1000.0 * mass->mfol[grid->m] / mass->n_cnpy;
+        }else{
+            pchar->cn_leaf[grid->m] = 1.0;
+        }
+    }
 }
 
 /* leaf age **************************************************************/
@@ -542,4 +558,14 @@ void f_leaf_age(
 			}
 		}
 	}
+    
+    for(f=0;f<=48;f++){
+        if(pchar->fleaf_age[f]< 0.0 ){
+            pchar->fleaf_age[f] = 0.0;
+        }
+        if(pchar->fleaf_age[f]> 10.0){
+            pchar->fleaf_age[f] = 10.0;
+        }
+    }
+    
 }
