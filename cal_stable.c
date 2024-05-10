@@ -862,7 +862,7 @@ void cal_spinup(
             }
         }
 		
-		if(plantmass < 0.0 || plantmass >= 500.0){
+		if(plantmass < 0.0 || plantmass >= 600.0){
 			printf("!!! BAD plant biomass: %lf\n", plantmass);
 			vanish(mass, flux);  /*** 2. excluding abnormal estimates ***/
 			break;

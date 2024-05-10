@@ -224,11 +224,10 @@ void f_voc_emit_guenther97(
 			break;
 	}
     
-    if(f_phenology < 0.0){
+    if(f_phenology >= 0.0 && f_phenology <= 10.0){
+        ;
+    }else{
         f_phenology = 0.0;
-    }
-    if(f_phenology > 10.0){
-        f_phenology = 10.0;
     }
 
     /*　**********************************************************************/

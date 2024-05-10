@@ -440,8 +440,15 @@ void f_dyn_loct(
 		/* vapour pressure, hPa */
 		if(grid->phase == 0){
 			/* spin-up */
-			loct->vp[grid->m] = grid->hist_vap_b[grid->m];
-		}else if(grid->phase == 1){
+			/* loct->vp[grid->m] = grid->hist_vap_b[grid->m]; */
+            /* 2024/05/08 */
+            if(grid->climy < (BGY_CLIM + DL_HCLIM)){
+                /* based on UEA/CRU or ISI-MIP data */
+                loct->vp[grid->m] = grid->hist_vap[grid->climy - BGY_CLIM + offset][grid->m];
+            }else{
+                loct->vp[grid->m] = grid->hist_vap_b[grid->m];
+            }
+        }else if(grid->phase == 1){
 			if(grid->climy < (BGY_CLIM + DL_HCLIM)){
 				/* based on UEA/CRU or ISI-MIP data */
 				loct->vp[grid->m] = grid->hist_vap[grid->climy - BGY_CLIM + offset][grid->m];
