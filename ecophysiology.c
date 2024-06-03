@@ -251,20 +251,32 @@ void stom_cond(
 	struct Loct *loct, 
 	struct Pchar *pchar
 ){
-	double aco2, b1d, cc;
+	double aco2, b1d, cc, faccl;
 	
 	aco2 = loct->aco2[grid->m];
 	if(FIX_GSCO2 == 1){
 		/* non-CO2-responsive */
 		aco2 = 350.0;
 	}
-	
+    
+    /* experiments for stomatal acclimation: 2024/06/03 */
+    faccl = 1.0;
+    if(EX_STOMATA_ACCL == 1){
+        faccl = 1.0 - 0.002 * (loct->aco2[grid->m] - 280.0);
+    }
+    if(faccl < 0.1){
+        faccl = 0.1;
+    }
+    if(faccl > 2.0){
+        faccl = 2.0;
+    }
+
 	/* stomatal conductance model by Ball, Woodraw, and Berry (1987) */
 	/*
 	 Leuning, R. (1995), A critical appraisal of a combined stomatal-photosynthesis 
 	 model for C3 plants, Plant, Cell and Environment, 18, 339-355.
 	*/
-	b1d = pchar->gs_b1/((aco2 - pchar->cmpcd[grid->m])*(1.0 + loct->vpd[grid->m]/pchar->gs_b2)); /* */
+	b1d = faccl * pchar->gs_b1/((aco2 - pchar->cmpcd[grid->m])*(1.0 + loct->vpd[grid->m]/pchar->gs_b2)); /* */
 	/* insensitive to CO2 */
 	/* b1d=plant->gs_b1/(( 350.0 - 40.0 )*(1.0+loct->vpd[grid->m]/plant->gs_b2)); */
 
@@ -303,14 +315,14 @@ double canopy_cond(
 	
 	if(mass->lai[grid->m]>0.0 && pchar->gs[grid->m]>0.0){
 		sss = 2.0 * pchar->gs[grid->m] / pchar->eK[grid->m];
-        bbb = 1.0 + pchar->eK[grid->m]*lue_gs*grid->par[grid->m] / pchar->gs[grid->m];
+        bbb = 1.0 + pchar->eK[grid->m] * lue_gs*grid->par[grid->m] / pchar->gs[grid->m];
         if(bbb > 0.0){
             ttt = 1.0 + sqrt(bbb);
         }else{
             ttt = 1.0;
         }
 		vvv = -1.0 * pchar->eK[grid->m] * mass->lai[grid->m];
-        ccc = 1.0 + pchar->eK[grid->m] * lue_gs*grid->par[grid->m]*exp(vvv) / pchar->gs[grid->m];
+        ccc = 1.0 + pchar->eK[grid->m] * lue_gs * grid->par[grid->m] * exp(vvv) / pchar->gs[grid->m];
         if(ccc > 0.0){
             uuu = 1.0 + sqrt(ccc);
         }else{

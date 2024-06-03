@@ -79,7 +79,7 @@
 /* 6: ISI-MIP 3b */
 
 /* GCP-TRENDY: 2022/07/19 */
-#define EX_TRENDY 1
+#define EX_TRENDY 4
 /* 0: not applicable */
 /* 1: SH0 : no forcing change */
 /* 2: SH1 : CO2 only */
@@ -597,21 +597,21 @@
 /* 0: uncoupled */
 /* 1: coupled */
 /* erosion */
-#define NECB_ERSN 0
+#define NECB_ERSN 1
 /* biomass burning */
-#define NECB_BB 0
+#define NECB_BB 1
 /* bvoc */
-#define NECB_BVOC 0
+#define NECB_BVOC 1
 /* doc */
-#define NECB_DOC 0
+#define NECB_DOC 1
 /* CH4 */
-#define NECB_CH4 0
+#define NECB_CH4 1
 /* Wood harvest: 2010/10/15  */
-#define NECB_WHVST 0
+#define NECB_WHVST 1
 /* land-use change */
-#define NECB_LUC 0
+#define NECB_LUC 1
 /* crop harvest */
-#define NECB_CROP 0
+#define NECB_CROP 1
 /* 2: for TRENDY (to adjust offset) */
 
 #define EX_FIRE_GFED 0
@@ -894,6 +894,11 @@
 #define EX_MOD_TRAIT_3 0
 /* 0: off */
 /* 1: K modification */
+
+/* experiments for stomatal acclimation: 2024/06/03 */
+#define EX_STOMATA_ACCL 0
+/* 0: off */
+/* 1: on */
 
 /* ********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
