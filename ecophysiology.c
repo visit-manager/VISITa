@@ -236,7 +236,7 @@ void quantum_yield(
 		/* 3.5, 52.0, etc.: empirical parameters */
         /* 2024/03/27 Revised fertilization effect */
         efci = pchar->ci[grid->m]/(40.0 + 0.8*pchar->ci[grid->m]);
-}else if(pchar->phototype == 4){
+    }else if(pchar->phototype == 4){
 		/* insensitive QE of C4 species */
 		eftem = 1.0;
 		efci = 1.0;
@@ -263,6 +263,11 @@ void stom_cond(
     faccl = 1.0;
     if(EX_STOMATA_ACCL == 1){
         faccl = 1.0 - 0.002 * (loct->aco2[grid->m] - 280.0);
+    }
+    if(EX_STOMATA_ACCL == 2){
+        if(grid->simy >= 1980){ /* historical */
+            faccl = 1.3;
+        }
     }
     if(faccl < 0.1){
         faccl = 0.1;

@@ -898,7 +898,8 @@
 /* experiments for stomatal acclimation: 2024/06/03 */
 #define EX_STOMATA_ACCL 0
 /* 0: off */
-/* 1: on */
+/* 1: lower density */
+/* 2: improvement */
 
 /* ********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
@@ -1001,7 +1002,7 @@
 /* 0: off, 1: on */
 
 /* carbon-nitrogen coupling */
-#define CN_COUPLE 0
+#define CN_COUPLE 1
 /* 0: no coupling (for safety) */
 /* 1: physiological coupling: Amax, Rd, Decomp. */
 /* 2: ecological coupling: mortality, etc. */

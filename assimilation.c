@@ -47,7 +47,7 @@ void pc_sat(
 	struct Loct *loct, 
 	struct Pchar *pchar
 ){
-	double ftem, fstl, fnstl, fozone;
+	double ftem, fstl, fnstl, fozone, fnitrogen;
 	double aa1, aa2, aa3;
 	double f_acclim;
 	
@@ -132,11 +132,18 @@ void pc_sat(
     pchar->fo3[grid->m] = fozone;
 		
 	/* leaf N effect ***********************************************************/
-	if(CN_COUPLE >= 1){		
-		pchar->pmax = pchar->amax_nphoto * pchar->n_conc_larea / (pchar->kn_nphoto + pchar->n_conc_larea);
+    fnitrogen = 1.0;
+	if(CN_COUPLE == 1){
+		/* pchar->pmax = pchar->amax_nphoto * pchar->n_conc_larea / (pchar->kn_nphoto + pchar->n_conc_larea);
 		if(pchar->pmax < 0.0){
 			pchar->pmax = 0.0;
-		}
+		} */
+        
+        if(pchar->cn_leaf[grid->m] >= pchar->cn_leaf_0[grid->m]){
+            fnitrogen = 1.0 - 0.01 * (pchar->cn_leaf[grid->m] - pchar->cn_leaf_0[grid->m]);
+        }else{
+            fnitrogen = 1.0 - 0.01 * (pchar->cn_leaf[grid->m] - pchar->cn_leaf_0[grid->m]);
+        }
 	}
 	
 	/* acclimation ************************************************ 2009/04/29 A.Ito */

@@ -22,7 +22,7 @@ double frfm(
 	
 	t0 = 15.0; /* specific rate, at 15 deg C */
 	
-	if(CN_COUPLE >= 1){	
+	if(CN_COUPLE == 2){
 		/* micro mol m-2 s-1 */
 		/* g g-1 */
 		rfmt0 = veg->n_conc_larea * veg->rd_n * 12.0 / 
