@@ -11,19 +11,28 @@
 #include"structure.h"
 #include"prototype.h"
 
-/* mortarity of plant organs ***************************************/
-void mortality(
+/* turnover of plant organs ***************************************/
+void f_mortality(
 	struct Grid *grid, 
+    struct Loct *loct, 
 	struct Pchar *pchar
 ){
-	double bbb;
+	double ftmp, fdrt;
 	
 	/* larger at warm, and smaller at cool */
-	bbb = 1.0 + (grid->tmp_sfc[grid->m] - grid->tmp_sfc_am)/100.0;
+    ftmp = 1.0 + (grid->tmp_sfc[grid->m] - grid->tmp_sfc_am)/100.0;
+    
+    fdrt = 1.0;
+    /* experiments for drought-induced mortality: 2024/06/27 */
+    if(EX_DROUGHT_MOTAL == 1){
+        if(loct->sww < 100.0){
+            fdrt = 1.0 - 0.001 * (100.0 - loct->sww);
+        }
+    }
 	
-	pchar->lf[grid->m] = pchar->lf0 * bbb; /* leaf */
-	pchar->lc[grid->m] = pchar->lc0 * bbb; /* stem */
-	pchar->lr[grid->m] = pchar->lr0 * bbb; /* root */
+	pchar->lf[grid->m] = pchar->lf0 * ftmp * fdrt; /* leaf */
+	pchar->lc[grid->m] = pchar->lc0 * ftmp * fdrt; /* stem */
+	pchar->lr[grid->m] = pchar->lr0 * ftmp * fdrt; /* root */
 }
 
 /* from foliage *******************************************************/

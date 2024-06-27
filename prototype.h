@@ -274,7 +274,7 @@ double lai_mass(struct Grid *grid, struct Pmas *mass, struct Pchar *pchar);
 double irr_attn(struct Grid *grid, struct Loct *loct, struct Pchar *pchar);
 void f_qten_ar(struct Grid *grid, struct Pchar *plant);
 void spcfc_res_mass(struct Pchar *plant, struct Pmas *mass);
-void mortality(struct Grid *grid, struct Pchar *plant);
+void f_mortality(struct Grid *grid, struct Loct *loct, struct Pchar *plant);
 void stom_cond(struct Grid *grid,struct Loct *loct, struct Pchar *plant);
 double canopy_cond(struct Grid *grid,struct Loct *loct, struct Pchar *plant, struct Pmas *mass);
 void pc_sat(struct Grid *grid, struct Loct *loct, struct Pchar *pchar);

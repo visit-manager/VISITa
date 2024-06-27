@@ -463,6 +463,7 @@
     /* #define DL_HCLIM 120 */  /* CRU TS4.05: AD 1901 - 2020 */
     /* #define DL_HCLIM 121 */  /* CRU TS4.06: AD 1901 - 2021 */
     #define DL_HCLIM 122 /* */  /* CRU TS4.07: AD 1901 - 2022 */
+    /* #define DL_HCLIM 123 */  /* CRU TS4.08: AD 1901 - 2023 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -900,6 +901,10 @@
 /* 0: off */
 /* 1: lower density */
 /* 2: improvement */
+
+/* experiments for drought-induced mortality: 2024/06/27 */
+#define EX_DROUGHT_MOTAL 0
+/* 0: off */
 
 /* ********************************************************/
 /* CH4 emission by Walter-Heimann scheme */

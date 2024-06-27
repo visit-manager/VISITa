@@ -145,7 +145,13 @@ void pc_sat(
             fnitrogen = 1.0 - 0.01 * (pchar->cn_leaf[grid->m] - pchar->cn_leaf_0[grid->m]);
         }
 	}
-	
+    if(fnitrogen < 0.0){
+        fnitrogen = 0.0;
+    }
+    if(fnitrogen > 3.0){
+        fnitrogen = 3.0;
+    }
+
 	/* acclimation ************************************************ 2009/04/29 A.Ito */
 	if(loct->aco2[grid->m]>400.0 && SENS_RAD == 11){
 		f_acclim = (1.16 - (loct->aco2[grid->m] - 400.0)*0.00075)/1.16;
@@ -154,7 +160,7 @@ void pc_sat(
 	}
 
 	/** light-saturated photosynthesis rate **/
-	pchar->psat[grid->m] = pchar->pmax * ftem * fstl * fnstl * f_acclim;
+	pchar->psat[grid->m] = pchar->pmax * ftem * fstl * fnstl * f_acclim * fnitrogen;
     
     if(EX_OZONE == 1){
         pchar->psat[grid->m] *= fozone;

@@ -140,8 +140,8 @@ void f_ecophysiology(
 	f_qten_ar(grid, pchar); /* Q10 */
 	spcfc_res_mass(pchar, mass); /* woody specific respiration rate */
 
-	/** litterfall of plant respiration **/
-	mortality(grid, pchar);
+	/* litterfall of plant biomass **/
+	f_mortality(grid, loct, pchar);
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97 == 1){
