@@ -188,11 +188,11 @@ void phenology_grass(
 			}
 		}
 	}else if(pchar->phototype == 4){
-		if(loct->msww[grid->m]/grid->field_cap2<0.1 || grid->tmp_sfc[grid->m] < 8.0){
+		if(loct->msww[grid->m]/grid->field_cap2 < 0.1 || grid->tmp_sfc[grid->m] < 8.0){
 			/* dormancy */
 			pchar->season[grid->m] = 0;
 			/* leaf-shedding */
-			if(pchar->frag_emg==1 && pchar->frag_dcd==0){
+			if(pchar->frag_emg == 1 && pchar->frag_dcd == 0){
 				pchar->season[grid->m] = 3;
 				pchar->frag_dcd = 1;
 				pchar->frag_emg = 0;

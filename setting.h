@@ -612,12 +612,13 @@
 /* land-use change */
 #define NECB_LUC 1
 /* crop harvest */
-#define NECB_CROP 1
+#define NECB_CROP 2
 /* 2: for TRENDY (to adjust offset) */
 
 #define EX_FIRE_GFED 0
 /* 0: off, 1: on   2018/05/19  */
 /* 2: on with adjusting factor, 0.73 */
+/* 3: prescribed GCP-TRENDY 2024 */
 
 /* *******************************************************/
 /* land use change setting */

@@ -78,7 +78,7 @@ void planting(
 	    mass->stm += 0.3;
 	    mass->rot += 0.3;
         
-        flux->net_crop[grid->m] -= 1.0; /* palnting => negative harvest */
+        flux->net_crop[grid->m] -= 1.0; /* planting => negative harvest */
     }
 	
 	f_leaf_age(0, pchar, mass, 0.4);

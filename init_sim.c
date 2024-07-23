@@ -41,7 +41,7 @@ void f_init_sim(
         fclose(fpi);
     }
 		
-	/**********************************************/
+	/* *********************************************/
 	set_rowcol_gcm();	/* -> vegetdeal.c */
 
 	/* grid ID, sequential number */
@@ -49,7 +49,7 @@ void f_init_sim(
 	grid->n_sage = 0;
 	grid->n_crop = 0;
     
-	/**********************************************/
+	/* *********************************************/
     /* albedo perturbation */
     if(EX_ALBEDO >= 1){
         /* CMIP5:  */
