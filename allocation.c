@@ -44,7 +44,9 @@ void allocation(
             /* if holding LAI is greater than the optimam one */
             /**** avoid too high LAI under good condition: 2009/04/29 A.Ito ****/
             aaa = mass->lai[grid->m] - pchar->opt_lai[grid->m];
-            bbb = 1.0 - 0.5 * aaa;
+            /* bbb = 1.0 - 0.5 * aaa; */
+            /* 2024/07/26 */
+            bbb = 1.0 - 1.0 * aaa;
             bbb = (bbb>0.0)?bbb:0.0;
             
             /* formar: bbb = 1.0; */

@@ -60,7 +60,7 @@ double f_df97_gpp(
 	
 	lai_t = pmas->lai[grid->m];
 	scttr = 0.15;
-	if(SENS_RAD==5){
+	if(SENS_RAD == 5){
 		scttr *= 1.1;
 	}
 	if(SENS_RAD == 6){
@@ -205,11 +205,11 @@ double f_df97_gpp(
 			/* sun/shade canopy */
 			ke_b1 = 0.5 / h_sinh[h];
 			ke_b2 = 0.46 / h_sinh[h];
-			if(SENS_RAD==9){
+			if(SENS_RAD == 9){
 				ke_b1 *= 1.1;
 				ke_b2 *= 1.1;
 			}
-			if(SENS_RAD==10){
+			if(SENS_RAD == 10){
 				ke_b1 *= 0.9;
 				ke_b2 *= 0.9;
 			}

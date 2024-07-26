@@ -19,7 +19,7 @@ void growthperiod(
 ){
 	extern double MDN[12];
 
-	/** cumulative temperature, degree days**/
+	/* cumulative temperature, degree days ***/
 	if(grid->lat >= 0.0){
 		if(grid->m == 0){
 			pchar->gdd = 0.0;
@@ -37,7 +37,7 @@ void growthperiod(
 			}
 		}
 	}
-	if(grid->tmp_sfc[grid->m]>5.0){
+	if(grid->tmp_sfc[grid->m] > 5.0){
 		pchar->gdd += grid->tmp_sfc[grid->m] * MDN[grid->m];
 	}	
 	pchar->mgdd[grid->m] = pchar->gdd;
@@ -100,7 +100,7 @@ void phenology_evergreen(
 	}
 }
 
-/* Deciduous biomes in higher latitudes ******************************/
+/* deciduous biomes in higher latitudes ******************************/
 void phenology_colddeciduous(
 	struct Grid *grid, 
 	struct Loct *loct, 

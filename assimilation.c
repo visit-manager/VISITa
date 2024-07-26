@@ -140,9 +140,9 @@ void pc_sat(
 		} */
         
         if(pchar->cn_leaf[grid->m] >= pchar->cn_leaf_0[grid->m]){
-            fnitrogen = 1.0 - 0.01 * (pchar->cn_leaf[grid->m] - pchar->cn_leaf_0[grid->m]);
+            fnitrogen = 1.0 - 0.005 * (pchar->cn_leaf[grid->m] - pchar->cn_leaf_0[grid->m]);
         }else{
-            fnitrogen = 1.0 - 0.01 * (pchar->cn_leaf[grid->m] - pchar->cn_leaf_0[grid->m]);
+            fnitrogen = 1.0 - 0.005 * (pchar->cn_leaf[grid->m] - pchar->cn_leaf_0[grid->m]);
         }
 	}
     if(fnitrogen < 0.0){
