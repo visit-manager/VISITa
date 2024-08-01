@@ -449,6 +449,10 @@ void f_output_result(
             
             fprintf(fp_o[1],"%.3lf ", 100.0 * (flux->soil).f_n2o_ntr_ngas[f]);
             
+            /* 2024/05/02 */
+            fprintf(fp_o[1],"%.3lf ", (echar->c3).cn_leaf[f]);
+            fprintf(fp_o[1],"%.3lf ", (echar->c4).cn_leaf[f]);
+            
             /* monitor: 2010/03/24  **************/
             /* fprintf(fp_o[1],"%.3lf ", loct->xx1[f]); 
             fprintf(fp_o[1],"%.3lf ", loct->xx2[f]);
@@ -587,7 +591,7 @@ void f_output_result(
         fprintf(fp_o[5],"%ld %lf ", year, grid->f_crop_con);
     
         /* fprintf(fp_o[5],"%ld %lf %lf %lf ", year, grid->f_crop_con, grid->f_crop_p, flux->hvst_wood); */
-        /* fprintf(fp_o[5],"%ld %ld %ld %ld %ld ", grid->simy,  grid->co2y, grid->climy, grid->lucy, grid->niny); */
+        /* fprintf(fp_o[5],"%ld %ld %ld %ld %ld ", grid->simy,  grid->ghgy, grid->climy, grid->lucy, grid->niny); */
         
         for(f=0;f<ASTEP;f++){
             fprintf(fp_o[5],"%.3lf ", flux->voc_isopr_g97[f]);
@@ -793,7 +797,7 @@ void f_output_result(
     }
 }
 
-/************************************************************************/
+/* ***********************************************************************/
 /* decadal average grid values */
 void f_grid_av(
 	struct Grid *grid, 

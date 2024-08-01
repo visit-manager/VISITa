@@ -74,14 +74,14 @@ void cal_historical(
         }
         
 		/* CO2 year ********************/
-		grid->co2y = grid->simy;
+		grid->ghgy = grid->simy;
 		/* sensitivity analysis: no CO2 rise */
 		if(CC_CD == 2){
-			grid->co2y = BGY_CO2Y;
+			grid->ghgy = BGY_CO2Y;
 			/* BGY_CO2Y = 1901 (usual setting) */
 		}else if(CC_CD == 5){
-            /* grid->co2y = 2000; */
-            grid->co2y = 2006;
+            /* grid->ghgy = 2000; */
+            grid->ghgy = 2006;
         }
         /* ISI-MIP no-co2-change run: 2012/07/31  */
         if((SCENARIO_ID==2005 ||SCENARIO_ID==2006 ||SCENARIO_ID==2007 ||SCENARIO_ID==2008 ||
@@ -90,7 +90,7 @@ void cal_historical(
             SCENARIO_ID==2035 ||SCENARIO_ID==2036 ||SCENARIO_ID==2037 ||SCENARIO_ID==2038 ||
             SCENARIO_ID==2045 ||SCENARIO_ID==2046 ||SCENARIO_ID==2047 ||SCENARIO_ID==2048) && grid->simy>=2000){
             /* fixed to AD2000 level */
-            grid->co2y = 2000;
+            grid->ghgy = 2000;
         }
         /* IIa: 2017/05/18  *****/
         if(ISIMIP2_FIXCD == 1 || (
@@ -99,7 +99,7 @@ void cal_historical(
             SCENARIO_ID==5064 || SCENARIO_ID==5074 || SCENARIO_ID==5084 || SCENARIO_ID==5094)){
             /* fix CO2 after 2006 */
             if(grid->simy >= 2006){
-                grid->co2y = 2005;
+                grid->ghgy = 2005;
             }else{
                 ;
             }
@@ -107,7 +107,7 @@ void cal_historical(
         if(GCP_FIXCD == 1){
             /* GCP-CH4: fix CO2 after 2006 */
             if(grid->simy >= 2007){
-                grid->co2y = 2006;
+                grid->ghgy = 2006;
             }else{
                 ;
             }
@@ -122,7 +122,7 @@ void cal_historical(
             ){
                 if(grid->simy >= 2015){
                     /* fix CO2 after 2015 */
-                    grid->co2y = 2015;
+                    grid->ghgy = 2015;
                 }else{
                     ;
                 }
@@ -130,21 +130,22 @@ void cal_historical(
         
         /* for TRENDY: 2022/07/21 */
         if(EX_TRENDY == 1 ){ /* SH0 */
-            grid->co2y = FDY_AGHG; /* 1700 */
+            grid->ghgy = FDY_AGHG; /* 1700 */
         }
-        if(EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH1, SH2, SH3 */
-            grid->co2y = grid->simy;
+        if(EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4
+           || EX_TRENDY == 5 || EX_TRENDY == 6){ /* SH1, SH2, SH3 */
+            grid->ghgy = grid->simy;
             
-            if(grid->co2y < FDY_AGHG){
-                grid->co2y = FDY_AGHG;
+            if(grid->ghgy < FDY_AGHG){
+                grid->ghgy = FDY_AGHG;
             }
-           if(grid->co2y > (FDY_AGHG + DL_AGHG)){
-                grid->co2y = FDY_AGHG + DL_AGHG;
+           if(grid->ghgy > (FDY_AGHG + DL_AGHG)){
+                grid->ghgy = FDY_AGHG + DL_AGHG;
             }
         }
 
-        if(grid->co2y < FDY_AGHG){
-            grid->co2y = FDY_AGHG;
+        if(grid->ghgy < FDY_AGHG){
+            grid->ghgy = FDY_AGHG;
         }
 
         /* land-use year *****************/
@@ -156,22 +157,22 @@ void cal_historical(
             ;
         }else if(NMIP_RUN == 5){
             /* grid->climy = FSY_HIST;
-            grid->co2y = FSY_HIST; */
+            grid->ghgy = FSY_HIST; */
             grid->niny = FSY_HIST;
             grid->lucy = FSY_HIST;
         }else if(NMIP_RUN == 6){
             /* grid->climy = FSY_HIST; */
-            grid->co2y = FSY_HIST;
+            grid->ghgy = FSY_HIST;
             grid->niny = FSY_HIST;
             grid->lucy = FSY_HIST;
         }else if(NMIP_RUN == 7){
             /* grid->climy = FSY_HIST; */ /* 1901 */
-            grid->co2y = FSY_HIST;
+            grid->ghgy = FSY_HIST;
             grid->niny = FSY_HIST;
             grid->lucy = FSY_HIST;
         }else if(NMIP_RUN == 20){
             grid->climy = 1901 + g%20; /* */ /* 1850 */
-            grid->co2y = FSY_HIST;
+            grid->ghgy = FSY_HIST;
             grid->niny = FSY_HIST;
             grid->lucy = FSY_HIST;
         }else if(NMIP_RUN == 21 || NMIP_RUN == 22 || NMIP_RUN == 23 || NMIP_RUN == 24 || NMIP_RUN == 25){
@@ -187,18 +188,18 @@ void cal_historical(
             if(g < 50){
                 grid->climy = 1901 + g%20; /* */ /* 1850 */
             }
-            grid->co2y = FSY_HIST;
+            grid->ghgy = FSY_HIST;
         }else if(NMIP_RUN == 28){
             grid->climy = 1901 + g%20; /* */ /* 1850 */
         }else if(NMIP_RUN == 29){
             grid->climy = 1901 + g%20; /* */ /* 1850 */
-            grid->co2y = FSY_HIST;
+            grid->ghgy = FSY_HIST;
             grid->lucy = FSY_HIST;
         }else if(NMIP_RUN == 30){
             if(g < 50){
                 grid->climy = 1901 + g%20; /* */ /* 1850 */
             }
-            grid->co2y = FSY_HIST;
+            grid->ghgy = FSY_HIST;
             grid->niny = FSY_HIST;
             grid->lucy = FSY_HIST;
         }else if(NMIP_RUN == 31){
@@ -224,10 +225,11 @@ void cal_historical(
         }
         
         /* for TRENDY: 2022/07/21 */
-        if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3){ /* SH0, SH1, SH2 */
+        if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3 ||
+                EX_TRENDY == 5 || EX_TRENDY == 6){ /* S0, S1, S2, SF4, SF5 */
             grid->lucy = FSY_HIST;
         }
-        if(EX_TRENDY == 4){ /* SH3 */
+        if(EX_TRENDY == 4){ /* S3 */
             if(g < 0){
                 grid->lucy = FSY_HIST;
             }if(g > DL_LUC){
@@ -289,7 +291,7 @@ void cal_historical(
         /* ************/
         /* added : 2018/10/26 */
         if(EXTRA_CO2_FIX == 1){
-            grid->co2y = 1901; /* */ /* 1901 */
+            grid->ghgy = 1901; /* */ /* 1901 */
         }
         if(EXTRA_CO2_FIX == 2){
             grid->lucy = 1950; /* */ /* 1950 */
@@ -303,10 +305,10 @@ void cal_historical(
         }
         
         /* for TRENDY: 2022/07/21 */
-        if(EX_TRENDY == 1 || EX_TRENDY == 2){ /* SH0, SH1 */
+        if(EX_TRENDY == 1 || EX_TRENDY == 2){ /* S0, S1 */
             grid->climy = BGY_CLIM + g%20;
         }
-        if(EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH2, SH3 */
+        if(EX_TRENDY == 3 || EX_TRENDY == 4 || EX_TRENDY == 5 || EX_TRENDY == 6){ /* S2, S3, SF4, SF5 */
             if(g < 200){
                 grid->climy = BGY_CLIM + g%20;
             }else{
@@ -318,7 +320,7 @@ void cal_historical(
         if(grid->simy < BGY_CLIM){
             grid->climy = BGY_CLIM + g%20;
         }else if(grid->simy > (BGY_CLIM + DL_HCLIM - 1)){
-            if(NCEP_RUN == 1 && grid->simy <(FDY_NCEP+DL_NCEP) ){
+            if(NCEP_RUN == 1 && grid->simy <(FDY_NCEP + DL_NCEP) ){
                 ;
             }else{
                 grid->climy = (BGY_CLIM + DL_HCLIM - 1);
@@ -415,8 +417,8 @@ void cal_historical(
 			
 			if(NECB_DOC == 1 ){
 				(mass->soil).msl -= (flux->soil).doc_boyer[f]/1000000.0;
-				if((mass->soil).msl < 0.0){
-					(mass->soil).msl = 0.0;
+				if((mass->soil).msl < INT_C){
+					(mass->soil).msl = INT_C;
 				}
 			}
 
@@ -699,7 +701,7 @@ void cal_historical(
                 }
 			}
 			
-			/******************/
+			/* *****************/
 			f_grid_av(grid, loct, echar, mass, flux);
 		}
         /* printf("\n"); */
@@ -885,7 +887,7 @@ void cal_historical(
 
             /* assumption for the period later than 2016: A.Ito (2019/02/11) */
             if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 49 ||
-                 LANDUSE == 50 || LANDUSE == 51) &&
+                 LANDUSE == 50 || LANDUSE == 51 || LANDUSE == 52) &&
                     grid->lucy > (FDY_LUC+DL_LUC-1)){
                 dyr = (DL_LUC - 1);
             }

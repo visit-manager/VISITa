@@ -178,7 +178,7 @@ void f_after_deal(
     if(CONSTRAIN_LAIMAX == 1 && (grid->veg_olson >=1 && grid->veg_olson <= 30)){
         
         if(mass->lai[grid->m] > loct->est_maxlai && mass->lai[grid->m] > 1.0){
-            aaa = (mass->lai[grid->m] - loct->est_maxlai) *100.0*2.0/2.2/pchar->sla;
+            aaa = (mass->lai[grid->m] - loct->est_maxlai) *100.0 *2.0 /2.2/pchar->sla;
             
             mass->fol -= aaa * 0.1;
             flux->lf[grid->m] += aaa * 0.1;

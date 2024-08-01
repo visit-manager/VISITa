@@ -23,18 +23,18 @@ void f_init_clim(
 	
 	/* in 1950 :311 ppmv*/
 	/* in 1990 : 352.7 ppmv*/
-	grid->co2y = BGY_CO2Y; 
+	grid->ghgy = BGY_CO2Y; 
 	if(CO2S == 7){
-		grid->co2y = 2081; /* in 2081 : 700 ppmv*/
+		grid->ghgy = 2081; /* in 2081 : 700 ppmv*/
 	}
     if(CC_CD == 5){
-        /* grid->co2y = 2000; */
-        grid->co2y = 2006;
+        /* grid->ghgy = 2000; */
+        grid->ghgy = 2006;
     }
 	grid->climy = BGY_CLIM;
 	grid->lucy = BGY_CLIM;
  
-    if(LANDUSE == 49 || LANDUSE == 50 || LANDUSE == 51){
+    if(LANDUSE == 49 || LANDUSE == 50 || LANDUSE == 51 || LANDUSE == 52){
         grid->lucy = BGY_LUC;
     }
     
@@ -417,8 +417,8 @@ void f_dyn_loct(
 
 	/* initial soil CH4 concentration */
 	for(h=0;h<=(N_SLAYER+1);h++){
-        if(grid->co2y >= FDY_AGHG){
-            loct->prof_ch4[h] = ach4_1[grid->co2y - FDY_AGHG]/1000.0
+        if(grid->ghgy >= FDY_AGHG){
+            loct->prof_ch4[h] = ach4_1[grid->ghgy - FDY_AGHG]/1000.0
                 * loct->prsr[grid->m] / (UGC * (grid->tmp10_soil[grid->m] + ZAT));
         }else{
             loct->prof_ch4[h] = ach4_1[0]/1000.0
@@ -440,8 +440,15 @@ void f_dyn_loct(
 		/* vapour pressure, hPa */
 		if(grid->phase == 0){
 			/* spin-up */
-			loct->vp[grid->m] = grid->hist_vap_b[grid->m];
-		}else if(grid->phase == 1){
+			/* loct->vp[grid->m] = grid->hist_vap_b[grid->m]; */
+            /* 2024/05/08 */
+            if(grid->climy < (BGY_CLIM + DL_HCLIM)){
+                /* based on UEA/CRU or ISI-MIP data */
+                loct->vp[grid->m] = grid->hist_vap[grid->climy - BGY_CLIM + offset][grid->m];
+            }else{
+                loct->vp[grid->m] = grid->hist_vap_b[grid->m];
+            }
+        }else if(grid->phase == 1){
 			if(grid->climy < (BGY_CLIM + DL_HCLIM)){
 				/* based on UEA/CRU or ISI-MIP data */
 				loct->vp[grid->m] = grid->hist_vap[grid->climy - BGY_CLIM + offset][grid->m];

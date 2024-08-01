@@ -35,15 +35,15 @@ void cal_spinup(
 		if(grid->veg_olson==29 || grid->veg_olson==30 || grid->veg_olson==31 
 				|| grid->veg_olson==32){
             /* short-term ecosystems */
-			term_time = 500;
+			term_time = 2000;
 		}else{
             /* long-term ecosystems */
-			term_time = 4000;
+			term_time = 6000;
 		}
 	}else if((echar->c3).v_type == 2){
-		term_time = 500;
+		term_time = 2000;
 	}else{
-        term_time = 500;
+        term_time = 2000;
     }
 	
 	(echar->soil).rl = (echar->soil).rl0;
@@ -69,7 +69,7 @@ void cal_spinup(
 		grid->f_pasture_p = grid->fpast_luh[2000 - FDY_LUC];
 	}else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13 ||
         LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 29 || LANDUSE == 49 ||
-        LANDUSE == 50 || LANDUSE == 51){
+        LANDUSE == 50 || LANDUSE == 51 || LANDUSE == 52){
 		grid->f_crop_p = grid->fcrop_luh[BGY_LUC - FDY_LUC];
 		grid->f_pasture_p = grid->fpast_luh[BGY_LUC - FDY_LUC];
 	}else if(LANDUSE == 18){
@@ -129,10 +129,10 @@ void cal_spinup(
     }else{
         if(grid->rank_nat == 1){
             /* developing countries */
-            f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - 1900.0)))+0.0014929171;
+            f_fert = 2.0217112 / (1.0 + exp(0.049849599 * (2000.6575 - 1900.0))) + 0.0014929171;
         }else if(grid->rank_nat == 2){
             /* developed countries */
-            f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - 1900.0)))+0.53533202;
+            f_fert = 0.92939393 / (1.0 + exp(0.044112692 * (2000.0097 - 1900.0))) + 0.53533202;
         }else{
             f_fert = 1.0;
         }
@@ -149,7 +149,7 @@ void cal_spinup(
         grid->simy = FSY_HIST - 1; /* 1849 */
     }
     if(EX_TRENDY >= 1){
-        grid->simy = FSY_HIST - 1; /* 1700 */
+        grid->simy = FSY_HIST - 1; /* 1700, 1600 */
     }
     if(ISIMIP_RUN == 4){
         grid->simy = FSY_HIST - 1; /* 1660 */
@@ -208,9 +208,9 @@ void cal_spinup(
             if(SCENARIO_ID == 5106 || SCENARIO_ID == 5107 || SCENARIO_ID == 5116
                     || SCENARIO_ID == 5117 || SCENARIO_ID == 5222){
                 /* fixed CO2 */
-                grid->co2y = 1901;
+                grid->ghgy = 1901;
             }else{
-                grid->co2y = grid->climy;
+                grid->ghgy = grid->climy;
             }
             set_hist_clim(grid);
         }else if(ISIMIP_RUN == 6 && grid->flag_histdata == 1){
@@ -225,13 +225,13 @@ void cal_spinup(
                 SCENARIO_ID == 5200 || SCENARIO_ID == 5201 || SCENARIO_ID == 5202
             ){
                 /* fixed CO2 */
-                grid->co2y = FDY_AGHG;
+                grid->ghgy = FDY_AGHG;
             }else{
-                grid->co2y = grid->climy;
-                if(grid->co2y < FDY_AGHG){
-                    grid->co2y = FDY_AGHG;
-                }else if(grid->co2y > 2100){
-                    grid->co2y = 2100;
+                grid->ghgy = grid->climy;
+                if(grid->ghgy < FDY_AGHG){
+                    grid->ghgy = FDY_AGHG;
+                }else if(grid->ghgy > 2100){
+                    grid->ghgy = 2100;
                 }
             }
             set_hist_clim(grid);
@@ -276,7 +276,7 @@ void cal_spinup(
         if(NMIP_RUN >= 1 && NMIP_RUN <= 12){
             grid->climy = 1901;
             grid->niny = FSY_HIST-1;
-            grid->co2y = FSY_HIST-1;
+            grid->ghgy = FSY_HIST-1;
             grid->lucy = FSY_HIST-1;
             set_hist_clim(grid);
             n_fertilizer_in(grid, loct);
@@ -284,22 +284,26 @@ void cal_spinup(
         if(NMIP_RUN >= 20 && NMIP_RUN <= 32){
             grid->climy = 1901;
             grid->niny = FSY_HIST;
-            grid->co2y = FSY_HIST;
+            grid->ghgy = FSY_HIST;
             grid->lucy = FSY_HIST;
             set_hist_clim(grid);
             n_fertilizer_in(grid, loct);
         }
 		
         /* for TRENDY: 2022/07/21, 2023/08/16 */
-        if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH0, SH1, SH2 */
-            grid->climy = nn%30 +1901;
-            grid->niny = FSY_HIST - 1; /* 1701 */
-            grid->co2y = FSY_HIST - 1;
+        if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4
+                || EX_TRENDY == 5 || EX_TRENDY == 6){ /* S0, S1, S2, S3, SF4, SF5 */
+            /* 2024/04/09 */
+            /* grid->climy = nn%30 +1901; */
+            grid->climy = nn%20 + BGY_CLIM;
+            grid->niny = FSY_HIST - 1; /* 1701 - 1 = 1700 */
+            grid->ghgy = FSY_HIST - 1;
             /* grid->lucy = FSY_HIST - 1; */
             set_hist_clim(grid);
             n_fertilizer_in(grid, loct);
             
-            grid->lucy = nn%30 +(FSY_HIST - 1);
+            /* grid->lucy = nn%30 +(FSY_HIST - 1); */
+            grid->lucy = FSY_HIST;
             f_cult_luc(grid);
         }
 
@@ -369,8 +373,8 @@ void cal_spinup(
 			
 			if(NECB_DOC == 1){
 				(mass->soil).msl -= (flux->soil).doc_boyer[f]/1000000.0;
-				if((mass->soil).msl < 0.0){
-					(mass->soil).msl = 0.0;
+				if((mass->soil).msl < INT_C){
+					(mass->soil).msl = INT_C;
 				}
 			}
 			
@@ -566,8 +570,8 @@ void cal_spinup(
             }
 
             (mass->soil).ltr -= flux->erod_carbon * (prm_ensen * 0.20);
-            if((mass->soil).ltr < 0.0){
-                (mass->soil).ltr = 0.0;
+            if((mass->soil).ltr < INT_C){
+                (mass->soil).ltr = INT_C;
             }
         }
         
@@ -701,7 +705,7 @@ void cal_spinup(
             if(LANDUSE == 49 || LANDUSE == 50){
                 dyr = 0;
             }
-            if(LANDUSE == 51){
+            if(LANDUSE == 51 || LANDUSE == 52){
                 dyr = grid->lucy - FDY_LUC;
             }
             
@@ -851,8 +855,15 @@ void cal_spinup(
                 ann_nep = 0.0;
             }
         }
+        
+        if(EX_TRENDY >= 1){
+            ann_nep = 10.0;
+            if(nn == 5000){
+                ann_nep = 0.0;
+            }
+        }
 		
-		if(plantmass < 0.0 || plantmass >= 500.0){
+		if(plantmass < 0.0 || plantmass >= 600.0){
 			printf("!!! BAD plant biomass: %lf\n", plantmass);
 			vanish(mass, flux);  /*** 2. excluding abnormal estimates ***/
 			break;
@@ -863,7 +874,7 @@ void cal_spinup(
 	/* end of stabilization loop ***********************************************/
 	
 	/* CH4: Walter & Heimann (paddy) */
-	if(CH4_WH==1 && grid->f_wetland>0.0 && loct->v_type == 1){
+	if(CH4_WH == 1 && grid->f_wetland>0.0 && loct->v_type == 1){
 		for(g=0;g<4;g++){
 			for(f=0;f<ASTEP;f++){
 				(flux->soil).ch4_wetland_wh_plant[f] = 0.0;

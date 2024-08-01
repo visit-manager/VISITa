@@ -40,15 +40,15 @@
 #define INT_C 0.01
 
 /* calculation grid step */
-#define CALC_STEP 10
+#define CALC_STEP 1
 /* 1: every grid */
 /* 10: every 10 grid */
-#define CALC_OFFSET 3
+#define CALC_OFFSET 0
 /* grid offset */
 
 /* *******************************************************/
 /* #define IFILEN 59 */  /* normal case */
-#define IFILEN 95 /* */  /* normal case */
+#define IFILEN 96 /* */  /* normal case */
 #define OFILEN 9
 
 /* selection of output text files */
@@ -79,12 +79,14 @@
 /* 6: ISI-MIP 3b */
 
 /* GCP-TRENDY: 2022/07/19 */
-#define EX_TRENDY 1
+#define EX_TRENDY 4
 /* 0: not applicable */
-/* 1: SH0 : no forcing change */
-/* 2: SH1 : CO2 only */
-/* 3: SH2 : CO2 and climate only */
-/* 4: SH3 : CO2, climate and land use */
+/* 1: S0 : no forcing change */
+/* 2: S1 : CO2 only */
+/* 3: S2 : CO2 and climate only */
+/* 4: S3 : CO2, climate and land use */
+/* 5: FS4 : CO2 and climate only + GFED5 */
+/* 6: FS5 : CO2 and climate only + GFED5 PI */
 
 /* NMIP: N2O model intercomparison runs */
 #define NMIP_RUN 0
@@ -186,14 +188,14 @@
 
 /* *******************************************************/
 /* total vegetation number */
-#define NVEG_OLSON 34       /* Olson veg (modified) */
-#define NVEG_SAGE 16		/* SAGE veg (modified) */
+#define NVEG_OLSON 34   /* Olson veg (modified) */
+#define NVEG_SAGE 16    /* SAGE veg (modified) */
 /* #define NVEG_CROP 3	*/  /* crop types */
 /* #define NVEG_CROP 4 */  /* crop types: add biofuel crop: 2015/08/21  */
 #define NVEG_CROP 6		/* crop types: add agroforestry tree and crop: 2021/08/16  */
 
 /* calculation for land covers */
-#define CALC_VEG 1    /* natural vegetation */
+#define CALC_VEG 1      /* natural vegetation */
 #define CALC_CROP 1     /* cropland */
 /* 0:off 1:on */
 
@@ -248,7 +250,10 @@
 #else
     /* #define DL_AGHG 553 */ /* default */
     /* #define FDY_AGHG 1750 */
-    #define DL_AGHG 603 /* TRENDY: 2022/07/19 */
+    /* #define DL_AGHG 603 */ /* TRENDY: 2022/07/19 */
+    /* #define FDY_AGHG 1700 */
+
+    #define DL_AGHG 801 /* 2024/03/25 */
     #define FDY_AGHG 1700
 #endif
 
@@ -266,7 +271,9 @@
     /* #define PD_SIM 201 */
     /* #define PD_SIM 223 */   /* spinup +  1800-2021: 2022/04/19  */
     /* #define PD_SIM 322 */   /* spinup +  1701-2021: 2022/07/21  */
-    #define PD_SIM 323   /* spinup +  1701-2022: 2023/02/07  */
+    /* #define PD_SIM 323 */   /* spinup +  1701-2022: 2023/02/07  */
+    /* #define PD_SIM 324 */   /* spinup +  1701-2023: 2024/01/05  */
+    #define PD_SIM 424   /* spinup +  1601-2023: 2024/04/23  */
 #endif
 /* for memory preparation; not always actual experimental length */
 
@@ -302,9 +309,11 @@
     /* #define LSY_HIST 2020 */ /* history */
     /* #define LSY_HIST 2021 */ /* history */
     /* #define FSY_HIST 1800 */
-    #define FSY_HIST 1701
+    /* #define FSY_HIST 1701 */
+    #define FSY_HIST 1601
     /* #define LSY_HIST 2021 */ /* history */
-    #define LSY_HIST 2022 /* */ /* history TRENDY2023 */
+    /* #define LSY_HIST 2022 */ /* history TRENDY2023 */
+    #define LSY_HIST 2023 /* */ /* history */
 #endif
 
 /* start year (AD) of CO2 time series */
@@ -334,13 +343,14 @@
 #else
     /* #define BGY_CO2Y 1901 */
     /* #define BGY_CO2Y 1800 */
-    #define BGY_CO2Y 1701
+    /* #define BGY_CO2Y 1701 */
+    #define BGY_CO2Y 1601
 #endif
 
 /* total historical run: using CRU, NCEP, etc. ***/
 #if ISIMIP_RUN==1
     #define PD_HIST 150  /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 */
-                      /* and BIOFUEL RUN, MIROC-INTEG LUC */
+                        /* and BIOFUEL RUN, MIROC-INTEG LUC */
 #elif ISIMIP_RUN==2
     #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 */
 #elif ISIMIP_RUN==3
@@ -385,7 +395,9 @@
     /* #define PD_HIST 121 */  /* AD 1901 - 2021 */
     /* #define PD_HIST 222 */  /* AD 1800 - 2021 */
     /* #define PD_HIST 321    */  /* AD 1701 - 2021 */
-    #define PD_HIST 322    /* */  /* AD 1701 - 2022 */
+    /* #define PD_HIST 322    */  /* AD 1701 - 2022 */
+    /* #define PD_HIST 323    */  /* AD 1701 - 2023 */
+    #define PD_HIST 423    /* */  /* AD 1601 - 2023 */
 #endif
 
 /* start year (AD) of climate data ***/
@@ -452,7 +464,8 @@
     /* #define DL_HCLIM 119 */  /* CRU TS4.04: AD 1901 - 2019 */
     /* #define DL_HCLIM 120 */  /* CRU TS4.05: AD 1901 - 2020 */
     /* #define DL_HCLIM 121 */  /* CRU TS4.06: AD 1901 - 2021 */
-    #define DL_HCLIM 122 /* */  /* CRU TS4.07: AD 1901 - 2022 */
+    /* #define DL_HCLIM 122 */  /* CRU TS4.07: AD 1901 - 2022 */
+    #define DL_HCLIM 123 /* */  /* CRU TS4.08: AD 1901 - 2023 */
     /* 102: TS2.1 */
     /* 106: TS3.0 */
     /* 109: TS3.1 */
@@ -484,7 +497,8 @@
 /* #define DL_NCEP 72 */   /* 1948-2019 */
 /* #define DL_NCEP 73 */   /* 1948-2020 */
 /* #define DL_NCEP 74 */   /* 1948-2021 */
-#define DL_NCEP 75   /* 1948-2022 */
+/* #define DL_NCEP 75 */   /* 1948-2022 */
+#define DL_NCEP 76   /* 1948-2023 */
 
 /* Simulation using ISI-MIP data (yr) */
 /* spinup 1951-1980 */
@@ -601,14 +615,16 @@
 #define NECB_LUC 1
 /* crop harvest */
 #define NECB_CROP 2
+/* 2: for TRENDY (to adjust offset) */
 
 #define EX_FIRE_GFED 0
 /* 0: off, 1: on   2018/05/19  */
 /* 2: on with adjusting factor, 0.73 */
+/* 3: prescribed GCP-TRENDY 2024 */
 
 /* *******************************************************/
 /* land use change setting */
-#define LANDUSE 51
+#define LANDUSE 52
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -663,12 +679,13 @@
 /* 49: LUH2-GCP2019 + ssp1rcp26 (2016-2100): 2022/04/19  */
 /* 50: LUH2-GCP2021 + ssp1rcp26 (2016-2100): 2022/07/19  */
 /* 51: LUH2-GCP2023 + ssp1rcp26 (2016-2100): 2023/07/13  */
+/* 52: LUH2-GCP2024 + ssp1rcp26 (2016-2100): 2024/07/31  */
 
 /* extra co2 fixation combined with above scenarios: 2018/10/26  */
 #define EXTRA_CO2_FIX 0
 /* 0: off (default) */
-/* 1: make grid->co2y = 1901 */
-/* 2: make grid->co2y = 1950 */
+/* 1: make grid->ghgy = 1901 */
+/* 2: make grid->ghgy = 1950 */
 
 /* extra climate fixation combined with above scenarios: 2018/10/26  */
 #define EXTRA_CLIM_FIX 0
@@ -702,7 +719,8 @@
     /* #define DL_LUC 322 */  /* 1700-2021 */ /* from LUH2-GCP2021: 2022/07/19  */
     /* #define DL_LUC 323 */  /* 1700-2022 */ /* from LUH2-GCP2022: 2022/08/18  */
     /* #define DL_LUC 324 */  /* 1700-2023 */ /* from LUH2-GCP2023: 2023/07/13  */
-    #define DL_LUC 424 /* */  /* 1600-2023 */ /* from LUH2-GCP2023: 2023/08/23  */
+    /* #define DL_LUC 424 */  /* 1600-2023 */ /* from LUH2-GCP2023: 2023/08/23  */
+    #define DL_LUC 425 /* */  /* 1600-2024 */ /* from LUH2-GCP2024: 2024/07/31  */
 #endif
 
 /* first year of land-use DATA */
@@ -883,6 +901,16 @@
 /* 0: off */
 /* 1: K modification */
 
+/* experiments for stomatal acclimation: 2024/06/03 */
+#define EX_STOMATA_ACCL 0
+/* 0: off */
+/* 1: lower density */
+/* 2: improvement */
+
+/* experiments for drought-induced mortality: 2024/06/27 */
+#define EX_DROUGHT_MOTAL 0
+/* 0: off */
+
 /* ********************************************************/
 /* CH4 emission by Walter-Heimann scheme */
 #define CH4_WH 1
@@ -984,7 +1012,7 @@
 /* 0: off, 1: on */
 
 /* carbon-nitrogen coupling */
-#define CN_COUPLE 0
+#define CN_COUPLE 1
 /* 0: no coupling (for safety) */
 /* 1: physiological coupling: Amax, Rd, Decomp. */
 /* 2: ecological coupling: mortality, etc. */

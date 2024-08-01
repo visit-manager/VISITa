@@ -22,7 +22,7 @@ void f_co2_trend(
 	double time, aa0, aa1, aa2, aa3, aa4, aa5;
 	
 	/** time of CO2 level  **/
-	time = (double)(grid->co2y);
+	time = (double)(grid->ghgy);
 	
     base = 350.0;
     if(ISIMIP_RUN == 0 && GEOMIP_RUN == 0 && IMPRESSIONS_RUN <= 1){
@@ -44,9 +44,9 @@ void f_co2_trend(
             /* IPCC SRES scenarios */
             if(CC_CD == 0 && time >= 2001.0){
                 /* constant CO2 level */
-                base = sres_co2[11];
+                base = aco2_1[2001 - FDY_AGHG];
             }else{
-                base = sres_co2[grid->co2y - 1990];
+                base = aco2_1[grid->ghgy - FDY_AGHG];
             }
             
             inc = 0.0;
@@ -56,32 +56,32 @@ void f_co2_trend(
         /** ISI-MIP or GeoMIP or ICARUS runs **/
         switch(CO2S){
             case 1: /* rcp2.6 */
-                base = aco2_3[grid->co2y - FDY_AGHG];
+                base = aco2_3[grid->ghgy - FDY_AGHG];
                 break;
             case 2: /* rcp4.5 */
-                base = aco2_4[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
+                base = aco2_4[grid->ghgy - FDY_AGHG]; /* corrected: 2012/08/06 */
                 break;
             case 3: /* rcp6.0 */
-                base = aco2_1[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
+                base = aco2_1[grid->ghgy - FDY_AGHG]; /* corrected: 2012/08/06 */
                 break;
             case 4: /* rcp8.5 */
-                base = aco2_2[grid->co2y - FDY_AGHG]; /* corrected: 2012/08/06 */
+                base = aco2_2[grid->ghgy - FDY_AGHG]; /* corrected: 2012/08/06 */
                 break;
         }
     }else if(ISIMIP_RUN == 4){
         /** ISI-MIP 2b runs **/
         switch(CO2S){
             case 1: /* picontrol */
-                base = aco2_3[grid->co2y - FDY_AGHG];
+                base = aco2_3[grid->ghgy - FDY_AGHG];
                 break;
             case 2: /* pi-hist-rcp2.6 */
-                base = aco2_4[grid->co2y - FDY_AGHG];
+                base = aco2_4[grid->ghgy - FDY_AGHG];
                 break;
             case 3: /* pi-hist-rcp6.0 */
-                base = aco2_1[grid->co2y - FDY_AGHG];
+                base = aco2_1[grid->ghgy - FDY_AGHG];
                 break;
             case 4: /* pi-hist-rcp6.0 */
-                base = aco2_2[grid->co2y - FDY_AGHG];
+                base = aco2_2[grid->ghgy - FDY_AGHG];
                 break;
         }
     }else if(ISIMIP_RUN == 5){
@@ -90,12 +90,12 @@ void f_co2_trend(
             case 5100: case 5101: case 5102:   /* obsclim GSWP3-W5E5 */
             case 5110: case 5111: case 5112:   /* obsclim GSWP3 */
             case 5220: case 5223:
-                base = aco2_1[grid->co2y - FDY_AGHG];
+                base = aco2_1[grid->ghgy - FDY_AGHG];
                 break;
             case 5103: case 5104: case 5105: case 5106: case 5107: /* counterclim GSWP3-W5E5 */
             case 5113: case 5114: case 5115: case 5116: case 5117: /* counterclim GSWP3 */
             case 5221: case 5222:
-                base = aco2_2[grid->co2y - FDY_AGHG];
+                base = aco2_2[grid->ghgy - FDY_AGHG];
                 break;
         }
     }else if(ISIMIP_RUN == 6){
@@ -106,44 +106,44 @@ void f_co2_trend(
             case 5160: case 5161: case 5162:
             case 5180: case 5181: case 5182:
             case 5200: case 5201: case 5202:
-                base = aco2_1[grid->co2y - FDY_AGHG]; /* Pi control */
+                base = aco2_1[grid->ghgy - FDY_AGHG]; /* Pi control */
                 break;
             case 5123: case 5124: case 5125: case 5126:
             case 5143: case 5144: case 5145: case 5146:
             case 5163: case 5164: case 5165: case 5166:
             case 5183: case 5184: case 5185: case 5186:
             case 5203: case 5204: case 5205: case 5206:
-                base = aco2_2[grid->co2y - FDY_AGHG]; /* RCP2.6 */
+                base = aco2_2[grid->ghgy - FDY_AGHG]; /* RCP2.6 */
                 break;
             case 5127: case 5128: case 5129: case 5130:
             case 5147: case 5148: case 5149: case 5150:
             case 5167: case 5168: case 5169: case 5170:
             case 5187: case 5188: case 5189: case 5190:
             case 5207: case 5208: case 5209: case 5210:
-                base = aco2_3[grid->co2y - FDY_AGHG]; /* RCP7.0 */
+                base = aco2_3[grid->ghgy - FDY_AGHG]; /* RCP7.0 */
                 break;
             case 5131: case 5132: case 5133: case 5134: case 5135: case 5136:
             case 5151: case 5152: case 5153: case 5154: case 5155: case 5156:
             case 5171: case 5172: case 5173: case 5174: case 5175: case 5176:
             case 5191: case 5192: case 5193: case 5194: case 5195: case 5196:
             case 5211: case 5212: case 5213: case 5214: case 5215: case 5216:
-                base = aco2_4[grid->co2y - FDY_AGHG]; /* RCP8.5 */
+                base = aco2_4[grid->ghgy - FDY_AGHG]; /* RCP8.5 */
                 break;
         }
     }else if(IMPRESSIONS_RUN == 2 || IMPRESSIONS_RUN == 3){
         /** IMPRESSIONS time-dependent runs **/
         switch(CO2S){
             case 1:
-                base = aco2_3[grid->co2y - FDY_AGHG];
+                base = aco2_3[grid->ghgy - FDY_AGHG];
                 break;
             case 2:
-                base = aco2_4[grid->co2y - FDY_AGHG];
+                base = aco2_4[grid->ghgy - FDY_AGHG];
                 break;
             case 3:
-                base = aco2_1[grid->co2y - FDY_AGHG];
+                base = aco2_1[grid->ghgy - FDY_AGHG];
                 break;
             case 4:
-                base = aco2_2[grid->co2y - FDY_AGHG];
+                base = aco2_2[grid->ghgy - FDY_AGHG];
                 break;
         }
         
@@ -173,25 +173,34 @@ void f_co2_trend(
     }
     
     if(EX_TRENDY >= 1){
-        base = aco2_1[grid->co2y - FDY_AGHG];
+        /* base = aco2_1[grid->ghgy - FDY_AGHG]; */
+        /* 2024/03/25, 2024/04/25 */
+        
+        if(grid->ghgy < FDY_AGHG){
+            base = aco2_4[0];
+        }else if(grid->ghgy >= FDY_AGHG && grid->ghgy < (FDY_AGHG + DL_AGHG)){
+            base = aco2_4[grid->ghgy - FDY_AGHG];
+        }else if(grid->ghgy >= (FDY_AGHG + DL_AGHG)){
+            base = aco2_4[DL_AGHG -1];
+        }
     }
     
     /* assuming SRM + CDR : 2014/06/18  */
     if(GEOMIP_RUN == 1 && CC_CD == 3){
-        if(grid->co2y > 2020){
+        if(grid->ghgy > 2020){
         
             switch(CO2S){
                 case 1:
-                    base = aco2_3[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_3[grid->ghgy - FDY_AGHG - (long)((grid->ghgy-2020)/5)];
                     break;
                 case 2:
-                    base = aco2_4[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_4[grid->ghgy - FDY_AGHG - (long)((grid->ghgy-2020)/5)];
                     break;
                 case 3:
-                    base = aco2_1[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_1[grid->ghgy - FDY_AGHG - (long)((grid->ghgy-2020)/5)];
                     break;
                 case 4:
-                    base = aco2_2[grid->co2y - FDY_AGHG - (long)((grid->co2y-2020)/5)];
+                    base = aco2_2[grid->ghgy - FDY_AGHG - (long)((grid->ghgy-2020)/5)];
                     break;
             }
         }
@@ -219,8 +228,8 @@ void f_co2_trend(
 	grid->bco2[grid->m] = base + lgrd + season;  /*   + 350.0  */
 		
 	/*  grid->d13c_bco2[grid->m]=-7.0;  */
-    if(grid->co2y>=1850 && grid->co2y<=2015){
-        grid->d13c_bco2[grid->m] = d13c_graven[grid->co2y - 1850];
+    if(grid->ghgy>=1850 && grid->ghgy<=2015){
+        grid->d13c_bco2[grid->m] = d13c_graven[grid->ghgy - 1850];
     }else{
 	    grid->d13c_bco2[grid->m] = -6.0 + (-0.02 * (base - 280.0)) + (0.05 * season);
     }
@@ -233,15 +242,15 @@ void f_co2_trend(
 	}else{
 		grid->d14c_bco2[grid->m] = 1462.196 * exp(-0.06327057 * (time - 1954.282));
 	} */
-    if(grid->co2y >= 1850 && grid->co2y <= 2015){
+    if(grid->ghgy >= 1850 && grid->ghgy <= 2015){
         if(grid->lat >= 30.0){
-            grid->d14c_bco2[grid->m] = d14c1_graven[grid->co2y - 1850];
+            grid->d14c_bco2[grid->m] = d14c1_graven[grid->ghgy - 1850];
         }else if(grid->lat < 30.0 && grid->lat > -30.0){
-            grid->d14c_bco2[grid->m] = d14c2_graven[grid->co2y - 1850];
+            grid->d14c_bco2[grid->m] = d14c2_graven[grid->ghgy - 1850];
         }else if(grid->lat <= -30.0){
-            grid->d14c_bco2[grid->m] = d14c3_graven[grid->co2y - 1850];
+            grid->d14c_bco2[grid->m] = d14c3_graven[grid->ghgy - 1850];
         }
-    }else if(grid->co2y < 1850){
+    }else if(grid->ghgy < 1850){
         if(grid->lat >= 30.0){
             grid->d14c_bco2[grid->m] = d14c1_graven[0];
         }else if(grid->lat < 30.0 && grid->lat > -30.0){
@@ -249,7 +258,7 @@ void f_co2_trend(
         }else if(grid->lat <= -30.0){
             grid->d14c_bco2[grid->m] = d14c3_graven[0];
         }
-    }else if(grid->co2y > 2015){
+    }else if(grid->ghgy > 2015){
         if(grid->lat >= 30.0){
             grid->d14c_bco2[grid->m] = d14c1_graven[165];
         }else if(grid->lat < 30.0 && grid->lat > -30.0){

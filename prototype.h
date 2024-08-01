@@ -15,7 +15,6 @@ extern short Flag_FOPEN[IFILEN];
 
 extern short DF97;
 extern double MDN[ASTEP],YDN;
-extern double sres_co2[DL_ADD];
 extern long SCENARIO_ID, CO2S, GCM_R, GCM_C;
 extern long PARAM_PTB, PARAM_ENS;   /* added  (2010/05/10) */
 extern long EX_CH4_1, EX_CH4_2, EX_CH4_3;   /* added  (2010/07/02) */
@@ -162,6 +161,8 @@ extern double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
 
 /* Burnt area by GFED4s: 2018/05/19  */
 extern double bf_gfed4s[20][N_REG+1];
+/* Burnt area by GFED4s: 2024/07/31  */
+extern double bf_gfed5[120][12];
 
 /* CLEARANCE *****************************************************/
 void f_clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 
@@ -275,7 +276,7 @@ double lai_mass(struct Grid *grid, struct Pmas *mass, struct Pchar *pchar);
 double irr_attn(struct Grid *grid, struct Loct *loct, struct Pchar *pchar);
 void f_qten_ar(struct Grid *grid, struct Pchar *plant);
 void spcfc_res_mass(struct Pchar *plant, struct Pmas *mass);
-void mortality(struct Grid *grid, struct Pchar *plant);
+void f_mortality(struct Grid *grid, struct Loct *loct, struct Pchar *plant);
 void stom_cond(struct Grid *grid,struct Loct *loct, struct Pchar *plant);
 double canopy_cond(struct Grid *grid,struct Loct *loct, struct Pchar *plant, struct Pmas *mass);
 void pc_sat(struct Grid *grid, struct Loct *loct, struct Pchar *pchar);

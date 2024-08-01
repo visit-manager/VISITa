@@ -140,8 +140,8 @@ void f_ecophysiology(
 	f_qten_ar(grid, pchar); /* Q10 */
 	spcfc_res_mass(pchar, mass); /* woody specific respiration rate */
 
-	/** litterfall of plant respiration **/
-	mortality(grid, pchar);
+	/* litterfall of plant biomass **/
+	f_mortality(grid, loct, pchar);
 	
 	/* GPP by de Pury & Farquhar scheme */
 	if(DF97 == 1){
@@ -232,9 +232,11 @@ void quantum_yield(
 		/* temperature dependence */
 		eftem = (52.0 - grid->tmp_sfc[grid->m])/(3.5 + 0.75*(52.0 - grid->tmp_sfc[grid->m])); 
 		/* CO2 dependence */
-		efci = pchar->ci[grid->m]/(90.0 + 0.6*pchar->ci[grid->m]);
+		/* efci = pchar->ci[grid->m]/(90.0 + 0.6*pchar->ci[grid->m]); */
 		/* 3.5, 52.0, etc.: empirical parameters */
-	}else if(pchar->phototype == 4){ 
+        /* 2024/03/27 Revised fertilization effect */
+        efci = pchar->ci[grid->m]/(40.0 + 0.8*pchar->ci[grid->m]);
+    }else if(pchar->phototype == 4){
 		/* insensitive QE of C4 species */
 		eftem = 1.0;
 		efci = 1.0;
@@ -249,20 +251,37 @@ void stom_cond(
 	struct Loct *loct, 
 	struct Pchar *pchar
 ){
-	double aco2, b1d, cc;
+	double aco2, b1d, cc, faccl;
 	
 	aco2 = loct->aco2[grid->m];
 	if(FIX_GSCO2 == 1){
 		/* non-CO2-responsive */
 		aco2 = 350.0;
 	}
-	
+    
+    /* experiments for stomatal acclimation: 2024/06/03 */
+    faccl = 1.0;
+    if(EX_STOMATA_ACCL == 1){
+        faccl = 1.0 - 0.002 * (loct->aco2[grid->m] - 280.0);
+    }
+    if(EX_STOMATA_ACCL == 2){
+        if(grid->simy >= 1980){ /* historical */
+            faccl = 1.3;
+        }
+    }
+    if(faccl < 0.1){
+        faccl = 0.1;
+    }
+    if(faccl > 2.0){
+        faccl = 2.0;
+    }
+
 	/* stomatal conductance model by Ball, Woodraw, and Berry (1987) */
 	/*
 	 Leuning, R. (1995), A critical appraisal of a combined stomatal-photosynthesis 
 	 model for C3 plants, Plant, Cell and Environment, 18, 339-355.
 	*/
-	b1d = pchar->gs_b1/((aco2 - pchar->cmpcd[grid->m])*(1.0 + loct->vpd[grid->m]/pchar->gs_b2)); /* */
+	b1d = faccl * pchar->gs_b1/((aco2 - pchar->cmpcd[grid->m])*(1.0 + loct->vpd[grid->m]/pchar->gs_b2)); /* */
 	/* insensitive to CO2 */
 	/* b1d=plant->gs_b1/(( 350.0 - 40.0 )*(1.0+loct->vpd[grid->m]/plant->gs_b2)); */
 
@@ -301,14 +320,14 @@ double canopy_cond(
 	
 	if(mass->lai[grid->m]>0.0 && pchar->gs[grid->m]>0.0){
 		sss = 2.0 * pchar->gs[grid->m] / pchar->eK[grid->m];
-        bbb = 1.0 + pchar->eK[grid->m]*lue_gs*grid->par[grid->m] / pchar->gs[grid->m];
+        bbb = 1.0 + pchar->eK[grid->m] * lue_gs*grid->par[grid->m] / pchar->gs[grid->m];
         if(bbb > 0.0){
             ttt = 1.0 + sqrt(bbb);
         }else{
             ttt = 1.0;
         }
 		vvv = -1.0 * pchar->eK[grid->m] * mass->lai[grid->m];
-        ccc = 1.0 + pchar->eK[grid->m] * lue_gs*grid->par[grid->m]*exp(vvv) / pchar->gs[grid->m];
+        ccc = 1.0 + pchar->eK[grid->m] * lue_gs * grid->par[grid->m] * exp(vvv) / pchar->gs[grid->m];
         if(ccc > 0.0){
             uuu = 1.0 + sqrt(ccc);
         }else{
@@ -333,7 +352,7 @@ void opt_lai(
 	double arm, arg, ar;	
 	double psat, lue;
 	
-	if(DF97==1){
+	if(DF97 == 1){
 		psat = pchar->psat_df[grid->m];
 		lue = pchar->lue_df[grid->m];
 	}else{
@@ -467,22 +486,38 @@ void f_n_leaf_conc(
 	struct Grid *grid, 
 	struct Pchar *pchar, 
 	struct Pmas *mass
-){
-	/* mmol N m-2 leaf area */
-	if(mass->lai[grid->m] > 0.01){
-		pchar->n_conc_larea = mass->n_cnpy / 10000.0 / 14.0 * 1000.0 / mass->lai[grid->m];
-	}else{
-		pchar->n_conc_larea = 1.0;
-	}
-	
-	pchar->n_conc_larea_m[grid->m] = pchar->n_conc_larea;
-	
-	/* mmol N g-1 leaf weight */
-	if(mass->mfol[grid->m] > 0.01){
-		pchar->n_conc_lmass = mass->n_cnpy / 14.0 *1000.0 / (mass->mfol[grid->m] * 1000000.0);
-	}else{
-		pchar->n_conc_lmass = 1.0;
-	}
+                   ){
+    /* mmol N m-2 leaf area */
+    if(mass->lai[grid->m] > 0.01){
+        pchar->n_conc_larea = mass->n_cnpy / 10000.0 / 14.0 * 1000.0 / mass->lai[grid->m];
+    }else{
+        pchar->n_conc_larea = 1.0;
+    }
+    
+    pchar->n_conc_larea_m[grid->m] = pchar->n_conc_larea;
+    
+    /* mmol N g-1 leaf weight */
+    if(mass->mfol[grid->m] > 0.01){
+        pchar->n_conc_lmass = mass->n_cnpy / 14.0 *1000.0 / (mass->mfol[grid->m] * 1000000.0);
+    }else{
+        pchar->n_conc_lmass = 1.0;
+    }
+    
+    /* C/N ratio: 2024/05/02 */
+    if(grid->phase == 0){
+        if(mass->mfol[grid->m] > 0.01 && mass->n_cnpy > 0.01){
+            pchar->cn_leaf_0[grid->m] = 1000.0 * mass->mfol[grid->m] / mass->n_cnpy;
+        }else{
+            pchar->cn_leaf_0[grid->m] = 1.0;
+        }
+    }
+    if(grid->phase == 1){
+        if(mass->mfol[grid->m] > 0.01 && mass->n_cnpy > 0.01){
+            pchar->cn_leaf[grid->m] = 1000.0 * mass->mfol[grid->m] / mass->n_cnpy;
+        }else{
+            pchar->cn_leaf[grid->m] = 1.0;
+        }
+    }
 }
 
 /* leaf age **************************************************************/
@@ -540,4 +575,14 @@ void f_leaf_age(
 			}
 		}
 	}
+    
+    for(f=0;f<=48;f++){
+        if(pchar->fleaf_age[f]< 0.0 ){
+            pchar->fleaf_age[f] = 0.0;
+        }
+        if(pchar->fleaf_age[f]> 10.0){
+            pchar->fleaf_age[f] = 10.0;
+        }
+    }
+    
 }

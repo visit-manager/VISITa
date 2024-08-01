@@ -25,7 +25,6 @@ struct Flux flux_agr;
 /* global variables ********************************************/
 
 double MDN[ASTEP] = {31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0}, YDN=365.0;
-double sres_co2[DL_ADD];
 short Flag_FOPEN[IFILEN];
 
 /* experimental variables ************/
@@ -250,4 +249,6 @@ double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
 
 /* Burnt area by GFED4s: 2018/05/19  */
 double bf_gfed4s[20][N_REG+1];
+/* Burnt area by GFED4s: 2024/07/31  */
+double bf_gfed5[120][12];
 

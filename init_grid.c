@@ -1217,7 +1217,8 @@ void f_init_grid(
     }else if(LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 30 ||
                 LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 || LANDUSE == 34 ||
                 LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37 || LANDUSE == 47 ||
-                LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50 || LANDUSE == 51){
+                LANDUSE == 48 || LANDUSE == 49 || LANDUSE == 50 || LANDUSE == 51 ||
+                LANDUSE == 52){
         
         /* state */
         fscanf(fp_s[26],"%ld %lf", &ldummy, &dluh2);
@@ -1594,7 +1595,7 @@ void f_init_grid(
     }else  if(LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 30
             || LANDUSE == 31 || LANDUSE == 32 || LANDUSE == 33 || LANDUSE == 34 ||
             LANDUSE == 35 || LANDUSE == 36 || LANDUSE == 37 || LANDUSE == 49
-            || LANDUSE == 50 || LANDUSE == 51){
+            || LANDUSE == 50 || LANDUSE == 51 || LANDUSE == 52){
         ;
     }else{
         for(h=0;h<DL_LUC;h++){
@@ -2219,4 +2220,21 @@ void f_init_grid(
     if(ALT_FWETLAND == 6){ /* average of GLWD and MERIS */
         grid->f_wetland = (grid->wet_glwd + grid->wet_meris) / 2.0;
     }
+    
+    /* 2024/07/31 */
+    if(EX_TRENDY == 5 || EX_TRENDY == 6){
+        for(h=0;h<120;h++){
+            for(g=0;g<12;g++){
+                fscanf(fp_s[95],"%lf",&bf_gfed5[h][g]);
+                
+                if(bf_gfed5[h][g] < 0.0){
+                    bf_gfed5[h][g] = 0.0;
+                }
+                if(bf_gfed5[h][g] > 1.0){
+                    bf_gfed5[h][g] = 1.0;
+                }
+            }
+        }
+    }
+
 }
