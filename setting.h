@@ -52,15 +52,15 @@
 #define OFILEN 9
 
 /* selection of output text files */
-#define OUTPUT_CARBON1 0
-#define OUTPUT_CARBON2 0
-#define OUTPUT_ISOTOPE 0
-#define OUTPUT_NITROGEN 0
-#define OUTPUT_HYDMET 0
-#define OUTPUT_EROSION 0
-#define OUTPUT_GHG 0
-#define OUTPUT_BB 0
-#define OUTPUT_BVOC 0
+#define OUTPUT_CARBON1 1
+#define OUTPUT_CARBON2 1
+#define OUTPUT_ISOTOPE 1
+#define OUTPUT_NITROGEN 1
+#define OUTPUT_HYDMET 1
+#define OUTPUT_EROSION 1
+#define OUTPUT_GHG 1
+#define OUTPUT_BB 1
+#define OUTPUT_BVOC 1
 /* output binary */
 #define BASE_GOUT 1
 #define C13_GOUT 0
@@ -79,7 +79,7 @@
 /* 6: ISI-MIP 3b */
 
 /* GCP-TRENDY: 2022/07/19 */
-#define EX_TRENDY 4
+#define EX_TRENDY 0
 /* 0: not applicable */
 /* 1: S0 : no forcing change */
 /* 2: S1 : CO2 only */
@@ -428,7 +428,7 @@
     #define BGY_CLIM 1901 /* */
 #endif
 
-/* historical climate (e.g., CRU) data length: 2010/01/04 (A.Ito) ***/
+/* historical climate (e.g., CRU) data length: 2010/01/04 ***/
 #if ISIMIP_RUN==1
     #define DL_HCLIM 180  /* SU 30 + AD 1950 - 2099 */
     /* note that DL_HCLIM data is not used in PLUME runs */
@@ -479,7 +479,7 @@
     /* #define DL_HCLIM 219 */ /* GSWP3-W5E5: 1801-2019 */ /* 4100 */
 #endif
 
-/* Simulation using NCEP/NCAR reanalysis data */
+/* Extended simulation using NCEP/NCAR reanalysis data */
 #define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
@@ -586,10 +586,16 @@
     #define FDY_FUTURE 2022 */
 
     /* LUH2-GCP2021 - CMIP6 data */
-    #define DL_FUTURE 1
+/* #define DL_FUTURE 1
     #define BGY_FUTURE 2024
     #define ENY_FUTURE 2099
-    #define FDY_FUTURE 2023 /* */
+    #define FDY_FUTURE 2023 */
+
+    /* LUH2-GCP2024 - CMIP6 data */
+    #define DL_FUTURE 1
+    #define BGY_FUTURE 2025
+    #define ENY_FUTURE 2099
+    #define FDY_FUTURE 2024 /* */
 #endif
 /* #define DL_FUTURE 241 */ /* 1860-2100 */
 /* #define FDY_FUTURE 2001 */
