@@ -249,4 +249,6 @@ double	ndepo_chaser_wnoy[ASTEP][64][128];		/* NOy, wet */
 
 /* Burnt area by GFED4s: 2018/05/19  */
 double bf_gfed4s[20][N_REG+1];
+/* Burnt area by GFED4s: 2024/07/31  */
+double bf_gfed5[120][12];
 

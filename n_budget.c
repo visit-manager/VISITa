@@ -429,7 +429,8 @@ void f_n_deposit(
         
         loct->depo_no3[grid->m] = uconv * grid->mip_ndep_mon_noy[nyear - FDY_NINY][grid->m];
         loct->depo_nh4[grid->m] = uconv * grid->mip_ndep_mon_nh4[nyear - FDY_NINY][grid->m];
-    }else if((NMIP_RUN >= 20 && NMIP_RUN <= 32) || ISIMIP_RUN == 5|| ISIMIP_RUN == 6 || EX_TRENDY >= 1){
+    }else if((NMIP_RUN >= 20 && NMIP_RUN <= 32) || ISIMIP_RUN == 5|| ISIMIP_RUN == 6 
+             || EX_TRENDY >= 1){
         /* NMIP2: 2021/12/15 */
         /* TRENDY: 2022/07/25 */
         nyear = grid->niny;

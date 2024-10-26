@@ -34,7 +34,7 @@ void f_init_clim(
 	grid->climy = BGY_CLIM;
 	grid->lucy = BGY_CLIM;
  
-    if(LANDUSE == 49 || LANDUSE == 50 || LANDUSE == 51){
+    if(LANDUSE == 49 || LANDUSE == 50 || LANDUSE == 51 || LANDUSE == 52){
         grid->lucy = BGY_LUC;
     }
     

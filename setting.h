@@ -48,15 +48,15 @@
 
 /* *******************************************************/
 /* #define IFILEN 59 */  /* normal case */
-#define IFILEN 95 /* */  /* normal case */
+#define IFILEN 96 /* */  /* normal case */
 #define OFILEN 9
 
 /* selection of output text files */
-#define OUTPUT_CARBON1 0
+#define OUTPUT_CARBON1 1
 #define OUTPUT_CARBON2 0
 #define OUTPUT_ISOTOPE 0
 #define OUTPUT_NITROGEN 0
-#define OUTPUT_HYDMET 0
+#define OUTPUT_HYDMET 1
 #define OUTPUT_EROSION 0
 #define OUTPUT_GHG 0
 #define OUTPUT_BB 0
@@ -81,10 +81,12 @@
 /* GCP-TRENDY: 2022/07/19 */
 #define EX_TRENDY 4
 /* 0: not applicable */
-/* 1: SH0 : no forcing change */
-/* 2: SH1 : CO2 only */
-/* 3: SH2 : CO2 and climate only */
-/* 4: SH3 : CO2, climate and land use */
+/* 1: S0 : no forcing change */
+/* 2: S1 : CO2 only */
+/* 3: S2 : CO2 and climate only */
+/* 4: S3 : CO2, climate and land use */
+/* 5: FS4 : CO2 and climate only + GFED5 */
+/* 6: FS5 : CO2 and climate only + GFED5 PI */
 
 /* NMIP: N2O model intercomparison runs */
 #define NMIP_RUN 0
@@ -186,14 +188,14 @@
 
 /* *******************************************************/
 /* total vegetation number */
-#define NVEG_OLSON 34       /* Olson veg (modified) */
-#define NVEG_SAGE 16		/* SAGE veg (modified) */
+#define NVEG_OLSON 34   /* Olson veg (modified) */
+#define NVEG_SAGE 16    /* SAGE veg (modified) */
 /* #define NVEG_CROP 3	*/  /* crop types */
 /* #define NVEG_CROP 4 */  /* crop types: add biofuel crop: 2015/08/21  */
 #define NVEG_CROP 6		/* crop types: add agroforestry tree and crop: 2021/08/16  */
 
 /* calculation for land covers */
-#define CALC_VEG 1    /* natural vegetation */
+#define CALC_VEG 1      /* natural vegetation */
 #define CALC_CROP 1     /* cropland */
 /* 0:off 1:on */
 
@@ -347,27 +349,27 @@
 
 /* total historical run: using CRU, NCEP, etc. ***/
 #if ISIMIP_RUN==1
-    #define PD_HIST 150  /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 */
-                      /* and BIOFUEL RUN, MIROC-INTEG LUC */
+    #define PD_HIST 150     /* AD 1950 - 2099 */ /* ISI-MIP: 2012/06/27 */
+                            /* and BIOFUEL RUN, MIROC-INTEG LUC */
 #elif ISIMIP_RUN==2
-    #define PD_HIST 105  /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 */
+    #define PD_HIST 105     /* AD 1901 - 2005 */ /* PLUME: 2014/07/31 */
 #elif ISIMIP_RUN==3
     /* #define PD_HIST 110 */ /* AD 1901 - 2010 */ /* ISI-MIP2 (historical gswp3, pgfv2): 2014/11/30 */
     /* #define PD_HIST 101 */ /* AD 1901 - 2001 */ /* ISI-MIP2 (historical watch): 2015/01/06 */
     #define PD_HIST 112 /* */ /* AD 1901 - 2012 */ /* ISI-MIP2 (historical watch): 2016/05/06 */
 #elif ISIMIP_RUN==4
-    #define PD_HIST 639  /* AD 1661 - 2299 */ /* ISI-MIP21.b: 2016/12/22 */
+    #define PD_HIST 639     /* AD 1661 - 2299 */ /* ISI-MIP21.b: 2016/12/22 */
     /* #define PD_HIST 439 */ /* AD 1661 - 2099 */ /* ISI-MIP21.b: 2016/12/22 */
 #elif ISIMIP_RUN==5
     /* #define PD_HIST 166 */  /* AD 1851 - 2016 */ /* ISIMIP3a: 2020/05/27 */
-    #define PD_HIST 170  /* AD 1850 - 2019 */ /* ISIMIP3a: 2022/01/24 */
+    #define PD_HIST 170     /* AD 1850 - 2019 */ /* ISIMIP3a: 2022/01/24 */
 #elif ISIMIP_RUN==6
-    #define PD_HIST 500  /* AD 1601 - 2100 */ /* ISI-MIP3b: 2020/05/27 */
+    #define PD_HIST 500     /* AD 1601 - 2100 */ /* ISI-MIP3b: 2020/05/27 */
 #elif GEOMIP_RUN==1
-    #define PD_HIST 105 /* */ /* AD 1901 - 2005 --GEOMIP */
+    #define PD_HIST 105     /* */ /* AD 1901 - 2005 --GEOMIP */
 #elif NMIP_RUN>=20
-    /* #define PD_HIST 155	*/ /* AD 1861 - 2015 */
-    /* #define PD_HIST 156 */ /* AD 1861 - 2016 */
+    /* #define PD_HIST 155	*/  /* AD 1861 - 2015 */
+    /* #define PD_HIST 156 */   /* AD 1861 - 2016 */
     #define PD_HIST 171    /* NMIP2: 2021/12/13 */ /* AD 1850 - 2020 */
 #elif IMPRESSIONS_RUN==2
     #define PD_HIST 115
@@ -426,7 +428,7 @@
     #define BGY_CLIM 1901 /* */
 #endif
 
-/* historical climate (e.g., CRU) data length: 2010/01/04 (A.Ito) ***/
+/* historical climate (e.g., CRU) data length: 2010/01/04 ***/
 #if ISIMIP_RUN==1
     #define DL_HCLIM 180  /* SU 30 + AD 1950 - 2099 */
     /* note that DL_HCLIM data is not used in PLUME runs */
@@ -477,7 +479,7 @@
     /* #define DL_HCLIM 219 */ /* GSWP3-W5E5: 1801-2019 */ /* 4100 */
 #endif
 
-/* Simulation using NCEP/NCAR reanalysis data */
+/* Extended simulation using NCEP/NCAR reanalysis data */
 #define NCEP_RUN 0
 /* 0: no  1:yes */
 /* year of data beginning (AD) */
@@ -584,10 +586,16 @@
     #define FDY_FUTURE 2022 */
 
     /* LUH2-GCP2021 - CMIP6 data */
-    #define DL_FUTURE 1
+/* #define DL_FUTURE 1
     #define BGY_FUTURE 2024
     #define ENY_FUTURE 2099
-    #define FDY_FUTURE 2023 /* */
+    #define FDY_FUTURE 2023 */
+
+    /* LUH2-GCP2024 - CMIP6 data */
+    #define DL_FUTURE 1
+    #define BGY_FUTURE 2025
+    #define ENY_FUTURE 2099
+    #define FDY_FUTURE 2024 /* */
 #endif
 /* #define DL_FUTURE 241 */ /* 1860-2100 */
 /* #define FDY_FUTURE 2001 */
@@ -622,7 +630,7 @@
 
 /* *******************************************************/
 /* land use change setting */
-#define LANDUSE 51
+#define LANDUSE 52
 /* 0: natural vegetation */
 /* 1: no land-use change since 1901 */
 /* 2: no land-use change since 1990 */
@@ -677,6 +685,7 @@
 /* 49: LUH2-GCP2019 + ssp1rcp26 (2016-2100): 2022/04/19  */
 /* 50: LUH2-GCP2021 + ssp1rcp26 (2016-2100): 2022/07/19  */
 /* 51: LUH2-GCP2023 + ssp1rcp26 (2016-2100): 2023/07/13  */
+/* 52: LUH2-GCP2024 + ssp1rcp26 (2016-2100): 2024/07/31  */
 
 /* extra co2 fixation combined with above scenarios: 2018/10/26  */
 #define EXTRA_CO2_FIX 0
@@ -716,7 +725,8 @@
     /* #define DL_LUC 322 */  /* 1700-2021 */ /* from LUH2-GCP2021: 2022/07/19  */
     /* #define DL_LUC 323 */  /* 1700-2022 */ /* from LUH2-GCP2022: 2022/08/18  */
     /* #define DL_LUC 324 */  /* 1700-2023 */ /* from LUH2-GCP2023: 2023/07/13  */
-    #define DL_LUC 424 /* */  /* 1600-2023 */ /* from LUH2-GCP2023: 2023/08/23  */
+    /* #define DL_LUC 424 */  /* 1600-2023 */ /* from LUH2-GCP2023: 2023/08/23  */
+    #define DL_LUC 425 /* */  /* 1600-2024 */ /* from LUH2-GCP2024: 2024/07/31  */
 #endif
 
 /* first year of land-use DATA */

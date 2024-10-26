@@ -256,6 +256,10 @@ void f_biomassburning(
 	
 	/******************************/
 	flux->f_burnt = fa_burnt;
+    
+    if(EX_TRENDY == 5 || EX_TRENDY == 6){
+        flux->f_burnt = 0.0;
+    }
 	
 	for(f=0;f<ASTEP;f++){
 		/* seasonal change: fire-day length */
@@ -269,6 +273,30 @@ void f_biomassburning(
         /* revised (after comments by E.Kato): 2013/10/02  */
 		flux->a_burnt[f] = flux->f_burnt * aa;
         
+        /* 2024/07/31 */
+        if(EX_TRENDY == 5){
+            if(grid->simy >= 1901 && grid->simy <= 2020){
+                flux->a_burnt[f] = bf_gfed5[grid->simy - 1901][f];
+            }else if(grid->simy < 1901){
+                flux->a_burnt[f] = bf_gfed5[grid->simy%20][f];
+            }else if(grid->simy > 2020){
+                flux->a_burnt[f] = bf_gfed5[2020 - 1901][f];
+            }
+            
+            flux->f_burnt += flux->a_burnt[f];
+        }
+        if(EX_TRENDY == 6){
+            if(grid->simy >= 1901 && grid->simy <= 2020){
+                flux->a_burnt[f] = bf_gfed5[(grid->simy - 1901)%20][f];
+            }else if(grid->simy < 1901){
+                flux->a_burnt[f] = bf_gfed5[grid->simy%20][f];
+            }else if(grid->simy > 2020){
+                flux->a_burnt[f] = bf_gfed5[(grid->simy - 1901)%20][f];
+            }
+            
+            flux->f_burnt += flux->a_burnt[f];
+        }
+
         /* burnt fractio for woods: 2017/11/30 */
         flux->wa_burnt[f] = flux->a_burnt[f] * f_burnt_wood[grid->veg_sage];
   

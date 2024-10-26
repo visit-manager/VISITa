@@ -69,7 +69,7 @@ void cal_spinup(
 		grid->f_pasture_p = grid->fpast_luh[2000 - FDY_LUC];
 	}else if(LANDUSE == 10 || LANDUSE == 11 || LANDUSE == 12 || LANDUSE == 13 ||
         LANDUSE == 14 || LANDUSE == 15 || LANDUSE == 16 || LANDUSE == 29 || LANDUSE == 49 ||
-        LANDUSE == 50 || LANDUSE == 51){
+        LANDUSE == 50 || LANDUSE == 51 || LANDUSE == 52){
 		grid->f_crop_p = grid->fcrop_luh[BGY_LUC - FDY_LUC];
 		grid->f_pasture_p = grid->fpast_luh[BGY_LUC - FDY_LUC];
 	}else if(LANDUSE == 18){
@@ -291,7 +291,8 @@ void cal_spinup(
         }
 		
         /* for TRENDY: 2022/07/21, 2023/08/16 */
-        if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH0, SH1, SH2 */
+        if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4
+                || EX_TRENDY == 5 || EX_TRENDY == 6){ /* S0, S1, S2, S3, SF4, SF5 */
             /* 2024/04/09 */
             /* grid->climy = nn%30 +1901; */
             grid->climy = nn%20 + BGY_CLIM;
@@ -704,7 +705,7 @@ void cal_spinup(
             if(LANDUSE == 49 || LANDUSE == 50){
                 dyr = 0;
             }
-            if(LANDUSE == 51){
+            if(LANDUSE == 51 || LANDUSE == 52){
                 dyr = grid->lucy - FDY_LUC;
             }
             

@@ -40,7 +40,7 @@ void f_init_sim(
         
         fclose(fpi);
     }
-		
+    
 	/* *********************************************/
 	set_rowcol_gcm();	/* -> vegetdeal.c */
 

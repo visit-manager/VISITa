@@ -132,7 +132,8 @@ void cal_historical(
         if(EX_TRENDY == 1 ){ /* SH0 */
             grid->ghgy = FDY_AGHG; /* 1700 */
         }
-        if(EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH1, SH2, SH3 */
+        if(EX_TRENDY == 2 || EX_TRENDY == 3 || EX_TRENDY == 4
+           || EX_TRENDY == 5 || EX_TRENDY == 6){ /* SH1, SH2, SH3 */
             grid->ghgy = grid->simy;
             
             if(grid->ghgy < FDY_AGHG){
@@ -224,10 +225,11 @@ void cal_historical(
         }
         
         /* for TRENDY: 2022/07/21 */
-        if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3){ /* SH0, SH1, SH2 */
+        if(EX_TRENDY == 1 || EX_TRENDY == 2 || EX_TRENDY == 3 ||
+                EX_TRENDY == 5 || EX_TRENDY == 6){ /* S0, S1, S2, SF4, SF5 */
             grid->lucy = FSY_HIST;
         }
-        if(EX_TRENDY == 4){ /* SH3 */
+        if(EX_TRENDY == 4){ /* S3 */
             if(g < 0){
                 grid->lucy = FSY_HIST;
             }if(g > DL_LUC){
@@ -303,10 +305,10 @@ void cal_historical(
         }
         
         /* for TRENDY: 2022/07/21 */
-        if(EX_TRENDY == 1 || EX_TRENDY == 2){ /* SH0, SH1 */
+        if(EX_TRENDY == 1 || EX_TRENDY == 2){ /* S0, S1 */
             grid->climy = BGY_CLIM + g%20;
         }
-        if(EX_TRENDY == 3 || EX_TRENDY == 4){ /* SH2, SH3 */
+        if(EX_TRENDY == 3 || EX_TRENDY == 4 || EX_TRENDY == 5 || EX_TRENDY == 6){ /* S2, S3, SF4, SF5 */
             if(g < 200){
                 grid->climy = BGY_CLIM + g%20;
             }else{
@@ -885,7 +887,7 @@ void cal_historical(
 
             /* assumption for the period later than 2016: A.Ito (2019/02/11) */
             if( (LANDUSE == 26 || LANDUSE == 27 || LANDUSE == 28 || LANDUSE == 49 ||
-                 LANDUSE == 50 || LANDUSE == 51) &&
+                 LANDUSE == 50 || LANDUSE == 51 || LANDUSE == 52) &&
                     grid->lucy > (FDY_LUC+DL_LUC-1)){
                 dyr = (DL_LUC - 1);
             }

@@ -161,6 +161,8 @@ extern double	ndepo_chaser4_ont_p[ASTEP][64][128];		/* Org NOx */
 
 /* Burnt area by GFED4s: 2018/05/19  */
 extern double bf_gfed4s[20][N_REG+1];
+/* Burnt area by GFED4s: 2024/07/31  */
+extern double bf_gfed5[120][12];
 
 /* CLEARANCE *****************************************************/
 void f_clear(struct Grid *grid, struct Loct *loct, struct Echar *echar, 
